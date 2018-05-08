@@ -1,0 +1,37 @@
+{
+  "name": "sportident",
+  "version": "1.0.0",
+  "description": "JavaScript interface to SportIdent devices",
+  "main": "si.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "babel": "babel --presets es2015 js/main.js -o build/main.bundle.js",
+    "start": "http-server",
+    "tests": "sh run_tests.sh",
+    "ci": "sh run_ci.sh",
+    "webpack": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/allestuetsmerweh/sportident.js.git"
+  },
+  "keywords": [
+    "sportident",
+    "javascript",
+    "js"
+  ],
+  "author": "Simon Hatt",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/allestuetsmerweh/sportident.js/issues"
+  },
+  "homepage": "https://github.com/allestuetsmerweh/sportident.js#readme",
+  "devDependencies": {
+    "babel-loader": "^7.1.4",
+    "eslint": "^4.19.1",
+    "webpack": "^4.8.1",
+    "webpack-cli": "^2.1.3"
+  }
+}
