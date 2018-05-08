@@ -16,6 +16,9 @@ export class WebUsb extends BaseDriver {
     }
 
     new(MainStation) {
+        if (!('usb' in navigator)) {
+            return;
+        }
         navigator.usb.requestDevice({
             filters: siDeviceFilters,
         })
@@ -32,6 +35,9 @@ export class WebUsb extends BaseDriver {
     }
 
     detect(MainStation) {
+        if (!('usb' in navigator)) {
+            return;
+        }
         navigator.usb.getDevices().then((devices) => {
             devices.map((device) => {
                 const matchesSiDeviceFilter = siDeviceFilters.findIndex((filter) =>

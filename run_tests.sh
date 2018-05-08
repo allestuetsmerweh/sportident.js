@@ -1,3 +1,4 @@
 #!/bin/sh
 
-node_modules/eslint/bin/eslint.js .
+yarn run eslint
+yarn run karma

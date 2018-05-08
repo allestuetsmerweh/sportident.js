@@ -1,6 +1,18 @@
+export const isByte = (byte) => (
+    Number(byte) === byte &&
+    Math.floor(byte) === byte &&
+    byte < 0x100
+);
+
 export const arr2big = (arr) => {
     var outnum = 0;
-    for (var i = 0; i < arr.length; i++) { outnum += arr[i] * Math.pow(0x100, arr.length - i - 1); }
+    for (var i = 0; i < arr.length; i++) {
+        const byte = arr[i];
+        if (!isByte(byte)) {
+            throw new Error('Array elements need to be bytes');
+        }
+        outnum += byte * Math.pow(0x100, arr.length - i - 1);
+    }
     return outnum;
 };
 

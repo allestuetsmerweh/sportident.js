@@ -8,9 +8,11 @@
   },
   "scripts": {
     "babel": "babel --presets es2015 js/main.js -o build/main.bundle.js",
+    "ci": "sh run_ci.sh",
+    "eslint": "./node_modules/eslint/bin/eslint.js .",
+    "karma": "./node_modules/karma/bin/karma start karma.config.js",
     "start": "http-server",
     "tests": "sh run_tests.sh",
-    "ci": "sh run_ci.sh",
     "webpack": "webpack"
   },
   "repository": {
@@ -31,6 +33,11 @@
   "devDependencies": {
     "babel-loader": "^7.1.4",
     "eslint": "^4.19.1",
+    "jasmine-core": "^3.1.0",
+    "karma": "^2.0.2",
+    "karma-jasmine": "^1.1.2",
+    "karma-phantomjs-launcher": "^1.0.4",
+    "karma-webpack": "^3.0.0",
     "webpack": "^4.8.1",
     "webpack-cli": "^2.1.3"
   }
