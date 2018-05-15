@@ -1,4 +1,6 @@
-/* global si, $ */
+import $ from 'jquery';
+import si from '../src/index';
+
 $().ready(() => {
     si.onLoad = () => {
         const getSelectedMainStation = () =>
