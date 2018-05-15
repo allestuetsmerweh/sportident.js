@@ -17,58 +17,67 @@ export const arr2big = (arr) => {
 };
 
 export const arr2time = (arr) => {
-    if (arr.length == 2) {
-        if (arr[0] == 0xEE && arr[1] == 0xEE) {
-            return null;
-        }
-        return arr2big(arr);
+    if (arr.length !== 2) {
+        throw new Error(`arr2time: length must be 2, but is ${arr.length}`);
     }
-    console.warn(`arr2time: length must be 2, but is ${arr.length}`);
-    return -2;
+    if (arr[0] === 0xEE && arr[1] === 0xEE) {
+        return null;
+    }
+    return arr2big(arr);
 };
 
 export const arr2date = (arr) => {
-    if (arr.length == 7 || arr.length == 6) {
+    if (arr.length === 7 || arr.length === 6) {
         var secs = arr2big(arr.slice(4, 6));
-        return new Date(arr[0] + 2000, arr[1] - 1, arr[2], (arr[3] & 0x01) * 12 + Math.floor(secs / 3600), Math.floor((secs % 3600) / 60), secs % 60, (arr.length == 7 ? arr[6] * 1000 / 256 : 0));
-    } else if (arr.length == 3) {
-        return new Date(2000 + arr[0], arr[1] - 1, arr[2]);
+        return new Date(Date.UTC(
+            arr[0] + 2000,
+            arr[1] - 1,
+            arr[2],
+            (arr[3] & 0x01) * 12 + Math.floor(secs / 3600),
+            Math.floor((secs % 3600) / 60),
+            secs % 60,
+            (arr.length === 7 ? arr[6] * 1000 / 256 : 0),
+        ));
+    } else if (arr.length === 3) {
+        return new Date(Date.UTC(
+            2000 + arr[0],
+            arr[1] - 1,
+            arr[2],
+        ));
     }
-    console.warn(`arr2date: length must be 3, 6 or 7, but is ${arr.length}`);
-    return new Date(1970, 1, 1);
+    throw new Error(`arr2date: length must be 3, 6 or 7, but is ${arr.length}`);
 };
 
 export const arr2cardNumber = (arr) => {
-    if (arr.length == 4 || arr.length == 3) {
-        var cardnum = (arr[1] << 8);
-        cardnum |= arr[0];
-        var fourthSet = (arr.length == 4 && arr[3] != 0x00);
-        if (!fourthSet && 1 < arr[2] && arr[2] < 5) {
+    if (arr.length === 4 || arr.length === 3) {
+        var cardnum = (arr[1] << 8) | arr[0];
+        var fourthSet = (arr.length === 4 && arr[3] !== 0x00);
+        if (!fourthSet && 1 < arr[2] && arr[2] <= 4) {
             cardnum += (arr[2] * 100000);
         } else if (fourthSet || 4 < arr[2]) {
             cardnum += (arr[2] << 16);
         }
-        if (3 < arr.length) { cardnum |= (arr[3] << 24); }
+        if (arr.length === 4) {
+            cardnum |= (arr[3] << 24);
+        }
         return cardnum;
     }
-    console.warn(`arr2cardNumber: length must be 3 or 4, but is ${arr.length}`);
-    return -1;
+    throw new Error(`arr2cardNumber: length must be 3 or 4, but is ${arr.length}`);
 };
 
-export const prettyHex = (str) => {
-    var outstr = '';
-    if (typeof str === 'string') {
+export const prettyHex = (input) => {
+    if (typeof input === 'string') {
+        const out = [];
         let i;
-        for (i = 0; i < str.length; i++) {
-            outstr += `${(`00${str.charCodeAt(i).toString(16)}`).slice(-2)} `;
+        for (i = 0; i < input.length; i++) {
+            out.push((`00${input.charCodeAt(i).toString(16)}`).slice(-2));
         }
-    } else {
-        let i;
-        for (i = 0; i < str.length; i++) {
-            outstr += `${(`00${str[i].toString(16)}`).slice(-2)} `;
-        }
+        return out.join(' ');
     }
-    return outstr;
+    return input
+        .map((byte) => `00${byte.toString(16)}`)
+        .map((paddedStr) => paddedStr.slice(-2).toUpperCase())
+        .join(' ');
 };
 
 export const CRC16 = (str) => {

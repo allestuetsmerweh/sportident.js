@@ -5,7 +5,7 @@ module.exports = (config) => {
     config.set({
         basePath: '',
         preprocessors: {
-            'unit_tests/**/test_*.js': ['webpack'],
+            'src/**/test_*.js': ['webpack'],
         },
         webpack: {
             module: {
@@ -21,7 +21,7 @@ module.exports = (config) => {
             },
         },
         files: [
-            {pattern: 'unit_tests/**/test_*.js', watched: false},
+            {pattern: 'src/**/test_*.js', watched: false},
         ],
         frameworks: ['jasmine'],
         plugins: [
