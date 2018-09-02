@@ -148,7 +148,7 @@ export class SiStation {
             .then((d) => {
                 const data = d[0];
                 data.splice(0, 2);
-                if (data[0] != params[0]) {
+                if (data[0] !== params[0]) {
                     throw new Error('SET_CODE_RESP_ERR');
                 }
                 return this.readInfo(true);
@@ -166,7 +166,7 @@ export class SiStation {
         return this.info('mode', (_info) => {
             const modeLookup = SiStation.modeLookup();
             const newModeVal = newMode.hasOwnProperty('val') ? newMode.val : newMode;
-            if (modeLookup[newModeVal] == undefined) {
+            if (modeLookup[newModeVal] === undefined) {
                 return false;
             }
             return [0x71, newModeVal];

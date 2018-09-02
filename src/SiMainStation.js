@@ -1,11 +1,64 @@
-import {arr2big, CRC16, prettyHex} from './utils';
+import {arr2big, arr2cardNumber, CRC16, prettyHex, processSiProto} from './utils';
 import {proto} from './constants';
 import {SiCard} from './SiCard';
 import {SiStation} from './SiStation';
 import * as drivers from './drivers';
 
+class SendTask {
+    constructor(
+        command,
+        parameters,
+        numResponses,
+        resolve,
+        reject,
+        timeout,
+    ) {
+        this.command = command;
+        this.parameters = parameters;
+        this.numResponses = numResponses;
+        this.resolve = resolve;
+        this.reject = reject;
+        this.timeout = timeout;
+        this.state = SendTask.State.QUEUED;
+        this.timeoutTimer = setTimeout(() => {
+            if (this.state !== SendTask.State.SENT) {
+                return;
+            }
+            console.debug(`Timeout: cmd ${prettyHex([this.command])} (expected ${this.numResponses} responses)`, this.responses);
+            this.fail();
+        }, timeout * 1000);
+        this.responses = [];
+    }
+
+    addResponse(response) {
+        this.responses.push(response);
+        if (this.responses.length === this.numResponses) {
+            this.succeed();
+        }
+    }
+
+    succeed() {
+        this.state = SendTask.State.SUCCEEDED;
+        clearTimeout(this.timeoutTimer);
+        this.resolve(this);
+    }
+
+    fail() {
+        this.state = SendTask.State.FAILED;
+        clearTimeout(this.timeoutTimer);
+        this.reject(this);
+    }
+}
+
+SendTask.State = {
+    QUEUED: 0,
+    SENT: 1,
+    SUCCEEDED: 2,
+    FAILED: 3,
+};
+
 export class SiMainStation extends SiStation {
-    constructor(device, state = SiMainStation.State.Uninitialized) {
+    constructor(device, state = SiMainStation.State.Closed) {
         super(null);
         this.mainStation = this;
         this.device = device;
@@ -28,7 +81,7 @@ export class SiMainStation extends SiStation {
                 // ignore
             }
         }
-        if (this.state == SiMainStation.State.Uninitialized) {
+        if (this.state === SiMainStation.State.Closed) {
             this._deviceOpen();
         }
     }
@@ -39,6 +92,12 @@ export class SiMainStation extends SiStation {
         this.onCardRemoved = false;
     }
 
+    _dispatch(f, args) {
+        if (f) {
+            setTimeout(() => f(...args), 1);
+        }
+    }
+
     _changeState(newState) {
         this.state = newState;
         if (this.onStateChanged) {
@@ -47,15 +106,17 @@ export class SiMainStation extends SiStation {
     }
 
     _deviceOpen() {
+        this._changeState(SiMainStation.State.Opening);
         this.device.driver.open(this)
             .then(() => {
+                this._changeState(SiMainStation.State.Starting);
                 this._deviceOpenNumErrors = 0;
                 this._sendCommand(proto.cmd.GET_MS, [0x00], 1, 5)
                     .then(() => {
                         this._changeState(SiMainStation.State.Ready);
                     })
                     .catch((err) => {
-                        this._changeState(SiMainStation.State.Uninitialized);
+                        this._changeState(SiMainStation.State.Closed);
                         console.error('Could not communicate after having opened SiMainStation: ', err);
                         this._retryDeviceOpen();
                     });
@@ -71,7 +132,7 @@ export class SiMainStation extends SiStation {
             if (!this._deviceOpenTimer) {
                 var timeout = 100;
                 for (var i = 0; i < this._deviceOpenNumErrors && i < 10; i++) { timeout = timeout * 2; }
-                this._deviceOpenTimer = window.setTimeout(() => {
+                this._deviceOpenTimer = setTimeout(() => {
                     this._deviceOpenTimer = false;
                     this._deviceOpen();
                 }, timeout);
@@ -89,222 +150,191 @@ export class SiMainStation extends SiStation {
     }
 
     _logReceive(bufView) {
-        console.debug(`<= ${prettyHex(bufView)}     (${this.device.driver.name})`);
+        console.debug(`<= ${prettyHex(bufView)}     (${this.device.driver.name}; ${this._respBuffer.length})`);
     }
 
-    _processRespBuffer() {
-        while (0 < this._respBuffer.length) {
-            if (this._respBuffer[0] == proto.ACK) {
-                this._respBuffer.splice(0, 1);
-            } else if (this._respBuffer[0] == proto.NAK) {
-                this._respBuffer.splice(0, 1);
-                if (0 < this._sendQueue.length && this._sendQueue[0].state != -1) {
-                    if (this._sendQueue[0].timeoutTimer) { window.clearTimeout(this._sendQueue[0].timeoutTimer); }
-                    this._sendQueue[0].reject('NAK');
-                    this._sendQueue.shift();
-                }
-            } else if (this._respBuffer[0] == proto.WAKEUP) {
-                this._respBuffer.splice(0, 1);
-            } else if (this._respBuffer[0] == proto.STX) {
-                if (this._respBuffer.length < 6) { break; }
-                var command = this._respBuffer[1];
-                var len = this._respBuffer[2];
-                if (this._respBuffer.length < 6 + len) { break; }
-                if (this._respBuffer[5 + len] != proto.ETX) {
-                    console.warn('Invalid end byte. Flushing buffer.');
-                    this._respBuffer = [];
-                    break;
-                }
-                var parameters = this._respBuffer.slice(3, 3 + len);
-                var crcContent = CRC16(this._respBuffer.slice(1, 3 + len));
-                var crc = this._respBuffer.slice(3 + len, 5 + len);
-                this._respBuffer.splice(0, 6 + len);
-                if (crc[0] == crcContent[0] && crc[1] == crcContent[1]) {
-                    // console.debug("Valid Command received.  CMD:0x"+prettyHex([command])+" LEN:"+len+"  PARAMS:"+prettyHex(parameters)+" CRC:"+prettyHex(crc)+" Content-CRC:"+prettyHex(crcContent));
-                    let cn, typeFromCN;
-                    if (command == proto.cmd.SI5_DET) {
-                        cn = arr2big([parameters[3], parameters[4], parameters[5]]);
-                        if (499999 < cn) { console.warn(`card5 Error: SI Card Number inconsistency: SI5 detected, but number is ${cn} (not in 0 - 500'000)`); }
-                        if (parameters[3] < 2) { cn = arr2big([parameters[4], parameters[5]]); } else { cn = parameters[3] * 100000 + arr2big([parameters[4], parameters[5]]); }
-                        this.card = new SiCard(this, cn);
-                        console.log('SI5 DET', this.card, parameters);
-                        window.setTimeout(() => {
-                            if (this.onCardInserted) { this.onCardInserted(this.card); }
-                        }, 1);
-                        this.card.read()
-                            .then((card) => {
-                                if (this.onCard) {
-                                    this.onCard(card);
-                                }
-                            });
-                    } else if (command == proto.cmd.SI6_DET) {
-                        cn = arr2big([parameters[3], parameters[4], parameters[5]]);
-                        typeFromCN = SiCard.typeByCardNumber(cn);
-                        if (typeFromCN != 'SICard6') { console.warn(`SICard6 Error: SI Card Number inconsistency: Function SI6 called, but number is ${cn} (=> ${typeFromCN})`); }
-                        this.card = new SiCard(this, cn);
-                        console.log('SI6 DET', parameters);
-                        window.setTimeout(() => {
-                            if (this.onCardInserted) { this.onCardInserted(this.card); }
-                        }, 1);
-                        this.card.read()
-                            .then((card) => {
-                                if (this.onCard) {
-                                    this.onCard(card);
-                                }
-                            });
-                    } else if (command == proto.cmd.SI8_DET) {
-                        cn = arr2big([parameters[3], parameters[4], parameters[5]]);
-                        typeFromCN = SiCard.typeByCardNumber(cn);
-                        if (!{'SICard8': 1, 'SICard9': 1, 'SICard10': 1, 'SICard11': 1}[typeFromCN]) { console.warn(`SICard8 Error: SI Card Number inconsistency: Function SI8 called, but number is ${cn} (=> ${typeFromCN})`); }
-                        this.card = new SiCard(this, cn);
-                        console.log('SI8 DET', parameters);
-                        window.setTimeout(() => {
-                            if (this.onCardInserted) { this.onCardInserted(this.card); }
-                        }, 1);
-                        this.card.read()
-                            .then((card) => {
-                                if (this.onCard) {
-                                    this.onCard(card);
-                                }
-                            });
-                    } else if (command == proto.cmd.SI_REM) {
-                        console.log('SI REM', parameters);
-                        if (0 < this._sendQueue.length && this._sendQueue[0].state != -1 && 0xB0 <= this._sendQueue[0].command && this._sendQueue[0].command <= 0xEF) { // Was expecting response from card => "early Timeout"
-                            if (this._sendQueue[0].timeoutTimer) { window.clearTimeout(this._sendQueue[0].timeoutTimer); }
-                            this._sendQueue[0].reject('TIMEOUT');
-                            console.debug(`Early Timeout: cmd ${prettyHex([this._sendQueue[0].command])} (expected ${this._sendQueue[0].numResp} responses)`, this._sendQueue[0].bufResp);
-                            this._sendQueue.shift();
-                        }
-                        // this._sendCommand(proto.ACK, [], 0);
-                        window.setTimeout(() => {
-                            if (this.onCardRemoved) { this.onCardRemoved(this.card); }
-                        }, 1);
-                        this.card = false;
-                    } else if (command == proto.cmd.TRANS_REC) {
-                        cn = arr2big([parameters[3], parameters[4], parameters[5]]);
-                        if (cn < 500000) {
-                            if (parameters[3] < 2) { cn = arr2big([parameters[4], parameters[5]]); } else { cn = parameters[3] * 100000 + arr2big([parameters[4], parameters[5]]); }
-                        }
-                        this.card = new SiCard(this, cn);
-                        console.log('TRANS_REC', this.card, parameters);
-                        // this._sendCommand(proto.ACK, [], 0);
-                        if (this.onCardInserted) {
-                            this.onCardInserted(this.card);
-                        }
-                        if (this.onCardRemoved) {
-                            this.onCardRemoved(this.card);
-                        }
-                        this.card = false;
-                    } else if (0 < this._sendQueue.length && this._sendQueue[0].state != -1) { // We are expecting a certain response
-                        if (this._sendQueue[0].command == command) { // It was, what we were expecting
-                            this._sendQueue[0].bufResp.push(parameters);
-                            if (this._sendQueue[0].bufResp.length == this._sendQueue[0].numResp) { // TODO: some kind of onProgress, or just call onSuccess with incomplete buf?
-                                if (this._sendQueue[0].timeoutTimer) {
-                                    window.clearTimeout(this._sendQueue[0].timeoutTimer);
-                                }
-                                this._sendQueue[0].resolve(this._sendQueue[0].bufResp);
-                                this._sendQueue.shift();
-                            }
-                            // Continue sending
-                            window.setTimeout(() => this._processSendQueue(), 1);
-                        } else {
-                            console.warn(`Strange Response: expected ${prettyHex([this._sendQueue[0].command])}, but got ${prettyHex([command])}...`);
-                        }
-                    } else {
-                        console.warn(`Strange Response: ${prettyHex([command])} (not expecting anything)...`);
-                    }
-                } else {
-                    console.debug(`Invalid Command received.  CMD:0x${prettyHex([command])} LEN:${len}  PARAMS:${prettyHex(parameters)} CRC:${prettyHex(crc)} Content-CRC:${prettyHex(crcContent)}`);
-                }
-            } else {
-                console.warn('Invalid start byte', this._respBuffer[0]);
-                this._respBuffer.splice(0, 1);
-            }
+    _processReceiveBuffer() {
+        const continueProcessing = (timeout = 1) => setTimeout(() => this._processReceiveBuffer(), timeout);
+        const message = processSiProto(this._respBuffer);
+        if (message === null) {
+            return null;
         }
+        const {mode, command, parameters} = message;
+        if (mode === proto.NAK) {
+            if (0 < this._sendQueue.length && this._sendQueue[0].state === SendTask.State.SENT) {
+                this._sendQueue[0].fail();
+            }
+            return continueProcessing();
+        }
+        let cn, typeFromCN;
+        if (command === proto.cmd.SI5_DET) {
+            cn = arr2cardNumber([parameters[5], parameters[4], parameters[3]]);
+            this.card = new SiCard(this, cn);
+            console.log('SI5 DET', this.card, parameters);
+            this._dispatch(this.onCardInserted, [this.card]);
+            this.card.read()
+                .then((card) => {
+                    this._dispatch(this.onCard, [card]);
+                });
+            return continueProcessing();
+        }
+        if (command === proto.cmd.SI6_DET) {
+            cn = arr2cardNumber([parameters[5], parameters[4], parameters[3]]);
+            typeFromCN = SiCard.typeByCardNumber(cn);
+            if (typeFromCN !== 'SICard6') {
+                console.warn(`SICard6 Error: SI Card Number inconsistency: Function SI6 called, but number is ${cn} (=> ${typeFromCN})`);
+            }
+            this.card = new SiCard(this, cn);
+            console.log('SI6 DET', parameters);
+            this._dispatch(this.onCardInserted, [this.card]);
+            this.card.read()
+                .then((card) => {
+                    this._dispatch(this.onCard, [card]);
+                });
+            return continueProcessing();
+        }
+        if (command === proto.cmd.SI8_DET) {
+            cn = arr2cardNumber([parameters[5], parameters[4], parameters[3]]);
+            typeFromCN = SiCard.typeByCardNumber(cn);
+            if (!{'SICard8': 1, 'SICard9': 1, 'SICard10': 1, 'SICard11': 1}[typeFromCN]) {
+                console.warn(`SICard8 Error: SI Card Number inconsistency: Function SI8 called, but number is ${cn} (=> ${typeFromCN})`);
+            }
+            this.card = new SiCard(this, cn);
+            console.log('SI8 DET', parameters);
+            this._dispatch(this.onCardInserted, [this.card]);
+            this.card.read()
+                .then((card) => {
+                    this._dispatch(this.onCard, [card]);
+                });
+            return continueProcessing();
+        }
+        if (command === proto.cmd.SI_REM) {
+            cn = arr2cardNumber([parameters[5], parameters[4], parameters[3]]);
+            console.log('SI REM', parameters, cn, this.card);
+            if (this.card !== false && this.card.cardNumber === cn) {
+                this._dispatch(this.onCardRemoved, [this.card]);
+            } else {
+                console.warn(`Card ${cn} was removed, but never inserted`);
+            }
+            this.card = false;
+            if (
+                this._sendQueue.length > 0 &&
+                this._sendQueue[0].state === SendTask.State.SENT &&
+                0xB0 <= this._sendQueue[0].command &&
+                this._sendQueue[0].command <= 0xEF
+            ) { // Was expecting response from card => "early Timeout"
+                console.debug(`Early Timeout: cmd ${prettyHex([this._sendQueue[0].command])} (expected ${this._sendQueue[0].numResponses} responses)`, this._sendQueue[0].responses);
+                this._sendQueue[0].fail();
+            }
+            return continueProcessing();
+        }
+        if (command === proto.cmd.TRANS_REC) {
+            cn = arr2big([parameters[3], parameters[4], parameters[5]]);
+            if (cn < 500000) {
+                if (parameters[3] < 2) {
+                    cn = arr2big([parameters[4], parameters[5]]);
+                } else {
+                    cn = parameters[3] * 100000 + arr2big([parameters[4], parameters[5]]);
+                }
+            }
+            const transRecordCard = new SiCard(this, cn);
+            console.log('TRANS_REC', transRecordCard, parameters);
+            this._dispatch(this.onCardInserted, [transRecordCard]);
+            this._dispatch(this.onCardRemoved, [transRecordCard]);
+            return continueProcessing();
+        }
+        if (this._sendQueue.length === 0 || this._sendQueue[0].state !== SendTask.State.SENT) {
+            console.warn(`Strange Response: ${prettyHex([command])} (not expecting anything)...`);
+            return continueProcessing();
+        }
+        if (this._sendQueue[0].command !== command) {
+            console.warn(`Strange Response: expected ${prettyHex([this._sendQueue[0].command])}, but got ${prettyHex([command])}...`);
+            return continueProcessing();
+        }
+        this._sendQueue[0].addResponse(parameters);
+        return continueProcessing();
     }
 
     _processSendQueue() {
-        if (0 < this._sendQueue.length && this._sendQueue[0].state == -1) {
-            var request = this._sendQueue[0];
-            // Build command
-            var commandString = [request.command, request.parameters.length].concat(request.parameters);
-            var crc = CRC16(commandString);
-            var cmd = String.fromCharCode(proto.STX);
-            let i;
-            for (i = 0; i < commandString.length; i++) {
-                cmd += String.fromCharCode(commandString[i]);
-            }
-            for (i = 0; i < crc.length; i++) {
-                cmd += String.fromCharCode(crc[i]);
-            }
-            cmd += String.fromCharCode(proto.ETX);
-
-            // Send command
-            var bstr = String.fromCharCode(proto.WAKEUP) + cmd;
-            var bytes = new Uint8Array(bstr.length);
-            for (i = 0; i < bstr.length; i++) {
-                bytes[i] = bstr.charCodeAt(i);
-            }
-            this.device.driver.send(this, bytes.buffer)
-                .then(() => {
-                    console.debug(`=> ${prettyHex(bstr)}     (${this.device.driver.name})`);
-
-                    // Response handling setup
-                    if (request.numResp <= 0) {
-                        request.resolve([]);
-                        this._sendQueue.shift();
-                        window.setTimeout(() => this._processSendQueue(), 1);
-                    }
-                })
-                .catch((err) => {
-                    console.warn(err);
-                    request.state = -1;
-                });
-            request.state = 0;
+        if (this.state !== SiMainStation.State.Starting && this.state !== SiMainStation.State.Ready) {
+            return setTimeout(() => this._processSendQueue(), 100);
         }
+        if (this._sendQueue.length === 0 || this._sendQueue[0].state === SendTask.State.SENT) {
+            return null;
+        }
+        var sendTask = this._sendQueue[0];
+
+        // Build command
+        var commandString = [sendTask.command, sendTask.parameters.length].concat(sendTask.parameters);
+        var crc = CRC16(commandString);
+        var cmd = String.fromCharCode(proto.STX);
+        let i;
+        for (i = 0; i < commandString.length; i++) {
+            cmd += String.fromCharCode(commandString[i]);
+        }
+        for (i = 0; i < crc.length; i++) {
+            cmd += String.fromCharCode(crc[i]);
+        }
+        cmd += String.fromCharCode(proto.ETX);
+
+        // Send command
+        var bstr = String.fromCharCode(proto.WAKEUP) + cmd;
+        var bytes = new Uint8Array(bstr.length);
+        for (i = 0; i < bstr.length; i++) {
+            bytes[i] = bstr.charCodeAt(i);
+        }
+        this.device.driver.send(this, bytes.buffer)
+            .then(() => {
+                console.debug(`=> ${prettyHex(bstr)}     (${this.device.driver.name})`);
+                if (sendTask.numResponses <= 0) {
+                    sendTask.succeed();
+                }
+            })
+            .catch((err) => {
+                console.warn(err);
+                sendTask.fail();
+            });
+        sendTask.state = SendTask.State.SENT;
+        return null;
     }
 
     _sendCommand(command, parameters, numRespArg, timeoutArg) {
         return new Promise((resolve, reject) => {
-            // Default values
-            const numResp = numRespArg ? numRespArg : 0;
+            const numResponses = numRespArg ? numRespArg : 0;
             const timeout = timeoutArg ? timeoutArg : 10;
 
-            const sendTask = {
-                command: command,
-                parameters: parameters,
-                numResp: numResp,
-                resolve: resolve,
-                reject: reject,
-                timeout: timeout,
-                state: -1,
-                timeoutTimer: undefined,
-                bufResp: [],
-            };
-
-            sendTask.timeoutTimer = window.setTimeout(() => {
-                if (0 < this._sendQueue.length && this._sendQueue[0] === sendTask) {
-                    window.clearTimeout(sendTask.timeoutTimer);
-                    sendTask.reject('TIMEOUT');
-                    console.debug(`Timeout: cmd ${prettyHex([sendTask.command])} (expected ${sendTask.numResp} responses)`, sendTask.bufResp);
-                    this._sendQueue.shift();
-                    window.setTimeout(() => {
-                        this._processSendQueue();
-                    }, 1);
-                }
-            }, timeout * 1000);
-
-            // Add to Queue
-            this._sendQueue.push(sendTask); // State: -1=notYetStarted, 0=sentButNoResp, X=XRespReceived
+            const sendTask = new SendTask(
+                command,
+                parameters,
+                numResponses,
+                (resolvedTask) => {
+                    const shifted = this._sendQueue.shift();
+                    if (resolvedTask !== shifted) {
+                        throw new Error('Resolved unexecuting SendTask');
+                    }
+                    setTimeout(() => this._processSendQueue(), 1);
+                    resolve(resolvedTask.responses);
+                },
+                (rejectedTask) => {
+                    const shifted = this._sendQueue.shift();
+                    if (rejectedTask !== shifted) {
+                        throw new Error('Rejected unexecuting SendTask');
+                    }
+                    setTimeout(() => this._processSendQueue(), 1);
+                    reject(new Error('Rejection'));
+                },
+                timeout,
+            );
+            this._sendQueue.push(sendTask);
             this._processSendQueue();
         });
     }
 
     _remove() {
-        if (0 < this._sendQueue.length && this._sendQueue[0].state != -1) {
-            window.clearTimeout(this._sendQueue[0].timeoutTimer);
+        if (0 < this._sendQueue.length && this._sendQueue[0].state !== -1) {
+            clearTimeout(this._sendQueue[0].timeoutTimer);
         }
-        window.clearTimeout(this._deviceOpenTimer);
+        clearTimeout(this._deviceOpenTimer);
         delete SiMainStation.allByDevice[this.device.ident];
         try {
             SiMainStation.onRemoved(this);
@@ -320,8 +350,10 @@ export class SiMainStation extends SiStation {
 }
 
 SiMainStation.State = { // TODO: maybe include instructions in description?
-    Uninitialized: {val: 1, description: 'This SiMainStation is not yet initialized. Commands can neither be received nor sent yet.'},
-    Ready: {val: 2, description: 'This SiMainStation is initialized and ready. Commands can be received and sent.'},
+    Closed: 0,
+    Opening: 1,
+    Starting: 2,
+    Ready: 3,
 };
 
 SiMainStation.allByDevice = {};
@@ -346,8 +378,8 @@ SiMainStation.startDeviceDetection = () => {
                 console.warn('Error in device detection:', err);
             }
         });
-        if (SiMainStation.detectionTimeout) { window.clearTimeout(SiMainStation.detectionTimeout); }
-        SiMainStation.detectionTimeout = window.setTimeout(runDeviceDetection, 1000);
+        if (SiMainStation.detectionTimeout) { clearTimeout(SiMainStation.detectionTimeout); }
+        SiMainStation.detectionTimeout = setTimeout(runDeviceDetection, 1000);
     };
     runDeviceDetection();
 };

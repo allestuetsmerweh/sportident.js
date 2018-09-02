@@ -3,49 +3,34 @@
 
 const path = require('path');
 
-module.exports = [
-    {
-        entry: './src/index.js',
-        output: {
-            path: path.resolve(__dirname, 'build'),
-            filename: 'si.min.js',
-        },
-        module: {
-            rules: [
-                {
-                    test: /\.js$/,
-                    loader: 'babel-loader',
-                    query: {
-                        presets: ['es2015'],
-                    },
-                },
-            ],
-        },
-        stats: {
-            colors: true,
-        },
-        devtool: 'source-map',
+module.exports = {
+    entry: './src/index.js',
+    output: {
+        path: path.resolve(__dirname, 'build'),
+        filename: 'main.bundle.js',
+        publicPath: '/assets/',
     },
-    {
-        entry: './testbench/index.js',
-        output: {
-            path: path.resolve(__dirname, 'docs', 'testbench'),
-            filename: 'testbench.min.js',
-        },
-        module: {
-            rules: [
-                {
-                    test: /\.js$/,
-                    loader: 'babel-loader',
-                    query: {
-                        presets: ['es2015'],
-                    },
+    mode: 'development',
+    module: {
+        rules: [
+            {
+                test: /\.js$/,
+                loader: 'babel-loader',
+                query: {
+                    presets: ['es2015'],
                 },
-            ],
-        },
-        stats: {
-            colors: true,
-        },
-        devtool: 'source-map',
+            },
+        ],
     },
-];
+    devServer: {
+        contentBase: path.join(__dirname, 'testbench'),
+        publicPath: '/assets/',
+        compress: true,
+        port: 41270,
+        watchContentBase: true,
+    },
+    stats: {
+        colors: true,
+    },
+    devtool: 'source-map',
+};
