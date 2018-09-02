@@ -1,3 +1,5 @@
+import {proto} from './constants';
+
 export const isByte = (byte) => (
     Number(byte) === byte &&
     Math.floor(byte) === byte &&
@@ -72,12 +74,12 @@ export const prettyHex = (input) => {
         for (i = 0; i < input.length; i++) {
             out.push((`00${input.charCodeAt(i).toString(16)}`).slice(-2));
         }
-        return out.join(' ');
+        return out.join(' ').toUpperCase();
     }
-    return input
+    return Array.from(input)
         .map((byte) => `00${byte.toString(16)}`)
-        .map((paddedStr) => paddedStr.slice(-2).toUpperCase())
-        .join(' ');
+        .map((paddedStr) => paddedStr.slice(-2))
+        .join(' ').toUpperCase();
 };
 
 export const CRC16 = (str) => {
@@ -86,25 +88,90 @@ export const CRC16 = (str) => {
     if (str.length < 3) {
         return [(1 <= str.length ? str[0] : 0x00), (2 <= str.length ? str[1] : 0x00)];
     }
-    const s = str.length % 2 == 0 ? str.concat([0x00, 0x00]) : str.concat([0x00]);
+    const s = str.length % 2 === 0 ? str.concat([0x00, 0x00]) : str.concat([0x00]);
     var crc = s[0] * 0x100 + s[1];
     for (var i = 2; i < s.length; i += 2) {
         var c = s.slice(i, i + 2);
         var val = c[0] * 0x100 + c[1];
         for (var j = 0; j < 16; j++) {
-            if ((crc & CRC_BITF) != 0) {
+            if ((crc & CRC_BITF) !== 0) {
                 crc = (crc << 1);
-                if ((val & CRC_BITF) != 0) { crc += 1; }
+                if ((val & CRC_BITF) !== 0) {
+                    crc += 1;
+                }
                 crc = (crc ^ CRC_POLYNOM);
             } else {
                 crc = (crc << 1);
-                if ((val & CRC_BITF) != 0) { crc += 1; }
+                if ((val & CRC_BITF) !== 0) {
+                    crc += 1;
+                }
             }
             val = (val << 1);
         }
         crc = (crc & 0xFFFF);
     }
     return [(crc >> 8), (crc & 0xFF)];
+};
+
+export const processSiProto = (inputData) => {
+    let command, parameters;
+    while (command === undefined) {
+        if (inputData.length === 0) {
+            return null;
+        }
+        if (inputData[0] === proto.ACK) {
+            inputData.splice(0, 1);
+            continue; // eslint-disable-line no-continue
+        }
+        if (inputData[0] === proto.NAK) {
+            inputData.splice(0, 1);
+            return {
+                mode: proto.NAK,
+                command: null,
+                parameters: [],
+            };
+        }
+        if (inputData[0] === proto.WAKEUP) {
+            inputData.splice(0, 1);
+            continue; // eslint-disable-line no-continue
+        }
+        if (inputData[0] !== proto.STX) {
+            console.warn(`Invalid start byte: ${prettyHex([inputData[0]])}`);
+            inputData.splice(0, 1);
+            continue; // eslint-disable-line no-continue
+        }
+        if (inputData.length < 6) {
+            return null;
+        }
+        command = inputData[1];
+        var len = inputData[2];
+        if (inputData.length < 6 + len) {
+            return null;
+        }
+        if (inputData[5 + len] !== proto.ETX) {
+            console.warn(`Invalid end byte: ${prettyHex([inputData[5 + len]])}`);
+            inputData.splice(0, 1);
+            continue; // eslint-disable-line no-continue
+        }
+        parameters = inputData.slice(3, 3 + len);
+        var crcContent = CRC16(inputData.slice(1, 3 + len));
+        var crc = inputData.slice(3 + len, 5 + len);
+        inputData.splice(0, 6 + len);
+        if (crc[0] !== crcContent[0] || crc[1] !== crcContent[1]) {
+            console.debug(`Invalid Command received.
+    CMD:0x${prettyHex([command])}
+    LEN:${len}
+    PARAMS:${prettyHex(parameters)}
+    CRC:${prettyHex(crc)}
+    Content-CRC:${prettyHex(crcContent)}`);
+            continue; // eslint-disable-line no-continue
+        }
+    }
+    return {
+        mode: proto.STX,
+        command: command,
+        parameters: parameters,
+    };
 };
 
 export const timeoutResolvePromise = (value, timeout = 1) =>

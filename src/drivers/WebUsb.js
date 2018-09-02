@@ -66,8 +66,10 @@ export class WebUsb extends BaseDriver {
                         mainStation.device._receiveLoop();
                         var bufView = new Uint8Array(response.data.buffer);
                         mainStation._logReceive(bufView);
-                        for (var i = 0; i < bufView.length; i++) { mainStation._respBuffer.push(bufView[i]); }
-                        mainStation._processRespBuffer();
+                        for (var i = 0; i < bufView.length; i++) {
+                            mainStation._respBuffer.push(bufView[i]);
+                        }
+                        mainStation._processReceiveBuffer();
                     })
                     .catch((err) => {
                         console.warn(err);
