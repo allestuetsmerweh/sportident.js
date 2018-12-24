@@ -76,7 +76,8 @@ export const prettyHex = (input) => {
         }
         return out.join(' ').toUpperCase();
     }
-    return Array.from(input)
+    const convertToArray = (iterable) => [].slice.call(iterable);
+    return convertToArray(input)
         .map((byte) => `00${byte.toString(16)}`)
         .map((paddedStr) => paddedStr.slice(-2))
         .join(' ').toUpperCase();

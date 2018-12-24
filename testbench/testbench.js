@@ -23,7 +23,7 @@ si.onLoad = () => {
             const mainStation = getSelectedMainStation();
             let fixedSiNumber = null;
             const samples = {};
-            const wait = (seconds) => () => new Promise((resolve) => {
+            const _wait = (seconds) => () => new Promise((resolve) => {
                 logLine('Please wait...');
                 setTimeout(resolve, seconds * 1000);
             });
@@ -98,7 +98,7 @@ si.onLoad = () => {
                 .then(simulateStation(si.Station.Mode.Start, 3, 'Start'))
                 .then(readoutCard('clear-check-start'))
                 .then(simulateStation(si.Station.Mode.Clear, 4, 'Clear'))
-                .then(punchAnother(si.Station.Mode.Control, 31, 'Punch 31'))g a
+                .then(punchAnother(si.Station.Mode.Control, 31, 'Punch 31'))
                 .then(simulateStation(si.Station.Mode.Control, 31, 'Punch 31'))
                 .then(readoutCard('clear-31'))
                 .then(simulateStation(si.Station.Mode.Control, 32, 'Punch 32'))
@@ -229,7 +229,7 @@ si.onLoad = () => {
         console.log('MainStation added', ms);
 
         ms.onStateChanged = (state) => {
-            if (state == si.MainStation.State.Ready) {
+            if (state === si.MainStation.State.Ready) {
                 ms.beeps(false)
                     .then(() => ms.signal(1));
             }
