@@ -1,4 +1,4 @@
 #!/bin/sh
 
-yarn run eslint
-yarn run karma
+npm run eslint
+npm run karma
