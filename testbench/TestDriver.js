@@ -48,7 +48,7 @@ export class TestDriver extends BaseDriver {
     // Test-specific methods
 
     bootstrap() {
-
+        // Set state
     }
 }
 
