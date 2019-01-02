@@ -1,8 +1,7 @@
-import {arr2big, arr2cardNumber, CRC16, prettyHex, processSiProto} from './utils';
+import {arr2big, arr2cardNumber, prettyHex, processSiProto, buildSiProtoCommand} from './utils';
 import {proto} from './constants';
 import {SiCard} from './SiCard';
 import {SiStation} from './SiStation';
-import * as drivers from './drivers';
 
 class SendTask {
     constructor(
@@ -63,6 +62,7 @@ export class SiMainStation extends SiStation {
         this.mainStation = this;
         this.device = device;
         this.card = false;
+        this.onMessage = false;
         this.onRemoved = false;
         this.onStateChanged = false;
         this.onCardInserted = false;
@@ -158,6 +158,9 @@ export class SiMainStation extends SiStation {
         const message = processSiProto(this._respBuffer);
         if (message === null) {
             return null;
+        }
+        if (this.onMessage) {
+            this.onMessage(message);
         }
         const {mode, command, parameters} = message;
         if (mode === proto.NAK) {
@@ -265,22 +268,12 @@ export class SiMainStation extends SiStation {
         var sendTask = this._sendQueue[0];
 
         // Build command
-        var commandString = [sendTask.command, sendTask.parameters.length].concat(sendTask.parameters);
-        var crc = CRC16(commandString);
-        var cmd = String.fromCharCode(proto.STX);
-        let i;
-        for (i = 0; i < commandString.length; i++) {
-            cmd += String.fromCharCode(commandString[i]);
-        }
-        for (i = 0; i < crc.length; i++) {
-            cmd += String.fromCharCode(crc[i]);
-        }
-        cmd += String.fromCharCode(proto.ETX);
+        var cmd = buildSiProtoCommand(sendTask);
 
         // Send command
         var bstr = String.fromCharCode(proto.WAKEUP) + cmd;
         var bytes = new Uint8Array(bstr.length);
-        for (i = 0; i < bstr.length; i++) {
+        for (let i = 0; i < bstr.length; i++) {
             bytes[i] = bstr.charCodeAt(i);
         }
         this.device.driver.send(this, bytes.buffer)
@@ -296,6 +289,11 @@ export class SiMainStation extends SiStation {
             });
         sendTask.state = SendTask.State.SENT;
         return null;
+    }
+
+    sendMessage(message) {
+        const {command, parameters} = message;
+        this._sendCommand(command, parameters, 0);
     }
 
     _sendCommand(command, parameters, numRespArg, timeoutArg) {
@@ -356,6 +354,7 @@ SiMainStation.State = { // TODO: maybe include instructions in description?
     Ready: 3,
 };
 
+SiMainStation.drivers = {};
 SiMainStation.allByDevice = {};
 SiMainStation.all = () => {
     var arr = [];
@@ -366,9 +365,9 @@ SiMainStation.all = () => {
 };
 SiMainStation.startDeviceDetection = () => {
     var runDeviceDetection = () => {
-        Object.keys(drivers).map((k) => {
+        Object.keys(SiMainStation.drivers).map((k) => {
             try {
-                var driver = new drivers[k]();
+                var driver = new SiMainStation.drivers[k]();
                 if (driver && driver.name && driver.detect && driver.send && driver.open && driver.close) {
                     driver.detect(SiMainStation);
                 } else {
@@ -384,9 +383,9 @@ SiMainStation.startDeviceDetection = () => {
     runDeviceDetection();
 };
 SiMainStation.newDevice = () => {
-    Object.keys(drivers).map((k) => {
+    Object.keys(SiMainStation.drivers).map((k) => {
         try {
-            var driver = new drivers[k]();
+            var driver = new SiMainStation.drivers[k]();
             if (driver && driver.name && driver.detect && driver.send && driver.open && driver.close) {
                 driver.new(SiMainStation);
             } else {

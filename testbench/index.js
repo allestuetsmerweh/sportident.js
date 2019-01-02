@@ -1,10 +1,10 @@
 import $ from 'jquery';
 import si from '../src/index';
-import {SiMainStationSimulator} from './SiMainStationSimulator';
+import {SiSimulator} from './SiSimulator';
 
 $().ready(() => {
-    const _mainStationSimulator = new SiMainStationSimulator();
     si.onLoad = () => {
+        si.MainStation.drivers = {WebUsb: si.drivers.WebUsb};
         const getSelectedMainStation = () =>
             si.MainStation.all().find((ms) => window.location.hash === `#${ms.device.ident}`);
 
@@ -227,6 +227,37 @@ $().ready(() => {
                 return mainStation._sendCommand(command, parameters, numResp)
                     .then((respParameters) => `Answer: ${respParameters}`);
             },
+            'pipe': (userLine) => {
+                const usage = si.utils.timeoutResolvePromise('Usage: pipe [URL]<br />e.g. pipe unix:///tmp/vwin_com1');
+                const res = /pipe ([^\s]+)/.exec(userLine);
+                if (res === null) {
+                    return usage;
+                }
+                const url = res[1];
+                return new Promise((resolve, _reject) => {
+                    const mainStation = getSelectedMainStation();
+                    const siSimulator = new SiSimulator(url);
+                    mainStation.onMessage = (message) => {
+                        console.log('MainStation:', message);
+                        siSimulator.sendMessage(message);
+                    };
+                    siSimulator.onMessage = (message) => {
+                        console.log('SiSimulator:', message);
+                        mainStation.sendMessage(message);
+                    };
+
+                    const userInput = $('#mainstation-detail-userinput');
+                    userInput.keyup((event) => {
+                        if (event.keyCode === 67 && event.ctrlKey && !event.altKey && !event.metaKey && !event.shiftKey) {
+                            // Ctrl-C
+                            mainStation.onMessage = false;
+                            siSimulator.close();
+                            resolve('Piping finished.');
+                        }
+                    });
+                });
+            },
+
         };
 
         if ($('#si-quickinfo').length === 0) {
@@ -269,7 +300,7 @@ $().ready(() => {
                     const userLine = userInput.text();
                     logLine(`> ${userLine}`);
                     const command = /^[^\s]+/.exec(userLine);
-                    if (command[0] in commands) {
+                    if (command && command[0] in commands) {
                         commands[command[0]](userLine)
                             .then((response) => {
                                 logLine(`${response}`);
