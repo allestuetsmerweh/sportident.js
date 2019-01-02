@@ -7,7 +7,6 @@
     "test": "tests"
   },
   "scripts": {
-    "babel": "babel --presets es2015 js/main.js -o build/main.bundle.js",
     "ci": "sh run_ci.sh",
     "eslint": "./node_modules/eslint/bin/eslint.js .",
     "karma": "./node_modules/karma/bin/karma start karma.config.js",

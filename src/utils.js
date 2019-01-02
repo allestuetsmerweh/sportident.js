@@ -175,6 +175,21 @@ export const processSiProto = (inputData) => {
     };
 };
 
+export const buildSiProtoCommand = (message) => {
+    var commandString = [message.command, message.parameters.length].concat(message.parameters);
+    var crc = CRC16(commandString);
+    var cmd = String.fromCharCode(proto.STX);
+    let i;
+    for (i = 0; i < commandString.length; i++) {
+        cmd += String.fromCharCode(commandString[i]);
+    }
+    for (i = 0; i < crc.length; i++) {
+        cmd += String.fromCharCode(crc[i]);
+    }
+    cmd += String.fromCharCode(proto.ETX);
+    return cmd;
+};
+
 export const timeoutResolvePromise = (value, timeout = 1) =>
     new Promise((resolve, _reject) =>
         setTimeout(() => resolve(value), timeout));
