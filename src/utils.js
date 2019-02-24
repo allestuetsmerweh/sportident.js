@@ -1,5 +1,7 @@
 import {proto} from './constants';
 
+export const iterable2arr = (iterable) => [].slice.call(iterable);
+
 export const isByte = (byte) => (
     Number(byte) === byte &&
     Math.floor(byte) === byte &&
@@ -50,6 +52,19 @@ export const arr2date = (arr) => {
     throw new Error(`arr2date: length must be 3, 6 or 7, but is ${arr.length}`);
 };
 
+export const date2arr = (dateTime) => {
+    var secs = (dateTime.getUTCHours() % 12) * 3600 + dateTime.getUTCMinutes() * 60 + dateTime.getUTCSeconds();
+    return [
+        dateTime.getUTCFullYear() % 100,
+        dateTime.getUTCMonth() + 1,
+        dateTime.getUTCDate(),
+        (dateTime.getUTCDay() << 1) + Math.floor(dateTime.getUTCHours() / 12),
+        secs >> 8,
+        secs & 0xFF,
+        Math.floor(dateTime.getUTCMilliseconds() * 256 / 1000),
+    ];
+};
+
 export const arr2cardNumber = (arr) => {
     if (arr.length === 4 || arr.length === 3) {
         var cardnum = (arr[1] << 8) | arr[0];
@@ -67,20 +82,41 @@ export const arr2cardNumber = (arr) => {
     throw new Error(`arr2cardNumber: length must be 3 or 4, but is ${arr.length}`);
 };
 
-export const prettyHex = (input) => {
+export const prettyHex = (input, lineLength = 0) => {
+    let iterable = input;
     if (typeof input === 'string') {
-        const out = [];
-        let i;
-        for (i = 0; i < input.length; i++) {
-            out.push((`00${input.charCodeAt(i).toString(16)}`).slice(-2));
+        iterable = [];
+        for (let strIndex = 0; strIndex < input.length; strIndex++) {
+            iterable.push(input.charCodeAt(strIndex));
         }
-        return out.join(' ').toUpperCase();
     }
-    const convertToArray = (iterable) => [].slice.call(iterable);
-    return convertToArray(input)
+    const prettyBytes = iterable2arr(iterable)
         .map((byte) => `00${byte.toString(16)}`)
-        .map((paddedStr) => paddedStr.slice(-2))
-        .join(' ').toUpperCase();
+        .map((paddedStr) => paddedStr.slice(-2).toUpperCase());
+    if (lineLength === 0) {
+        return prettyBytes.join(' ');
+    }
+    const lines = [];
+    for (let lineIndex = 0; lineIndex < prettyBytes.length / lineLength; lineIndex++) {
+        const startIndex = lineIndex * lineLength;
+        const endIndex = (lineIndex + 1) * lineLength;
+        const line = prettyBytes.slice(startIndex, endIndex).join(' ');
+        lines.push(line);
+    }
+    return lines.join('\n');
+};
+
+export const unPrettyHex = (input) => {
+    const hexString = input.replace(/\s/g, '');
+    if ((hexString.length % 2) !== 0) {
+        throw new Error('HEX_STRING_LENGTH_NOT_EVEN');
+    }
+    const byteArray = [];
+    for (let byteIndex = 0; byteIndex < hexString.length / 2; byteIndex++) {
+        const byteValue = parseInt(hexString.substr(byteIndex * 2, 2), 16);
+        byteArray.push(byteValue);
+    }
+    return byteArray;
 };
 
 export const CRC16 = (str) => {
@@ -112,6 +148,21 @@ export const CRC16 = (str) => {
         crc = (crc & 0xFFFF);
     }
     return [(crc >> 8), (crc & 0xFF)];
+};
+
+export const getLookup = (mapping, getLookupKeys) => {
+    if (mapping._lookup) {
+        return mapping._lookup;
+    }
+    mapping._lookup = {};
+    Object.keys(mapping)
+        .filter((mappingKey) => mappingKey.substr(0, 1) !== '_')
+        .forEach((mappingKey) => {
+            getLookupKeys(mapping[mappingKey]).forEach((lookupKey) => {
+                mapping._lookup[lookupKey] = mappingKey;
+            });
+        });
+    return mapping._lookup;
 };
 
 export const processSiProto = (inputData) => {

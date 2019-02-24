@@ -150,7 +150,7 @@ export class SiMainStation extends SiStation {
     }
 
     _logReceive(bufView) {
-        console.debug(`<= ${prettyHex(bufView)}     (${this.device.driver.name}; ${this._respBuffer.length})`);
+        console.debug(`<= (${this.device.driver.name}; ${this._respBuffer.length})\n${prettyHex(bufView, 16)}`);
     }
 
     _processReceiveBuffer() {
@@ -160,7 +160,8 @@ export class SiMainStation extends SiStation {
             return null;
         }
         if (this.onMessage) {
-            this.onMessage(message);
+            this._dispatch(this.onMessage, [message]);
+            return continueProcessing();
         }
         const {mode, command, parameters} = message;
         if (mode === proto.NAK) {
@@ -278,7 +279,7 @@ export class SiMainStation extends SiStation {
         }
         this.device.driver.send(this, bytes.buffer)
             .then(() => {
-                console.debug(`=> ${prettyHex(bstr)}     (${this.device.driver.name})`);
+                console.debug(`=> (${this.device.driver.name})\n${prettyHex(bstr, 16)}`);
                 if (sendTask.numResponses <= 0) {
                     sendTask.succeed();
                 }

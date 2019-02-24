@@ -85,6 +85,13 @@ describe('utils', () => {
         expect(() => utils.arr2date([1, 2, 3, 4, 5])).toThrow();
         expect(() => utils.arr2date([1, 2, 3, 4, 5, 6, 7, 8])).toThrow();
     });
+    it('date2arr', () => {
+        const fromJSON = (str) => new Date(Date.parse(str));
+        expect(utils.date2arr(fromJSON('2000-01-01T00:00:00.000Z'))).toEqual([0x00, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00]);
+        expect(utils.date2arr(fromJSON('2255-12-31T12:00:00.500Z'))).toEqual([0xFF, 0x0C, 0x1F, 0x01, 0x00, 0x00, 0x80]);
+        expect(utils.date2arr(fromJSON('2000-01-01T11:59:59.250Z'))).toEqual([0x00, 0x01, 0x01, 0x00, 0xA8, 0xBF, 0x40]);
+        expect(utils.date2arr(fromJSON('2255-12-31T23:59:59.750Z'))).toEqual([0xFF, 0x0C, 0x1F, 0x01, 0xA8, 0xBF, 0xC0]);
+    });
     it('arr2cardNumber', () => {
         expect(utils.arr2cardNumber([0x00, 0x00, 0x00])).toBe(0x000000);
         expect(utils.arr2cardNumber([0x12, 0x34, 0x00])).toBe(0x003412);
@@ -102,7 +109,7 @@ describe('utils', () => {
         expect(() => utils.arr2cardNumber([1, 2, 3, 4, 5])).toThrow();
         expect(() => utils.arr2cardNumber([1, 2, 3, 4, 5, 6, 7, 8])).toThrow();
     });
-    it('prettyHex', () => {
+    it('prettyHex without lineLength', () => {
         expect(utils.prettyHex([])).toBe('');
         expect(utils.prettyHex([0x00])).toBe('00');
         expect(utils.prettyHex([0x00, 0x00])).toBe('00 00');
@@ -114,6 +121,29 @@ describe('utils', () => {
         expect(utils.prettyHex('AA')).toBe('41 41');
         expect(utils.prettyHex('000')).toBe('30 30 30');
         expect(utils.prettyHex('    ')).toBe('20 20 20 20');
+
+    });
+    it('prettyHex with lineLength', () => {
+        expect(utils.prettyHex('', 0)).toBe('');
+        expect(utils.prettyHex('1', 0)).toBe('31');
+        expect(utils.prettyHex('12345678', 0)).toBe('31 32 33 34 35 36 37 38');
+        expect(utils.prettyHex('', 1)).toBe('');
+        expect(utils.prettyHex('1', 1)).toBe('31');
+        expect(utils.prettyHex('12345678', 1)).toBe('31\n32\n33\n34\n35\n36\n37\n38');
+        expect(utils.prettyHex('', 4)).toBe('');
+        expect(utils.prettyHex('1', 4)).toBe('31');
+        expect(utils.prettyHex('123', 4)).toBe('31 32 33');
+        expect(utils.prettyHex('1234', 4)).toBe('31 32 33 34');
+        expect(utils.prettyHex('12345', 4)).toBe('31 32 33 34\n35');
+        expect(utils.prettyHex('1234567', 4)).toBe('31 32 33 34\n35 36 37');
+        expect(utils.prettyHex('12345678', 4)).toBe('31 32 33 34\n35 36 37 38');
+        expect(utils.prettyHex('123456789', 4)).toBe('31 32 33 34\n35 36 37 38\n39');
+    });
+    it('unPrettyHex', () => {
+        expect(utils.unPrettyHex('')).toEqual([]);
+        expect(utils.unPrettyHex('31')).toEqual([0x31]);
+        expect(utils.unPrettyHex('31 32')).toEqual([0x31, 0x32]);
+        expect(utils.unPrettyHex('31 32 33 34\n35')).toEqual([0x31, 0x32, 0x33, 0x34, 0x35]);
     });
     it('CRC16', () => {
         expect(utils.CRC16([])).toEqual([0x00, 0x00]);
@@ -124,5 +154,22 @@ describe('utils', () => {
         expect(utils.CRC16([0x12, 0x34])).toEqual([0x12, 0x34]);
         expect(utils.CRC16([0x12, 0x34, 0x56])).toEqual([0xBA, 0xBB]);
         expect(utils.CRC16([0x12, 0x32, 0x56])).toEqual([0xBA, 0xAF]);
+    });
+    it('getLookup', () => {
+        expect(utils.getLookup({}, (value) => [value])).toEqual({});
+        expect(utils.getLookup({'a': '0'}, (value) => [value])).toEqual({'0': 'a'});
+        expect(utils.getLookup({'a': '0', 'b': '1'}, (value) => [value])).toEqual({'0': 'a', '1': 'b'});
+        expect(utils.getLookup({'a': '0', 'b': '1', 'c': '2'}, (value) => [value])).toEqual({'0': 'a', '1': 'b', '2': 'c'});
+        expect(utils.getLookup({'a': ['0'], 'b': ['1', '2']}, (value) => value)).toEqual({'0': 'a', '1': 'b', '2': 'b'});
+    });
+    it('getLookup is cached', () => {
+        const mapping = {'a': ['0'], 'b': ['1', '2']};
+        const lookup1 = utils.getLookup(mapping, (value) => value);
+        expect(mapping._lookup).not.toBe(undefined);
+        expect(mapping._lookup).toEqual(lookup1);
+        let numCallsToLookupKeyGetter = 0;
+        const lookup2 = utils.getLookup(mapping, () => numCallsToLookupKeyGetter++);
+        expect(numCallsToLookupKeyGetter).toBe(0);
+        expect(lookup2).toEqual(lookup1);
     });
 });

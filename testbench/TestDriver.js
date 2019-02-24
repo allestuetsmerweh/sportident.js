@@ -43,13 +43,6 @@ export class TestDriver extends BaseDriver {
     send(mainStation, buffer) {
         console.debug(`Sending ${mainStation}, ${buffer}`);
     }
-
-
-    // Test-specific methods
-
-    bootstrap() {
-        // Set state
-    }
 }
 
 export default TestDriver;

@@ -52,18 +52,11 @@ class SiSimulatorApplication extends \WebSocket\Application\Application
             $this->_clients[$id]['pipe_sock'] = $pipe_sock;
             return;
         }
-        echo "onData \"$data\" (len ".strlen($data).")\n";
         $pipe_sock = $this->_clients[$id]['pipe_sock'];
         if ($data) {
             fwrite($pipe_sock, $data);
         }
         $this->send(base64_encode(fread($pipe_sock, 4096)));
-    }
-
-    public function onBinaryData($data, $client)
-    {
-        echo "onBinaryData\n";
-        print_r($data);
     }
 
     public function send($data) {

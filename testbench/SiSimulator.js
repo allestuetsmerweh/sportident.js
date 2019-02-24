@@ -28,7 +28,7 @@ export class SiSimulator {
         for (let i = 0; i < data.length; i++) {
             this._respBuffer.push(data.charCodeAt(i));
         }
-        console.log('(SI) =>', si.utils.prettyHex(data));
+        console.log('(SI) =>\n', si.utils.prettyHex(data, 16));
         this._processReceiveBuffer();
     }
 
@@ -54,7 +54,7 @@ export class SiSimulator {
         if (this._sendBuffer.length > 0) {
             const data = this._sendBuffer.shift();
             const dataString = Array.isArray(data) ? data.map((byte) => String.fromCharCode(byte)).join('') : data;
-            console.log('(SI) <=', si.utils.prettyHex(dataString));
+            console.log('(SI) <=\n', si.utils.prettyHex(dataString, 16));
             this._ws.send(btoa(dataString));
             continueProcessing();
         } else {
@@ -68,5 +68,6 @@ export class SiSimulator {
 
     close() {
         clearInterval(this.pollInterval);
+        this._ws.close();
     }
 }

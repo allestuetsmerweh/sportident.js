@@ -1,6 +1,7 @@
 import $ from 'jquery';
 import si from '../src/index';
 import {SiSimulator} from './SiSimulator';
+import {SiMainStationSimulator} from './SiMainStationSimulator';
 
 $().ready(() => {
     si.onLoad = () => {
@@ -248,8 +249,7 @@ $().ready(() => {
 
                     const userInput = $('#mainstation-detail-userinput');
                     userInput.keyup((event) => {
-                        if (event.keyCode === 67 && event.ctrlKey && !event.altKey && !event.metaKey && !event.shiftKey) {
-                            // Ctrl-C
+                        if (event.keyCode === 67 && event.ctrlKey && !event.altKey && !event.metaKey && !event.shiftKey) { // Ctrl-C
                             mainStation.onMessage = false;
                             siSimulator.close();
                             resolve('Piping finished.');
@@ -257,7 +257,56 @@ $().ready(() => {
                     });
                 });
             },
+            'simulate': (userLine) => {
+                const usage = si.utils.timeoutResolvePromise('Usage: simulate [what] [URL]<br />e.g. simulate BSM8 unix:///tmp/vwin_com1');
+                const res = /simulate ([^\s]+) ([^\s]+)/.exec(userLine);
+                if (res === null) {
+                    return usage;
+                }
+                const what = res[1];
+                const mainStationStorages = {
+                    'BSM8': (
+                        '00 02 C1 A1 F7 36 35 36 0E 06 0B 91 98 80 20 C0' +
+                        '4B 08 4E FA 28 0E 06 0B 00 36 EE 80 00 00 18 04' +
+                        'FF 09 00 00 00 00 00 00 00 00 00 00 4D 70 FF FF' +
+                        'FF 00 87 C1 00 00 00 2D 00 00 00 00 FF 00 FB E5' +
+                        '00 24 FC 18 FF FF 19 99 0A 3D 7F F8 85 0C 05 01' +
+                        '00 00 6F F0 FF FF FF FF 00 00 00 4B FF FF FF FF' +
+                        '30 30 30 35 7D 20 38 00 00 00 00 00 FF FF FF FF' +
+                        '28 05 0A 31 05 13 01 02 01 87 EE 00 0E 12 00 3C'
+                    ),
+                };
+                const mainStationStorage = mainStationStorages[what];
+                if (!mainStationStorage) {
+                    const availableDataIdentifiers = Object.keys(mainStationStorages).join(', ');
+                    return si.utils.timeoutResolvePromise(
+                        `No such SiMainStation data: ${what}\nAvailable data: ${availableDataIdentifiers}`,
+                    );
+                }
+                const mainStationStorageBytes = si.utils.unPrettyHex(mainStationStorage);
 
+                const url = res[2];
+                return new Promise((resolve, _reject) => {
+                    const siSimulator = new SiSimulator(url);
+                    const siMainStationSimulator = new SiMainStationSimulator(mainStationStorageBytes);
+                    siSimulator.onMessage = (message) => {
+                        console.log('SiSimulator:', message);
+                        siMainStationSimulator.sendMessage(message);
+                    };
+                    siMainStationSimulator.onMessage = (message) => {
+                        console.log('SiMainStationSimulator:', message);
+                        siSimulator.sendMessage(message);
+                    };
+
+                    const userInput = $('#mainstation-detail-userinput');
+                    userInput.keyup((event) => {
+                        if (event.keyCode === 67 && event.ctrlKey && !event.altKey && !event.metaKey && !event.shiftKey) { // Ctrl-C
+                            siSimulator.close();
+                            resolve('Simulation finished.');
+                        }
+                    });
+                });
+            },
         };
 
         if ($('#si-quickinfo').length === 0) {
@@ -286,12 +335,14 @@ $().ready(() => {
 
         const updateMainStationDetail = () => {
             const selectedMainStation = getSelectedMainStation();
-            selectedMainStation.readInfo().then((info) => {
-                const lines = Object.keys(info)
-                    .filter((key) => key[0] !== '_')
-                    .map((key) => `<tr><td>${key}</td><td>${info[key]}</td></tr>`);
-                log(`<table>${lines.join('')}</table>`);
-            });
+            if (selectedMainStation) {
+                selectedMainStation.readInfo().then((info) => {
+                    const lines = Object.keys(info)
+                        .filter((key) => key[0] !== '_')
+                        .map((key) => `<tr><td>${key}</td><td>${info[key]}</td></tr>`);
+                    log(`<table>${lines.join('')}</table>`);
+                });
+            }
             clearLog();
             log('Please wait...');
             const userInput = $('#mainstation-detail-userinput');
@@ -317,6 +368,10 @@ $().ready(() => {
 
         $(window).on('hashchange', () => {
             updateMainStationList();
+            updateMainStationDetail();
+        });
+
+        setTimeout(() => {
             updateMainStationDetail();
         });
 
