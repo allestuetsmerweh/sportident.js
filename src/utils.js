@@ -5,51 +5,88 @@ export const iterable2arr = (iterable) => [].slice.call(iterable);
 export const isByte = (byte) => (
     Number(byte) === byte &&
     Math.floor(byte) === byte &&
-    byte < 0x100
+    byte <= 0xFF &&
+    byte >= 0x00
 );
 
+export const isByteArr = (arr) => (
+    Array.isArray(arr) &&
+    arr.filter((e) => !isByte(e)).length === 0
+);
+
+export const assertIsByteArr = (arr) => {
+    if (!isByteArr(arr)) {
+        throw new Error(`${arr} is not a byte array`);
+    }
+};
+
+export const isArrOfLengths = (arr, lengths) => {
+    const actualLength = arr.length;
+    return lengths.filter((length) => actualLength === length) > 0;
+};
+
+export const assertArrIsOfLengths = (arr, lengths) => {
+    if (!isArrOfLengths(arr, lengths)) {
+        throw new Error(`${arr} is not of lengths ${lengths}`);
+    }
+};
+
 export const arr2big = (arr) => {
+    assertIsByteArr(arr);
     var outnum = 0;
     for (var i = 0; i < arr.length; i++) {
         const byte = arr[i];
-        if (!isByte(byte)) {
-            throw new Error('Array elements need to be bytes');
-        }
         outnum += byte * Math.pow(0x100, arr.length - i - 1);
     }
     return outnum;
 };
 
 export const arr2time = (arr) => {
-    if (arr.length !== 2) {
-        throw new Error(`arr2time: length must be 2, but is ${arr.length}`);
-    }
+    assertIsByteArr(arr);
+    assertArrIsOfLengths(arr, [2]);
     if (arr[0] === 0xEE && arr[1] === 0xEE) {
         return null;
     }
     return arr2big(arr);
 };
 
-export const arr2date = (arr) => {
-    if (arr.length === 7 || arr.length === 6) {
-        var secs = arr2big(arr.slice(4, 6));
-        return new Date(Date.UTC(
-            arr[0] + 2000,
-            arr[1] - 1,
-            arr[2],
-            (arr[3] & 0x01) * 12 + Math.floor(secs / 3600),
-            Math.floor((secs % 3600) / 60),
-            secs % 60,
-            (arr.length === 7 ? arr[6] * 1000 / 256 : 0),
-        ));
-    } else if (arr.length === 3) {
-        return new Date(Date.UTC(
-            2000 + arr[0],
-            arr[1] - 1,
-            arr[2],
-        ));
+export const arr2date = (arr, asOf = null) => {
+    assertIsByteArr(arr);
+    assertArrIsOfLengths(arr, [3, 6, 7]);
+    if (arr[0] > 99) {
+        throw new Error('Invalid year');
     }
-    throw new Error(`arr2date: length must be 3, 6 or 7, but is ${arr.length}`);
+    const maxYear = asOf ? asOf.getUTCFullYear() : new Date().getUTCFullYear();
+    const getYear = (lastTwoDigits) => {
+        const maxLastTwo = (maxYear % 100);
+        const maxRest = maxYear - maxLastTwo;
+        if (lastTwoDigits <= maxLastTwo) {
+            return lastTwoDigits + maxRest;
+        }
+        return lastTwoDigits + maxRest - 100;
+    };
+    const utcYear = getYear(arr[0]);
+    const utcMonth = arr[1] - 1;
+    const utcDate = arr[2];
+    const secs = arr.length < 6 ? 0 : arr2big(arr.slice(4, 6));
+    const utcHours = arr.length < 6 ? 0 : (arr[3] & 0x01) * 12 + Math.floor(secs / 3600);
+    const utcMinutes = arr.length < 6 ? 0 : Math.floor((secs % 3600) / 60);
+    const utcSeconds = arr.length < 6 ? 0 : secs % 60;
+    const utcMilliseconds = arr.length < 7 ? 0 : arr[6] * 1000 / 256;
+    const date = new Date(Date.UTC(utcYear, utcMonth, utcDate, utcHours, utcMinutes, utcSeconds, utcMilliseconds));
+    const isValidDate = (
+        date.getUTCFullYear() === utcYear
+        && date.getUTCMonth() === utcMonth
+        && date.getUTCDate() === utcDate
+        && date.getUTCHours() === utcHours
+        && date.getUTCMinutes() === utcMinutes
+        && date.getUTCSeconds() === utcSeconds
+        && date.getUTCMilliseconds() === utcMilliseconds
+    );
+    if (!isValidDate) {
+        throw new Error('invalid date');
+    }
+    return date;
 };
 
 export const date2arr = (dateTime) => {
@@ -66,20 +103,19 @@ export const date2arr = (dateTime) => {
 };
 
 export const arr2cardNumber = (arr) => {
-    if (arr.length === 4 || arr.length === 3) {
-        var cardnum = (arr[1] << 8) | arr[0];
-        var fourthSet = (arr.length === 4 && arr[3] !== 0x00);
-        if (!fourthSet && 1 < arr[2] && arr[2] <= 4) {
-            cardnum += (arr[2] * 100000);
-        } else if (fourthSet || 4 < arr[2]) {
-            cardnum += (arr[2] << 16);
-        }
-        if (arr.length === 4) {
-            cardnum |= (arr[3] << 24);
-        }
-        return cardnum;
+    assertIsByteArr(arr);
+    assertArrIsOfLengths(arr, [3, 4]);
+    var cardnum = (arr[1] << 8) | arr[0];
+    var fourthSet = (arr.length === 4 && arr[3] !== 0x00);
+    if (!fourthSet && 1 < arr[2] && arr[2] <= 4) {
+        cardnum += (arr[2] * 100000);
+    } else if (fourthSet || 4 < arr[2]) {
+        cardnum += (arr[2] << 16);
     }
-    throw new Error(`arr2cardNumber: length must be 3 or 4, but is ${arr.length}`);
+    if (arr.length === 4) {
+        cardnum |= (arr[3] << 24);
+    }
+    return cardnum;
 };
 
 export const prettyHex = (input, lineLength = 0) => {
@@ -104,6 +140,12 @@ export const prettyHex = (input, lineLength = 0) => {
         lines.push(line);
     }
     return lines.join('\n');
+};
+
+export const prettyMessage = (message) => {
+    const prettyCommand = `Command: ${proto.cmdLookup[message.command]} ${prettyHex([message.command])} (${message.command})`;
+    const prettyParameters = `Parameters: ${prettyHex(message.parameters)} (${JSON.stringify(message.parameters)})`;
+    return `${prettyCommand}\n${prettyParameters}`;
 };
 
 export const unPrettyHex = (input) => {

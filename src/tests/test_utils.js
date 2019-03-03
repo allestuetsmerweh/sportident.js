@@ -2,6 +2,19 @@
 
 import * as utils from '../utils';
 
+const json2date = (str) => {
+    const res = /^([0-9]{4})-([0-9]{2})-([0-9]{2})T([0-9]{2}):([0-9]{2}):([0-9]{2})\.([0-9]{3})Z$/.exec(str);
+    return new Date(Date.UTC(
+        Number(res[1]),
+        Number(res[2]) - 1,
+        Number(res[3]),
+        Number(res[4]),
+        Number(res[5]),
+        Number(res[6]),
+        Number(res[7]),
+    ));
+};
+
 describe('utils', () => {
     it('isByte', () => {
         expect(utils.isByte(0)).toBe(true);
@@ -66,31 +79,78 @@ describe('utils', () => {
         expect(() => utils.arr2time([0x00, 0x00, 0x00, 0x00])).toThrow();
     });
     it('arr2date', () => {
-        expect(utils.arr2date([0x00, 0x01, 0x01]).toJSON()).toBe('2000-01-01T00:00:00.000Z');
-        expect(utils.arr2date([0x01, 0x02, 0x03]).toJSON()).toBe('2001-02-03T00:00:00.000Z');
-        expect(utils.arr2date([0x01, 0x0C, 0x1F]).toJSON()).toBe('2001-12-31T00:00:00.000Z');
-        expect(utils.arr2date([0xFF, 0x0C, 0x1F]).toJSON()).toBe('2255-12-31T00:00:00.000Z');
-        expect(utils.arr2date([0x00, 0x01, 0x01, 0x00, 0x00, 0x00]).toJSON()).toBe('2000-01-01T00:00:00.000Z');
-        expect(utils.arr2date([0xFF, 0x0C, 0x1F, 0x01, 0x00, 0x00]).toJSON()).toBe('2255-12-31T12:00:00.000Z');
-        expect(utils.arr2date([0x00, 0x01, 0x01, 0x00, 0xA8, 0xBF]).toJSON()).toBe('2000-01-01T11:59:59.000Z');
-        expect(utils.arr2date([0xFF, 0x0C, 0x1F, 0x01, 0xA8, 0xBF]).toJSON()).toBe('2255-12-31T23:59:59.000Z');
-        expect(utils.arr2date([0x00, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00]).toJSON()).toBe('2000-01-01T00:00:00.000Z');
-        expect(utils.arr2date([0xFF, 0x0C, 0x1F, 0x01, 0x00, 0x00, 0x80]).toJSON()).toBe('2255-12-31T12:00:00.500Z');
-        expect(utils.arr2date([0x00, 0x01, 0x01, 0x00, 0xA8, 0xBF, 0x40]).toJSON()).toBe('2000-01-01T11:59:59.250Z');
-        expect(utils.arr2date([0xFF, 0x0C, 0x1F, 0x01, 0xA8, 0xBF, 0xC0]).toJSON()).toBe('2255-12-31T23:59:59.750Z');
-        expect(() => utils.arr2date([])).toThrow();
-        expect(() => utils.arr2date([0x100])).toThrow();
-        expect(() => utils.arr2date([0x123, 0x123])).toThrow();
-        expect(() => utils.arr2date([1, 2, 3, 4])).toThrow();
-        expect(() => utils.arr2date([1, 2, 3, 4, 5])).toThrow();
-        expect(() => utils.arr2date([1, 2, 3, 4, 5, 6, 7, 8])).toThrow();
+        const asOf = new Date('2020-01-01T00:00:00.000Z');
+        expect(utils.arr2date([0x00, 0x01, 0x01], asOf).toJSON()).toBe('2000-01-01T00:00:00.000Z');
+        expect(utils.arr2date([0x01, 0x02, 0x03], asOf).toJSON()).toBe('2001-02-03T00:00:00.000Z');
+        expect(utils.arr2date([0x01, 0x0C, 0x1F], asOf).toJSON()).toBe('2001-12-31T00:00:00.000Z');
+        expect(utils.arr2date([0x14, 0x0C, 0x1F], asOf).toJSON()).toBe('2020-12-31T00:00:00.000Z');
+        expect(utils.arr2date([0x15, 0x01, 0x01], asOf).toJSON()).toBe('1921-01-01T00:00:00.000Z');
+        expect(utils.arr2date([0x63, 0x0C, 0x1F], asOf).toJSON()).toBe('1999-12-31T00:00:00.000Z');
+        expect(utils.arr2date([0x00, 0x01, 0x01, 0x00, 0x00, 0x00], asOf).toJSON()).toBe('2000-01-01T00:00:00.000Z');
+        expect(utils.arr2date([0x14, 0x0C, 0x1F, 0x01, 0x00, 0x00], asOf).toJSON()).toBe('2020-12-31T12:00:00.000Z');
+        expect(utils.arr2date([0x15, 0x0C, 0x1F, 0x01, 0x00, 0x00], asOf).toJSON()).toBe('1921-12-31T12:00:00.000Z');
+        expect(utils.arr2date([0x63, 0x0C, 0x1F, 0x01, 0x00, 0x00], asOf).toJSON()).toBe('1999-12-31T12:00:00.000Z');
+        expect(utils.arr2date([0x00, 0x01, 0x01, 0x00, 0xA8, 0xBF], asOf).toJSON()).toBe('2000-01-01T11:59:59.000Z');
+        expect(utils.arr2date([0x63, 0x0C, 0x1F, 0x01, 0xA8, 0xBF], asOf).toJSON()).toBe('1999-12-31T23:59:59.000Z');
+        expect(utils.arr2date([0x00, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00], asOf).toJSON()).toBe('2000-01-01T00:00:00.000Z');
+        expect(utils.arr2date([0x14, 0x0C, 0x1F, 0x01, 0x00, 0x00, 0x20], asOf).toJSON()).toBe('2020-12-31T12:00:00.125Z');
+        expect(utils.arr2date([0x15, 0x0C, 0x1F, 0x01, 0x00, 0x00, 0x60], asOf).toJSON()).toBe('1921-12-31T12:00:00.375Z');
+        expect(utils.arr2date([0x63, 0x0C, 0x1F, 0x01, 0x00, 0x00, 0x80], asOf).toJSON()).toBe('1999-12-31T12:00:00.500Z');
+        expect(utils.arr2date([0x00, 0x01, 0x01, 0x00, 0xA8, 0xBF, 0x40], asOf).toJSON()).toBe('2000-01-01T11:59:59.250Z');
+        expect(utils.arr2date([0x63, 0x0C, 0x1F, 0x01, 0xA8, 0xBF, 0xC0], asOf).toJSON()).toBe('1999-12-31T23:59:59.750Z');
+        expect(() => utils.arr2date([], asOf)).toThrow();
+        expect(() => utils.arr2date([0x100], asOf)).toThrow();
+        expect(() => utils.arr2date([0x123, 0x123], asOf)).toThrow();
+        expect(() => utils.arr2date([1, 2, 3, 4], asOf)).toThrow();
+        expect(() => utils.arr2date([1, 2, 3, 4, 5], asOf)).toThrow();
+        expect(() => utils.arr2date([1, 2, 3, 4, 5, 6, 7, 8], asOf)).toThrow();
+        expect(() => utils.arr2date([100, 1, 1], asOf).toJSON()).toThrow();
+        expect(() => utils.arr2date([0xFF, 1, 1], asOf).toJSON()).toThrow();
+        expect(() => utils.arr2date([12, 0, 1], asOf).toJSON()).toThrow();
+        expect(() => utils.arr2date([12, 13, 1], asOf).toJSON()).toThrow();
+        expect(() => utils.arr2date([12, 0xFF, 1], asOf).toJSON()).toThrow();
     });
     it('date2arr', () => {
-        const fromJSON = (str) => new Date(Date.parse(str));
-        expect(utils.date2arr(fromJSON('2000-01-01T00:00:00.000Z'))).toEqual([0x00, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00]);
-        expect(utils.date2arr(fromJSON('2255-12-31T12:00:00.500Z'))).toEqual([0xFF, 0x0C, 0x1F, 0x01, 0x00, 0x00, 0x80]);
-        expect(utils.date2arr(fromJSON('2000-01-01T11:59:59.250Z'))).toEqual([0x00, 0x01, 0x01, 0x00, 0xA8, 0xBF, 0x40]);
-        expect(utils.date2arr(fromJSON('2255-12-31T23:59:59.750Z'))).toEqual([0xFF, 0x0C, 0x1F, 0x01, 0xA8, 0xBF, 0xC0]);
+        expect(utils.date2arr(json2date('2000-01-01T00:00:00.000Z'))).toEqual([0x00, 0x01, 0x01, 0x0C, 0x00, 0x00, 0x00]);
+        expect(utils.date2arr(json2date('2000-01-01T12:00:00.000Z'))).toEqual([0x00, 0x01, 0x01, 0x0D, 0x00, 0x00, 0x00]);
+        expect(utils.date2arr(json2date('2000-01-02T00:00:00.000Z'))).toEqual([0x00, 0x01, 0x02, 0x00, 0x00, 0x00, 0x00]);
+        expect(utils.date2arr(json2date('2000-01-02T12:00:00.000Z'))).toEqual([0x00, 0x01, 0x02, 0x01, 0x00, 0x00, 0x00]);
+        expect(utils.date2arr(json2date('2000-01-03T00:00:00.000Z'))).toEqual([0x00, 0x01, 0x03, 0x02, 0x00, 0x00, 0x00]);
+        expect(utils.date2arr(json2date('2000-01-03T12:00:00.000Z'))).toEqual([0x00, 0x01, 0x03, 0x03, 0x00, 0x00, 0x00]);
+        expect(utils.date2arr(json2date('2000-01-04T00:00:00.000Z'))).toEqual([0x00, 0x01, 0x04, 0x04, 0x00, 0x00, 0x00]);
+        expect(utils.date2arr(json2date('2000-01-04T12:00:00.000Z'))).toEqual([0x00, 0x01, 0x04, 0x05, 0x00, 0x00, 0x00]);
+        expect(utils.date2arr(json2date('2000-01-05T00:00:00.000Z'))).toEqual([0x00, 0x01, 0x05, 0x06, 0x00, 0x00, 0x00]);
+        expect(utils.date2arr(json2date('2000-01-05T12:00:00.000Z'))).toEqual([0x00, 0x01, 0x05, 0x07, 0x00, 0x00, 0x00]);
+        expect(utils.date2arr(json2date('2000-01-06T00:00:00.000Z'))).toEqual([0x00, 0x01, 0x06, 0x08, 0x00, 0x00, 0x00]);
+        expect(utils.date2arr(json2date('2000-01-06T12:00:00.000Z'))).toEqual([0x00, 0x01, 0x06, 0x09, 0x00, 0x00, 0x00]);
+        expect(utils.date2arr(json2date('2000-01-07T00:00:00.000Z'))).toEqual([0x00, 0x01, 0x07, 0x0A, 0x00, 0x00, 0x00]);
+        expect(utils.date2arr(json2date('2000-01-07T12:00:00.000Z'))).toEqual([0x00, 0x01, 0x07, 0x0B, 0x00, 0x00, 0x00]);
+        expect(utils.date2arr(json2date('2099-12-31T12:00:00.500Z'))).toEqual([0x63, 0x0C, 0x1F, 0x09, 0x00, 0x00, 0x80]);
+        expect(utils.date2arr(json2date('2000-01-01T11:59:59.250Z'))).toEqual([0x00, 0x01, 0x01, 0x0C, 0xA8, 0xBF, 0x40]);
+        expect(utils.date2arr(json2date('1999-12-31T23:59:59.750Z'))).toEqual([0x63, 0x0C, 0x1F, 0x0B, 0xA8, 0xBF, 0xC0]);
+    });
+    it('date2arr and arr2date do the reverse', () => {
+        const asOf = new Date('2020-01-01T00:00:00.000Z');
+        const forthAndBack = (date) => utils.arr2date(utils.date2arr(date), asOf);
+        const forthAndBackAsJson = (str) => forthAndBack(json2date(str)).toJSON();
+        expect(forthAndBackAsJson('2000-01-01T00:00:00.000Z')).toBe('2000-01-01T00:00:00.000Z');
+        expect(forthAndBackAsJson('2001-02-03T00:00:00.000Z')).toBe('2001-02-03T00:00:00.000Z');
+        expect(forthAndBackAsJson('2001-12-31T00:00:00.000Z')).toBe('2001-12-31T00:00:00.000Z');
+        expect(forthAndBackAsJson('2020-12-31T00:00:00.000Z')).toBe('2020-12-31T00:00:00.000Z');
+        expect(forthAndBackAsJson('1921-01-01T00:00:00.000Z')).toBe('1921-01-01T00:00:00.000Z');
+        expect(forthAndBackAsJson('1999-12-31T00:00:00.000Z')).toBe('1999-12-31T00:00:00.000Z');
+        expect(forthAndBackAsJson('2000-01-01T06:30:00.000Z')).toBe('2000-01-01T06:30:00.000Z');
+        expect(forthAndBackAsJson('2020-12-31T13:27:30.000Z')).toBe('2020-12-31T13:27:30.000Z');
+        expect(forthAndBackAsJson('1921-12-31T12:00:00.000Z')).toBe('1921-12-31T12:00:00.000Z');
+        expect(forthAndBackAsJson('1999-12-31T12:00:00.000Z')).toBe('1999-12-31T12:00:00.000Z');
+        expect(forthAndBackAsJson('2000-01-01T11:59:59.000Z')).toBe('2000-01-01T11:59:59.000Z');
+        expect(forthAndBackAsJson('1999-12-31T23:59:59.000Z')).toBe('1999-12-31T23:59:59.000Z');
+        expect(forthAndBackAsJson('2000-01-01T00:00:00.000Z')).toBe('2000-01-01T00:00:00.000Z');
+        expect(forthAndBackAsJson('2020-12-31T12:00:00.125Z')).toBe('2020-12-31T12:00:00.125Z');
+        expect(forthAndBackAsJson('1921-12-31T12:00:00.375Z')).toBe('1921-12-31T12:00:00.375Z');
+        expect(forthAndBackAsJson('1999-12-31T12:00:00.500Z')).toBe('1999-12-31T12:00:00.500Z');
+        expect(forthAndBackAsJson('2000-01-01T11:59:59.250Z')).toBe('2000-01-01T11:59:59.250Z');
+        expect(forthAndBackAsJson('1999-12-31T23:59:59.750Z')).toBe('1999-12-31T23:59:59.750Z');
     });
     it('arr2cardNumber', () => {
         expect(utils.arr2cardNumber([0x00, 0x00, 0x00])).toBe(0x000000);

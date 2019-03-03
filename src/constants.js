@@ -1,3 +1,5 @@
+import {getLookup} from './utils';
+
 export const proto = {
     // Protocol characters
     STX: 0x02,
@@ -29,15 +31,8 @@ export const proto = {
         GET_BDATA2: 0x7A, // Note: response carries '\xCA'!
         SET_BAUD: 0x7E, // 0=4800 baud, 1=38400 baud
     },
-    basicCmdLookup: () => {
-        if (proto._basicCmdLookup) {
-            return proto._basicCmdLookup;
-        }
-        proto._basicCmdLookup = {};
-        Object.keys(proto.basicCmd).map((k) => {
-            proto._basicCmdLookup[proto.basicCmd[k]] = k;
-        });
-        return proto._basicCmdLookup;
+    get basicCmdLookup() {
+        return getLookup(proto.basicCmd, (value) => [value]);
     },
 
     // Extended protocol commands
@@ -71,15 +66,8 @@ export const proto = {
         SIGNAL: 0xF9, // 02 F9 (number of signals) (CRC16) 03
         SET_BAUD: 0xFE, // \x00=4800 baud, \x01=38400 baud
     },
-    cmdLookup: () => {
-        if (proto._cmdLookup) {
-            return proto._cmdLookup;
-        }
-        proto._cmdLookup = {};
-        Object.keys(proto.cmd).map((k) => {
-            proto._cmdLookup[proto.cmd[k]] = k;
-        });
-        return proto._cmdLookup;
+    get cmdLookup() {
+        return getLookup(proto.cmd, (value) => [value]);
     },
 
     // Protocol Parameters

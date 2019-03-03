@@ -6,6 +6,7 @@ export class SiMainStationSimulator {
         this.storage = storage;
         this.isMaster = true;
         this.dateOffset = 0;
+        this.currentCard = null;
     }
 
     dispatchMessage(message) {
@@ -22,8 +23,18 @@ export class SiMainStationSimulator {
         return new Date(Date.now() + this.dateOffset);
     }
 
+    insertCard(type, storage) {
+        console.warn(type.description, storage);
+        this.currentCard = storage;
+        const cmd = si.constants.proto.cmd;
+        this.dispatchMessage({
+            command: cmd.SI5_DET,
+            parameters: [...this.getCode(), 0x00, 0x04, 0x19, 0x02],
+        });
+    }
+
     sendMessage(message) {
-        console.warn(message);
+        console.warn(si.utils.prettyMessage(message));
         const cmd = si.constants.proto.cmd;
         if (message.command === cmd.SIGNAL) {
             const numSignal = message.parameters[0];
@@ -48,10 +59,10 @@ export class SiMainStationSimulator {
                 parameters: [...this.getCode(), ...si.utils.date2arr(this.getDateTime())],
             });
         } else if (message.command === cmd.SET_TIME) {
-            const newTime = si.utils.arr2date(message.parameters.slice(0, 7));
+            const _newTime = si.utils.arr2date(message.parameters.slice(0, 7));
             this.dispatchMessage({
                 command: cmd.SET_TIME,
-                parameters: [...this.getCode(), ...si.utils.date2arr(newTime)],
+                parameters: [...this.getCode(), ...si.utils.date2arr(this.getDateTime())],
             });
         } else if (message.command === cmd.GET_SYS_VAL) {
             const offset = message.parameters[0];
@@ -69,6 +80,11 @@ export class SiMainStationSimulator {
             this.dispatchMessage({
                 command: cmd.SET_SYS_VAL,
                 parameters: [...this.getCode(), offset],
+            });
+        } else if (message.command === cmd.GET_SI5) {
+            this.dispatchMessage({
+                command: cmd.GET_SI5,
+                parameters: [...this.getCode(), ...(this.currentCard ? this.currentCard : [])],
             });
         } else if (message.command === cmd.ERASE_BDATA) {
             this.dispatchMessage({
