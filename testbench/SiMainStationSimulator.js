@@ -6,7 +6,15 @@ export class SiMainStationSimulator {
         this.storage = storage;
         this.isMaster = true;
         this.dateOffset = 0;
-        this.currentCard = null;
+        this.currentCardSimulator = null;
+    }
+
+    dispatchCardMessage(cardMessage) {
+        const message = {
+            command: cardMessage.command,
+            parameters: [...this.getCode(), ...cardMessage.parameters],
+        };
+        this.dispatchMessage(message);
     }
 
     dispatchMessage(message) {
@@ -23,14 +31,12 @@ export class SiMainStationSimulator {
         return new Date(Date.now() + this.dateOffset);
     }
 
-    insertCard(type, storage) {
-        console.warn(type.description, storage);
-        this.currentCard = storage;
-        const cmd = si.constants.proto.cmd;
-        this.dispatchMessage({
-            command: cmd.SI5_DET,
-            parameters: [...this.getCode(), 0x00, 0x04, 0x19, 0x02],
-        });
+    insertCard(cardSimulator) {
+        console.warn(cardSimulator.type.description, cardSimulator.storage);
+        this.currentCardSimulator = cardSimulator;
+        this.currentCardSimulator.onInsert(
+            (cardMessage) => this.dispatchCardMessage(cardMessage),
+        );
     }
 
     sendMessage(message) {
@@ -81,11 +87,15 @@ export class SiMainStationSimulator {
                 command: cmd.SET_SYS_VAL,
                 parameters: [...this.getCode(), offset],
             });
-        } else if (message.command === cmd.GET_SI5) {
-            this.dispatchMessage({
-                command: cmd.GET_SI5,
-                parameters: [...this.getCode(), ...(this.currentCard ? this.currentCard : [])],
-            });
+        } else if (
+            message.command === cmd.GET_SI5
+            || message.command === cmd.GET_SI6
+            || message.command === cmd.GET_SI8
+        ) {
+            this.currentCardSimulator.onRequest(
+                message,
+                (cardMessage) => this.dispatchCardMessage(cardMessage),
+            );
         } else if (message.command === cmd.ERASE_BDATA) {
             this.dispatchMessage({
                 command: cmd.ERASE_BDATA,
