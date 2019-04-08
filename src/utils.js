@@ -11,7 +11,7 @@ export const isByte = (byte) => (
 
 export const isByteArr = (arr) => (
     Array.isArray(arr) &&
-    arr.filter((e) => !isByte(e)).length === 0
+    !arr.some((e) => !isByte(e))
 );
 
 export const assertIsByteArr = (arr) => {
@@ -206,6 +206,30 @@ export const getLookup = (mapping, getLookupKeys) => {
         });
     return mapping._lookup;
 };
+
+export const addEventListener = (registryDict, type, callback) => {
+    const listeners = registryDict[type] || [];
+    registryDict[type] = [...listeners, callback];
+};
+
+export const removeEventListener = (registryDict, type, callback) => {
+    const listeners = registryDict[type] || [];
+    registryDict[type] = listeners.filter((listener) => listener !== callback);
+};
+
+export const dispatchEvent = (registryDict, type, eventProperties = {}) => {
+    const listeners = registryDict[type] || [];
+    const eventToDispatch = new Event(type);
+    Object.assign(eventToDispatch, eventProperties);
+    listeners.forEach((listener) => {
+        listener(eventToDispatch);
+    });
+    return !eventToDispatch.defaultPrevented;
+};
+
+export const waitFor = (milliseconds, value) => new Promise((resolve) => {
+    setTimeout(() => resolve(value), milliseconds);
+});
 
 export const processSiProto = (inputData) => {
     let command, parameters;

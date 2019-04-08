@@ -1,1 +1,1 @@
-export {default as WebUsb} from './WebUsb';
+export {getWebUsbSiDevice} from './WebUsbSiDevice';

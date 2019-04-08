@@ -57,14 +57,13 @@ SendTask.State = {
 };
 
 export class SiMainStation extends SiStation {
-    constructor(device, state = SiMainStation.State.Closed) {
+    constructor(device, communicationTarget = SiMainStation.CommunicationTarget.Unknown) {
         super(null);
         this.mainStation = this;
         this.device = device;
         this.card = false;
         this.onMessage = false;
         this.onRemoved = false;
-        this.onStateChanged = false;
         this.onCardInserted = false;
         this.onCard = false;
         this.onCardRemoved = false;
@@ -72,17 +71,17 @@ export class SiMainStation extends SiStation {
         this._respBuffer = [];
         this._deviceOpenTimer = false;
         this._deviceOpenNumErrors = 0;
-        this.state = state;
-        if (!SiMainStation.allByDevice[device.ident]) {
-            SiMainStation.allByDevice[device.ident] = this;
-            try {
-                SiMainStation.onAdded(this);
-            } catch (err) {
-                // ignore
-            }
-        }
-        if (this.state === SiMainStation.State.Closed) {
-            this._deviceOpen();
+        this.communicationTarget = communicationTarget;
+        // if (!SiMainStation.allByDevice[device.ident]) {
+        //     SiMainStation.allByDevice[device.ident] = this;
+        //     try {
+        //         SiMainStation.onAdded(this);
+        //     } catch (err) {
+        //         // ignore
+        //     }
+        // }
+        if (this.communicationTarget === SiMainStation.CommunicationTarget.Unknown) {
+            this.setCommunicationTarget(SiMainStation.CommunicationTarget.Direct);
         }
     }
 
@@ -98,59 +97,47 @@ export class SiMainStation extends SiStation {
         }
     }
 
-    _changeState(newState) {
-        this.state = newState;
-        if (this.onStateChanged) {
-            this.onStateChanged(this.state);
+    setCommunicationTarget(newCommunicationTarget) {
+        if (newCommunicationTarget !== this.communicationTarget) {
+            this.communicationTarget = SiMainStation.CommunicationTarget.Switching;
+            // TODO: dispatchEvent
+            this._sendCommand(proto.cmd.GET_MS, [0x00], 1, 5)
+                .then(() => {
+                    this.communicationTarget = SiMainStation.CommunicationTarget.Switching;
+                    // TODO: dispatchEvent
+                })
+                .catch((err) => {
+                    console.error(`Error switching SiMainStation communication target: ${err}`);
+                    this.communicationTarget = SiMainStation.CommunicationTarget.Unknown;
+                    // TODO: dispatchEvent
+                });
         }
     }
 
-    _deviceOpen() {
-        this._changeState(SiMainStation.State.Opening);
-        this.device.driver.open(this)
-            .then(() => {
-                this._changeState(SiMainStation.State.Starting);
-                this._deviceOpenNumErrors = 0;
-                this._sendCommand(proto.cmd.GET_MS, [0x00], 1, 5)
-                    .then(() => {
-                        this._changeState(SiMainStation.State.Ready);
-                    })
-                    .catch((err) => {
-                        this._changeState(SiMainStation.State.Closed);
-                        console.error('Could not communicate after having opened SiMainStation: ', err);
-                        this._retryDeviceOpen();
-                    });
-            })
-            .catch((err) => {
-                console.error('Could not open SiMainStation: ', err);
-                this._retryDeviceOpen();
-            });
-    }
-
-    _retryDeviceOpen() {
-        var scheduleReopen = () => {
-            if (!this._deviceOpenTimer) {
-                var timeout = 100;
-                for (var i = 0; i < this._deviceOpenNumErrors && i < 10; i++) { timeout = timeout * 2; }
-                this._deviceOpenTimer = setTimeout(() => {
-                    this._deviceOpenTimer = false;
-                    this._deviceOpen();
-                }, timeout);
-                this._deviceOpenNumErrors++;
-            }
-        };
-        this.device.driver.close(this)
-            .then(() => {
-                scheduleReopen();
-            })
-            .catch((err) => {
-                console.error('Could not close device: ', err);
-                scheduleReopen();
-            });
-    }
+    // _retryDeviceOpen() {
+    //     var scheduleReopen = () => {
+    //         if (!this._deviceOpenTimer) {
+    //             var timeout = 100;
+    //             for (var i = 0; i < this._deviceOpenNumErrors && i < 10; i++) { timeout = timeout * 2; }
+    //             this._deviceOpenTimer = setTimeout(() => {
+    //                 this._deviceOpenTimer = false;
+    //                 this._deviceOpen();
+    //             }, timeout);
+    //             this._deviceOpenNumErrors++;
+    //         }
+    //     };
+    //     this.device.close()
+    //         .then(() => {
+    //             scheduleReopen();
+    //         })
+    //         .catch((err) => {
+    //             console.error('Could not close device: ', err);
+    //             scheduleReopen();
+    //         });
+    // }
 
     _logReceive(bufView) {
-        console.debug(`<= (${this.device.driver.name}; ${this._respBuffer.length})\n${prettyHex(bufView, 16)}`);
+        console.debug(`<= (${this.device.name}; ${this._respBuffer.length})\n${prettyHex(bufView, 16)}`);
     }
 
     _processReceiveBuffer() {
@@ -260,9 +247,9 @@ export class SiMainStation extends SiStation {
     }
 
     _processSendQueue() {
-        if (this.state !== SiMainStation.State.Starting && this.state !== SiMainStation.State.Ready) {
-            return setTimeout(() => this._processSendQueue(), 100);
-        }
+        // if (this.state !== SiMainStation.State.Starting && this.state !== SiMainStation.State.Ready) {
+        //     return setTimeout(() => this._processSendQueue(), 100);
+        // }
         if (this._sendQueue.length === 0 || this._sendQueue[0].state === SendTask.State.SENT) {
             return null;
         }
@@ -277,9 +264,9 @@ export class SiMainStation extends SiStation {
         for (let i = 0; i < bstr.length; i++) {
             bytes[i] = bstr.charCodeAt(i);
         }
-        this.device.driver.send(this, bytes.buffer)
+        this.device.send(bytes.buffer)
             .then(() => {
-                console.debug(`=> (${this.device.driver.name})\n${prettyHex(bstr, 16)}`);
+                console.debug(`=> (${this.device.name})\n${prettyHex(bstr, 16)}`);
                 if (sendTask.numResponses <= 0) {
                     sendTask.succeed();
                 }
@@ -334,7 +321,7 @@ export class SiMainStation extends SiStation {
             clearTimeout(this._sendQueue[0].timeoutTimer);
         }
         clearTimeout(this._deviceOpenTimer);
-        delete SiMainStation.allByDevice[this.device.ident];
+        // delete SiMainStation.allByDevice[this.device.ident];
         try {
             SiMainStation.onRemoved(this);
         } catch (err) {
@@ -348,54 +335,9 @@ export class SiMainStation extends SiStation {
     }
 }
 
-SiMainStation.State = { // TODO: maybe include instructions in description?
-    Closed: 0,
-    Opening: 1,
-    Starting: 2,
-    Ready: 3,
+SiMainStation.CommunicationTarget = {
+    Unknown: 0,
+    MainStation: 1,
+    CoupledStation: 2,
+    Switching: 3,
 };
-
-SiMainStation.drivers = {};
-SiMainStation.allByDevice = {};
-SiMainStation.all = () => {
-    var arr = [];
-    Object.keys(SiMainStation.allByDevice).map((deviceIdent) => {
-        arr.push(SiMainStation.allByDevice[deviceIdent]);
-    });
-    return arr;
-};
-SiMainStation.startDeviceDetection = () => {
-    var runDeviceDetection = () => {
-        Object.keys(SiMainStation.drivers).map((k) => {
-            try {
-                var driver = new SiMainStation.drivers[k]();
-                if (driver && driver.name && driver.detect && driver.send && driver.open && driver.close) {
-                    driver.detect(SiMainStation);
-                } else {
-                    console.warn('Not a driver:', k);
-                }
-            } catch (err) {
-                console.warn('Error in device detection:', err);
-            }
-        });
-        if (SiMainStation.detectionTimeout) { clearTimeout(SiMainStation.detectionTimeout); }
-        SiMainStation.detectionTimeout = setTimeout(runDeviceDetection, 1000);
-    };
-    runDeviceDetection();
-};
-SiMainStation.newDevice = () => {
-    Object.keys(SiMainStation.drivers).map((k) => {
-        try {
-            var driver = new SiMainStation.drivers[k]();
-            if (driver && driver.name && driver.detect && driver.send && driver.open && driver.close) {
-                driver.new(SiMainStation);
-            } else {
-                console.warn('Not a driver:', k);
-            }
-        } catch (err) {
-            console.warn('Error in device detection:', err);
-        }
-    });
-};
-SiMainStation.onAdded = (_ms) => undefined;
-SiMainStation.onRemoved = (_ms) => undefined;

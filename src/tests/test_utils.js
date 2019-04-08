@@ -232,4 +232,40 @@ describe('utils', () => {
         expect(numCallsToLookupKeyGetter).toBe(0);
         expect(lookup2).toEqual(lookup1);
     });
+    it('event dispatching', () => {
+        const registryDict = {};
+        const callsToCallback = [];
+        const callback = (e) => callsToCallback.push(e);
+        utils.addEventListener(registryDict, 'myEvent', callback);
+        expect(registryDict).toEqual({'myEvent': [callback]});
+        expect(callsToCallback.length).toBe(0);
+        const eventObject = {test: true};
+        utils.dispatchEvent(registryDict, 'myEvent', {'eventObject': eventObject});
+        expect(registryDict).toEqual({'myEvent': [callback]});
+        expect(callsToCallback.length).toBe(1);
+        expect(callsToCallback[0].type).toBe('myEvent');
+        expect(callsToCallback[0].eventObject).toEqual(eventObject);
+        utils.removeEventListener(registryDict, 'myEvent', callback);
+        expect(registryDict).toEqual({'myEvent': []});
+        expect(callsToCallback.length).toBe(1);
+        utils.dispatchEvent(registryDict, 'myEvent', {'eventObject': eventObject});
+        expect(registryDict).toEqual({'myEvent': []});
+        expect(callsToCallback.length).toBe(1);
+    });
+    it('waitFor', (done) => {
+        let step = 0;
+        utils.waitFor(0, 'all')
+            .then((resultNow) => {
+                step += 1;
+                expect(resultNow).toBe('all');
+                utils.waitFor(1, 'alligator')
+                    .then((resultLater) => {
+                        step += 1;
+                        expect(resultLater).toBe('alligator');
+                        done();
+                    });
+                expect(step).toBe(1);
+            });
+        expect(step).toBe(0);
+    });
 });

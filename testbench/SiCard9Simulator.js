@@ -5,7 +5,7 @@ export class SiCard9Simulator extends SiCardSimulator {
     constructor(storage) {
         if (
             storage.length !== 8
-            || storage.filter((arr) => arr.length !== 128).length > 0
+            || storage.some((arr) => arr.length !== 128)
         ) {
             throw new Error('SiCard9Simulator needs 8 x 128 byte storage');
         }
