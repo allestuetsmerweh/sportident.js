@@ -17,16 +17,48 @@ jobs:
           keys:
           - v1-dependencies-{{ checksum "package.json" }}
           - v1-dependencies-
-
       - run: npm install
-
       - save_cache:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
 
-      - run: npm run ci
+      - run: npm run eslint
+      - run: npm run karma
 
-      - store_artifacts:
-          path: build/
-          destination: build
+      - run: npm run webpack-src
+      - run: npm run webpack-testbench
+      - run: npm run build-docs
+
+      - persist_to_workspace:
+          root: docs
+          paths: testbench
+
+  docs-deploy:
+    docker:
+      - image: circleci/node:7.10
+    steps:
+      - checkout
+      - attach_workspace:
+          at: docs
+      - run:
+          name: Install and configure dependencies
+          command: |
+            npm install -g --silent gh-pages@2.0.1
+            git config user.email "ci-build@hatt.style"
+            git config user.name "ci-build"
+      - run:
+          name: Deploy docs to gh-pages branch
+          command: gh-pages --dist docs/testbench
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - build
+      - docs-deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
