@@ -39,17 +39,28 @@ jobs:
       - image: circleci/node:7.10
     steps:
       - checkout
+
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "package.json" }}
+          - v1-dependencies-
+      - run: npm install
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+
       - attach_workspace:
           at: docs
+
       - run:
-          name: Install and configure dependencies
+          name: Configure Git
           command: |
-            npm install -g --silent gh-pages@2.0.1
             git config user.email "ci-build@hatt.style"
             git config user.name "ci-build"
       - run:
           name: Deploy docs to gh-pages branch
-          command: gh-pages --dist docs/testbench
+          command: ./node_modules/gh-pages/bin/gh-pages.js --dist docs/testbench
 
 workflows:
   version: 2
