@@ -28,6 +28,7 @@ export const getWebUsbSiDevice = (navigatorArg) => {
                         return device.open();
                     })
                     .then((openedDevice) => {
+                        this.dispatchEvent('add', {webUsbSiDevice: openedDevice});
                         resolve(openedDevice);
                     })
                     .catch((error) => reject(error));
@@ -63,7 +64,7 @@ export const getWebUsbSiDevice = (navigatorArg) => {
                 const newDevice = this.getOrCreate(event.device);
                 newDevice.open()
                     .then(() => {
-                        this.dispatchEvent('add', newDevice);
+                        this.dispatchEvent('add', {webUsbSiDevice: newDevice});
                     });
             };
             navigatorArg.usb.addEventListener('connect', onConnectCallback);
@@ -73,7 +74,7 @@ export const getWebUsbSiDevice = (navigatorArg) => {
                 }
                 const removedDevice = this.getOrCreate(event.device);
                 this.remove(removedDevice);
-                this.dispatchEvent('remove', removedDevice);
+                this.dispatchEvent('remove', {webUsbSiDevice: removedDevice});
             };
             navigatorArg.usb.addEventListener('disconnect', onDisconnectCallback);
             this._autodetectionCallbacks = {
@@ -113,6 +114,10 @@ export const getWebUsbSiDevice = (navigatorArg) => {
             this.webUsbDevice = webUsbDevice;
             this.name = `WebUsbSiDevice(${webUsbDevice.serialNumber})`;
             this._mainStation = null;
+        }
+
+        get ident() {
+            return `${this.constructor.name}-${this.webUsbDevice.serialNumber}`;
         }
 
         open() {

@@ -7,9 +7,9 @@ import {SiCard8Simulator} from '../SiCard8Simulator';
 import {SiCard9Simulator} from '../SiCard9Simulator';
 import {SiCard10Simulator} from '../SiCard10Simulator';
 
-export const simulateCommand = (context) => {
+export const simulateCommand = ({userLine, logLine, userInput}) => {
     const usage = si.utils.timeoutResolvePromise('Usage: simulate [what] [URL]<br />e.g. simulate BSM8 unix:///tmp/vwin_com1');
-    const res = /simulate ([^\s]+) ([^\s]+)/.exec(context.userLine);
+    const res = /simulate ([^\s]+) ([^\s]+)/.exec(userLine);
     if (res === null) {
         return usage;
     }
@@ -393,9 +393,9 @@ export const simulateCommand = (context) => {
         };
 
         const onSubCommand = (e) => {
-            const userSubLine = context.userInput.text();
-            context.logLine(`> ${userSubLine}`);
-            context.userInput.html('');
+            const userSubLine = userInput.text();
+            logLine(`> ${userSubLine}`);
+            userInput.html('');
             e.preventDefault();
             const subResIn = /in ([^\s]+)/.exec(userSubLine);
             const subResOut = /out/.exec(userSubLine);
@@ -405,15 +405,15 @@ export const simulateCommand = (context) => {
                     return;
                 }
                 const simulator = cardSimulators[simulatorName];
-                context.logLine('Insert Card');
+                logLine('Insert Card');
                 siMainStationSimulator.insertCard(simulator);
             }
             if (subResOut) {
-                context.logLine(`out ${subResOut}`);
+                logLine(`out ${subResOut}`);
             }
         };
 
-        context.userInput.keyup((e) => {
+        userInput.keyup((e) => {
             if (e.keyCode === 67 && e.ctrlKey && !e.altKey && !e.metaKey && !e.shiftKey) {
                 onCtrlC();
             } else if (e.keyCode === 13) {

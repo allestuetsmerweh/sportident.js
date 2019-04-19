@@ -1,5 +1,5 @@
-build/*
-docs/*
-node_modules/*
-testbench/lib/*
-testbench/lib/*
+docs/
+node_modules/
+src/build/
+testbench/build/
+testbench/websocket/

@@ -1,8 +1,8 @@
 import si from '../../src/index';
 
-export const sendCommand = (context) => {
+export const sendCommand = ({userLine, mainStation}) => {
     const usage = si.utils.timeoutResolvePromise('Usage: send [command]: [parameters]: [numResp]');
-    const res = /send\s+([0-9a-fA-F\s]+)\s*:\s*([0-9a-fA-F\s]+)\s*:\s*([0-9]+)/.exec(context.userLine);
+    const res = /send\s+([0-9a-fA-F\s]+)\s*:\s*([0-9a-fA-F\s]+)\s*:\s*([0-9]+)/.exec(userLine);
     if (res === null) {
         return usage;
     }
@@ -24,6 +24,6 @@ export const sendCommand = (context) => {
         parameters.push(parseInt(parametersStr.slice(i, i + 2), 16));
     }
     const numResp = res.length > 3 ? parseInt(res[3], 10) : 0;
-    return context.mainStation._sendCommand(command, parameters, numResp)
+    return mainStation._sendCommand(command, parameters, numResp)
         .then((respParameters) => `Answer: ${respParameters}`);
 };

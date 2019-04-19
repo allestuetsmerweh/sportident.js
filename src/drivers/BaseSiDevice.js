@@ -23,6 +23,10 @@ export class BaseSiDevice {
         this._eventListeners = {};
     }
 
+    get ident() {
+        throw new Error('Subclasses of BaseSiDevice must implement get ident()');
+    }
+
     addEventListener(type, callback) {
         return utils.addEventListener(this._eventListeners, type, callback);
     }

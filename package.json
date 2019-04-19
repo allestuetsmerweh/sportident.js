@@ -13,7 +13,8 @@
     "eslint": "./node_modules/eslint/bin/eslint.js .",
     "karma": "./node_modules/karma/bin/karma start karma.config.js",
     "start-testbench": "cd testbench/ && webpack-dev-server",
-    "testbench": "sh run-testbench.sh"
+    "testbench": "sh run-testbench.sh",
+    "tests": "npm run eslint && npm run karma"
   },
   "repository": {
     "type": "git",
@@ -33,9 +34,11 @@
   "devDependencies": {
     "@babel/core": "^7.4.3",
     "@babel/preset-env": "^7.4.3",
+    "@babel/preset-react": "^7.0.0",
     "babel-loader": "^8.0.5",
     "css-loader": "^2.1.1",
     "eslint": "^5.16.0",
+    "eslint-plugin-react": "^7.12.4",
     "gh-pages": "^2.0.1",
     "html-loader": "^0.5.5",
     "jasmine-core": "^3.4.0",
@@ -50,6 +53,9 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.4.3",
-    "jquery": "^3.4.0"
+    "immutable": "^4.0.0-rc.12",
+    "prop-types": "^15.7.2",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
   }
 }

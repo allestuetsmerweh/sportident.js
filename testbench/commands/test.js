@@ -1,12 +1,11 @@
 import si from '../../src/index';
 
 const tests = {
-    'card': (context) => {
-        const mainStation = context.mainStation;
+    'card': ({logLine, mainStation}) => {
         let fixedSiNumber = null;
         const samples = {};
         const _wait = (seconds) => () => new Promise((resolve) => {
-            context.logLine('Please wait...');
+            logLine('Please wait...');
             setTimeout(resolve, seconds * 1000);
         });
         let cardState = '';
@@ -14,7 +13,7 @@ const tests = {
             .then(() => mainStation.mode(mode))
             .then(() => mainStation.autoSend(1))
             .then(() => {
-                context.logLine(`${actionName} card...`);
+                logLine(`${actionName} card...`);
                 return new Promise((resolve) => {
                     mainStation.resetCardCallbacks();
                     mainStation.onCardRemoved = (card) => {
@@ -23,7 +22,7 @@ const tests = {
                         }
                         if (fixedSiNumber === card.cardNumber) {
                             mainStation.resetCardCallbacks();
-                            context.logLine(`${actionName} ${card.type()} succeeded: ${card.cardNumber}`);
+                            logLine(`${actionName} ${card.type()} succeeded: ${card.cardNumber}`);
                             if (mode === si.Station.Mode.Clear) {
                                 cardState = '';
                             } else {
@@ -31,7 +30,7 @@ const tests = {
                             }
                             setTimeout(resolve, 1);
                         } else {
-                            context.logLine(`Other ${card.type()}: ${card.cardNumber}`);
+                            logLine(`Other ${card.type()}: ${card.cardNumber}`);
                         }
                     };
                 });
@@ -40,7 +39,7 @@ const tests = {
             .then(() => mainStation.mode(si.Station.Mode.Readout))
             .then(() => mainStation.code(10))
             .then(() => {
-                context.logLine('Read card...');
+                logLine('Read card...');
                 return new Promise((resolve) => {
                     mainStation.resetCardCallbacks();
                     mainStation.onCard = (card) => {
@@ -48,10 +47,10 @@ const tests = {
                             fixedSiNumber = card.cardNumber;
                         }
                         if (fixedSiNumber === card.cardNumber) {
-                            context.logLine(`${card.type()} read: ${card.cardNumber}`);
+                            logLine(`${card.type()} read: ${card.cardNumber}`);
                             samples[cardState] = card.toDict();
-                            context.logLine(cardState);
-                            context.logLine(card.toHtml());
+                            logLine(cardState);
+                            logLine(card.toHtml());
                             mainStation.onCardRemoved = (removedCard) => {
                                 if (fixedSiNumber === removedCard.cardNumber) {
                                     mainStation.resetCardCallbacks();
@@ -59,7 +58,7 @@ const tests = {
                                 }
                             };
                         } else {
-                            context.logLine(`Other ${card.type()}: ${card.cardNumber}`);
+                            logLine(`Other ${card.type()}: ${card.cardNumber}`);
                         }
                     };
                 });
@@ -156,7 +155,7 @@ const tests = {
             .then(readoutCard('clear-31'))
             .then(readoutCard('clear-[31-70]'))
             .then(() => {
-                context.logLine('Finished!');
+                logLine('Finished!');
                 console.log('SAMPLES', samples);
             });
     },
@@ -170,9 +169,9 @@ export const testCommand = (context) => {
     }
     const what = res[1];
     if (!(what in tests)) {
-        return si.utils.timeoutResolvePromise(
-            `No such test: ${what}<br />Available tests: ${Object.keys(tests)}`,
-        );
+        context.logLine(`No such test: ${what}`);
+        context.logLine(`Available tests: ${Object.keys(tests)}`);
+        return si.utils.timeoutResolvePromise();
     }
     return tests[what](context);
 };
