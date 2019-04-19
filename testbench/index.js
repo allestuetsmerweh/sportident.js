@@ -14,7 +14,7 @@ export default () => indexHtml.replace(
 const Testbench = () => {
     const getIdentFromWindowHash = (windowHash) => {
         const res = /^#?(\S+)$/.exec(windowHash);
-        return res[1];
+        return res && res[1];
     };
     const [windowHash, setWindowHash] = React.useState(window.location.hash);
     const {webUsbSiDevices, addNewDevice} = React.useContext(WebUsbSiDevicesContext);
