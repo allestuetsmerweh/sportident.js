@@ -18,7 +18,10 @@ export const Terminal = (props) => {
         userInputElem.current.focus();
     }, []);
 
-    const log = (newContent) => setLogContent((prevLogContent) => [...prevLogContent, newContent]);
+    const log = (newContent) => setLogContent((prevLogContent) => [
+        ...prevLogContent,
+        <span key={`log-entry-${prevLogContent.length}`}>{newContent}</span>,
+    ]);
     const logLine = (text) => log(<div>{text}</div>);
 
     React.useMemo(() => {
@@ -32,7 +35,7 @@ export const Terminal = (props) => {
                             <td>{info[key]}</td>
                         </tr>
                     ));
-                log(<table>{lines}</table>);
+                log(<table><tbody>{lines}</tbody></table>);
             });
         }
     }, [props.selectedDevice]);

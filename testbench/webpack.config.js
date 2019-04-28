@@ -47,7 +47,7 @@ module.exports = [
             }),
         ],
         devServer: {
-            contentBase: path.join(__dirname, 'testbench'),
+            contentBase: __dirname,
             publicPath: '/',
             compress: true,
             inline: false,

@@ -1,10 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import indexHtml from './index.html';
 import stylesCss from './styles.css';
-import {WebUsbSiDevicesContext, WebUsbSiDevicesProvider} from './WebUsbSiDevicesContext';
 import {MainStationList} from './MainStationList';
 import {Terminal} from './Terminal';
+import {WebUsbSiDevicesContext} from './WebUsbSiDevicesContext';
+import si from '../src/index';
 
 export default () => indexHtml.replace(
     '<!--INSERT_CSS_HERE-->',
@@ -43,13 +45,30 @@ const Testbench = () => {
     );
 };
 
+const WebUsbSiDeviceProvider = (props) => {
+    const WebUsbSiDevice = React.useMemo(() => si.drivers.getWebUsbSiDevice(window.navigator), []);
+    const webUsbSiDevices = si.react.useSiDevices(WebUsbSiDevice);
+    const providedValue = {
+        addNewDevice: () => WebUsbSiDevice.detect(),
+        webUsbSiDevices: webUsbSiDevices,
+    };
+    return (
+        <WebUsbSiDevicesContext.Provider value={providedValue}>
+            {props.children}
+        </WebUsbSiDevicesContext.Provider>
+    );
+};
+WebUsbSiDeviceProvider.propTypes = {
+    children: PropTypes.node,
+};
+
 if (window.addEventListener) {
     window.addEventListener('load', () => {
         ReactDOM.render(
             (
-                <WebUsbSiDevicesProvider>
+                <WebUsbSiDeviceProvider>
                     <Testbench />
-                </WebUsbSiDevicesProvider>
+                </WebUsbSiDeviceProvider>
             ),
             window.document.getElementById('root'),
         );
