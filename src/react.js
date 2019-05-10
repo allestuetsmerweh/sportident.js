@@ -1,43 +1,49 @@
 import React from 'react';
 import Immutable from 'immutable';
 
-export const useSiDevices = (siDeviceClass) => {
-    const [siDevices, setSiDevices] = React.useState(Immutable.Map({}));
-    React.useEffect(() => {
+export const useSiDevices = (siDeviceClass, useReact = React) => {
+    const [siDevices, setSiDevices] = useReact.useState(Immutable.Map({}));
+    useReact.useEffect(() => {
         const onDeviceAdd = (event) => {
             const device = event.webUsbSiDevice;
-            if (!siDevices.has(device.ident)) {
-                const newSiDevices = siDevices.set(device.ident, device);
-                console.log('add');
-                setSiDevices(newSiDevices);
-            }
+            setSiDevices((currentSiDevices) => {
+                if (!currentSiDevices.has(device.ident)) {
+                    console.log('useSiDevices: add');
+                    return currentSiDevices.set(device.ident, device);
+                }
+                return currentSiDevices;
+            });
         };
         const onDeviceRemove = (event) => {
             const device = event.webUsbSiDevice;
-            if (siDevices.has(device.ident)) {
-                const newSiDevices = siDevices.delete(device.ident);
-                console.log('remove');
-                setSiDevices(newSiDevices);
-            }
+            setSiDevices((currentSiDevices) => {
+                if (currentSiDevices.has(device.ident)) {
+                    console.log('useSiDevices: remove');
+                    return currentSiDevices.delete(device.ident);
+                }
+                return currentSiDevices;
+            });
         };
         siDeviceClass.addEventListener('add', onDeviceAdd);
         siDeviceClass.addEventListener('remove', onDeviceRemove);
         siDeviceClass.startAutoDetection().then((devices) => {
-            const existingIdentSet = Immutable.Set.fromKeys(siDevices);
-            const newIdentSet = Immutable.Set(devices.map((device) => device.ident));
-            if (!newIdentSet.equals(existingIdentSet)) {
-                console.log('reset');
-                const newSiDevices = Immutable.Map(devices.map((device) => [device.ident, device]));
-                setSiDevices(newSiDevices);
-            }
+            setSiDevices((currentSiDevices) => {
+                const existingIdentSet = Immutable.Set.fromKeys(currentSiDevices);
+                const newIdentSet = Immutable.Set(devices.map((device) => device.ident));
+                if (!newIdentSet.equals(existingIdentSet)) {
+                    console.log('useSiDevices: reset');
+                    return Immutable.Map(devices.map((device) => [device.ident, device]));
+                }
+                return currentSiDevices;
+            });
         });
-        console.log('setup');
+        console.log('useSiDevices: setup');
         return () => {
-            console.log('cleanup');
+            console.log('useSiDevices: cleanup');
             siDeviceClass.stopAutoDetection();
             siDeviceClass.removeEventListener('add', onDeviceAdd);
             siDeviceClass.removeEventListener('remove', onDeviceRemove);
         };
-    }, [siDevices]);
+    }, []);
     return siDevices;
 };

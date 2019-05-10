@@ -1,6 +1,5 @@
 import * as utils from '../utils';
 import {BaseSiDevice} from './BaseSiDevice';
-import {SiMainStation} from '../SiMainStation';
 
 const siConfiguration = 1;
 const siInterface = 0;
@@ -47,7 +46,7 @@ export const getWebUsbSiDevice = (navigatorArg) => {
                         const initialDevices = webUsbDevices
                             .filter((webUsbDevice) => matchesSiDeviceFilters(webUsbDevice.vendorId, webUsbDevice.productId))
                             .map((webUsbDevice) => this.getOrCreate(webUsbDevice));
-                        Promise.all(initialDevices.map((initialDevice) => initialDevice.open()))
+                        Promise.all(initialDevices.map((initialDevice) => initialDevice.autoOpen()))
                             .then(() => {
                                 resolve(initialDevices);
                             });
@@ -62,7 +61,7 @@ export const getWebUsbSiDevice = (navigatorArg) => {
                     return;
                 }
                 const newDevice = this.getOrCreate(event.device);
-                newDevice.open()
+                newDevice.autoOpen()
                     .then(() => {
                         this.dispatchEvent('add', {webUsbSiDevice: newDevice});
                     });
@@ -88,6 +87,18 @@ export const getWebUsbSiDevice = (navigatorArg) => {
                 console.warn('WebUsbSiDevice.stopAutoDetection called, but WebUsbSiDevice.startAutoDetection had not been called before.');
             }
             this.deregisterAutodetectionCallbacks();
+            return this.closeAutoOpened();
+        }
+
+        static closeAutoOpened() {
+            return Promise.all(
+                Object.values(this._autoOpened).map(
+                    (autoOpenedDevice) => autoOpenedDevice.close(),
+                ),
+            )
+                .then(() => {
+                    this._autoOpened = {};
+                });
         }
 
         static deregisterAutodetectionCallbacks() {
@@ -113,11 +124,15 @@ export const getWebUsbSiDevice = (navigatorArg) => {
             super();
             this.webUsbDevice = webUsbDevice;
             this.name = `WebUsbSiDevice(${webUsbDevice.serialNumber})`;
-            this._mainStation = null;
         }
 
         get ident() {
             return `${this.constructor.name}-${this.webUsbDevice.serialNumber}`;
+        }
+
+        autoOpen() {
+            this.constructor._autoOpened[this.webUsbDevice.serialNumber] = this;
+            return this.open();
         }
 
         open() {
@@ -172,18 +187,7 @@ export const getWebUsbSiDevice = (navigatorArg) => {
                     })
                     .then(() => {
                         console.debug('Starting Receive Loop...');
-                        const receiveLoop = () => {
-                            if (this.webUsbDevice.opened !== true) {
-                                console.warn('Device has been closed. Stopping receive loop.');
-                                return;
-                            }
-                            this.receive()
-                                .catch((err) => {
-                                    console.warn(err);
-                                })
-                                .then(() => receiveLoop());
-                        };
-                        receiveLoop();
+                        this.receiveLoop();
                         this.setSiDeviceState(this.constructor.State.Opened);
                         resolve(this);
                     })
@@ -227,21 +231,26 @@ export const getWebUsbSiDevice = (navigatorArg) => {
             });
         }
 
+        receiveLoop() {
+            if (this.webUsbDevice.opened !== true) {
+                console.warn('Device has been closed. Stopping receive loop.');
+                return;
+            }
+            this.receive()
+                .catch((err) => {
+                    console.warn(`Error in receive loop: ${err}`);
+                    return utils.waitFor(100);
+                })
+                .then(() => this.receiveLoop());
+
+        }
+
         receive() {
             return this.webUsbDevice.transferIn(siEndpoint, siPacketSize)
                 .then((response) => {
-                    var bufView = new Uint8Array(response.data.buffer);
-                    console.debug(`<= (WebUsb)\n${utils.prettyHex(bufView, 16)}`);
-                    this.dispatchEvent('receive', bufView);
-
-                    // TODO: remove from here
-                    if (this._mainStation !== null) {
-                        for (var i = 0; i < bufView.length; i++) {
-                            this._mainStation._respBuffer.push(bufView[i]);
-                        }
-                        this._mainStation._processReceiveBuffer();
-                    }
-
+                    var uint8Data = new Uint8Array(response.data.buffer);
+                    console.debug(`<= (WebUsb)\n${utils.prettyHex(uint8Data, 16)}`);
+                    this.dispatchEvent('receive', {uint8Data: uint8Data});
                     return response;
                 });
         }
@@ -249,20 +258,9 @@ export const getWebUsbSiDevice = (navigatorArg) => {
         send(buffer) {
             return this.webUsbDevice.transferOut(siEndpoint, buffer);
         }
-
-        get mainStation() {
-            if (this.state !== this.constructor.State.Opened) {
-                this._mainStation = null;
-                throw new Error('Cannot get mainStation unless in Opened state');
-            }
-            if (this._mainStation === null) {
-                console.debug('Creating SiMainStation...');
-                this._mainStation = new SiMainStation(this);
-            }
-            return this._mainStation;
-        }
     }
     WebUsbSiDevice.allByIdent = {};
     WebUsbSiDevice._eventListeners = {};
+    WebUsbSiDevice._autoOpened = {};
     return WebUsbSiDevice;
 };

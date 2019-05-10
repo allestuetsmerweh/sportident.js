@@ -1,10 +1,10 @@
 import si from '../../src/index';
 
-export const sendCommand = ({userLine, mainStation}) => {
-    const usage = si.utils.timeoutResolvePromise('Usage: send [command]: [parameters]: [numResp]');
+export const sendCommand = ({userLine, logLine, mainStation}) => {
     const res = /send\s+([0-9a-fA-F\s]+)\s*:\s*([0-9a-fA-F\s]+)\s*:\s*([0-9]+)/.exec(userLine);
     if (res === null) {
-        return usage;
+        logLine('Usage: send [command]: [parameters]: [numResp]');
+        return Promise.resolve();
     }
     const commandStr = res[1].replace(/\s/g, '');
     if (commandStr.length !== 2) {

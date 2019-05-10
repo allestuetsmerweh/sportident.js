@@ -162,15 +162,16 @@ const tests = {
 };
 
 export const testCommand = (context) => {
-    const usage = si.utils.timeoutResolvePromise('Usage: test [what]');
-    const res = /test ([^\s]+)/.exec(context.userLine);
+    const {userLine, logLine} = context;
+    const res = /test ([^\s]+)/.exec(userLine);
     if (res === null) {
-        return usage;
+        logLine('Usage: test [what]');
+        return Promise.resolve();
     }
     const what = res[1];
     if (!(what in tests)) {
-        context.logLine(`No such test: ${what}`);
-        context.logLine(`Available tests: ${Object.keys(tests)}`);
+        logLine(`No such test: ${what}`);
+        logLine(`Available tests: ${Object.keys(tests)}`);
         return si.utils.timeoutResolvePromise();
     }
     return tests[what](context);

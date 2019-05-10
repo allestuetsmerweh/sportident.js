@@ -1,10 +1,21 @@
 <?php
 
-require_once('php-websocket/server/lib/SplClassLoader.php');
-$classLoader = new SplClassLoader('WebSocket', __DIR__ . '/php-websocket/server/lib');
-$classLoader->register();
+declare(strict_types=1);
 
-$server = new \WebSocket\Server('127.0.0.1', 41271, false);
+namespace Bloatless\WebSocket;
+
+require __DIR__ . '/php-websocket/src/Connection.php';
+require __DIR__ . '/php-websocket/src/Socket.php';
+require __DIR__ . '/php-websocket/src/Server.php';
+
+require __DIR__ . '/php-websocket/src/Application/ApplicationInterface.php';
+require __DIR__ . '/php-websocket/src/Application/Application.php';
+require __DIR__ . '/php-websocket/src/Application/DemoApplication.php';
+require __DIR__ . '/php-websocket/src/Application/StatusApplication.php';
+
+$server = new Server('127.0.0.1', 41271);
+
+// $server = new \WebSocket\Server('127.0.0.1', 41271, false);
 
 // server settings:
 $server->setCheckOrigin(false);
@@ -13,7 +24,7 @@ $server->setMaxConnectionsPerIp(20);
 $server->setMaxRequestsPerMinute(1000);
 
 
-class SiSimulatorApplication extends \WebSocket\Application\Application
+class SiSimulatorApplication extends Application\Application
 {
     private $_clients = array();
     private $_filename = '';
@@ -21,8 +32,7 @@ class SiSimulatorApplication extends \WebSocket\Application\Application
     protected function __construct() {
     }
 
-    public function onConnect($client)
-    {
+    public function onConnect(Connection $client): void {
         echo "onConnect\n";
         $id = $client->getClientId();
         $this->_clients[$id] = array(
@@ -32,15 +42,13 @@ class SiSimulatorApplication extends \WebSocket\Application\Application
         );
     }
 
-    public function onDisconnect($client)
-    {
+    public function onDisconnect($client): void {
         echo "onDisconnect\n";
         $id = $client->getClientId();
         unset($this->_clients[$id]);
     }
 
-    public function onData($base64_data, $client)
-    {
+    public function onData(string $base64_data, Connection $client): void {
         $data = base64_decode($base64_data);
         $id = $client->getClientId();
         if (!$this->_clients[$id]['pipe_url']) {
@@ -60,8 +68,7 @@ class SiSimulatorApplication extends \WebSocket\Application\Application
     }
 
     public function send($data) {
-        foreach($this->_clients as $client)
-        {
+        foreach($this->_clients as $client) {
             $client['client']->send($data);
         }
     }

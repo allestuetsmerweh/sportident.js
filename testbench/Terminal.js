@@ -1,9 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {commands} from './commands/index';
+import si from '../src/index';
 
 export const Terminal = (props) => {
-    const selectedMainStation = props.selectedDevice && props.selectedDevice.mainStation;
+    const selectedIdent = props.selectedDevice && props.selectedDevice.ident;
+    if (selectedIdent && !(selectedIdent in Terminal._mainStationByIdent)) {
+        Terminal._mainStationByIdent[selectedIdent] = si.MainStation.fromSiDevice(props.selectedDevice);
+    }
+    const selectedMainStation = selectedIdent && Terminal._mainStationByIdent[selectedIdent];
 
     const [logContent, setLogContent] = React.useState([]);
     const [commandIsRunning, setCommandIsRunning] = React.useState(false);
@@ -98,3 +103,4 @@ export const Terminal = (props) => {
 Terminal.propTypes = {
     selectedDevice: PropTypes.object,
 };
+Terminal._mainStationByIdent = {};

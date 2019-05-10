@@ -33,7 +33,7 @@ const Testbench = () => {
     return (
         <>
             <MainStationList
-                devices={webUsbSiDevices.valueSeq()}
+                devices={[...webUsbSiDevices.values()]}
                 selectedDevice={selectedDevice}
                 addNewDevice={addNewDevice}
             />
