@@ -8,10 +8,11 @@ import {SiCard9Simulator} from '../SiCard9Simulator';
 import {SiCard10Simulator} from '../SiCard10Simulator';
 
 export const simulateCommand = ({userLine, logLine, userInput}) => {
-    const usage = si.utils.timeoutResolvePromise('Usage: simulate [what] [URL]<br />e.g. simulate BSM8 unix:///tmp/vwin_com1');
     const res = /simulate ([^\s]+) ([^\s]+)/.exec(userLine);
     if (res === null) {
-        return usage;
+        logLine('Usage: simulate [what] [URL]');
+        logLine('       e.g. simulate BSM8 unix:///tmp/vwin_com1');
+        return Promise.resolve();
     }
     const what = res[1];
     const mainStationStorages = {

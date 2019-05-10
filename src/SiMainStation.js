@@ -3,60 +3,20 @@ import {proto} from './constants';
 import {SiCard} from './SiCard';
 import {SiStation} from './SiStation';
 
-class SendTask {
-    constructor(
-        command,
-        parameters,
-        numResponses,
-        resolve,
-        reject,
-        timeout,
-    ) {
-        this.command = command;
-        this.parameters = parameters;
-        this.numResponses = numResponses;
-        this.resolve = resolve;
-        this.reject = reject;
-        this.timeout = timeout;
-        this.state = SendTask.State.QUEUED;
-        this.timeoutTimer = setTimeout(() => {
-            if (this.state !== SendTask.State.SENT) {
-                return;
-            }
-            console.debug(`Timeout: cmd ${prettyHex([this.command])} (expected ${this.numResponses} responses)`, this.responses);
-            this.fail();
-        }, timeout * 1000);
-        this.responses = [];
-    }
-
-    addResponse(response) {
-        this.responses.push(response);
-        if (this.responses.length === this.numResponses) {
-            this.succeed();
-        }
-    }
-
-    succeed() {
-        this.state = SendTask.State.SUCCEEDED;
-        clearTimeout(this.timeoutTimer);
-        this.resolve(this);
-    }
-
-    fail() {
-        this.state = SendTask.State.FAILED;
-        clearTimeout(this.timeoutTimer);
-        this.reject(this);
-    }
-}
-
-SendTask.State = {
-    QUEUED: 0,
-    SENT: 1,
-    SUCCEEDED: 2,
-    FAILED: 3,
-};
-
 export class SiMainStation extends SiStation {
+    static fromSiDevice(siDevice) {
+        if (siDevice.state !== siDevice.constructor.State.Opened) {
+            throw new Error('Cannot get mainStation unless in Opened state');
+        }
+        const instance = new this(siDevice);
+        siDevice.addEventListener('receive', (e) => {
+            const uint8Data = e.uint8Data;
+            instance.receive(uint8Data);
+            console.log(`There's a SiMainStation listening to this ${uint8Data}`);
+        });
+        return instance;
+    }
+
     constructor(device, communicationTarget = SiMainStation.CommunicationTarget.Unknown) {
         super(null);
         this.mainStation = this;
@@ -135,6 +95,11 @@ export class SiMainStation extends SiStation {
     //             scheduleReopen();
     //         });
     // }
+
+    receive(uint8Data) {
+        this._respBuffer.push(...uint8Data);
+        this._processReceiveBuffer();
+    }
 
     _logReceive(bufView) {
         console.debug(`<= (${this.device.name}; ${this._respBuffer.length})\n${prettyHex(bufView, 16)}`);
@@ -340,4 +305,58 @@ SiMainStation.CommunicationTarget = {
     MainStation: 1,
     CoupledStation: 2,
     Switching: 3,
+};
+
+
+class SendTask {
+    constructor(
+        command,
+        parameters,
+        numResponses,
+        resolve,
+        reject,
+        timeout,
+    ) {
+        this.command = command;
+        this.parameters = parameters;
+        this.numResponses = numResponses;
+        this.resolve = resolve;
+        this.reject = reject;
+        this.timeout = timeout;
+        this.state = SendTask.State.QUEUED;
+        this.timeoutTimer = setTimeout(() => {
+            if (this.state !== SendTask.State.SENT) {
+                return;
+            }
+            console.debug(`Timeout: cmd ${prettyHex([this.command])} (expected ${this.numResponses} responses)`, this.responses);
+            this.fail();
+        }, timeout * 1000);
+        this.responses = [];
+    }
+
+    addResponse(response) {
+        this.responses.push(response);
+        if (this.responses.length === this.numResponses) {
+            this.succeed();
+        }
+    }
+
+    succeed() {
+        this.state = SendTask.State.SUCCEEDED;
+        clearTimeout(this.timeoutTimer);
+        this.resolve(this);
+    }
+
+    fail() {
+        this.state = SendTask.State.FAILED;
+        clearTimeout(this.timeoutTimer);
+        this.reject(this);
+    }
+}
+
+SendTask.State = {
+    QUEUED: 0,
+    SENT: 1,
+    SUCCEEDED: 2,
+    FAILED: 3,
 };

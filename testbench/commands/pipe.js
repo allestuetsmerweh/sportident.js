@@ -1,11 +1,12 @@
 import si from '../../src/index';
 import {SiSimulator} from '../SiSimulator';
 
-export const pipeCommand = ({userLine, mainStation, userInput}) => {
-    const usage = si.utils.timeoutResolvePromise('Usage: pipe [URL]<br />e.g. pipe unix:///tmp/vwin_com1');
+export const pipeCommand = ({userLine, logLine, mainStation, userInput}) => {
     const res = /pipe ([^\s]+)/.exec(userLine);
     if (res === null) {
-        return usage;
+        logLine('Usage: pipe [URL]');
+        logLine('       e.g. pipe unix:///tmp/vwin_com1');
+        return Promise.resolve();
     }
     const url = res[1];
     return new Promise((resolve, _reject) => {
@@ -21,7 +22,7 @@ export const pipeCommand = ({userLine, mainStation, userInput}) => {
             mainStation.sendMessage(message);
         };
 
-        userInput.keyup((event) => {
+        userInput.addEventListener('keyup', (event) => {
             if (event.keyCode === 67 && event.ctrlKey && !event.altKey && !event.metaKey && !event.shiftKey) { // Ctrl-C
                 mainStation.onMessage = false;
                 siSimulator.close();
