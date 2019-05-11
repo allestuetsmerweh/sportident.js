@@ -1,23 +1,20 @@
-import si from '../../src/index';
-
 export const sendCommand = ({userLine, logLine, mainStation}) => {
     const res = /send\s+([0-9a-fA-F\s]+)\s*:\s*([0-9a-fA-F\s]+)\s*:\s*([0-9]+)/.exec(userLine);
     if (res === null) {
         logLine('Usage: send [command]: [parameters]: [numResp]');
+        logLine('       e.g. send F9: 01: 00');
         return Promise.resolve();
     }
     const commandStr = res[1].replace(/\s/g, '');
     if (commandStr.length !== 2) {
-        return si.utils.timeoutResolvePromise(
-            `Command must be one byte, is: ${commandStr}`,
-        );
+        logLine(`Command must be one byte, is: ${commandStr}`);
+        return Promise.resolve();
     }
     const command = parseInt(commandStr, 16);
     const parametersStr = res[2].replace(/\s/g, '');
     if (parametersStr.length % 2 !== 0) {
-        return si.utils.timeoutResolvePromise(
-            `Parameters must be bytes, is: ${parametersStr}`,
-        );
+        logLine(`Parameters must be bytes, is: ${parametersStr}`);
+        return Promise.resolve();
     }
     const parameters = [];
     for (let i = 0; i < parametersStr.length; i += 2) {

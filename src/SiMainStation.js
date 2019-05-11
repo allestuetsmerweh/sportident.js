@@ -1,4 +1,4 @@
-import {arr2big, arr2cardNumber, prettyHex, processSiProto, buildSiProtoCommand} from './utils';
+import * as utils from './utils';
 import {proto} from './constants';
 import {SiCard} from './SiCard';
 import {SiStation} from './SiStation';
@@ -22,79 +22,67 @@ export class SiMainStation extends SiStation {
         this.mainStation = this;
         this.device = device;
         this.card = false;
-        this.onMessage = false;
-        this.onRemoved = false;
-        this.onCardInserted = false;
-        this.onCard = false;
-        this.onCardRemoved = false;
         this._sendQueue = [];
         this._respBuffer = [];
-        this._deviceOpenTimer = false;
-        this._deviceOpenNumErrors = 0;
+        this._eventListeners = {};
         this.communicationTarget = communicationTarget;
-        // if (!SiMainStation.allByDevice[device.ident]) {
-        //     SiMainStation.allByDevice[device.ident] = this;
-        //     try {
-        //         SiMainStation.onAdded(this);
-        //     } catch (err) {
-        //         // ignore
-        //     }
-        // }
         if (this.communicationTarget === SiMainStation.CommunicationTarget.Unknown) {
-            this.setCommunicationTarget(SiMainStation.CommunicationTarget.Direct);
+            this.setCommunicationTarget(SiMainStation.CommunicationTarget.MainStation);
         }
     }
 
-    resetCardCallbacks() {
-        this.onCardInserted = false;
-        this.onCard = false;
-        this.onCardRemoved = false;
+    addEventListener(type, callback) {
+        return utils.addEventListener(this._eventListeners, type, callback);
     }
 
-    _dispatch(f, args) {
-        if (f) {
-            setTimeout(() => f(...args), 1);
-        }
+    removeEventListener(type, callback) {
+        return utils.removeEventListener(this._eventListeners, type, callback);
+    }
+
+    dispatchEvent(type, args) {
+        return utils.dispatchEvent(this._eventListeners, type, args);
     }
 
     setCommunicationTarget(newCommunicationTarget) {
+        const byteByCommunicationTarget = {
+            [SiMainStation.CommunicationTarget.MainStation]: proto.P_MS_DIRECT,
+            [SiMainStation.CommunicationTarget.CoupledStation]: proto.P_MS_INDIRECT,
+        };
+
+        const dispatchCommunicationTargetChangeEvent = () => {
+            this.dispatchEvent('communicationTargetChange', {
+                communicationTarget: this.communicationTarget,
+            });
+        };
+
         if (newCommunicationTarget !== this.communicationTarget) {
             this.communicationTarget = SiMainStation.CommunicationTarget.Switching;
-            // TODO: dispatchEvent
-            this._sendCommand(proto.cmd.GET_MS, [0x00], 1, 5)
-                .then(() => {
-                    this.communicationTarget = SiMainStation.CommunicationTarget.Switching;
-                    // TODO: dispatchEvent
+            dispatchCommunicationTargetChangeEvent();
+            const parameter = byteByCommunicationTarget[newCommunicationTarget];
+            this._sendCommand(proto.cmd.SET_MS, [parameter], 1, 5)
+                .then((responses) => {
+                    const responseParameter = responses[0][2];
+                    if (responseParameter === parameter) {
+                        this.communicationTarget = newCommunicationTarget;
+                    } else {
+                        console.error(
+                            `${this.device.name}: Inconsistent SET_MS result ` +
+                            `(${responseParameter} instead of ${parameter})`,
+                        );
+                        this.communicationTarget = SiMainStation.CommunicationTarget.Unknown;
+                    }
+                    dispatchCommunicationTargetChangeEvent();
                 })
                 .catch((err) => {
-                    console.error(`Error switching SiMainStation communication target: ${err}`);
+                    console.error(
+                        `${this.device.name}: Error switching communication target ` +
+                        `to ${newCommunicationTarget}: ${err}`,
+                    );
                     this.communicationTarget = SiMainStation.CommunicationTarget.Unknown;
-                    // TODO: dispatchEvent
+                    dispatchCommunicationTargetChangeEvent();
                 });
         }
     }
-
-    // _retryDeviceOpen() {
-    //     var scheduleReopen = () => {
-    //         if (!this._deviceOpenTimer) {
-    //             var timeout = 100;
-    //             for (var i = 0; i < this._deviceOpenNumErrors && i < 10; i++) { timeout = timeout * 2; }
-    //             this._deviceOpenTimer = setTimeout(() => {
-    //                 this._deviceOpenTimer = false;
-    //                 this._deviceOpen();
-    //             }, timeout);
-    //             this._deviceOpenNumErrors++;
-    //         }
-    //     };
-    //     this.device.close()
-    //         .then(() => {
-    //             scheduleReopen();
-    //         })
-    //         .catch((err) => {
-    //             console.error('Could not close device: ', err);
-    //             scheduleReopen();
-    //         });
-    // }
 
     receive(uint8Data) {
         this._respBuffer.push(...uint8Data);
@@ -102,19 +90,17 @@ export class SiMainStation extends SiStation {
     }
 
     _logReceive(bufView) {
-        console.debug(`<= (${this.device.name}; ${this._respBuffer.length})\n${prettyHex(bufView, 16)}`);
+        console.debug(`<= (${this.device.name}; ${this._respBuffer.length})\n${utils.prettyHex(bufView, 16)}`);
     }
 
     _processReceiveBuffer() {
         const continueProcessing = (timeout = 1) => setTimeout(() => this._processReceiveBuffer(), timeout);
-        const message = processSiProto(this._respBuffer);
+        const {message, remainder} = utils.processSiProto(this._respBuffer);
+        this._respBuffer = remainder;
         if (message === null) {
             return null;
         }
-        if (this.onMessage) {
-            this._dispatch(this.onMessage, [message]);
-            return continueProcessing();
-        }
+        this.dispatchEvent('message', {message: message});
         const {mode, command, parameters} = message;
         if (mode === proto.NAK) {
             if (0 < this._sendQueue.length && this._sendQueue[0].state === SendTask.State.SENT) {
@@ -124,51 +110,51 @@ export class SiMainStation extends SiStation {
         }
         let cn, typeFromCN;
         if (command === proto.cmd.SI5_DET) {
-            cn = arr2cardNumber([parameters[5], parameters[4], parameters[3]]);
+            cn = utils.arr2cardNumber([parameters[5], parameters[4], parameters[3]]);
             this.card = new SiCard(this, cn);
             console.log('SI5 DET', this.card, parameters);
-            this._dispatch(this.onCardInserted, [this.card]);
+            this.dispatchEvent('cardInserted', {card: this.card});
             this.card.read()
                 .then((card) => {
-                    this._dispatch(this.onCard, [card]);
+                    this.dispatchEvent('card', {card: card});
                 });
             return continueProcessing();
         }
         if (command === proto.cmd.SI6_DET) {
-            cn = arr2cardNumber([parameters[5], parameters[4], parameters[3]]);
+            cn = utils.arr2cardNumber([parameters[5], parameters[4], parameters[3]]);
             typeFromCN = SiCard.typeByCardNumber(cn);
             if (typeFromCN !== 'SICard6') {
                 console.warn(`SICard6 Error: SI Card Number inconsistency: Function SI6 called, but number is ${cn} (=> ${typeFromCN})`);
             }
             this.card = new SiCard(this, cn);
             console.log('SI6 DET', parameters);
-            this._dispatch(this.onCardInserted, [this.card]);
+            this.dispatchEvent('cardInserted', {card: this.card});
             this.card.read()
                 .then((card) => {
-                    this._dispatch(this.onCard, [card]);
+                    this.dispatchEvent('card', {card: card});
                 });
             return continueProcessing();
         }
         if (command === proto.cmd.SI8_DET) {
-            cn = arr2cardNumber([parameters[5], parameters[4], parameters[3]]);
+            cn = utils.arr2cardNumber([parameters[5], parameters[4], parameters[3]]);
             typeFromCN = SiCard.typeByCardNumber(cn);
             if (!{'SICard8': 1, 'SICard9': 1, 'SICard10': 1, 'SICard11': 1}[typeFromCN]) {
                 console.warn(`SICard8 Error: SI Card Number inconsistency: Function SI8 called, but number is ${cn} (=> ${typeFromCN})`);
             }
             this.card = new SiCard(this, cn);
             console.log('SI8 DET', parameters);
-            this._dispatch(this.onCardInserted, [this.card]);
+            this.dispatchEvent('cardInserted', {card: this.card});
             this.card.read()
                 .then((card) => {
-                    this._dispatch(this.onCard, [card]);
+                    this.dispatchEvent('card', {card: card});
                 });
             return continueProcessing();
         }
         if (command === proto.cmd.SI_REM) {
-            cn = arr2cardNumber([parameters[5], parameters[4], parameters[3]]);
+            cn = utils.arr2cardNumber([parameters[5], parameters[4], parameters[3]]);
             console.log('SI REM', parameters, cn, this.card);
             if (this.card !== false && this.card.cardNumber === cn) {
-                this._dispatch(this.onCardRemoved, [this.card]);
+                this.dispatchEvent('cardRemoved', {card: this.card});
             } else {
                 console.warn(`Card ${cn} was removed, but never inserted`);
             }
@@ -179,32 +165,32 @@ export class SiMainStation extends SiStation {
                 0xB0 <= this._sendQueue[0].command &&
                 this._sendQueue[0].command <= 0xEF
             ) { // Was expecting response from card => "early Timeout"
-                console.debug(`Early Timeout: cmd ${prettyHex([this._sendQueue[0].command])} (expected ${this._sendQueue[0].numResponses} responses)`, this._sendQueue[0].responses);
+                console.debug(`Early Timeout: cmd ${utils.prettyHex([this._sendQueue[0].command])} (expected ${this._sendQueue[0].numResponses} responses)`, this._sendQueue[0].responses);
                 this._sendQueue[0].fail();
             }
             return continueProcessing();
         }
         if (command === proto.cmd.TRANS_REC) {
-            cn = arr2big([parameters[3], parameters[4], parameters[5]]);
+            cn = utils.arr2big([parameters[3], parameters[4], parameters[5]]);
             if (cn < 500000) {
                 if (parameters[3] < 2) {
-                    cn = arr2big([parameters[4], parameters[5]]);
+                    cn = utils.arr2big([parameters[4], parameters[5]]);
                 } else {
-                    cn = parameters[3] * 100000 + arr2big([parameters[4], parameters[5]]);
+                    cn = parameters[3] * 100000 + utils.arr2big([parameters[4], parameters[5]]);
                 }
             }
             const transRecordCard = new SiCard(this, cn);
             console.log('TRANS_REC', transRecordCard, parameters);
-            this._dispatch(this.onCardInserted, [transRecordCard]);
-            this._dispatch(this.onCardRemoved, [transRecordCard]);
+            this.dispatchEvent('cardInserted', {card: transRecordCard});
+            this.dispatchEvent('cardRemoved', {card: transRecordCard});
             return continueProcessing();
         }
         if (this._sendQueue.length === 0 || this._sendQueue[0].state !== SendTask.State.SENT) {
-            console.warn(`Strange Response: ${prettyHex([command])} (not expecting anything)...`);
+            console.warn(`Strange Response: ${utils.prettyHex([command])} (not expecting anything)...`);
             return continueProcessing();
         }
         if (this._sendQueue[0].command !== command) {
-            console.warn(`Strange Response: expected ${prettyHex([this._sendQueue[0].command])}, but got ${prettyHex([command])}...`);
+            console.warn(`Strange Response: expected ${utils.prettyHex([this._sendQueue[0].command])}, but got ${utils.prettyHex([command])}...`);
             return continueProcessing();
         }
         this._sendQueue[0].addResponse(parameters);
@@ -221,17 +207,13 @@ export class SiMainStation extends SiStation {
         var sendTask = this._sendQueue[0];
 
         // Build command
-        var cmd = buildSiProtoCommand(sendTask);
+        var cmd = utils.buildSiProtoCommand(sendTask);
 
         // Send command
-        var bstr = String.fromCharCode(proto.WAKEUP) + cmd;
-        var bytes = new Uint8Array(bstr.length);
-        for (let i = 0; i < bstr.length; i++) {
-            bytes[i] = bstr.charCodeAt(i);
-        }
+        var bytes = new Uint8Array([proto.WAKEUP, ...cmd]);
         this.device.send(bytes.buffer)
             .then(() => {
-                console.debug(`=> (${this.device.name})\n${prettyHex(bstr, 16)}`);
+                console.debug(`=> (${this.device.name})\n${utils.prettyHex(bytes, 16)}`);
                 if (sendTask.numResponses <= 0) {
                     sendTask.succeed();
                 }
@@ -285,18 +267,6 @@ export class SiMainStation extends SiStation {
         if (0 < this._sendQueue.length && this._sendQueue[0].state !== -1) {
             clearTimeout(this._sendQueue[0].timeoutTimer);
         }
-        clearTimeout(this._deviceOpenTimer);
-        // delete SiMainStation.allByDevice[this.device.ident];
-        try {
-            SiMainStation.onRemoved(this);
-        } catch (err) {
-            // ignore
-        }
-        try {
-            this.onRemoved();
-        } catch (err) {
-            // ignore
-        }
     }
 }
 
@@ -328,7 +298,7 @@ class SendTask {
             if (this.state !== SendTask.State.SENT) {
                 return;
             }
-            console.debug(`Timeout: cmd ${prettyHex([this.command])} (expected ${this.numResponses} responses)`, this.responses);
+            console.debug(`Timeout: cmd ${utils.prettyHex([this.command])} (expected ${this.numResponses} responses)`, this.responses);
             this.fail();
         }, timeout * 1000);
         this.responses = [];

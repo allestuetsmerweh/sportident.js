@@ -11,10 +11,14 @@
     "webpack-testbench": "cd testbench/ && webpack",
     "build-docs": "sh build-docs.sh",
     "eslint": "./node_modules/eslint/bin/eslint.js .",
-    "karma": "./node_modules/karma/bin/karma start karma.config.js",
+    "jest": "jest",
     "start-testbench": "cd testbench/ && webpack-dev-server",
     "testbench": "sh run-testbench.sh",
-    "tests": "npm run eslint && npm run karma"
+    "tests": "npm run eslint && npm run jest"
+  },
+  "jest": {
+    "testRegex": ".*/.*\\.test\\.js",
+    "collectCoverage": true
   },
   "repository": {
     "type": "git",
@@ -32,10 +36,11 @@
   },
   "homepage": "https://github.com/allestuetsmerweh/sportident.js#readme",
   "devDependencies": {
-    "@babel/core": "^7.4.3",
+    "@babel/core": "^7.4.4",
     "@babel/polyfill": "^7.4.3",
-    "@babel/preset-env": "^7.4.3",
+    "@babel/preset-env": "^7.4.4",
     "@babel/preset-react": "^7.0.0",
+    "babel-jest": "^24.8.0",
     "babel-loader": "^8.0.5",
     "css-loader": "^2.1.1",
     "eslint": "^5.16.0",
@@ -44,10 +49,7 @@
     "html-loader": "^0.5.5",
     "immutable": "^4.0.0-rc.12",
     "jasmine-core": "^3.4.0",
-    "karma": "^4.0",
-    "karma-jasmine": "^2.0",
-    "karma-phantomjs-launcher": "^1.0.4",
-    "karma-webpack": "^3.0.0",
+    "jest": "^24.8.0",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
@@ -59,6 +61,7 @@
   "peerDependencies": {
     "@babel/polyfill": "^7.4.3",
     "immutable": "^4.0.0-rc.12",
+    "lodash": "^4.17.11",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6"

@@ -1,4 +1,15 @@
+import _ from 'lodash';
 import {proto} from './constants';
+
+export class NotImplementedError {
+    constructor(message) {
+        this.message = message;
+    }
+}
+
+export const notImplemented = (message) => {
+    throw new NotImplementedError(message);
+};
 
 export const iterable2arr = (iterable) => [].slice.call(iterable);
 
@@ -151,11 +162,15 @@ export const prettyMessage = (message) => {
 export const unPrettyHex = (input) => {
     const hexString = input.replace(/\s/g, '');
     if ((hexString.length % 2) !== 0) {
-        throw new Error('HEX_STRING_LENGTH_NOT_EVEN');
+        throw new Error('Hex String length must be even');
     }
     const byteArray = [];
     for (let byteIndex = 0; byteIndex < hexString.length / 2; byteIndex++) {
-        const byteValue = parseInt(hexString.substr(byteIndex * 2, 2), 16);
+        const hexByteString = hexString.substr(byteIndex * 2, 2);
+        const byteValue = parseInt(hexByteString, 16);
+        if (!Number.isInteger(byteValue) || byteValue < 0 || byteValue > 255) {
+            throw new Error(`Invalid hex: ${hexByteString}`);
+        }
         byteArray.push(byteValue);
     }
     return byteArray;
@@ -222,7 +237,11 @@ export const dispatchEvent = (registryDict, type, eventProperties = {}) => {
     const eventToDispatch = new Event(type);
     Object.assign(eventToDispatch, eventProperties);
     listeners.forEach((listener) => {
-        listener(eventToDispatch);
+        try {
+            listener(eventToDispatch);
+        } catch (exc) {
+            console.error(exc);
+        }
     });
     return !eventToDispatch.defaultPrevented;
 };
@@ -232,85 +251,62 @@ export const waitFor = (milliseconds, value) => new Promise((resolve) => {
 });
 
 export const processSiProto = (inputData) => {
-    let command, parameters;
-    while (command === undefined) {
-        if (inputData.length === 0) {
-            return null;
-        }
-        if (inputData[0] === proto.ACK) {
-            inputData.splice(0, 1);
-            continue; // eslint-disable-line no-continue
-        }
-        if (inputData[0] === proto.NAK) {
-            inputData.splice(0, 1);
-            return {
-                mode: proto.NAK,
-                command: null,
-                parameters: [],
-            };
-        }
-        if (inputData[0] === proto.WAKEUP) {
-            inputData.splice(0, 1);
-            continue; // eslint-disable-line no-continue
-        }
-        if (inputData[0] !== proto.STX) {
-            console.warn(`Invalid start byte: ${prettyHex([inputData[0]])}`);
-            inputData.splice(0, 1);
-            continue; // eslint-disable-line no-continue
-        }
-        if (inputData.length < 6) {
-            return null;
-        }
-        command = inputData[1];
-        var len = inputData[2];
-        if (inputData.length < 6 + len) {
-            return null;
-        }
-        if (inputData[5 + len] !== proto.ETX) {
-            console.warn(`Invalid end byte: ${prettyHex([inputData[5 + len]])}`);
-            inputData.splice(0, 1);
-            continue; // eslint-disable-line no-continue
-        }
-        parameters = inputData.slice(3, 3 + len);
-        var crcContent = CRC16(inputData.slice(1, 3 + len));
-        var crc = inputData.slice(3 + len, 5 + len);
-        inputData.splice(0, 6 + len);
-        if (crc[0] !== crcContent[0] || crc[1] !== crcContent[1]) {
-            console.debug(`Invalid Command received.
-    CMD:0x${prettyHex([command])}
-    LEN:${len}
-    PARAMS:${prettyHex(parameters)}
-    CRC:${prettyHex(crc)}
-    Content-CRC:${prettyHex(crcContent)}`);
-            continue; // eslint-disable-line no-continue
-        }
+    const failAndProceed = (numBytes) => ({
+        message: null,
+        remainder: inputData.slice(numBytes),
+    });
+    if (inputData.length <= 0) {
+        console.debug(`STX byte cut off (length ${inputData.length})`);
+        return failAndProceed(0);
+    }
+    if (inputData[0] !== proto.STX) {
+        console.warn(`Invalid STX byte: ${prettyHex([inputData[0]])}`);
+        return failAndProceed(1);
+    }
+    if (inputData.length <= 1) {
+        console.debug(`Command byte cut off (length ${inputData.length})`);
+        return failAndProceed(0);
+    }
+    const command = inputData[1];
+    if (inputData.length <= 2) {
+        console.debug(`Parameter length byte cut off (length ${inputData.length})`);
+        return failAndProceed(0);
+    }
+    const numParameters = inputData[2];
+    if (inputData.length <= 2 + numParameters) {
+        console.debug(`Parameter bytes cut off (length ${inputData.length})`);
+        return failAndProceed(0);
+    }
+    const parameters = inputData.slice(3, 3 + numParameters);
+    if (inputData.length <= 4 + numParameters) {
+        console.debug(`CRC bytes cut off (length ${inputData.length})`);
+        return failAndProceed(0);
+    }
+    if (inputData.length <= 5 + numParameters) {
+        console.debug(`ETX byte cut off (length ${inputData.length})`);
+        return failAndProceed(0);
+    }
+    if (inputData[5 + numParameters] !== proto.ETX) {
+        console.warn(`Invalid ETX byte: ${prettyHex([inputData[5 + numParameters]])}`);
+        return failAndProceed(1);
+    }
+    const expectedCRC = CRC16(inputData.slice(1, 3 + numParameters));
+    const actualCRC = inputData.slice(3 + numParameters, 5 + numParameters);
+    if (!_.isEqual(actualCRC, expectedCRC)) {
+        console.warn(`Invalid CRC: ${prettyHex(actualCRC)} (expected ${prettyHex(expectedCRC)})`);
+        return failAndProceed(6 + numParameters);
     }
     return {
-        mode: proto.STX,
-        command: command,
-        parameters: parameters,
+        message: {
+            command: command,
+            parameters: parameters,
+        },
+        remainder: inputData.slice(6 + numParameters),
     };
 };
 
 export const buildSiProtoCommand = (message) => {
     var commandString = [message.command, message.parameters.length].concat(message.parameters);
     var crc = CRC16(commandString);
-    var cmd = String.fromCharCode(proto.STX);
-    let i;
-    for (i = 0; i < commandString.length; i++) {
-        cmd += String.fromCharCode(commandString[i]);
-    }
-    for (i = 0; i < crc.length; i++) {
-        cmd += String.fromCharCode(crc[i]);
-    }
-    cmd += String.fromCharCode(proto.ETX);
-    return cmd;
+    return [proto.STX, ...commandString, ...crc, proto.ETX];
 };
-
-export const timeoutResolvePromise = (value, timeout = 1) =>
-    new Promise((resolve, _reject) =>
-        setTimeout(() => resolve(value), timeout));
-
-export const timeoutRejectPromise = (reason, timeout) =>
-    new Promise((resolve, _reject) =>
-        setTimeout(() => resolve(reason), timeout));
