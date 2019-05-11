@@ -1,4 +1,4 @@
-import {arr2big, arr2date, date2arr, timeoutResolvePromise, getLookup} from './utils';
+import {arr2big, arr2date, date2arr, getLookup} from './utils';
 import {proto} from './constants';
 
 export class SiStation {
@@ -24,7 +24,7 @@ export class SiStation {
     readInfo() {
         var now = new Date().getTime();
         if (now < this._infoTime + 60000) {
-            return timeoutResolvePromise(this._info);
+            return Promise.resolve(this._info);
         }
         if (0 < this._infoSubscribers.length) {
             return new Promise((resolve, reject) => {

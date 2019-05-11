@@ -370,9 +370,9 @@ export const simulateCommand = ({userLine, logLine, userInput}) => {
     const mainStationStorage = mainStationStorages[what];
     if (!mainStationStorage) {
         const availableDataIdentifiers = Object.keys(mainStationStorages).join(', ');
-        return si.utils.timeoutResolvePromise(
-            `No such SiMainStation data: ${what}\nAvailable data: ${availableDataIdentifiers}`,
-        );
+        logLine(`No such SiMainStation data: ${what}`);
+        logLine(`Available data: ${availableDataIdentifiers}`);
+        return Promise.resolve();
     }
 
     const url = res[2];

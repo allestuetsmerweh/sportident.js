@@ -1,6 +1,7 @@
 /* eslint-env jasmine */
 
-import * as utils from '../utils';
+import {proto} from './constants';
+import * as utils from './utils';
 
 const json2date = (str) => {
     const res = /^([0-9]{4})-([0-9]{2})-([0-9]{2})T([0-9]{2}):([0-9]{2}):([0-9]{2})\.([0-9]{3})Z$/.exec(str);
@@ -16,6 +17,15 @@ const json2date = (str) => {
 };
 
 describe('utils', () => {
+    it('NotImplementedError', () => {
+        const testError = new utils.NotImplementedError('test');
+        expect(testError.message).toEqual('test');
+    });
+    it('notImplemented', () => {
+        expect(() => utils.notImplemented()).toThrow(utils.NotImplementedError);
+        expect(() => utils.notImplemented('test')).toThrow(utils.NotImplementedError);
+        expect(() => utils.notImplemented('test')).toThrow('test');
+    });
     it('isByte', () => {
         expect(utils.isByte(0)).toBe(true);
         expect(utils.isByte(0x01)).toBe(true);
@@ -199,11 +209,18 @@ describe('utils', () => {
         expect(utils.prettyHex('12345678', 4)).toBe('31 32 33 34\n35 36 37 38');
         expect(utils.prettyHex('123456789', 4)).toBe('31 32 33 34\n35 36 37 38\n39');
     });
+    it('prettyMessage', () => {
+        expect(() => utils.prettyMessage({})).toThrow();
+        expect(utils.prettyMessage({command: proto.cmd.GET_MS, parameters: []}).length > 3).toBe(true);
+    });
     it('unPrettyHex', () => {
         expect(utils.unPrettyHex('')).toEqual([]);
         expect(utils.unPrettyHex('31')).toEqual([0x31]);
         expect(utils.unPrettyHex('31 32')).toEqual([0x31, 0x32]);
         expect(utils.unPrettyHex('31 32 33 34\n35')).toEqual([0x31, 0x32, 0x33, 0x34, 0x35]);
+        expect(utils.unPrettyHex('00 FF ff')).toEqual([0x00, 0xFF, 0xFF]);
+        expect(() => utils.unPrettyHex('1')).toThrow();
+        expect(() => utils.unPrettyHex('GG')).toThrow();
     });
     it('CRC16', () => {
         expect(utils.CRC16([])).toEqual([0x00, 0x00]);
@@ -214,6 +231,8 @@ describe('utils', () => {
         expect(utils.CRC16([0x12, 0x34])).toEqual([0x12, 0x34]);
         expect(utils.CRC16([0x12, 0x34, 0x56])).toEqual([0xBA, 0xBB]);
         expect(utils.CRC16([0x12, 0x32, 0x56])).toEqual([0xBA, 0xAF]);
+        expect(utils.CRC16([0x12, 0x34, 0x56, 0x78])).toEqual([0x1E, 0x83]);
+        expect(utils.CRC16([0x12, 0x32, 0x56, 0x78])).toEqual([0x1E, 0xFB]);
     });
     it('getLookup', () => {
         expect(utils.getLookup({}, (value) => [value])).toEqual({});
@@ -239,18 +258,24 @@ describe('utils', () => {
         utils.addEventListener(registryDict, 'myEvent', callback);
         expect(registryDict).toEqual({'myEvent': [callback]});
         expect(callsToCallback.length).toBe(0);
+
         const eventObject = {test: true};
         utils.dispatchEvent(registryDict, 'myEvent', {'eventObject': eventObject});
         expect(registryDict).toEqual({'myEvent': [callback]});
         expect(callsToCallback.length).toBe(1);
         expect(callsToCallback[0].type).toBe('myEvent');
         expect(callsToCallback[0].eventObject).toEqual(eventObject);
+
         utils.removeEventListener(registryDict, 'myEvent', callback);
         expect(registryDict).toEqual({'myEvent': []});
         expect(callsToCallback.length).toBe(1);
+
         utils.dispatchEvent(registryDict, 'myEvent', {'eventObject': eventObject});
         expect(registryDict).toEqual({'myEvent': []});
         expect(callsToCallback.length).toBe(1);
+
+        utils.addEventListener(registryDict, 'myEvent', () => { throw new Error(); });
+        utils.dispatchEvent(registryDict, 'myEvent', {'eventObject': eventObject});
     });
     it('waitFor', (done) => {
         let step = 0;
@@ -267,5 +292,80 @@ describe('utils', () => {
                 expect(step).toBe(1);
             });
         expect(step).toBe(0);
+    });
+    it('processSiProto without remainder', () => {
+        const processSiProtoForMessage = (message) => (
+            utils.processSiProto(utils.buildSiProtoCommand(message)).message
+        );
+        expect(processSiProtoForMessage({command: 0x00, parameters: []}))
+            .toEqual({command: 0x00, parameters: []});
+        expect(processSiProtoForMessage({command: 0xFF, parameters: [0xEE]}))
+            .toEqual({command: 0xFF, parameters: [0xEE]});
+    });
+    it('processSiProto with remainder', () => {
+        const parseForMessageWithRemainder = (message) => utils.processSiProto([
+            ...utils.buildSiProtoCommand(message),
+            0xDD,
+        ]);
+        expect(parseForMessageWithRemainder({command: 0x00, parameters: []}))
+            .toEqual({message: {command: 0x00, parameters: []}, remainder: [0xDD]});
+        expect(parseForMessageWithRemainder({command: 0xFF, parameters: [0xEE]}))
+            .toEqual({message: {command: 0xFF, parameters: [0xEE]}, remainder: [0xDD]});
+    });
+    it('processSiProto with incomplete but valid data', () => {
+        expect(utils.processSiProto([]))
+            .toEqual({message: null, remainder: []});
+        expect(utils.processSiProto([proto.STX]))
+            .toEqual({message: null, remainder: [proto.STX]});
+        expect(utils.processSiProto([proto.STX, 0xFF]))
+            .toEqual({message: null, remainder: [proto.STX, 0xFF]});
+        expect(utils.processSiProto([proto.STX, 0xFF, 0x00]))
+            .toEqual({message: null, remainder: [proto.STX, 0xFF, 0x00]});
+        expect(utils.processSiProto([proto.STX, 0xFF, 0x02]))
+            .toEqual({message: null, remainder: [proto.STX, 0xFF, 0x02]});
+        expect(utils.processSiProto([proto.STX, 0xFF, 0x02, 0xEE]))
+            .toEqual({message: null, remainder: [proto.STX, 0xFF, 0x02, 0xEE]});
+        expect(utils.processSiProto([proto.STX, 0xFF, 0x02, 0xEE, 0xDD]))
+            .toEqual({message: null, remainder: [proto.STX, 0xFF, 0x02, 0xEE, 0xDD]});
+        expect(utils.processSiProto([proto.STX, 0xFF, 0x02, 0xEE, 0xDD, 0x6A]))
+            .toEqual({message: null, remainder: [proto.STX, 0xFF, 0x02, 0xEE, 0xDD, 0x6A]});
+        expect(utils.processSiProto([proto.STX, 0xFF, 0x02, 0xEE, 0xDD, 0x6A, 0xC2]))
+            .toEqual({message: null, remainder: [proto.STX, 0xFF, 0x02, 0xEE, 0xDD, 0x6A, 0xC2]});
+    });
+    it('processSiProto with invalid STX', () => {
+        const invalidSTX = Math.floor(proto.STX + Math.random() * 255 + 1) & 0xFF;
+        console.debug(`Chosen invalid STX: ${invalidSTX}`);
+        expect(utils.processSiProto([invalidSTX]))
+            .toEqual({message: null, remainder: []});
+        expect(utils.processSiProto([invalidSTX, 0xFF]))
+            .toEqual({message: null, remainder: [0xFF]});
+    });
+    it('processSiProto with invalid ETX', () => {
+        const invalidETX = Math.floor(proto.ETX + Math.random() * 255 + 1) & 0xFF;
+        expect(utils.processSiProto([proto.STX, 0x00, 0x00, 0x00, 0x00, invalidETX]))
+            .toEqual({message: null, remainder: [0x00, 0x00, 0x00, 0x00, invalidETX]});
+        expect(utils.processSiProto([proto.STX, 0xFF, 0x01, 0xEE, 0x00, 0x01, invalidETX]))
+            .toEqual({message: null, remainder: [0xFF, 0x01, 0xEE, 0x00, 0x01, invalidETX]});
+        expect(utils.processSiProto([proto.STX, 0x00, 0x00, 0x00, 0x01, invalidETX, 0xDD]))
+            .toEqual({message: null, remainder: [0x00, 0x00, 0x00, 0x01, invalidETX, 0xDD]});
+        expect(utils.processSiProto([proto.STX, 0xFF, 0x01, 0xEE, 0x00, 0x01, invalidETX, 0xDD]))
+            .toEqual({message: null, remainder: [0xFF, 0x01, 0xEE, 0x00, 0x01, invalidETX, 0xDD]});
+    });
+    it('processSiProto with invalid CRC', () => {
+        expect(utils.processSiProto([proto.STX, 0x00, 0x00, 0x00, 0x01, proto.ETX]))
+            .toEqual({message: null, remainder: []});
+        expect(utils.processSiProto([proto.STX, 0xFF, 0x01, 0xEE, 0x00, 0x01, proto.ETX]))
+            .toEqual({message: null, remainder: []});
+        expect(utils.processSiProto([proto.STX, 0x00, 0x00, 0x00, 0x01, proto.ETX, 0xDD]))
+            .toEqual({message: null, remainder: [0xDD]});
+        expect(utils.processSiProto([proto.STX, 0xFF, 0x01, 0xEE, 0x00, 0x01, proto.ETX, 0xDD]))
+            .toEqual({message: null, remainder: [0xDD]});
+    });
+
+    it('buildSiProtoCommand', () => {
+        expect(utils.buildSiProtoCommand({command: 0x00, parameters: []}))
+            .toEqual([proto.STX, 0x00, 0x00, 0x00, 0x00, proto.ETX]);
+        expect(utils.buildSiProtoCommand({command: 0xFF, parameters: [0xEE]}))
+            .toEqual([proto.STX, 0xFF, 0x01, 0xEE, 0xEC, 0x0A, proto.ETX]);
     });
 });

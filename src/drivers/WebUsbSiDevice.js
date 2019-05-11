@@ -231,21 +231,12 @@ export const getWebUsbSiDevice = (navigatorArg) => {
             });
         }
 
-        receiveLoop() {
+        receive() {
             if (this.webUsbDevice.opened !== true) {
                 console.warn('Device has been closed. Stopping receive loop.');
-                return;
+                this.setSiDeviceState(this.constructor.State.Closed);
+                throw new Error('Device closed');
             }
-            this.receive()
-                .catch((err) => {
-                    console.warn(`Error in receive loop: ${err}`);
-                    return utils.waitFor(100);
-                })
-                .then(() => this.receiveLoop());
-
-        }
-
-        receive() {
             return this.webUsbDevice.transferIn(siEndpoint, siPacketSize)
                 .then((response) => {
                     var uint8Data = new Uint8Array(response.data.buffer);

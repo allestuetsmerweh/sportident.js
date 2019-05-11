@@ -172,7 +172,7 @@ export const testCommand = (context) => {
     if (!(what in tests)) {
         logLine(`No such test: ${what}`);
         logLine(`Available tests: ${Object.keys(tests)}`);
-        return si.utils.timeoutResolvePromise();
+        return Promise.resolve();
     }
     return tests[what](context);
 };

@@ -2,7 +2,7 @@ import * as utils from '../utils';
 
 export class BaseSiDevice {
     static detect() {
-        throw new Error('SiDevice must implement static detect()');
+        utils.notImplemented('SiDevice must implement static detect()');
     }
 
     static addEventListener(type, callback) {
@@ -24,7 +24,7 @@ export class BaseSiDevice {
     }
 
     get ident() {
-        throw new Error('Subclasses of BaseSiDevice must implement get ident()');
+        return utils.notImplemented('Subclasses of BaseSiDevice must implement get ident()');
     }
 
     addEventListener(type, callback) {
@@ -47,15 +47,34 @@ export class BaseSiDevice {
     }
 
     open() {
-        throw new Error('SiDevice must implement open()');
+        utils.notImplemented('SiDevice must implement open()');
     }
 
     close() {
-        throw new Error('SiDevice must implement close()');
+        utils.notImplemented('SiDevice must implement close()');
+    }
+
+    receive() {
+        utils.notImplemented('SiDevice must implement receive()');
     }
 
     send(_buffer) {
-        throw new Error('SiDevice must implement send(buffer)');
+        utils.notImplemented('SiDevice must implement send(buffer)');
+    }
+
+    receiveLoop() {
+        try {
+            this.receive()
+                .catch((err) => {
+                    console.warn(`${this.name}: Error receiving: ${err}`);
+                    return utils.waitFor(100);
+                })
+                .then(() => this.receiveLoop());
+        } catch (exc) {
+            console.warn(`${this.name}: Error starting receiving: ${exc}`);
+            utils.waitFor(100)
+                .then(() => this.receiveLoop());
+        }
     }
 }
 BaseSiDevice._eventListeners = {};
