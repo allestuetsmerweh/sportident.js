@@ -6,6 +6,7 @@ module.exports = (api) => {
 
     const presets = [
         ['@babel/preset-env', {useBuiltIns: 'usage', corejs: '2'}],
+        ['@babel/preset-react'],
     ];
     const plugins = [];
 

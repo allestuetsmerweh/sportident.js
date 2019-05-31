@@ -42,7 +42,7 @@ export class BaseSiDevice {
     setSiDeviceState(newState) {
         if (newState !== this.state) {
             this.state = newState;
-            this.dispatchEvent('statechange', {state: newState});
+            this.dispatchEvent('stateChange', {state: newState});
         }
     }
 
@@ -65,6 +65,10 @@ export class BaseSiDevice {
     receiveLoop() {
         try {
             this.receive()
+                .then((uint8Data) => {
+                    console.debug(`<= (${this.name})\n${utils.prettyHex(uint8Data, 16)}`);
+                    this.dispatchEvent('receive', {uint8Data: uint8Data});
+                })
                 .catch((err) => {
                     console.warn(`${this.name}: Error receiving: ${err}`);
                     return utils.waitFor(100);

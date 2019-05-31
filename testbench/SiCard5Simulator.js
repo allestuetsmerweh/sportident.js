@@ -21,7 +21,7 @@ export class SiCard5Simulator extends SiCardSimulator {
             message.command !== si.constants.proto.cmd.GET_SI5
             || message.parameters.length !== 0
         ) {
-            throw new Error(`SiCard5Simulator does not handle ${si.utils.prettyMessage(message)}`);
+            throw new Error(`SiCard5Simulator does not handle ${si.protocol.prettyMessage(message)}`);
         }
         sendCardMessage({
             command: si.constants.proto.cmd.GET_SI5,

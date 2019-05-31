@@ -24,7 +24,7 @@ export class SiCard8Simulator extends SiCardSimulator {
             message.command !== si.constants.proto.cmd.GET_SI8
             || message.parameters.length !== 1
         ) {
-            throw new Error(`SiCard8Simulator does not handle ${si.utils.prettyMessage(message)}`);
+            throw new Error(`SiCard8Simulator does not handle ${si.protocol.prettyMessage(message)}`);
         }
         const page = message.parameters[0];
         console.warn(page);

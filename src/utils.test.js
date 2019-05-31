@@ -1,7 +1,9 @@
 /* eslint-env jasmine */
 
-import {proto} from './constants';
 import * as utils from './utils';
+import * as testUtils from './testUtils';
+
+testUtils.useFakeTimers();
 
 const json2date = (str) => {
     const res = /^([0-9]{4})-([0-9]{2})-([0-9]{2})T([0-9]{2}):([0-9]{2}):([0-9]{2})\.([0-9]{3})Z$/.exec(str);
@@ -26,7 +28,7 @@ describe('utils', () => {
         expect(() => utils.notImplemented('test')).toThrow(utils.NotImplementedError);
         expect(() => utils.notImplemented('test')).toThrow('test');
     });
-    it('isByte', () => {
+    it('isByte works', () => {
         expect(utils.isByte(0)).toBe(true);
         expect(utils.isByte(0x01)).toBe(true);
         expect(utils.isByte(0x001)).toBe(true);
@@ -41,7 +43,7 @@ describe('utils', () => {
         expect(utils.isByte([])).toBe(false);
         expect(utils.isByte({})).toBe(false);
     });
-    it('arr2big', () => {
+    it('arr2big works', () => {
         expect(utils.arr2big([])).toBe(0x00);
         expect(utils.arr2big([0x00])).toBe(0x00);
         expect(utils.arr2big([0x001])).toBe(0x01);
@@ -51,6 +53,8 @@ describe('utils', () => {
         expect(utils.arr2big([0x12, 0x34, 0x56, 0xAF])).toBe(0x123456AF);
         expect(utils.arr2big([0xFF])).toBe(0xFF);
         expect(utils.arr2big([0xFF, 0xFF])).toBe(0xFFFF);
+    });
+    it('arr2big sanitizes', () => {
         expect(() => utils.arr2big([0x100])).toThrow();
         expect(() => utils.arr2big([0x123])).toThrow();
         expect(() => utils.arr2big([0x123456])).toThrow();
@@ -64,12 +68,14 @@ describe('utils', () => {
         expect(() => utils.arr2big([2.5])).toThrow();
         expect(() => utils.arr2big([0xFF, {}])).toThrow();
     });
-    it('arr2time', () => {
+    it('arr2time works', () => {
         expect(utils.arr2time([0x00, 0x00])).toBe(0x0000);
         expect(utils.arr2time([0x00, 0x001])).toBe(0x0001);
         expect(utils.arr2time([0x12, 0x34])).toBe(0x1234);
         expect(utils.arr2time([0xFF, 0xFF])).toBe(0xFFFF);
         expect(utils.arr2time([0xEE, 0xEE])).toBe(null);
+    });
+    it('arr2time sanitizes', () => {
         expect(() => utils.arr2time([0x10, 0x100])).toThrow();
         expect(() => utils.arr2time([0x100, 0x10])).toThrow();
         expect(() => utils.arr2time([0x123, 0x123])).toThrow();
@@ -88,8 +94,8 @@ describe('utils', () => {
         expect(() => utils.arr2time([0x12, 0x34, 0x56])).toThrow();
         expect(() => utils.arr2time([0x00, 0x00, 0x00, 0x00])).toThrow();
     });
-    it('arr2date', () => {
-        const asOf = new Date('2020-01-01T00:00:00.000Z');
+    const asOf = new Date('2020-01-01T00:00:00.000Z');
+    it('arr2date works', () => {
         expect(utils.arr2date([0x00, 0x01, 0x01], asOf).toJSON()).toBe('2000-01-01T00:00:00.000Z');
         expect(utils.arr2date([0x01, 0x02, 0x03], asOf).toJSON()).toBe('2001-02-03T00:00:00.000Z');
         expect(utils.arr2date([0x01, 0x0C, 0x1F], asOf).toJSON()).toBe('2001-12-31T00:00:00.000Z');
@@ -108,6 +114,8 @@ describe('utils', () => {
         expect(utils.arr2date([0x63, 0x0C, 0x1F, 0x01, 0x00, 0x00, 0x80], asOf).toJSON()).toBe('1999-12-31T12:00:00.500Z');
         expect(utils.arr2date([0x00, 0x01, 0x01, 0x00, 0xA8, 0xBF, 0x40], asOf).toJSON()).toBe('2000-01-01T11:59:59.250Z');
         expect(utils.arr2date([0x63, 0x0C, 0x1F, 0x01, 0xA8, 0xBF, 0xC0], asOf).toJSON()).toBe('1999-12-31T23:59:59.750Z');
+    });
+    it('arr2date sanitizes', () => {
         expect(() => utils.arr2date([], asOf)).toThrow();
         expect(() => utils.arr2date([0x100], asOf)).toThrow();
         expect(() => utils.arr2date([0x123, 0x123], asOf)).toThrow();
@@ -119,6 +127,9 @@ describe('utils', () => {
         expect(() => utils.arr2date([12, 0, 1], asOf).toJSON()).toThrow();
         expect(() => utils.arr2date([12, 13, 1], asOf).toJSON()).toThrow();
         expect(() => utils.arr2date([12, 0xFF, 1], asOf).toJSON()).toThrow();
+    });
+    it('arr2date without asOf', () => {
+        expect(utils.arr2date([0x00, 0x01, 0x01]).toJSON()).toBe('2000-01-01T00:00:00.000Z');
     });
     it('date2arr', () => {
         expect(utils.date2arr(json2date('2000-01-01T00:00:00.000Z'))).toEqual([0x00, 0x01, 0x01, 0x0C, 0x00, 0x00, 0x00]);
@@ -140,7 +151,6 @@ describe('utils', () => {
         expect(utils.date2arr(json2date('1999-12-31T23:59:59.750Z'))).toEqual([0x63, 0x0C, 0x1F, 0x0B, 0xA8, 0xBF, 0xC0]);
     });
     it('date2arr and arr2date do the reverse', () => {
-        const asOf = new Date('2020-01-01T00:00:00.000Z');
         const forthAndBack = (date) => utils.arr2date(utils.date2arr(date), asOf);
         const forthAndBackAsJson = (str) => forthAndBack(json2date(str)).toJSON();
         expect(forthAndBackAsJson('2000-01-01T00:00:00.000Z')).toBe('2000-01-01T00:00:00.000Z');
@@ -162,7 +172,7 @@ describe('utils', () => {
         expect(forthAndBackAsJson('2000-01-01T11:59:59.250Z')).toBe('2000-01-01T11:59:59.250Z');
         expect(forthAndBackAsJson('1999-12-31T23:59:59.750Z')).toBe('1999-12-31T23:59:59.750Z');
     });
-    it('arr2cardNumber', () => {
+    it('arr2cardNumber works', () => {
         expect(utils.arr2cardNumber([0x00, 0x00, 0x00])).toBe(0x000000);
         expect(utils.arr2cardNumber([0x12, 0x34, 0x00])).toBe(0x003412);
         expect(utils.arr2cardNumber([0x12, 0x34, 0x01])).toBe(0x003412 + 0 * 100000); // TODO: Verify this
@@ -173,6 +183,8 @@ describe('utils', () => {
         expect(utils.arr2cardNumber([0x12, 0x34, 0x56])).toBe(0x563412);
         expect(utils.arr2cardNumber([0x00, 0x00, 0x00, 0x00])).toBe(0x00000000);
         expect(utils.arr2cardNumber([0x12, 0x34, 0x56, 0x78])).toBe(0x78563412);
+    });
+    it('arr2cardNumber sanitizes', () => {
         expect(() => utils.arr2cardNumber([])).toThrow();
         expect(() => utils.arr2cardNumber([1])).toThrow();
         expect(() => utils.arr2cardNumber([1, 2])).toThrow();
@@ -182,6 +194,7 @@ describe('utils', () => {
     it('prettyHex without lineLength', () => {
         expect(utils.prettyHex([])).toBe('');
         expect(utils.prettyHex([0x00])).toBe('00');
+        expect(utils.prettyHex([0xFF])).toBe('FF');
         expect(utils.prettyHex([0x00, 0x00])).toBe('00 00');
         expect(utils.prettyHex([0x00, 0x00, 0x00])).toBe('00 00 00');
         expect(utils.prettyHex([0x12, 0x34, 0x00])).toBe('12 34 00');
@@ -191,7 +204,11 @@ describe('utils', () => {
         expect(utils.prettyHex('AA')).toBe('41 41');
         expect(utils.prettyHex('000')).toBe('30 30 30');
         expect(utils.prettyHex('    ')).toBe('20 20 20 20');
-
+        expect(utils.prettyHex([0xFFF])).toBe('??');
+        expect(utils.prettyHex([undefined])).toBe('??');
+        expect(utils.prettyHex([null])).toBe('??');
+        expect(utils.prettyHex([[]])).toBe('??');
+        expect(utils.prettyHex([{}])).toBe('??');
     });
     it('prettyHex with lineLength', () => {
         expect(utils.prettyHex('', 0)).toBe('');
@@ -208,10 +225,11 @@ describe('utils', () => {
         expect(utils.prettyHex('1234567', 4)).toBe('31 32 33 34\n35 36 37');
         expect(utils.prettyHex('12345678', 4)).toBe('31 32 33 34\n35 36 37 38');
         expect(utils.prettyHex('123456789', 4)).toBe('31 32 33 34\n35 36 37 38\n39');
-    });
-    it('prettyMessage', () => {
-        expect(() => utils.prettyMessage({})).toThrow();
-        expect(utils.prettyMessage({command: proto.cmd.GET_MS, parameters: []}).length > 3).toBe(true);
+        expect(utils.prettyHex([0xFFF], 4)).toBe('??');
+        expect(utils.prettyHex([undefined], 4)).toBe('??');
+        expect(utils.prettyHex([null], 4)).toBe('??');
+        expect(utils.prettyHex([[]], 4)).toBe('??');
+        expect(utils.prettyHex([{}], 4)).toBe('??');
     });
     it('unPrettyHex', () => {
         expect(utils.unPrettyHex('')).toEqual([]);
@@ -221,18 +239,6 @@ describe('utils', () => {
         expect(utils.unPrettyHex('00 FF ff')).toEqual([0x00, 0xFF, 0xFF]);
         expect(() => utils.unPrettyHex('1')).toThrow();
         expect(() => utils.unPrettyHex('GG')).toThrow();
-    });
-    it('CRC16', () => {
-        expect(utils.CRC16([])).toEqual([0x00, 0x00]);
-        expect(utils.CRC16([0x01])).toEqual([0x01, 0x00]);
-        expect(utils.CRC16([0x12])).toEqual([0x12, 0x00]);
-        expect(utils.CRC16([0xFF])).toEqual([0xFF, 0x00]);
-        expect(utils.CRC16([0x01, 0x02])).toEqual([0x01, 0x02]);
-        expect(utils.CRC16([0x12, 0x34])).toEqual([0x12, 0x34]);
-        expect(utils.CRC16([0x12, 0x34, 0x56])).toEqual([0xBA, 0xBB]);
-        expect(utils.CRC16([0x12, 0x32, 0x56])).toEqual([0xBA, 0xAF]);
-        expect(utils.CRC16([0x12, 0x34, 0x56, 0x78])).toEqual([0x1E, 0x83]);
-        expect(utils.CRC16([0x12, 0x32, 0x56, 0x78])).toEqual([0x1E, 0xFB]);
     });
     it('getLookup', () => {
         expect(utils.getLookup({}, (value) => [value])).toEqual({});
@@ -274,98 +280,43 @@ describe('utils', () => {
         expect(registryDict).toEqual({'myEvent': []});
         expect(callsToCallback.length).toBe(1);
 
-        utils.addEventListener(registryDict, 'myEvent', () => { throw new Error(); });
+        utils.addEventListener(registryDict, 'myEvent', () => { throw new Error('test'); });
         utils.dispatchEvent(registryDict, 'myEvent', {'eventObject': eventObject});
     });
-    it('waitFor', (done) => {
-        let step = 0;
-        utils.waitFor(0, 'all')
-            .then((resultNow) => {
-                step += 1;
-                expect(resultNow).toBe('all');
-                utils.waitFor(1, 'alligator')
-                    .then((resultLater) => {
-                        step += 1;
-                        expect(resultLater).toBe('alligator');
-                        done();
-                    });
-                expect(step).toBe(1);
+    it('remove inexistent event listener', () => {
+        const registryDict = {};
+        const callsToCallback = [];
+        const callback = (e) => callsToCallback.push(e);
+        expect(registryDict).toEqual({});
+        utils.removeEventListener(registryDict, 'myEvent', callback);
+        expect(registryDict).toEqual({'myEvent': []});
+        utils.removeEventListener(registryDict, 'myEvent', callback);
+        expect(registryDict).toEqual({'myEvent': []});
+    });
+    it('waitFor 0', async (done) => {
+        let doneWaiting = false;
+        utils.waitFor(0, 'now')
+            .then((result) => {
+                expect(result).toBe('now');
+                doneWaiting = true;
             });
-        expect(step).toBe(0);
+        expect(doneWaiting).toBe(false);
+        await testUtils.advanceTimersByTime(0);
+        expect(doneWaiting).toBe(true);
+        done();
     });
-    it('processSiProto without remainder', () => {
-        const processSiProtoForMessage = (message) => (
-            utils.processSiProto(utils.buildSiProtoCommand(message)).message
-        );
-        expect(processSiProtoForMessage({command: 0x00, parameters: []}))
-            .toEqual({command: 0x00, parameters: []});
-        expect(processSiProtoForMessage({command: 0xFF, parameters: [0xEE]}))
-            .toEqual({command: 0xFF, parameters: [0xEE]});
-    });
-    it('processSiProto with remainder', () => {
-        const parseForMessageWithRemainder = (message) => utils.processSiProto([
-            ...utils.buildSiProtoCommand(message),
-            0xDD,
-        ]);
-        expect(parseForMessageWithRemainder({command: 0x00, parameters: []}))
-            .toEqual({message: {command: 0x00, parameters: []}, remainder: [0xDD]});
-        expect(parseForMessageWithRemainder({command: 0xFF, parameters: [0xEE]}))
-            .toEqual({message: {command: 0xFF, parameters: [0xEE]}, remainder: [0xDD]});
-    });
-    it('processSiProto with incomplete but valid data', () => {
-        expect(utils.processSiProto([]))
-            .toEqual({message: null, remainder: []});
-        expect(utils.processSiProto([proto.STX]))
-            .toEqual({message: null, remainder: [proto.STX]});
-        expect(utils.processSiProto([proto.STX, 0xFF]))
-            .toEqual({message: null, remainder: [proto.STX, 0xFF]});
-        expect(utils.processSiProto([proto.STX, 0xFF, 0x00]))
-            .toEqual({message: null, remainder: [proto.STX, 0xFF, 0x00]});
-        expect(utils.processSiProto([proto.STX, 0xFF, 0x02]))
-            .toEqual({message: null, remainder: [proto.STX, 0xFF, 0x02]});
-        expect(utils.processSiProto([proto.STX, 0xFF, 0x02, 0xEE]))
-            .toEqual({message: null, remainder: [proto.STX, 0xFF, 0x02, 0xEE]});
-        expect(utils.processSiProto([proto.STX, 0xFF, 0x02, 0xEE, 0xDD]))
-            .toEqual({message: null, remainder: [proto.STX, 0xFF, 0x02, 0xEE, 0xDD]});
-        expect(utils.processSiProto([proto.STX, 0xFF, 0x02, 0xEE, 0xDD, 0x6A]))
-            .toEqual({message: null, remainder: [proto.STX, 0xFF, 0x02, 0xEE, 0xDD, 0x6A]});
-        expect(utils.processSiProto([proto.STX, 0xFF, 0x02, 0xEE, 0xDD, 0x6A, 0xC2]))
-            .toEqual({message: null, remainder: [proto.STX, 0xFF, 0x02, 0xEE, 0xDD, 0x6A, 0xC2]});
-    });
-    it('processSiProto with invalid STX', () => {
-        const invalidSTX = Math.floor(proto.STX + Math.random() * 255 + 1) & 0xFF;
-        console.debug(`Chosen invalid STX: ${invalidSTX}`);
-        expect(utils.processSiProto([invalidSTX]))
-            .toEqual({message: null, remainder: []});
-        expect(utils.processSiProto([invalidSTX, 0xFF]))
-            .toEqual({message: null, remainder: [0xFF]});
-    });
-    it('processSiProto with invalid ETX', () => {
-        const invalidETX = Math.floor(proto.ETX + Math.random() * 255 + 1) & 0xFF;
-        expect(utils.processSiProto([proto.STX, 0x00, 0x00, 0x00, 0x00, invalidETX]))
-            .toEqual({message: null, remainder: [0x00, 0x00, 0x00, 0x00, invalidETX]});
-        expect(utils.processSiProto([proto.STX, 0xFF, 0x01, 0xEE, 0x00, 0x01, invalidETX]))
-            .toEqual({message: null, remainder: [0xFF, 0x01, 0xEE, 0x00, 0x01, invalidETX]});
-        expect(utils.processSiProto([proto.STX, 0x00, 0x00, 0x00, 0x01, invalidETX, 0xDD]))
-            .toEqual({message: null, remainder: [0x00, 0x00, 0x00, 0x01, invalidETX, 0xDD]});
-        expect(utils.processSiProto([proto.STX, 0xFF, 0x01, 0xEE, 0x00, 0x01, invalidETX, 0xDD]))
-            .toEqual({message: null, remainder: [0xFF, 0x01, 0xEE, 0x00, 0x01, invalidETX, 0xDD]});
-    });
-    it('processSiProto with invalid CRC', () => {
-        expect(utils.processSiProto([proto.STX, 0x00, 0x00, 0x00, 0x01, proto.ETX]))
-            .toEqual({message: null, remainder: []});
-        expect(utils.processSiProto([proto.STX, 0xFF, 0x01, 0xEE, 0x00, 0x01, proto.ETX]))
-            .toEqual({message: null, remainder: []});
-        expect(utils.processSiProto([proto.STX, 0x00, 0x00, 0x00, 0x01, proto.ETX, 0xDD]))
-            .toEqual({message: null, remainder: [0xDD]});
-        expect(utils.processSiProto([proto.STX, 0xFF, 0x01, 0xEE, 0x00, 0x01, proto.ETX, 0xDD]))
-            .toEqual({message: null, remainder: [0xDD]});
-    });
-
-    it('buildSiProtoCommand', () => {
-        expect(utils.buildSiProtoCommand({command: 0x00, parameters: []}))
-            .toEqual([proto.STX, 0x00, 0x00, 0x00, 0x00, proto.ETX]);
-        expect(utils.buildSiProtoCommand({command: 0xFF, parameters: [0xEE]}))
-            .toEqual([proto.STX, 0xFF, 0x01, 0xEE, 0xEC, 0x0A, proto.ETX]);
+    it('waitFor 1', async (done) => {
+        let doneWaiting = false;
+        utils.waitFor(1, 'later')
+            .then((result) => {
+                expect(result).toBe('later');
+                doneWaiting = true;
+            });
+        expect(doneWaiting).toBe(false);
+        await testUtils.advanceTimersByTime(0);
+        expect(doneWaiting).toBe(false);
+        await testUtils.advanceTimersByTime(1);
+        expect(doneWaiting).toBe(true);
+        done();
     });
 });

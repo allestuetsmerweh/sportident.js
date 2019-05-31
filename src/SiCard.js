@@ -13,7 +13,7 @@ export class SiCard {
     }
 
     read() {
-        var typeFromCN = SiCard.typeByCardNumber(this.cardNumber);
+        const typeFromCN = SiCard.typeByCardNumber(this.cardNumber);
         return SiCard.Type[typeFromCN].read(this);
     }
 
@@ -54,7 +54,7 @@ SiCard.Type = {
             .then((d) => {
                 const data = d[0];
                 data.splice(0, 2);
-                var cn = arr2big([data[6], data[4], data[5]]);
+                let cn = arr2big([data[6], data[4], data[5]]);
                 if (499999 < cn) { console.warn(`SICard5 Error: SI Card Number inconsistency: SI5 detected, but number is ${cn} (not in 0 - 500'000)`); }
                 if (data[6] < 2) {
                     cn = arr2big([data[4], data[5]]);
@@ -67,14 +67,14 @@ SiCard.Type = {
                 card.finishTime = arr2time(data.slice(21, 23));
                 card.checkTime = arr2time(data.slice(25, 27));
                 // TODO: also read the 6(?) additional punch codes without times
-                var len = Math.min(Math.max(data[23] - 1, 0), 30);
+                const len = Math.min(Math.max(data[23] - 1, 0), 30);
                 card.punches = new Array(len);
-                var ind = 32;
-                for (var i = 0; i < len; i++) {
+                let ind = 32;
+                for (let i = 0; i < len; i++) {
                     if ((ind % 16) === 0) {
                         ind++;
                     }
-                    var time = arr2time(data.slice(ind + 1, ind + 3));
+                    const time = arr2time(data.slice(ind + 1, ind + 3));
                     if (0 <= time) {
                         card.punches[i] = {code: data[ind + 0], time: time};
                     } else {
@@ -97,23 +97,23 @@ SiCard.Type = {
                 data[0].splice(0, 3);
                 data[1].splice(0, 3);
                 data[2].splice(0, 3);
-                var cn = arr2big([data[0][11], data[0][12], data[0][13]]);
+                const cn = arr2big([data[0][11], data[0][12], data[0][13]]);
                 if (card.cardNumber !== cn) { console.warn('SICard6 Error: SI Card Number inconsistency'); }
 
                 card.startTime = arr2time(data[0].slice(26, 28));
                 card.finishTime = arr2time(data[0].slice(22, 24));
                 card.checkTime = arr2time(data[0].slice(30, 32));
                 card.clearTime = arr2time(data[0].slice(34, 36));
-                var len = Math.min(Math.max(data[0][18] - 1, 0), 64);
+                const len = Math.min(Math.max(data[0][18] - 1, 0), 64);
                 card.punches = new Array(len);
-                var blk = 1;
-                var ind = 0;
-                for (var i = 0; i < len; i++) {
+                let blk = 1;
+                let ind = 0;
+                for (let i = 0; i < len; i++) {
                     if (128 <= ind) {
                         blk++;
                         ind = 0;
                     }
-                    var time = arr2time(data[blk].slice(ind + 2, ind + 4));
+                    const time = arr2time(data[blk].slice(ind + 2, ind + 4));
                     if (0 <= time) {
                         card.punches[i] = {code: data[blk][ind + 1], time: time};
                     } else {
@@ -134,7 +134,7 @@ SiCard.Type = {
                 .then((data0) => {
                     console.assert(data0[0][2] === 0, 'Inconsistent');
                     const page0 = data0[0].slice(3);
-                    var cn = arr2big([page0[25], page0[26], page0[27]]);
+                    const cn = arr2big([page0[25], page0[26], page0[27]]);
                     if (card.cardNumber !== cn) {
                         console.warn('SICard8 Error: SI Card Number inconsistency');
                     }
@@ -154,7 +154,7 @@ SiCard.Type = {
                         if (i >= len) {
                             break;
                         }
-                        var time = arr2time(page1.slice(i * 4 + 10, i * 4 + 12));
+                        const time = arr2time(page1.slice(i * 4 + 10, i * 4 + 12));
                         if (0 <= time) {
                             card.punches[i] = {
                                 code: page1[i * 4 + 9],
@@ -177,7 +177,7 @@ SiCard.Type = {
                 .then((data0) => {
                     console.assert(data0[0][2] === 0, 'Inconsistent');
                     const page0 = data0[0].slice(3);
-                    var cn = arr2big([page0[25], page0[26], page0[27]]);
+                    const cn = arr2big([page0[25], page0[26], page0[27]]);
                     if (card.cardNumber !== cn) {
                         console.warn('SICard9 Error: SI Card Number inconsistency');
                     }
@@ -242,7 +242,7 @@ SiCard.Type = {
                         isLastBlock = true;
                         break;
                     }
-                    var time = arr2time(blockData.slice(i * 4 + 2, i * 4 + 4));
+                    const time = arr2time(blockData.slice(i * 4 + 2, i * 4 + 4));
                     if (0 <= time) {
                         punchData[blockIndex * punchesPerBlock + i] = {
                             code: blockData[i * 4 + 1],
@@ -259,7 +259,7 @@ SiCard.Type = {
                 .then((data0) => {
                     console.assert(data0[0][2] === 0, 'Inconsistent');
                     const page0 = data0[0].slice(3);
-                    var cn = arr2big([page0[25], page0[26], page0[27]]);
+                    const cn = arr2big([page0[25], page0[26], page0[27]]);
                     if (card.cardNumber !== cn) {
                         console.warn('SICard10 Error: SI Card Number inconsistency');
                     }
@@ -316,7 +316,7 @@ SiCard.Type = {
                         isLastBlock = true;
                         break;
                     }
-                    var time = arr2time(blockData.slice(i * 4 + 2, i * 4 + 4));
+                    const time = arr2time(blockData.slice(i * 4 + 2, i * 4 + 4));
                     if (0 <= time) {
                         punchData[blockIndex * punchesPerBlock + i] = {
                             code: blockData[i * 4 + 1],
@@ -333,7 +333,7 @@ SiCard.Type = {
                 .then((data0) => {
                     console.assert(data0[0][2] === 0, 'Inconsistent');
                     const page0 = data0[0].slice(3);
-                    var cn = arr2big([page0[25], page0[26], page0[27]]);
+                    const cn = arr2big([page0[25], page0[26], page0[27]]);
                     if (card.cardNumber !== cn) {
                         console.warn('SICard11 Error: SI Card Number inconsistency');
                     }
@@ -390,7 +390,7 @@ SiCard.Type = {
                         isLastBlock = true;
                         break;
                     }
-                    var time = arr2time(blockData.slice(i * 4 + 2, i * 4 + 4));
+                    const time = arr2time(blockData.slice(i * 4 + 2, i * 4 + 4));
                     if (0 <= time) {
                         punchData[blockIndex * punchesPerBlock + i] = {
                             code: blockData[i * 4 + 1],
@@ -407,7 +407,7 @@ SiCard.Type = {
                 .then((data0) => {
                     console.assert(data0[0][2] === 0, 'Inconsistent');
                     const page0 = data0[0].slice(3);
-                    var cn = arr2big([page0[25], page0[26], page0[27]]);
+                    const cn = arr2big([page0[25], page0[26], page0[27]]);
                     if (card.cardNumber !== cn) {
                         console.warn('SIAC Error: SI Card Number inconsistency');
                     }
@@ -461,18 +461,18 @@ SiCard.typeByCardNumber = (cn) => {
     if (!SiCard._typeLookup) {
         SiCard._typeLookup = {borderList: [], borderLookup: {}};
         Object.keys(SiCard.Type).map((k) => {
-            var vals = SiCard.Type[k].vals;
+            const vals = SiCard.Type[k].vals;
             if ((vals.length % 2) !== 0) {
                 throw new Error(`SiCard.Type.${k}: vals length is ${vals.length}?!? (must be even)`);
             }
-            var lastEvenVal = 0;
-            for (var i = 0; i < vals.length; i++) {
-                var borderList = SiCard._typeLookup.borderList;
+            let lastEvenVal = 0;
+            for (let i = 0; i < vals.length; i++) {
+                const borderList = SiCard._typeLookup.borderList;
                 let j;
                 for (j = 0; j < borderList.length && borderList[j] < vals[i]; j++) {
                     // TODO: binary search here
                 }
-                var borderExisted = (SiCard._typeLookup.borderList[j] === vals[i]);
+                const borderExisted = (SiCard._typeLookup.borderList[j] === vals[i]);
                 if (!borderExisted) { SiCard._typeLookup.borderList.splice(j, 0, vals[i]); }
                 if ((i % 2) === 0) {
                     let collidingRange;

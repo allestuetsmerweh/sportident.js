@@ -5,7 +5,7 @@ export const useSiDevices = (siDeviceClass, useReact = React) => {
     const [siDevices, setSiDevices] = useReact.useState(Immutable.Map({}));
     useReact.useEffect(() => {
         const onDeviceAdd = (event) => {
-            const device = event.webUsbSiDevice;
+            const device = event.siDevice;
             setSiDevices((currentSiDevices) => {
                 if (!currentSiDevices.has(device.ident)) {
                     console.log('useSiDevices: add');
@@ -15,7 +15,7 @@ export const useSiDevices = (siDeviceClass, useReact = React) => {
             });
         };
         const onDeviceRemove = (event) => {
-            const device = event.webUsbSiDevice;
+            const device = event.siDevice;
             setSiDevices((currentSiDevices) => {
                 if (currentSiDevices.has(device.ident)) {
                     console.log('useSiDevices: remove');
