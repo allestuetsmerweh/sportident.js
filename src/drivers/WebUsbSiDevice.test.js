@@ -66,7 +66,7 @@ class FakeWebUsbDevice {
 }
 
 const testNavigatorEventListeners = {};
-const testNavigator = {
+export const testNavigator = {
     usb: {
         requestDevice: () => Promise.resolve(
             new FakeWebUsbDevice(siSerialNumber1, siVendorId, siProductId),

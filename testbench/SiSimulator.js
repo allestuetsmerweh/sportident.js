@@ -34,7 +34,7 @@ export class SiSimulator {
 
     _processReceiveBuffer() {
         const continueProcessing = (timeout = 1) => setTimeout(() => this._processReceiveBuffer(), timeout);
-        const {message, remainder} = si.utils.processSiProto(this._respBuffer);
+        const {message, remainder} = si.protocol.parse(this._respBuffer);
         this._respBuffer = remainder;
         if (message === null) {
             return null;
@@ -47,7 +47,7 @@ export class SiSimulator {
     }
 
     sendMessage(message) {
-        this._send(si.utils.buildSiProtoCommand(message));
+        this._send(si.protocol.render(message));
     }
 
     _processSendBuffer() {

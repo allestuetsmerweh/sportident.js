@@ -13,12 +13,12 @@ export const pipeCommand = ({userLine, logLine, mainStation, userInput}) => {
         const siSimulator = new SiSimulator(url);
         mainStation.onMessage = (message) => {
             console.log('MainStation:', message);
-            console.warn(si.utils.prettyMessage(message));
+            console.warn(si.protocol.prettyMessage(message));
             siSimulator.sendMessage(message);
         };
         siSimulator.onMessage = (message) => {
             console.log('SiSimulator:', message);
-            console.warn(si.utils.prettyMessage(message));
+            console.warn(si.protocol.prettyMessage(message));
             mainStation.sendMessage(message);
         };
 

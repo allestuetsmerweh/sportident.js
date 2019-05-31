@@ -18,11 +18,11 @@ describe('getWebUsbSiDevice', () => {
         const onStaticStateChange = () => {
             throw new Error('This should not happen');
         };
-        BaseSiDevice.addEventListener('statechange', onStaticStateChange);
+        BaseSiDevice.addEventListener('stateChange', onStaticStateChange);
         const baseSiDevice = new BaseSiDevice();
         const stateChanges = [];
         const onStateChange = (e) => stateChanges.push(e.state);
-        baseSiDevice.addEventListener('statechange', onStateChange);
+        baseSiDevice.addEventListener('stateChange', onStateChange);
         expect(stateChanges).toEqual([]);
         expect(baseSiDevice.state).toBe(BaseSiDevice.State.Closed);
         baseSiDevice.setSiDeviceState(BaseSiDevice.State.Closed);
@@ -34,7 +34,7 @@ describe('getWebUsbSiDevice', () => {
         baseSiDevice.setSiDeviceState(BaseSiDevice.State.Opened);
         expect(stateChanges).toEqual([BaseSiDevice.State.Opening, BaseSiDevice.State.Opened]);
         expect(baseSiDevice.state).toBe(BaseSiDevice.State.Opened);
-        baseSiDevice.removeEventListener('statechange', onStateChange);
-        BaseSiDevice.removeEventListener('statechange', onStaticStateChange);
+        baseSiDevice.removeEventListener('stateChange', onStateChange);
+        BaseSiDevice.removeEventListener('stateChange', onStaticStateChange);
     });
 });

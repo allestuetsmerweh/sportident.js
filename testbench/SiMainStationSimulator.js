@@ -40,7 +40,7 @@ export class SiMainStationSimulator {
     }
 
     sendMessage(message) {
-        console.warn(si.utils.prettyMessage(message));
+        console.warn(si.protocol.prettyMessage(message));
         const cmd = si.constants.proto.cmd;
         if (message.command === cmd.SIGNAL) {
             const numSignal = message.parameters[0];

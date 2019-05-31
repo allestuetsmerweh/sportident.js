@@ -22,7 +22,7 @@ export class SiStation {
     }
 
     readInfo() {
-        var now = new Date().getTime();
+        const now = new Date().getTime();
         if (now < this._infoTime + 60000) {
             return Promise.resolve(this._info);
         }

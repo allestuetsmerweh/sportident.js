@@ -126,6 +126,7 @@
     "no-useless-constructor": "error",
     "no-useless-rename": "error",
     "no-useless-return": "error",
+    "no-var": "error",
     "no-warning-comments": "warn",
     "no-whitespace-before-property": "error",
     "no-with": "error",

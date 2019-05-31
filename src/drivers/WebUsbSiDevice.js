@@ -1,4 +1,3 @@
-import * as utils from '../utils';
 import {BaseSiDevice} from './BaseSiDevice';
 
 const siConfiguration = 1;
@@ -27,7 +26,7 @@ export const getWebUsbSiDevice = (navigatorArg) => {
                         return device.open();
                     })
                     .then((openedDevice) => {
-                        this.dispatchEvent('add', {webUsbSiDevice: openedDevice});
+                        this.dispatchEvent('add', {siDevice: openedDevice});
                         resolve(openedDevice);
                     })
                     .catch((error) => reject(error));
@@ -63,7 +62,7 @@ export const getWebUsbSiDevice = (navigatorArg) => {
                 const newDevice = this.getOrCreate(event.device);
                 newDevice.autoOpen()
                     .then(() => {
-                        this.dispatchEvent('add', {webUsbSiDevice: newDevice});
+                        this.dispatchEvent('add', {siDevice: newDevice});
                     });
             };
             navigatorArg.usb.addEventListener('connect', onConnectCallback);
@@ -73,7 +72,7 @@ export const getWebUsbSiDevice = (navigatorArg) => {
                 }
                 const removedDevice = this.getOrCreate(event.device);
                 this.remove(removedDevice);
-                this.dispatchEvent('remove', {webUsbSiDevice: removedDevice});
+                this.dispatchEvent('remove', {siDevice: removedDevice});
             };
             navigatorArg.usb.addEventListener('disconnect', onDisconnectCallback);
             this._autodetectionCallbacks = {
@@ -239,10 +238,8 @@ export const getWebUsbSiDevice = (navigatorArg) => {
             }
             return this.webUsbDevice.transferIn(siEndpoint, siPacketSize)
                 .then((response) => {
-                    var uint8Data = new Uint8Array(response.data.buffer);
-                    console.debug(`<= (WebUsb)\n${utils.prettyHex(uint8Data, 16)}`);
-                    this.dispatchEvent('receive', {uint8Data: uint8Data});
-                    return response;
+                    const uint8Data = new Uint8Array(response.data.buffer);
+                    return uint8Data;
                 });
         }
 
