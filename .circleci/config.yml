@@ -13,6 +13,8 @@ jobs:
     steps:
       - checkout
 
+      - run: sudo apt install graphviz
+
       - restore_cache:
           keys:
           - v1-dependencies-{{ checksum "package.json" }}
@@ -60,13 +62,16 @@ jobs:
             git config user.name "ci-build"
       - run:
           name: Deploy docs to gh-pages branch
-          command: ./node_modules/gh-pages/bin/gh-pages.js --dist docs/testbench
+          command: ./node_modules/gh-pages/bin/gh-pages.js --dist docs
 
 workflows:
   version: 2
   build:
     jobs:
-      - build
+      - build:
+          filters:
+            branches:
+              ignore: gh-pages
       - docs-deploy:
           requires:
             - build
