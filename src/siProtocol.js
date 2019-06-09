@@ -132,6 +132,7 @@ export const render = (message) => {
         [proto.ETX]: renderCommand,
         [proto.WAKEUP]: () => [proto.WAKEUP],
         [proto.NAK]: () => [proto.NAK],
+        [proto.ACK]: () => [proto.ACK],
     };
     const renderFunction = renderFunctionsByMode[message.mode];
     if (renderFunction === undefined) {

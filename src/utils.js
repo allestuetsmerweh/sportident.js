@@ -200,6 +200,7 @@ export const dispatchEvent = (registryDict, type, eventProperties = {}) => {
             listener(eventToDispatch);
         } catch (exc) {
             console.error(`Event Listener failed (${type}): ${exc}`);
+            console.info(exc.stack);
         }
     });
     return !eventToDispatch.defaultPrevented;
@@ -208,3 +209,22 @@ export const dispatchEvent = (registryDict, type, eventProperties = {}) => {
 export const waitFor = (milliseconds, value) => new Promise((resolve) => {
     setTimeout(() => resolve(value), milliseconds);
 });
+
+export const binarySearch = (list, item, options = {}) => {
+    const defaultGetLength = (list_) => list_.length;
+    const getLength = options.getLength || defaultGetLength;
+    const defaultGetItemAtIndex = (list_, index) => list_[index];
+    const getItemAtIndex = options.getItemAtIndex || defaultGetItemAtIndex;
+    const defaultGetNewRange = (list_, item_, start, end) => {
+        const mid = Math.floor((start + end) / 2);
+        const midItem = getItemAtIndex(list_, mid);
+        return item_ <= midItem ? [start, mid] : [mid + 1, end];
+    };
+    const getNewRange = options.getNewRange || defaultGetNewRange;
+    let start = 0;
+    let end = getLength(list);
+    while (start < end) {
+        [start, end] = getNewRange(list, item, start, end);
+    }
+    return start;
+};

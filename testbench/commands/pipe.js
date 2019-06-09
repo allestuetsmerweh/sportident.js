@@ -1,4 +1,4 @@
-import si from '../../src/index';
+import si from '../../src';
 import {SiSimulator} from '../SiSimulator';
 
 export const pipeCommand = ({userLine, logLine, mainStation, userInput}) => {

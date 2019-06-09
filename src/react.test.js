@@ -3,7 +3,7 @@
 import _ from 'lodash';
 import React from 'react';
 import renderer from 'react-test-renderer';
-import {FakeSiDevice} from './drivers/FakeSiDevice';
+import {FakeSiDevice} from './SiDevice/testUtils/FakeSiDevice';
 import * as react from './react';
 
 describe('react', () => {

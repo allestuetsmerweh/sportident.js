@@ -1,8 +1,8 @@
 /* eslint-env jasmine */
 
-import * as siProtocol from './siProtocol';
-import * as testUtils from './testUtils';
-import {FakeSiDevice} from './drivers/FakeSiDevice';
+import * as siProtocol from '../siProtocol';
+import * as testUtils from '../testUtils';
+import {FakeSiDevice} from '../SiDevice/testUtils/FakeSiDevice';
 import {SiTargetMultiplexer} from './SiTargetMultiplexer';
 
 testUtils.useFakeTimers();
@@ -33,7 +33,7 @@ describe('SiTargetMultiplexer', () => {
 
         const randomMessage = testUtils.getRandomMessage(0);
         const timeState = {};
-        muxer.send(
+        muxer.sendMessage(
             muxer.constructor.Target.Direct,
             randomMessage,
             0,
@@ -57,7 +57,7 @@ describe('SiTargetMultiplexer', () => {
 
         const randomMessage = testUtils.getRandomMessage(0);
         const timeState = {};
-        muxer.send(
+        muxer.sendMessage(
             muxer.constructor.Target.Direct,
             randomMessage,
             1,
@@ -86,7 +86,7 @@ describe('SiTargetMultiplexer', () => {
 
         const randomMessage = testUtils.getRandomMessage(0);
         const timeState = {};
-        muxer.send(
+        muxer.sendMessage(
             muxer.constructor.Target.Direct,
             randomMessage,
             2,
@@ -122,7 +122,7 @@ describe('SiTargetMultiplexer', () => {
 
         const randomMessage = testUtils.getRandomMessage(0);
         const timeState = {};
-        muxer.send(
+        muxer.sendMessage(
             muxer.constructor.Target.Direct,
             randomMessage,
             1,
@@ -147,7 +147,7 @@ describe('SiTargetMultiplexer', () => {
 
         const randomMessage = testUtils.getRandomMessage(0);
         const timeState = {};
-        muxer.send(
+        muxer.sendMessage(
             muxer.constructor.Target.Direct,
             randomMessage,
             2,
@@ -179,7 +179,7 @@ describe('SiTargetMultiplexer', () => {
         const randomMessage = testUtils.getRandomMessage(0);
         const timeoutInMiliseconds = 2;
         const timeState = {};
-        muxer.send(
+        muxer.sendMessage(
             muxer.constructor.Target.Direct,
             randomMessage,
             1,
@@ -215,7 +215,7 @@ describe('SiTargetMultiplexer', () => {
 
         const randomMessage = testUtils.getRandomMessage(0);
         const timeState = {};
-        muxer.send(
+        muxer.sendMessage(
             muxer.constructor.Target.Direct,
             randomMessage,
             1,
@@ -251,7 +251,7 @@ describe('SiTargetMultiplexer', () => {
 
         const randomMessage = testUtils.getRandomMessage(0);
         const timeState = {};
-        muxer.send(
+        muxer.sendMessage(
             muxer.constructor.Target.Direct,
             randomMessage,
             1,
@@ -275,7 +275,7 @@ describe('SiTargetMultiplexer', () => {
 
         const randomMessage = testUtils.getRandomMessage(0);
         const timeState = {};
-        muxer.send(
+        muxer.sendMessage(
             muxer.constructor.Target.Direct,
             randomMessage,
             0,
@@ -306,7 +306,7 @@ describe('SiTargetMultiplexer', () => {
         const randomMessage = testUtils.getRandomMessage(0);
         const timeState = {};
         const getMuxerPromise = () => (
-            muxer.send(
+            muxer.sendMessage(
                 muxer.constructor.Target.Direct,
                 randomMessage,
                 0,
@@ -347,7 +347,7 @@ describe('SiTargetMultiplexer', () => {
         const randomMessage = testUtils.getRandomMessage(0);
         const timeState = {};
         const getMuxerPromise = () => (
-            muxer.send(
+            muxer.sendMessage(
                 muxer.constructor.Target.Direct,
                 randomMessage,
                 0,
@@ -388,7 +388,7 @@ describe('SiTargetMultiplexer', () => {
 
         const randomMessage = testUtils.getRandomMessage(0);
         const timeState = {};
-        muxer.send(
+        muxer.sendMessage(
             muxer.constructor.Target.Direct,
             randomMessage,
             1,

@@ -1,5 +1,6 @@
 /* eslint-env jasmine */
 
+import Immutable from 'immutable';
 import * as utils from './utils';
 import * as testUtils from './testUtils';
 
@@ -318,5 +319,55 @@ describe('utils', () => {
         await testUtils.advanceTimersByTime(1);
         expect(doneWaiting).toBe(true);
         done();
+    });
+    it('binarySearch length 0', () => {
+        const list = [];
+        expect(utils.binarySearch(list, -1)).toBe(0);
+        expect(utils.binarySearch(list, 0)).toBe(0);
+        expect(utils.binarySearch(list, 1)).toBe(0);
+    });
+    it('binarySearch length 1', () => {
+        const list = [3];
+        expect(utils.binarySearch(list, -1)).toBe(0);
+        expect(utils.binarySearch(list, 0)).toBe(0);
+        expect(utils.binarySearch(list, 1)).toBe(0);
+        expect(utils.binarySearch(list, 3)).toBe(0);
+        expect(utils.binarySearch(list, 4)).toBe(1);
+    });
+    it('binarySearch length 3', () => {
+        const list = [1, 2, 4];
+        expect(utils.binarySearch(list, -1)).toBe(0);
+        expect(utils.binarySearch(list, 0)).toBe(0);
+        expect(utils.binarySearch(list, 1)).toBe(0);
+        expect(utils.binarySearch(list, 2)).toBe(1);
+        expect(utils.binarySearch(list, 3)).toBe(2);
+        expect(utils.binarySearch(list, 4)).toBe(2);
+        expect(utils.binarySearch(list, 5)).toBe(3);
+    });
+    it('binarySearch duplicates', () => {
+        const listOdd = [1, 2, 2];
+        expect(utils.binarySearch(listOdd, 1)).toBe(0);
+        expect(utils.binarySearch(listOdd, 2)).toBe(1);
+        expect(utils.binarySearch(listOdd, 3)).toBe(3);
+        const listEven = [1, 1, 2];
+        expect(utils.binarySearch(listEven, 1)).toBe(0);
+        expect(utils.binarySearch(listEven, 2)).toBe(2);
+        expect(utils.binarySearch(listEven, 3)).toBe(3);
+    });
+    it('binarySearch immutable', () => {
+        const getLength = (list) => list.size;
+        const getItemAtIndex = (list, index) => list.get(index);
+        const options = {
+            getLength: getLength,
+            getItemAtIndex: getItemAtIndex,
+        };
+        const list = Immutable.List([1, 2, 4]);
+        expect(utils.binarySearch(list, -1, options)).toBe(0);
+        expect(utils.binarySearch(list, 0, options)).toBe(0);
+        expect(utils.binarySearch(list, 1, options)).toBe(0);
+        expect(utils.binarySearch(list, 2, options)).toBe(1);
+        expect(utils.binarySearch(list, 3, options)).toBe(2);
+        expect(utils.binarySearch(list, 4, options)).toBe(2);
+        expect(utils.binarySearch(list, 5, options)).toBe(3);
     });
 });

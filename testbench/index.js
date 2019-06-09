@@ -6,7 +6,7 @@ import stylesCss from './styles.css';
 import {MainStationList} from './MainStationList';
 import {Terminal} from './Terminal';
 import {WebUsbSiDevicesContext} from './WebUsbSiDevicesContext';
-import si from '../src/index';
+import si from '../src';
 
 export default () => indexHtml.replace(
     '<!--INSERT_CSS_HERE-->',

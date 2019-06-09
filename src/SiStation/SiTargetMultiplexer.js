@@ -1,6 +1,6 @@
-import {proto} from './constants';
-import * as utils from './utils';
-import * as siProtocol from './siProtocol';
+import {proto} from '../constants';
+import * as utils from '../utils';
+import * as siProtocol from '../siProtocol';
 
 export class SiTargetMultiplexer {
     static fromSiDevice(siDevice) {
@@ -84,7 +84,7 @@ export class SiTargetMultiplexer {
         this._sendQueue[0].addResponse(parameters);
     }
 
-    send(target, message, numResponses = 0, timeoutInMiliseconds = 10000) {
+    sendMessage(target, message, numResponses = 0, timeoutInMiliseconds = 10000) {
         return new Promise((resolve, reject) => {
             const sendTask = new SendTask(
                 target,

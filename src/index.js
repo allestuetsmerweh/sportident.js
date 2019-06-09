@@ -2,13 +2,12 @@
 /* exported si */
 
 import * as constants from './constants';
-import * as drivers from './drivers';
+import * as drivers from './SiDevice/drivers';
 import * as protocol from './siProtocol';
 import * as react from './react';
 import * as utils from './utils';
-import {SiCard} from './SiCard';
-import {SiStation} from './SiStation';
-import {SiMainStation} from './SiMainStation';
+import {BaseSiCard} from './SiCard';
+import {SiStation, SiMainStation} from './SiStation';
 
 export const si = {
     constants: constants,
@@ -18,7 +17,7 @@ export const si = {
     utils: utils,
     Station: SiStation,
     MainStation: SiMainStation,
-    Card: SiCard,
+    Card: BaseSiCard,
 };
 
 export default si;

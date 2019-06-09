@@ -202,6 +202,14 @@ describe('siProtocol', () => {
         });
     });
 
+    it('render ACK', () => {
+        expect(siProtocol.render({mode: proto.ACK}))
+            .toEqual([proto.ACK]);
+        expect(siProtocol.render({mode: proto.ACK, command: null, parameters: null}))
+            .toEqual([proto.ACK]);
+        expect(siProtocol.render({mode: proto.ACK, command: 0xFF, parameters: [0xEE]}))
+            .toEqual([proto.ACK]);
+    });
     it('render NAK', () => {
         expect(siProtocol.render({mode: proto.NAK}))
             .toEqual([proto.NAK]);

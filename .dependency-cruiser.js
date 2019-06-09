@@ -83,10 +83,10 @@ const customForbidden = [
         comment: 'Don\'t allow dependencies from outside to test files',
         severity: 'error',
         from: {
-            pathNot: '\\.test\\.js$',
+            pathNot: '\\.test\\.js$|testUtils\\.js$|/testUtils/',
         },
         to: {
-            path: '\\.test\\.js$',
+            path: '\\.test\\.js$|testUtils\\.js$|/testUtils/',
         },
     },
     {
@@ -98,6 +98,29 @@ const customForbidden = [
         },
         to: {
             path: '^testbench',
+        },
+    },
+    {
+        name: 'not-to-src-si-device-drivers',
+        comment: 'Don\'t allow dependencies from outside to src/SiDevice/drivers',
+        severity: 'error',
+        from: {
+            pathNot: '^(src/SiDevice/drivers|src/index\\.js$)',
+        },
+        to: {
+            path: '^src/SiDevice/drivers',
+        },
+    },
+    {
+        name: 'not-from-testbench-inside-src',
+        comment: 'Don\'t allow dependencies from testbench to src except index.js',
+        severity: 'error',
+        from: {
+            path: '^testbench',
+        },
+        to: {
+            path: '^src',
+            pathNot: '^src/index\\.js',
         },
     },
 ];

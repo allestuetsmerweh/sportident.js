@@ -1,7 +1,7 @@
-import * as utils from './utils';
-import {proto} from './constants';
+import * as utils from '../utils';
+import {proto} from '../constants';
+import {BaseSiCard} from '../SiCard';
 import {SiTargetMultiplexer} from './SiTargetMultiplexer';
-import {SiCard} from './SiCard';
 import {SiStation} from './SiStation';
 
 export class SiMainStation extends SiStation {
@@ -54,11 +54,10 @@ export class SiMainStation extends SiStation {
             }
             return;
         }
-        let cn, typeFromCN;
-        if (command === proto.cmd.SI5_DET) {
-            cn = utils.arr2cardNumber([parameters[5], parameters[4], parameters[3]]);
-            this.card = new SiCard(this, cn);
-            console.log('SI5 DET', this.card, parameters);
+        const detectedSiCard = BaseSiCard.detectFromMessage(message);
+        if (detectedSiCard !== undefined) {
+            detectedSiCard.mainStation = this;
+            this.card = detectedSiCard;
             this.dispatchEvent('cardInserted', {card: this.card});
             this.card.read()
                 .then((card) => {
@@ -66,36 +65,7 @@ export class SiMainStation extends SiStation {
                 });
             return;
         }
-        if (command === proto.cmd.SI6_DET) {
-            cn = utils.arr2cardNumber([parameters[5], parameters[4], parameters[3]]);
-            typeFromCN = SiCard.typeByCardNumber(cn);
-            if (typeFromCN !== 'SICard6') {
-                console.warn(`SICard6 Error: SI Card Number inconsistency: Function SI6 called, but number is ${cn} (=> ${typeFromCN})`);
-            }
-            this.card = new SiCard(this, cn);
-            console.log('SI6 DET', parameters);
-            this.dispatchEvent('cardInserted', {card: this.card});
-            this.card.read()
-                .then((card) => {
-                    this.dispatchEvent('card', {card: card});
-                });
-            return;
-        }
-        if (command === proto.cmd.SI8_DET) {
-            cn = utils.arr2cardNumber([parameters[5], parameters[4], parameters[3]]);
-            typeFromCN = SiCard.typeByCardNumber(cn);
-            if (!{'SICard8': 1, 'SICard9': 1, 'SICard10': 1, 'SICard11': 1}[typeFromCN]) {
-                console.warn(`SICard8 Error: SI Card Number inconsistency: Function SI8 called, but number is ${cn} (=> ${typeFromCN})`);
-            }
-            this.card = new SiCard(this, cn);
-            console.log('SI8 DET', parameters);
-            this.dispatchEvent('cardInserted', {card: this.card});
-            this.card.read()
-                .then((card) => {
-                    this.dispatchEvent('card', {card: card});
-                });
-            return;
-        }
+        let cn;
         if (command === proto.cmd.SI_REM) {
             cn = utils.arr2cardNumber([parameters[5], parameters[4], parameters[3]]);
             console.log('SI REM', parameters, cn, this.card);
@@ -125,13 +95,23 @@ export class SiMainStation extends SiStation {
                     cn = parameters[3] * 100000 + utils.arr2big([parameters[4], parameters[5]]);
                 }
             }
-            const transRecordCard = new SiCard(this, cn);
+            const transRecordCard = BaseSiCard.fromCardNumber(cn);
+            transRecordCard.mainStation = this;
             console.log('TRANS_REC', transRecordCard, parameters);
             this.dispatchEvent('cardInserted', {card: transRecordCard});
             this.dispatchEvent('cardRemoved', {card: transRecordCard});
             return;
         }
-        console.log(`SiMainStation: Other command ${utils.prettyHex(command)} ${utils.prettyHex(parameters)}`);
+        console.log(`SiMainStation: Other command ${utils.prettyHex([command])} ${utils.prettyHex(parameters)}`);
+    }
+
+    sendMessage(message, numResponses, timeoutInMiliseconds) {
+        return this.siTargetMultiplexer.sendMessage(
+            SiTargetMultiplexer.Target.Direct,
+            message,
+            numResponses,
+            timeoutInMiliseconds,
+        );
     }
 
     _remove() {
