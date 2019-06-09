@@ -1,3 +1,5 @@
+import * as utils from '../../src/utils';
+
 export const sendCommand = ({userLine, logLine, mainStation}) => {
     const res = /send\s+([0-9a-fA-F\s]+)\s*:\s*([0-9a-fA-F\s]+)\s*:\s*([0-9]+)/.exec(userLine);
     if (res === null) {
@@ -21,6 +23,16 @@ export const sendCommand = ({userLine, logLine, mainStation}) => {
         parameters.push(parseInt(parametersStr.slice(i, i + 2), 16));
     }
     const numResp = res.length > 3 ? parseInt(res[3], 10) : 0;
-    return mainStation._sendCommand(command, parameters, numResp)
-        .then((respParameters) => `Answer: ${respParameters}`);
+    return mainStation.sendMessage({
+        command: command,
+        parameters: parameters,
+    }, numResp)
+        .then((allResponses) => {
+            allResponses.forEach((response, index) => {
+                logLine(`Answer[${index}]:`);
+                utils.prettyHex(response, 16).split('\n').forEach((line) => {
+                    logLine(` ${line}`);
+                });
+            });
+        });
 };

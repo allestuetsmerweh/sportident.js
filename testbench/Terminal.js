@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {commands} from './commands/index';
-import si from '../src/index';
+import {commands} from './commands';
+import si from '../src';
 
 export const Terminal = (props) => {
     const selectedIdent = props.selectedDevice && props.selectedDevice.ident;

@@ -70,12 +70,21 @@ export class BaseSiDevice {
                     this.dispatchEvent('receive', {uint8Data: uint8Data});
                 })
                 .catch((err) => {
+                    if (err instanceof BaseSiDevice.DeviceClosedError) {
+                        console.warn('Device closed while receiving');
+                        throw err;
+                    }
                     console.warn(`${this.name}: Error receiving: ${err}`);
                     return utils.waitFor(100);
                 })
-                .then(() => this.receiveLoop());
+                .then(() => this.receiveLoop())
+                .catch(() => undefined);
         } catch (exc) {
             console.warn(`${this.name}: Error starting receiving: ${exc}`);
+            if (exc instanceof BaseSiDevice.DeviceClosedError) {
+                console.warn('Device closed while starting receiving');
+                return;
+            }
             utils.waitFor(100)
                 .then(() => this.receiveLoop());
         }
@@ -88,3 +97,10 @@ BaseSiDevice.State = {
     Opened: 2,
     Closing: 3,
 };
+
+class DeviceClosedError {
+    constructor(message) {
+        this.message = message;
+    }
+}
+BaseSiDevice.DeviceClosedError = DeviceClosedError;

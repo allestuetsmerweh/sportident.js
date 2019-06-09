@@ -1,7 +1,7 @@
 /* eslint-env jasmine */
 
 import {getWebUsbSiDevice} from './WebUsbSiDevice';
-import * as utils from '../utils';
+import * as utils from '../../utils';
 
 const siVendorId = 0x10c4;
 const siProductId = 0x800a;

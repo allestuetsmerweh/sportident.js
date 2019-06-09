@@ -1,7 +1,7 @@
 /* eslint-env jasmine */
 
 import _ from 'lodash';
-import * as testUtils from '../testUtils';
+import * as testUtils from '../../testUtils';
 import {FakeSiDevice} from './FakeSiDevice';
 
 testUtils.useFakeTimers();

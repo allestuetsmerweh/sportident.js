@@ -1,4 +1,4 @@
-import si from '../../src/index';
+import si from '../../src';
 
 const tests = {
     'card': ({logLine, mainStation}) => {
@@ -9,20 +9,24 @@ const tests = {
             setTimeout(resolve, seconds * 1000);
         });
         let cardState = '';
+        const resetCardCallbacks = (mainStation_) => {
+            mainStation_._eventListeners = {};
+        };
         const simulateStation = (mode, code, actionName) => () => mainStation.code(code)
             .then(() => mainStation.mode(mode))
             .then(() => mainStation.autoSend(1))
             .then(() => {
                 logLine(`${actionName} card...`);
                 return new Promise((resolve) => {
-                    mainStation.resetCardCallbacks();
-                    mainStation.onCardRemoved = (card) => {
+                    resetCardCallbacks(mainStation);
+                    mainStation.addEventListener('cardRemoved', (cardEvent) => {
+                        const card = cardEvent.card;
                         if (fixedSiNumber === null) {
                             fixedSiNumber = card.cardNumber;
                         }
                         if (fixedSiNumber === card.cardNumber) {
-                            mainStation.resetCardCallbacks();
-                            logLine(`${actionName} ${card.type()} succeeded: ${card.cardNumber}`);
+                            resetCardCallbacks(mainStation);
+                            logLine(`${actionName} ${card.constructor.name} succeeded: ${card.cardNumber}`);
                             if (mode === si.Station.Mode.Clear) {
                                 cardState = '';
                             } else {
@@ -30,9 +34,9 @@ const tests = {
                             }
                             setTimeout(resolve, 1);
                         } else {
-                            logLine(`Other ${card.type()}: ${card.cardNumber}`);
+                            logLine(`Other ${card.constructor.name}: ${card.cardNumber} (not ${fixedSiNumber})`);
                         }
-                    };
+                    });
                 });
             });
         const readoutCard = () => () => mainStation.autoSend(0)
@@ -41,26 +45,30 @@ const tests = {
             .then(() => {
                 logLine('Read card...');
                 return new Promise((resolve) => {
-                    mainStation.resetCardCallbacks();
-                    mainStation.onCard = (card) => {
+                    resetCardCallbacks(mainStation);
+                    mainStation.addEventListener('card', (cardEvent) => {
+                        const card = cardEvent.card;
                         if (fixedSiNumber === null) {
                             fixedSiNumber = card.cardNumber;
                         }
                         if (fixedSiNumber === card.cardNumber) {
-                            logLine(`${card.type()} read: ${card.cardNumber}`);
+                            logLine(`${card.constructor.name} read: ${card.cardNumber}`);
                             samples[cardState] = card.toDict();
                             logLine(cardState);
-                            logLine(card.toHtml());
-                            mainStation.onCardRemoved = (removedCard) => {
+                            card.toString().split('\n').forEach((line) => {
+                                logLine(line);
+                            });
+                            mainStation.addEventListener('cardRemoved', (removeEvent) => {
+                                const removedCard = removeEvent.card;
                                 if (fixedSiNumber === removedCard.cardNumber) {
-                                    mainStation.resetCardCallbacks();
+                                    resetCardCallbacks(mainStation);
                                     setTimeout(resolve, 1);
                                 }
-                            };
+                            });
                         } else {
-                            logLine(`Other ${card.type()}: ${card.cardNumber}`);
+                            logLine(`Other ${card.constructor.name}: ${card.cardNumber} (not ${fixedSiNumber})`);
                         }
-                    };
+                    });
                 });
             });
         return simulateStation(si.Station.Mode.Clear, 1, 'Clear')()

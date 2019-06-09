@@ -31,10 +31,12 @@ jobs:
       - run: npm run webpack-src
       - run: npm run webpack-testbench
       - run: npm run build-docs
+      - run: ls -la docs
+      - run: ls -la docs/generated
 
       - persist_to_workspace:
           root: docs
-          paths: testbench
+          paths: .
 
   docs-deploy:
     docker:

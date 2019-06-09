@@ -1,4 +1,4 @@
-import si from '../../src/index';
+import si from '../../src';
 import {SiSimulator} from '../SiSimulator';
 import {SiMainStationSimulator} from '../SiMainStationSimulator';
 import {SiCard5Simulator} from '../SiCard5Simulator';

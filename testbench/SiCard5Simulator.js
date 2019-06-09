@@ -1,4 +1,4 @@
-import si from '../src/index';
+import si from '../src';
 import {SiCardSimulator} from './SiCardSimulator';
 
 export class SiCard5Simulator extends SiCardSimulator {

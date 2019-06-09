@@ -1,4 +1,4 @@
-import {BaseSiDevice} from './BaseSiDevice';
+import {BaseSiDevice} from '../BaseSiDevice';
 
 const siConfiguration = 1;
 const siInterface = 0;
@@ -190,7 +190,10 @@ export const getWebUsbSiDevice = (navigatorArg) => {
                         this.setSiDeviceState(this.constructor.State.Opened);
                         resolve(this);
                     })
-                    .catch((err) => reject(err));
+                    .catch((err) => {
+                        this.setSiDeviceState(this.constructor.State.Closed);
+                        reject(err);
+                    });
             });
         }
 
@@ -234,7 +237,7 @@ export const getWebUsbSiDevice = (navigatorArg) => {
             if (this.webUsbDevice.opened !== true) {
                 console.warn('Device has been closed. Stopping receive loop.');
                 this.setSiDeviceState(this.constructor.State.Closed);
-                throw new Error('Device closed');
+                throw new BaseSiDevice.DeviceClosedError();
             }
             return this.webUsbDevice.transferIn(siEndpoint, siPacketSize)
                 .then((response) => {

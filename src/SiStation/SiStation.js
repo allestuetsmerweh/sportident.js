@@ -1,5 +1,5 @@
-import {arr2big, arr2date, date2arr, getLookup} from './utils';
-import {proto} from './constants';
+import {arr2big, arr2date, date2arr, getLookup} from '../utils';
+import {proto} from '../constants';
 
 export class SiStation {
     constructor(mainStation) {
@@ -35,7 +35,10 @@ export class SiStation {
     }
 
     forceReadInfo() {
-        return this.mainStation._sendCommand(proto.cmd.GET_SYS_VAL, [0x00, 0x80], 1)
+        return this.mainStation.sendMessage({
+            command: proto.cmd.GET_SYS_VAL,
+            parameters: [0x00, 0x80],
+        }, 1)
             .then((d) => {
                 const data = d[0];
                 data.splice(0, 3);
@@ -66,19 +69,27 @@ export class SiStation {
 
     time(newTime) {
         if (newTime === undefined) {
-            return this.mainStation._sendCommand(proto.cmd.GET_TIME, [], 1)
+            return this.mainStation.sendMessage({
+                command: proto.cmd.GET_TIME,
+                parameters: [],
+            }, 1)
                 .then((d) => arr2date(d[0].slice(2)));
         }
         // TODO: compensate for waiting time
-        const params = date2arr(newTime);
-        return this.mainStation._sendCommand(proto.cmd.SET_TIME, params, 1)
+        return this.mainStation.sendMessage({
+            command: proto.cmd.SET_TIME,
+            parameters: [...date2arr(newTime)],
+        }, 1)
             .then((d) => arr2date(d[0].slice(2)));
 
     }
 
     signal(countArg) {
         const count = !countArg || countArg < 1 ? 1 : countArg;
-        return this.mainStation._sendCommand(proto.cmd.SIGNAL, [count], 1)
+        return this.mainStation.sendMessage({
+            command: proto.cmd.SIGNAL,
+            parameters: [count],
+        }, 1)
             .then((data) => {
                 if (data[0][2] !== count) {
                     throw new Error('NUM BEEPS');
@@ -87,7 +98,10 @@ export class SiStation {
     }
 
     powerOff() { // Does not power off BSM8 (USB powered), though
-        return this.mainStation._sendCommand(proto.cmd.OFF, [], 0);
+        return this.mainStation.sendMessage({
+            command: proto.cmd.OFF,
+            parameters: [],
+        }, 0);
     }
 
     info(retrieveFunc, paramsFunc = undefined, newValue = undefined) {
@@ -102,7 +116,10 @@ export class SiStation {
                 if (!params) {
                     throw new Error('INVALID_PARAM');
                 }
-                return this.mainStation._sendCommand(proto.cmd.SET_SYS_VAL, params, 1);
+                return this.mainStation.sendMessage({
+                    command: proto.cmd.SET_SYS_VAL,
+                    parameters: params,
+                }, 1);
             })
             .then((d) => {
                 const data = d[0];

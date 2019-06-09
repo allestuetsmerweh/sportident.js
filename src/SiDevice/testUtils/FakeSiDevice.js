@@ -1,5 +1,5 @@
-import {runMock} from '../testUtils';
-import {BaseSiDevice} from './BaseSiDevice';
+import {runMock} from '../../testUtils';
+import {BaseSiDevice} from '../BaseSiDevice';
 
 export class FakeSiDevice extends BaseSiDevice {
     static startAutoDetection() {

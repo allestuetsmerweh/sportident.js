@@ -28,7 +28,7 @@ export const MainStationList = (props) => (
     </div>
 );
 MainStationList.propTypes = {
-    devices: PropTypes.object,
+    devices: PropTypes.array,
     selectedDevice: PropTypes.object,
     addNewDevice: PropTypes.func,
 };

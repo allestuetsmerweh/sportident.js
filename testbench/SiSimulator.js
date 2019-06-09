@@ -1,4 +1,4 @@
-import si from '../src/index';
+import si from '../src';
 
 export class SiSimulator {
     constructor(url) {
