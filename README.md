@@ -1,7 +1,7 @@
 # sportident.js
 JavaScript interface to SportIdent devices
 
-There is an [online testbench](https://allestuetsmerweh.github.io/sportident.js/).
+There are [generated docs](https://allestuetsmerweh.github.io/sportident.js/).
 
 ## How to install
 ```

@@ -62,7 +62,7 @@ jobs:
             git config user.name "ci-build"
       - run:
           name: Deploy docs to gh-pages branch
-          command: ./node_modules/gh-pages/bin/gh-pages.js --dist docs
+          command: ./node_modules/gh-pages/bin/gh-pages.js --dotfiles --dist docs
 
 workflows:
   version: 2
