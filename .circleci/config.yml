@@ -1,0 +1,82 @@
+# Javascript Node CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-javascript/ for more details
+#
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/node:7.10
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+
+      - run: sudo apt install graphviz
+
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "package.json" }}
+          - v1-dependencies-
+      - run: npm install
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+
+      - run: npm run eslint
+      - run: npm run jest
+
+      - run: npm run webpack-src
+      - run: npm run webpack-testbench
+      - run: npm run build-docs
+      - run: ls -la docs
+      - run: ls -la docs/generated
+
+      - persist_to_workspace:
+          root: docs
+          paths: .
+
+  docs-deploy:
+    docker:
+      - image: circleci/node:7.10
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "package.json" }}
+          - v1-dependencies-
+      - run: npm install
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+
+      - attach_workspace:
+          at: docs
+
+      - run:
+          name: Configure Git
+          command: |
+            git config user.email "ci-build@hatt.style"
+            git config user.name "ci-build"
+      - run:
+          name: Deploy docs to gh-pages branch
+          command: ./node_modules/gh-pages/bin/gh-pages.js --dotfiles --dist docs
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - build:
+          filters:
+            branches:
+              ignore: gh-pages
+      - docs-deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
