@@ -1,4 +1,6 @@
-node_modules/
 build/
-docs/
 coverage/
+docs/.circleci/
+docs/generated/
+docs/testbench/
+node_modules/

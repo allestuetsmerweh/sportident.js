@@ -10,7 +10,7 @@
     "webpack-src": "cd src/ && webpack",
     "webpack-testbench": "cd testbench/ && webpack",
     "build-docs": "sh build-docs.sh",
-    "eslint": "./node_modules/eslint/bin/eslint.js .",
+    "eslint": "eslint .",
     "jest": "jest",
     "start-testbench": "cd testbench/ && webpack-dev-server",
     "testbench": "sh run-testbench.sh",
