@@ -1,6 +1,6 @@
-import * as utils from '../../src/utils';
+import si from '../../src';
 
-export const sendCommand = ({userLine, logLine, mainStation}) => {
+export const sendCommand = ({userLine, logLine, device}) => {
     const res = /send\s+([0-9a-fA-F\s]+)\s*:\s*([0-9a-fA-F\s]+)\s*:\s*([0-9]+)/.exec(userLine);
     if (res === null) {
         logLine('Usage: send [command]: [parameters]: [numResp]');
@@ -23,6 +23,7 @@ export const sendCommand = ({userLine, logLine, mainStation}) => {
         parameters.push(parseInt(parametersStr.slice(i, i + 2), 16));
     }
     const numResp = res.length > 3 ? parseInt(res[3], 10) : 0;
+    const mainStation = si.MainStation.fromSiDevice(device);
     return mainStation.sendMessage({
         command: command,
         parameters: parameters,
@@ -30,7 +31,7 @@ export const sendCommand = ({userLine, logLine, mainStation}) => {
         .then((allResponses) => {
             allResponses.forEach((response, index) => {
                 logLine(`Answer[${index}]:`);
-                utils.prettyHex(response, 16).split('\n').forEach((line) => {
+                si.utils.prettyHex(response, 16).split('\n').forEach((line) => {
                     logLine(` ${line}`);
                 });
             });

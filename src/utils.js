@@ -114,15 +114,32 @@ export const arr2cardNumber = (arr) => {
     assertArrIsOfLengths(arr, [3, 4]);
     let cardnum = (arr[1] << 8) | arr[0];
     const fourthSet = (arr.length === 4 && arr[3] !== 0x00);
-    if (!fourthSet && 1 < arr[2] && arr[2] <= 4) {
+    if (fourthSet || 4 < arr[2]) {
+        cardnum |= (arr[2] << 16);
+    } else {
         cardnum += (arr[2] * 100000);
-    } else if (fourthSet || 4 < arr[2]) {
-        cardnum += (arr[2] << 16);
     }
     if (arr.length === 4) {
         cardnum |= (arr[3] << 24);
     }
     return cardnum;
+};
+
+export const cardNumber2arr = (cardNumber) => {
+    const arr2 = (cardNumber < 500000
+        ? Math.floor(cardNumber / 100000) & 0xFF
+        : (cardNumber >> 16) & 0xFF
+    );
+    const newCardNumber = (cardNumber < 500000
+        ? cardNumber - arr2 * 100000
+        : cardNumber
+    );
+    return [
+        newCardNumber & 0xFF,
+        (newCardNumber >> 8) & 0xFF,
+        arr2,
+        (newCardNumber >> 24) & 0xFF,
+    ];
 };
 
 export const prettyHex = (input, lineLength = 0) => {

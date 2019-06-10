@@ -1,7 +1,7 @@
 import si from '../../src';
-import {SiSimulator} from '../SiSimulator';
+import {SiExternalApplication} from '../SiExternalApplication';
 
-export const pipeCommand = ({userLine, logLine, mainStation, userInput}) => {
+export const pipeCommand = ({userLine, logLine, device, userInput}) => {
     const res = /pipe ([^\s]+)/.exec(userLine);
     if (res === null) {
         logLine('Usage: pipe [URL]');
@@ -10,22 +10,25 @@ export const pipeCommand = ({userLine, logLine, mainStation, userInput}) => {
     }
     const url = res[1];
     return new Promise((resolve, _reject) => {
-        const siSimulator = new SiSimulator(url);
-        mainStation.onMessage = (message) => {
-            console.log('MainStation:', message);
-            console.warn(si.protocol.prettyMessage(message));
-            siSimulator.sendMessage(message);
+        const externalApplication = new SiExternalApplication(url);
+        const onDeviceReceive = (e) => {
+            const uint8Data = e.uint8Data;
+            console.log('SiDevice:', si.utils.prettyHex(uint8Data));
+            externalApplication.send(uint8Data);
         };
-        siSimulator.onMessage = (message) => {
-            console.log('SiSimulator:', message);
-            console.warn(si.protocol.prettyMessage(message));
-            mainStation.sendMessage(message);
+        device.addEventListener('receive', onDeviceReceive);
+        const onApplicationReceive = (e) => {
+            const uint8Data = e.uint8Data;
+            console.log('SiExternalApplication:', si.utils.prettyHex(uint8Data));
+            device.send(uint8Data);
         };
+        externalApplication.addEventListener('receive', onApplicationReceive);
 
         userInput.addEventListener('keyup', (event) => {
             if (event.keyCode === 67 && event.ctrlKey && !event.altKey && !event.metaKey && !event.shiftKey) { // Ctrl-C
-                mainStation.onMessage = false;
-                siSimulator.close();
+                device.removeEventListener('receive', onDeviceReceive);
+                externalApplication.removeEventListener('receive', onApplicationReceive);
+                externalApplication.close();
                 resolve('Piping finished.');
             }
         });

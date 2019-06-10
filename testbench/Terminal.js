@@ -5,10 +5,6 @@ import si from '../src';
 
 export const Terminal = (props) => {
     const selectedIdent = props.selectedDevice && props.selectedDevice.ident;
-    if (selectedIdent && !(selectedIdent in Terminal._mainStationByIdent)) {
-        Terminal._mainStationByIdent[selectedIdent] = si.MainStation.fromSiDevice(props.selectedDevice);
-    }
-    const selectedMainStation = selectedIdent && Terminal._mainStationByIdent[selectedIdent];
 
     const [logContent, setLogContent] = React.useState([]);
     const [commandIsRunning, setCommandIsRunning] = React.useState(false);
@@ -30,7 +26,8 @@ export const Terminal = (props) => {
     const logLine = (text) => log(<div>{text}</div>);
 
     React.useMemo(() => {
-        if (selectedMainStation) {
+        if (selectedIdent) {
+            const selectedMainStation = si.MainStation.fromSiDevice(props.selectedDevice);
             selectedMainStation.readInfo().then((info) => {
                 const lines = Object.keys(info)
                     .filter((key) => key[0] !== '_')
@@ -59,7 +56,7 @@ export const Terminal = (props) => {
             if (commandName && commandName in commands) {
                 const commandContext = {
                     userLine: userLine,
-                    mainStation: selectedMainStation,
+                    device: props.selectedDevice,
                     userInput: userInputElem.current,
                     logLine: logLine,
                 };
@@ -81,9 +78,9 @@ export const Terminal = (props) => {
     };
 
     return (
-        <div id='mainstation-detail'>
+        <div id='si-device-detail'>
             <div
-                id='mainstation-detail-log'
+                id='si-device-detail-log'
                 onClick={() => {
                     userInputElem.current.focus();
                 }}
@@ -92,7 +89,7 @@ export const Terminal = (props) => {
                 {logContent}
             </div>
             <div
-                id='mainstation-detail-userinput'
+                id='si-device-detail-userinput'
                 contentEditable='true'
                 onKeyDown={mainHandler}
                 ref={userInputElem}
@@ -103,4 +100,3 @@ export const Terminal = (props) => {
 Terminal.propTypes = {
     selectedDevice: PropTypes.object,
 };
-Terminal._mainStationByIdent = {};

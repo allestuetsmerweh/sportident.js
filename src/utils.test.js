@@ -176,13 +176,16 @@ describe('utils', () => {
     it('arr2cardNumber works', () => {
         expect(utils.arr2cardNumber([0x00, 0x00, 0x00])).toBe(0x000000);
         expect(utils.arr2cardNumber([0x12, 0x34, 0x00])).toBe(0x003412);
-        expect(utils.arr2cardNumber([0x12, 0x34, 0x01])).toBe(0x003412 + 0 * 100000); // TODO: Verify this
+        expect(utils.arr2cardNumber([0x12, 0x34, 0x01])).toBe(0x003412 + 1 * 100000);
         expect(utils.arr2cardNumber([0x12, 0x34, 0x02])).toBe(0x003412 + 2 * 100000);
         expect(utils.arr2cardNumber([0x12, 0x34, 0x03])).toBe(0x003412 + 3 * 100000);
         expect(utils.arr2cardNumber([0x12, 0x34, 0x04])).toBe(0x003412 + 4 * 100000);
+        // the following should actually never appear, as 0x053412 = 341010, which would be represented differently
         expect(utils.arr2cardNumber([0x12, 0x34, 0x05])).toBe(0x053412);
+        expect(utils.arr2cardNumber([0x12, 0x34, 0x08])).toBe(0x083412);
         expect(utils.arr2cardNumber([0x12, 0x34, 0x56])).toBe(0x563412);
         expect(utils.arr2cardNumber([0x00, 0x00, 0x00, 0x00])).toBe(0x00000000);
+        expect(utils.arr2cardNumber([0x00, 0x00, 0x00, 0x01])).toBe(0x01000000);
         expect(utils.arr2cardNumber([0x12, 0x34, 0x56, 0x78])).toBe(0x78563412);
     });
     it('arr2cardNumber sanitizes', () => {
@@ -191,6 +194,46 @@ describe('utils', () => {
         expect(() => utils.arr2cardNumber([1, 2])).toThrow();
         expect(() => utils.arr2cardNumber([1, 2, 3, 4, 5])).toThrow();
         expect(() => utils.arr2cardNumber([1, 2, 3, 4, 5, 6, 7, 8])).toThrow();
+    });
+    it('cardNumber2arr works', () => {
+        expect(utils.cardNumber2arr(0x000000)).toEqual([0x00, 0x00, 0x00, 0x00]);
+        expect(utils.cardNumber2arr(0x003412)).toEqual([0x12, 0x34, 0x00, 0x00]);
+        expect(utils.cardNumber2arr(0x003412 + 1 * 100000)).toEqual([0x12, 0x34, 0x01, 0x00]);
+        expect(utils.cardNumber2arr(0x003412 + 2 * 100000)).toEqual([0x12, 0x34, 0x02, 0x00]);
+        expect(utils.cardNumber2arr(0x003412 + 3 * 100000)).toEqual([0x12, 0x34, 0x03, 0x00]);
+        expect(utils.cardNumber2arr(0x003412 + 4 * 100000)).toEqual([0x12, 0x34, 0x04, 0x00]);
+        expect(utils.cardNumber2arr(0x083412)).toEqual([0x12, 0x34, 0x08, 0x00]);
+        expect(utils.cardNumber2arr(0x563412)).toEqual([0x12, 0x34, 0x56, 0x00]);
+        expect(utils.cardNumber2arr(0x00000000)).toEqual([0x00, 0x00, 0x00, 0x00]);
+        expect(utils.cardNumber2arr(0x01000000)).toEqual([0x00, 0x00, 0x00, 0x01]);
+        expect(utils.cardNumber2arr(0x78563412)).toEqual([0x12, 0x34, 0x56, 0x78]);
+    });
+    it('consistent cardNumber <=> arr conversion', () => {
+        const cardNumbers = [
+            1000,
+            10000,
+            65535,
+            100000,
+            165535,
+            200000,
+            265535,
+            300000,
+            365535,
+            400000,
+            465535,
+            500000,
+            599999,
+            999999,
+            1000000,
+            1999999,
+            2000000,
+            2999999,
+        ];
+        cardNumbers.forEach((cardNumber) => {
+            const arr = utils.cardNumber2arr(cardNumber);
+            const restoredCardNumber = utils.arr2cardNumber(arr);
+            expect(restoredCardNumber).toEqual(cardNumber);
+        });
     });
     it('prettyHex without lineLength', () => {
         expect(utils.prettyHex([])).toBe('');

@@ -15,8 +15,6 @@ require __DIR__ . '/php-websocket/src/Application/StatusApplication.php';
 
 $server = new Server('127.0.0.1', 41271);
 
-// $server = new \WebSocket\Server('127.0.0.1', 41271, false);
-
 // server settings:
 $server->setCheckOrigin(false);
 $server->setMaxClients(100);
@@ -24,7 +22,7 @@ $server->setMaxConnectionsPerIp(20);
 $server->setMaxRequestsPerMinute(1000);
 
 
-class SiSimulatorApplication extends Application\Application
+class SiExternalApplication extends Application\Application
 {
     private $_clients = array();
     private $_filename = '';
@@ -74,7 +72,7 @@ class SiSimulatorApplication extends Application\Application
     }
 }
 
-$server->registerApplication('si-simulator', SiSimulatorApplication::getInstance());
+$server->registerApplication('si-external-application', SiExternalApplication::getInstance());
 $server->run();
 
 ?>

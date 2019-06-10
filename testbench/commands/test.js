@@ -1,7 +1,8 @@
 import si from '../../src';
 
 const tests = {
-    'card': ({logLine, mainStation}) => {
+    'card': ({logLine, device}) => {
+        const mainStation = si.MainStation.fromSiDevice(device);
         let fixedSiNumber = null;
         const samples = {};
         const _wait = (seconds) => () => new Promise((resolve) => {
