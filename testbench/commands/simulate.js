@@ -1,5 +1,5 @@
 import si from '../../src';
-import {SiSimulator} from '../SiSimulator';
+import {SiExternalApplication} from '../SiExternalApplication';
 import {SiMainStationSimulator} from '../SiMainStationSimulator';
 import {SiCard5Simulator} from '../SiCard5Simulator';
 import {SiCard6Simulator} from '../SiCard6Simulator';
@@ -377,19 +377,19 @@ export const simulateCommand = ({userLine, logLine, userInput}) => {
 
     const url = res[2];
     return new Promise((resolve, _reject) => {
-        const siSimulator = new SiSimulator(url);
+        const externalApplication = new SiExternalApplication(url);
         const siMainStationSimulator = new SiMainStationSimulator(mainStationStorage);
-        siSimulator.onMessage = (message) => {
-            console.log('SiSimulator:', message);
+        externalApplication.onMessage = (message) => {
+            console.log('SiExternalApplication:', message);
             siMainStationSimulator.sendMessage(message);
         };
         siMainStationSimulator.onMessage = (message) => {
             console.log('SiMainStationSimulator:', message);
-            siSimulator.sendMessage(message);
+            externalApplication.sendMessage(message);
         };
 
         const onCtrlC = () => {
-            siSimulator.close();
+            externalApplication.close();
             resolve('Simulation finished.');
         };
 

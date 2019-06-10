@@ -3,6 +3,15 @@ import * as utils from '../../utils';
 import {BaseSiCard} from '../BaseSiCard';
 
 export class SIAC extends BaseSiCard {
+    getTypeSpecificDetectionMessage() {
+        const cardNumberArr = utils.cardNumber2arr(this.cardNumber);
+        cardNumberArr.reverse();
+        return {
+            command: proto.cmd.SI8_DET,
+            parameters: [...cardNumberArr],
+        };
+    }
+
     typeSpecificRead() {
         const readSIACTimeBlock = (blockData, punchData, blockIndex, punchCount) => {
             let isLastBlock = false;

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 export const MainStationList = (props) => (
     <div>
-        <div id='mainstation-list'>
+        <div id='si-device-list'>
             {props.devices.map((device) => {
                 const isSelected = device.ident === (props.selectedDevice && props.selectedDevice.ident);
                 return (
@@ -11,7 +11,7 @@ export const MainStationList = (props) => (
                         onClick={() => {
                             window.location.hash = `#${device.ident}`;
                         }}
-                        className={`mainstation-list-item${isSelected ? ' selected' : ''}`}
+                        className={`si-device-list-item${isSelected ? ' selected' : ''}`}
                         key={device.ident}
                     >
                         {device.name}
@@ -20,7 +20,7 @@ export const MainStationList = (props) => (
             })}
         </div>
         <button
-            id='mainstation-add'
+            id='si-device-add'
             onClick={() => props.addNewDevice()}
         >
             {'New SI Main Station'}

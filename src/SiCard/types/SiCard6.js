@@ -3,6 +3,15 @@ import * as utils from '../../utils';
 import {BaseSiCard} from '../BaseSiCard';
 
 export class SiCard6 extends BaseSiCard {
+    getTypeSpecificDetectionMessage() {
+        const cardNumberArr = utils.cardNumber2arr(this.cardNumber);
+        cardNumberArr.reverse();
+        return {
+            command: proto.cmd.SI6_DET,
+            parameters: [...cardNumberArr],
+        };
+    }
+
     typeSpecificRead() {
         return this.mainStation.sendMessage({
             command: proto.cmd.GET_SI6,
