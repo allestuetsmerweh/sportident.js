@@ -26,13 +26,12 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
 
       - run: npm run eslint
+      - run: npm run dependency-check
       - run: npm run jest
 
       - run: npm run webpack-src
       - run: npm run webpack-testbench
       - run: npm run build-docs
-      - run: ls -la docs
-      - run: ls -la docs/generated
 
       - persist_to_workspace:
           root: docs
