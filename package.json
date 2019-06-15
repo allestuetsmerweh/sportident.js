@@ -19,7 +19,8 @@
   },
   "jest": {
     "testRegex": ".*/.*\\.test\\.js",
-    "collectCoverage": true
+    "collectCoverage": true,
+    "maxConcurrency": 2
   },
   "repository": {
     "type": "git",

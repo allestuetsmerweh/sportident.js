@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import {proto} from '../constants';
 import * as utils from '../utils';
 import {NumberRange} from './NumberRange';
@@ -44,6 +45,11 @@ export class BaseSiCard {
         this.startTime = -1;
         this.finishTime = -1;
         this.punches = [];
+        if (this.constructor.StorageDefinition) {
+            this.storage = new this.constructor.StorageDefinition(
+                _.range(this.constructor.StorageDefinition.size).map(() => undefined),
+            );
+        }
     }
 
     read() {

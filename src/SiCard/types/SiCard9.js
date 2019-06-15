@@ -1,79 +1,161 @@
-import {proto} from '../../constants';
+import _ from 'lodash';
 import * as utils from '../../utils';
+import * as siStorageAccess from '../../siStorageAccess';
+import {ModernSiCard} from './ModernSiCard';
 import {BaseSiCard} from '../BaseSiCard';
 
-export class SiCard9 extends BaseSiCard {
-    getTypeSpecificDetectionMessage() {
-        const cardNumberArr = utils.cardNumber2arr(this.cardNumber);
-        cardNumberArr.reverse();
-        return {
-            command: proto.cmd.SI8_DET,
-            parameters: [...cardNumberArr],
-        };
-    }
+class ReadFinishedException {}
 
+export class SiCard9 extends ModernSiCard {
     typeSpecificRead() {
-        let len = undefined;
-        return this.mainStation.sendMessage({
-            command: proto.cmd.GET_SI8,
-            parameters: [0x00],
-        }, 1)
-            .then((data0) => {
-                console.assert(data0[0][2] === 0, 'Inconsistent');
-                const page0 = data0[0].slice(3);
-                const cn = utils.arr2big([page0[25], page0[26], page0[27]]);
-                if (this.cardNumber !== cn) {
-                    console.warn('SICard9 Error: SI Card Number inconsistency');
-                }
+        const punchesPerPage = 32;
+        const bytesPerPage = 128;
+        return new Promise((resolve, reject) => {
+            this.modernGetPage(0)
+                .then((page0) => {
+                    this.storage.splice(bytesPerPage * 0, bytesPerPage, ...page0);
 
-                this.startTime = utils.arr2time(page0.slice(14, 16));
-                this.finishTime = utils.arr2time(page0.slice(18, 20));
-                this.checkTime = utils.arr2time(page0.slice(10, 12));
-                len = Math.min(Math.max(page0[22], 0), 128);
-                this.punches = new Array(len);
-
-                let isLastBlock = false;
-                for (let i = 0; i < 18; i++) {
-                    if (i >= len) {
-                        isLastBlock = true;
-                        break;
+                    if (this.cardNumber !== this.storage.get('cardNumber')) {
+                        console.warn(`SICard9 Number ${this.storage.get('cardNumber')} (expected ${this.cardNumber})`);
                     }
-                    const time = utils.arr2time(page0.slice(i * 4 + 58, i * 4 + 60));
-                    if (0 <= time) {
-                        this.punches[i] = {
-                            code: page0[i * 4 + 57],
-                            time: time,
-                        };
+
+                    if (this.storage.get('punchCount') <= punchesPerPage * 0) {
+                        throw new ReadFinishedException();
+                    }
+                    return this.modernGetPage(1);
+                })
+                .then((page1) => {
+                    this.storage.splice(bytesPerPage * 1, bytesPerPage, ...page1);
+                    throw new ReadFinishedException();
+                })
+                .catch((exc) => {
+                    if (exc instanceof ReadFinishedException) {
+                        Object.keys(this.constructor.StorageDefinition.definitions).forEach((key) => {
+                            this[key] = this.storage.get(key);
+                        });
+                        resolve(this);
                     } else {
-                        console.warn('SICard9 Error: Undefined Time in punched range');
-                    }
-                }
-                if (isLastBlock) {
-                    return this;
-                }
-
-                return this.mainStation.sendMessage({
-                    command: proto.cmd.GET_SI8,
-                    parameters: [0x01],
-                }, 1).then((data1) => {
-                    console.assert(data1[0][2] === 1, 'Inconsistent');
-                    const page1 = data1[0].slice(3);
-                    for (let i = 18; i < 50; i++) {
-                        if (i >= len) {
-                            break;
-                        }
-                        const time = utils.arr2time(page1.slice(i * 4 - 70, i * 4 - 68));
-                        if (0 <= time) {
-                            this.punches[i] = {
-                                code: page1[i * 4 - 71],
-                                time: time,
-                            };
-                        } else {
-                            console.warn('SICard9 Error: Undefined Time in punched range');
-                        }
+                        reject(exc);
                     }
                 });
-            });
+        });
     }
 }
 BaseSiCard.registerNumberRange(1000000, 2000000, SiCard9);
+
+SiCard9.StorageDefinition = siStorageAccess.define(0x100, {
+    cardNumber: new siStorageAccess.SiArray(
+        3,
+        (i) => new siStorageAccess.SiInt([[25 + (2 - i)]]),
+    ).modify(
+        (extractedValue) => utils.arr2cardNumber(extractedValue),
+        (cardNumber) => utils.cardNumber2arr(cardNumber),
+    ),
+    startTime: new siStorageAccess.SiInt([[14], [15]]),
+    finishTime: new siStorageAccess.SiInt([[18], [19]]),
+    checkTime: new siStorageAccess.SiInt([[10], [11]]),
+    punchCount: new siStorageAccess.SiInt([[22]]),
+    punches: new siStorageAccess.SiArray(50, (i) => new siStorageAccess.SiDict({
+        code: new siStorageAccess.SiInt([[56 + i * 4 + 1]]),
+        time: new siStorageAccess.SiInt([[56 + i * 4 + 2], [56 + i * 4 + 3]]),
+    })).modify(
+        (allPunches) => {
+            const isPunchEntryInvalid = (punch) => punch.time === undefined || punch.time === 0xEEEE;
+            const firstInvalidIndex = allPunches.findIndex(isPunchEntryInvalid);
+            return firstInvalidIndex === -1 ? allPunches : allPunches.slice(0, firstInvalidIndex);
+        },
+    ),
+});
+
+SiCard9.getTestData = () => {
+    const fullTimesPage = utils.unPrettyHex(
+        '20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20' +
+        '20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20' +
+        '20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20' +
+        '20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20' +
+        '20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20' +
+        '20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20' +
+        '20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20' +
+        '20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20',
+    );
+    const noTimesPage = utils.unPrettyHex(
+        'EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE' +
+        'EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE' +
+        'EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE' +
+        'EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE' +
+        'EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE' +
+        'EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE' +
+        'EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE' +
+        'EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE',
+    );
+
+    const cardWith16Punches = {
+        cardData: {
+            cardNumber: 1234567,
+            startTime: 4386,
+            finishTime: 61166,
+            checkTime: 7970,
+            punchCount: 16,
+            punches: [
+                {code: 31, time: 7967},
+                {code: 32, time: 8224},
+                {code: 33, time: 8481},
+                {code: 34, time: 8738},
+                {code: 35, time: 8995},
+                {code: 36, time: 9252},
+                {code: 37, time: 9509},
+                {code: 38, time: 9766},
+                {code: 39, time: 10023},
+                {code: 40, time: 10280},
+                {code: 41, time: 10537},
+                {code: 42, time: 10794},
+                {code: 43, time: 11051},
+                {code: 44, time: 11308},
+                {code: 45, time: 11565},
+                {code: 46, time: 11822},
+            ],
+        },
+        storageData: [
+            ...utils.unPrettyHex(
+                '77 2A 42 99 EA EA EA EA 37 02 22 1F 07 03 22 11' +
+                'EE EE EE EE 0F 7F 10 09 0F 12 D6 87 06 0F 61 53' +
+                '53 69 6D 6F 6E 3B 48 61 74 74 3B 6D 3B 31 39 39' +
+                '32 3B 4F 4C 20 5A 69 6D 1F 1F 1F 1F 20 20 20 20' +
+                '21 21 21 21 22 22 22 22 23 23 23 23 24 24 24 24' +
+                '25 25 25 25 26 26 26 26 27 27 27 27 28 28 28 28' +
+                '29 29 29 29 2A 2A 2A 2A 2B 2B 2B 2B 2C 2C 2C 2C' +
+                '2D 2D 2D 2D 2E 2E 2E 2E EE EE EE EE EE EE EE EE',
+            ),
+            ...noTimesPage,
+        ],
+    };
+
+    const fullCard = {
+        cardData: {
+            cardNumber: 1234567,
+            startTime: 4386,
+            finishTime: 61166,
+            checkTime: 7970,
+            punchCount: 50,
+            punches: _.range(50).map(() => ({code: 32, time: 8224})),
+        },
+        storageData: [
+            ...utils.unPrettyHex(
+                '77 2a 42 99 ea ea ea ea 37 02 22 1f 07 03 22 11' +
+                'ee ee ee ee 0f 7f 32 09 0f 12 d6 87 06 0f 61 53' +
+                '53 69 6d 6f 6e 3b 48 61 74 74 3b 6d 3b 31 39 39' +
+                '32 3b 4f 4c 20 5a 69 6d 20 20 20 20 20 20 20 20' +
+                '20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20' +
+                '20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20' +
+                '20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20' +
+                '20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20',
+            ),
+            ...fullTimesPage,
+        ],
+    };
+
+    return [
+        cardWith16Punches,
+        fullCard,
+    ];
+};

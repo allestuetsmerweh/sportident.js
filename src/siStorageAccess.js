@@ -1,55 +1,94 @@
 import _ from 'lodash';
+import Immutable from 'immutable';
 import * as utils from './utils';
 
-export const define = (length, definitions) => {
+export const define = (size, definitions) => {
     class SiStorage {
         constructor(initArg) {
-            if (Array.isArray(initArg)) {
-                const initArray = initArg;
-                if (initArray.length !== length) {
+            let initList = initArg;
+            if (initList === undefined) {
+                initList = _.range(size).map(() => undefined);
+            }
+            if (Array.isArray(initList)) {
+                initList = Immutable.List(initList);
+            }
+            if (initList instanceof Immutable.List) {
+                if (initList.size !== size) {
                     throw new Error(
-                        `SiStorage constructor array ${initArray} ` +
-                        `must have length ${length} (but is ${initArray.length})`,
+                        `SiStorage constructor list "${initArg}" => "${initList}" ` +
+                        `must have size ${size} (but is ${initList.size})`,
                     );
                 }
-                this.storage = [...initArray];
+                this.data = initList;
             } else {
-                const initDict = initArg;
-                this.storage = _.range(length).map(() => 0);
-                Object.keys(initDict).map((key) => {
-                    this.set(key, initDict[key]);
-                });
+                throw new Error('SiStorage constructor must be array, list or undefined');
             }
         }
 
         get(attributeName) {
-            const attributeDefinition = definitions[attributeName];
+            const attributeDefinition = this.constructor.definitions[attributeName];
             if (!attributeDefinition) {
                 return undefined;
             }
-            return attributeDefinition.extractFromStorage(this.storage);
+            return attributeDefinition.extractFromData(this.data);
         }
 
         set(attributeName, newValue) {
-            const attributeDefinition = definitions[attributeName];
+            const attributeDefinition = this.constructor.definitions[attributeName];
             if (!attributeDefinition) {
                 return;
             }
-            attributeDefinition.updateInStorage(this.storage, newValue);
+            this.data = attributeDefinition.updateData(this.data, newValue);
+        }
+
+        splice(index, removeNum, ...values) {
+            const newData = this.data.splice(index, removeNum, ...values);
+            if (newData.size !== this.data.size) {
+                throw new Error(
+                    'SiStorage.splice must preserve the size of the storage data ' +
+                    `(${this.data.size} -> ${newData.size})`,
+                );
+            }
+            this.data = newData;
         }
     }
+    SiStorage.size = size;
+    SiStorage.definitions = definitions;
     return SiStorage;
 };
 
 export class SiDataType {
-    extractFromStorage(_storage) {
-        utils.notImplemented('DataType must implement extractFromStorage()');
+    extractFromData(data) {
+        const extractedValue = this.typeSpecificExtractFromData(data);
+        if (this.modifyExtracted) {
+            return this.modifyExtracted(extractedValue);
+        }
+        return extractedValue;
     }
 
-    updateInStorage(_storage, _newValue) {
-        utils.notImplemented('DataType must implement updateInStorage()');
+    typeSpecificExtractFromData(_data) {
+        utils.notImplemented('DataType must implement typeSpecificExtractFromData()');
+    }
+
+    updateData(data, newValue) {
+        let valueForUpdate = newValue;
+        if (this.modifyForUpdate) {
+            valueForUpdate = this.modifyForUpdate(valueForUpdate);
+        }
+        return this.typeSpecificUpdateData(data, valueForUpdate);
+    }
+
+    typeSpecificUpdateData(_data, _newValue) {
+        utils.notImplemented('DataType must implement typeSpecificUpdateData()');
+    }
+
+    modify(modifyExtracted, modifyForUpdate) {
+        this.modifyExtracted = modifyExtracted;
+        this.modifyForUpdate = modifyForUpdate;
+        return this;
     }
 }
+SiDataType.ModifyUndefinedException = class ModifyUndefinedException {};
 
 export class SiBool extends SiDataType {
     constructor(byteOffset, bitOffset) {
@@ -58,60 +97,76 @@ export class SiBool extends SiDataType {
         this.bitOffset = bitOffset || 0;
     }
 
-    extractFromStorage(storage) {
-        return ((storage[this.byteOffset] >> this.bitOffset) & 0x01) === 0x01;
+    typeSpecificExtractFromData(data) {
+        const existingByte = data.get(this.byteOffset);
+        if (existingByte === undefined) {
+            return undefined;
+        }
+        return ((existingByte >> this.bitOffset) & 0x01) === 0x01;
     }
 
-    updateInStorage(storage, newValue) {
+    typeSpecificUpdateData(data, newValue) {
         const boolAsInt = newValue ? 0x01 : 0x00;
         const preservationMask = (0x01 << this.bitOffset) ^ 0xFF;
-        const existingByte = storage[this.byteOffset];
+        const existingByte = data.get(this.byteOffset);
+        if (existingByte === undefined) {
+            throw new this.constructor.ModifyUndefinedException();
+        }
         const newByte = (existingByte & preservationMask) | (boolAsInt << this.bitOffset);
-        storage[this.byteOffset] = newByte;
+        return data.set(this.byteOffset, newByte);
     }
 }
 
 export class SiInt extends SiDataType {
     constructor(parts) {
         super();
-        this.parts = parts;
-    }
-
-    getPart(rawPart) {
-        return {
+        this.parts = parts.map((rawPart) => ({
             byteOffset: rawPart[0],
             startBit: rawPart.length === 3 ? rawPart[1] : 0,
             endBit: rawPart.length === 3 ? rawPart[2] : 8,
-        };
+        }));
     }
 
-    extractFromStorage(storage) {
+    isUndefined(data) {
+        return this.parts.some((part) => data.get(part.byteOffset) === undefined);
+    }
+
+    typeSpecificExtractFromData(data) {
+        if (this.isUndefined(data)) {
+            return undefined;
+        }
         let bitOffset = 0;
         let value = 0;
         this.parts.forEach((part) => {
-            const {byteOffset, startBit, endBit} = this.getPart(part);
+            const {byteOffset, startBit, endBit} = part;
             const bitLength = endBit - startBit;
             const lengthMask = (0x01 << bitLength) - 1;
-            const partValue = (storage[byteOffset] >> startBit) & lengthMask;
+            const existingByte = data.get(byteOffset);
+            const partValue = (existingByte >> startBit) & lengthMask;
             value |= (partValue << bitOffset);
             bitOffset += bitLength;
         });
         return value;
     }
 
-    updateInStorage(storage, newValue) {
+    typeSpecificUpdateData(data, newValue) {
+        if (this.isUndefined(data)) {
+            throw new this.constructor.ModifyUndefinedException();
+        }
         let bitOffset = 0;
+        let tempData = data;
         this.parts.forEach((part) => {
-            const {byteOffset, startBit, endBit} = this.getPart(part);
+            const {byteOffset, startBit, endBit} = part;
             const bitLength = endBit - startBit;
             const lengthMask = (0x01 << bitLength) - 1;
             const newPartValue = (newValue >> bitOffset) & lengthMask;
-            const existingByte = storage[byteOffset];
+            const existingByte = tempData.get(byteOffset);
             const preservationMask = (lengthMask << startBit) ^ 0xFF;
             const newByte = (existingByte & preservationMask) | (newPartValue << startBit);
-            storage[byteOffset] = newByte;
+            tempData = tempData.set(byteOffset, newByte);
             bitOffset += bitLength;
         });
+        return tempData;
     }
 }
 
@@ -122,18 +177,21 @@ export class SiArray extends SiDataType {
         this.getDefinitionAtIndex = getDefinitionAtIndex;
     }
 
-    extractFromStorage(storage) {
+    typeSpecificExtractFromData(data) {
         return _.range(this.length).map((index) => {
             const definition = this.getDefinitionAtIndex(index);
-            return definition.extractFromStorage(storage);
+            return definition.extractFromData(data);
         });
     }
 
-    updateInStorage(storage, newValue) {
-        _.range(this.length).forEach((index) => {
+    typeSpecificUpdateData(data, newValue) {
+        const updateLength = Math.min(newValue.length, this.length);
+        let tempData = data;
+        _.range(updateLength).forEach((index) => {
             const definition = this.getDefinitionAtIndex(index);
-            definition.updateInStorage(storage, newValue[index]);
+            tempData = definition.updateData(tempData, newValue[index]);
         });
+        return tempData;
     }
 }
 
@@ -143,19 +201,21 @@ export class SiDict extends SiDataType {
         this.definitionDict = definitionDict;
     }
 
-    extractFromStorage(storage) {
+    typeSpecificExtractFromData(data) {
         const out = {};
         Object.keys(this.definitionDict).forEach((key) => {
             const definition = this.definitionDict[key];
-            out[key] = definition.extractFromStorage(storage);
+            out[key] = definition.extractFromData(data);
         });
         return out;
     }
 
-    updateInStorage(storage, newValue) {
+    typeSpecificUpdateData(data, newValue) {
+        let tempData = data;
         Object.keys(this.definitionDict).forEach((key) => {
             const definition = this.definitionDict[key];
-            definition.updateInStorage(storage, newValue[key]);
+            tempData = definition.updateData(tempData, newValue[key]);
         });
+        return tempData;
     }
 }
