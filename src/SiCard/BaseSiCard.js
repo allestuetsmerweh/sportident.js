@@ -1,16 +1,15 @@
 import _ from 'lodash';
 import {proto} from '../constants';
 import * as utils from '../utils';
-import {NumberRange} from './NumberRange';
-import {NumberRangeRegistry} from './NumberRangeRegistry';
+import * as siProtocol from '../siProtocol';
 
 export class BaseSiCard {
     static resetNumberRangeRegistry() {
-        this._cardNumberRangeRegistry = new NumberRangeRegistry();
+        this._cardNumberRangeRegistry = new utils.NumberRangeRegistry();
     }
 
     static registerNumberRange(firstCardNumberInRange, firstCardNumberAfterRange, siCardType) {
-        const cardNumberRange = new NumberRange(firstCardNumberInRange, firstCardNumberAfterRange);
+        const cardNumberRange = new utils.NumberRange(firstCardNumberInRange, firstCardNumberAfterRange);
         this._cardNumberRangeRegistry.register(cardNumberRange, siCardType);
     }
 
@@ -31,7 +30,7 @@ export class BaseSiCard {
             [proto.cmd.SI8_DET]: true,
         };
         if (siCardDetectionCommands[command]) {
-            const cardNumber = utils.arr2cardNumber([parameters[5], parameters[4], parameters[3]]);
+            const cardNumber = siProtocol.arr2cardNumber([parameters[5], parameters[4], parameters[3]]);
             return this.fromCardNumber(cardNumber);
         }
         return undefined;
@@ -84,5 +83,5 @@ export class BaseSiCard {
         );
     }
 }
-BaseSiCard.NumberRange = NumberRange;
-BaseSiCard._cardNumberRangeRegistry = new NumberRangeRegistry();
+BaseSiCard.NumberRange = utils.NumberRange;
+BaseSiCard._cardNumberRangeRegistry = new utils.NumberRangeRegistry();

@@ -2,6 +2,100 @@ import _ from 'lodash';
 import {proto} from './constants';
 import * as utils from './utils';
 
+export const arr2time = (arr) => {
+    utils.assertIsByteArr(arr);
+    utils.assertArrIsOfLengths(arr, [2]);
+    if (arr[0] === 0xEE && arr[1] === 0xEE) {
+        return null;
+    }
+    return utils.arr2big(arr);
+};
+
+export const arr2date = (arr, asOf = null) => {
+    utils.assertIsByteArr(arr);
+    utils.assertArrIsOfLengths(arr, [3, 6, 7]);
+    if (arr[0] > 99) {
+        throw new Error('Invalid year');
+    }
+    const maxYear = asOf ? asOf.getUTCFullYear() : new Date().getUTCFullYear();
+    const getYear = (lastTwoDigits) => {
+        const maxLastTwo = (maxYear % 100);
+        const maxRest = maxYear - maxLastTwo;
+        if (lastTwoDigits <= maxLastTwo) {
+            return lastTwoDigits + maxRest;
+        }
+        return lastTwoDigits + maxRest - 100;
+    };
+    const utcYear = getYear(arr[0]);
+    const utcMonth = arr[1] - 1;
+    const utcDate = arr[2];
+    const secs = arr.length < 6 ? 0 : utils.arr2big(arr.slice(4, 6));
+    const utcHours = arr.length < 6 ? 0 : (arr[3] & 0x01) * 12 + Math.floor(secs / 3600);
+    const utcMinutes = arr.length < 6 ? 0 : Math.floor((secs % 3600) / 60);
+    const utcSeconds = arr.length < 6 ? 0 : secs % 60;
+    const utcMilliseconds = arr.length < 7 ? 0 : arr[6] * 1000 / 256;
+    const date = new Date(Date.UTC(utcYear, utcMonth, utcDate, utcHours, utcMinutes, utcSeconds, utcMilliseconds));
+    const isValidDate = (
+        date.getUTCFullYear() === utcYear
+        && date.getUTCMonth() === utcMonth
+        && date.getUTCDate() === utcDate
+        && date.getUTCHours() === utcHours
+        && date.getUTCMinutes() === utcMinutes
+        && date.getUTCSeconds() === utcSeconds
+        && date.getUTCMilliseconds() === utcMilliseconds
+    );
+    if (!isValidDate) {
+        throw new Error('invalid date');
+    }
+    return date;
+};
+
+export const date2arr = (dateTime) => {
+    const secs = (dateTime.getUTCHours() % 12) * 3600 + dateTime.getUTCMinutes() * 60 + dateTime.getUTCSeconds();
+    return [
+        dateTime.getUTCFullYear() % 100,
+        dateTime.getUTCMonth() + 1,
+        dateTime.getUTCDate(),
+        (dateTime.getUTCDay() << 1) + Math.floor(dateTime.getUTCHours() / 12),
+        secs >> 8,
+        secs & 0xFF,
+        Math.floor(dateTime.getUTCMilliseconds() * 256 / 1000),
+    ];
+};
+
+export const arr2cardNumber = (arr) => {
+    utils.assertIsByteArr(arr);
+    utils.assertArrIsOfLengths(arr, [3, 4]);
+    let cardnum = (arr[1] << 8) | arr[0];
+    const fourthSet = (arr.length === 4 && arr[3] !== 0x00);
+    if (fourthSet || 4 < arr[2]) {
+        cardnum |= (arr[2] << 16);
+    } else {
+        cardnum += (arr[2] * 100000);
+    }
+    if (arr.length === 4) {
+        cardnum |= (arr[3] << 24);
+    }
+    return cardnum;
+};
+
+export const cardNumber2arr = (cardNumber) => {
+    const arr2 = (cardNumber < 500000
+        ? Math.floor(cardNumber / 100000) & 0xFF
+        : (cardNumber >> 16) & 0xFF
+    );
+    const newCardNumber = (cardNumber < 500000
+        ? cardNumber - arr2 * 100000
+        : cardNumber
+    );
+    return [
+        newCardNumber & 0xFF,
+        (newCardNumber >> 8) & 0xFF,
+        arr2,
+        (newCardNumber >> 24) & 0xFF,
+    ];
+};
+
 export const prettyMessage = (message) => {
     const prettyCommand = `Command: ${proto.cmdLookup[message.command]} ${utils.prettyHex([message.command])} (${message.command})`;
     const prettyParameters = `Parameters: ${utils.prettyHex(message.parameters)} (${JSON.stringify(message.parameters)})`;

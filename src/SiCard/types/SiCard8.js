@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import * as utils from '../../utils';
-import * as siStorageAccess from '../../siStorageAccess';
+import * as siProtocol from '../../siProtocol';
 import {ModernSiCard} from './ModernSiCard';
 import {BaseSiCard} from '../BaseSiCard';
 
@@ -44,21 +44,21 @@ export class SiCard8 extends ModernSiCard {
 BaseSiCard.registerNumberRange(2000000, 2003000, SiCard8);
 BaseSiCard.registerNumberRange(2004000, 3000000, SiCard8);
 
-SiCard8.StorageDefinition = siStorageAccess.define(0x100, {
-    cardNumber: new siStorageAccess.SiArray(
+SiCard8.StorageDefinition = utils.defineStorage(0x100, {
+    cardNumber: new utils.SiArray(
         3,
-        (i) => new siStorageAccess.SiInt([[25 + (2 - i)]]),
+        (i) => new utils.SiInt([[25 + (2 - i)]]),
     ).modify(
-        (extractedValue) => utils.arr2cardNumber(extractedValue),
-        (cardNumber) => utils.cardNumber2arr(cardNumber),
+        (extractedValue) => siProtocol.arr2cardNumber(extractedValue),
+        (cardNumber) => siProtocol.cardNumber2arr(cardNumber),
     ),
-    startTime: new siStorageAccess.SiInt([[14], [15]]),
-    finishTime: new siStorageAccess.SiInt([[18], [19]]),
-    checkTime: new siStorageAccess.SiInt([[10], [11]]),
-    punchCount: new siStorageAccess.SiInt([[22]]),
-    punches: new siStorageAccess.SiArray(30, (i) => new siStorageAccess.SiDict({
-        code: new siStorageAccess.SiInt([[136 + i * 4 + 1]]),
-        time: new siStorageAccess.SiInt([[136 + i * 4 + 2], [136 + i * 4 + 3]]),
+    startTime: new utils.SiInt([[14], [15]]),
+    finishTime: new utils.SiInt([[18], [19]]),
+    checkTime: new utils.SiInt([[10], [11]]),
+    punchCount: new utils.SiInt([[22]]),
+    punches: new utils.SiArray(30, (i) => new utils.SiDict({
+        code: new utils.SiInt([[136 + i * 4 + 1]]),
+        time: new utils.SiInt([[136 + i * 4 + 2], [136 + i * 4 + 3]]),
     })).modify(
         (allPunches) => {
             const isPunchEntryInvalid = (punch) => punch.time === undefined || punch.time === 0xEEEE;

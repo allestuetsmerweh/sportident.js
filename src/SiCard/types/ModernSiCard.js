@@ -1,14 +1,14 @@
 import _ from 'lodash';
 import {proto} from '../../constants';
 import * as utils from '../../utils';
-import * as siStorageAccess from '../../siStorageAccess';
+import * as siProtocol from '../../siProtocol';
 import {BaseSiCard} from '../BaseSiCard';
 
 class ReadFinishedException {}
 
 export class ModernSiCard extends BaseSiCard {
     getTypeSpecificDetectionMessage() {
-        const cardNumberArr = utils.cardNumber2arr(this.cardNumber);
+        const cardNumberArr = siProtocol.cardNumber2arr(this.cardNumber);
         cardNumberArr.reverse();
         return {
             command: proto.cmd.SI8_DET,
@@ -86,21 +86,21 @@ export class ModernSiCard extends BaseSiCard {
     }
 }
 
-ModernSiCard.StorageDefinition = siStorageAccess.define(0x400, {
-    cardNumber: new siStorageAccess.SiArray(
+ModernSiCard.StorageDefinition = utils.defineStorage(0x400, {
+    cardNumber: new utils.SiArray(
         3,
-        (i) => new siStorageAccess.SiInt([[25 + (2 - i)]]),
+        (i) => new utils.SiInt([[25 + (2 - i)]]),
     ).modify(
-        (extractedValue) => utils.arr2cardNumber(extractedValue),
-        (cardNumber) => utils.cardNumber2arr(cardNumber),
+        (extractedValue) => siProtocol.arr2cardNumber(extractedValue),
+        (cardNumber) => siProtocol.cardNumber2arr(cardNumber),
     ),
-    startTime: new siStorageAccess.SiInt([[14], [15]]),
-    finishTime: new siStorageAccess.SiInt([[18], [19]]),
-    checkTime: new siStorageAccess.SiInt([[10], [11]]),
-    punchCount: new siStorageAccess.SiInt([[22]]),
-    punches: new siStorageAccess.SiArray(128, (i) => new siStorageAccess.SiDict({
-        code: new siStorageAccess.SiInt([[128 * 4 + i * 4 + 1]]),
-        time: new siStorageAccess.SiInt([[128 * 4 + i * 4 + 2], [128 * 4 + i * 4 + 3]]),
+    startTime: new utils.SiInt([[14], [15]]),
+    finishTime: new utils.SiInt([[18], [19]]),
+    checkTime: new utils.SiInt([[10], [11]]),
+    punchCount: new utils.SiInt([[22]]),
+    punches: new utils.SiArray(128, (i) => new utils.SiDict({
+        code: new utils.SiInt([[128 * 4 + i * 4 + 1]]),
+        time: new utils.SiInt([[128 * 4 + i * 4 + 2], [128 * 4 + i * 4 + 3]]),
     })).modify(
         (allPunches) => {
             const isPunchEntryInvalid = (punch) => punch.time === undefined || punch.time === 0xEEEE;

@@ -1,4 +1,5 @@
 import * as utils from '../utils';
+import * as siProtocol from '../siProtocol';
 import {proto} from '../constants';
 import {BaseSiCard} from '../SiCard';
 import {SiTargetMultiplexer} from './SiTargetMultiplexer';
@@ -67,7 +68,7 @@ export class SiMainStation extends SiStation {
         }
         let cn;
         if (command === proto.cmd.SI_REM) {
-            cn = utils.arr2cardNumber([parameters[5], parameters[4], parameters[3]]);
+            cn = siProtocol.arr2cardNumber([parameters[5], parameters[4], parameters[3]]);
             console.log('SI REM', parameters, cn, this.card);
             if (this.card !== false && this.card.cardNumber === cn) {
                 this.dispatchEvent('cardRemoved', {card: this.card});

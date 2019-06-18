@@ -1,5 +1,6 @@
-import {arr2big, arr2date, date2arr, getLookup} from '../utils';
 import {proto} from '../constants';
+import * as utils from '../utils';
+import * as siProtocol from '../siProtocol';
 
 export class SiStation {
     constructor(mainStation) {
@@ -10,15 +11,15 @@ export class SiStation {
     }
 
     static get modeByValue() {
-        return getLookup(this.Mode, (value) => [value.val]);
+        return utils.getLookup(this.Mode, (value) => [value.val]);
     }
 
     static get typeByValue() {
-        return getLookup(this.Type, (value) => [value.val]);
+        return utils.getLookup(this.Type, (value) => [value.val]);
     }
 
     static get modelByValue() {
-        return getLookup(this.Model, (value) => value.vals);
+        return utils.getLookup(this.Model, (value) => value.vals);
     }
 
     readInfo() {
@@ -47,8 +48,8 @@ export class SiStation {
                 this._info._raw = data;
                 this._info.refreshRate = data[0x10]; // in 3/sec
                 this._info.powerMode = data[0x11]; // 06 low power, 08 standard/sprint
-                this._info.interval = arr2big(data.slice(0x48, 0x4A));
-                this._info.wtf = arr2big(data.slice(0x4A, 0x4C));
+                this._info.interval = utils.arr2big(data.slice(0x48, 0x4A));
+                this._info.wtf = utils.arr2big(data.slice(0x4A, 0x4C));
                 this._info.program = data[0x70];
                 this._info.handshake = ((data[0x74] >> 2) & 0x01);
                 this._info.sprint4ms = ((data[0x74] >> 3) & 0x01);
@@ -73,14 +74,14 @@ export class SiStation {
                 command: proto.cmd.GET_TIME,
                 parameters: [],
             }, 1)
-                .then((d) => arr2date(d[0].slice(2)));
+                .then((d) => siProtocol.arr2date(d[0].slice(2)));
         }
         // TODO: compensate for waiting time
         return this.mainStation.sendMessage({
             command: proto.cmd.SET_TIME,
-            parameters: [...date2arr(newTime)],
+            parameters: [...siProtocol.date2arr(newTime)],
         }, 1)
-            .then((d) => arr2date(d[0].slice(2)));
+            .then((d) => siProtocol.arr2date(d[0].slice(2)));
 
     }
 
@@ -189,51 +190,51 @@ export class SiStation {
     }
 
     serialNumber() {
-        return this.info((data) => arr2big(data.slice(0x00, 0x04)));
+        return this.info((data) => utils.arr2big(data.slice(0x00, 0x04)));
     }
 
     firmwareVersion() {
-        return this.info((data) => arr2big(data.slice(0x05, 0x08)));
+        return this.info((data) => utils.arr2big(data.slice(0x05, 0x08)));
     }
 
     buildDate() {
-        return this.info((data) => arr2date(data.slice(0x08, 0x0B)));
+        return this.info((data) => siProtocol.arr2date(data.slice(0x08, 0x0B)));
     }
 
     deviceModel() {
-        return this.info((data) => this.constructor.modelByValue[arr2big(data.slice(0x0B, 0x0D))]);
+        return this.info((data) => this.constructor.modelByValue[utils.arr2big(data.slice(0x0B, 0x0D))]);
     }
 
     memorySize() {
-        return this.info((data) => arr2big(data.slice(0x0D, 0x0E)));
+        return this.info((data) => utils.arr2big(data.slice(0x0D, 0x0E)));
     }
 
     batteryDate() {
-        return this.info((data) => arr2date(data.slice(0x15, 0x18)));
+        return this.info((data) => siProtocol.arr2date(data.slice(0x15, 0x18)));
     }
 
     batteryCapacity() {
-        return this.info((data) => arr2big(data.slice(0x19, 0x1B)));
+        return this.info((data) => utils.arr2big(data.slice(0x19, 0x1B)));
     }
 
     backupPointer() {
-        return this.info((data) => arr2big(data.slice(0x1C, 0x1E).concat(data.slice(0x21, 0x23))));
+        return this.info((data) => utils.arr2big(data.slice(0x1C, 0x1E).concat(data.slice(0x21, 0x23))));
     }
 
     siCard6Mode() {
-        return this.info((data) => arr2big(data.slice(0x33, 0x34)));
+        return this.info((data) => utils.arr2big(data.slice(0x33, 0x34)));
     }
 
     memoryOverflow() {
-        return this.info((data) => arr2big(data.slice(0x3D, 0x3E)));
+        return this.info((data) => utils.arr2big(data.slice(0x3D, 0x3E)));
     }
 
     lastWriteDate() {
-        return this.info((data) => arr2date(data.slice(0x75, 0x7B)));
+        return this.info((data) => siProtocol.arr2date(data.slice(0x75, 0x7B)));
     }
 
     autoOffTimeout() {
-        return this.info((data) => arr2big(data.slice(0x7E, 0x80)));
+        return this.info((data) => utils.arr2big(data.slice(0x7E, 0x80)));
     }
 }
 
