@@ -27,7 +27,7 @@ jobs:
 
       - run: npm run eslint
       - run: npm run dependency-check
-      - run: npm run jest
+      - run: npm run jest:ci
 
       - run: npm run webpack-src
       - run: npm run webpack-testbench
