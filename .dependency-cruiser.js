@@ -123,6 +123,17 @@ const customForbidden = [
             pathNot: '^src/index\\.js',
         },
     },
+    {
+        name: 'not-from-utils-outside',
+        comment: 'Don\'t allow dependencies from utils outside utils',
+        severity: 'error',
+        from: {
+            path: '^utils/',
+        },
+        to: {
+            pathNot: '^utils/',
+        },
+    },
 ];
 
 module.exports = {

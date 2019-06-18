@@ -1,5 +1,5 @@
 import Immutable from 'immutable';
-import * as utils from '../utils';
+import * as generalUtils from './general';
 
 export class NumberRangeRegistry {
     constructor() {
@@ -22,7 +22,7 @@ export class NumberRangeRegistry {
             }
             return isEntirelyBeforeMid ? [start, mid] : [mid + 1, end];
         };
-        const index = utils.binarySearch(this.numberRanges, numberRange, {
+        const index = generalUtils.binarySearch(this.numberRanges, numberRange, {
             getLength: getLength,
             getNewRange: getNewRange,
         });
@@ -38,7 +38,7 @@ export class NumberRangeRegistry {
             const isBeforeOrInMid = !midNumberRange.isEntirelyBefore(number_);
             return isBeforeOrInMid ? [start, mid] : [mid + 1, end];
         };
-        const index = utils.binarySearch(this.numberRanges, number, {
+        const index = generalUtils.binarySearch(this.numberRanges, number, {
             getLength: getLength,
             getNewRange: getNewRange,
         });

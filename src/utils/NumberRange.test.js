@@ -2,7 +2,7 @@
 
 import {NumberRange} from './NumberRange';
 
-describe('NumberRange', () => {
+describe('NumberRange utils', () => {
     it('instance', () => {
         const numberRange = new NumberRange(0, 100);
         expect(numberRange.start).toBe(0);

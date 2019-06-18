@@ -3,7 +3,7 @@
 import {NumberRange} from './NumberRange';
 import {NumberRangeRegistry} from './NumberRangeRegistry';
 
-describe('NumberRangeRegistry', () => {
+describe('NumberRangeRegistry utils', () => {
     const numberRange1 = new NumberRange(-4, -3);
     const numberRange2 = new NumberRange(-3, 3);
     const numberRange3 = new NumberRange(3, 4);

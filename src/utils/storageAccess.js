@@ -1,8 +1,8 @@
 import _ from 'lodash';
 import Immutable from 'immutable';
-import * as utils from './utils';
+import * as errorUtils from './errors';
 
-export const define = (size, definitions) => {
+export const defineStorage = (size, definitions) => {
     class SiStorage {
         constructor(initArg) {
             let initList = initArg;
@@ -67,7 +67,7 @@ export class SiDataType {
     }
 
     typeSpecificExtractFromData(_data) {
-        utils.notImplemented('DataType must implement typeSpecificExtractFromData()');
+        errorUtils.notImplemented('DataType must implement typeSpecificExtractFromData()');
     }
 
     updateData(data, newValue) {
@@ -79,7 +79,7 @@ export class SiDataType {
     }
 
     typeSpecificUpdateData(_data, _newValue) {
-        utils.notImplemented('DataType must implement typeSpecificUpdateData()');
+        errorUtils.notImplemented('DataType must implement typeSpecificUpdateData()');
     }
 
     modify(modifyExtracted, modifyForUpdate) {

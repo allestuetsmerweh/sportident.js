@@ -1,12 +1,12 @@
 import _ from 'lodash';
 import * as utils from '../../utils';
-import * as siStorageAccess from '../../siStorageAccess';
+import * as siProtocol from '../../siProtocol';
 import {proto} from '../../constants';
 import {BaseSiCard} from '../BaseSiCard';
 
 export class SiCard5 extends BaseSiCard {
     getTypeSpecificDetectionMessage() {
-        const cardNumberArr = utils.cardNumber2arr(this.cardNumber);
+        const cardNumberArr = siProtocol.cardNumber2arr(this.cardNumber);
         cardNumberArr.reverse();
         return {
             command: proto.cmd.SI5_DET,
@@ -39,26 +39,26 @@ const getPunchOffset = (i) => (i >= 30
     ? 32 + (i - 30) * 16
     : 32 + Math.floor(i / 5) + 1 + i * 3
 );
-SiCard5.StorageDefinition = siStorageAccess.define(0x80, {
-    cardNumber: new siStorageAccess.SiArray(
+SiCard5.StorageDefinition = utils.defineStorage(0x80, {
+    cardNumber: new utils.SiArray(
         3,
-        (i) => new siStorageAccess.SiInt([[([5, 4, 6][i])]]),
+        (i) => new utils.SiInt([[([5, 4, 6][i])]]),
     ).modify(
-        (extractedValue) => utils.arr2cardNumber(extractedValue),
-        (cardNumber) => utils.cardNumber2arr(cardNumber),
+        (extractedValue) => siProtocol.arr2cardNumber(extractedValue),
+        (cardNumber) => siProtocol.cardNumber2arr(cardNumber),
     ),
-    startTime: new siStorageAccess.SiInt([[19], [20]]),
-    finishTime: new siStorageAccess.SiInt([[21], [22]]),
-    checkTime: new siStorageAccess.SiInt([[25], [26]]),
-    punchCount: new siStorageAccess.SiInt([[23]]).modify(
+    startTime: new utils.SiInt([[19], [20]]),
+    finishTime: new utils.SiInt([[21], [22]]),
+    checkTime: new utils.SiInt([[25], [26]]),
+    punchCount: new utils.SiInt([[23]]).modify(
         (extractedValue) => extractedValue - 1,
         (punchCount) => punchCount + 1,
     ),
-    punches: new siStorageAccess.SiArray(36, (i) => new siStorageAccess.SiDict({
-        code: new siStorageAccess.SiInt([
+    punches: new utils.SiArray(36, (i) => new utils.SiDict({
+        code: new utils.SiInt([
             [getPunchOffset(i) + 0],
         ]),
-        time: new siStorageAccess.SiInt([...(i >= 30
+        time: new utils.SiInt([...(i >= 30
             ? []
             : [
                 [32 + Math.floor(i / 5) + 1 + i * 3 + 1],

@@ -12,6 +12,7 @@
     "build-docs": "sh build-docs.sh",
     "eslint": "eslint .",
     "jest": "jest",
+    "jest:ci": "jest --runInBand",
     "dependency-check": "dependency-cruise --config=./.dependency-cruiser.js src testbench",
     "start-testbench": "cd testbench/ && webpack-dev-server",
     "testbench": "sh run-testbench.sh",
@@ -20,7 +21,7 @@
   "jest": {
     "testRegex": ".*/.*\\.test\\.js",
     "collectCoverage": true,
-    "maxConcurrency": 2
+    "maxConcurrency": 1
   },
   "repository": {
     "type": "git",
