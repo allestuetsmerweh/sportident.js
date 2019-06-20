@@ -1,7 +1,15 @@
 /* eslint-env jasmine */
 
+import {BaseSiDevice} from '../BaseSiDevice';
 import {getWebUsbSiDevice} from './WebUsbSiDevice';
 import * as utils from '../../utils';
+import * as testUtils from '../../testUtils';
+
+testUtils.useFakeTimers();
+
+beforeEach(() => {
+    BaseSiDevice.allByIdent = {};
+});
 
 const siVendorId = 0x10c4;
 const siProductId = 0x800a;
@@ -80,10 +88,10 @@ export const testNavigator = {
     },
 };
 const testNavigatorDispatchEvent = (type, args) => utils.dispatchEvent(testNavigatorEventListeners, type, args);
+const WebUsbSiDevice = getWebUsbSiDevice(testNavigator);
 const getFakeSiUsbDevice = () => new FakeWebUsbDevice(siSerialNumber2, siVendorId, siProductId);
 const getFakeNonSiUsbDevice = () => new FakeWebUsbDevice(nonSiSerialNumber2, nonSiVendorId, nonSiProductId);
 const getSiDevice = () => {
-    const WebUsbSiDevice = getWebUsbSiDevice(testNavigator);
     const fakeSiDevice = getFakeSiUsbDevice();
     return new WebUsbSiDevice(fakeSiDevice);
 };
@@ -94,13 +102,13 @@ const failingTestNavigator = {
         requestDevice: () => Promise.reject(requestDeviceError),
     },
 };
+const FailingWebUsbSiDevice = getWebUsbSiDevice(failingTestNavigator);
 
 describe('getWebUsbSiDevice', () => {
     it('incompatible browser', () => {
         expect(getWebUsbSiDevice({})).toBe(null);
     });
     it('detect', (done) => {
-        const WebUsbSiDevice = getWebUsbSiDevice(testNavigator);
         WebUsbSiDevice.detect()
             .then((result) => {
                 expect(result instanceof WebUsbSiDevice).toBe(true);
@@ -112,8 +120,7 @@ describe('getWebUsbSiDevice', () => {
             });
     });
     it('detect fail', (done) => {
-        const WebUsbSiDevice = getWebUsbSiDevice(failingTestNavigator);
-        WebUsbSiDevice.detect()
+        FailingWebUsbSiDevice.detect()
             .then(
                 undefined,
                 (error) => {
@@ -122,8 +129,7 @@ describe('getWebUsbSiDevice', () => {
                 },
             );
     });
-    it('autodetection', (done) => {
-        const WebUsbSiDevice = getWebUsbSiDevice(testNavigator);
+    it('autodetection', async (done) => {
         let numAddCalled = 0;
         let numRemoveCalled = 0;
         WebUsbSiDevice.addEventListener('add', () => numAddCalled++);
@@ -133,124 +139,52 @@ describe('getWebUsbSiDevice', () => {
         const fakeNonSiDevice = getFakeNonSiUsbDevice();
 
         testNavigatorDispatchEvent('connect');
-        utils.waitFor(0)
-            .then(() => {
-                expect([numAddCalled, numRemoveCalled]).toEqual([0, 0]);
-                testNavigatorDispatchEvent('disconnect');
-                return utils.waitFor(0);
-            })
-            .then(() => {
-                expect([numAddCalled, numRemoveCalled]).toEqual([0, 0]);
-                return WebUsbSiDevice.startAutoDetection();
-            })
-            .then((initialDevices) => {
-                expect(initialDevices.length).toBe(1);
-                expect(initialDevices[0] instanceof WebUsbSiDevice).toBe(true);
-                expect(initialDevices[0].state).toBe(WebUsbSiDevice.State.Opened);
-                // expect(initialDevices[0].webUsbDevice.serialNumber in WebUsbSiDevice._autoOpened).toBe(true);
-                expect(initialDevices[0].webUsbDevice.serialNumber).toBe(siSerialNumber1);
-                expect(initialDevices[0].webUsbDevice.vendorId).toBe(siVendorId);
-                expect(initialDevices[0].webUsbDevice.productId).toBe(siProductId);
 
-                testNavigatorDispatchEvent('connect', {device: fakeSiDevice});
-                return utils.waitFor(0);
-            })
-            .then(() => {
-                expect([numAddCalled, numRemoveCalled]).toEqual([1, 0]);
-                testNavigatorDispatchEvent('disconnect', {device: fakeSiDevice});
-                return utils.waitFor(0);
-            })
-            .then(() => {
-                expect([numAddCalled, numRemoveCalled]).toEqual([1, 1]);
-                testNavigatorDispatchEvent('connect', {device: fakeNonSiDevice});
-                return utils.waitFor(0);
-            })
-            .then(() => {
-                expect([numAddCalled, numRemoveCalled]).toEqual([1, 1]);
-                testNavigatorDispatchEvent('disconnect', {device: fakeNonSiDevice});
-                return utils.waitFor(0);
-            })
-            .then(() => {
-                expect([numAddCalled, numRemoveCalled]).toEqual([1, 1]);
-                testNavigatorDispatchEvent('connect', {device: fakeSiDevice});
-                return utils.waitFor(0);
-            })
-            .then(() => {
-                expect([numAddCalled, numRemoveCalled]).toEqual([2, 1]);
-                testNavigatorDispatchEvent('disconnect', {device: fakeSiDevice});
-                return utils.waitFor(0);
-            })
-            .then(() => {
-                expect([numAddCalled, numRemoveCalled]).toEqual([2, 2]);
-                Object.values(WebUsbSiDevice.allByIdent).forEach((device) => {
-                    expect(device.state).toBe(WebUsbSiDevice.State.Opened);
-                });
-                return WebUsbSiDevice.stopAutoDetection();
-            })
-            // .then(() => {
-            //     Object.values(WebUsbSiDevice.allByIdent).forEach((device) => {
-            //         expect(device.state).toBe(WebUsbSiDevice.State.Closed);
-            //     });
-            //     testNavigatorDispatchEvent('connect', {device: fakeSiDevice});
-            //     return utils.waitFor(0);
-            // })
-            // .then(() => {
-            //     expect([numAddCalled, numRemoveCalled]).toEqual([2, 2]);
-            //     testNavigatorDispatchEvent('disconnect', {device: fakeSiDevice});
-            //     return utils.waitFor(0);
-            // })
-            .then(() => {
-                // expect([numAddCalled, numRemoveCalled]).toEqual([2, 2]);
+        await testUtils.advanceTimersByTime(0);
+        expect([numAddCalled, numRemoveCalled]).toEqual([0, 0]);
+        testNavigatorDispatchEvent('disconnect');
 
-                done();
-            });
-    });
-    it('getOrCreate', () => {
-        const WebUsbSiDevice = getWebUsbSiDevice(testNavigator);
-        expect('1' in WebUsbSiDevice.allByIdent).toBe(false);
-        expect('2' in WebUsbSiDevice.allByIdent).toBe(false);
-        const result1 = WebUsbSiDevice.getOrCreate({serialNumber: 1, test: 1});
-        expect('1' in WebUsbSiDevice.allByIdent).toBe(true);
-        expect('2' in WebUsbSiDevice.allByIdent).toBe(false);
-        const result2 = WebUsbSiDevice.getOrCreate({serialNumber: 1, test: 2});
-        expect('1' in WebUsbSiDevice.allByIdent).toBe(true);
-        expect('2' in WebUsbSiDevice.allByIdent).toBe(false);
-        const result3 = WebUsbSiDevice.getOrCreate({serialNumber: 2, test: 1});
-        expect('1' in WebUsbSiDevice.allByIdent).toBe(true);
-        expect('2' in WebUsbSiDevice.allByIdent).toBe(true);
-        expect(result2).toBe(result1);
-        expect(result3).not.toBe(result1);
-    });
-    it('remove', () => {
-        const WebUsbSiDevice = getWebUsbSiDevice(testNavigator);
-        const device1 = WebUsbSiDevice.getOrCreate({serialNumber: 1});
-        expect('1' in WebUsbSiDevice.allByIdent).toBe(true);
-        WebUsbSiDevice.remove(device1);
-        expect('1' in WebUsbSiDevice.allByIdent).toBe(false);
-        const device2 = WebUsbSiDevice.getOrCreate({serialNumber: 1});
-        expect('1' in WebUsbSiDevice.allByIdent).toBe(true);
-        expect(device2).not.toBe(device1);
-    });
-    it('fails opening while opening', () => {
-        const device = getSiDevice();
-        device.setSiDeviceState(device.constructor.State.Opening);
-        expect(() => device.open()).toThrow();
-    });
-    it('fails opening while closing', () => {
-        const device = getSiDevice();
-        device.setSiDeviceState(device.constructor.State.Closing);
-        expect(() => device.open()).toThrow();
-    });
-    it('immediately opens when opened', (done) => {
-        const device = getSiDevice();
-        device.setSiDeviceState(device.constructor.State.Opened);
-        device.webUsbDevice.opened = false; // just to check that the fake open has not been called
-        device.open()
-            .then((openedDevice) => {
-                expect(openedDevice).toBe(device);
-                expect(openedDevice.webUsbDevice.opened).toBe(false); // the fake open function hasn't actually been called
-                done();
-            });
+        await testUtils.advanceTimersByTime(0);
+        expect([numAddCalled, numRemoveCalled]).toEqual([0, 0]);
+
+        const initialDevices = await WebUsbSiDevice.startAutoDetection();
+        expect(initialDevices.length).toBe(1);
+        expect(initialDevices[0] instanceof WebUsbSiDevice).toBe(true);
+        expect(initialDevices[0].state).toBe(WebUsbSiDevice.State.Opened);
+        expect(initialDevices[0].ident in WebUsbSiDevice._autoOpened).toBe(true);
+        expect(initialDevices[0].webUsbDevice.serialNumber).toBe(siSerialNumber1);
+        expect(initialDevices[0].webUsbDevice.vendorId).toBe(siVendorId);
+        expect(initialDevices[0].webUsbDevice.productId).toBe(siProductId);
+        testNavigatorDispatchEvent('connect', {device: fakeSiDevice});
+
+        await testUtils.nTimesAsync(7, () => testUtils.advanceTimersByTime(0));
+        expect([numAddCalled, numRemoveCalled]).toEqual([1, 0]);
+        testNavigatorDispatchEvent('disconnect', {device: fakeSiDevice});
+
+        await testUtils.advanceTimersByTime(0);
+        expect([numAddCalled, numRemoveCalled]).toEqual([1, 1]);
+        testNavigatorDispatchEvent('connect', {device: fakeNonSiDevice});
+
+        await testUtils.nTimesAsync(1, () => testUtils.advanceTimersByTime(0));
+        expect([numAddCalled, numRemoveCalled]).toEqual([1, 1]);
+        testNavigatorDispatchEvent('disconnect', {device: fakeNonSiDevice});
+
+        await testUtils.advanceTimersByTime(0);
+        expect([numAddCalled, numRemoveCalled]).toEqual([1, 1]);
+        testNavigatorDispatchEvent('connect', {device: fakeSiDevice});
+
+        await testUtils.nTimesAsync(7, () => testUtils.advanceTimersByTime(0));
+        expect([numAddCalled, numRemoveCalled]).toEqual([2, 1]);
+        testNavigatorDispatchEvent('disconnect', {device: fakeSiDevice});
+
+        await testUtils.advanceTimersByTime(0);
+        expect([numAddCalled, numRemoveCalled]).toEqual([2, 2]);
+        Object.values(WebUsbSiDevice.allByIdent).forEach((device) => {
+            expect(device.state).toBe(WebUsbSiDevice.State.Opened);
+        });
+
+        await WebUsbSiDevice.stopAutoDetection();
+        done();
     });
     it('opens when closed', (done) => {
         const device = getSiDevice();
@@ -260,27 +194,6 @@ describe('getWebUsbSiDevice', () => {
             .then((openedDevice) => {
                 expect(openedDevice).toBe(device);
                 expect(openedDevice.webUsbDevice.opened).toBe(true);
-                done();
-            });
-    });
-    it('fails closing while opening', () => {
-        const device = getSiDevice();
-        device.setSiDeviceState(device.constructor.State.Opening);
-        expect(() => device.close()).toThrow();
-    });
-    it('fails closing while closing', () => {
-        const device = getSiDevice();
-        device.setSiDeviceState(device.constructor.State.Closing);
-        expect(() => device.close()).toThrow();
-    });
-    it('immediately closes when closed', (done) => {
-        const device = getSiDevice();
-        device.setSiDeviceState(device.constructor.State.Closed);
-        device.webUsbDevice.opened = true; // just to check that the fake close has not been called
-        device.close()
-            .then((openedDevice) => {
-                expect(openedDevice).toBe(device);
-                expect(openedDevice.webUsbDevice.opened).toBe(true); // the fake close function hasn't actually been called
                 done();
             });
     });
@@ -295,18 +208,17 @@ describe('getWebUsbSiDevice', () => {
                 done();
             });
     });
-    it('instance', (done) => {
-        utils.waitFor(100)
-            .then(() => {
-                const WebUsbSiDevice = getWebUsbSiDevice(testNavigator);
-                const fakeWebUsbDevice = new FakeWebUsbDevice(74123874, siVendorId, siProductId);
-                fakeWebUsbDevice.opened = true;
-                const instance = new WebUsbSiDevice(fakeWebUsbDevice);
-                instance.receive()
-                    .then((...args) => {
-                        console.log(args);
-                        done();
-                    });
+    it('instance', async (done) => {
+        const fakeWebUsbDevice = new FakeWebUsbDevice(74123874, siVendorId, siProductId);
+        fakeWebUsbDevice.opened = true;
+        const instance = new WebUsbSiDevice(fakeWebUsbDevice);
+        let receivedUint8Data = null;
+        instance.receive()
+            .then((uint8Data) => {
+                receivedUint8Data = uint8Data;
             });
+        await testUtils.advanceTimersByTime(10);
+        expect([...receivedUint8Data]).toEqual([]);
+        done();
     });
 });

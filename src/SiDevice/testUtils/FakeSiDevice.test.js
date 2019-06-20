@@ -29,7 +29,7 @@ describe('FakeSiDevice', () => {
     it('instances', async (done) => {
         const fakeDevice = new FakeSiDevice('fakeDevice');
         expect(fakeDevice.name).toBe('FakeSiDevice(fakeDevice)');
-        expect(fakeDevice.ident).toBe('fakeDevice');
+        expect(fakeDevice.ident).toBe('FakeSiDevice-fakeDevice');
 
         const timeState = {};
         fakeDevice.open().then((device) => { timeState.open = device; });

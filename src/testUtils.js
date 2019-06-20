@@ -16,6 +16,14 @@ export const advanceTimersByTime = async (msToRun) => {
     await Promise.resolve();
 };
 
+export const nTimesAsync = async (n, doThing) => {
+    if (n <= 0) {
+        return;
+    }
+    await doThing();
+    await nTimesAsync(n - 1, doThing);
+};
+
 export const getRandomInt = (numOptions) => Math.floor(Math.random() * numOptions);
 
 export const getRandomByte = () => getRandomInt(256);
