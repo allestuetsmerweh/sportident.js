@@ -11,19 +11,13 @@ export class FakeSiDevice extends BaseSiDevice {
     }
 
     constructor(ident, mocks = {}) {
-        super();
+        super(ident);
         if (this.constructor._usedIdents[ident]) {
             throw new Error(`Non-unique ident for FakeSiDevice: ${ident}`);
         }
         this.constructor._usedIdents[ident] = true;
-        this._ident = ident;
         this.mocks = mocks;
         this.counts = {};
-        this.name = `FakeSiDevice(${ident})`;
-    }
-
-    get ident() {
-        return this._ident;
     }
 
     open() {

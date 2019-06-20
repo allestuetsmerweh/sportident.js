@@ -19,7 +19,10 @@ export class BaseSiCard {
 
     static fromCardNumber(cardNumber) {
         const cardType = this.getTypeByCardNumber(cardNumber);
-        return new cardType(cardNumber);
+        if (cardType) {
+            return new cardType(cardNumber);
+        }
+        return undefined;
     }
 
     static detectFromMessage(message) {

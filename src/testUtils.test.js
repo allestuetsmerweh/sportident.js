@@ -57,6 +57,32 @@ describe('testUtils', () => {
         });
         done();
     });
+    it('nTimesAsync', async (done) => {
+        const timeState = {};
+        setTimeout(() => { timeState.timeout0 = true; }, 0);
+        setTimeout(() => { timeState.timeout1 = true; }, 1);
+        setTimeout(() => { timeState.timeout2 = true; }, 2);
+        const promise0 = new Promise((resolve) => setTimeout(resolve, 0));
+        const promise1 = new Promise((resolve) => setTimeout(resolve, 1));
+        const promise2 = new Promise((resolve) => setTimeout(resolve, 2));
+        promise0.then(() => { timeState.promise0 = true; });
+        promise1.then(() => { timeState.promise1 = true; });
+        promise2.then(() => { timeState.promise2 = true; });
+        expect(timeState).toEqual({});
+        await testUtils.nTimesAsync(0, () => testUtils.advanceTimersByTime(0));
+        expect(timeState).toEqual({});
+        await testUtils.nTimesAsync(1, () => testUtils.advanceTimersByTime(0));
+        expect(timeState).toEqual({
+            timeout0: true, promise0: true,
+        });
+        await testUtils.nTimesAsync(2, () => testUtils.advanceTimersByTime(1));
+        expect(timeState).toEqual({
+            timeout0: true, promise0: true,
+            timeout1: true, promise1: true,
+            timeout2: true, promise2: true,
+        });
+        done();
+    });
     it('getRandomInt with 0 options', () => {
         _.range(10).forEach(() => {
             expect(testUtils.getRandomInt(0)).toBe(0);
