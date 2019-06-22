@@ -7,13 +7,8 @@ import {BaseSiCard} from '../BaseSiCard';
 class ReadFinishedException {}
 
 export class ModernSiCard extends BaseSiCard {
-    getTypeSpecificDetectionMessage() {
-        const cardNumberArr = siProtocol.cardNumber2arr(this.cardNumber);
-        cardNumberArr.reverse();
-        return {
-            command: proto.cmd.SI8_DET,
-            parameters: [...cardNumberArr],
-        };
+    static typeSpecificShouldDetectFromMessage(message) {
+        return message.command === proto.cmd.SI8_DET;
     }
 
     modernGetPage(pageNumber) {

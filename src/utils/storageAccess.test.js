@@ -118,6 +118,44 @@ describe('storageAccess utils', () => {
         expect(unknownWeirdStorage.get('loconess')).toBe(undefined);
         expect(() => unknownWeirdStorage.set('loconess', 0xABCD)).toThrow(ModifyUndefinedException);
     });
+    it('SiStorage SiEnum', () => {
+        const WeirdStorage = storageAccess.defineStorage(0x03, {
+            weirdness: new storageAccess.SiEnum([[0x00]], {NotWeird: 0x00, Weird: 0x55}),
+            crazyness: new storageAccess.SiEnum([[0x01, 0, 4]], {NotCrazy: 0x00, Crazy: 0x0A}),
+            loconess: new storageAccess.SiEnum([[0x02], [0x01, 4, 8]], {NotLoco: 0x000, Loco: 0xBCD}),
+        });
+
+        const myWeirdStorage = new WeirdStorage(
+            byteUtils.unPrettyHex('00 00 00'),
+        );
+
+        expect(myWeirdStorage.get('weirdness')).toBe('NotWeird');
+        myWeirdStorage.set('weirdness', 'Weird');
+        expect(myWeirdStorage.data.toJS()).toEqual(byteUtils.unPrettyHex('55 00 00'));
+        expect(myWeirdStorage.get('weirdness')).toBe('Weird');
+
+        expect(myWeirdStorage.get('crazyness')).toBe('NotCrazy');
+        myWeirdStorage.set('crazyness', 0x0A);
+        expect(myWeirdStorage.data.toJS()).toEqual(byteUtils.unPrettyHex('55 0A 00'));
+        expect(myWeirdStorage.get('crazyness')).toBe('Crazy');
+
+        expect(myWeirdStorage.get('loconess')).toBe('NotLoco');
+        myWeirdStorage.set('loconess', 'Loco');
+        expect(myWeirdStorage.data.toJS()).toEqual(byteUtils.unPrettyHex('55 BA CD'));
+        expect(myWeirdStorage.get('loconess')).toBe('Loco');
+
+        const unknownWeirdStorage = new WeirdStorage();
+        const ModifyUndefinedException = storageAccess.SiDataType.ModifyUndefinedException;
+
+        expect(unknownWeirdStorage.get('weirdness')).toBe(undefined);
+        expect(() => unknownWeirdStorage.set('weirdness', 'Weird')).toThrow(ModifyUndefinedException);
+
+        expect(unknownWeirdStorage.get('crazyness')).toBe(undefined);
+        expect(() => unknownWeirdStorage.set('crazyness', 'Crazy')).toThrow(ModifyUndefinedException);
+
+        expect(unknownWeirdStorage.get('loconess')).toBe(undefined);
+        expect(() => unknownWeirdStorage.set('loconess', 'Loco')).toThrow(ModifyUndefinedException);
+    });
     it('SiStorage SiArray', () => {
         const WeirdStorage = storageAccess.defineStorage(0x03, {
             areWeird: new storageAccess.SiArray(3, (i) => new storageAccess.SiBool(0x00, i)),

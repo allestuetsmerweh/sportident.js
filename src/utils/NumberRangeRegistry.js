@@ -32,7 +32,7 @@ export class NumberRangeRegistry {
 
     getValueForNumber(number) {
         const getLength = (numberRanges) => numberRanges.size;
-        const getNewRange = (numberRanges, number_, start, end) => {
+        const getNewSearchRange = (numberRanges, number_, start, end) => {
             const mid = Math.floor((start + end) / 2);
             const midNumberRange = numberRanges.get(mid);
             const isBeforeOrInMid = !midNumberRange.isEntirelyBefore(number_);
@@ -40,7 +40,7 @@ export class NumberRangeRegistry {
         };
         const index = generalUtils.binarySearch(this.numberRanges, number, {
             getLength: getLength,
-            getNewRange: getNewRange,
+            getNewRange: getNewSearchRange,
         });
         const numberRangeAtIndex = this.numberRanges.get(index);
         if (numberRangeAtIndex !== undefined && numberRangeAtIndex.contains(number)) {

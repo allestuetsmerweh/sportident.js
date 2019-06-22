@@ -1,81 +1,116 @@
+import Immutable from 'immutable';
 import {proto} from '../constants';
 import * as utils from '../utils';
 import * as siProtocol from '../siProtocol';
 
 export class SiStation {
-    constructor(mainStation) {
-        this.mainStation = mainStation;
-        this._info = {};
-        this._infoTime = 0;
-        this._infoSubscribers = [];
-    }
-
     static get modeByValue() {
-        return utils.getLookup(this.Mode, (value) => [value.val]);
+        return utils.getLookup(this.Mode, (value) => value.val);
     }
 
     static get typeByValue() {
-        return utils.getLookup(this.Type, (value) => [value.val]);
+        return utils.getLookup(this.Type, (value) => value.val);
     }
 
     static get modelByValue() {
-        return utils.getLookup(this.Model, (value) => value.vals);
+        return utils.getLookup(this.Model, (value) => value.val);
+    }
+
+    constructor() {
+        this.mainStation = undefined;
+        this.storage = new SiStation.StorageDefinition();
     }
 
     readInfo() {
-        const now = new Date().getTime();
-        if (now < this._infoTime + 60000) {
-            return Promise.resolve(this._info);
-        }
-        if (0 < this._infoSubscribers.length) {
-            return new Promise((resolve, reject) => {
-                this._infoSubscribers.push({resolve: resolve, reject: reject});
-            });
-        }
-        return this.forceReadInfo();
-    }
-
-    forceReadInfo() {
         return this.mainStation.sendMessage({
             command: proto.cmd.GET_SYS_VAL,
             parameters: [0x00, 0x80],
         }, 1)
-            .then((d) => {
-                const data = d[0];
-                data.splice(0, 3);
-                this._infoTime = new Date().getTime();
-                this._info = {};
-                this._info._raw = data;
-                this._info.refreshRate = data[0x10]; // in 3/sec
-                this._info.powerMode = data[0x11]; // 06 low power, 08 standard/sprint
-                this._info.interval = utils.arr2big(data.slice(0x48, 0x4A));
-                this._info.wtf = utils.arr2big(data.slice(0x4A, 0x4C));
-                this._info.program = data[0x70];
-                this._info.handshake = ((data[0x74] >> 2) & 0x01);
-                this._info.sprint4ms = ((data[0x74] >> 3) & 0x01);
-                this._info.passwordOnly = ((data[0x74] >> 4) & 0x01);
-                this._info.stopOnFullBackup = ((data[0x74] >> 5) & 0x01);
-                this._info.autoReadout = ((data[0x74] >> 7) & 0x01);
-                this._infoSubscribers.map((infoSubscriber) => setTimeout(() => infoSubscriber.resolve(this._info), 1));
-                this._infoSubscribers = [];
-                console.log('INFO READ', this._info);
-                return this._info;
-            })
-            .catch((_err) => {
-                this._infoSubscribers.map((infoSubscriber) => setTimeout(() => infoSubscriber.reject(), 1));
-                this._infoSubscribers = [];
-                throw new Error('READ INFO');
+            .then((data) => {
+                this.storage.splice(0x00, 0x80, ...data[0].slice(3));
             });
     }
 
-    time(newTime) {
-        if (newTime === undefined) {
+    getInfo(infoName) {
+        return this.storage.get(infoName);
+    }
+
+    setInfo(infoName, newValue) {
+        this.storage.set(infoName, newValue);
+    }
+
+    writeChanges() {
+        const newStorage = this.storage.data;
+        return this.readInfo()
+            .then(() => {
+                const oldStorage = this.storage.data;
+                return this.writeDiff(oldStorage, newStorage);
+            });
+    }
+
+    atomically(doThings) {
+        return this.readInfo()
+            .then(() => {
+                const oldStorage = this.storage.data;
+                doThings();
+                const newStorage = this.storage.data;
+                return this.writeDiff(oldStorage, newStorage);
+            });
+    }
+
+    writeDiff(oldStorage, newStorage) {
+        const zippedStorageBytes = oldStorage.zip(newStorage);
+        const isByteDirty = zippedStorageBytes.map((oldAndNew) => oldAndNew[0] !== oldAndNew[1]);
+        const dirtyRanges = isByteDirty.reduce(
+            (ranges, isDirty, byteIndex) => {
+                if (!isDirty) {
+                    return ranges;
+                }
+                const numRanges = ranges.size;
+                const lastRange = ranges.get(numRanges - 1);
+                if (lastRange && lastRange.get(1) === byteIndex) {
+                    return ranges.setIn([0, 1], byteIndex + 1);
+                }
+                return ranges.push(Immutable.List([byteIndex, byteIndex + 1]));
+            },
+            Immutable.List(),
+        );
+        let dirtyRangeIndex = 0;
+        const processDirtyRanges = () => {
+            if (dirtyRangeIndex >= dirtyRanges.size) {
+                return Promise.resolve();
+            }
+            const dirtyRange = dirtyRanges.get(dirtyRangeIndex);
+            const parameters = [
+                dirtyRange.get(0),
+                ...newStorage.slice(dirtyRange.get(0), dirtyRange.get(1)),
+            ];
             return this.mainStation.sendMessage({
-                command: proto.cmd.GET_TIME,
-                parameters: [],
+                command: proto.cmd.SET_SYS_VAL,
+                parameters: parameters,
             }, 1)
-                .then((d) => siProtocol.arr2date(d[0].slice(2)));
-        }
+                .then((d) => {
+                    const data = d[0];
+                    data.splice(0, 2);
+                    if (data[0] !== parameters[0]) {
+                        console.warn(`SET_SYS_VAL error: ${data[0]} (expected ${parameters[0]})`);
+                    }
+                    dirtyRangeIndex += 1;
+                    return processDirtyRanges();
+                });
+        };
+        return processDirtyRanges();
+    }
+
+    getTime() {
+        return this.mainStation.sendMessage({
+            command: proto.cmd.GET_TIME,
+            parameters: [],
+        }, 1)
+            .then((d) => siProtocol.arr2date(d[0].slice(2)));
+    }
+
+    setTime(newTime) {
         // TODO: compensate for waiting time
         return this.mainStation.sendMessage({
             command: proto.cmd.SET_TIME,
@@ -103,138 +138,6 @@ export class SiStation {
             command: proto.cmd.OFF,
             parameters: [],
         }, 0);
-    }
-
-    info(retrieveFunc, paramsFunc = undefined, newValue = undefined) {
-        if (newValue === undefined) {
-            return this.readInfo()
-                .then((info) => retrieveFunc(info._raw));
-        }
-        let params = undefined;
-        return this.readInfo()
-            .then((info) => {
-                params = paramsFunc(info._raw);
-                if (!params) {
-                    throw new Error('INVALID_PARAM');
-                }
-                return this.mainStation.sendMessage({
-                    command: proto.cmd.SET_SYS_VAL,
-                    parameters: params,
-                }, 1);
-            })
-            .then((d) => {
-                const data = d[0];
-                data.splice(0, 2);
-                if (data[0] !== params[0]) {
-                    throw new Error('SET_CODE_RESP_ERR');
-                }
-                return this.forceReadInfo();
-            })
-            .then((info) => retrieveFunc(info._raw));
-    }
-
-    // TODO: program (0x70)
-
-    code(newCode) {
-        return this.info(
-            (data) => data[0x72] + ((data[0x73] & 0xC0) << 2),
-            (data) => [0x72, newCode & 0xFF, ((newCode & 0x0300) >> 2) + (data[0x73] & 0x3F)],
-            newCode,
-        );
-    }
-
-    mode(newMode) {
-        return this.info(
-            (data) => this.constructor.modeByValue[data[0x71]],
-            () => {
-                const newModeVal = newMode.hasOwnProperty('val') ? newMode.val : newMode;
-                if (this.constructor.modeByValue[newModeVal] === undefined) {
-                    return false;
-                }
-                return [0x71, newModeVal];
-            },
-            newMode,
-        );
-    }
-
-    beeps(newBeeps) {
-        return this.info(
-            (data) => ((data[0x73] >> 2) & 0x01),
-            (data) => [0x73, (newBeeps ? 0x04 : 0x00) + (data[0x73] & 0xFB)],
-            newBeeps,
-        );
-    }
-
-    flashes(newFlashes) {
-        return this.info(
-            (data) => (data[0x73] & 0x01),
-            (data) => [0x73, (newFlashes ? 0x01 : 0x00) + (data[0x73] & 0xFE)],
-            newFlashes,
-        );
-    }
-
-    autoSend(newAutoSend) {
-        return this.info(
-            (data) => ((data[0x74] >> 1) & 0x01),
-            (data) => [0x74, (newAutoSend ? 0x02 : 0x00) + (data[0x74] & 0xFD)],
-            newAutoSend,
-        );
-    }
-
-    extendedProtocol(newExtendedProtocol) {
-        return this.info(
-            (data) => (data[0x74] & 0x01),
-            (data) => [0x74, (newExtendedProtocol ? 0x01 : 0x00) + (data[0x74] & 0xFE)],
-            newExtendedProtocol,
-        );
-    }
-
-    serialNumber() {
-        return this.info((data) => utils.arr2big(data.slice(0x00, 0x04)));
-    }
-
-    firmwareVersion() {
-        return this.info((data) => utils.arr2big(data.slice(0x05, 0x08)));
-    }
-
-    buildDate() {
-        return this.info((data) => siProtocol.arr2date(data.slice(0x08, 0x0B)));
-    }
-
-    deviceModel() {
-        return this.info((data) => this.constructor.modelByValue[utils.arr2big(data.slice(0x0B, 0x0D))]);
-    }
-
-    memorySize() {
-        return this.info((data) => utils.arr2big(data.slice(0x0D, 0x0E)));
-    }
-
-    batteryDate() {
-        return this.info((data) => siProtocol.arr2date(data.slice(0x15, 0x18)));
-    }
-
-    batteryCapacity() {
-        return this.info((data) => utils.arr2big(data.slice(0x19, 0x1B)));
-    }
-
-    backupPointer() {
-        return this.info((data) => utils.arr2big(data.slice(0x1C, 0x1E).concat(data.slice(0x21, 0x23))));
-    }
-
-    siCard6Mode() {
-        return this.info((data) => utils.arr2big(data.slice(0x33, 0x34)));
-    }
-
-    memoryOverflow() {
-        return this.info((data) => utils.arr2big(data.slice(0x3D, 0x3E)));
-    }
-
-    lastWriteDate() {
-        return this.info((data) => siProtocol.arr2date(data.slice(0x75, 0x7B)));
-    }
-
-    autoOffTimeout() {
-        return this.info((data) => utils.arr2big(data.slice(0x7E, 0x80)));
     }
 }
 
@@ -264,20 +167,104 @@ SiStation.Type = {
 };
 
 SiStation.Model = {
-    BSF3: {vals: [0x8003], description: 'BSF3', type: SiStation.Type.Field, series: 3},
-    BSF4: {vals: [0x8004], description: 'BSF4', type: SiStation.Type.Field, series: 4},
-    BSF5: {vals: [0x8115], description: 'BSF5', type: SiStation.Type.Field, series: 5},
-    BSF6: {vals: [0x8146], description: 'BSF6', type: SiStation.Type.Field, series: 6},
-    BSF7: {vals: [0x8117, 0x8197], description: 'BSF7', type: SiStation.Type.Field, series: 7},
-    BSF8: {vals: [0x8118, 0x8198], description: 'BSF8', type: SiStation.Type.Field, series: 8},
-    BS7Master: {vals: [0x8187], description: 'BS7-Master', type: SiStation.Type.Master, series: 7},
-    BS8Master: {vals: [0x8188], description: 'BS8-Master', type: SiStation.Type.Master, series: 8},
-    BSM4: {vals: [0x8084], description: 'BSM4', type: SiStation.Type.Main, series: 4},
-    BSM6: {vals: [0x8086], description: 'BSM6', type: SiStation.Type.Main, series: 6},
-    BSM7: {vals: [0x9197], description: 'BSM7', type: SiStation.Type.Main, series: 7},
-    BSM8: {vals: [0x9198], description: 'BSM8', type: SiStation.Type.Main, series: 8},
-    BS7S: {vals: [0x9597], description: 'BS7-S', type: SiStation.Type.Sprint, series: 7},
-    BS7P: {vals: [0xB197], description: 'BS7-P', type: SiStation.Type.Print, series: 7},
-    BS7GSM: {vals: [0xB897], description: 'BS7-GSM', type: SiStation.Type.Field, series: 7},
-    BS8P: {vals: [0xB198], description: 'BS8-P', type: SiStation.Type.Print, series: 8},
+    BSF3: {val: 0x8003, description: 'BSF3', type: SiStation.Type.Field, series: 3},
+    BSF4: {val: 0x8004, description: 'BSF4', type: SiStation.Type.Field, series: 4},
+    BSF5: {val: 0x8115, description: 'BSF5', type: SiStation.Type.Field, series: 5},
+    BSF6: {val: 0x8146, description: 'BSF6', type: SiStation.Type.Field, series: 6},
+    BSF7A: {val: 0x8117, description: 'BSF7', type: SiStation.Type.Field, series: 7},
+    BSF7B: {val: 0x8197, description: 'BSF7', type: SiStation.Type.Field, series: 7},
+    BSF8A: {val: 0x8118, description: 'BSF8', type: SiStation.Type.Field, series: 8},
+    BSF8B: {val: 0x8198, description: 'BSF8', type: SiStation.Type.Field, series: 8},
+    BS7Master: {val: 0x8187, description: 'BS7-Master', type: SiStation.Type.Master, series: 7},
+    BS8Master: {val: 0x8188, description: 'BS8-Master', type: SiStation.Type.Master, series: 8},
+    BSM4: {val: 0x8084, description: 'BSM4', type: SiStation.Type.Main, series: 4},
+    BSM6: {val: 0x8086, description: 'BSM6', type: SiStation.Type.Main, series: 6},
+    BSM7: {val: 0x9197, description: 'BSM7', type: SiStation.Type.Main, series: 7},
+    BSM8: {val: 0x9198, description: 'BSM8', type: SiStation.Type.Main, series: 8},
+    BS7S: {val: 0x9597, description: 'BS7-S', type: SiStation.Type.Sprint, series: 7},
+    BS7P: {val: 0xB197, description: 'BS7-P', type: SiStation.Type.Print, series: 7},
+    BS7GSM: {val: 0xB897, description: 'BS7-GSM', type: SiStation.Type.Field, series: 7},
+    BS8P: {val: 0xB198, description: 'BS8-P', type: SiStation.Type.Print, series: 8},
+};
+
+SiStation.StorageDefinition = utils.defineStorage(0x80, {
+    code: new utils.SiInt([[0x72], [0x73, 6, 8]]),
+    mode: new utils.SiEnum([[0x71]], SiStation.Mode, (value) => value.val),
+    beeps: new utils.SiBool(0x73, 2),
+    flashes: new utils.SiBool(0x73, 0),
+    autoSend: new utils.SiBool(0x74, 1),
+    extendedProtocol: new utils.SiBool(0x74, 0),
+    serialNumber: new utils.SiInt([[0x03], [0x02], [0x01], [0x00]]),
+    firmwareVersion: new utils.SiInt([[0x07], [0x06], [0x05]]),
+    buildDate: new siProtocol.SiDate(3, (i) => 0x08 + i),
+    deviceModel: new utils.SiEnum([[0x0C], [0x0B]], SiStation.Model, (value) => value.val),
+    memorySize: new utils.SiInt([[0x0D]]),
+    batteryDate: new siProtocol.SiDate(3, (i) => 0x15 + i),
+    batteryCapacity: new utils.SiInt([[0x1A], [0x19]]),
+    backupPointer: new utils.SiInt([[0x22], [0x21], [0x1D], [0x1C]]),
+    siCard6Mode: new utils.SiInt([[0x33]]), // FF = 192 punches, C1 normal
+    memoryOverflow: new utils.SiInt([[0x3D]]),
+    lastWriteDate: new siProtocol.SiDate(6, (i) => 0x75 + i),
+    autoOffTimeout: new utils.SiInt([[0x7F], [0x7E]]),
+    refreshRate: new utils.SiInt([[0x10]]), // in 3/sec ???
+    powerMode: new utils.SiInt([[0x11]]), // 06 low power, 08 standard/sprint
+    interval: new utils.SiInt([[0x49], [0x48]]),
+    wtf: new utils.SiInt([[0x4B], [0x4A]]),
+    program: new utils.SiInt([[0x70]]),
+    handshake: new utils.SiBool(0x74, 2),
+    sprint4ms: new utils.SiBool(0x74, 3),
+    passwordOnly: new utils.SiBool(0x74, 4),
+    stopOnFullBackup: new utils.SiBool(0x74, 5),
+    autoReadout: new utils.SiBool(0x74, 7),
+});
+
+SiStation.getTestData = () => {
+    const sampleBSM8Station = {
+        stationData: {
+            autoOffTimeout: 60,
+            autoReadout: false,
+            autoSend: false,
+            backupPointer: 256,
+            batteryCapacity: 14062,
+            batteryDate: new Date('2014-06-11 00:00:00'),
+            beeps: false,
+            buildDate: new Date('2014-06-11 00:00:00'),
+            code: 31,
+            deviceModel: 'BSM8',
+            extendedProtocol: true,
+            firmwareVersion: 3552567,
+            flashes: true,
+            handshake: true,
+            interval: 2621,
+            lastWriteDate: new Date('2019-06-20 23:17:13'),
+            memoryOverflow: 0,
+            memorySize: 128,
+            mode: 'Readout',
+            passwordOnly: false,
+            powerMode: 8,
+            program: 48,
+            refreshRate: 75,
+            serialNumber: 180641,
+            siCard6Mode: 193,
+            sprint4ms: false,
+            stopOnFullBackup: false,
+            wtf: 32760,
+        },
+        storageData: [
+            ...utils.unPrettyHex(
+                '00 02 C1 A1 F7 36 35 37 0E 06 0B 91 98 80 20 C0' +
+                '4B 08 4E FA 28 0E 06 0B 00 36 EE 80 00 00 18 04' +
+                'FF 01 00 00 00 00 00 00 00 00 00 00 4D 70 FF FF' +
+                'FF 00 00 C1 00 00 00 0B 00 00 00 00 FF 00 FB E5' +
+                '00 24 FC 18 FF FF 19 99 0A 3D 7F F8 85 0C 05 01' +
+                '00 00 00 00 FF FF FF FF 00 00 01 0C FF FF FF FF' +
+                '30 30 30 35 7D 20 38 00 00 00 00 00 FF FF FF FF' +
+                '30 05 1F 33 05 13 06 14 01 9E B9 00 0E 12 00 3C',
+            ),
+        ],
+    };
+
+    return [
+        sampleBSM8Station,
+    ];
 };

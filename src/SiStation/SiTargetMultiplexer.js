@@ -72,8 +72,12 @@ export class SiTargetMultiplexer {
     }
 
     updateSendQueueWithReceivedMessage(message) {
-        const {command, parameters} = message;
+        const {mode, command, parameters} = message;
         if (this._sendQueue.length === 0 || this._sendQueue[0].state !== SendTask.State.Sent) {
+            return;
+        }
+        if (mode === proto.NAK) {
+            this._sendQueue[0].fail();
             return;
         }
         const expectedCommand = this._sendQueue[0].message.command;

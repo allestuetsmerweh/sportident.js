@@ -6,8 +6,8 @@ mkdir -p docs/.circleci
 cp .circleci/config.yml docs/.circleci/
 
 mkdir -p docs/testbench
-cp testbench/build/testbench.min.js docs/testbench/
-cp testbench/build/index.html docs/testbench/
+cp testbench/client/build/testbench.min.js docs/testbench/
+cp testbench/client/build/index.html docs/testbench/
 
 mkdir -p docs/coverage
 cp -R coverage/* docs/coverage/

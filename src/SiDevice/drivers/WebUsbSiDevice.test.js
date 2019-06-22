@@ -68,7 +68,7 @@ class FakeWebUsbDevice {
 
     transferIn() {
         return new Promise((resolve) => {
-            setTimeout(() => resolve({data: {buffer: []}}), 10);
+            setTimeout(() => resolve({data: {buffer: [0x00]}}), 10);
         });
     }
 }
@@ -218,7 +218,8 @@ describe('getWebUsbSiDevice', () => {
                 receivedUint8Data = uint8Data;
             });
         await testUtils.advanceTimersByTime(10);
-        expect([...receivedUint8Data]).toEqual([]);
+        expect([...receivedUint8Data]).toEqual([0x00]);
+        instance.send([0x00]);
         done();
     });
 });

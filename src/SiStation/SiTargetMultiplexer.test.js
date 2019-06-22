@@ -1,5 +1,6 @@
 /* eslint-env jasmine */
 
+import {proto} from '../constants';
 import * as siProtocol from '../siProtocol';
 import * as testUtils from '../testUtils';
 import {FakeSiDevice} from '../SiDevice/testUtils/FakeSiDevice';
@@ -8,6 +9,15 @@ import {SiTargetMultiplexer} from './SiTargetMultiplexer';
 testUtils.useFakeTimers();
 
 describe('SiTargetMultiplexer', () => {
+    it('is unique per device', () => {
+        const fakeSiDevice = new FakeSiDevice('isUniquePerDevice');
+        fakeSiDevice.state = FakeSiDevice.State.Opened;
+        const muxer1 = SiTargetMultiplexer.fromSiDevice(fakeSiDevice);
+        expect(muxer1 instanceof SiTargetMultiplexer).toBe(true);
+        const muxer2 = SiTargetMultiplexer.fromSiDevice(fakeSiDevice);
+        expect(muxer2).toBe(muxer1);
+    });
+
     it('handles receiving', () => {
         const fakeSiDevice = new FakeSiDevice('handlesReceiving');
         fakeSiDevice.state = FakeSiDevice.State.Opened;
@@ -75,6 +85,34 @@ describe('SiTargetMultiplexer', () => {
         expect(timeState).toEqual({});
         await testUtils.advanceTimersByTime(1);
         expect(timeState).toEqual({sendingFinished: true});
+        done();
+    });
+
+    it('handles sending and waiting for 1 NAK', async (done) => {
+        const fakeSiDevice = new FakeSiDevice('handlesSending1NAK');
+        fakeSiDevice.state = FakeSiDevice.State.Opened;
+        const muxer = SiTargetMultiplexer.fromSiDevice(fakeSiDevice);
+        expect(muxer instanceof SiTargetMultiplexer).toBe(true);
+
+        const randomMessage = testUtils.getRandomMessage(0);
+        const timeState = {};
+        muxer.sendMessage(
+            muxer.constructor.Target.Direct,
+            randomMessage,
+            1,
+            2,
+        )
+            .catch(() => {
+                expect(muxer._sendQueue.length).toBe(0);
+                timeState.sendingFailed = true;
+            });
+        setTimeout(() => {
+            fakeSiDevice.dispatchEvent('receive', {uint8Data: siProtocol.render({mode: proto.NAK})});
+        }, 1);
+        await testUtils.advanceTimersByTime(0);
+        expect(timeState).toEqual({});
+        await testUtils.advanceTimersByTime(1);
+        expect(timeState).toEqual({sendingFailed: true});
         done();
     });
 

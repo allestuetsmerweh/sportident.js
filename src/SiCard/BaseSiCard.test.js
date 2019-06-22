@@ -5,11 +5,14 @@ import * as siProtocol from '../siProtocol';
 import * as testUtils from '../testUtils';
 import {BaseSiCard} from './BaseSiCard';
 
+beforeEach(() => {
+    BaseSiCard.resetNumberRangeRegistry();
+});
+
 describe('BaseSiCard', () => {
     it('registerNumberRange', () => {
         class SiCard1 extends BaseSiCard {}
         class SiCard2 extends BaseSiCard {}
-        BaseSiCard.resetNumberRangeRegistry();
         BaseSiCard.registerNumberRange(100, 1000, SiCard1);
         BaseSiCard.registerNumberRange(0, 100, SiCard2);
         BaseSiCard.registerNumberRange(1000, 2000, SiCard2);
@@ -24,7 +27,6 @@ describe('BaseSiCard', () => {
     });
     it('fromCardNumber', () => {
         class SiCard1 extends BaseSiCard {}
-        BaseSiCard.resetNumberRangeRegistry();
         BaseSiCard.registerNumberRange(100, 1000, SiCard1);
         const siCard500 = BaseSiCard.fromCardNumber(500);
         expect(siCard500 instanceof BaseSiCard).toBe(true);
@@ -33,28 +35,55 @@ describe('BaseSiCard', () => {
         expect(siCard5000).toBe(undefined);
     });
     it('detectFromMessage', () => {
-        class SiCard1 extends BaseSiCard {}
-        BaseSiCard.resetNumberRangeRegistry();
+        let commandChecked = false;
+        class SiCard1 extends BaseSiCard {
+            static typeSpecificShouldDetectFromMessage(message) {
+                commandChecked = true;
+                return message.command === proto.cmd.SI5_DET;
+            }
+        }
         BaseSiCard.registerNumberRange(1000, 10000, SiCard1);
-        const cardNumberArr = siProtocol.cardNumber2arr(5000);
+        class SiCard2 extends BaseSiCard {}
+        BaseSiCard.registerNumberRange(10000, 20000, SiCard2);
 
-        cardNumberArr.reverse();
+        const getParametersForCardNumber = (cardNumber) => {
+            const cardNumberArr = siProtocol.cardNumber2arr(cardNumber);
+            cardNumberArr.reverse();
+            return [0x00, 0x00, ...cardNumberArr];
+        };
+
+        expect(commandChecked).toBe(false);
         const siCard500 = BaseSiCard.detectFromMessage({
             command: proto.cmd.SI5_DET,
-            parameters: [0x00, 0x00, ...cardNumberArr],
+            parameters: getParametersForCardNumber(5000),
         });
+        expect(commandChecked).toBe(true);
         expect(siCard500 instanceof BaseSiCard).toBe(true);
         expect(siCard500 instanceof SiCard1).toBe(true);
 
-        const nonSiCard500 = BaseSiCard.detectFromMessage({
-            command: testUtils.getRandomByteExcept([
-                proto.cmd.SI5_DET,
-                proto.cmd.SI6_DET,
-                proto.cmd.SI8_DET,
-            ]),
-            parameters: [0x00, 0x00, ...cardNumberArr],
+        const tooShortParametersResult = BaseSiCard.detectFromMessage({
+            command: proto.cmd.SI5_DET,
+            parameters: [0x00],
         });
-        expect(nonSiCard500).toBe(undefined);
+        expect(tooShortParametersResult).toBe(undefined);
+
+        const unregisteredCardNumberResult = BaseSiCard.detectFromMessage({
+            command: proto.cmd.SI5_DET,
+            parameters: getParametersForCardNumber(20001),
+        });
+        expect(unregisteredCardNumberResult).toBe(undefined);
+
+        const misconfiguredCardTypeResult = BaseSiCard.detectFromMessage({
+            command: proto.cmd.SI5_DET,
+            parameters: getParametersForCardNumber(10001),
+        });
+        expect(misconfiguredCardTypeResult).toBe(undefined);
+
+        const wrongCommandResult = BaseSiCard.detectFromMessage({
+            command: testUtils.getRandomByteExcept([proto.cmd.SI5_DET]),
+            parameters: getParametersForCardNumber(5000),
+        });
+        expect(wrongCommandResult).toBe(undefined);
     });
     it('instance', (done) => {
         const baseSiCard500 = new BaseSiCard(500);

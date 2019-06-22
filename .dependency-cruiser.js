@@ -134,6 +134,17 @@ const customForbidden = [
             pathNot: '^utils/',
         },
     },
+    {
+        name: 'not-to-simulation',
+        comment: 'Don\'t allow dependencies from non-tests to simulation',
+        severity: 'error',
+        from: {
+            pathNot: '\\.test\\.js$|testUtils\\.js$|/testUtils/|/simulation/',
+        },
+        to: {
+            path: '^simulation/',
+        },
+    },
 ];
 
 module.exports = {

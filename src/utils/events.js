@@ -1,4 +1,3 @@
-
 export const addEventListener = (registryDict, type, callback) => {
     const listeners = registryDict[type] || [];
     registryDict[type] = [...listeners, callback];

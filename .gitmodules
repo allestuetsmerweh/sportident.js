@@ -1,3 +1,0 @@
-[submodule "testbench/websocket/php-websocket"]
-	path = testbench/websocket/php-websocket
-	url = https://github.com/nekudo/php-websocket.git

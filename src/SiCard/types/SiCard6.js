@@ -5,13 +5,8 @@ import {proto} from '../../constants';
 import {BaseSiCard} from '../BaseSiCard';
 
 export class SiCard6 extends BaseSiCard {
-    getTypeSpecificDetectionMessage() {
-        const cardNumberArr = siProtocol.cardNumber2arr(this.cardNumber);
-        cardNumberArr.reverse();
-        return {
-            command: proto.cmd.SI6_DET,
-            parameters: [...cardNumberArr],
-        };
+    static typeSpecificShouldDetectFromMessage(message) {
+        return message.command === proto.cmd.SI6_DET;
     }
 
     typeSpecificRead() {
@@ -59,10 +54,7 @@ SiCard6.StorageDefinition = utils.defineStorage(0x400, {
     finishTime: new utils.SiInt([[22], [23]]),
     checkTime: new utils.SiInt([[30], [31]]),
     clearTime: new utils.SiInt([[34], [35]]),
-    punchCount: new utils.SiInt([[18]]).modify( // TODO: verify modification
-        (extractedValue) => extractedValue - 1,
-        (punchCount) => punchCount + 1,
-    ),
+    punchCount: new utils.SiInt([[18]]),
     punches: new utils.SiArray(64, (i) => new utils.SiDict({
         code: new utils.SiInt([[128 * 6 + i * 4 + 1]]),
         time: new utils.SiInt([[128 * 6 + i * 4 + 2], [128 * 6 + i * 4 + 3]]),
@@ -127,7 +119,7 @@ SiCard6.getTestData = () => {
         storageData: [
             ...utils.unPrettyHex(
                 '01 01 01 01 ED ED ED ED 55 AA 00 07 A1 3D 6E 8B' +
-                '00 5B 11 41 00 0A 28 0A 03 0A 95 99 03 0A 95 8B' +
+                '00 5B 10 41 00 0A 28 0A 03 0A 95 99 03 0A 95 8B' +
                 '03 0A 95 76 FF FF FF FF 00 00 00 01 20 20 20 20' +
                 '5A 69 6D 6D 65 72 62 65 72 67 20 20 20 20 20 20' +
                 '20 20 20 20 4F 4C 20 20 20 20 20 20 20 20 20 20' +
@@ -161,7 +153,7 @@ SiCard6.getTestData = () => {
             finishTime: 2600,
             clearTime: 30357,
             checkTime: 35733,
-            punchCount: 63,
+            punchCount: 64,
             punches: _.range(64).map(() => ({code: 32, time: 8224})),
         },
         storageData: [

@@ -19,24 +19,31 @@ export class BaseSiCard {
 
     static fromCardNumber(cardNumber) {
         const cardType = this.getTypeByCardNumber(cardNumber);
-        if (cardType) {
-            return new cardType(cardNumber);
+        if (!cardType) {
+            return undefined;
         }
-        return undefined;
+        return new cardType(cardNumber);
     }
 
     static detectFromMessage(message) {
-        const {command, parameters} = message;
-        const siCardDetectionCommands = {
-            [proto.cmd.SI5_DET]: true,
-            [proto.cmd.SI6_DET]: true,
-            [proto.cmd.SI8_DET]: true,
-        };
-        if (siCardDetectionCommands[command]) {
-            const cardNumber = siProtocol.arr2cardNumber([parameters[5], parameters[4], parameters[3]]);
-            return this.fromCardNumber(cardNumber);
+        const {parameters} = message;
+        if (parameters.length < 6) {
+            return undefined;
         }
-        return undefined;
+        const cardNumber = siProtocol.arr2cardNumber([parameters[5], parameters[4], parameters[3]]); // TODO: also [2]?
+        const cardType = this.getTypeByCardNumber(cardNumber);
+        if (!cardType) {
+            return undefined;
+        }
+        if (!cardType.typeSpecificShouldDetectFromMessage(message)) {
+            return undefined;
+        }
+        return new cardType(cardNumber);
+    }
+
+    static typeSpecificShouldDetectFromMessage(_message) {
+        console.warn(`${this.constructor.name} should implement typeSpecificShouldDetectFromMessage()`);
+        return false;
     }
 
     constructor(cardNumber) {
@@ -48,9 +55,7 @@ export class BaseSiCard {
         this.finishTime = -1;
         this.punches = [];
         if (this.constructor.StorageDefinition) {
-            this.storage = new this.constructor.StorageDefinition(
-                _.range(this.constructor.StorageDefinition.size).map(() => undefined),
-            );
+            this.storage = new this.constructor.StorageDefinition();
         }
     }
 
@@ -61,7 +66,7 @@ export class BaseSiCard {
     }
 
     typeSpecificRead() {
-        utils.notImplemented('SiCard must implement typeSpecificRead()');
+        utils.notImplemented(`${this.constructor.name} must implement typeSpecificRead()`);
     }
 
     toDict() {

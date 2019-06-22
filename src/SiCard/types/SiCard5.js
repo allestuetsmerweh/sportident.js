@@ -5,13 +5,8 @@ import {proto} from '../../constants';
 import {BaseSiCard} from '../BaseSiCard';
 
 export class SiCard5 extends BaseSiCard {
-    getTypeSpecificDetectionMessage() {
-        const cardNumberArr = siProtocol.cardNumber2arr(this.cardNumber);
-        cardNumberArr.reverse();
-        return {
-            command: proto.cmd.SI5_DET,
-            parameters: [...cardNumberArr],
-        };
+    static typeSpecificShouldDetectFromMessage(message) {
+        return message.command === proto.cmd.SI5_DET;
     }
 
     typeSpecificRead() {

@@ -27,11 +27,10 @@ export class SiMainStation extends SiStation {
     }
 
     constructor(siTargetMultiplexer) {
-        super(null);
-        this.mainStation = this;
+        super();
+        super.mainStation = this;
         this.siTargetMultiplexer = siTargetMultiplexer;
         this.card = false;
-        this._sendQueue = [];
         this._eventListeners = {};
     }
 
@@ -48,13 +47,7 @@ export class SiMainStation extends SiStation {
     }
 
     handleMessage(message) {
-        const {mode, command, parameters} = message;
-        if (mode === proto.NAK) {
-            if (0 < this._sendQueue.length && this._sendQueue[0].state === this._sendQueue[0].constructor.State.Sent) {
-                this._sendQueue[0].fail();
-            }
-            return;
-        }
+        const {command, parameters} = message;
         const detectedSiCard = BaseSiCard.detectFromMessage(message);
         if (detectedSiCard !== undefined) {
             detectedSiCard.mainStation = this;
@@ -66,44 +59,41 @@ export class SiMainStation extends SiStation {
                 });
             return;
         }
-        let cn;
-        if (command === proto.cmd.SI_REM) {
-            cn = siProtocol.arr2cardNumber([parameters[5], parameters[4], parameters[3]]);
-            console.log('SI REM', parameters, cn, this.card);
-            if (this.card !== false && this.card.cardNumber === cn) {
+        const handleSiCardRemoved = () => {
+            const removedCardNumber = siProtocol.arr2cardNumber([parameters[5], parameters[4], parameters[3]]); // TODO: also [2]?
+            if (this.card !== false && this.card.cardNumber === removedCardNumber) {
                 this.dispatchEvent('cardRemoved', {card: this.card});
             } else {
-                console.warn(`Card ${cn} was removed, but never inserted`);
+                console.warn(`Card ${removedCardNumber} was removed, but never inserted`);
             }
             this.card = false;
-            if (
-                this._sendQueue.length > 0 &&
-                this._sendQueue[0].state === this._sendQueue[0].constructor.State.Sent &&
-                0xB0 <= this._sendQueue[0].command &&
-                this._sendQueue[0].command <= 0xEF
-            ) { // Was expecting response from card => "early Timeout"
-                console.debug(`Early Timeout: cmd ${utils.prettyHex([this._sendQueue[0].command])} (expected ${this._sendQueue[0].numResponses} responses)`, this._sendQueue[0].responses);
-                this._sendQueue[0].fail();
-            }
-            return;
-        }
-        if (command === proto.cmd.TRANS_REC) {
-            cn = utils.arr2big([parameters[3], parameters[4], parameters[5]]);
-            if (cn < 500000) {
-                if (parameters[3] < 2) {
-                    cn = utils.arr2big([parameters[4], parameters[5]]);
-                } else {
-                    cn = parameters[3] * 100000 + utils.arr2big([parameters[4], parameters[5]]);
+            if (this.siTargetMultiplexer._sendQueue.length > 0) {
+                const activeSendTask = this.siTargetMultiplexer._sendQueue[0];
+                if (
+                    activeSendTask.state === activeSendTask.constructor.State.Sent
+                    && activeSendTask.command >= 0xB0
+                    && activeSendTask.command <= 0xEF
+                ) { // Was expecting response from card => "early Timeout"
+                    console.debug(`Early Timeout: cmd ${utils.prettyHex([activeSendTask.command])} (expected ${activeSendTask.numResponses} responses)`, activeSendTask.responses);
+                    activeSendTask.fail();
                 }
             }
-            const transRecordCard = BaseSiCard.fromCardNumber(cn);
+        };
+        const handleSiCardObserved = () => {
+            const observedCardNumber = siProtocol.arr2cardNumber([parameters[5], parameters[4], parameters[3]]); // TODO: also [2]?
+            const transRecordCard = BaseSiCard.fromCardNumber(observedCardNumber);
             transRecordCard.mainStation = this;
-            console.log('TRANS_REC', transRecordCard, parameters);
-            this.dispatchEvent('cardInserted', {card: transRecordCard});
-            this.dispatchEvent('cardRemoved', {card: transRecordCard});
+            this.dispatchEvent('cardObserved', {card: transRecordCard});
+        };
+        const handlerByCommand = {
+            [proto.cmd.SI_REM]: handleSiCardRemoved,
+            [proto.cmd.TRANS_REC]: handleSiCardObserved,
+        };
+        const handler = handlerByCommand[command];
+        if (handler === undefined) {
             return;
         }
-        console.log(`SiMainStation: Other command ${utils.prettyHex([command])} ${utils.prettyHex(parameters)}`);
+        handler();
     }
 
     sendMessage(message, numResponses, timeoutInMiliseconds) {
@@ -113,11 +103,5 @@ export class SiMainStation extends SiStation {
             numResponses,
             timeoutInMiliseconds,
         );
-    }
-
-    _remove() {
-        if (0 < this._sendQueue.length && this._sendQueue[0].state !== -1) {
-            clearTimeout(this._sendQueue[0].timeoutTimer);
-        }
     }
 }

@@ -1,4 +1,4 @@
-export const getLookup = (mapping, getLookupKeys) => {
+export const getLookup = (mapping, getLookupKey) => {
     if (mapping._lookup) {
         return mapping._lookup;
     }
@@ -6,9 +6,12 @@ export const getLookup = (mapping, getLookupKeys) => {
     Object.keys(mapping)
         .filter((mappingKey) => mappingKey.substr(0, 1) !== '_')
         .forEach((mappingKey) => {
-            getLookupKeys(mapping[mappingKey]).forEach((lookupKey) => {
-                mapping._lookup[lookupKey] = mappingKey;
-            });
+            const mappingValue = mapping[mappingKey];
+            const lookupKey = getLookupKey ? getLookupKey(mappingValue) : mappingValue;
+            if (lookupKey in mapping._lookup) {
+                throw new Error(`Duplicate lookup key: ${lookupKey}`);
+            }
+            mapping._lookup[lookupKey] = mappingKey;
         });
     return mapping._lookup;
 };

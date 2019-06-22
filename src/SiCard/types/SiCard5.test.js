@@ -1,7 +1,7 @@
 /* eslint-env jasmine */
 
 import {proto} from '../../constants';
-import * as utils from '../../utils';
+import * as testUtils from '../../testUtils';
 import {BaseSiCard} from '../BaseSiCard';
 import {SiCard5} from './SiCard5';
 
@@ -14,11 +14,14 @@ describe('SiCard5', () => {
         expect(BaseSiCard.getTypeByCardNumber(100000)).toEqual(SiCard5);
         expect(BaseSiCard.getTypeByCardNumber(499999)).toEqual(SiCard5);
     });
-    it('getTypeSpecificDetectionMessage works', () => {
-        const mySiCard6 = new SiCard5(406402);
-        expect(mySiCard6.getTypeSpecificDetectionMessage()).toEqual({
+    it('typeSpecificShouldDetectFromMessage works', () => {
+        expect(SiCard5.typeSpecificShouldDetectFromMessage({
             command: proto.cmd.SI5_DET,
-            parameters: utils.unPrettyHex('00 04 19 02'), // TODO: check
-        });
+            parameters: undefined,
+        })).toBe(true);
+        expect(SiCard5.typeSpecificShouldDetectFromMessage({
+            command: testUtils.getRandomByteExcept([proto.cmd.SI5_DET]),
+            parameters: undefined,
+        })).toBe(false);
     });
 });

@@ -8,7 +8,7 @@ import * as siProtocol from './siProtocol';
 
 const json2date = (str) => {
     const res = /^([0-9]{4})-([0-9]{2})-([0-9]{2})T([0-9]{2}):([0-9]{2}):([0-9]{2})\.([0-9]{3})Z$/.exec(str);
-    return new Date(Date.UTC(
+    return new Date(
         Number(res[1]),
         Number(res[2]) - 1,
         Number(res[3]),
@@ -16,7 +16,21 @@ const json2date = (str) => {
         Number(res[5]),
         Number(res[6]),
         Number(res[7]),
-    ));
+    );
+};
+
+const date2json = (date) => {
+    if (!date) {
+        return date;
+    }
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    const day = date.getDate();
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    const seconds = date.getSeconds();
+    const milliseconds = date.getMilliseconds();
+    return new Date(Date.UTC(year, month, day, hours, minutes, seconds, milliseconds)).toJSON();
 };
 
 export const getValidButIncompleteMessageBytes = () => {
@@ -63,24 +77,24 @@ describe('siProtocol', () => {
     });
     const asOf = new Date('2020-01-01T00:00:00.000Z');
     it('arr2date works', () => {
-        expect(siProtocol.arr2date([0x00, 0x01, 0x01], asOf).toJSON()).toBe('2000-01-01T00:00:00.000Z');
-        expect(siProtocol.arr2date([0x01, 0x02, 0x03], asOf).toJSON()).toBe('2001-02-03T00:00:00.000Z');
-        expect(siProtocol.arr2date([0x01, 0x0C, 0x1F], asOf).toJSON()).toBe('2001-12-31T00:00:00.000Z');
-        expect(siProtocol.arr2date([0x14, 0x0C, 0x1F], asOf).toJSON()).toBe('2020-12-31T00:00:00.000Z');
-        expect(siProtocol.arr2date([0x15, 0x01, 0x01], asOf).toJSON()).toBe('1921-01-01T00:00:00.000Z');
-        expect(siProtocol.arr2date([0x63, 0x0C, 0x1F], asOf).toJSON()).toBe('1999-12-31T00:00:00.000Z');
-        expect(siProtocol.arr2date([0x00, 0x01, 0x01, 0x00, 0x00, 0x00], asOf).toJSON()).toBe('2000-01-01T00:00:00.000Z');
-        expect(siProtocol.arr2date([0x14, 0x0C, 0x1F, 0x01, 0x00, 0x00], asOf).toJSON()).toBe('2020-12-31T12:00:00.000Z');
-        expect(siProtocol.arr2date([0x15, 0x0C, 0x1F, 0x01, 0x00, 0x00], asOf).toJSON()).toBe('1921-12-31T12:00:00.000Z');
-        expect(siProtocol.arr2date([0x63, 0x0C, 0x1F, 0x01, 0x00, 0x00], asOf).toJSON()).toBe('1999-12-31T12:00:00.000Z');
-        expect(siProtocol.arr2date([0x00, 0x01, 0x01, 0x00, 0xA8, 0xBF], asOf).toJSON()).toBe('2000-01-01T11:59:59.000Z');
-        expect(siProtocol.arr2date([0x63, 0x0C, 0x1F, 0x01, 0xA8, 0xBF], asOf).toJSON()).toBe('1999-12-31T23:59:59.000Z');
-        expect(siProtocol.arr2date([0x00, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00], asOf).toJSON()).toBe('2000-01-01T00:00:00.000Z');
-        expect(siProtocol.arr2date([0x14, 0x0C, 0x1F, 0x01, 0x00, 0x00, 0x20], asOf).toJSON()).toBe('2020-12-31T12:00:00.125Z');
-        expect(siProtocol.arr2date([0x15, 0x0C, 0x1F, 0x01, 0x00, 0x00, 0x60], asOf).toJSON()).toBe('1921-12-31T12:00:00.375Z');
-        expect(siProtocol.arr2date([0x63, 0x0C, 0x1F, 0x01, 0x00, 0x00, 0x80], asOf).toJSON()).toBe('1999-12-31T12:00:00.500Z');
-        expect(siProtocol.arr2date([0x00, 0x01, 0x01, 0x00, 0xA8, 0xBF, 0x40], asOf).toJSON()).toBe('2000-01-01T11:59:59.250Z');
-        expect(siProtocol.arr2date([0x63, 0x0C, 0x1F, 0x01, 0xA8, 0xBF, 0xC0], asOf).toJSON()).toBe('1999-12-31T23:59:59.750Z');
+        expect(date2json(siProtocol.arr2date([0x00, 0x01, 0x01], asOf))).toBe('2000-01-01T00:00:00.000Z');
+        expect(date2json(siProtocol.arr2date([0x01, 0x02, 0x03], asOf))).toBe('2001-02-03T00:00:00.000Z');
+        expect(date2json(siProtocol.arr2date([0x01, 0x0C, 0x1F], asOf))).toBe('2001-12-31T00:00:00.000Z');
+        expect(date2json(siProtocol.arr2date([0x14, 0x0C, 0x1F], asOf))).toBe('2020-12-31T00:00:00.000Z');
+        expect(date2json(siProtocol.arr2date([0x15, 0x01, 0x01], asOf))).toBe('1921-01-01T00:00:00.000Z');
+        expect(date2json(siProtocol.arr2date([0x63, 0x0C, 0x1F], asOf))).toBe('1999-12-31T00:00:00.000Z');
+        expect(date2json(siProtocol.arr2date([0x00, 0x01, 0x01, 0x00, 0x00, 0x00], asOf))).toBe('2000-01-01T00:00:00.000Z');
+        expect(date2json(siProtocol.arr2date([0x14, 0x0C, 0x1F, 0x01, 0x00, 0x00], asOf))).toBe('2020-12-31T12:00:00.000Z');
+        expect(date2json(siProtocol.arr2date([0x15, 0x0C, 0x1F, 0x01, 0x00, 0x00], asOf))).toBe('1921-12-31T12:00:00.000Z');
+        expect(date2json(siProtocol.arr2date([0x63, 0x0C, 0x1F, 0x01, 0x00, 0x00], asOf))).toBe('1999-12-31T12:00:00.000Z');
+        expect(date2json(siProtocol.arr2date([0x00, 0x01, 0x01, 0x00, 0xA8, 0xBF], asOf))).toBe('2000-01-01T11:59:59.000Z');
+        expect(date2json(siProtocol.arr2date([0x63, 0x0C, 0x1F, 0x01, 0xA8, 0xBF], asOf))).toBe('1999-12-31T23:59:59.000Z');
+        expect(date2json(siProtocol.arr2date([0x00, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00], asOf))).toBe('2000-01-01T00:00:00.000Z');
+        expect(date2json(siProtocol.arr2date([0x14, 0x0C, 0x1F, 0x01, 0x00, 0x00, 0x20], asOf))).toBe('2020-12-31T12:00:00.125Z');
+        expect(date2json(siProtocol.arr2date([0x15, 0x0C, 0x1F, 0x01, 0x00, 0x00, 0x60], asOf))).toBe('1921-12-31T12:00:00.375Z');
+        expect(date2json(siProtocol.arr2date([0x63, 0x0C, 0x1F, 0x01, 0x00, 0x00, 0x80], asOf))).toBe('1999-12-31T12:00:00.500Z');
+        expect(date2json(siProtocol.arr2date([0x00, 0x01, 0x01, 0x00, 0xA8, 0xBF, 0x40], asOf))).toBe('2000-01-01T11:59:59.250Z');
+        expect(date2json(siProtocol.arr2date([0x63, 0x0C, 0x1F, 0x01, 0xA8, 0xBF, 0xC0], asOf))).toBe('1999-12-31T23:59:59.750Z');
     });
     it('arr2date sanitizes', () => {
         expect(() => siProtocol.arr2date([], asOf)).toThrow();
@@ -89,14 +103,14 @@ describe('siProtocol', () => {
         expect(() => siProtocol.arr2date([1, 2, 3, 4], asOf)).toThrow();
         expect(() => siProtocol.arr2date([1, 2, 3, 4, 5], asOf)).toThrow();
         expect(() => siProtocol.arr2date([1, 2, 3, 4, 5, 6, 7, 8], asOf)).toThrow();
-        expect(() => siProtocol.arr2date([100, 1, 1], asOf).toJSON()).toThrow();
-        expect(() => siProtocol.arr2date([0xFF, 1, 1], asOf).toJSON()).toThrow();
-        expect(() => siProtocol.arr2date([12, 0, 1], asOf).toJSON()).toThrow();
-        expect(() => siProtocol.arr2date([12, 13, 1], asOf).toJSON()).toThrow();
-        expect(() => siProtocol.arr2date([12, 0xFF, 1], asOf).toJSON()).toThrow();
+        expect(siProtocol.arr2date([100, 1, 1], asOf)).toBe(null);
+        expect(siProtocol.arr2date([0xFF, 1, 1], asOf)).toBe(null);
+        expect(siProtocol.arr2date([12, 0, 1], asOf)).toBe(null);
+        expect(siProtocol.arr2date([12, 13, 1], asOf)).toBe(null);
+        expect(siProtocol.arr2date([12, 0xFF, 1], asOf)).toBe(null);
     });
     it('arr2date without asOf', () => {
-        expect(siProtocol.arr2date([0x00, 0x01, 0x01]).toJSON()).toBe('2000-01-01T00:00:00.000Z');
+        expect(date2json(siProtocol.arr2date([0x00, 0x01, 0x01]))).toBe('2000-01-01T00:00:00.000Z');
     });
     it('date2arr', () => {
         expect(siProtocol.date2arr(json2date('2000-01-01T00:00:00.000Z'))).toEqual([0x00, 0x01, 0x01, 0x0C, 0x00, 0x00, 0x00]);
@@ -119,7 +133,7 @@ describe('siProtocol', () => {
     });
     it('date2arr and arr2date do the reverse', () => {
         const forthAndBack = (date) => siProtocol.arr2date(siProtocol.date2arr(date), asOf);
-        const forthAndBackAsJson = (str) => forthAndBack(json2date(str)).toJSON();
+        const forthAndBackAsJson = (str) => date2json(forthAndBack(json2date(str)));
         expect(forthAndBackAsJson('2000-01-01T00:00:00.000Z')).toBe('2000-01-01T00:00:00.000Z');
         expect(forthAndBackAsJson('2001-02-03T00:00:00.000Z')).toBe('2001-02-03T00:00:00.000Z');
         expect(forthAndBackAsJson('2001-12-31T00:00:00.000Z')).toBe('2001-12-31T00:00:00.000Z');
@@ -202,8 +216,8 @@ describe('siProtocol', () => {
         });
     });
     it('prettyMessage', () => {
-        expect(() => siProtocol.prettyMessage({})).toThrow();
         expect(siProtocol.prettyMessage({command: proto.cmd.GET_MS, parameters: []}).length > 3).toBe(true);
+        expect(siProtocol.prettyMessage({mode: proto.ACK}).length > 3).toBe(true);
     });
     it('CRC16', () => {
         expect(siProtocol.CRC16([])).toEqual([0x00, 0x00]);
@@ -423,5 +437,35 @@ describe('siProtocol', () => {
             .toThrow();
         expect(() => siProtocol.render({mode: invalidMode, command: 0xFF, parameters: [0xEE]}))
             .toThrow();
+    });
+
+    it('SiStorage data type SiDate', () => {
+        const WeirdStorage = utils.defineStorage(0x09, {
+            weirdDate: new siProtocol.SiDate(3, (i) => i),
+            crazyDate: new siProtocol.SiDate(6, (i) => 0x03 + i),
+        });
+
+        const myWeirdStorage = new WeirdStorage(
+            utils.unPrettyHex('0F 03 07 00 00 00 00 00 00'),
+        );
+
+        expect(myWeirdStorage.get('weirdDate')).toEqual(new Date(2015, 2, 7));
+        myWeirdStorage.set('weirdDate', new Date(2017, 12, 30));
+        expect(myWeirdStorage.data.toJS()).toEqual(utils.unPrettyHex('12 01 1E 00 00 00 00 00 00'));
+        expect(myWeirdStorage.get('weirdDate')).toEqual(new Date(2017, 12, 30));
+
+        expect(myWeirdStorage.get('crazyDate')).toEqual(null);
+        myWeirdStorage.set('crazyDate', new Date(2003, 1, 30, 3, 7, 5));
+        expect(myWeirdStorage.data.toJS()).toEqual(utils.unPrettyHex('12 01 1E 03 03 02 00 2B D9'));
+        expect(myWeirdStorage.get('crazyDate')).toEqual(new Date(2003, 1, 30, 3, 7, 5));
+
+        const unknownWeirdStorage = new WeirdStorage();
+        const ModifyUndefinedException = utils.SiDataType.ModifyUndefinedException;
+
+        expect(unknownWeirdStorage.get('weirdDate')).toEqual(undefined);
+        expect(() => unknownWeirdStorage.set('weirdDate', new Date(2017, 12, 30))).toThrow(ModifyUndefinedException);
+
+        expect(unknownWeirdStorage.get('crazyDate')).toEqual(undefined);
+        expect(() => unknownWeirdStorage.set('crazyDate', new Date(2003, 1, 30, 3, 7, 5))).toThrow(ModifyUndefinedException);
     });
 });

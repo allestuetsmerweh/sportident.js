@@ -1,4 +1,4 @@
-import si from '../../src';
+import si from '../../../src';
 
 export const sendCommand = ({userLine, logLine, device}) => {
     const res = /send\s+([0-9a-fA-F\s]+)\s*:\s*([0-9a-fA-F\s]+)\s*:\s*([0-9]+)/.exec(userLine);
