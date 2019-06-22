@@ -2,7 +2,7 @@
 
 import _ from 'lodash';
 import {proto} from '../../constants';
-import * as utils from '../../utils';
+import * as testUtils from '../../testUtils';
 import {ModernSiCard} from './ModernSiCard';
 
 describe('ModernSiCard', () => {
@@ -17,12 +17,15 @@ describe('ModernSiCard', () => {
         expect(myModernSiCard.storage.data.has(1024)).toBe(false);
         expect(myModernSiCard.storage.data.get(1024)).toBe(undefined);
     });
-    it('getTypeSpecificDetectionMessage works', () => {
-        const myModernSiCard = new ModernSiCard(7050892);
-        expect(myModernSiCard.getTypeSpecificDetectionMessage()).toEqual({
+    it('typeSpecificShouldDetectFromMessage works', () => {
+        expect(ModernSiCard.typeSpecificShouldDetectFromMessage({
             command: proto.cmd.SI8_DET,
-            parameters: utils.unPrettyHex('00 6B 96 8C'), // TODO: actually, it should be 00 02 0F 6B 96 8C
-        });
+            parameters: undefined,
+        })).toBe(true);
+        expect(ModernSiCard.typeSpecificShouldDetectFromMessage({
+            command: testUtils.getRandomByteExcept([proto.cmd.SI8_DET]),
+            parameters: undefined,
+        })).toBe(false);
     });
     it('modernRead', (done) => {
         const bytesPerPage = 128;

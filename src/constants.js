@@ -32,7 +32,7 @@ export const proto = {
         SET_BAUD: 0x7E, // 0=4800 baud, 1=38400 baud
     },
     get basicCmdLookup() {
-        return getLookup(proto.basicCmd, (value) => [value]);
+        return getLookup(proto.basicCmd);
     },
 
     // Extended protocol commands
@@ -67,7 +67,7 @@ export const proto = {
         SET_BAUD: 0xFE, // \x00=4800 baud, \x01=38400 baud
     },
     get cmdLookup() {
-        return getLookup(proto.cmd, (value) => [value]);
+        return getLookup(proto.cmd);
     },
 
     // Protocol Parameters

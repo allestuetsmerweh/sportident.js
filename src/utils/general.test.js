@@ -8,11 +8,31 @@ testUtils.useFakeTimers();
 
 describe('general utils', () => {
     it('getLookup', () => {
-        expect(generalUtils.getLookup({}, (value) => [value])).toEqual({});
-        expect(generalUtils.getLookup({'a': '0'}, (value) => [value])).toEqual({'0': 'a'});
-        expect(generalUtils.getLookup({'a': '0', 'b': '1'}, (value) => [value])).toEqual({'0': 'a', '1': 'b'});
-        expect(generalUtils.getLookup({'a': '0', 'b': '1', 'c': '2'}, (value) => [value])).toEqual({'0': 'a', '1': 'b', '2': 'c'});
-        expect(generalUtils.getLookup({'a': ['0'], 'b': ['1', '2']}, (value) => value)).toEqual({'0': 'a', '1': 'b', '2': 'b'});
+        expect(generalUtils.getLookup({})).toEqual({});
+        expect(generalUtils.getLookup({'a': '0'})).toEqual({'0': 'a'});
+        expect(generalUtils.getLookup({'a': '0', 'b': '1'})).toEqual({'0': 'a', '1': 'b'});
+        expect(generalUtils.getLookup({'a': '0', 'b': '1', 'c': '2'})).toEqual({'0': 'a', '1': 'b', '2': 'c'});
+    });
+    it('getLookup with function', () => {
+        expect(generalUtils.getLookup(
+            {},
+            (value) => value.val,
+        )).toEqual({});
+        expect(generalUtils.getLookup(
+            {'a': {val: '0'}},
+            (value) => value.val,
+        )).toEqual({'0': 'a'});
+        expect(generalUtils.getLookup(
+            {'a': {val: '0'}, 'b': {val: '1'}},
+            (value) => value.val,
+        )).toEqual({'0': 'a', '1': 'b'});
+        expect(generalUtils.getLookup(
+            {'a': {val: '0'}, 'b': {val: '1'}, 'c': {val: '2'}},
+            (value) => value.val,
+        )).toEqual({'0': 'a', '1': 'b', '2': 'c'});
+    });
+    it('getLookup sanitizes', () => {
+        expect(() => generalUtils.getLookup({'a': '0', 'b': '1', 'c': '1'})).toThrow();
     });
     it('getLookup is cached', () => {
         const mapping = {'a': ['0'], 'b': ['1', '2']};

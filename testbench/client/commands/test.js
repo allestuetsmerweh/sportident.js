@@ -1,4 +1,4 @@
-import si from '../../src';
+import si from '../../../src';
 
 const tests = {
     'card': ({logLine, device}) => {
@@ -13,14 +13,16 @@ const tests = {
         const resetCardCallbacks = (mainStation_) => {
             mainStation_._eventListeners = {};
         };
-        const simulateStation = (mode, code, actionName) => () => mainStation.code(code)
-            .then(() => mainStation.mode(mode))
-            .then(() => mainStation.autoSend(1))
+        const simulateStation = (mode, code, actionName) => () => mainStation.atomically(() => {
+            mainStation.setInfo('code', code);
+            mainStation.setInfo('mode', mode);
+            mainStation.setInfo('autoSend', 1);
+        })
             .then(() => {
                 logLine(`${actionName} card...`);
                 return new Promise((resolve) => {
                     resetCardCallbacks(mainStation);
-                    mainStation.addEventListener('cardRemoved', (cardEvent) => {
+                    mainStation.addEventListener('cardObserved', (cardEvent) => {
                         const card = cardEvent.card;
                         if (fixedSiNumber === null) {
                             fixedSiNumber = card.cardNumber;
@@ -40,9 +42,11 @@ const tests = {
                     });
                 });
             });
-        const readoutCard = () => () => mainStation.autoSend(0)
-            .then(() => mainStation.mode(si.Station.Mode.Readout))
-            .then(() => mainStation.code(10))
+        const readoutCard = () => () => mainStation.atomically(() => {
+            mainStation.setInfo('autoSend', 0);
+            mainStation.setInfo('mode', si.Station.Mode.Readout);
+            mainStation.setInfo('code', 10);
+        })
             .then(() => {
                 logLine('Read card...');
                 return new Promise((resolve) => {

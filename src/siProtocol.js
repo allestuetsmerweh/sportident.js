@@ -15,7 +15,12 @@ export const arr2date = (arr, asOf = null) => {
     utils.assertIsByteArr(arr);
     utils.assertArrIsOfLengths(arr, [3, 6, 7]);
     if (arr[0] > 99) {
-        throw new Error('Invalid year');
+        console.warn(`arr2date: Invalid year: ${arr[0]}`);
+        return null;
+    }
+    if (arr[1] === 0) {
+        console.warn(`arr2date: Invalid month: ${arr[1]}`);
+        return null;
     }
     const maxYear = asOf ? asOf.getUTCFullYear() : new Date().getUTCFullYear();
     const getYear = (lastTwoDigits) => {
@@ -26,40 +31,42 @@ export const arr2date = (arr, asOf = null) => {
         }
         return lastTwoDigits + maxRest - 100;
     };
-    const utcYear = getYear(arr[0]);
-    const utcMonth = arr[1] - 1;
-    const utcDate = arr[2];
+    const year = getYear(arr[0]);
+    const month = arr[1] - 1;
+    const day = arr[2];
     const secs = arr.length < 6 ? 0 : utils.arr2big(arr.slice(4, 6));
-    const utcHours = arr.length < 6 ? 0 : (arr[3] & 0x01) * 12 + Math.floor(secs / 3600);
-    const utcMinutes = arr.length < 6 ? 0 : Math.floor((secs % 3600) / 60);
-    const utcSeconds = arr.length < 6 ? 0 : secs % 60;
-    const utcMilliseconds = arr.length < 7 ? 0 : arr[6] * 1000 / 256;
-    const date = new Date(Date.UTC(utcYear, utcMonth, utcDate, utcHours, utcMinutes, utcSeconds, utcMilliseconds));
+    const hours = arr.length < 6 ? 0 : (arr[3] & 0x01) * 12 + Math.floor(secs / 3600);
+    const minutes = arr.length < 6 ? 0 : Math.floor((secs % 3600) / 60);
+    const seconds = arr.length < 6 ? 0 : secs % 60;
+    const milliseconds = arr.length < 7 ? 0 : arr[6] * 1000 / 256;
+    const date = new Date(year, month, day, hours, minutes, seconds, milliseconds);
     const isValidDate = (
-        date.getUTCFullYear() === utcYear
-        && date.getUTCMonth() === utcMonth
-        && date.getUTCDate() === utcDate
-        && date.getUTCHours() === utcHours
-        && date.getUTCMinutes() === utcMinutes
-        && date.getUTCSeconds() === utcSeconds
-        && date.getUTCMilliseconds() === utcMilliseconds
+        date.getFullYear() === year
+        && date.getMonth() === month
+        && date.getDate() === day
+        && date.getHours() === hours
+        && date.getMinutes() === minutes
+        && date.getSeconds() === seconds
+        && date.getMilliseconds() === Math.floor(milliseconds)
     );
     if (!isValidDate) {
-        throw new Error('invalid date');
+        const rawDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}.${milliseconds}`;
+        console.warn(`arr2date: Invalid date: ${date} (raw: ${rawDate})`);
+        return null;
     }
     return date;
 };
 
 export const date2arr = (dateTime) => {
-    const secs = (dateTime.getUTCHours() % 12) * 3600 + dateTime.getUTCMinutes() * 60 + dateTime.getUTCSeconds();
+    const secs = (dateTime.getHours() % 12) * 3600 + dateTime.getMinutes() * 60 + dateTime.getSeconds();
     return [
-        dateTime.getUTCFullYear() % 100,
-        dateTime.getUTCMonth() + 1,
-        dateTime.getUTCDate(),
-        (dateTime.getUTCDay() << 1) + Math.floor(dateTime.getUTCHours() / 12),
+        dateTime.getFullYear() % 100,
+        dateTime.getMonth() + 1,
+        dateTime.getDate(),
+        (dateTime.getDay() << 1) + Math.floor(dateTime.getHours() / 12),
         secs >> 8,
         secs & 0xFF,
-        Math.floor(dateTime.getUTCMilliseconds() * 256 / 1000),
+        Math.floor(dateTime.getMilliseconds() * 256 / 1000),
     ];
 };
 
@@ -97,9 +104,19 @@ export const cardNumber2arr = (cardNumber) => {
 };
 
 export const prettyMessage = (message) => {
-    const prettyCommand = `Command: ${proto.cmdLookup[message.command]} ${utils.prettyHex([message.command])} (${message.command})`;
-    const prettyParameters = `Parameters: ${utils.prettyHex(message.parameters)} (${JSON.stringify(message.parameters)})`;
-    return `${prettyCommand}\n${prettyParameters}`;
+    const prettyMode = (message.mode
+        ? `Mode: ${utils.prettyHex([message.mode])} (${message.mode})\n`
+        : ''
+    );
+    const prettyCommand = (message.command
+        ? `Command: ${proto.cmdLookup[message.command]} ${utils.prettyHex([message.command])} (${message.command})\n`
+        : 'Command: -\n'
+    );
+    const prettyParameters = (message.parameters
+        ? `Parameters: ${utils.prettyHex(message.parameters)} (${JSON.stringify(message.parameters)})`
+        : 'Parameters: -'
+    );
+    return `${prettyMode}${prettyCommand}${prettyParameters}`;
 };
 
 export const CRC16 = (str) => {
@@ -234,3 +251,25 @@ export const render = (message) => {
     }
     return renderFunction();
 };
+
+export class SiDate extends utils.SiArray {
+    constructor(length, getByteOffsetAtIndex) {
+        super(
+            length,
+            (i) => new utils.SiInt([[getByteOffsetAtIndex(i)]]),
+        );
+    }
+
+    typeSpecificExtractFromData(data) {
+        const dateArray = super.typeSpecificExtractFromData(data);
+        if (dateArray.some((byte) => byte === undefined)) {
+            return undefined;
+        }
+        return arr2date(dateArray);
+    }
+
+    typeSpecificUpdateData(data, newValue) {
+        const newArrayValue = date2arr(newValue).slice(0, this.length);
+        return super.typeSpecificUpdateData(data, newArrayValue);
+    }
+}

@@ -1,11 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {commands} from './commands';
-import si from '../src';
 
 export const Terminal = (props) => {
-    const selectedIdent = props.selectedDevice && props.selectedDevice.ident;
-
     const [logContent, setLogContent] = React.useState([]);
     const [commandIsRunning, setCommandIsRunning] = React.useState(false);
     const logElem = React.useRef();
@@ -19,28 +16,11 @@ export const Terminal = (props) => {
         userInputElem.current.focus();
     }, []);
 
-    const log = (newContent) => setLogContent((prevLogContent) => [
+    const logReact = (newContent) => setLogContent((prevLogContent) => [
         ...prevLogContent,
         <span key={`log-entry-${prevLogContent.length}`}>{newContent}</span>,
     ]);
-    const logLine = (text) => log(<div>{text}</div>);
-
-    React.useMemo(() => {
-        if (selectedIdent) {
-            const selectedMainStation = si.MainStation.fromSiDevice(props.selectedDevice);
-            selectedMainStation.readInfo().then((info) => {
-                const lines = Object.keys(info)
-                    .filter((key) => key[0] !== '_')
-                    .map((key) => (
-                        <tr key={key}>
-                            <td>{key}</td>
-                            <td>{info[key]}</td>
-                        </tr>
-                    ));
-                log(<table><tbody>{lines}</tbody></table>);
-            });
-        }
-    }, [props.selectedDevice]);
+    const logLine = (text) => logReact(<div>{text}</div>);
 
     const mainHandler = (e) => {
         if (commandIsRunning) {
@@ -59,6 +39,7 @@ export const Terminal = (props) => {
                     device: props.selectedDevice,
                     userInput: userInputElem.current,
                     logLine: logLine,
+                    logReact: logReact,
                 };
                 setCommandIsRunning(true);
                 commands[commandName](commandContext)

@@ -1,11 +1,11 @@
-import si from '../src';
+import si from '../../src';
 
 export class SiExternalApplication {
     constructor(url) {
         this._ws = new WebSocket('ws://127.0.0.1:41271/si-external-application');
         this._ws.onopen = () => {
             console.log('Websocket openend');
-            this._ws.send(btoa(url));
+            this._ws.send(url);
         };
         this._ws.onerror = (error) => {
             console.log('WebSocket Error ', error);
@@ -18,7 +18,7 @@ export class SiExternalApplication {
         this._eventListeners = {};
         this.pollInterval = setInterval(() => {
             this._ws.send('');
-        }, 100);
+        }, 1000);
     }
 
     addEventListener(type, callback) {
@@ -34,13 +34,13 @@ export class SiExternalApplication {
     }
 
     handleSocketReceive(data) {
-        const uint8Data = new Uint8Array([...atob(data)].map((char) => char.charCodeAt(0)));
+        const uint8Data = new Uint8Array(JSON.parse(data));
         this.dispatchEvent('receive', {uint8Data: uint8Data});
     }
 
     send(uint8Data) {
-        const dataString = [...uint8Data].map((byte) => String.fromCharCode(byte)).join('');
-        this._ws.send(btoa(dataString));
+        const dataString = JSON.stringify([...uint8Data]);
+        this._ws.send(dataString);
     }
 
     close() {

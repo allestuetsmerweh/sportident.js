@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import Immutable from 'immutable';
 import * as errorUtils from './errors';
+import * as generalUtils from './general';
 
 export const defineStorage = (size, definitions) => {
     class SiStorage {
@@ -167,6 +168,35 @@ export class SiInt extends SiDataType {
             bitOffset += bitLength;
         });
         return tempData;
+    }
+}
+
+export class SiEnum extends SiInt {
+    constructor(parts, dict, getLookupKey) {
+        super(parts);
+        this.dict = dict;
+        this.getLookupKey = getLookupKey || ((value) => value);
+    }
+
+    typeSpecificExtractFromData(data) {
+        const intValue = super.typeSpecificExtractFromData(data);
+        if (intValue === undefined) {
+            return undefined;
+        }
+        const lookupDict = generalUtils.getLookup(this.dict, this.getLookupKey);
+        return lookupDict[intValue];
+    }
+
+    typeSpecificUpdateData(data, newValue) {
+        let newIntValue = undefined;
+        if (newValue in this.dict) {
+            newIntValue = this.getLookupKey(this.dict[newValue]);
+        } else {
+            const lookupDict = generalUtils.getLookup(this.dict, this.getLookupKey);
+            const newDictKey = lookupDict[this.getLookupKey(newValue)];
+            newIntValue = this.getLookupKey(this.dict[newDictKey]);
+        }
+        return super.typeSpecificUpdateData(data, newIntValue);
     }
 }
 
