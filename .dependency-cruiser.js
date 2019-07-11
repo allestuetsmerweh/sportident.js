@@ -172,7 +172,7 @@ module.exports = {
         },
 
         /* pattern specifying which files to exclude (regular expression) */
-        exclude: '\\.min\\.js$|webpack\\.config\\.js$|^(testbench/websocket)',
+        exclude: '\\.min\\.js$|webpack\\.config\\.js$',
 
         /* pattern specifying which files to include (regular expression)
            dependency-cruiser will skip everything not matching this pattern

@@ -8,7 +8,7 @@ import * as react from './react';
 import * as utils from './utils';
 import {SiMainStationSimulator, siCardSimulatorTypes} from './simulation';
 import {BaseSiCard, siCardTypes} from './SiCard';
-import {SiTargetMultiplexer, SiStation, SiMainStation} from './SiStation';
+import {SiTargetMultiplexer, BaseSiStation, SiMainStation, CoupledSiStation} from './SiStation';
 
 export const si = {
     constants: constants,
@@ -16,8 +16,9 @@ export const si = {
     protocol: protocol,
     react: react,
     utils: utils,
-    Station: SiStation,
+    Station: BaseSiStation,
     MainStation: SiMainStation,
+    CoupledStation: CoupledSiStation,
     MainStationSimulator: SiMainStationSimulator,
     TargetMultiplexer: SiTargetMultiplexer,
     Card: BaseSiCard,

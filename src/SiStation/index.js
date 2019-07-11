@@ -1,3 +1,4 @@
 export {SiTargetMultiplexer} from './SiTargetMultiplexer';
-export {SiStation} from './SiStation';
+export {BaseSiStation} from './BaseSiStation';
 export {SiMainStation} from './SiMainStation';
+export {CoupledSiStation} from './CoupledSiStation';

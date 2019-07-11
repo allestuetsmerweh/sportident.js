@@ -2,6 +2,7 @@
 
 import {proto} from '../constants';
 import * as siProtocol from '../siProtocol';
+import * as utils from '../utils';
 import * as testUtils from '../testUtils';
 import {BaseSiCard} from './BaseSiCard';
 
@@ -85,7 +86,7 @@ describe('BaseSiCard', () => {
         });
         expect(wrongCommandResult).toBe(undefined);
     });
-    it('instance', (done) => {
+    it('instance', async (done) => {
         const baseSiCard500 = new BaseSiCard(500);
         expect(() => baseSiCard500.read()).toThrow();
 
@@ -96,26 +97,26 @@ describe('BaseSiCard', () => {
                 return Promise.resolve(this);
             }
         }
+        SiCard1.StorageDefinition = utils.defineStorage(0x00, {});
         const siCard500 = new SiCard1(500);
         siCard500.mainStation = {
             sendMessage: () => Promise.resolve(),
         };
-        siCard500.read()
-            .then((result) => {
-                expect(result).toBe(siCard500);
-                expect(siCard500.punchCount).toBe(1);
-                expect(siCard500.toDict()).toEqual({
-                    cardNumber: 500,
-                    clearTime: -1,
-                    checkTime: -1,
-                    startTime: -1,
-                    finishTime: -1,
-                    punches: [{code: 31, time: 3}],
-                });
-                expect(siCard500.toString()).toEqual(
-                    'SiCard1 Number: 500\nClear: -1\nCheck: -1\nStart: -1\nFinish: -1\n31: 3\n',
-                );
-                done();
-            });
+        const result = await siCard500.read();
+        expect(result).toBe(siCard500);
+        expect(siCard500.punchCount).toBe(1);
+        expect(siCard500.toDict()).toEqual({
+            cardNumber: 500,
+            clearTime: -1,
+            checkTime: -1,
+            startTime: -1,
+            finishTime: -1,
+            punches: [{code: 31, time: 3}],
+        });
+        expect(siCard500.toString()).toEqual(
+            'SiCard1 Number: 500\nClear: -1\nCheck: -1\nStart: -1\nFinish: -1\n31: 3\n',
+        );
+        await siCard500.confirm();
+        done();
     });
 });

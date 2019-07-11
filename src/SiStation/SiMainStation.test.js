@@ -15,13 +15,16 @@ testUtils.useFakeTimers();
 describe('SiMainStation', () => {
     it('exists', () => {
         expect(SiMainStation).not.toBe(undefined);
+        expect(SiMainStation.multiplexerTarget).toBe(SiTargetMultiplexer.Target.Direct);
     });
     it('fromSiDevice', () => {
         const fakeSiDevice = new FakeSiDevice('fromSiDevice');
         const myMainStation1 = SiMainStation.fromSiDevice(fakeSiDevice);
         expect(myMainStation1 instanceof SiMainStation).toBe(true);
+        expect(myMainStation1.ident).toBe('Direct-FakeSiDevice-fromSiDevice');
         const myMainStation2 = SiMainStation.fromSiDevice(fakeSiDevice);
         expect(myMainStation2).toBe(myMainStation1);
+        expect(myMainStation2.ident).toBe('Direct-FakeSiDevice-fromSiDevice');
     });
     it('fromSiTargetMultiplexer', () => {
         const myTargetMultiplexer = new SiTargetMultiplexer();
@@ -35,12 +38,13 @@ describe('SiMainStation', () => {
         const myMainStation = SiMainStation.fromSiTargetMultiplexer(myTargetMultiplexer);
         const testData = SiCard5.getTestData()[0];
         const mySiCard5Simulator = new SiCard5Simulator(testData.storageData);
+
         const insertedCardNumbers = [];
         const handleCardInserted = (e) => {
             insertedCardNumbers.push(e.card.cardNumber);
         };
         myMainStation.addEventListener('cardInserted', handleCardInserted);
-        myTargetMultiplexer.dispatchEvent('message', {
+        myTargetMultiplexer.dispatchEvent('directMessage', {
             message: {
                 command: mySiCard5Simulator.handleDetect().command,
                 parameters: [
@@ -49,15 +53,15 @@ describe('SiMainStation', () => {
                 ],
             },
         });
-
         await testUtils.nTimesAsync(2, () => testUtils.advanceTimersByTime(0));
         expect(insertedCardNumbers).toEqual([406402]);
+
         const removedCardNumbers = [];
         const handleCardRemoved = (e) => {
             removedCardNumbers.push(e.card.cardNumber);
         };
         myMainStation.addEventListener('cardRemoved', handleCardRemoved);
-        myTargetMultiplexer.dispatchEvent('message', {
+        myTargetMultiplexer.dispatchEvent('directMessage', {
             message: {
                 command: proto.cmd.SI_REM,
                 parameters: [
@@ -66,18 +70,18 @@ describe('SiMainStation', () => {
                 ],
             },
         });
-
         await testUtils.nTimesAsync(2, () => testUtils.advanceTimersByTime(0));
         expect(removedCardNumbers).toEqual([406402]);
-        myTargetMultiplexer.dispatchEvent('message', {
+
+        myTargetMultiplexer.dispatchEvent('directMessage', {
             message: {
                 command: proto.cmd.SI_REM,
                 parameters: [0x00, 0x00, 0x01, 0x23, 0x45, 0x67],
             },
         });
-
         await testUtils.nTimesAsync(2, () => testUtils.advanceTimersByTime(0));
         expect(removedCardNumbers).toEqual([406402]);
+
         myMainStation.removeEventListener('cardInserted', handleCardInserted);
         myMainStation.removeEventListener('cardRemoved', handleCardRemoved);
         done();
@@ -92,8 +96,7 @@ describe('SiMainStation', () => {
             observedCardNumbers.push(e.card.cardNumber);
         };
         myMainStation.addEventListener('cardObserved', handleCardObserved);
-        console.warn(mySiCard6Simulator.handleDetect().parameters);
-        myTargetMultiplexer.dispatchEvent('message', {
+        myTargetMultiplexer.dispatchEvent('directMessage', {
             message: {
                 command: proto.cmd.TRANS_REC,
                 parameters: [
@@ -105,6 +108,30 @@ describe('SiMainStation', () => {
 
         await testUtils.nTimesAsync(2, () => testUtils.advanceTimersByTime(0));
         expect(observedCardNumbers).toEqual([testData.cardData.cardNumber]);
+        done();
+    });
+    it('other message', () => {
+        const fakeSiTargetMultiplexer = {
+            addEventListener: () => undefined,
+            sendMessage: () => Promise.resolve(),
+        };
+        const mySiStation = new SiMainStation(fakeSiTargetMultiplexer);
+        mySiStation.handleMessage({command: proto.cmd.SIGNAL, parameters: [0x01]});
+    });
+
+    it('sendMessage', async (done) => {
+        const fakeSiTargetMultiplexer = {
+            addEventListener: () => undefined,
+            sendMessage: () => Promise.resolve(),
+        };
+        const mySiStation = new SiMainStation(fakeSiTargetMultiplexer);
+        let sendMessageSucceeded = undefined;
+        mySiStation.sendMessage()
+            .then(() => {
+                sendMessageSucceeded = true;
+            });
+        await testUtils.nTimesAsync(1, () => testUtils.advanceTimersByTime(0));
+        expect(sendMessageSucceeded).toBe(true);
         done();
     });
 });

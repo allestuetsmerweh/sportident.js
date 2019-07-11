@@ -2,8 +2,27 @@ import Immutable from 'immutable';
 import {proto} from '../constants';
 import * as utils from '../utils';
 import * as siProtocol from '../siProtocol';
+import {SiTargetMultiplexer} from './SiTargetMultiplexer';
 
-export class SiStation {
+export class BaseSiStation {
+    static fromSiDevice(siDevice) {
+        const multiplexer = SiTargetMultiplexer.fromSiDevice(siDevice);
+        return this.fromSiTargetMultiplexer(multiplexer);
+    }
+
+    static fromSiTargetMultiplexer(multiplexer) {
+        const prettyMultiplexerTarget = SiTargetMultiplexer.targetByValue[this.multiplexerTarget];
+        const multiplexerStations = multiplexer.stations || {};
+        if (multiplexerStations[prettyMultiplexerTarget]) {
+            return multiplexerStations[prettyMultiplexerTarget];
+        }
+        const instance = new this(multiplexer);
+        multiplexerStations[prettyMultiplexerTarget] = instance;
+        multiplexer.stations = multiplexerStations;
+        // TODO: deregister/close
+        return instance;
+    }
+
     static get modeByValue() {
         return utils.getLookup(this.Mode, (value) => value.val);
     }
@@ -16,13 +35,29 @@ export class SiStation {
         return utils.getLookup(this.Model, (value) => value.val);
     }
 
-    constructor() {
-        this.mainStation = undefined;
-        this.storage = new SiStation.StorageDefinition();
+    constructor(siTargetMultiplexer) {
+        this.siTargetMultiplexer = siTargetMultiplexer;
+        this.storage = new this.constructor.StorageDefinition();
+    }
+
+    get ident() {
+        const multiplexerTarget = this.constructor.multiplexerTarget;
+        const multiplexerTargetString = SiTargetMultiplexer.targetByValue[multiplexerTarget];
+        const deviceIdentString = this.siTargetMultiplexer.device.ident;
+        return `${multiplexerTargetString}-${deviceIdentString}`;
+    }
+
+    sendMessage(message, numResponses, timeoutInMiliseconds) {
+        return this.siTargetMultiplexer.sendMessage(
+            this.constructor.multiplexerTarget,
+            message,
+            numResponses,
+            timeoutInMiliseconds,
+        );
     }
 
     readInfo() {
-        return this.mainStation.sendMessage({
+        return this.sendMessage({
             command: proto.cmd.GET_SYS_VAL,
             parameters: [0x00, 0x80],
         }, 1)
@@ -85,7 +120,7 @@ export class SiStation {
                 dirtyRange.get(0),
                 ...newStorage.slice(dirtyRange.get(0), dirtyRange.get(1)),
             ];
-            return this.mainStation.sendMessage({
+            return this.sendMessage({
                 command: proto.cmd.SET_SYS_VAL,
                 parameters: parameters,
             }, 1)
@@ -103,7 +138,7 @@ export class SiStation {
     }
 
     getTime() {
-        return this.mainStation.sendMessage({
+        return this.sendMessage({
             command: proto.cmd.GET_TIME,
             parameters: [],
         }, 1)
@@ -112,7 +147,7 @@ export class SiStation {
 
     setTime(newTime) {
         // TODO: compensate for waiting time
-        return this.mainStation.sendMessage({
+        return this.sendMessage({
             command: proto.cmd.SET_TIME,
             parameters: [...siProtocol.date2arr(newTime)],
         }, 1)
@@ -122,7 +157,7 @@ export class SiStation {
 
     signal(countArg) {
         const count = !countArg || countArg < 1 ? 1 : countArg;
-        return this.mainStation.sendMessage({
+        return this.sendMessage({
             command: proto.cmd.SIGNAL,
             parameters: [count],
         }, 1)
@@ -134,14 +169,14 @@ export class SiStation {
     }
 
     powerOff() { // Does not power off BSM8 (USB powered), though
-        return this.mainStation.sendMessage({
+        return this.sendMessage({
             command: proto.cmd.OFF,
             parameters: [],
         }, 0);
     }
 }
 
-SiStation.Mode = {
+BaseSiStation.Mode = {
     SIACSpecialFunction1: {val: 0x01},
     Control: {val: 0x02},
     Start: {val: 0x03},
@@ -158,7 +193,7 @@ SiStation.Mode = {
     BCSlave: {val: 0x1F},
 };
 
-SiStation.Type = {
+BaseSiStation.Type = {
     Main: {val: 0x00},
     Sprint: {val: 0x01},
     Print: {val: 0x02},
@@ -166,30 +201,30 @@ SiStation.Type = {
     Master: {val: 0x04},
 };
 
-SiStation.Model = {
-    BSF3: {val: 0x8003, description: 'BSF3', type: SiStation.Type.Field, series: 3},
-    BSF4: {val: 0x8004, description: 'BSF4', type: SiStation.Type.Field, series: 4},
-    BSF5: {val: 0x8115, description: 'BSF5', type: SiStation.Type.Field, series: 5},
-    BSF6: {val: 0x8146, description: 'BSF6', type: SiStation.Type.Field, series: 6},
-    BSF7A: {val: 0x8117, description: 'BSF7', type: SiStation.Type.Field, series: 7},
-    BSF7B: {val: 0x8197, description: 'BSF7', type: SiStation.Type.Field, series: 7},
-    BSF8A: {val: 0x8118, description: 'BSF8', type: SiStation.Type.Field, series: 8},
-    BSF8B: {val: 0x8198, description: 'BSF8', type: SiStation.Type.Field, series: 8},
-    BS7Master: {val: 0x8187, description: 'BS7-Master', type: SiStation.Type.Master, series: 7},
-    BS8Master: {val: 0x8188, description: 'BS8-Master', type: SiStation.Type.Master, series: 8},
-    BSM4: {val: 0x8084, description: 'BSM4', type: SiStation.Type.Main, series: 4},
-    BSM6: {val: 0x8086, description: 'BSM6', type: SiStation.Type.Main, series: 6},
-    BSM7: {val: 0x9197, description: 'BSM7', type: SiStation.Type.Main, series: 7},
-    BSM8: {val: 0x9198, description: 'BSM8', type: SiStation.Type.Main, series: 8},
-    BS7S: {val: 0x9597, description: 'BS7-S', type: SiStation.Type.Sprint, series: 7},
-    BS7P: {val: 0xB197, description: 'BS7-P', type: SiStation.Type.Print, series: 7},
-    BS7GSM: {val: 0xB897, description: 'BS7-GSM', type: SiStation.Type.Field, series: 7},
-    BS8P: {val: 0xB198, description: 'BS8-P', type: SiStation.Type.Print, series: 8},
+BaseSiStation.Model = {
+    BSF3: {val: 0x8003, description: 'BSF3', type: BaseSiStation.Type.Field, series: 3},
+    BSF4: {val: 0x8004, description: 'BSF4', type: BaseSiStation.Type.Field, series: 4},
+    BSF5: {val: 0x8115, description: 'BSF5', type: BaseSiStation.Type.Field, series: 5},
+    BSF6: {val: 0x8146, description: 'BSF6', type: BaseSiStation.Type.Field, series: 6},
+    BSF7A: {val: 0x8117, description: 'BSF7', type: BaseSiStation.Type.Field, series: 7},
+    BSF7B: {val: 0x8197, description: 'BSF7', type: BaseSiStation.Type.Field, series: 7},
+    BSF8A: {val: 0x8118, description: 'BSF8', type: BaseSiStation.Type.Field, series: 8},
+    BSF8B: {val: 0x8198, description: 'BSF8', type: BaseSiStation.Type.Field, series: 8},
+    BS7Master: {val: 0x8187, description: 'BS7-Master', type: BaseSiStation.Type.Master, series: 7},
+    BS8Master: {val: 0x8188, description: 'BS8-Master', type: BaseSiStation.Type.Master, series: 8},
+    BSM4: {val: 0x8084, description: 'BSM4', type: BaseSiStation.Type.Main, series: 4},
+    BSM6: {val: 0x8086, description: 'BSM6', type: BaseSiStation.Type.Main, series: 6},
+    BSM7: {val: 0x9197, description: 'BSM7', type: BaseSiStation.Type.Main, series: 7},
+    BSM8: {val: 0x9198, description: 'BSM8', type: BaseSiStation.Type.Main, series: 8},
+    BS7S: {val: 0x9597, description: 'BS7-S', type: BaseSiStation.Type.Sprint, series: 7},
+    BS7P: {val: 0xB197, description: 'BS7-P', type: BaseSiStation.Type.Print, series: 7},
+    BS7GSM: {val: 0xB897, description: 'BS7-GSM', type: BaseSiStation.Type.Field, series: 7},
+    BS8P: {val: 0xB198, description: 'BS8-P', type: BaseSiStation.Type.Print, series: 8},
 };
 
-SiStation.StorageDefinition = utils.defineStorage(0x80, {
+BaseSiStation.StorageDefinition = utils.defineStorage(0x80, {
     code: new utils.SiInt([[0x72], [0x73, 6, 8]]),
-    mode: new utils.SiEnum([[0x71]], SiStation.Mode, (value) => value.val),
+    mode: new utils.SiEnum([[0x71]], BaseSiStation.Mode, (value) => value.val),
     beeps: new utils.SiBool(0x73, 2),
     flashes: new utils.SiBool(0x73, 0),
     autoSend: new utils.SiBool(0x74, 1),
@@ -197,28 +232,44 @@ SiStation.StorageDefinition = utils.defineStorage(0x80, {
     serialNumber: new utils.SiInt([[0x03], [0x02], [0x01], [0x00]]),
     firmwareVersion: new utils.SiInt([[0x07], [0x06], [0x05]]),
     buildDate: new siProtocol.SiDate(3, (i) => 0x08 + i),
-    deviceModel: new utils.SiEnum([[0x0C], [0x0B]], SiStation.Model, (value) => value.val),
+    deviceModel: new utils.SiEnum([[0x0C], [0x0B]], BaseSiStation.Model, (value) => value.val),
     memorySize: new utils.SiInt([[0x0D]]),
     batteryDate: new siProtocol.SiDate(3, (i) => 0x15 + i),
     batteryCapacity: new utils.SiInt([[0x1A], [0x19]]),
+    batteryState: new utils.SiInt([[0x37], [0x36], [0x35], [0x34]]),
+    // 2000mAh: 000000=0%, 6E0000=100%, 1000mAh:000000=0%, 370000=100%
     backupPointer: new utils.SiInt([[0x22], [0x21], [0x1D], [0x1C]]),
-    siCard6Mode: new utils.SiInt([[0x33]]), // FF = 192 punches, C1 normal
+    siCard6Mode: new utils.SiInt([[0x33]]),
+    // 08 or FF = 192 punches, 00 or C1 normal
     memoryOverflow: new utils.SiInt([[0x3D]]),
+    // overflow if != 00
     lastWriteDate: new siProtocol.SiDate(6, (i) => 0x75 + i),
     autoOffTimeout: new utils.SiInt([[0x7F], [0x7E]]),
-    refreshRate: new utils.SiInt([[0x10]]), // in 3/sec ???
-    powerMode: new utils.SiInt([[0x11]]), // 06 low power, 08 standard/sprint
+    refreshRate: new utils.SiInt([[0x10]]),
+    // in 3/sec ???
+    powerMode: new utils.SiInt([[0x11]]),
+    // 06 low power, 08 standard/sprint
     interval: new utils.SiInt([[0x49], [0x48]]),
+    // in 32*ms
     wtf: new utils.SiInt([[0x4B], [0x4A]]),
+    // in 32*ms
     program: new utils.SiInt([[0x70]]),
+    // xx0xxxxxb competition, xx1xxxxxb training
     handshake: new utils.SiBool(0x74, 2),
     sprint4ms: new utils.SiBool(0x74, 3),
     passwordOnly: new utils.SiBool(0x74, 4),
     stopOnFullBackup: new utils.SiBool(0x74, 5),
     autoReadout: new utils.SiBool(0x74, 7),
+    // depends on autoSend
+    sleepDay: new utils.SiInt([[0x7B]]),
+    //   xxxxxxx0b - seconds relative to midnight/midday: 0 = am, 1 = pm
+    //   xxxx000xb - day of week: 000 = Sunday, 110 = Saturday
+    //   xx00xxxxb - week counter 0..3, relative to programming date
+    sleepSeconds: new utils.SiInt([[0x7D], [0x7C]]),
+    workingMinutes: new utils.SiInt([[0x7F], [0x7E]]),
 });
 
-SiStation.getTestData = () => {
+BaseSiStation.getTestData = () => {
     const sampleBSM8Station = {
         stationData: {
             autoOffTimeout: 60,

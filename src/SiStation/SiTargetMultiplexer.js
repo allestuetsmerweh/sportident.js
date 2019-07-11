@@ -19,8 +19,14 @@ export class SiTargetMultiplexer {
         return instance;
     }
 
+    static get targetByValue() {
+        return utils.getLookup(this.Target, (value) => value);
+    }
+
     constructor(device) {
         this.device = device;
+        this.target = this.constructor.Target.Unknown;
+        this.latestTarget = this.constructor.Target.Unknown; // the target of the latest command scheduled
         this._eventListeners = {};
         this._receiveBuffer = [];
         this._sendQueue = [];
@@ -68,6 +74,12 @@ export class SiTargetMultiplexer {
         messages.forEach((message) => {
             this.dispatchEvent('message', {message: message});
             this.updateSendQueueWithReceivedMessage(message);
+            if (this.target === this.constructor.Target.Direct) {
+                this.dispatchEvent('directMessage', {message: message});
+            }
+            if (this.target === this.constructor.Target.Remote) {
+                this.dispatchEvent('remoteMessage', {message: message});
+            }
         });
     }
 
@@ -88,10 +100,41 @@ export class SiTargetMultiplexer {
         this._sendQueue[0].addResponse(parameters);
     }
 
-    sendMessage(target, message, numResponses = 0, timeoutInMiliseconds = 10000) {
+    sendMessage(target, message, numResponses, timeoutInMiliseconds) {
+        const setMsParameterByTarget = {
+            [this.constructor.Target.Direct]: proto.P_MS_DIRECT,
+            [this.constructor.Target.Remote]: proto.P_MS_REMOTE,
+        };
+        const setTarget = () => {
+            if (target === this.latestTarget) {
+                return Promise.resolve();
+            }
+            if (setMsParameterByTarget[target] === undefined) {
+                return Promise.reject(new Error(`No such target: ${target}`));
+            }
+            this.latestTarget = target;
+            return this.sendMessageToLatestTarget({
+                command: proto.cmd.SET_MS,
+                parameters: [setMsParameterByTarget[target]],
+            }, 1)
+                .then((responses) => {
+                    if (responses[0][2] !== setMsParameterByTarget[target]) {
+                        this.abortProcessingSendQueue();
+                        return;
+                    }
+                    this.target = target;
+                })
+                .catch(() => {
+                    this.abortProcessingSendQueue();
+                });
+        };
+        return setTarget()
+            .then(() => this.sendMessageToLatestTarget(message, numResponses, timeoutInMiliseconds));
+    }
+
+    sendMessageToLatestTarget(message, numResponses = 0, timeoutInMiliseconds = 10000) {
         return new Promise((resolve, reject) => {
             const sendTask = new SendTask(
-                target,
                 message,
                 numResponses,
                 timeoutInMiliseconds,
@@ -128,11 +171,11 @@ export class SiTargetMultiplexer {
         }
 
         const sendTask = this._sendQueue[0];
+        sendTask.state = SendTask.State.Sending;
         const uint8Data = new Uint8Array([
             proto.WAKEUP,
             ...siProtocol.render(sendTask.message),
         ]);
-        sendTask.state = SendTask.State.Sending;
         this.device.send(uint8Data.buffer)
             .then(() => {
                 sendTask.state = SendTask.State.Sent;
@@ -156,14 +199,12 @@ SiTargetMultiplexer.Target = {
 
 class SendTask {
     constructor(
-        target,
         message,
         numResponses,
         timeoutInMiliseconds,
         onResolve,
         onReject,
     ) {
-        this.target = target;
         this.message = message;
         this.numResponses = numResponses;
         this.timeoutInMiliseconds = timeoutInMiliseconds;
