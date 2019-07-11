@@ -30,8 +30,5 @@ describe('constants', () => {
                     expect(cmdLookup[cmdCode]).toBe(cmdName);
                 });
         });
-        it('sysDataOffset', () => {
-            expect('sysDataOffset' in constants.proto).toBe(true);
-        });
     });
 });

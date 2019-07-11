@@ -61,12 +61,17 @@ export class BaseSiCard {
 
     read() {
         return this.typeSpecificRead()
-            .then(() => this.mainStation.sendMessage({mode: proto.ACK}, 0))
             .then(() => this);
     }
 
     typeSpecificRead() {
         utils.notImplemented(`${this.constructor.name} must implement typeSpecificRead()`);
+    }
+
+    confirm() {
+        return this.mainStation.sendMessage({
+            mode: proto.ACK,
+        }, 0);
     }
 
     toDict() {

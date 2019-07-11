@@ -2,5 +2,4 @@ docs/
 node_modules/
 src/build/
 testbench/build/
-testbench/websocket/
 !.*.js

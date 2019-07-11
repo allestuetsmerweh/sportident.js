@@ -430,7 +430,7 @@ describe('siProtocol', () => {
             .toEqual([proto.STX, 0xFF, 0x01, 0xEE, 0xEC, 0x0A, proto.ETX]);
     });
     it('render invalid mode', () => {
-        const invalidMode = testUtils.getRandomByteExcept([proto.STX, proto.WAKEUP, proto.NAK]);
+        const invalidMode = testUtils.getRandomByteExcept([proto.STX, proto.WAKEUP, proto.NAK, proto.ACK]);
         expect(() => siProtocol.render({mode: invalidMode}))
             .toThrow();
         expect(() => siProtocol.render({mode: invalidMode, command: null, parameters: null}))

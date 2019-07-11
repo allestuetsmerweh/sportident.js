@@ -39,7 +39,7 @@
   },
   "homepage": "https://github.com/allestuetsmerweh/sportident.js#readme",
   "devDependencies": {
-    "@babel/core": "^7.4.5",
+    "@babel/core": "^7.5.4",
     "@babel/polyfill": "^7.4.4",
     "@babel/preset-env": "^7.4.5",
     "@babel/preset-react": "^7.0.0",
@@ -54,6 +54,7 @@
     "immutable": "^4.0.0-rc.12",
     "jasmine-core": "^3.4.0",
     "jest": "^24.8.0",
+    "lodash": "^4.17.11",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",

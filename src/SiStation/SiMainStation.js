@@ -3,35 +3,22 @@ import * as siProtocol from '../siProtocol';
 import {proto} from '../constants';
 import {BaseSiCard} from '../SiCard';
 import {SiTargetMultiplexer} from './SiTargetMultiplexer';
-import {SiStation} from './SiStation';
+import {BaseSiStation} from './BaseSiStation';
 
-export class SiMainStation extends SiStation {
-    static fromSiDevice(siDevice) {
-        const multiplexer = SiTargetMultiplexer.fromSiDevice(siDevice);
-        return this.fromSiTargetMultiplexer(multiplexer);
-    }
-
-    static fromSiTargetMultiplexer(multiplexer) {
-        const instance = new this(multiplexer);
-        if (multiplexer.directSiStation) {
-            return multiplexer.directSiStation;
-        }
-        multiplexer.directSiStation = instance;
-        multiplexer.addEventListener('message', (e) => {
-            const message = e.message;
-            instance.handleMessage(message);
-            console.log(`There's a SiMainStation listening to this ${message}`);
-        });
-        // TODO: deregister/close
-        return instance;
+export class SiMainStation extends BaseSiStation {
+    static get multiplexerTarget() {
+        return SiTargetMultiplexer.Target.Direct;
     }
 
     constructor(siTargetMultiplexer) {
-        super();
-        super.mainStation = this;
-        this.siTargetMultiplexer = siTargetMultiplexer;
+        super(siTargetMultiplexer);
         this.card = false;
         this._eventListeners = {};
+        siTargetMultiplexer.addEventListener('directMessage', (e) => {
+            const message = e.message;
+            this.handleMessage(message);
+            console.log(`There's a SiMainStation listening to this ${message}`);
+        });
     }
 
     addEventListener(type, callback) {
@@ -53,10 +40,6 @@ export class SiMainStation extends SiStation {
             detectedSiCard.mainStation = this;
             this.card = detectedSiCard;
             this.dispatchEvent('cardInserted', {card: this.card});
-            this.card.read()
-                .then((card) => {
-                    this.dispatchEvent('card', {card: card});
-                });
             return;
         }
         const handleSiCardRemoved = () => {
@@ -67,17 +50,6 @@ export class SiMainStation extends SiStation {
                 console.warn(`Card ${removedCardNumber} was removed, but never inserted`);
             }
             this.card = false;
-            if (this.siTargetMultiplexer._sendQueue.length > 0) {
-                const activeSendTask = this.siTargetMultiplexer._sendQueue[0];
-                if (
-                    activeSendTask.state === activeSendTask.constructor.State.Sent
-                    && activeSendTask.command >= 0xB0
-                    && activeSendTask.command <= 0xEF
-                ) { // Was expecting response from card => "early Timeout"
-                    console.debug(`Early Timeout: cmd ${utils.prettyHex([activeSendTask.command])} (expected ${activeSendTask.numResponses} responses)`, activeSendTask.responses);
-                    activeSendTask.fail();
-                }
-            }
         };
         const handleSiCardObserved = () => {
             const observedCardNumber = siProtocol.arr2cardNumber([parameters[5], parameters[4], parameters[3]]); // TODO: also [2]?
