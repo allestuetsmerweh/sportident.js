@@ -19,7 +19,7 @@ const tests = {
             mainStation.setInfo('autoSend', 1);
         })
             .then(() => {
-                logLine(`${actionName} card...`);
+                logLine(`Insert card to ${actionName}...`);
                 return new Promise((resolve) => {
                     resetCardCallbacks(mainStation);
                     mainStation.addEventListener('cardObserved', (cardEvent) => {
@@ -27,18 +27,18 @@ const tests = {
                         if (fixedSiNumber === null) {
                             fixedSiNumber = card.cardNumber;
                         }
-                        if (fixedSiNumber === card.cardNumber) {
-                            resetCardCallbacks(mainStation);
-                            logLine(`${actionName} ${card.constructor.name} succeeded: ${card.cardNumber}`);
-                            if (mode === si.Station.Mode.Clear) {
-                                cardState = '';
-                            } else {
-                                cardState += `${cardState === '' ? '' : '-'}${actionName}`;
-                            }
-                            setTimeout(resolve, 1);
-                        } else {
+                        if (fixedSiNumber !== card.cardNumber) {
                             logLine(`Other ${card.constructor.name}: ${card.cardNumber} (not ${fixedSiNumber})`);
+                            return;
                         }
+                        resetCardCallbacks(mainStation);
+                        logLine(`${actionName} ${card.constructor.name} succeeded: ${card.cardNumber}`);
+                        if (mode === si.Station.Mode.Clear) {
+                            cardState = '';
+                        } else {
+                            cardState += `${cardState === '' ? '' : '-'}${actionName}`;
+                        }
+                        setTimeout(resolve, 1);
                     });
                 });
             });
@@ -48,32 +48,41 @@ const tests = {
             mainStation.setInfo('code', 10);
         })
             .then(() => {
-                logLine('Read card...');
+                logLine('Insert card to read...');
                 return new Promise((resolve) => {
                     resetCardCallbacks(mainStation);
-                    mainStation.addEventListener('card', (cardEvent) => {
+                    const handleCardRemoved = (removeEvent) => {
+                        const removedCard = removeEvent.card;
+                        if (fixedSiNumber === removedCard.cardNumber) {
+                            resetCardCallbacks(mainStation);
+                            setTimeout(resolve, 1);
+                        }
+                    };
+                    const handleCardRead = (card) => {
+                        logLine(`${card.constructor.name} ${card.cardNumber} read.`);
+                        samples[cardState] = card.toDict();
+                        logLine(cardState);
+                        card.toString().split('\n').forEach((line) => {
+                            logLine(line);
+                        });
+                        card.confirm();
+                        logLine('Remove card...');
+                        mainStation.addEventListener('cardRemoved', handleCardRemoved);
+                    };
+                    const handleCardInserted = (cardEvent) => {
                         const card = cardEvent.card;
                         if (fixedSiNumber === null) {
                             fixedSiNumber = card.cardNumber;
                         }
-                        if (fixedSiNumber === card.cardNumber) {
-                            logLine(`${card.constructor.name} read: ${card.cardNumber}`);
-                            samples[cardState] = card.toDict();
-                            logLine(cardState);
-                            card.toString().split('\n').forEach((line) => {
-                                logLine(line);
-                            });
-                            mainStation.addEventListener('cardRemoved', (removeEvent) => {
-                                const removedCard = removeEvent.card;
-                                if (fixedSiNumber === removedCard.cardNumber) {
-                                    resetCardCallbacks(mainStation);
-                                    setTimeout(resolve, 1);
-                                }
-                            });
-                        } else {
+                        if (fixedSiNumber !== card.cardNumber) {
                             logLine(`Other ${card.constructor.name}: ${card.cardNumber} (not ${fixedSiNumber})`);
+                            return;
                         }
-                    });
+                        logLine(`Reading ${card.constructor.name} ${card.cardNumber}...`);
+                        card.read()
+                            .then(handleCardRead);
+                    };
+                    mainStation.addEventListener('cardInserted', handleCardInserted);
                 });
             });
         return simulateStation(si.Station.Mode.Clear, 1, 'Clear')()
