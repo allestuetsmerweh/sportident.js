@@ -65,13 +65,13 @@ export class SiMainStationSimulator {
         } else if (message.command === proto.cmd.GET_MS) {
             this.dispatchMessage({
                 command: proto.cmd.GET_MS,
-                parameters: [...this.getCode(), this.isMaster ? 77 : 83],
+                parameters: [...this.getCode(), this.isMaster ? proto.P_MS_DIRECT : proto.P_MS_REMOTE],
             });
         } else if (message.command === proto.cmd.SET_MS) {
-            this.isMaster = message.parameters[0] === 77;
+            this.isMaster = message.parameters[0] === proto.P_MS_DIRECT;
             this.dispatchMessage({
                 command: proto.cmd.SET_MS,
-                parameters: [...this.getCode(), this.isMaster ? 77 : 83],
+                parameters: [...this.getCode(), this.isMaster ? proto.P_MS_DIRECT : proto.P_MS_REMOTE],
             });
         } else if (message.command === proto.cmd.GET_TIME) {
             this.dispatchMessage({

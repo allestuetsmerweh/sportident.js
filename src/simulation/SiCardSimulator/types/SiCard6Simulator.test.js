@@ -12,20 +12,23 @@ describe('SiCard6Simulator', () => {
     it('exists', () => {
         expect(SiCard6Simulator).not.toBe(undefined);
     });
+    const testData = SiCard6.getTestData()[0];
+    const mySiCard6Simulator = new SiCard6Simulator(
+        testData.storageData,
+    );
     it('handleDetect works', () => {
-        const mySiCard6 = new SiCard6Simulator(SiCard6.getTestData()[0].storageData);
-        expect(mySiCard6.handleDetect()).toEqual({
+        expect(mySiCard6Simulator.handleDetect()).toEqual({
             command: proto.cmd.SI6_DET,
             parameters: utils.unPrettyHex('00 07 A1 3D'),
         });
     });
     it('handleRequest works', () => {
-        const testData = SiCard6.getTestData()[0];
-        const myModernSiCardSimulator = new SiCard6Simulator(
-            testData.storageData,
-        );
+        expect(() => mySiCard6Simulator.handleRequest({
+            command: proto.cmd.GET_SI5,
+            parameters: [0x06],
+        })).toThrow();
 
-        expect(myModernSiCardSimulator.handleRequest({
+        expect(mySiCard6Simulator.handleRequest({
             command: proto.cmd.GET_SI6,
             parameters: [0x06],
         })).toEqual([
@@ -38,7 +41,7 @@ describe('SiCard6Simulator', () => {
             },
         ]);
 
-        expect(myModernSiCardSimulator.handleRequest({
+        expect(mySiCard6Simulator.handleRequest({
             command: proto.cmd.GET_SI6,
             parameters: [0x08],
         })).toEqual([

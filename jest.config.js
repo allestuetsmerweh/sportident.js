@@ -26,12 +26,7 @@ const jestConfig = {
             statements: 90,
         },
         './src/SiDevice': totalCoverage,
-        './src/simulation': {
-            branches: 32,
-            functions: 47,
-            lines: 36,
-            statements: 38,
-        },
+        './src/simulation': totalCoverage,
         './src/SiStation': {
             branches: 89,
             functions: 95,

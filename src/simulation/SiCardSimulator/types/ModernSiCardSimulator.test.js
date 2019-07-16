@@ -12,20 +12,21 @@ describe('ModernSiCardSimulator', () => {
     it('exists', () => {
         expect(ModernSiCardSimulator).not.toBe(undefined);
     });
+    const testData = ModernSiCard.getTestData()[0];
+    const myModernSiCardSimulator = new ModernSiCardSimulator(
+        testData.storageData,
+    );
     it('handleDetect works', () => {
-        const myModernSiCardSimulator = new ModernSiCardSimulator(
-            ModernSiCard.getTestData()[0].storageData,
-        );
         expect(myModernSiCardSimulator.handleDetect()).toEqual({
             command: proto.cmd.SI8_DET,
             parameters: utils.unPrettyHex('00 6B 96 8C'),
         });
     });
     it('handleRequest works', () => {
-        const testData = ModernSiCard.getTestData()[0];
-        const myModernSiCardSimulator = new ModernSiCardSimulator(
-            testData.storageData,
-        );
+        expect(() => myModernSiCardSimulator.handleRequest({
+            command: proto.cmd.GET_SI5,
+            parameters: [0x06],
+        })).toThrow();
 
         expect(myModernSiCardSimulator.handleRequest({
             command: proto.cmd.GET_SI8,
