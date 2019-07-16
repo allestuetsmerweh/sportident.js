@@ -6,7 +6,7 @@ import {ModernSiCard} from '../../../SiCard/types/ModernSiCard';
 
 export class ModernSiCardSimulator extends BaseSiCardSimulator {
     handleDetect() {
-        const cardNumberArr = siProtocol.cardNumber2arr(this.storage.get('cardNumber'));
+        const cardNumberArr = siProtocol.cardNumber2arr(this.storage.get('cardNumber').value);
         cardNumberArr.reverse();
         return {
             command: proto.cmd.SI8_DET,

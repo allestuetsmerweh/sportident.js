@@ -1,20 +1,26 @@
 import React from 'react';
 import _ from 'lodash';
-import si from '../../../src';
+import {getDirectOrRemoteStation} from './getDirectOrRemoteStation';
 
 export const getInfoCommand = ({userLine, logReact, logLine, device}) => {
-    const res = /getInfo ?([^\s]*)/.exec(userLine);
+    const res = /getInfo ([^\s]*) ?([^\s]*)/.exec(userLine);
     if (res === null) {
-        logLine('Usage: getInfo [infoName?]');
-        logLine('       e.g. getInfo code');
+        logLine('Usage: getInfo [d(irect)/r(emote)] [infoName?]');
+        logLine('       e.g. getInfo direct code');
+        logLine('       e.g. getInfo remote mode');
+        logLine('       e.g. getInfo d');
         return Promise.resolve();
     }
-    const mainStation = si.MainStation.fromSiDevice(device);
-    const infoNames = (res[1] === ''
-        ? Object.keys(mainStation.constructor.StorageDefinition.definitions)
-        : [res[1]]
+    const station = getDirectOrRemoteStation(res[1], device);
+    if (station === undefined) {
+        logLine('No such station');
+        return Promise.resolve();
+    }
+    const infoNames = (res[2] === ''
+        ? Object.keys(station.constructor.StorageDefinition.definitions)
+        : [res[2]]
     );
-    return mainStation.readInfo()
+    return station.readInfo()
         .then(() => {
             infoNames.sort();
             logReact((
@@ -23,7 +29,7 @@ export const getInfoCommand = ({userLine, logReact, logLine, device}) => {
                         <tr key={infoName}>
                             <td>{infoName}</td>
                             <td>:</td>
-                            <td>{`${mainStation.getInfo(infoName)}`}</td>
+                            <td>{`${station.getInfo(infoName)}`}</td>
                         </tr>
                     ))}
                 </table>

@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import {proto} from '../../constants';
 import * as utils from '../../utils';
+import * as storage from '../../storage';
 import * as siProtocol from '../../siProtocol';
 import {BaseSiCard} from '../BaseSiCard';
 
@@ -33,32 +34,33 @@ export class ModernSiCard extends BaseSiCard {
                 .then((page0) => {
                     this.storage.splice(bytesPerPage * 0, bytesPerPage, ...page0);
 
-                    if (this.cardNumber !== this.storage.get('cardNumber')) {
-                        console.warn(`ModernSICard Number ${this.storage.get('cardNumber')} (expected ${this.cardNumber})`);
+                    const readCardNumber = this.storage.get('cardNumber').value;
+                    if (this.cardNumber !== readCardNumber) {
+                        console.warn(`ModernSICard Number ${readCardNumber} (expected ${this.cardNumber})`);
                     }
 
-                    if (this.storage.get('punchCount') <= punchesPerPage * 0) {
+                    if (this.storage.get('punchCount').value <= punchesPerPage * 0) {
                         throw new ReadFinishedException();
                     }
                     return this.modernGetPage(4);
                 })
                 .then((page4) => {
                     this.storage.splice(bytesPerPage * 4, bytesPerPage, ...page4);
-                    if (this.storage.get('punchCount') <= punchesPerPage * 1) {
+                    if (this.storage.get('punchCount').value <= punchesPerPage * 1) {
                         throw new ReadFinishedException();
                     }
                     return this.modernGetPage(5);
                 })
                 .then((page5) => {
                     this.storage.splice(bytesPerPage * 5, bytesPerPage, ...page5);
-                    if (this.storage.get('punchCount') <= punchesPerPage * 2) {
+                    if (this.storage.get('punchCount').value <= punchesPerPage * 2) {
                         throw new ReadFinishedException();
                     }
                     return this.modernGetPage(6);
                 })
                 .then((page6) => {
                     this.storage.splice(bytesPerPage * 6, bytesPerPage, ...page6);
-                    if (this.storage.get('punchCount') <= punchesPerPage * 3) {
+                    if (this.storage.get('punchCount').value <= punchesPerPage * 3) {
                         throw new ReadFinishedException();
                     }
                     return this.modernGetPage(7);
@@ -70,7 +72,7 @@ export class ModernSiCard extends BaseSiCard {
                 .catch((exc) => {
                     if (exc instanceof ReadFinishedException) {
                         Object.keys(this.constructor.StorageDefinition.definitions).forEach((key) => {
-                            this[key] = this.storage.get(key);
+                            this[key] = this.storage.get(key).value;
                         });
                         resolve(this);
                     } else {
@@ -81,21 +83,21 @@ export class ModernSiCard extends BaseSiCard {
     }
 }
 
-ModernSiCard.StorageDefinition = utils.defineStorage(0x400, {
-    cardNumber: new utils.SiArray(
+ModernSiCard.StorageDefinition = storage.defineStorage(0x400, {
+    cardNumber: new storage.SiArray(
         3,
-        (i) => new utils.SiInt([[25 + (2 - i)]]),
+        (i) => new storage.SiInt([[25 + (2 - i)]]),
     ).modify(
         (extractedValue) => siProtocol.arr2cardNumber(extractedValue),
         (cardNumber) => siProtocol.cardNumber2arr(cardNumber),
     ),
-    startTime: new utils.SiInt([[14], [15]]),
-    finishTime: new utils.SiInt([[18], [19]]),
-    checkTime: new utils.SiInt([[10], [11]]),
-    punchCount: new utils.SiInt([[22]]),
-    punches: new utils.SiArray(128, (i) => new utils.SiDict({
-        code: new utils.SiInt([[128 * 4 + i * 4 + 1]]),
-        time: new utils.SiInt([[128 * 4 + i * 4 + 2], [128 * 4 + i * 4 + 3]]),
+    startTime: new storage.SiInt([[14], [15]]),
+    finishTime: new storage.SiInt([[18], [19]]),
+    checkTime: new storage.SiInt([[10], [11]]),
+    punchCount: new storage.SiInt([[22]]),
+    punches: new storage.SiArray(128, (i) => new storage.SiDict({
+        code: new storage.SiInt([[128 * 4 + i * 4 + 1]]),
+        time: new storage.SiInt([[128 * 4 + i * 4 + 2], [128 * 4 + i * 4 + 3]]),
     })).modify(
         (allPunches) => {
             const isPunchEntryInvalid = (punch) => punch.time === undefined || punch.time === 0xEEEE;

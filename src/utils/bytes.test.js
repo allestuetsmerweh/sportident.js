@@ -3,20 +3,57 @@
 import * as byteUtils from './bytes';
 
 describe('byte utils', () => {
+    const bytes = [0, 0x01, 0x001, 156, 0xFF];
+    const nonBytes = [-1, 0x100, 0.5, 'asdf', '0xFF', false, true, [], {}, undefined, null];
     it('isByte works', () => {
-        expect(byteUtils.isByte(0)).toBe(true);
-        expect(byteUtils.isByte(0x01)).toBe(true);
-        expect(byteUtils.isByte(0x001)).toBe(true);
-        expect(byteUtils.isByte(156)).toBe(true);
-        expect(byteUtils.isByte(0xFF)).toBe(true);
-        expect(byteUtils.isByte(0x100)).toBe(false);
-        expect(byteUtils.isByte(0.5)).toBe(false);
-        expect(byteUtils.isByte('asdf')).toBe(false);
-        expect(byteUtils.isByte('0xFF')).toBe(false);
-        expect(byteUtils.isByte(false)).toBe(false);
-        expect(byteUtils.isByte(true)).toBe(false);
-        expect(byteUtils.isByte([])).toBe(false);
-        expect(byteUtils.isByte({})).toBe(false);
+        bytes.forEach((byte) => {
+            expect(byteUtils.isByte(byte)).toBe(true);
+        });
+        nonBytes.forEach((nonByte) => {
+            expect(byteUtils.isByte(nonByte)).toBe(false);
+        });
+    });
+    it('isByteArr works', () => {
+        expect(byteUtils.isByteArr([])).toBe(true);
+        bytes.forEach((byte) => {
+            expect(byteUtils.isByteArr([byte])).toBe(true);
+        });
+        nonBytes.forEach((nonByte) => {
+            expect(byteUtils.isByteArr([nonByte])).toBe(false);
+        });
+    });
+    it('assertIsByteArr works', () => {
+        expect(() => byteUtils.assertIsByteArr([])).not.toThrow();
+        bytes.forEach((byte) => {
+            expect(() => byteUtils.assertIsByteArr([byte])).not.toThrow();
+        });
+        nonBytes.forEach((nonByte) => {
+            expect(() => byteUtils.assertIsByteArr([nonByte])).toThrow();
+        });
+    });
+    it('isArrOfLengths works', () => {
+        expect(byteUtils.isArrOfLengths([], [])).toBe(false);
+        expect(byteUtils.isArrOfLengths([], [0])).toBe(true);
+        expect(byteUtils.isArrOfLengths([], [1])).toBe(false);
+        expect(byteUtils.isArrOfLengths([], [0, 1])).toBe(true);
+        expect(byteUtils.isArrOfLengths([], [1, 2])).toBe(false);
+        expect(byteUtils.isArrOfLengths([1], [])).toBe(false);
+        expect(byteUtils.isArrOfLengths([1], [0])).toBe(false);
+        expect(byteUtils.isArrOfLengths([1], [1])).toBe(true);
+        expect(byteUtils.isArrOfLengths([1], [0, 1])).toBe(true);
+        expect(byteUtils.isArrOfLengths([1], [1, 2])).toBe(true);
+    });
+    it('assertArrIsOfLengths works', () => {
+        expect(() => byteUtils.assertArrIsOfLengths([], [])).toThrow();
+        expect(() => byteUtils.assertArrIsOfLengths([], [0])).not.toThrow();
+        expect(() => byteUtils.assertArrIsOfLengths([], [1])).toThrow();
+        expect(() => byteUtils.assertArrIsOfLengths([], [0, 1])).not.toThrow();
+        expect(() => byteUtils.assertArrIsOfLengths([], [1, 2])).toThrow();
+        expect(() => byteUtils.assertArrIsOfLengths([1], [])).toThrow();
+        expect(() => byteUtils.assertArrIsOfLengths([1], [0])).toThrow();
+        expect(() => byteUtils.assertArrIsOfLengths([1], [1])).not.toThrow();
+        expect(() => byteUtils.assertArrIsOfLengths([1], [0, 1])).not.toThrow();
+        expect(() => byteUtils.assertArrIsOfLengths([1], [1, 2])).not.toThrow();
     });
     it('arr2big works', () => {
         expect(byteUtils.arr2big([])).toBe(0x00);
@@ -89,6 +126,13 @@ describe('byte utils', () => {
         expect(byteUtils.unPrettyHex('31 32')).toEqual([0x31, 0x32]);
         expect(byteUtils.unPrettyHex('31 32 33 34\n35')).toEqual([0x31, 0x32, 0x33, 0x34, 0x35]);
         expect(byteUtils.unPrettyHex('00 FF ff')).toEqual([0x00, 0xFF, 0xFF]);
+
+        expect(byteUtils.unPrettyHex('??')).toEqual([undefined]);
+        expect(byteUtils.unPrettyHex('31 ??')).toEqual([0x31, undefined]);
+        expect(byteUtils.unPrettyHex('?? 32')).toEqual([undefined, 0x32]);
+        expect(byteUtils.unPrettyHex('?? ??')).toEqual([undefined, undefined]);
+        expect(byteUtils.unPrettyHex('??\n??')).toEqual([undefined, undefined]);
+
         expect(() => byteUtils.unPrettyHex('1')).toThrow();
         expect(() => byteUtils.unPrettyHex('GG')).toThrow();
     });

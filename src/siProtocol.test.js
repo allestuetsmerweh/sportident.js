@@ -1,8 +1,10 @@
 /* eslint-env jasmine */
 
 import _ from 'lodash';
+import Immutable from 'immutable';
 import {proto} from './constants';
 import * as utils from './utils';
+import * as storage from './storage';
 import * as testUtils from './testUtils';
 import * as siProtocol from './siProtocol';
 
@@ -439,8 +441,8 @@ describe('siProtocol', () => {
             .toThrow();
     });
 
-    it('SiStorage data type SiDate', () => {
-        const WeirdStorage = utils.defineStorage(0x09, {
+    it('SiDate SiStorage integration', () => {
+        const WeirdStorage = storage.defineStorage(0x09, {
             weirdDate: new siProtocol.SiDate(3, (i) => i),
             crazyDate: new siProtocol.SiDate(6, (i) => 0x03 + i),
         });
@@ -449,23 +451,114 @@ describe('siProtocol', () => {
             utils.unPrettyHex('0F 03 07 00 00 00 00 00 00'),
         );
 
-        expect(myWeirdStorage.get('weirdDate')).toEqual(new Date(2015, 2, 7));
+        expect(myWeirdStorage.get('weirdDate').value).toEqual(new Date(2015, 2, 7));
         myWeirdStorage.set('weirdDate', new Date(2017, 12, 30));
         expect(myWeirdStorage.data.toJS()).toEqual(utils.unPrettyHex('12 01 1E 00 00 00 00 00 00'));
-        expect(myWeirdStorage.get('weirdDate')).toEqual(new Date(2017, 12, 30));
+        expect(myWeirdStorage.get('weirdDate').value).toEqual(new Date(2017, 12, 30));
 
-        expect(myWeirdStorage.get('crazyDate')).toEqual(null);
+        expect(myWeirdStorage.get('crazyDate').value).toEqual(null);
         myWeirdStorage.set('crazyDate', new Date(2003, 1, 30, 3, 7, 5));
         expect(myWeirdStorage.data.toJS()).toEqual(utils.unPrettyHex('12 01 1E 03 03 02 00 2B D9'));
-        expect(myWeirdStorage.get('crazyDate')).toEqual(new Date(2003, 1, 30, 3, 7, 5));
+        expect(myWeirdStorage.get('crazyDate').value).toEqual(new Date(2003, 1, 30, 3, 7, 5));
 
         const unknownWeirdStorage = new WeirdStorage();
-        const ModifyUndefinedException = utils.SiDataType.ModifyUndefinedException;
+        const ModifyUndefinedException = storage.SiDataType.ModifyUndefinedException;
 
-        expect(unknownWeirdStorage.get('weirdDate')).toEqual(undefined);
+        expect(unknownWeirdStorage.get('weirdDate')).toBe(undefined);
         expect(() => unknownWeirdStorage.set('weirdDate', new Date(2017, 12, 30))).toThrow(ModifyUndefinedException);
 
-        expect(unknownWeirdStorage.get('crazyDate')).toEqual(undefined);
+        expect(unknownWeirdStorage.get('crazyDate')).toBe(undefined);
         expect(() => unknownWeirdStorage.set('crazyDate', new Date(2003, 1, 30, 3, 7, 5))).toThrow(ModifyUndefinedException);
+    });
+
+    describe('SiDate', () => {
+        const mySiDate = new siProtocol.SiDate(3, (i) => i);
+        const fieldValueOf = (intValue) => new storage.SiFieldValue(mySiDate, intValue);
+        it('typeCheckValue', () => {
+            expect(() => mySiDate.typeCheckValue(new Date())).not.toThrow(siProtocol.SiDate.TypeError);
+            expect(() => mySiDate.typeCheckValue(undefined)).toThrow(siProtocol.SiDate.TypeError);
+            expect(() => mySiDate.typeCheckValue(null)).toThrow(siProtocol.SiDate.TypeError);
+            expect(() => mySiDate.typeCheckValue(false)).toThrow(siProtocol.SiDate.TypeError);
+            expect(() => mySiDate.typeCheckValue(true)).toThrow(siProtocol.SiDate.TypeError);
+            expect(() => mySiDate.typeCheckValue(0)).toThrow(siProtocol.SiDate.TypeError);
+            expect(() => mySiDate.typeCheckValue(1)).toThrow(siProtocol.SiDate.TypeError);
+            expect(() => mySiDate.typeCheckValue(0xFF)).toThrow(siProtocol.SiDate.TypeError);
+            expect(() => mySiDate.typeCheckValue(-1)).toThrow(siProtocol.SiDate.TypeError);
+            expect(() => mySiDate.typeCheckValue('test')).toThrow(siProtocol.SiDate.TypeError);
+            expect(() => mySiDate.typeCheckValue([1])).toThrow(siProtocol.SiDate.TypeError);
+            expect(() => mySiDate.typeCheckValue({1: 1})).toThrow(siProtocol.SiDate.TypeError);
+        });
+        it('valueToString', () => {
+            expect(mySiDate.valueToString(json2date('2000-01-01T00:00:00.000Z'))).toBe('2000-01-01T00:00:00.000Z');
+            expect(mySiDate.valueToString(json2date('2020-12-31T13:27:30.000Z'))).toBe('2020-12-31T13:27:30.000Z');
+            expect(() => mySiDate.valueToString(-1)).toThrow(siProtocol.SiDate.TypeError);
+            expect(() => mySiDate.valueToString(undefined)).toThrow(siProtocol.SiDate.TypeError);
+            expect(() => mySiDate.valueToString(null)).toThrow(siProtocol.SiDate.TypeError);
+            expect(() => mySiDate.valueToString('test')).toThrow(siProtocol.SiDate.TypeError);
+        });
+        it('valueFromString', () => {
+            expect(mySiDate.valueFromString('2000-01-01T00:00:00.000Z')).toEqual(json2date('2000-01-01T00:00:00.000Z'));
+            expect(mySiDate.valueFromString('2020-12-31T13:27:30.000Z')).toEqual(json2date('2020-12-31T13:27:30.000Z'));
+            expect(() => mySiDate.valueFromString('2020-12-31T13:27:30.000')).toThrow(siProtocol.SiDate.ParseError);
+            expect(() => mySiDate.valueFromString('2020-12-31T13:27:30Z')).toThrow(siProtocol.SiDate.ParseError);
+            expect(() => mySiDate.valueFromString('2020-12-31Z')).toThrow(siProtocol.SiDate.ParseError);
+            expect(() => mySiDate.valueFromString('2020-12-31')).toThrow(siProtocol.SiDate.ParseError);
+            expect(() => mySiDate.valueFromString('test')).toThrow(siProtocol.SiDate.ParseError);
+            expect(() => mySiDate.valueFromString(undefined)).toThrow(siProtocol.SiDate.TypeError);
+            expect(() => mySiDate.valueFromString(null)).toThrow(siProtocol.SiDate.TypeError);
+            expect(() => mySiDate.valueFromString(5)).toThrow(siProtocol.SiDate.TypeError);
+        });
+        it('extractFromData gives field value', () => {
+            const data = Immutable.List([0x00, 0x01, 0x01]);
+            const fieldValue = mySiDate.extractFromData(data);
+            expect(fieldValue instanceof storage.SiFieldValue).toBe(true);
+            expect(fieldValue.field).toBe(mySiDate);
+            expect(fieldValue.value).toEqual(json2date('2000-01-01T00:00:00.000Z'));
+        });
+        it('extractFromData', () => {
+            const getExtractedFieldValue = (bytes) => (
+                mySiDate.extractFromData(Immutable.List(bytes))
+            );
+            expect(getExtractedFieldValue([0x00, 0x01, 0x01]).value instanceof Date).toBe(true);
+            expect(getExtractedFieldValue([0x00, 0x01, undefined])).toBe(undefined);
+            expect(getExtractedFieldValue([0x00, undefined, 0x01])).toBe(undefined);
+            expect(getExtractedFieldValue([undefined, 0x00, 0x01])).toBe(undefined);
+            expect(getExtractedFieldValue([0x00])).toBe(undefined);
+            expect(getExtractedFieldValue([])).toBe(undefined);
+        });
+        it('updateData', () => {
+            const initialData = Immutable.List([0x00, 0x00, 0x00]);
+            const updateInitialData = (newValue) => (
+                mySiDate.updateData(initialData, newValue).toJS()
+            );
+
+            expect(updateInitialData(json2date('2000-01-01T00:00:00.000Z'))).toEqual([0x00, 0x01, 0x01]);
+            expect(updateInitialData(fieldValueOf(json2date('2000-01-01T00:00:00.000Z')))).toEqual([0x00, 0x01, 0x01]);
+        });
+        it('updateData modify undefined', () => {
+            const updateData = (data, newValue) => (
+                mySiDate.updateData(Immutable.List(data), newValue).toJS()
+            );
+
+            expect(() => updateData([], json2date('2000-01-01T00:00:00.000Z'))).toThrow(siProtocol.SiDate.ModifyUndefinedException);
+            expect(() => updateData([], fieldValueOf(json2date('2000-01-01T00:00:00.000Z')))).toThrow(siProtocol.SiDate.ModifyUndefinedException);
+            expect(() => updateData([0x00, 0x00, undefined], json2date('2000-01-01T00:00:00.000Z'))).toThrow(siProtocol.SiDate.ModifyUndefinedException);
+            expect(() => updateData([0x00, undefined, 0x00], json2date('2000-01-01T00:00:00.000Z'))).toThrow(siProtocol.SiDate.ModifyUndefinedException);
+            expect(() => updateData([undefined, 0x00, 0x00], json2date('2000-01-01T00:00:00.000Z'))).toThrow(siProtocol.SiDate.ModifyUndefinedException);
+        });
+        it('updateData wrong type', () => {
+            const initialData = Immutable.List([0x00, 0x00]);
+            const updatingInitialData = (newValue) => (
+                () => mySiDate.updateData(initialData, newValue)
+            );
+
+            expect(updatingInitialData(undefined)).toThrow(siProtocol.SiDate.TypeError);
+            expect(updatingInitialData(null)).toThrow(siProtocol.SiDate.TypeError);
+            expect(updatingInitialData(false)).toThrow(siProtocol.SiDate.TypeError);
+            expect(updatingInitialData(true)).toThrow(siProtocol.SiDate.TypeError);
+            expect(updatingInitialData('test')).toThrow(siProtocol.SiDate.TypeError);
+            expect(updatingInitialData([])).toThrow(siProtocol.SiDate.TypeError);
+            expect(updatingInitialData({})).toThrow(siProtocol.SiDate.TypeError);
+        });
     });
 });

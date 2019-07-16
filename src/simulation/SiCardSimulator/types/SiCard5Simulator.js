@@ -6,7 +6,7 @@ import {SiCard5} from '../../../SiCard/types/SiCard5';
 
 export class SiCard5Simulator extends BaseSiCardSimulator {
     handleDetect() {
-        const cardNumberArr = siProtocol.cardNumber2arr(this.storage.get('cardNumber'));
+        const cardNumberArr = siProtocol.cardNumber2arr(this.storage.get('cardNumber').value);
         cardNumberArr.reverse();
         return {
             command: proto.cmd.SI5_DET,

@@ -3,6 +3,7 @@
 import _ from 'lodash';
 import * as testUtils from '../testUtils';
 import {proto} from '../constants';
+import {SiDataType} from '../storage';
 import {FakeSiDevice} from '../SiDevice/testUtils/FakeSiDevice';
 import {SiTargetMultiplexer} from './SiTargetMultiplexer';
 import {BaseSiStation} from './BaseSiStation';
@@ -82,6 +83,7 @@ describe('SiStation', () => {
                 infoHasBeenRead = true;
             });
         expect(mySiStation.storage.data.toJS()).toEqual(_.range(128).map(() => undefined));
+        expect(mySiStation.getField('code') instanceof SiDataType).toBe(true);
         expect(mySiStation.getInfo('code')).toBe(undefined);
 
         await testUtils.advanceTimersByTime(0);
@@ -92,7 +94,7 @@ describe('SiStation', () => {
         expect(mySiStation.storage.data.toJS()).toEqual(_.range(128));
         expect(mySiStation.getInfo('code')).not.toBe(undefined);
         expect(mySiStation.setInfo('code', 0)).toBe(undefined);
-        expect(mySiStation.getInfo('code')).toBe(0);
+        expect(mySiStation.getInfo('code').value).toBe(0);
         let changesHaveBeenWritten = false;
         mySiStation.writeChanges()
             .then(() => {
@@ -118,7 +120,7 @@ describe('SiStation', () => {
             {target: undefined, command: proto.cmd.GET_SYS_VAL, numResponses: 1, parameters: [0, 128]},
             {target: undefined, command: proto.cmd.SET_SYS_VAL, numResponses: 1, parameters: [0x72, 0x0A, 0x33]},
         ]);
-        expect(mySiStation.getInfo('code')).toBe(10);
+        expect(mySiStation.getInfo('code').value).toBe(10);
         done();
     });
     it('works with provided test cases', (done) => {
@@ -148,7 +150,7 @@ describe('SiStation', () => {
 
             mySiStation.readInfo().then(() => {
                 Object.keys(stationData).forEach((stationDataKey) => {
-                    expect(mySiStation.getInfo(stationDataKey)).toEqual(stationData[stationDataKey]);
+                    expect(mySiStation.getInfo(stationDataKey).value).toEqual(stationData[stationDataKey]);
                 });
                 testAtIndex(testDataIndex + 1);
             });
