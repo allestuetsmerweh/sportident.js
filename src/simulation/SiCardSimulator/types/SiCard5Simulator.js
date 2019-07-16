@@ -24,7 +24,7 @@ export class SiCard5Simulator extends BaseSiCardSimulator {
         return [
             {
                 command: proto.cmd.GET_SI5,
-                parameters: this.storage ? this.storage.data.toJS() : [],
+                parameters: this.storage.data.toJS(),
             },
         ];
     }
