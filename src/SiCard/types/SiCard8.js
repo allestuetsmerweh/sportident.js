@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import * as utils from '../../utils';
+import * as storage from '../../storage';
 import * as siProtocol from '../../siProtocol';
 import {ModernSiCard} from './ModernSiCard';
 import {BaseSiCard} from '../BaseSiCard';
@@ -15,11 +16,12 @@ export class SiCard8 extends ModernSiCard {
                 .then((page0) => {
                     this.storage.splice(bytesPerPage * 0, bytesPerPage, ...page0);
 
-                    if (this.cardNumber !== this.storage.get('cardNumber')) {
-                        console.warn(`SICard8 Number ${this.storage.get('cardNumber')} (expected ${this.cardNumber})`);
+                    const readCardNumber = this.storage.get('cardNumber').value;
+                    if (this.cardNumber !== readCardNumber) {
+                        console.warn(`SICard8 Number ${readCardNumber} (expected ${this.cardNumber})`);
                     }
 
-                    if (this.storage.get('punchCount') <= punchesPerPage * 0) {
+                    if (this.storage.get('punchCount').value <= punchesPerPage * 0) {
                         throw new ReadFinishedException();
                     }
                     return this.modernGetPage(1);
@@ -31,7 +33,7 @@ export class SiCard8 extends ModernSiCard {
                 .catch((exc) => {
                     if (exc instanceof ReadFinishedException) {
                         Object.keys(this.constructor.StorageDefinition.definitions).forEach((key) => {
-                            this[key] = this.storage.get(key);
+                            this[key] = this.storage.get(key).value;
                         });
                         resolve(this);
                     } else {
@@ -44,21 +46,21 @@ export class SiCard8 extends ModernSiCard {
 BaseSiCard.registerNumberRange(2000000, 2003000, SiCard8);
 BaseSiCard.registerNumberRange(2004000, 3000000, SiCard8);
 
-SiCard8.StorageDefinition = utils.defineStorage(0x100, {
-    cardNumber: new utils.SiArray(
+SiCard8.StorageDefinition = storage.defineStorage(0x100, {
+    cardNumber: new storage.SiArray(
         3,
-        (i) => new utils.SiInt([[25 + (2 - i)]]),
+        (i) => new storage.SiInt([[25 + (2 - i)]]),
     ).modify(
         (extractedValue) => siProtocol.arr2cardNumber(extractedValue),
         (cardNumber) => siProtocol.cardNumber2arr(cardNumber),
     ),
-    startTime: new utils.SiInt([[14], [15]]),
-    finishTime: new utils.SiInt([[18], [19]]),
-    checkTime: new utils.SiInt([[10], [11]]),
-    punchCount: new utils.SiInt([[22]]),
-    punches: new utils.SiArray(30, (i) => new utils.SiDict({
-        code: new utils.SiInt([[136 + i * 4 + 1]]),
-        time: new utils.SiInt([[136 + i * 4 + 2], [136 + i * 4 + 3]]),
+    startTime: new storage.SiInt([[14], [15]]),
+    finishTime: new storage.SiInt([[18], [19]]),
+    checkTime: new storage.SiInt([[10], [11]]),
+    punchCount: new storage.SiInt([[22]]),
+    punches: new storage.SiArray(30, (i) => new storage.SiDict({
+        code: new storage.SiInt([[136 + i * 4 + 1]]),
+        time: new storage.SiInt([[136 + i * 4 + 2], [136 + i * 4 + 3]]),
     })).modify(
         (allPunches) => {
             const isPunchEntryInvalid = (punch) => punch.time === undefined || punch.time === 0xEEEE;

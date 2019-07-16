@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import {proto} from './constants';
 import * as utils from './utils';
+import * as storage from './storage';
 
 export const arr2time = (arr) => {
     utils.assertIsByteArr(arr);
@@ -252,11 +253,46 @@ export const render = (message) => {
     return renderFunction();
 };
 
-export class SiDate extends utils.SiArray {
+export class SiDate extends storage.SiArray {
     constructor(length, getByteOffsetAtIndex) {
         super(
             length,
-            (i) => new utils.SiInt([[getByteOffsetAtIndex(i)]]),
+            (i) => new storage.SiInt([[getByteOffsetAtIndex(i)]]),
+        );
+    }
+
+    typeCheckValue(value) {
+        if (!(value instanceof Date)) {
+            throw new this.constructor.TypeError(`${this.constructor.name} value must be a date`);
+        }
+    }
+
+    typeSpecificValueToString(value) {
+        const year = value.getFullYear();
+        const month = value.getMonth();
+        const day = value.getDate();
+        const hours = value.getHours();
+        const minutes = value.getMinutes();
+        const seconds = value.getSeconds();
+        const milliseconds = value.getMilliseconds();
+        return new Date(Date.UTC(year, month, day, hours, minutes, seconds, milliseconds)).toJSON();
+    }
+
+    typeSpecificValueFromString(string) {
+        const res = /^([0-9]{4})-([0-9]{2})-([0-9]{2})T([0-9]{2}):([0-9]{2}):([0-9]{2})\.([0-9]{3})Z$/.exec(string);
+        if (!res) {
+            throw new this.constructor.ParseError(
+                `Value for ${this.constructor.name} must be date, not "${string}"`,
+            );
+        }
+        return new Date(
+            Number(res[1]),
+            Number(res[2]) - 1,
+            Number(res[3]),
+            Number(res[4]),
+            Number(res[5]),
+            Number(res[6]),
+            Number(res[7]),
         );
     }
 

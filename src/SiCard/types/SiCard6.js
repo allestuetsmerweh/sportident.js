@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import * as utils from '../../utils';
+import * as storage from '../../storage';
 import * as siProtocol from '../../siProtocol';
 import {proto} from '../../constants';
 import {BaseSiCard} from '../BaseSiCard';
@@ -29,12 +30,13 @@ export class SiCard6 extends BaseSiCard {
                 this.storage.splice(bytesPerPage * 6, bytesPerPage, ...data[1].slice(3));
                 this.storage.splice(bytesPerPage * 7, bytesPerPage, ...data[2].slice(3));
 
-                if (this.cardNumber !== this.storage.get('cardNumber')) {
-                    console.warn(`SICard6 Number ${this.storage.get('cardNumber')} (expected ${this.cardNumber})`);
+                const readCardNumber = this.storage.get('cardNumber').value;
+                if (this.cardNumber !== readCardNumber) {
+                    console.warn(`SICard6 Number ${readCardNumber} (expected ${this.cardNumber})`);
                 }
 
                 Object.keys(this.constructor.StorageDefinition.definitions).forEach((key) => {
-                    this[key] = this.storage.get(key);
+                    this[key] = this.storage.get(key).value;
                 });
             });
     }
@@ -42,22 +44,22 @@ export class SiCard6 extends BaseSiCard {
 BaseSiCard.registerNumberRange(500000, 1000000, SiCard6);
 BaseSiCard.registerNumberRange(2003000, 2004000, SiCard6);
 
-SiCard6.StorageDefinition = utils.defineStorage(0x400, {
-    cardNumber: new utils.SiArray(
+SiCard6.StorageDefinition = storage.defineStorage(0x400, {
+    cardNumber: new storage.SiArray(
         3,
-        (i) => new utils.SiInt([[11 + (2 - i)]]),
+        (i) => new storage.SiInt([[11 + (2 - i)]]),
     ).modify(
         (extractedValue) => siProtocol.arr2cardNumber(extractedValue),
         (cardNumber) => siProtocol.cardNumber2arr(cardNumber),
     ),
-    startTime: new utils.SiInt([[26], [27]]),
-    finishTime: new utils.SiInt([[22], [23]]),
-    checkTime: new utils.SiInt([[30], [31]]),
-    clearTime: new utils.SiInt([[34], [35]]),
-    punchCount: new utils.SiInt([[18]]),
-    punches: new utils.SiArray(64, (i) => new utils.SiDict({
-        code: new utils.SiInt([[128 * 6 + i * 4 + 1]]),
-        time: new utils.SiInt([[128 * 6 + i * 4 + 2], [128 * 6 + i * 4 + 3]]),
+    startTime: new storage.SiInt([[26], [27]]),
+    finishTime: new storage.SiInt([[22], [23]]),
+    checkTime: new storage.SiInt([[30], [31]]),
+    clearTime: new storage.SiInt([[34], [35]]),
+    punchCount: new storage.SiInt([[18]]),
+    punches: new storage.SiArray(64, (i) => new storage.SiDict({
+        code: new storage.SiInt([[128 * 6 + i * 4 + 1]]),
+        time: new storage.SiInt([[128 * 6 + i * 4 + 2], [128 * 6 + i * 4 + 3]]),
     })).modify(
         (allPunches) => {
             const isPunchEntryInvalid = (punch) => punch.time === undefined || punch.time === 0xEEEE;

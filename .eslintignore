@@ -1,5 +1,6 @@
 docs/
+coverage/
 node_modules/
 src/build/
-testbench/build/
+testbench/client/build/
 !.*.js

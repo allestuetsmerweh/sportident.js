@@ -2,7 +2,7 @@
 
 import {proto} from '../constants';
 import * as siProtocol from '../siProtocol';
-import * as utils from '../utils';
+import * as storage from '../storage';
 import * as testUtils from '../testUtils';
 import {BaseSiCard} from './BaseSiCard';
 
@@ -97,7 +97,7 @@ describe('BaseSiCard', () => {
                 return Promise.resolve(this);
             }
         }
-        SiCard1.StorageDefinition = utils.defineStorage(0x00, {});
+        SiCard1.StorageDefinition = storage.defineStorage(0x00, {});
         const siCard500 = new SiCard1(500);
         siCard500.mainStation = {
             sendMessage: () => Promise.resolve(),

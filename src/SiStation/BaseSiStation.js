@@ -1,6 +1,7 @@
 import Immutable from 'immutable';
 import {proto} from '../constants';
 import * as utils from '../utils';
+import * as storage from '../storage';
 import * as siProtocol from '../siProtocol';
 import {SiTargetMultiplexer} from './SiTargetMultiplexer';
 
@@ -64,6 +65,10 @@ export class BaseSiStation {
             .then((data) => {
                 this.storage.splice(0x00, 0x80, ...data[0].slice(3));
             });
+    }
+
+    getField(infoName) {
+        return this.storage.constructor.definitions[infoName];
     }
 
     getInfo(infoName) {
@@ -222,51 +227,51 @@ BaseSiStation.Model = {
     BS8P: {val: 0xB198, description: 'BS8-P', type: BaseSiStation.Type.Print, series: 8},
 };
 
-BaseSiStation.StorageDefinition = utils.defineStorage(0x80, {
-    code: new utils.SiInt([[0x72], [0x73, 6, 8]]),
-    mode: new utils.SiEnum([[0x71]], BaseSiStation.Mode, (value) => value.val),
-    beeps: new utils.SiBool(0x73, 2),
-    flashes: new utils.SiBool(0x73, 0),
-    autoSend: new utils.SiBool(0x74, 1),
-    extendedProtocol: new utils.SiBool(0x74, 0),
-    serialNumber: new utils.SiInt([[0x03], [0x02], [0x01], [0x00]]),
-    firmwareVersion: new utils.SiInt([[0x07], [0x06], [0x05]]),
+BaseSiStation.StorageDefinition = storage.defineStorage(0x80, {
+    code: new storage.SiInt([[0x72], [0x73, 6, 8]]),
+    mode: new storage.SiEnum([[0x71]], BaseSiStation.Mode, (value) => value.val),
+    beeps: new storage.SiBool(0x73, 2),
+    flashes: new storage.SiBool(0x73, 0),
+    autoSend: new storage.SiBool(0x74, 1),
+    extendedProtocol: new storage.SiBool(0x74, 0),
+    serialNumber: new storage.SiInt([[0x03], [0x02], [0x01], [0x00]]),
+    firmwareVersion: new storage.SiInt([[0x07], [0x06], [0x05]]),
     buildDate: new siProtocol.SiDate(3, (i) => 0x08 + i),
-    deviceModel: new utils.SiEnum([[0x0C], [0x0B]], BaseSiStation.Model, (value) => value.val),
-    memorySize: new utils.SiInt([[0x0D]]),
+    deviceModel: new storage.SiEnum([[0x0C], [0x0B]], BaseSiStation.Model, (value) => value.val),
+    memorySize: new storage.SiInt([[0x0D]]),
     batteryDate: new siProtocol.SiDate(3, (i) => 0x15 + i),
-    batteryCapacity: new utils.SiInt([[0x1A], [0x19]]),
-    batteryState: new utils.SiInt([[0x37], [0x36], [0x35], [0x34]]),
+    batteryCapacity: new storage.SiInt([[0x1A], [0x19]]),
+    batteryState: new storage.SiInt([[0x37], [0x36], [0x35], [0x34]]),
     // 2000mAh: 000000=0%, 6E0000=100%, 1000mAh:000000=0%, 370000=100%
-    backupPointer: new utils.SiInt([[0x22], [0x21], [0x1D], [0x1C]]),
-    siCard6Mode: new utils.SiInt([[0x33]]),
+    backupPointer: new storage.SiInt([[0x22], [0x21], [0x1D], [0x1C]]),
+    siCard6Mode: new storage.SiInt([[0x33]]),
     // 08 or FF = 192 punches, 00 or C1 normal
-    memoryOverflow: new utils.SiInt([[0x3D]]),
+    memoryOverflow: new storage.SiInt([[0x3D]]),
     // overflow if != 00
     lastWriteDate: new siProtocol.SiDate(6, (i) => 0x75 + i),
-    autoOffTimeout: new utils.SiInt([[0x7F], [0x7E]]),
-    refreshRate: new utils.SiInt([[0x10]]),
+    autoOffTimeout: new storage.SiInt([[0x7F], [0x7E]]),
+    refreshRate: new storage.SiInt([[0x10]]),
     // in 3/sec ???
-    powerMode: new utils.SiInt([[0x11]]),
+    powerMode: new storage.SiInt([[0x11]]),
     // 06 low power, 08 standard/sprint
-    interval: new utils.SiInt([[0x49], [0x48]]),
+    interval: new storage.SiInt([[0x49], [0x48]]),
     // in 32*ms
-    wtf: new utils.SiInt([[0x4B], [0x4A]]),
+    wtf: new storage.SiInt([[0x4B], [0x4A]]),
     // in 32*ms
-    program: new utils.SiInt([[0x70]]),
+    program: new storage.SiInt([[0x70]]),
     // xx0xxxxxb competition, xx1xxxxxb training
-    handshake: new utils.SiBool(0x74, 2),
-    sprint4ms: new utils.SiBool(0x74, 3),
-    passwordOnly: new utils.SiBool(0x74, 4),
-    stopOnFullBackup: new utils.SiBool(0x74, 5),
-    autoReadout: new utils.SiBool(0x74, 7),
+    handshake: new storage.SiBool(0x74, 2),
+    sprint4ms: new storage.SiBool(0x74, 3),
+    passwordOnly: new storage.SiBool(0x74, 4),
+    stopOnFullBackup: new storage.SiBool(0x74, 5),
+    autoReadout: new storage.SiBool(0x74, 7),
     // depends on autoSend
-    sleepDay: new utils.SiInt([[0x7B]]),
+    sleepDay: new storage.SiInt([[0x7B]]),
     //   xxxxxxx0b - seconds relative to midnight/midday: 0 = am, 1 = pm
     //   xxxx000xb - day of week: 000 = Sunday, 110 = Saturday
     //   xx00xxxxb - week counter 0..3, relative to programming date
-    sleepSeconds: new utils.SiInt([[0x7D], [0x7C]]),
-    workingMinutes: new utils.SiInt([[0x7F], [0x7E]]),
+    sleepSeconds: new storage.SiInt([[0x7D], [0x7C]]),
+    workingMinutes: new storage.SiInt([[0x7F], [0x7E]]),
 });
 
 BaseSiStation.getTestData = () => {
@@ -281,7 +286,7 @@ BaseSiStation.getTestData = () => {
             beeps: false,
             buildDate: new Date('2014-06-11 00:00:00'),
             code: 31,
-            deviceModel: 'BSM8',
+            deviceModel: BaseSiStation.Model.BSM8.val,
             extendedProtocol: true,
             firmwareVersion: 3552567,
             flashes: true,
@@ -290,7 +295,7 @@ BaseSiStation.getTestData = () => {
             lastWriteDate: new Date('2019-06-20 23:17:13'),
             memoryOverflow: 0,
             memorySize: 128,
-            mode: 'Readout',
+            mode: BaseSiStation.Mode.Readout.val,
             passwordOnly: false,
             powerMode: 8,
             program: 48,

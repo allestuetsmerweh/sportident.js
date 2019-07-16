@@ -29,6 +29,10 @@ describe('event utils', () => {
         expect(registryDict).toEqual({'myEvent': []});
         expect(callsToCallback.length).toBe(1);
 
+        eventUtils.dispatchEvent(registryDict, 'randomUnknownEvent');
+        expect(registryDict).toEqual({'myEvent': []});
+        expect(callsToCallback.length).toBe(1);
+
         eventUtils.addEventListener(registryDict, 'myEvent', () => { throw new Error('test'); });
         eventUtils.dispatchEvent(registryDict, 'myEvent', {'eventObject': eventObject});
     });

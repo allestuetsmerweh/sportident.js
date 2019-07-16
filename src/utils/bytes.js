@@ -18,7 +18,7 @@ export const assertIsByteArr = (arr) => {
 
 export const isArrOfLengths = (arr, lengths) => {
     const actualLength = arr.length;
-    return lengths.filter((length) => actualLength === length) > 0;
+    return lengths.some((length) => actualLength === length);
 };
 
 export const assertArrIsOfLengths = (arr, lengths) => {
@@ -69,8 +69,8 @@ export const unPrettyHex = (input) => {
     const byteArray = [];
     for (let byteIndex = 0; byteIndex < hexString.length / 2; byteIndex++) {
         const hexByteString = hexString.substr(byteIndex * 2, 2);
-        const byteValue = parseInt(hexByteString, 16);
-        if (!Number.isInteger(byteValue) || byteValue < 0 || byteValue > 255) {
+        const byteValue = hexByteString === '??' ? undefined : parseInt(hexByteString, 16);
+        if (byteValue !== undefined && (!Number.isInteger(byteValue) || byteValue < 0 || byteValue > 255)) {
             throw new Error(`Invalid hex: ${hexByteString}`);
         }
         byteArray.push(byteValue);

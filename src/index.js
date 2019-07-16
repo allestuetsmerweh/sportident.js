@@ -5,6 +5,7 @@ import * as constants from './constants';
 import * as drivers from './SiDevice/drivers';
 import * as protocol from './siProtocol';
 import * as react from './react';
+import * as storage from './storage';
 import * as utils from './utils';
 import {SiMainStationSimulator, siCardSimulatorTypes} from './simulation';
 import {BaseSiCard, siCardTypes} from './SiCard';
@@ -15,6 +16,7 @@ export const si = {
     drivers: drivers,
     protocol: protocol,
     react: react,
+    storage: storage,
     utils: utils,
     Station: BaseSiStation,
     MainStation: SiMainStation,

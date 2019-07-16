@@ -16,6 +16,9 @@ describe('NumberRange utils', () => {
         expect(() => new NumberRange(100, 0)).toThrow();
     });
     const numberRange = new NumberRange(-3, 3);
+    it('toString', () => {
+        expect(numberRange.toString()).toBe('NumberRange(-3, 3)');
+    });
     it('contains', () => {
         expect(numberRange.contains(-4)).toBe(false);
         expect(numberRange.contains(-3)).toBe(true);

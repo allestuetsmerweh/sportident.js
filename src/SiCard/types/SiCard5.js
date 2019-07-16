@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import * as utils from '../../utils';
+import * as storage from '../../storage';
 import * as siProtocol from '../../siProtocol';
 import {proto} from '../../constants';
 import {BaseSiCard} from '../BaseSiCard';
@@ -18,12 +19,13 @@ export class SiCard5 extends BaseSiCard {
             .then((data) => {
                 this.storage.splice(bytesPerPage * 0, bytesPerPage, ...data[0].slice(2));
 
-                if (this.cardNumber !== this.storage.get('cardNumber')) {
-                    console.warn(`SICard5 Number ${this.storage.get('cardNumber')} (expected ${this.cardNumber})`);
+                const readCardNumber = this.storage.get('cardNumber').value;
+                if (this.cardNumber !== readCardNumber) {
+                    console.warn(`SICard5 Number ${readCardNumber} (expected ${this.cardNumber})`);
                 }
 
                 Object.keys(this.constructor.StorageDefinition.definitions).forEach((key) => {
-                    this[key] = this.storage.get(key);
+                    this[key] = this.storage.get(key).value;
                 });
             });
     }
@@ -34,26 +36,26 @@ const getPunchOffset = (i) => (i >= 30
     ? 32 + (i - 30) * 16
     : 32 + Math.floor(i / 5) + 1 + i * 3
 );
-SiCard5.StorageDefinition = utils.defineStorage(0x80, {
-    cardNumber: new utils.SiArray(
+SiCard5.StorageDefinition = storage.defineStorage(0x80, {
+    cardNumber: new storage.SiArray(
         3,
-        (i) => new utils.SiInt([[([5, 4, 6][i])]]),
+        (i) => new storage.SiInt([[([5, 4, 6][i])]]),
     ).modify(
         (extractedValue) => siProtocol.arr2cardNumber(extractedValue),
         (cardNumber) => siProtocol.cardNumber2arr(cardNumber),
     ),
-    startTime: new utils.SiInt([[19], [20]]),
-    finishTime: new utils.SiInt([[21], [22]]),
-    checkTime: new utils.SiInt([[25], [26]]),
-    punchCount: new utils.SiInt([[23]]).modify(
+    startTime: new storage.SiInt([[19], [20]]),
+    finishTime: new storage.SiInt([[21], [22]]),
+    checkTime: new storage.SiInt([[25], [26]]),
+    punchCount: new storage.SiInt([[23]]).modify(
         (extractedValue) => extractedValue - 1,
         (punchCount) => punchCount + 1,
     ),
-    punches: new utils.SiArray(36, (i) => new utils.SiDict({
-        code: new utils.SiInt([
+    punches: new storage.SiArray(36, (i) => new storage.SiDict({
+        code: new storage.SiInt([
             [getPunchOffset(i) + 0],
         ]),
-        time: new utils.SiInt([...(i >= 30
+        time: new storage.SiInt([...(i >= 30
             ? []
             : [
                 [32 + Math.floor(i / 5) + 1 + i * 3 + 1],
