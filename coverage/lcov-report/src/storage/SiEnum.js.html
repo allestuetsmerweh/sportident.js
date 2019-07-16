@@ -1,14 +1,14 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Code coverage report for src/simulation/SiCardSimulator/types/SiCard5Simulator.js</title>
+    <title>Code coverage report for src/storage/SiEnum.js</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="../../../../prettify.css" />
-    <link rel="stylesheet" href="../../../../base.css" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style type='text/css'>
         .coverage-summary .sorter {
-            background-image: url(../../../../sort-arrow-sprite.png);
+            background-image: url(../../sort-arrow-sprite.png);
         }
     </style>
 </head>
@@ -16,28 +16,28 @@
 <div class='wrapper'>
   <div class='pad1'>
     <h1>
-      <a href="../../../../index.html">All files</a> / <a href="index.html">src/simulation/SiCardSimulator/types</a> SiCard5Simulator.js
+      <a href="../../index.html">All files</a> / <a href="index.html">src/storage</a> SiEnum.js
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">85.71% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>6/7</span>
+        <span class='fraction'>15/15</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">66.67% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>4/6</span>
+        <span class='fraction'>6/6</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>2/2</span>
+        <span class='fraction'>5/5</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">85.71% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>6/7</span>
+        <span class='fraction'>14/14</span>
       </div>
     </div>
     <p class="quiet">
@@ -78,10 +78,23 @@
 <a name='L30'></a><a href='#L30'>30</a>
 <a name='L31'></a><a href='#L31'>31</a>
 <a name='L32'></a><a href='#L32'>32</a>
-<a name='L33'></a><a href='#L33'>33</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L33'></a><a href='#L33'>33</a>
+<a name='L34'></a><a href='#L34'>34</a>
+<a name='L35'></a><a href='#L35'>35</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">57x</span>
+<span class="cline-any cline-yes">35x</span>
+<span class="cline-any cline-yes">35x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -92,56 +105,49 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import _ from 'lodash';
-import {proto} from '../../../constants';
-import * as siProtocol from '../../../siProtocol';
-import {BaseSiCardSimulator} from '../BaseSiCardSimulator';
-import {SiCard5} from '../../../SiCard/types/SiCard5';
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import {SiInt} from './SiInt';
+import * as utils from '../utils';
 &nbsp;
-export class SiCard5Simulator extends BaseSiCardSimulator {
-    handleDetect() {
-        const cardNumberArr = siProtocol.cardNumber2arr(this.storage.get('cardNumber').value);
-        cardNumberArr.reverse();
-        return {
-            command: proto.cmd.SI5_DET,
-            parameters: [...cardNumberArr],
-        };
+export class SiEnum extends SiInt {
+    constructor(parts, dict, getLookupKey) {
+        super(parts);
+        this.dict = dict;
+        this.getLookupKey = getLookupKey || ((value) =&gt; value);
     }
 &nbsp;
-    handleRequest(message) {
-        <span class="missing-if-branch" title="if path not taken" >I</span>if (
-            message.command !== proto.cmd.GET_SI5
-            || message.parameters.length !== 0
-        ) {
-<span class="cstat-no" title="statement not covered" >            throw new Error(`SiCard5 can not handle ${siProtocol.prettyMessage(message)}`);</span>
+    typeCheckValue(value) {
+        super.typeCheckValue(value);
+        const lookupDict = utils.getLookup(this.dict, this.getLookupKey);
+        if (lookupDict[value] === undefined) {
+            throw new this.constructor.TypeError(`${this.name} value must be an enum option`);
         }
-        return [
-            {
-                command: proto.cmd.GET_SI5,
-                parameters: this.storage ? this.storage.data.toJS() : <span class="branch-1 cbranch-no" title="branch not covered" >[],</span>
-            },
-        ];
+    }
+&nbsp;
+    typeSpecificValueToString(value) {
+        const intValue = super.typeSpecificValueToString(value);
+        const lookupDict = utils.getLookup(this.dict, this.getLookupKey);
+        return lookupDict[intValue];
+    }
+&nbsp;
+    typeSpecificValueFromString(string) {
+        if (this.dict[string] === undefined) {
+            throw new this.constructor.ParseError(
+                `Value for ${this.constructor.name} must be an enum option, not "${string}"`,
+            );
+        }
+        const intValue = this.getLookupKey(this.dict[string]);
+        return intValue;
     }
 }
-SiCard5Simulator.siCardClass = SiCard5;
 &nbsp;</pre></td></tr>
 </table></pre>
 <div class='push'></div><!-- for sticky footer -->
@@ -151,7 +157,7 @@ SiCard5Simulator.siCardClass = SiCard5;
   generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Tue Jul 16 2019 21:19:53 GMT+0000 (Coordinated Universal Time)
 </div>
 </div>
-<script src="../../../../prettify.js"></script>
+<script src="../../prettify.js"></script>
 <script>
 window.onload = function () {
         if (typeof prettyPrint === 'function') {
@@ -159,7 +165,7 @@ window.onload = function () {
         }
 };
 </script>
-<script src="../../../../sorter.js"></script>
-<script src="../../../../block-navigation.js"></script>
+<script src="../../sorter.js"></script>
+<script src="../../block-navigation.js"></script>
 </body>
 </html>

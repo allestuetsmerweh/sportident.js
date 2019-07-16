@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">96.34% </span>
+        <span class="strong">96.39% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>79/82</span>
+        <span class='fraction'>80/83</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">95% </span>
@@ -30,14 +30,14 @@
         <span class='fraction'>19/20</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">94.59% </span>
+        <span class="strong">94.74% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>35/37</span>
+        <span class='fraction'>36/38</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">96.15% </span>
+        <span class="strong">96.2% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>75/78</span>
+        <span class='fraction'>76/79</span>
       </div>
     </div>
     <p class="quiet">
@@ -367,7 +367,13 @@
 <a name='L319'></a><a href='#L319'>319</a>
 <a name='L320'></a><a href='#L320'>320</a>
 <a name='L321'></a><a href='#L321'>321</a>
-<a name='L322'></a><a href='#L322'>322</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L322'></a><a href='#L322'>322</a>
+<a name='L323'></a><a href='#L323'>323</a>
+<a name='L324'></a><a href='#L324'>324</a>
+<a name='L325'></a><a href='#L325'>325</a>
+<a name='L326'></a><a href='#L326'>326</a>
+<a name='L327'></a><a href='#L327'>327</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -433,6 +439,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -691,6 +701,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import Immutable from 'immutable';
 import {proto} from '../constants';
 import * as utils from '../utils';
+import * as storage from '../storage';
 import * as siProtocol from '../siProtocol';
 import {SiTargetMultiplexer} from './SiTargetMultiplexer';
 &nbsp;
@@ -754,6 +765,10 @@ export class BaseSiStation {
             .then((data) =&gt; {
                 this.storage.splice(0x00, 0x80, ...data[0].slice(3));
             });
+    }
+&nbsp;
+    getField(infoName) {
+        return this.storage.constructor.definitions[infoName];
     }
 &nbsp;
     getInfo(infoName) {
@@ -912,51 +927,51 @@ BaseSiStation.Model = {
     BS8P: {val: 0xB198, description: 'BS8-P', type: BaseSiStation.Type.Print, series: 8},
 };
 &nbsp;
-BaseSiStation.StorageDefinition = utils.defineStorage(0x80, {
-    code: new utils.SiInt([[0x72], [0x73, 6, 8]]),
-    mode: new utils.SiEnum([[0x71]], BaseSiStation.Mode, <span class="fstat-no" title="function not covered" >(v</span>alue) =&gt; <span class="cstat-no" title="statement not covered" >value.val)</span>,
-    beeps: new utils.SiBool(0x73, 2),
-    flashes: new utils.SiBool(0x73, 0),
-    autoSend: new utils.SiBool(0x74, 1),
-    extendedProtocol: new utils.SiBool(0x74, 0),
-    serialNumber: new utils.SiInt([[0x03], [0x02], [0x01], [0x00]]),
-    firmwareVersion: new utils.SiInt([[0x07], [0x06], [0x05]]),
+BaseSiStation.StorageDefinition = storage.defineStorage(0x80, {
+    code: new storage.SiInt([[0x72], [0x73, 6, 8]]),
+    mode: new storage.SiEnum([[0x71]], BaseSiStation.Mode, <span class="fstat-no" title="function not covered" >(v</span>alue) =&gt; <span class="cstat-no" title="statement not covered" >value.val)</span>,
+    beeps: new storage.SiBool(0x73, 2),
+    flashes: new storage.SiBool(0x73, 0),
+    autoSend: new storage.SiBool(0x74, 1),
+    extendedProtocol: new storage.SiBool(0x74, 0),
+    serialNumber: new storage.SiInt([[0x03], [0x02], [0x01], [0x00]]),
+    firmwareVersion: new storage.SiInt([[0x07], [0x06], [0x05]]),
     buildDate: new siProtocol.SiDate(3, (i) =&gt; 0x08 + i),
-    deviceModel: new utils.SiEnum([[0x0C], [0x0B]], BaseSiStation.Model, <span class="fstat-no" title="function not covered" >(v</span>alue) =&gt; <span class="cstat-no" title="statement not covered" >value.val)</span>,
-    memorySize: new utils.SiInt([[0x0D]]),
+    deviceModel: new storage.SiEnum([[0x0C], [0x0B]], BaseSiStation.Model, <span class="fstat-no" title="function not covered" >(v</span>alue) =&gt; <span class="cstat-no" title="statement not covered" >value.val)</span>,
+    memorySize: new storage.SiInt([[0x0D]]),
     batteryDate: new siProtocol.SiDate(3, (i) =&gt; 0x15 + i),
-    batteryCapacity: new utils.SiInt([[0x1A], [0x19]]),
-    batteryState: new utils.SiInt([[0x37], [0x36], [0x35], [0x34]]),
+    batteryCapacity: new storage.SiInt([[0x1A], [0x19]]),
+    batteryState: new storage.SiInt([[0x37], [0x36], [0x35], [0x34]]),
     // 2000mAh: 000000=0%, 6E0000=100%, 1000mAh:000000=0%, 370000=100%
-    backupPointer: new utils.SiInt([[0x22], [0x21], [0x1D], [0x1C]]),
-    siCard6Mode: new utils.SiInt([[0x33]]),
+    backupPointer: new storage.SiInt([[0x22], [0x21], [0x1D], [0x1C]]),
+    siCard6Mode: new storage.SiInt([[0x33]]),
     // 08 or FF = 192 punches, 00 or C1 normal
-    memoryOverflow: new utils.SiInt([[0x3D]]),
+    memoryOverflow: new storage.SiInt([[0x3D]]),
     // overflow if != 00
     lastWriteDate: new siProtocol.SiDate(6, (i) =&gt; 0x75 + i),
-    autoOffTimeout: new utils.SiInt([[0x7F], [0x7E]]),
-    refreshRate: new utils.SiInt([[0x10]]),
+    autoOffTimeout: new storage.SiInt([[0x7F], [0x7E]]),
+    refreshRate: new storage.SiInt([[0x10]]),
     // in 3/sec ???
-    powerMode: new utils.SiInt([[0x11]]),
+    powerMode: new storage.SiInt([[0x11]]),
     // 06 low power, 08 standard/sprint
-    interval: new utils.SiInt([[0x49], [0x48]]),
+    interval: new storage.SiInt([[0x49], [0x48]]),
     // in 32*ms
-    wtf: new utils.SiInt([[0x4B], [0x4A]]),
+    wtf: new storage.SiInt([[0x4B], [0x4A]]),
     // in 32*ms
-    program: new utils.SiInt([[0x70]]),
+    program: new storage.SiInt([[0x70]]),
     // xx0xxxxxb competition, xx1xxxxxb training
-    handshake: new utils.SiBool(0x74, 2),
-    sprint4ms: new utils.SiBool(0x74, 3),
-    passwordOnly: new utils.SiBool(0x74, 4),
-    stopOnFullBackup: new utils.SiBool(0x74, 5),
-    autoReadout: new utils.SiBool(0x74, 7),
+    handshake: new storage.SiBool(0x74, 2),
+    sprint4ms: new storage.SiBool(0x74, 3),
+    passwordOnly: new storage.SiBool(0x74, 4),
+    stopOnFullBackup: new storage.SiBool(0x74, 5),
+    autoReadout: new storage.SiBool(0x74, 7),
     // depends on autoSend
-    sleepDay: new utils.SiInt([[0x7B]]),
+    sleepDay: new storage.SiInt([[0x7B]]),
     //   xxxxxxx0b - seconds relative to midnight/midday: 0 = am, 1 = pm
     //   xxxx000xb - day of week: 000 = Sunday, 110 = Saturday
     //   xx00xxxxb - week counter 0..3, relative to programming date
-    sleepSeconds: new utils.SiInt([[0x7D], [0x7C]]),
-    workingMinutes: new utils.SiInt([[0x7F], [0x7E]]),
+    sleepSeconds: new storage.SiInt([[0x7D], [0x7C]]),
+    workingMinutes: new storage.SiInt([[0x7F], [0x7E]]),
 });
 &nbsp;
 BaseSiStation.getTestData = () =&gt; {
@@ -971,7 +986,7 @@ BaseSiStation.getTestData = () =&gt; {
             beeps: false,
             buildDate: new Date('2014-06-11 00:00:00'),
             code: 31,
-            deviceModel: 'BSM8',
+            deviceModel: BaseSiStation.Model.BSM8.val,
             extendedProtocol: true,
             firmwareVersion: 3552567,
             flashes: true,
@@ -980,7 +995,7 @@ BaseSiStation.getTestData = () =&gt; {
             lastWriteDate: new Date('2019-06-20 23:17:13'),
             memoryOverflow: 0,
             memorySize: 128,
-            mode: 'Readout',
+            mode: BaseSiStation.Mode.Readout.val,
             passwordOnly: false,
             powerMode: 8,
             program: 48,
@@ -1015,7 +1030,7 @@ BaseSiStation.getTestData = () =&gt; {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Fri Jul 12 2019 10:54:35 GMT+0000 (Coordinated Universal Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Tue Jul 16 2019 21:19:53 GMT+0000 (Coordinated Universal Time)
 </div>
 </div>
 <script src="../../prettify.js"></script>

@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">85.29% </span>
+        <span class="strong">85.71% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>29/34</span>
+        <span class='fraction'>30/35</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">66.67% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>11/12</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">84.85% </span>
+        <span class="strong">85.29% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>28/33</span>
+        <span class='fraction'>29/34</span>
       </div>
     </div>
     <p class="quiet">
@@ -230,7 +230,10 @@
 <a name='L182'></a><a href='#L182'>182</a>
 <a name='L183'></a><a href='#L183'>183</a>
 <a name='L184'></a><a href='#L184'>184</a>
-<a name='L185'></a><a href='#L185'>185</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L185'></a><a href='#L185'>185</a>
+<a name='L186'></a><a href='#L186'>186</a>
+<a name='L187'></a><a href='#L187'>187</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -261,6 +264,7 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -416,6 +420,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import _ from 'lodash';
 import * as utils from '../../utils';
+import * as storage from '../../storage';
 import * as siProtocol from '../../siProtocol';
 import {proto} from '../../constants';
 import {BaseSiCard} from '../BaseSiCard';
@@ -445,12 +450,13 @@ export class SiCard6 extends BaseSiCard {
                 this.storage.splice(bytesPerPage * 6, bytesPerPage, ...data[1].slice(3));
                 this.storage.splice(bytesPerPage * 7, bytesPerPage, ...data[2].slice(3));
 &nbsp;
-                <span class="missing-if-branch" title="if path not taken" >I</span>if (this.cardNumber !== this.storage.get('cardNumber')) {
-<span class="cstat-no" title="statement not covered" >                    console.warn(`SICard6 Number ${this.storage.get('cardNumber')} (expected ${this.cardNumber})`);</span>
+                const readCardNumber = this.storage.get('cardNumber').value;
+                <span class="missing-if-branch" title="if path not taken" >I</span>if (this.cardNumber !== readCardNumber) {
+<span class="cstat-no" title="statement not covered" >                    console.warn(`SICard6 Number ${readCardNumber} (expected ${this.cardNumber})`);</span>
                 }
 &nbsp;
                 Object.keys(this.constructor.StorageDefinition.definitions).forEach((key) =&gt; {
-                    this[key] = this.storage.get(key);
+                    this[key] = this.storage.get(key).value;
                 });
             });
     }
@@ -458,22 +464,22 @@ export class SiCard6 extends BaseSiCard {
 BaseSiCard.registerNumberRange(500000, 1000000, SiCard6);
 BaseSiCard.registerNumberRange(2003000, 2004000, SiCard6);
 &nbsp;
-SiCard6.StorageDefinition = utils.defineStorage(0x400, {
-    cardNumber: new utils.SiArray(
+SiCard6.StorageDefinition = storage.defineStorage(0x400, {
+    cardNumber: new storage.SiArray(
         3,
-        (i) =&gt; new utils.SiInt([[11 + (2 - i)]]),
+        (i) =&gt; new storage.SiInt([[11 + (2 - i)]]),
     ).modify(
         (extractedValue) =&gt; siProtocol.arr2cardNumber(extractedValue),
 <span class="fstat-no" title="function not covered" >        (c</span>ardNumber) =&gt; <span class="cstat-no" title="statement not covered" >siProtocol.cardNumber2arr(cardNumber),</span>
     ),
-    startTime: new utils.SiInt([[26], [27]]),
-    finishTime: new utils.SiInt([[22], [23]]),
-    checkTime: new utils.SiInt([[30], [31]]),
-    clearTime: new utils.SiInt([[34], [35]]),
-    punchCount: new utils.SiInt([[18]]),
-    punches: new utils.SiArray(64, (i) =&gt; new utils.SiDict({
-        code: new utils.SiInt([[128 * 6 + i * 4 + 1]]),
-        time: new utils.SiInt([[128 * 6 + i * 4 + 2], [128 * 6 + i * 4 + 3]]),
+    startTime: new storage.SiInt([[26], [27]]),
+    finishTime: new storage.SiInt([[22], [23]]),
+    checkTime: new storage.SiInt([[30], [31]]),
+    clearTime: new storage.SiInt([[34], [35]]),
+    punchCount: new storage.SiInt([[18]]),
+    punches: new storage.SiArray(64, (i) =&gt; new storage.SiDict({
+        code: new storage.SiInt([[128 * 6 + i * 4 + 1]]),
+        time: new storage.SiInt([[128 * 6 + i * 4 + 2], [128 * 6 + i * 4 + 3]]),
     })).modify(
         (allPunches) =&gt; {
             const isPunchEntryInvalid = (punch) =&gt; punch.time === undefined || punch.time === 0xEEEE;
@@ -604,7 +610,7 @@ SiCard6.getTestData = () =&gt; {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Fri Jul 12 2019 10:54:35 GMT+0000 (Coordinated Universal Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Tue Jul 16 2019 21:19:53 GMT+0000 (Coordinated Universal Time)
 </div>
 </div>
 <script src="../../../prettify.js"></script>

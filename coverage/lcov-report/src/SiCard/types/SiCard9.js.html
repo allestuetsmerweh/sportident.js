@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">88.24% </span>
+        <span class="strong">88.57% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>30/34</span>
+        <span class='fraction'>31/35</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">70% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>13/14</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">87.88% </span>
+        <span class="strong">88.24% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>29/33</span>
+        <span class='fraction'>30/34</span>
       </div>
     </div>
     <p class="quiet">
@@ -207,7 +207,9 @@
 <a name='L159'></a><a href='#L159'>159</a>
 <a name='L160'></a><a href='#L160'>160</a>
 <a name='L161'></a><a href='#L161'>161</a>
-<a name='L162'></a><a href='#L162'>162</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L162'></a><a href='#L162'>162</a>
+<a name='L163'></a><a href='#L163'>163</a>
+<a name='L164'></a><a href='#L164'>164</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -217,13 +219,15 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -370,6 +374,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import _ from 'lodash';
 import * as utils from '../../utils';
+import * as storage from '../../storage';
 import * as siProtocol from '../../siProtocol';
 import {ModernSiCard} from './ModernSiCard';
 import {BaseSiCard} from '../BaseSiCard';
@@ -385,11 +390,12 @@ export class SiCard9 extends ModernSiCard {
                 .then((page0) =&gt; {
                     this.storage.splice(bytesPerPage * 0, bytesPerPage, ...page0);
 &nbsp;
-                    <span class="missing-if-branch" title="if path not taken" >I</span>if (this.cardNumber !== this.storage.get('cardNumber')) {
-<span class="cstat-no" title="statement not covered" >                        console.warn(`SICard9 Number ${this.storage.get('cardNumber')} (expected ${this.cardNumber})`);</span>
+                    const readCardNumber = this.storage.get('cardNumber').value;
+                    <span class="missing-if-branch" title="if path not taken" >I</span>if (this.cardNumber !== readCardNumber) {
+<span class="cstat-no" title="statement not covered" >                        console.warn(`SICard9 Number ${readCardNumber} (expected ${this.cardNumber})`);</span>
                     }
 &nbsp;
-                    <span class="missing-if-branch" title="if path not taken" >I</span>if (this.storage.get('punchCount') &lt;= punchesPerPage * 0) {
+                    <span class="missing-if-branch" title="if path not taken" >I</span>if (this.storage.get('punchCount').value &lt;= punchesPerPage * 0) {
 <span class="cstat-no" title="statement not covered" >                        throw new ReadFinishedException();</span>
                     }
                     return this.modernGetPage(1);
@@ -401,7 +407,7 @@ export class SiCard9 extends ModernSiCard {
                 .catch((exc) =&gt; {
                     <span class="missing-if-branch" title="else path not taken" >E</span>if (exc instanceof ReadFinishedException) {
                         Object.keys(this.constructor.StorageDefinition.definitions).forEach((key) =&gt; {
-                            this[key] = this.storage.get(key);
+                            this[key] = this.storage.get(key).value;
                         });
                         resolve(this);
                     } else {
@@ -413,21 +419,21 @@ export class SiCard9 extends ModernSiCard {
 }
 BaseSiCard.registerNumberRange(1000000, 2000000, SiCard9);
 &nbsp;
-SiCard9.StorageDefinition = utils.defineStorage(0x100, {
-    cardNumber: new utils.SiArray(
+SiCard9.StorageDefinition = storage.defineStorage(0x100, {
+    cardNumber: new storage.SiArray(
         3,
-        (i) =&gt; new utils.SiInt([[25 + (2 - i)]]),
+        (i) =&gt; new storage.SiInt([[25 + (2 - i)]]),
     ).modify(
         (extractedValue) =&gt; siProtocol.arr2cardNumber(extractedValue),
 <span class="fstat-no" title="function not covered" >        (c</span>ardNumber) =&gt; <span class="cstat-no" title="statement not covered" >siProtocol.cardNumber2arr(cardNumber),</span>
     ),
-    startTime: new utils.SiInt([[14], [15]]),
-    finishTime: new utils.SiInt([[18], [19]]),
-    checkTime: new utils.SiInt([[10], [11]]),
-    punchCount: new utils.SiInt([[22]]),
-    punches: new utils.SiArray(50, (i) =&gt; new utils.SiDict({
-        code: new utils.SiInt([[56 + i * 4 + 1]]),
-        time: new utils.SiInt([[56 + i * 4 + 2], [56 + i * 4 + 3]]),
+    startTime: new storage.SiInt([[14], [15]]),
+    finishTime: new storage.SiInt([[18], [19]]),
+    checkTime: new storage.SiInt([[10], [11]]),
+    punchCount: new storage.SiInt([[22]]),
+    punches: new storage.SiArray(50, (i) =&gt; new storage.SiDict({
+        code: new storage.SiInt([[56 + i * 4 + 1]]),
+        time: new storage.SiInt([[56 + i * 4 + 2], [56 + i * 4 + 3]]),
     })).modify(
         (allPunches) =&gt; {
             const isPunchEntryInvalid = (punch) =&gt; punch.time === undefined || punch.time === 0xEEEE;
@@ -535,7 +541,7 @@ SiCard9.getTestData = () =&gt; {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Fri Jul 12 2019 10:54:35 GMT+0000 (Coordinated Universal Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Tue Jul 16 2019 21:19:53 GMT+0000 (Coordinated Universal Time)
 </div>
 </div>
 <script src="../../../prettify.js"></script>
