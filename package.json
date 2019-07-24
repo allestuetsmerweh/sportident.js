@@ -10,7 +10,7 @@
     "webpack-src": "cd src/ && webpack",
     "webpack-testbench": "cd testbench/client/ && webpack",
     "build-docs": "sh build-docs.sh",
-    "eslint": "eslint .",
+    "eslint": "eslint src/ testbench/client/ testbench/server/",
     "jest": "jest",
     "jest:ci": "jest --runInBand",
     "dependency-check": "dependency-cruise --config=./.dependency-cruiser.js src testbench",

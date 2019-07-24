@@ -23,8 +23,8 @@ export class SiTargetMultiplexer {
         return utils.getLookup(this.Target, (value) => value);
     }
 
-    constructor(device) {
-        this.device = device;
+    constructor(siDevice) {
+        this.siDevice = siDevice;
         this.target = this.constructor.Target.Unknown;
         this.latestTarget = this.constructor.Target.Unknown; // the target of the latest command scheduled
         this._eventListeners = {};
@@ -46,9 +46,9 @@ export class SiTargetMultiplexer {
 
     handleDeviceStateChange(newState) {
         const actionByNewState = {
-            [this.device.constructor.State.Opened]: () => this.startProcessingSendQueue(),
-            [this.device.constructor.State.Closing]: () => this.abortProcessingSendQueue(),
-            [this.device.constructor.State.Closed]: () => this.abortProcessingSendQueue(),
+            [this.siDevice.constructor.State.Opened]: () => this.startProcessingSendQueue(),
+            [this.siDevice.constructor.State.Closing]: () => this.abortProcessingSendQueue(),
+            [this.siDevice.constructor.State.Closed]: () => this.abortProcessingSendQueue(),
         };
         const actionToPerform = actionByNewState[newState];
         if (actionToPerform) {
@@ -72,13 +72,13 @@ export class SiTargetMultiplexer {
         const {messages, remainder} = siProtocol.parseAll(this._receiveBuffer);
         this._receiveBuffer = remainder;
         messages.forEach((message) => {
-            this.dispatchEvent('message', {message: message});
+            this.dispatchEvent('message', {message: message, siTargetMultiplexer: this});
             this.updateSendQueueWithReceivedMessage(message);
             if (this.target === this.constructor.Target.Direct) {
-                this.dispatchEvent('directMessage', {message: message});
+                this.dispatchEvent('directMessage', {message: message, siTargetMultiplexer: this});
             }
             if (this.target === this.constructor.Target.Remote) {
-                this.dispatchEvent('remoteMessage', {message: message});
+                this.dispatchEvent('remoteMessage', {message: message, siTargetMultiplexer: this});
             }
         });
     }
@@ -165,7 +165,7 @@ export class SiTargetMultiplexer {
             this._sendQueue.length === 0
             || this._sendQueue[0].state === SendTask.State.Sending
             || this._sendQueue[0].state === SendTask.State.Sent
-            || this.device.state !== this.device.constructor.State.Opened
+            || this.siDevice.state !== this.siDevice.constructor.State.Opened
         ) {
             return;
         }
@@ -176,10 +176,10 @@ export class SiTargetMultiplexer {
             proto.WAKEUP,
             ...siProtocol.render(sendTask.message),
         ]);
-        this.device.send(uint8Data.buffer)
+        this.siDevice.send(uint8Data.buffer)
             .then(() => {
                 sendTask.state = SendTask.State.Sent;
-                console.debug(`=> (${this.device.name})\n${utils.prettyHex(uint8Data, 16)}`);
+                console.debug(`=> (${this.siDevice.name})\n${utils.prettyHex(uint8Data, 16)}`);
                 if (sendTask.numResponses <= 0) {
                     sendTask.succeed();
                 }

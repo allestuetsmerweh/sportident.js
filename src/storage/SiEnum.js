@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import {SiInt} from './SiInt';
 import * as utils from '../utils';
 
@@ -9,9 +10,15 @@ export class SiEnum extends SiInt {
     }
 
     typeCheckValue(value) {
-        super.typeCheckValue(value);
+        let intValue = undefined;
+        try {
+            intValue = _.isInteger(value) ? value : this.getLookupKey(value);
+        } catch (exc) {
+            throw new this.constructor.TypeError(`${this.name} value must be an enum option`);
+        }
+        super.typeCheckValue(intValue);
         const lookupDict = utils.getLookup(this.dict, this.getLookupKey);
-        if (lookupDict[value] === undefined) {
+        if (lookupDict[intValue] === undefined) {
             throw new this.constructor.TypeError(`${this.name} value must be an enum option`);
         }
     }
@@ -30,5 +37,10 @@ export class SiEnum extends SiInt {
         }
         const intValue = this.getLookupKey(this.dict[string]);
         return intValue;
+    }
+
+    typeSpecificUpdateData(data, newValue) {
+        const newIntValue = _.isInteger(newValue) ? newValue : this.getLookupKey(newValue);
+        return super.typeSpecificUpdateData(data, newIntValue);
     }
 }

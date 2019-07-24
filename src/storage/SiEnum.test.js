@@ -109,4 +109,57 @@ describe('SiEnum', () => {
         expect(updatingInitialData([])).toThrow(SiEnum.TypeError);
         expect(updatingInitialData({})).toThrow(SiEnum.TypeError);
     });
+
+    const optionsWithLookupKey = {
+        Zero: {dec: 0x0, bin: '00'},
+        One: {dec: 0x1, bin: '01'},
+        Two: {dec: 0x2, bin: '10'},
+        Three: {dec: 0x3, bin: '11'},
+    };
+    const mySiEnumWithLookupKey = new SiEnum(
+        [[0x00, 4, 6]],
+        optionsWithLookupKey,
+        (value) => value.dec,
+    );
+    it('updateData with lookup key', () => {
+        const updateData = (data, newValue) => (
+            mySiEnumWithLookupKey.updateData(Immutable.List(data), newValue).toJS()
+        );
+
+        expect(updateData([0xFF], optionsWithLookupKey.Zero)).toEqual([0xCF]);
+        expect(updateData([0xFF], optionsWithLookupKey.One)).toEqual([0xDF]);
+        expect(updateData([0xFF], optionsWithLookupKey.Two)).toEqual([0xEF]);
+        expect(updateData([0xFF], optionsWithLookupKey.Three)).toEqual([0xFF]);
+        expect(updateData([0x00], optionsWithLookupKey.Zero)).toEqual([0x00]);
+        expect(updateData([0x00], optionsWithLookupKey.One)).toEqual([0x10]);
+        expect(updateData([0x00], optionsWithLookupKey.Two)).toEqual([0x20]);
+        expect(updateData([0x00], optionsWithLookupKey.Three)).toEqual([0x30]);
+        expect(updateData([0xFE], fieldValueOf(optionsWithLookupKey.Zero))).toEqual([0xCE]);
+    });
+    it('updateData modify undefined with lookup key', () => {
+        const updateData = (data, newValue) => (
+            mySiEnumWithLookupKey.updateData(Immutable.List(data), newValue).toJS()
+        );
+
+        expect(() => updateData([], optionsWithLookupKey.Zero)).toThrow(SiEnum.ModifyUndefinedException);
+        expect(() => updateData([], optionsWithLookupKey.Three)).toThrow(SiEnum.ModifyUndefinedException);
+        expect(() => updateData([], fieldValueOf(optionsWithLookupKey.Two))).toThrow(SiEnum.ModifyUndefinedException);
+        expect(() => updateData([undefined], optionsWithLookupKey.One)).toThrow(SiEnum.ModifyUndefinedException);
+    });
+    it('updateData wrong type with lookup key', () => {
+        const initialData = Immutable.List([0x00]);
+        const updatingInitialData = (newValue) => (
+            () => mySiEnumWithLookupKey.updateData(initialData, newValue)
+        );
+
+        expect(updatingInitialData(undefined)).toThrow(SiEnum.TypeError);
+        expect(updatingInitialData(null)).toThrow(SiEnum.TypeError);
+        expect(updatingInitialData(false)).toThrow(SiEnum.TypeError);
+        expect(updatingInitialData(true)).toThrow(SiEnum.TypeError);
+        expect(updatingInitialData(0xFF)).toThrow(SiEnum.TypeError);
+        expect(updatingInitialData(-1)).toThrow(SiEnum.TypeError);
+        expect(updatingInitialData('test')).toThrow(SiEnum.TypeError);
+        expect(updatingInitialData([])).toThrow(SiEnum.TypeError);
+        expect(updatingInitialData({})).toThrow(SiEnum.TypeError);
+    });
 });

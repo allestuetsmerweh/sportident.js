@@ -1,5 +1,3 @@
-/* eslint-env node */
-
 const WebSocket = require('ws');
 const Networking = require('net');
 
