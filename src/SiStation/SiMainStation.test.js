@@ -41,10 +41,10 @@ describe('SiMainStation', () => {
 
         const insertedCardNumbers = [];
         const handleCardInserted = (e) => {
-            insertedCardNumbers.push(e.card.cardNumber);
+            insertedCardNumbers.push(e.siCard.cardNumber);
         };
-        myMainStation.addEventListener('cardInserted', handleCardInserted);
-        myTargetMultiplexer.dispatchEvent('directMessage', {
+        myMainStation.addEventListener('siCardInserted', handleCardInserted);
+        myTargetMultiplexer.dispatchEvent('message', {
             message: {
                 command: mySiCard5Simulator.handleDetect().command,
                 parameters: [
@@ -58,10 +58,10 @@ describe('SiMainStation', () => {
 
         const removedCardNumbers = [];
         const handleCardRemoved = (e) => {
-            removedCardNumbers.push(e.card.cardNumber);
+            removedCardNumbers.push(e.siCard.cardNumber);
         };
-        myMainStation.addEventListener('cardRemoved', handleCardRemoved);
-        myTargetMultiplexer.dispatchEvent('directMessage', {
+        myMainStation.addEventListener('siCardRemoved', handleCardRemoved);
+        myTargetMultiplexer.dispatchEvent('message', {
             message: {
                 command: proto.cmd.SI_REM,
                 parameters: [
@@ -73,7 +73,7 @@ describe('SiMainStation', () => {
         await testUtils.nTimesAsync(2, () => testUtils.advanceTimersByTime(0));
         expect(removedCardNumbers).toEqual([406402]);
 
-        myTargetMultiplexer.dispatchEvent('directMessage', {
+        myTargetMultiplexer.dispatchEvent('message', {
             message: {
                 command: proto.cmd.SI_REM,
                 parameters: [0x00, 0x00, 0x01, 0x23, 0x45, 0x67],
@@ -82,8 +82,8 @@ describe('SiMainStation', () => {
         await testUtils.nTimesAsync(2, () => testUtils.advanceTimersByTime(0));
         expect(removedCardNumbers).toEqual([406402]);
 
-        myMainStation.removeEventListener('cardInserted', handleCardInserted);
-        myMainStation.removeEventListener('cardRemoved', handleCardRemoved);
+        myMainStation.removeEventListener('siCardInserted', handleCardInserted);
+        myMainStation.removeEventListener('siCardRemoved', handleCardRemoved);
         done();
     });
     it('card observation', async (done) => {
@@ -93,10 +93,10 @@ describe('SiMainStation', () => {
         const mySiCard6Simulator = new SiCard6Simulator(testData.storageData);
         const observedCardNumbers = [];
         const handleCardObserved = (e) => {
-            observedCardNumbers.push(e.card.cardNumber);
+            observedCardNumbers.push(e.siCard.cardNumber);
         };
-        myMainStation.addEventListener('cardObserved', handleCardObserved);
-        myTargetMultiplexer.dispatchEvent('directMessage', {
+        myMainStation.addEventListener('siCardObserved', handleCardObserved);
+        myTargetMultiplexer.dispatchEvent('message', {
             message: {
                 command: proto.cmd.TRANS_REC,
                 parameters: [

@@ -16,14 +16,14 @@ const tests = {
         const simulateStation = (mode, code, actionName) => () => mainStation.atomically(() => {
             mainStation.setInfo('code', code);
             mainStation.setInfo('mode', mode);
-            mainStation.setInfo('autoSend', 1);
+            mainStation.setInfo('autoSend', true);
         })
             .then(() => {
                 logLine(`Insert card to ${actionName}...`);
                 return new Promise((resolve) => {
                     resetCardCallbacks(mainStation);
-                    mainStation.addEventListener('cardObserved', (cardEvent) => {
-                        const card = cardEvent.card;
+                    mainStation.addEventListener('siCardObserved', (cardEvent) => {
+                        const card = cardEvent.siCard;
                         if (fixedSiNumber === null) {
                             fixedSiNumber = card.cardNumber;
                         }
@@ -43,7 +43,7 @@ const tests = {
                 });
             });
         const readoutCard = () => () => mainStation.atomically(() => {
-            mainStation.setInfo('autoSend', 0);
+            mainStation.setInfo('autoSend', false);
             mainStation.setInfo('mode', si.Station.Mode.Readout);
             mainStation.setInfo('code', 10);
         })
@@ -52,7 +52,7 @@ const tests = {
                 return new Promise((resolve) => {
                     resetCardCallbacks(mainStation);
                     const handleCardRemoved = (removeEvent) => {
-                        const removedCard = removeEvent.card;
+                        const removedCard = removeEvent.siCard;
                         if (fixedSiNumber === removedCard.cardNumber) {
                             resetCardCallbacks(mainStation);
                             setTimeout(resolve, 1);
@@ -67,10 +67,10 @@ const tests = {
                         });
                         card.confirm();
                         logLine('Remove card...');
-                        mainStation.addEventListener('cardRemoved', handleCardRemoved);
+                        mainStation.addEventListener('siCardRemoved', handleCardRemoved);
                     };
                     const handleCardInserted = (cardEvent) => {
-                        const card = cardEvent.card;
+                        const card = cardEvent.siCard;
                         if (fixedSiNumber === null) {
                             fixedSiNumber = card.cardNumber;
                         }
@@ -82,7 +82,7 @@ const tests = {
                         card.read()
                             .then(handleCardRead);
                     };
-                    mainStation.addEventListener('cardInserted', handleCardInserted);
+                    mainStation.addEventListener('siCardInserted', handleCardInserted);
                 });
             });
         return simulateStation(si.Station.Mode.Clear, 1, 'Clear')()

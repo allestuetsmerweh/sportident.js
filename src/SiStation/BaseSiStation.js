@@ -44,7 +44,7 @@ export class BaseSiStation {
     get ident() {
         const multiplexerTarget = this.constructor.multiplexerTarget;
         const multiplexerTargetString = SiTargetMultiplexer.targetByValue[multiplexerTarget];
-        const deviceIdentString = this.siTargetMultiplexer.device.ident;
+        const deviceIdentString = this.siTargetMultiplexer.siDevice.ident;
         return `${multiplexerTargetString}-${deviceIdentString}`;
     }
 
