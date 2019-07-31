@@ -1,4 +1,5 @@
 import si from '../../../src';
+import {BaseCommand} from './BaseCommand';
 
 const tests = {
     'card': ({logLine, device}) => {
@@ -183,18 +184,19 @@ const tests = {
     },
 };
 
-export const testCommand = (context) => {
-    const {userLine, logLine} = context;
-    const res = /test ([^\s]+)/.exec(userLine);
-    if (res === null) {
-        logLine('Usage: test [what]');
-        return Promise.resolve();
+export class TestCommand extends BaseCommand {
+    static getParameterDefinitions() {
+        return [
+            {
+                name: 'test name',
+                choices: Object.keys(tests),
+            },
+        ];
     }
-    const what = res[1];
-    if (!(what in tests)) {
-        logLine(`No such test: ${what}`);
-        logLine(`Available tests: ${Object.keys(tests)}`);
-        return Promise.resolve();
+
+    execute() {
+        const {parameters} = this.context;
+        const what = parameters[0];
+        return tests[what](this.context);
     }
-    return tests[what](context);
-};
+}

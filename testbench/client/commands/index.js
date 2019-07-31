@@ -1,17 +1,17 @@
-import {getInfoCommand} from './getInfo';
-import {setInfoCommand} from './setInfo';
-import {getBackupCommand} from './getBackup';
-import {testCommand} from './test';
-import {sendCommand} from './send';
-import {pipeCommand} from './pipe';
-import {simulateCommand} from './simulate';
+import {GetInfoCommand} from './getInfo';
+import {SetInfoCommand} from './setInfo';
+import {GetBackupCommand} from './getBackup';
+import {TestCommand} from './test';
+import {SendCommand} from './send';
+import {PipeCommand} from './pipe';
+import {SimulateCommand} from './simulate';
 
 export const commands = {
-    'getInfo': getInfoCommand,
-    'setInfo': setInfoCommand,
-    'getBackup': getBackupCommand,
-    'test': testCommand,
-    'send': sendCommand,
-    'pipe': pipeCommand,
-    'simulate': simulateCommand,
+    'getInfo': GetInfoCommand,
+    'setInfo': SetInfoCommand,
+    'getBackup': GetBackupCommand,
+    'test': TestCommand,
+    'send': SendCommand,
+    'pipe': PipeCommand,
+    'simulate': SimulateCommand,
 };

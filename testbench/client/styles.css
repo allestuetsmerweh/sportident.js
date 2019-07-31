@@ -136,14 +136,33 @@ div {
     overflow-y: scroll;
 }
 
-#si-device-detail-userinput {
+#si-device-detail-log .error-message {
+    color: rgb(255,50,50);
+    font-weight: bold;
+}
+
+#si-device-detail-log .usage-detail {
+    margin-left: 20px;
+}
+
+#si-device-detail-log .title {
+    font-weight: bold;
+}
+
+#si-device-detail-userinput-container {
     position: absolute;
-    display: block;
     right: 0;
     bottom: 0;
     left: 0;
     width: auto;
     height: 32px;
+}
+
+#si-device-detail-userinput {
+    width: 100%;
+    height: 32px;
+    border: 0;
+    display: block;
     line-height: 32px;
     background-color: rgb(76,25,0);
     color: rgb(255,255,255);

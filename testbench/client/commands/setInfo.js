@@ -1,30 +1,50 @@
 import si from '../../../src';
+import {BaseCommand} from './BaseCommand';
 import {getDirectOrRemoteStation} from './getDirectOrRemoteStation';
 
-export const setInfoCommand = ({userLine, logLine, device}) => {
-    const res = /setInfo ([^\s]+) ([^\s]+) ([^\s]+)/.exec(userLine);
-    if (res === null) {
-        logLine('Usage: setInfo [d(irect)/r(emote)] [infoName] [newValue]');
-        logLine('       e.g. setInfo direct code 10');
-        logLine('       e.g. setInfo remote mode Readout');
-        logLine('       e.g. setInfo d beeps false');
-        return Promise.resolve();
+export class SetInfoCommand extends BaseCommand {
+    static getParameterDefinitions() {
+        return [
+            {
+                name: 'target',
+                choices: ['direct', 'remote'],
+            },
+            {
+                name: 'information name',
+                choices: Object.keys(si.Station.StorageDefinition.definitions),
+            },
+            {
+                name: 'new value',
+                regex: /^\S+$/,
+            },
+        ];
     }
-    const station = getDirectOrRemoteStation(res[1], device);
-    if (station === undefined) {
-        logLine('No such station');
-        return Promise.resolve();
+
+    printUsage() {
+        super.printUsage();
+        this.printUsageDetail('e.g. setInfo direct code 10');
+        this.printUsageDetail('e.g. setInfo remote mode Readout');
+        this.printUsageDetail('e.g. setInfo d beeps false');
     }
-    const infoName = res[2];
-    const newValue = res[3];
-    const field = station.getField(infoName);
-    const fieldValue = si.storage.SiFieldValue.fromString(field, newValue);
-    return station.atomically(() => {
-        station.setInfo(infoName, fieldValue);
-    })
-        .then(() => station.readInfo())
-        .then(() => {
-            const infoValue = station.getInfo(infoName);
-            logLine(`${infoName}: ${infoValue}`);
-        });
-};
+
+    execute() {
+        const {parameters, logLine, device} = this.context;
+        const station = getDirectOrRemoteStation(parameters[0], device);
+        if (station === undefined) {
+            logLine('No such station');
+            return Promise.resolve();
+        }
+        const infoName = parameters[1];
+        const newValue = parameters[2];
+        const field = station.getField(infoName);
+        const fieldValue = si.storage.SiFieldValue.fromString(field, newValue);
+        return station.atomically(() => {
+            station.setInfo(infoName, fieldValue);
+        })
+            .then(() => station.readInfo())
+            .then(() => {
+                const infoValue = station.getInfo(infoName);
+                logLine(`${infoName}: ${infoValue}`);
+            });
+    }
+}
