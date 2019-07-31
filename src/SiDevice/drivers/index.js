@@ -1,1 +1,1 @@
-export {getWebUsbSiDevice} from './WebUsbSiDevice';
+export {getWebUsbSiDeviceClass} from './WebUsbSiDevice';

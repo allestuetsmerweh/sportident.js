@@ -11,7 +11,7 @@ export class SetInfoCommand extends BaseCommand {
             },
             {
                 name: 'information name',
-                choices: Object.keys(si.Station.StorageDefinition.definitions),
+                choices: Object.keys(si.BaseSiStation.StorageDefinition.definitions),
             },
             {
                 name: 'new value',
@@ -37,7 +37,7 @@ export class SetInfoCommand extends BaseCommand {
         const infoName = parameters[1];
         const newValue = parameters[2];
         const field = station.getField(infoName);
-        const fieldValue = si.storage.SiFieldValue.fromString(field, newValue);
+        const fieldValue = si.SiFieldValue.fromString(field, newValue);
         return station.atomically(() => {
             station.setInfo(infoName, fieldValue);
         })

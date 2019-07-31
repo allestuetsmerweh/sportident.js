@@ -54,6 +54,7 @@ export class BaseSiCard {
         this.startTime = -1;
         this.finishTime = -1;
         this.punches = [];
+        this.cardHolder = {};
         if (this.constructor.StorageDefinition) {
             this.storage = new this.constructor.StorageDefinition();
         }
@@ -82,6 +83,7 @@ export class BaseSiCard {
             startTime: this.startTime,
             finishTime: this.finishTime,
             punches: this.punches,
+            cardHolder: this.cardHolder,
         };
     }
 
@@ -92,7 +94,9 @@ export class BaseSiCard {
             `Check: ${this.checkTime}\n` +
             `Start: ${this.startTime}\n` +
             `Finish: ${this.finishTime}\n` +
-            `${this.punches.map((punch) => `${punch.code}: ${punch.time}`).join('\n')}\n`
+            `${this.punches.map((punch) => `${punch.code}: ${punch.time}`).join('\n')}\n` +
+            'Card Holder:\n' +
+            `${Object.keys(this.cardHolder).map((key) => `${key}: ${this.cardHolder[key]}`).join('\n')}\n`
         );
     }
 }

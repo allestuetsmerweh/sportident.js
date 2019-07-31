@@ -8,9 +8,9 @@ export const getDirectOrRemoteStation = (userChoice, device) => {
     const isRemote = isRemoteByInput[userChoice];
     let station = undefined;
     if (isRemote === true) {
-        station = si.CoupledStation.fromSiDevice(device);
+        station = si.CoupledSiStation.fromSiDevice(device);
     } else if (isRemote === false) {
-        station = si.MainStation.fromSiDevice(device);
+        station = si.SiMainStation.fromSiDevice(device);
     }
     return station;
 };

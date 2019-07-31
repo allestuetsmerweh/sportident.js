@@ -4,7 +4,7 @@ import {proto} from '../../../constants';
 import * as utils from '../../../utils';
 import * as testUtils from '../../../testUtils';
 import {ModernSiCardSimulator} from './ModernSiCardSimulator';
-import {ModernSiCard} from '../../../SiCard/types/ModernSiCard';
+import {getEmptyCard} from '../../../SiCard/types/modernSiCardExamples';
 
 testUtils.useFakeTimers();
 
@@ -12,7 +12,7 @@ describe('ModernSiCardSimulator', () => {
     it('exists', () => {
         expect(ModernSiCardSimulator).not.toBe(undefined);
     });
-    const testData = ModernSiCard.getTestData()[0];
+    const testData = getEmptyCard();
     const myModernSiCardSimulator = new ModernSiCardSimulator(
         testData.storageData,
     );

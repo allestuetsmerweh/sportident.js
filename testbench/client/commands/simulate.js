@@ -2,13 +2,15 @@ import si from '../../../src';
 import {BaseCommand} from './BaseCommand';
 import {SiExternalApplication} from '../SiExternalApplication';
 
+const isSubclassOf = (subclass, superclass) => subclass.prototype instanceof superclass;
 
 export class SimulateCommand extends BaseCommand {
     static getParameterDefinitions() {
+        const testCases = si.getSiStationExamples();
         return [
             {
-                name: 'test case index',
-                regex: /^[0-9]+$/,
+                name: 'test case',
+                choices: Object.keys(testCases),
             },
             {
                 name: 'path',
@@ -20,14 +22,14 @@ export class SimulateCommand extends BaseCommand {
 
     printUsage() {
         super.printUsage();
-        this.printUsageDetail('e.g. simulate 0 /tmp/vwin_com1');
+        this.printUsageDetail('e.g. simulate BSM8Station /tmp/vwin_com1');
     }
 
     execute() {
         const {parameters, logLine, userInput} = this.context;
-        const what = parseInt(parameters[0], 10);
+        const what = parameters[0];
 
-        const testCases = si.MainStation.getTestData();
+        const testCases = si.getSiStationExamples();
         const testCase = testCases[what];
         if (!testCase) {
             const availableTestCases = Object.keys(testCases).join(', ');
@@ -39,7 +41,7 @@ export class SimulateCommand extends BaseCommand {
         const url = parameters[1];
         return new Promise((resolve, _reject) => {
             const externalApplication = new SiExternalApplication(url);
-            const siMainStationSimulator = new si.MainStationSimulator(testCase.storageData);
+            const siMainStationSimulator = new si.SiMainStationSimulator(testCase.storageData);
 
             let applicationToSimulatorBuffer = [];
 
@@ -81,20 +83,23 @@ export class SimulateCommand extends BaseCommand {
                 const subResOut = /out/.exec(userSubLine);
                 if (subResIn) {
                     const simulatorName = subResIn[1];
-                    if (!(simulatorName in si.cardSimulatorTypes)) {
-                        const availableSimulatorNames = Object.keys(si.cardSimulatorTypes).join(', ');
+                    const simulatorType = si[`${simulatorName}Simulator`];
+                    if (!simulatorType || !isSubclassOf(simulatorType, si.BaseSiCardSimulator)) {
+                        const availableSimulatorNames = Object.keys(si)
+                            .filter((key) => /Simulator$/.exec(key))
+                            .filter((key) => isSubclassOf(si[key], si.BaseSiCardSimulator))
+                            .join(', ');
                         logLine(`No such SiCardSimulator: ${simulatorName}`);
                         logLine(`Available simulator names: ${availableSimulatorNames}`);
                         return;
                     }
-                    const simulatorType = si.cardSimulatorTypes[simulatorName];
                     const simulatorDataName = subResIn[2];
                     const availableSimulatorData = simulatorType.getAllExamples();
                     const simulatorData = availableSimulatorData[simulatorDataName];
                     if (!simulatorData) {
-                        const availableSimulatorDataIndexes = Object.keys(availableSimulatorData);
+                        const availableSimulatorDataNames = Object.keys(availableSimulatorData);
                         logLine(`No such SiCardSimulator data: ${simulatorDataName}`);
-                        logLine(`Available simulator data: ${availableSimulatorDataIndexes}`);
+                        logLine(`Available simulator data: ${availableSimulatorDataNames}`);
                     }
                     const simulator = new simulatorType(simulatorData.storageData);
                     logLine('Insert Card');

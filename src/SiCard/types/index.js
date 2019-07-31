@@ -1,23 +1,15 @@
-import {FCard} from './FCard';
-import {PCard} from './PCard';
-import {SIAC} from './SIAC';
-import {SiCard5} from './SiCard5';
-import {SiCard6} from './SiCard6';
-import {SiCard8} from './SiCard8';
-import {SiCard9} from './SiCard9';
-import {SiCard10} from './SiCard10';
-import {SiCard11} from './SiCard11';
-import {TCard} from './TCard';
-
-export const siCardTypes = {
-    FCard: FCard,
-    PCard: PCard,
-    SIAC: SIAC,
-    SiCard5: SiCard5,
-    SiCard6: SiCard6,
-    SiCard8: SiCard8,
-    SiCard9: SiCard9,
-    SiCard10: SiCard10,
-    SiCard11: SiCard11,
-    TCard: TCard,
-};
+export {FCard} from './FCard';
+export {PCard} from './PCard';
+export {SIAC} from './SIAC';
+export {SiCard5} from './SiCard5';
+export {SiCard6} from './SiCard6';
+export {SiCard8} from './SiCard8';
+export {SiCard9} from './SiCard9';
+export {SiCard10} from './SiCard10';
+export {SiCard11} from './SiCard11';
+export {TCard} from './TCard';
+export {getSiCard5Examples} from './siCard5Examples';
+export {getSiCard6Examples} from './siCard6Examples';
+export {getSiCard8Examples} from './siCard8Examples';
+export {getSiCard9Examples} from './siCard9Examples';
+export {getModernSiCardExamples} from './modernSiCardExamples';

@@ -14,12 +14,12 @@ export class SiEnum extends SiInt {
         try {
             intValue = _.isInteger(value) ? value : this.getLookupKey(value);
         } catch (exc) {
-            throw new this.constructor.TypeError(`${this.name} value must be an enum option`);
+            throw new this.constructor.TypeError(`${this.constructor.name} value ${value} must be an enum option`);
         }
         super.typeCheckValue(intValue);
         const lookupDict = utils.getLookup(this.dict, this.getLookupKey);
         if (lookupDict[intValue] === undefined) {
-            throw new this.constructor.TypeError(`${this.name} value must be an enum option`);
+            throw new this.constructor.TypeError(`${this.constructor.name} value ${intValue} must be an enum option`);
         }
     }
 

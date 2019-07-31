@@ -1,3 +1,14 @@
+export const cached = (cache, getThing) => () => {
+    const getThingIdent = `${getThing.name}-${getThing.toString()}`;
+    const cachedThing = cache[getThingIdent];
+    if (cachedThing === undefined) {
+        const newThing = getThing();
+        cache[getThingIdent] = newThing;
+        return newThing;
+    }
+    return cachedThing;
+};
+
 export const getLookup = (mapping, getLookupKey) => {
     if (mapping._lookup) {
         return mapping._lookup;

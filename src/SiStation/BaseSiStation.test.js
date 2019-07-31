@@ -7,6 +7,7 @@ import {SiDataType} from '../storage';
 import {FakeSiDevice} from '../SiDevice/testUtils/FakeSiDevice';
 import {SiTargetMultiplexer} from './SiTargetMultiplexer';
 import {BaseSiStation} from './BaseSiStation';
+import {getSiStationExamples} from './siStationExamples';
 
 testUtils.useFakeTimers();
 
@@ -123,14 +124,10 @@ describe('SiStation', () => {
         expect(mySiStation.getInfo('code').value).toBe(10);
         done();
     });
-    it('works with provided test cases', (done) => {
-        const testData = BaseSiStation.getTestData();
-        const testAtIndex = (testDataIndex) => {
-            if (testDataIndex >= testData.length) {
-                done();
-                return;
-            }
-            const {storageData, stationData} = testData[testDataIndex];
+    const examples = getSiStationExamples();
+    Object.keys(examples).forEach((exampleName) => {
+        const {storageData, stationData} = examples[exampleName];
+        it(`works with ${exampleName} example`, (done) => {
             const mySiStation = new BaseSiStation();
             mySiStation.siTargetMultiplexer = {
                 sendMessage: (_target, {command, parameters}, numResponses) => {
@@ -152,10 +149,9 @@ describe('SiStation', () => {
                 Object.keys(stationData).forEach((stationDataKey) => {
                     expect(mySiStation.getInfo(stationDataKey).value).toEqual(stationData[stationDataKey]);
                 });
-                testAtIndex(testDataIndex + 1);
+                done();
             });
-        };
-        testAtIndex(0);
+        });
     });
 
     it('get/set time', async (done) => {

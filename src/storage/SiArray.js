@@ -10,7 +10,7 @@ export class SiArray extends SiDataType {
 
     typeCheckValue(value) {
         if (!_.isArray(value)) {
-            throw new this.constructor.TypeError(`${this.name} value must be an array`);
+            throw new this.constructor.TypeError(`${this.constructor.name} value must be an array`);
         }
     }
 

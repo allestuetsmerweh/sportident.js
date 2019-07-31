@@ -105,7 +105,7 @@ const customForbidden = [
         comment: 'Don\'t allow dependencies from outside to src/SiDevice/drivers',
         severity: 'error',
         from: {
-            pathNot: '^(src/SiDevice/drivers|src/index\\.js$)',
+            pathNot: '^(src/SiDevice/)',
         },
         to: {
             path: '^src/SiDevice/drivers',

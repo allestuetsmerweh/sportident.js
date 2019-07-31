@@ -1,9 +1,8 @@
-import {SiCard5Simulator} from './SiCard5Simulator';
-import {SiCard6Simulator} from './SiCard6Simulator';
-import {ModernSiCardSimulator} from './ModernSiCardSimulator';
-
-export const siCardSimulatorTypes = {
-    SiCard5: SiCard5Simulator,
-    SiCard6: SiCard6Simulator,
-    ModernSiCard: ModernSiCardSimulator,
-};
+export {SiCard5Simulator} from './SiCard5Simulator';
+export {SiCard6Simulator} from './SiCard6Simulator';
+export {SiCard8Simulator} from './SiCard8Simulator';
+export {SiCard9Simulator} from './SiCard9Simulator';
+export {SiCard10Simulator} from './SiCard10Simulator';
+export {SiCard11Simulator} from './SiCard11Simulator';
+export {SIACSimulator} from './SIACSimulator';
+export {ModernSiCardSimulator} from './ModernSiCardSimulator';
