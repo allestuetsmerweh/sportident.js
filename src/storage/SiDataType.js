@@ -4,7 +4,7 @@ import {SiFieldValue} from './SiFieldValue';
 
 export class SiDataType {
     typeCheckValue(_value) {
-        utils.notImplemented(`${this.name} must implement typeCheckValue()`);
+        utils.notImplemented(`${this.constructor.name} must implement typeCheckValue()`);
     }
 
     valueToString(value) {
@@ -15,7 +15,7 @@ export class SiDataType {
     }
 
     typeSpecificValueToString(_value) {
-        utils.notImplemented(`${this.name} must implement typeSpecificValueToString()`);
+        utils.notImplemented(`${this.constructor.name} must implement typeSpecificValueToString()`);
     }
 
     valueFromString(string) {
@@ -30,7 +30,7 @@ export class SiDataType {
     }
 
     typeSpecificValueFromString(_string) {
-        utils.notImplemented(`${this.name} must implement typeSpecificValueFromString()`);
+        utils.notImplemented(`${this.constructor.name} must implement typeSpecificValueFromString()`);
     }
 
     extractFromData(data) {

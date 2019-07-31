@@ -9,11 +9,11 @@ export class SiDict extends SiDataType {
 
     typeCheckValue(value) {
         if (!_.isPlainObject(value)) {
-            throw new this.constructor.TypeError(`${this.name} value must be a plain object`);
+            throw new this.constructor.TypeError(`${this.constructor.name} value must be a plain object`);
         }
         Object.keys(this.definitionDict).forEach((key) => {
             if (value[key] === undefined) {
-                throw new this.constructor.TypeError(`${this.name} value must contain key ${key}`);
+                throw new this.constructor.TypeError(`${this.constructor.name} value must contain key ${key}`);
             }
         });
     }

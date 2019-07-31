@@ -3,6 +3,7 @@ import {proto} from '../../../constants';
 import * as siProtocol from '../../../siProtocol';
 import {BaseSiCardSimulator} from '../BaseSiCardSimulator';
 import {SiCard5} from '../../../SiCard/types/SiCard5';
+import {getSiCard5Examples} from '../../../SiCard/types/siCard5Examples';
 
 export class SiCard5Simulator extends BaseSiCardSimulator {
     handleDetect() {
@@ -30,3 +31,4 @@ export class SiCard5Simulator extends BaseSiCardSimulator {
     }
 }
 SiCard5Simulator.siCardClass = SiCard5;
+SiCard5Simulator.getAllExamples = getSiCard5Examples;

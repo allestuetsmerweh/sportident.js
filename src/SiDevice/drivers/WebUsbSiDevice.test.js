@@ -1,7 +1,7 @@
 /* eslint-env jasmine */
 
 import {BaseSiDevice} from '../BaseSiDevice';
-import {getWebUsbSiDevice} from './WebUsbSiDevice';
+import {getWebUsbSiDeviceClass} from './WebUsbSiDevice';
 import * as utils from '../../utils';
 import * as testUtils from '../../testUtils';
 
@@ -88,7 +88,7 @@ export const testNavigator = {
     },
 };
 const testNavigatorDispatchEvent = (type, args) => utils.dispatchEvent(testNavigatorEventListeners, type, args);
-const WebUsbSiDevice = getWebUsbSiDevice(testNavigator);
+const WebUsbSiDevice = getWebUsbSiDeviceClass(testNavigator);
 const getFakeSiUsbDevice = () => new FakeWebUsbDevice(siSerialNumber2, siVendorId, siProductId);
 const getFakeNonSiUsbDevice = () => new FakeWebUsbDevice(nonSiSerialNumber2, nonSiVendorId, nonSiProductId);
 const getSiDevice = () => {
@@ -102,11 +102,11 @@ const failingTestNavigator = {
         requestDevice: () => Promise.reject(requestDeviceError),
     },
 };
-const FailingWebUsbSiDevice = getWebUsbSiDevice(failingTestNavigator);
+const FailingWebUsbSiDevice = getWebUsbSiDeviceClass(failingTestNavigator);
 
-describe('getWebUsbSiDevice', () => {
+describe('getWebUsbSiDeviceClass', () => {
     it('incompatible browser', () => {
-        expect(getWebUsbSiDevice({})).toBe(null);
+        expect(getWebUsbSiDeviceClass({})).toBe(null);
     });
     it('detect', (done) => {
         WebUsbSiDevice.detect()

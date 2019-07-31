@@ -13,18 +13,12 @@ const jestConfig = {
     maxConcurrency: 1,
     coverageThreshold: {
         'src/': {
-            branches: 88,
-            functions: 94,
-            lines: 92,
-            statements: 92,
+            branches: 94,
+            functions: 98,
+            lines: 98,
+            statements: 93,
         },
-        './src/SiCard/*.js': totalCoverage,
-        './src/SiCard/types': {
-            branches: 75,
-            functions: 92,
-            lines: 89,
-            statements: 90,
-        },
+        './src/SiCard': totalCoverage,
         './src/SiDevice': totalCoverage,
         './src/simulation': totalCoverage,
         './src/SiStation': {
@@ -33,8 +27,8 @@ const jestConfig = {
             lines: 95,
             statements: 95,
         },
-        './src/storage/**/*.js': totalCoverage,
-        './src/utils/**/*.js': totalCoverage,
+        './src/storage': totalCoverage,
+        './src/utils': totalCoverage,
         './src/constants.js': totalCoverage,
         './src/react.js': {
             branches: 14,

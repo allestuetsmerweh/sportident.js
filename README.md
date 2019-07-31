@@ -14,5 +14,5 @@ There are [generated docs](https://allestuetsmerweh.github.io/sportident.js/).
 
 ## How to run tests
 ```
-npm run tests
+npm run jest
 ```

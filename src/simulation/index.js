@@ -1,2 +1,2 @@
 export {SiMainStationSimulator} from './SiMainStationSimulator';
-export {siCardSimulatorTypes} from './SiCardSimulator/types';
+export * from './SiCardSimulator';

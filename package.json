@@ -3,9 +3,6 @@
   "version": "1.0.0",
   "description": "JavaScript interface to SportIdent devices",
   "main": "si.js",
-  "directories": {
-    "test": "tests"
-  },
   "scripts": {
     "webpack-src": "cd src/ && webpack",
     "webpack-testbench": "cd testbench/client/ && webpack",
@@ -15,8 +12,7 @@
     "jest:ci": "jest --runInBand",
     "dependency-check": "dependency-cruise --config=./.dependency-cruiser.js src testbench",
     "testbench-server": "cd testbench/server/ && node index.js",
-    "testbench-client": "cd testbench/client/ && webpack-dev-server",
-    "tests": "npm run eslint && npm run jest"
+    "testbench-client": "cd testbench/client/ && webpack-dev-server"
   },
   "repository": {
     "type": "git",
@@ -50,6 +46,7 @@
     "jasmine-core": "^3.4.0",
     "jest": "^24.8.0",
     "lodash": "^4.17.15",
+    "node": "^12.7.0",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",

@@ -2,7 +2,7 @@
 
 import {proto} from '../constants';
 import * as testUtils from '../testUtils';
-import {BaseSiStation} from '../SiStation';
+import {getBSM8Station} from '../SiStation/siStationExamples';
 import {SiMainStationSimulator} from './SiMainStationSimulator';
 
 testUtils.useFakeTimers();
@@ -12,7 +12,7 @@ describe('SiMainStationSimulator', () => {
         expect(SiMainStationSimulator).not.toBe(undefined);
     });
     const mySiMainStationSimulator = new SiMainStationSimulator(
-        BaseSiStation.getTestData()[0].storageData,
+        getBSM8Station().storageData,
     );
     it('getCode', () => {
         expect(mySiMainStationSimulator.getCode()).toEqual([0, 31]);

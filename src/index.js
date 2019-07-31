@@ -1,31 +1,26 @@
 /* global si */
 /* exported si */
 
+import * as siCardExports from './SiCard';
+import * as siDeviceExports from './SiDevice';
+import * as simulationExports from './simulation';
+import * as siStationExports from './SiStation';
+import * as storageExports from './storage';
 import * as constants from './constants';
-import * as drivers from './SiDevice/drivers';
-import * as protocol from './siProtocol';
+import * as siProtocol from './siProtocol';
 import * as react from './react';
-import * as storage from './storage';
 import * as utils from './utils';
-import {SiMainStationSimulator, siCardSimulatorTypes} from './simulation';
-import {BaseSiCard, siCardTypes} from './SiCard';
-import {SiTargetMultiplexer, BaseSiStation, SiMainStation, CoupledSiStation} from './SiStation';
 
 export const si = {
+    ...siCardExports,
+    ...siDeviceExports,
+    ...simulationExports,
+    ...siStationExports,
+    ...storageExports,
     constants: constants,
-    drivers: drivers,
-    protocol: protocol,
+    protocol: siProtocol,
     react: react,
-    storage: storage,
     utils: utils,
-    Station: BaseSiStation,
-    MainStation: SiMainStation,
-    CoupledStation: CoupledSiStation,
-    MainStationSimulator: SiMainStationSimulator,
-    TargetMultiplexer: SiTargetMultiplexer,
-    Card: BaseSiCard,
-    cardTypes: siCardTypes,
-    cardSimulatorTypes: siCardSimulatorTypes,
 };
 
 export default si;

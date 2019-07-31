@@ -13,7 +13,7 @@ export class GetInfoCommand extends BaseCommand {
             },
             {
                 name: 'information name',
-                choices: Object.keys(si.Station.StorageDefinition.definitions),
+                choices: Object.keys(si.BaseSiStation.StorageDefinition.definitions),
                 isOptional: true,
             },
         ];

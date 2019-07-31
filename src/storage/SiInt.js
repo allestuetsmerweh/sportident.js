@@ -13,10 +13,10 @@ export class SiInt extends SiDataType {
 
     typeCheckValue(value) {
         if (!_.isInteger(value)) {
-            throw new this.constructor.TypeError(`${this.name} value must be integer`);
+            throw new this.constructor.TypeError(`${this.constructor.name} value must be integer`);
         }
         if (value < 0) {
-            throw new this.constructor.TypeError(`${this.name} value must be non-negative`);
+            throw new this.constructor.TypeError(`${this.constructor.name} value must be non-negative`);
         }
     }
 

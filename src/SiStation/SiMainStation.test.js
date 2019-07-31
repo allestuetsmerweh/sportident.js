@@ -5,8 +5,8 @@ import * as testUtils from '../testUtils';
 import {FakeSiDevice} from '../SiDevice/testUtils/FakeSiDevice';
 import {SiTargetMultiplexer} from './SiTargetMultiplexer';
 import {SiMainStation} from './SiMainStation';
-import {SiCard5} from '../SiCard/types/SiCard5';
-import {SiCard6} from '../SiCard/types/SiCard6';
+import {getSiCard5Examples} from '../SiCard/types/siCard5Examples';
+import {getSiCard6Examples} from '../SiCard/types/siCard6Examples';
 import {SiCard5Simulator} from '../simulation/SiCardSimulator/types/SiCard5Simulator';
 import {SiCard6Simulator} from '../simulation/SiCardSimulator/types/SiCard6Simulator';
 
@@ -36,7 +36,7 @@ describe('SiMainStation', () => {
     it('card detection & removal', async (done) => {
         const myTargetMultiplexer = new SiTargetMultiplexer();
         const myMainStation = SiMainStation.fromSiTargetMultiplexer(myTargetMultiplexer);
-        const testData = SiCard5.getTestData()[0];
+        const testData = getSiCard5Examples().fullCard;
         const mySiCard5Simulator = new SiCard5Simulator(testData.storageData);
 
         const insertedCardNumbers = [];
@@ -89,7 +89,7 @@ describe('SiMainStation', () => {
     it('card observation', async (done) => {
         const myTargetMultiplexer = new SiTargetMultiplexer();
         const myMainStation = SiMainStation.fromSiTargetMultiplexer(myTargetMultiplexer);
-        const testData = SiCard6.getTestData()[0];
+        const testData = getSiCard6Examples().fullCard;
         const mySiCard6Simulator = new SiCard6Simulator(testData.storageData);
         const observedCardNumbers = [];
         const handleCardObserved = (e) => {

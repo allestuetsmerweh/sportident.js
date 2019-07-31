@@ -1,5 +1,6 @@
 /* eslint-env jasmine */
 
+import _ from 'lodash';
 import Immutable from 'immutable';
 import * as testUtils from '../testUtils';
 import * as generalUtils from './general';
@@ -7,6 +8,29 @@ import * as generalUtils from './general';
 testUtils.useFakeTimers();
 
 describe('general utils', () => {
+    it('cached', () => {
+        const cache = {};
+        const numGettersCalled = {foo: 0, bar: 0};
+        const getFoo = generalUtils.cached(cache, () => {
+            numGettersCalled.foo += 1;
+            return 'foo';
+        });
+        const getBar = generalUtils.cached(cache, () => {
+            numGettersCalled.bar += 1;
+            return 'bar';
+        });
+        expect(_.isFunction(getFoo)).toBe(true);
+        expect(_.isFunction(getBar)).toBe(true);
+        expect(numGettersCalled).toEqual({foo: 0, bar: 0});
+        expect(getFoo()).toBe('foo');
+        expect(numGettersCalled).toEqual({foo: 1, bar: 0});
+        expect(getFoo()).toBe('foo');
+        expect(numGettersCalled).toEqual({foo: 1, bar: 0});
+        expect(getBar()).toBe('bar');
+        expect(numGettersCalled).toEqual({foo: 1, bar: 1});
+        expect(getFoo()).toBe('foo');
+        expect(numGettersCalled).toEqual({foo: 1, bar: 1});
+    });
     it('getLookup', () => {
         expect(generalUtils.getLookup({})).toEqual({});
         expect(generalUtils.getLookup({'a': '0'})).toEqual({'0': 'a'});

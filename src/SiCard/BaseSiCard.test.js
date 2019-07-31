@@ -94,6 +94,7 @@ describe('BaseSiCard', () => {
             typeSpecificRead() {
                 this.punchCount = 1;
                 this.punches = [{code: 31, time: 3}];
+                this.cardHolder = {firstName: 'John'};
                 return Promise.resolve(this);
             }
         }
@@ -112,9 +113,10 @@ describe('BaseSiCard', () => {
             startTime: -1,
             finishTime: -1,
             punches: [{code: 31, time: 3}],
+            cardHolder: {firstName: 'John'},
         });
         expect(siCard500.toString()).toEqual(
-            'SiCard1 Number: 500\nClear: -1\nCheck: -1\nStart: -1\nFinish: -1\n31: 3\n',
+            'SiCard1 Number: 500\nClear: -1\nCheck: -1\nStart: -1\nFinish: -1\n31: 3\nCard Holder:\nfirstName: John\n',
         );
         await siCard500.confirm();
         done();

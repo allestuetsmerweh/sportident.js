@@ -11,7 +11,7 @@ const siDeviceFilters = [
 const matchesSiDeviceFilters = (vendorId, productId) => siDeviceFilters
     .some((filter) => vendorId === filter.vendorId && productId === filter.productId);
 
-export const getWebUsbSiDevice = (navigatorArg) => {
+export const getWebUsbSiDeviceClass = (navigatorArg) => {
     if (!('usb' in navigatorArg)) {
         return null;
     }

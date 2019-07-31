@@ -4,7 +4,7 @@ import {proto} from '../../../constants';
 import * as utils from '../../../utils';
 import * as testUtils from '../../../testUtils';
 import {SiCard6Simulator} from './SiCard6Simulator';
-import {SiCard6} from '../../../SiCard/types/SiCard6';
+import {getCardWith16Punches} from '../../../SiCard/types/siCard6Examples';
 
 testUtils.useFakeTimers();
 
@@ -12,7 +12,7 @@ describe('SiCard6Simulator', () => {
     it('exists', () => {
         expect(SiCard6Simulator).not.toBe(undefined);
     });
-    const testData = SiCard6.getTestData()[0];
+    const testData = getCardWith16Punches();
     const mySiCard6Simulator = new SiCard6Simulator(
         testData.storageData,
     );
