@@ -1,45 +1,69 @@
 import si from '../../../src';
+import {BaseCommand} from './BaseCommand';
 import {getDirectOrRemoteStation} from './getDirectOrRemoteStation';
 
-export const sendCommand = ({userLine, logLine, device}) => {
-    const res = /send ([^\s]*)\s+([0-9a-fA-F\s]+)\s*:\s*([0-9a-fA-F\s]+)\s*:\s*([0-9]+)/.exec(userLine);
-    if (res === null) {
-        logLine('Usage: send [d(irect)/r(emote)] [command]: [parameters]: [numResp]');
-        logLine('       e.g. send direct F9: 01: 0');
-        logLine('       e.g. send r F9: 01: 1');
-        return Promise.resolve();
+export class SendCommand extends BaseCommand {
+    static getParameterDefinitions() {
+        return [
+            {
+                name: 'target',
+                choices: ['direct', 'remote'],
+            },
+            {
+                name: 'command',
+                regex: /^[0-9a-fA-F]{2}$/,
+            },
+            {
+                name: 'parameters',
+                regex: /^[0-9a-fA-F]+$/,
+            },
+            {
+                name: 'number of responses',
+                regex: /^[0-9]+$/,
+            },
+        ];
     }
-    const station = getDirectOrRemoteStation(res[1], device);
-    if (station === undefined) {
-        logLine('No such station');
-        return Promise.resolve();
+
+    printUsage() {
+        super.printUsage();
+        this.printUsageDetail('e.g. send direct F9 01 0');
+        this.printUsageDetail('e.g. send remote F9 01 1');
     }
-    const commandStr = res[2].replace(/\s/g, '');
-    if (commandStr.length !== 2) {
-        logLine(`Command must be one byte, is: ${commandStr}`);
-        return Promise.resolve();
-    }
-    const command = parseInt(commandStr, 16);
-    const parametersStr = res[3].replace(/\s/g, '');
-    if (parametersStr.length % 2 !== 0) {
-        logLine(`Parameters must be bytes, is: ${parametersStr}`);
-        return Promise.resolve();
-    }
-    const parameters = [];
-    for (let i = 0; i < parametersStr.length; i += 2) {
-        parameters.push(parseInt(parametersStr.slice(i, i + 2), 16));
-    }
-    const numResp = res.length > 4 ? parseInt(res[4], 10) : 0;
-    return station.sendMessage({
-        command: command,
-        parameters: parameters,
-    }, numResp)
-        .then((allResponses) => {
-            allResponses.forEach((response, index) => {
-                logLine(`Answer[${index}]:`);
-                si.utils.prettyHex(response, 16).split('\n').forEach((line) => {
-                    logLine(` ${line}`);
+
+    execute() {
+        const {parameters: terminalParameters, logLine, device} = this.context;
+        const station = getDirectOrRemoteStation(terminalParameters[0], device);
+        if (station === undefined) {
+            logLine('No such station');
+            return Promise.resolve();
+        }
+        const commandStr = terminalParameters[1].replace(/\s/g, '');
+        if (commandStr.length !== 2) {
+            logLine(`Command must be one byte, is: ${commandStr}`);
+            return Promise.resolve();
+        }
+        const command = parseInt(commandStr, 16);
+        const parametersStr = terminalParameters[2].replace(/\s/g, '');
+        if (parametersStr.length % 2 !== 0) {
+            logLine(`Parameters must be bytes, is: ${parametersStr}`);
+            return Promise.resolve();
+        }
+        const parameters = [];
+        for (let i = 0; i < parametersStr.length; i += 2) {
+            parameters.push(parseInt(parametersStr.slice(i, i + 2), 16));
+        }
+        const numResp = terminalParameters.length > 3 ? parseInt(terminalParameters[3], 10) : 0;
+        return station.sendMessage({
+            command: command,
+            parameters: parameters,
+        }, numResp)
+            .then((allResponses) => {
+                allResponses.forEach((response, index) => {
+                    logLine(`Answer[${index}]:`);
+                    si.utils.prettyHex(response, 16).split('\n').forEach((line) => {
+                        logLine(` ${line}`);
+                    });
                 });
             });
-        });
-};
+    }
+}

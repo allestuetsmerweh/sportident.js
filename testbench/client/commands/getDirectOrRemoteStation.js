@@ -3,9 +3,7 @@ import si from '../../../src';
 export const getDirectOrRemoteStation = (userChoice, device) => {
     const isRemoteByInput = {
         remote: true,
-        r: true,
         direct: false,
-        d: false,
     };
     const isRemote = isRemoteByInput[userChoice];
     let station = undefined;
