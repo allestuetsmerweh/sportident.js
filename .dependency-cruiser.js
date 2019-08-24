@@ -83,10 +83,10 @@ const customForbidden = [
         comment: 'Don\'t allow dependencies from outside to test files',
         severity: 'error',
         from: {
-            pathNot: '\\.test\\.js$|testUtils\\.js$|/testUtils/',
+            pathNot: '\\.test\\.jsx?$|testUtils\\.jsx?$|/testUtils/',
         },
         to: {
-            path: '\\.test\\.js$|testUtils\\.js$|/testUtils/',
+            path: '\\.test\\.jsx?$|testUtils\\.jsx?$|/testUtils/',
         },
     },
     {
@@ -113,14 +113,14 @@ const customForbidden = [
     },
     {
         name: 'not-from-testbench-inside-src',
-        comment: 'Don\'t allow dependencies from testbench to src except index.js',
+        comment: 'Don\'t allow dependencies from testbench to src except index.js[x]',
         severity: 'error',
         from: {
             path: '^testbench',
         },
         to: {
             path: '^src',
-            pathNot: '^src/index\\.js',
+            pathNot: '^src/index\\.jsx?',
         },
     },
     {
@@ -139,7 +139,7 @@ const customForbidden = [
         comment: 'Don\'t allow dependencies from non-tests to simulation',
         severity: 'error',
         from: {
-            pathNot: '\\.test\\.js$|testUtils\\.js$|/testUtils/|/simulation/',
+            pathNot: '\\.test\\.jsx?$|testUtils\\.jsx?$|/testUtils/|/simulation/',
         },
         to: {
             path: '^simulation/',
@@ -172,7 +172,7 @@ module.exports = {
         },
 
         /* pattern specifying which files to exclude (regular expression) */
-        exclude: '\\.min\\.js$|webpack\\.config\\.js$',
+        exclude: '\\.min\\.jsx?$|webpack\\.config\\.jsx?$',
 
         /* pattern specifying which files to include (regular expression)
            dependency-cruiser will skip everything not matching this pattern

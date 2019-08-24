@@ -9,7 +9,6 @@ import * as storageExports from './storage';
 import * as constants from './constants';
 import * as siProtocol from './siProtocol';
 import * as react from './react';
-import * as testUtils from './testUtils';
 import * as utils from './utils';
 
 export const si = {
@@ -21,7 +20,6 @@ export const si = {
     constants: constants,
     protocol: siProtocol,
     react: react,
-    testUtils: testUtils,
     utils: utils,
 };
 

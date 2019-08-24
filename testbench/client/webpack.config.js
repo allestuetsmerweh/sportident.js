@@ -6,7 +6,7 @@ const StaticSiteGeneratorPlugin = require('static-site-generator-webpack-plugin'
 
 module.exports = [
     {
-        entry: './index.js',
+        entry: './index.jsx',
         output: {
             path: path.resolve(__dirname, 'build'),
             filename: 'testbench.min.js',
@@ -17,7 +17,7 @@ module.exports = [
         module: {
             rules: [
                 {
-                    test: /\.js$/,
+                    test: /\.jsx?$/,
                     exclude: /node_modules/,
                     loader: 'babel-loader',
                     query: {
@@ -38,6 +38,9 @@ module.exports = [
                     loader: 'css-loader',
                 },
             ],
+        },
+        resolve: {
+            extensions: ['.js', '.jsx'],
         },
         plugins: [
             new StaticSiteGeneratorPlugin({
