@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1564764880349" clover="3.2.0">
-  <project timestamp="1564764880349" name="All files">
+<coverage generated="1566638783588" clover="3.2.0">
+  <project timestamp="1566638783588" name="All files">
     <metrics statements="1433" coveredstatements="1410" conditionals="512" coveredconditionals="499" methods="556" coveredmethods="547" elements="2501" coveredelements="2456" complexity="0" loc="1433" ncloc="1433" packages="12" files="54" classes="54"/>
     <package name="src">
       <metrics statements="233" coveredstatements="220" conditionals="113" coveredconditionals="107" methods="50" coveredmethods="45"/>
@@ -10,7 +10,7 @@
         <line num="35" count="1" type="stmt"/>
         <line num="70" count="17" type="stmt"/>
       </file>
-      <file name="react.js" path="/home/circleci/repo/src/react.js">
+      <file name="react.jsx" path="/home/circleci/repo/src/react.jsx">
         <metrics statements="34" coveredstatements="21" conditionals="7" coveredconditionals="1" methods="11" coveredmethods="6"/>
         <line num="4" count="1" type="cond" truecount="0" falsecount="1"/>
         <line num="5" count="2" type="stmt"/>
@@ -121,13 +121,13 @@
         <line num="133" count="74" type="stmt"/>
         <line num="134" count="74" type="stmt"/>
         <line num="135" count="1184" type="cond" truecount="2" falsecount="0"/>
-        <line num="136" count="381" type="stmt"/>
-        <line num="137" count="381" type="cond" truecount="2" falsecount="0"/>
-        <line num="138" count="233" type="stmt"/>
-        <line num="140" count="381" type="stmt"/>
-        <line num="142" count="803" type="stmt"/>
-        <line num="143" count="803" type="cond" truecount="2" falsecount="0"/>
-        <line num="144" count="150" type="stmt"/>
+        <line num="136" count="376" type="stmt"/>
+        <line num="137" count="376" type="cond" truecount="2" falsecount="0"/>
+        <line num="138" count="232" type="stmt"/>
+        <line num="140" count="376" type="stmt"/>
+        <line num="142" count="808" type="stmt"/>
+        <line num="143" count="808" type="cond" truecount="2" falsecount="0"/>
+        <line num="144" count="151" type="stmt"/>
         <line num="147" count="1184" type="stmt"/>
         <line num="149" count="74" type="stmt"/>
         <line num="151" count="66" type="stmt"/>
@@ -221,13 +221,13 @@
         <line num="10" count="22" type="stmt"/>
         <line num="11" count="16" type="stmt"/>
         <line num="14" count="22" type="stmt"/>
-        <line num="15" count="121" type="stmt"/>
-        <line num="16" count="121" type="stmt"/>
+        <line num="15" count="122" type="stmt"/>
+        <line num="16" count="122" type="stmt"/>
         <line num="19" count="22" type="stmt"/>
-        <line num="20" count="103" type="cond" truecount="2" falsecount="0"/>
-        <line num="21" count="39" type="stmt"/>
-        <line num="23" count="64" type="stmt"/>
-        <line num="24" count="64" type="stmt"/>
+        <line num="20" count="106" type="cond" truecount="2" falsecount="0"/>
+        <line num="21" count="40" type="stmt"/>
+        <line num="23" count="66" type="stmt"/>
+        <line num="24" count="66" type="stmt"/>
         <line num="27" count="139" type="stmt"/>
         <line num="29" count="81" type="stmt"/>
         <line num="31" count="22" type="stmt"/>
@@ -236,7 +236,7 @@
         <line num="34" count="28" type="stmt"/>
         <line num="35" count="28" type="stmt"/>
         <line num="36" count="2573" type="cond" truecount="2" falsecount="0"/>
-        <line num="37" count="2568" type="stmt"/>
+        <line num="37" count="2566" type="stmt"/>
         <line num="40" count="28" type="stmt"/>
         <line num="43" count="22" type="stmt"/>
         <line num="44" count="47" type="stmt"/>
@@ -1612,7 +1612,7 @@
         <line num="25" count="281" type="stmt"/>
         <line num="27" count="30" type="stmt"/>
         <line num="30" count="41" type="stmt"/>
-        <line num="31" count="8" type="stmt"/>
+        <line num="31" count="16" type="stmt"/>
         <line num="34" count="41" type="cond" truecount="1" falsecount="0"/>
         <line num="35" count="149" type="stmt"/>
         <line num="36" count="149" type="cond" truecount="2" falsecount="0"/>

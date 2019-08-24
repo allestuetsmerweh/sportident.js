@@ -1453,18 +1453,18 @@
 <path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" d="M49.4725,-2319.85C49.3457,-2392.03 50.0554,-2855.78 89,-2902.43 166.513,-2995.29 539.826,-3076.32 626,-2991.43 641.774,-2975.9 627.891,-2214.13 638,-2194.43 646.029,-2178.79 661.471,-2166.79 675.561,-2158.47"/>
 <polygon fill="#000000" fill-opacity="0.466667" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" points="677.458,-2161.42 684.533,-2153.53 674.084,-2155.29 677.458,-2161.42"/>
 </g>
-<!-- src/react.js -->
-<g id="node61" class="node"><title>src/react.js</title>
-<g id="a_node61"><a xlink:href="src/react.js" xlink:title="react.js">
-<path fill="#ffffcc" stroke="black" d="M727.5,-888.433C727.5,-888.433 685.5,-888.433 685.5,-888.433 682.5,-888.433 679.5,-885.433 679.5,-882.433 679.5,-882.433 679.5,-876.433 679.5,-876.433 679.5,-873.433 682.5,-870.433 685.5,-870.433 685.5,-870.433 727.5,-870.433 727.5,-870.433 730.5,-870.433 733.5,-873.433 733.5,-876.433 733.5,-876.433 733.5,-882.433 733.5,-882.433 733.5,-885.433 730.5,-888.433 727.5,-888.433"/>
-<text text-anchor="middle" x="706.5" y="-877.233" font-family="Helvetica,sans-Serif" font-size="9.00">react.js</text>
+<!-- src/react.jsx -->
+<g id="node61" class="node"><title>src/react.jsx</title>
+<g id="a_node61"><a xlink:href="src/react.jsx" xlink:title="react.jsx">
+<path fill="#ffff77" stroke="black" d="M728.5,-888.433C728.5,-888.433 684.5,-888.433 684.5,-888.433 681.5,-888.433 678.5,-885.433 678.5,-882.433 678.5,-882.433 678.5,-876.433 678.5,-876.433 678.5,-873.433 681.5,-870.433 684.5,-870.433 684.5,-870.433 728.5,-870.433 728.5,-870.433 731.5,-870.433 734.5,-873.433 734.5,-876.433 734.5,-876.433 734.5,-882.433 734.5,-882.433 734.5,-885.433 731.5,-888.433 728.5,-888.433"/>
+<text text-anchor="middle" x="706.5" y="-877.233" font-family="Helvetica,sans-Serif" font-size="9.00">react.jsx</text>
 </a>
 </g>
 </g>
-<!-- src/index.js&#45;&gt;src/react.js -->
-<g id="edge160" class="edge"><title>src/index.js&#45;&gt;src/react.js</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" d="M49.616,-2301.35C50.9529,-2198.6 63.8638,-1257.78 89,-1205.43 178.896,-1018.22 251.002,-979.591 443,-900.433 480.691,-884.894 585.38,-890.919 626,-887.433 640.208,-886.214 655.824,-884.684 669.427,-883.29"/>
-<polygon fill="#000000" fill-opacity="0.466667" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" points="669.794,-886.77 679.38,-882.257 669.072,-879.808 669.794,-886.77"/>
+<!-- src/index.js&#45;&gt;src/react.jsx -->
+<g id="edge160" class="edge"><title>src/index.js&#45;&gt;src/react.jsx</title>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" d="M49.616,-2301.35C50.9529,-2198.6 63.8638,-1257.78 89,-1205.43 178.896,-1018.22 251.002,-979.591 443,-900.433 480.691,-884.894 585.38,-890.919 626,-887.433 639.741,-886.254 654.8,-884.784 668.08,-883.427"/>
+<polygon fill="#000000" fill-opacity="0.466667" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" points="668.704,-886.882 678.291,-882.371 667.983,-879.919 668.704,-886.882"/>
 </g>
 <!-- src/index.js&#45;&gt;src/siProtocol.js -->
 <g id="edge164" class="edge"><title>src/index.js&#45;&gt;src/siProtocol.js</title>
@@ -1494,38 +1494,38 @@
 <path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" d="M49.402,-2319.7C48.6644,-2397.24 45.1461,-2939.44 89,-3095.43 152.093,-3319.86 116.87,-3550.43 350,-3550.43 350,-3550.43 350,-3550.43 535,-3550.43 649,-3550.43 708.282,-3612.88 791,-3534.43 813.401,-3513.19 777.885,-3487.96 799,-3465.43 810.598,-3453.06 828.723,-3448.84 845.033,-3447.92"/>
 <polygon fill="#000000" fill-opacity="0.466667" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" points="845.466,-3451.41 855.402,-3447.74 845.341,-3444.41 845.466,-3451.41"/>
 </g>
-<!-- src/react.test.js -->
-<g id="node62" class="node"><title>src/react.test.js</title>
-<g id="a_node62"><a xlink:href="src/react.test.js" xlink:title="react.test.js">
-<path fill="#ffffcc" stroke="black" d="M565,-881.433C565,-881.433 503,-881.433 503,-881.433 500,-881.433 497,-878.433 497,-875.433 497,-875.433 497,-869.433 497,-869.433 497,-866.433 500,-863.433 503,-863.433 503,-863.433 565,-863.433 565,-863.433 568,-863.433 571,-866.433 571,-869.433 571,-869.433 571,-875.433 571,-875.433 571,-878.433 568,-881.433 565,-881.433"/>
-<text text-anchor="middle" x="534" y="-870.233" font-family="Helvetica,sans-Serif" font-size="9.00">react.test.js</text>
+<!-- src/react.test.jsx -->
+<g id="node62" class="node"><title>src/react.test.jsx</title>
+<g id="a_node62"><a xlink:href="src/react.test.jsx" xlink:title="react.test.jsx">
+<path fill="#ffff77" stroke="black" d="M567,-881.433C567,-881.433 501,-881.433 501,-881.433 498,-881.433 495,-878.433 495,-875.433 495,-875.433 495,-869.433 495,-869.433 495,-866.433 498,-863.433 501,-863.433 501,-863.433 567,-863.433 567,-863.433 570,-863.433 573,-866.433 573,-869.433 573,-869.433 573,-875.433 573,-875.433 573,-878.433 570,-881.433 567,-881.433"/>
+<text text-anchor="middle" x="534" y="-870.233" font-family="Helvetica,sans-Serif" font-size="9.00">react.test.jsx</text>
 </a>
 </g>
 </g>
-<!-- src/react.test.js&#45;&gt;node_modules/lodash/lodash.js -->
-<g id="edge170" class="edge"><title>src/react.test.js&#45;&gt;node_modules/lodash/lodash.js</title>
+<!-- src/react.test.jsx&#45;&gt;node_modules/lodash/lodash.js -->
+<g id="edge170" class="edge"><title>src/react.test.jsx&#45;&gt;node_modules/lodash/lodash.js</title>
 <path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" d="M535.056,-863.112C535.688,-793.557 543.418,-356.072 638,-276.433 677.267,-243.37 1063.09,-240.758 1100,-276.433 1118.79,-294.59 1092.32,-490.537 1108,-511.433 1114.81,-520.505 1125.46,-525.892 1136.29,-529.073"/>
 <polygon fill="#000000" fill-opacity="0.466667" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" points="1135.64,-532.515 1146.17,-531.417 1137.25,-525.704 1135.64,-532.515"/>
 </g>
-<!-- src/react.test.js&#45;&gt;node_modules/react&#45;test&#45;renderer/index.js -->
-<g id="edge172" class="edge"><title>src/react.test.js&#45;&gt;node_modules/react&#45;test&#45;renderer/index.js</title>
+<!-- src/react.test.jsx&#45;&gt;node_modules/react&#45;test&#45;renderer/index.js -->
+<g id="edge172" class="edge"><title>src/react.test.jsx&#45;&gt;node_modules/react&#45;test&#45;renderer/index.js</title>
 <path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" d="M534.994,-863.178C535.155,-792.19 540.013,-334.58 638,-250.433 676.944,-216.99 1063.24,-214.605 1100,-250.433 1116.01,-266.034 1094.53,-433.595 1108,-451.433 1115.36,-461.182 1127.16,-466.674 1138.82,-469.746"/>
 <polygon fill="#000000" fill-opacity="0.466667" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" points="1138.41,-473.236 1148.92,-471.869 1139.85,-466.386 1138.41,-473.236"/>
 </g>
-<!-- src/react.test.js&#45;&gt;node_modules/react/index.js -->
-<g id="edge171" class="edge"><title>src/react.test.js&#45;&gt;node_modules/react/index.js</title>
+<!-- src/react.test.jsx&#45;&gt;node_modules/react/index.js -->
+<g id="edge171" class="edge"><title>src/react.test.jsx&#45;&gt;node_modules/react/index.js</title>
 <path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" d="M534.928,-863.26C534.569,-790.894 536.093,-312.521 638,-224.433 715.671,-157.295 1015.47,-166.162 1100,-224.433 1157.14,-263.823 1170.75,-354.175 1173.99,-393.988"/>
 <polygon fill="#000000" fill-opacity="0.466667" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" points="1170.51,-394.46 1174.68,-404.202 1177.5,-393.99 1170.51,-394.46"/>
 </g>
-<!-- src/react.test.js&#45;&gt;src/SiDevice/testUtils/FakeSiDevice.js -->
-<g id="edge169" class="edge"><title>src/react.test.js&#45;&gt;src/SiDevice/testUtils/FakeSiDevice.js</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" d="M571.038,-873.694C590.635,-876.448 613.385,-883.448 626,-900.433 644.542,-925.398 618.135,-3115.51 638,-3139.43 641.907,-3144.14 646.955,-3147.48 652.531,-3149.82"/>
+<!-- src/react.test.jsx&#45;&gt;src/SiDevice/testUtils/FakeSiDevice.js -->
+<g id="edge169" class="edge"><title>src/react.test.jsx&#45;&gt;src/SiDevice/testUtils/FakeSiDevice.js</title>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" d="M573.348,-874.037C592.396,-877.01 613.877,-884.111 626,-900.433 644.542,-925.398 618.135,-3115.51 638,-3139.43 641.907,-3144.14 646.955,-3147.48 652.531,-3149.82"/>
 <polygon fill="#000000" fill-opacity="0.466667" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" points="651.715,-3153.23 662.304,-3152.86 653.798,-3146.55 651.715,-3153.23"/>
 </g>
-<!-- src/react.test.js&#45;&gt;src/react.js -->
-<g id="edge168" class="edge"><title>src/react.test.js&#45;&gt;src/react.js</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" d="M571.159,-873.918C600.063,-875.105 640.388,-876.76 669.302,-877.947"/>
-<polygon fill="#000000" fill-opacity="0.466667" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" points="669.261,-881.448 679.396,-878.362 669.548,-874.454 669.261,-881.448"/>
+<!-- src/react.test.jsx&#45;&gt;src/react.jsx -->
+<g id="edge168" class="edge"><title>src/react.test.jsx&#45;&gt;src/react.jsx</title>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" d="M573.264,-874.004C601.645,-875.17 640.131,-876.75 668.264,-877.905"/>
+<polygon fill="#000000" fill-opacity="0.466667" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" points="668.362,-881.411 678.497,-878.325 668.649,-874.417 668.362,-881.411"/>
 </g>
 <!-- src/siProtocol.test.js -->
 <g id="node64" class="node"><title>src/siProtocol.test.js</title>
