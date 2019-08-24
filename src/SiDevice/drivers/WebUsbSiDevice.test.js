@@ -216,7 +216,7 @@ describe('getWebUsbSiDeviceClass', () => {
             .then((uint8Data) => {
                 receivedUint8Data = uint8Data;
             });
-        await testUtils.advanceTimersByTime(10);
+        await testUtils.nTimesAsync(2, () => testUtils.advanceTimersByTime(10));
         expect([...receivedUint8Data]).toEqual([0x00]);
         instance.send([0x00]);
         done();
