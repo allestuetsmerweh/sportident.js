@@ -67,9 +67,8 @@ class FakeWebUsbDevice {
     }
 
     transferIn() {
-        return new Promise((resolve) => {
-            setTimeout(() => resolve({data: {buffer: [0x00]}}), 10);
-        });
+        return utils.waitFor(10)
+            .then(() => ({data: {buffer: [0x00]}}));
     }
 }
 
