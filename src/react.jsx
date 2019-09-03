@@ -1,7 +1,7 @@
 import React from 'react';
 import Immutable from 'immutable';
 
-export const useSiDevices = (siDeviceClass, useReact = React) => {
+export const useSiDevices = (siDeviceDriver, useReact = React) => {
     const [siDevices, setSiDevices] = useReact.useState(Immutable.Map({}));
     useReact.useEffect(() => {
         const onDeviceAdd = (event) => {
@@ -24,9 +24,9 @@ export const useSiDevices = (siDeviceClass, useReact = React) => {
                 return currentSiDevices;
             });
         };
-        siDeviceClass.addEventListener('add', onDeviceAdd);
-        siDeviceClass.addEventListener('remove', onDeviceRemove);
-        siDeviceClass.startAutoDetection().then((devices) => {
+        siDeviceDriver.addEventListener('add', onDeviceAdd);
+        siDeviceDriver.addEventListener('remove', onDeviceRemove);
+        siDeviceDriver.startAutoDetection().then((devices) => {
             setSiDevices((currentSiDevices) => {
                 const existingIdentSet = Immutable.Set.fromKeys(currentSiDevices);
                 const newIdentSet = Immutable.Set(devices.map((device) => device.ident));
@@ -40,9 +40,9 @@ export const useSiDevices = (siDeviceClass, useReact = React) => {
         console.log('useSiDevices: setup');
         return () => {
             console.log('useSiDevices: cleanup');
-            siDeviceClass.stopAutoDetection();
-            siDeviceClass.removeEventListener('add', onDeviceAdd);
-            siDeviceClass.removeEventListener('remove', onDeviceRemove);
+            siDeviceDriver.stopAutoDetection();
+            siDeviceDriver.removeEventListener('add', onDeviceAdd);
+            siDeviceDriver.removeEventListener('remove', onDeviceRemove);
         };
     }, []);
     return siDevices;

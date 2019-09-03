@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import {proto} from '../../constants';
 import * as storage from '../../storage';
 import * as siProtocol from '../../siProtocol';
@@ -154,34 +155,41 @@ ModernSiCard.maxNumPunches = 128;
 ModernSiCard.StorageDefinition = storage.defineStorage(0x400, {
     uid: new storage.SiInt([[0x03], [0x02], [0x01], [0x00]]),
     cardSeries: new storage.SiEnum([[0x18]], ModernSiCard.Series, (value) => value.val),
-    cardNumber: new storage.SiArray(
-        3,
-        (i) => new storage.SiInt([[0x19 + (2 - i)]]),
-    ).modify(
+    cardNumber: new storage.SiModified(
+        new storage.SiArray(
+            3,
+            (i) => new storage.SiInt([[0x19 + (2 - i)]]),
+        ),
         (extractedValue) => siProtocol.arr2cardNumber(extractedValue),
+        (cardNumber) => siProtocol.cardNumber2arr(cardNumber),
+        (cardNumber) => `${cardNumber}`,
+        (cardNumberString) => parseInt(cardNumberString, 10),
+        (cardNumber) => _.isInteger(cardNumber) && cardNumber >= 0,
     ),
     startTime: new storage.SiInt([[0x0E], [0x0F]]),
     finishTime: new storage.SiInt([[0x12], [0x13]]),
     checkTime: new storage.SiInt([[0x0A], [0x0B]]),
     punchCount: new storage.SiInt([[0x16]]),
-    punches: new storage.SiArray(
-        ModernSiCard.maxNumPunches,
-        (i) => new storage.SiDict({
-            code: new storage.SiInt([
-                [ModernSiCard.getPunchOffset(i) + 1],
-            ]),
-            time: new storage.SiInt([
-                [ModernSiCard.getPunchOffset(i) + 2],
-                [ModernSiCard.getPunchOffset(i) + 3],
-            ]),
-        }),
-    ).modify(
+    punches: new storage.SiModified(
+        new storage.SiArray(
+            ModernSiCard.maxNumPunches,
+            (i) => new storage.SiDict({
+                code: new storage.SiInt([
+                    [ModernSiCard.getPunchOffset(i) + 1],
+                ]),
+                time: new storage.SiInt([
+                    [ModernSiCard.getPunchOffset(i) + 2],
+                    [ModernSiCard.getPunchOffset(i) + 3],
+                ]),
+            }),
+        ),
         (allPunches) => ModernSiCard.cropPunches(allPunches),
     ),
-    cardHolder: new storage.SiArray(
-        0x80,
-        (i) => new storage.SiInt([[0x20 + i]]),
-    ).modify(
+    cardHolder: new storage.SiModified(
+        new storage.SiArray(
+            0x80,
+            (i) => new storage.SiInt([[0x20 + i]]),
+        ),
         (charCodes) => ModernSiCard.parseCardHolder(charCodes),
     ),
 });

@@ -3,18 +3,21 @@
 import {proto} from '../constants';
 import * as siProtocol from '../siProtocol';
 import * as testUtils from '../testUtils';
-import {FakeSiDevice} from '../SiDevice/testUtils/FakeSiDevice';
+import {SiDevice} from '../SiDevice/SiDevice';
+import {SiDeviceState} from '../SiDevice/ISiDevice';
 import {SiTargetMultiplexer} from './SiTargetMultiplexer';
 
 testUtils.useFakeTimers();
 
 describe('SiTargetMultiplexer', () => {
     it('handles targeting', async (done) => {
-        const fakeSiDevice = new FakeSiDevice('handlesTargeting0', {
-            send: () => Promise.resolve(),
+        const siDevice = new SiDevice('handlesTargeting0', {
+            driver: {
+                send: () => Promise.resolve(),
+            },
         });
-        fakeSiDevice.state = FakeSiDevice.State.Opened;
-        const muxer = SiTargetMultiplexer.fromSiDevice(fakeSiDevice);
+        siDevice.setState(SiDeviceState.Opened);
+        const muxer = SiTargetMultiplexer.fromSiDevice(siDevice);
         expect(muxer instanceof SiTargetMultiplexer).toBe(true);
 
         const randomMessage = testUtils.getRandomMessage(0);
@@ -31,7 +34,7 @@ describe('SiTargetMultiplexer', () => {
                 timeState.sendingFinished = true;
             });
         setTimeout(() => {
-            fakeSiDevice.dispatchEvent('receive', {uint8Data: siProtocol.render({
+            siDevice.dispatchEvent('receive', {uint8Data: siProtocol.render({
                 command: proto.cmd.SET_MS,
                 parameters: [0x00, 0x00, proto.P_MS_DIRECT],
             })});
@@ -75,7 +78,7 @@ describe('SiTargetMultiplexer', () => {
                 timeState.remoteSendingFinished = true;
             });
         setTimeout(() => {
-            fakeSiDevice.dispatchEvent('receive', {uint8Data: siProtocol.render({
+            siDevice.dispatchEvent('receive', {uint8Data: siProtocol.render({
                 command: proto.cmd.SET_MS,
                 parameters: [0x00, 0x00, proto.P_MS_REMOTE],
             })});

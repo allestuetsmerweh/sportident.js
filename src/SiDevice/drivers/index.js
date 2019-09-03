@@ -1,1 +1,0 @@
-export {getWebUsbSiDeviceClass} from './WebUsbSiDevice';
