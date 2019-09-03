@@ -46,7 +46,7 @@ const Testbench = () => {
 };
 
 const WebUsbSiDeviceProvider = (props) => {
-    const WebUsbSiDevice = React.useMemo(() => si.getWebUsbSiDeviceClass(window.navigator), []);
+    const WebUsbSiDevice = React.useMemo(() => si.getWebUsbSiDeviceDriver(window.navigator.usb), []);
     const webUsbSiDevices = si.react.useSiDevices(WebUsbSiDevice);
     const providedValue = {
         addNewDevice: () => WebUsbSiDevice.detect(),

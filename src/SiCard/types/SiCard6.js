@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import * as storage from '../../storage';
 import * as siProtocol from '../../siProtocol';
 import {proto} from '../../constants';
@@ -109,11 +110,16 @@ BaseSiCard.registerNumberRange(2003000, 2004000, SiCard6);
 
 SiCard6.maxNumPunches = 64;
 SiCard6.StorageDefinition = storage.defineStorage(0x400, {
-    cardNumber: new storage.SiArray(
-        3,
-        (i) => new storage.SiInt([[0x0B + (2 - i)]]),
-    ).modify(
+    cardNumber: new storage.SiModified(
+        new storage.SiArray(
+            3,
+            (i) => new storage.SiInt([[0x0B + (2 - i)]]),
+        ),
         (extractedValue) => siProtocol.arr2cardNumber(extractedValue),
+        (cardNumber) => siProtocol.cardNumber2arr(cardNumber),
+        (cardNumber) => `${cardNumber}`,
+        (cardNumberString) => parseInt(cardNumberString, 10),
+        (cardNumber) => _.isInteger(cardNumber) && cardNumber >= 0,
     ),
     startTime: new storage.SiInt([[0x1A], [0x1B]]),
     finishTime: new storage.SiInt([[0x16], [0x17]]),
@@ -122,58 +128,72 @@ SiCard6.StorageDefinition = storage.defineStorage(0x400, {
     lastPunchedCode: new storage.SiInt([[0x11], [0x10]]),
     punchCount: new storage.SiInt([[0x12]]),
     punchCountPlus1: new storage.SiInt([[0x13]]),
-    punches: new storage.SiArray(
-        SiCard6.maxNumPunches,
-        (i) => new storage.SiDict({
-            code: new storage.SiInt([
-                [SiCard6.getPunchOffset(i) + 1],
-            ]),
-            time: new storage.SiInt([
-                [SiCard6.getPunchOffset(i) + 2],
-                [SiCard6.getPunchOffset(i) + 3],
-            ]),
-        }),
-    ).modify(
+    punches: new storage.SiModified(
+        new storage.SiArray(
+            SiCard6.maxNumPunches,
+            (i) => new storage.SiDict({
+                code: new storage.SiInt([
+                    [SiCard6.getPunchOffset(i) + 1],
+                ]),
+                time: new storage.SiInt([
+                    [SiCard6.getPunchOffset(i) + 2],
+                    [SiCard6.getPunchOffset(i) + 3],
+                ]),
+            }),
+        ),
         (allPunches) => SiCard6.cropPunches(allPunches),
     ),
     cardHolder: new storage.SiDict({
-        lastName: new storage.SiArray(20, (i) => new storage.SiInt([[0x30 + i]])).modify(
+        lastName: new storage.SiModified(
+            new storage.SiArray(20, (i) => new storage.SiInt([[0x30 + i]])),
             (charCodes) => SiCard6.getCroppedString(charCodes),
         ),
-        firstName: new storage.SiArray(20, (i) => new storage.SiInt([[0x44 + i]])).modify(
+        firstName: new storage.SiModified(
+            new storage.SiArray(20, (i) => new storage.SiInt([[0x44 + i]])),
             (charCodes) => SiCard6.getCroppedString(charCodes),
         ),
-        country: new storage.SiArray(4, (i) => new storage.SiInt([[0x58 + i]])).modify(
+        country: new storage.SiModified(
+            new storage.SiArray(4, (i) => new storage.SiInt([[0x58 + i]])),
             (charCodes) => SiCard6.getCroppedString(charCodes),
         ),
-        club: new storage.SiArray(36, (i) => new storage.SiInt([[0x5C + i]])).modify(
+        club: new storage.SiModified(
+            new storage.SiArray(36, (i) => new storage.SiInt([[0x5C + i]])),
             (charCodes) => SiCard6.getCroppedString(charCodes),
         ),
-        userId: new storage.SiArray(16, (i) => new storage.SiInt([[0x80 + i]])).modify(
+        userId: new storage.SiModified(
+            new storage.SiArray(16, (i) => new storage.SiInt([[0x80 + i]])),
             (charCodes) => SiCard6.getCroppedString(charCodes),
         ),
-        phone: new storage.SiArray(16, (i) => new storage.SiInt([[0x90 + i]])).modify(
+        phone: new storage.SiModified(
+            new storage.SiArray(16, (i) => new storage.SiInt([[0x90 + i]])),
             (charCodes) => SiCard6.getCroppedString(charCodes),
         ),
-        email: new storage.SiArray(36, (i) => new storage.SiInt([[0xA0 + i]])).modify(
+        email: new storage.SiModified(
+            new storage.SiArray(36, (i) => new storage.SiInt([[0xA0 + i]])),
             (charCodes) => SiCard6.getCroppedString(charCodes),
         ),
-        street: new storage.SiArray(20, (i) => new storage.SiInt([[0xC4 + i]])).modify(
+        street: new storage.SiModified(
+            new storage.SiArray(20, (i) => new storage.SiInt([[0xC4 + i]])),
             (charCodes) => SiCard6.getCroppedString(charCodes),
         ),
-        city: new storage.SiArray(16, (i) => new storage.SiInt([[0xD8 + i]])).modify(
+        city: new storage.SiModified(
+            new storage.SiArray(16, (i) => new storage.SiInt([[0xD8 + i]])),
             (charCodes) => SiCard6.getCroppedString(charCodes),
         ),
-        zip: new storage.SiArray(8, (i) => new storage.SiInt([[0xE8 + i]])).modify(
+        zip: new storage.SiModified(
+            new storage.SiArray(8, (i) => new storage.SiInt([[0xE8 + i]])),
             (charCodes) => SiCard6.getCroppedString(charCodes),
         ),
-        gender: new storage.SiArray(4, (i) => new storage.SiInt([[0xF0 + i]])).modify(
+        gender: new storage.SiModified(
+            new storage.SiArray(4, (i) => new storage.SiInt([[0xF0 + i]])),
             (charCodes) => SiCard6.getCroppedString(charCodes),
         ),
-        birthday: new storage.SiArray(8, (i) => new storage.SiInt([[0xF4 + i]])).modify(
+        birthday: new storage.SiModified(
+            new storage.SiArray(8, (i) => new storage.SiInt([[0xF4 + i]])),
             (charCodes) => SiCard6.getCroppedString(charCodes),
         ),
-        isComplete: new storage.SiArray(0xD0, (i) => new storage.SiInt([[0x30 + i]])).modify(
+        isComplete: new storage.SiModified(
+            new storage.SiArray(0xD0, (i) => new storage.SiInt([[0x30 + i]])),
             (charCodes) => charCodes.every((charCode) => charCode !== undefined),
         ),
     }),

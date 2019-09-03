@@ -2,7 +2,7 @@
 
 import {proto} from '../constants';
 import * as testUtils from '../testUtils';
-import {FakeSiDevice} from '../SiDevice/testUtils/FakeSiDevice';
+import {SiDevice} from '../SiDevice/SiDevice';
 import {SiTargetMultiplexer} from './SiTargetMultiplexer';
 import {SiMainStation} from './SiMainStation';
 import {getSiCard5Examples} from '../SiCard/types/siCard5Examples';
@@ -18,7 +18,7 @@ describe('SiMainStation', () => {
         expect(SiMainStation.multiplexerTarget).toBe(SiTargetMultiplexer.Target.Direct);
     });
     it('fromSiDevice', () => {
-        const fakeSiDevice = new FakeSiDevice('fromSiDevice');
+        const fakeSiDevice = new SiDevice('fromSiDevice', {driver: {name: 'FakeSiDevice'}});
         const myMainStation1 = SiMainStation.fromSiDevice(fakeSiDevice);
         expect(myMainStation1 instanceof SiMainStation).toBe(true);
         expect(myMainStation1.ident).toBe('Direct-FakeSiDevice-fromSiDevice');

@@ -17,6 +17,11 @@ module.exports = [
         module: {
             rules: [
                 {
+                    test: /\.tsx?$/,
+                    exclude: /node_modules/,
+                    loader: 'ts-loader',
+                },
+                {
                     test: /\.jsx?$/,
                     exclude: /node_modules/,
                     loader: 'babel-loader',
@@ -29,7 +34,7 @@ module.exports = [
             ],
         },
         resolve: {
-            extensions: ['.js', '.jsx'],
+            extensions: ['.js', '.jsx', '.ts', '.tsx'],
         },
         stats: {
             colors: true,
@@ -51,6 +56,11 @@ module.exports = [
         module: {
             rules: [
                 {
+                    test: /\.tsx?$/,
+                    exclude: /node_modules/,
+                    loader: 'ts-loader',
+                },
+                {
                     test: /\.jsx?$/,
                     exclude: /node_modules/,
                     loader: 'babel-loader',
@@ -63,7 +73,7 @@ module.exports = [
             ],
         },
         resolve: {
-            extensions: ['.js', '.jsx'],
+            extensions: ['.js', '.jsx', '.ts', '.tsx'],
         },
         stats: {
             colors: true,

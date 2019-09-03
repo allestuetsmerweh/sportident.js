@@ -4,7 +4,7 @@ import _ from 'lodash';
 import * as testUtils from '../testUtils';
 import {proto} from '../constants';
 import {SiDataType} from '../storage';
-import {FakeSiDevice} from '../SiDevice/testUtils/FakeSiDevice';
+import {SiDevice} from '../SiDevice/SiDevice';
 import {SiTargetMultiplexer} from './SiTargetMultiplexer';
 import {BaseSiStation} from './BaseSiStation';
 import {getSiStationExamples} from './siStationExamples';
@@ -38,7 +38,7 @@ describe('SiStation', () => {
     });
 
     it('fromSiDevice', () => {
-        const fakeSiDevice = new FakeSiDevice('fromSiDevice');
+        const fakeSiDevice = new SiDevice('fromSiDevice', {driver: {name: 'FakeSiDevice'}});
         const myMainStation1 = BaseSiStation.fromSiDevice(fakeSiDevice);
         expect(myMainStation1 instanceof BaseSiStation).toBe(true);
         expect(myMainStation1.ident).toBe('undefined-FakeSiDevice-fromSiDevice');

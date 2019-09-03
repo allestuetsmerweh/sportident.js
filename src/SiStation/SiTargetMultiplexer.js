@@ -1,6 +1,7 @@
 import {proto} from '../constants';
 import * as utils from '../utils';
 import * as siProtocol from '../siProtocol';
+import {SiDeviceState} from '../SiDevice/ISiDevice';
 
 export class SiTargetMultiplexer {
     static fromSiDevice(siDevice) {
@@ -46,9 +47,9 @@ export class SiTargetMultiplexer {
 
     handleDeviceStateChange(newState) {
         const actionByNewState = {
-            [this.siDevice.constructor.State.Opened]: () => this.startProcessingSendQueue(),
-            [this.siDevice.constructor.State.Closing]: () => this.abortProcessingSendQueue(),
-            [this.siDevice.constructor.State.Closed]: () => this.abortProcessingSendQueue(),
+            [SiDeviceState.Opened]: () => this.startProcessingSendQueue(),
+            [SiDeviceState.Closing]: () => this.abortProcessingSendQueue(),
+            [SiDeviceState.Closed]: () => this.abortProcessingSendQueue(),
         };
         const actionToPerform = actionByNewState[newState];
         if (actionToPerform) {
@@ -165,7 +166,7 @@ export class SiTargetMultiplexer {
             this._sendQueue.length === 0
             || this._sendQueue[0].state === SendTask.State.Sending
             || this._sendQueue[0].state === SendTask.State.Sent
-            || this.siDevice.state !== this.siDevice.constructor.State.Opened
+            || this.siDevice.state !== SiDeviceState.Opened
         ) {
             return;
         }

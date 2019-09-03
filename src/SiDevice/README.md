@@ -8,4 +8,4 @@ Some Examples:
 - Your custom python script piping the serial port into a WebSocket, which JavaScript then talks to
 
 ## Interface
-see [`BaseSiDevice`](BaseSiDevice.js)
+see [`ISiDeviceDriver`](ISiDeviceDriver.ts)
