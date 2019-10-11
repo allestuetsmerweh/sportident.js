@@ -24,5 +24,3 @@ export const si = {
 };
 
 export default si;
-
-window.si = si;

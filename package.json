@@ -2,7 +2,7 @@
   "name": "sportident",
   "version": "1.0.0",
   "description": "JavaScript interface to SportIdent devices",
-  "main": "si.js",
+  "main": "src/build/si.node.js",
   "scripts": {
     "webpack-src": "cd src/ && webpack",
     "webpack-testbench": "cd testbench/client/ && webpack",
