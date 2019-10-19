@@ -140,8 +140,8 @@
 </g>
 <!-- testbench/client/.eslintrc.js&#45;&gt;eslint.js -->
 <g id="edge1" class="edge"><title>testbench/client/.eslintrc.js&#45;&gt;eslint.js</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" d="M67.6623,-830.003C77.0172,-838.075 91.455,-849.998 105,-859 119.451,-868.604 136.417,-877.953 150.405,-885.195"/>
-<polygon fill="#000000" fill-opacity="0.466667" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" points="149.046,-888.431 159.546,-889.849 152.222,-882.193 149.046,-888.431"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M67.6623,-830.003C77.0172,-838.075 91.455,-849.998 105,-859 119.451,-868.604 136.417,-877.953 150.405,-885.195"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="149.046,-888.431 159.546,-889.849 152.222,-882.193 149.046,-888.431"/>
 </g>
 <!-- testbench/client/MainStationList.jsx -->
 <g id="node11" class="node"><title>testbench/client/MainStationList.jsx</title>
@@ -153,13 +153,13 @@
 </g>
 <!-- testbench/client/MainStationList.jsx&#45;&gt;node_modules/prop&#45;types/index.js -->
 <g id="edge2" class="edge"><title>testbench/client/MainStationList.jsx&#45;&gt;node_modules/prop&#45;types/index.js</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" d="M231.147,-579.733C239.905,-577.198 248.082,-572.934 254,-566 267.284,-550.434 251.461,-399.541 262,-382 285.907,-342.209 327.07,-368.158 352,-329 384.61,-277.78 331.109,-243.382 365,-193 374.538,-178.821 390.756,-169.337 405.811,-163.179"/>
-<polygon fill="#000000" fill-opacity="0.466667" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" points="407.299,-166.36 415.455,-159.597 404.862,-159.798 407.299,-166.36"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M231.147,-579.733C239.905,-577.198 248.082,-572.934 254,-566 267.284,-550.434 251.461,-399.541 262,-382 285.907,-342.209 327.07,-368.158 352,-329 384.61,-277.78 331.109,-243.382 365,-193 374.538,-178.821 390.756,-169.337 405.811,-163.179"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="407.299,-166.36 415.455,-159.597 404.862,-159.798 407.299,-166.36"/>
 </g>
 <!-- testbench/client/MainStationList.jsx&#45;&gt;node_modules/react/index.js -->
 <g id="edge3" class="edge"><title>testbench/client/MainStationList.jsx&#45;&gt;node_modules/react/index.js</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" d="M231.099,-579.692C239.861,-577.16 248.052,-572.908 254,-566 276.215,-540.2 241.648,-440.294 262,-413 287.377,-378.967 325.686,-414.314 352,-381 385.252,-338.903 336.542,-306.475 365,-261 374.712,-245.481 391.48,-234.132 406.846,-226.379"/>
-<polygon fill="#000000" fill-opacity="0.466667" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" points="408.59,-229.427 416.157,-222.011 405.617,-223.09 408.59,-229.427"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M231.099,-579.692C239.861,-577.16 248.052,-572.908 254,-566 276.215,-540.2 241.648,-440.294 262,-413 287.377,-378.967 325.686,-414.314 352,-381 385.252,-338.903 336.542,-306.475 365,-261 374.712,-245.481 391.48,-234.132 406.846,-226.379"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="408.59,-229.427 416.157,-222.011 405.617,-223.09 408.59,-229.427"/>
 </g>
 <!-- testbench/client/SiExternalApplication.js -->
 <g id="node12" class="node"><title>testbench/client/SiExternalApplication.js</title>
@@ -171,8 +171,8 @@
 </g>
 <!-- testbench/client/SiExternalApplication.js&#45;&gt;src/index.js -->
 <g id="edge4" class="edge"><title>testbench/client/SiExternalApplication.js&#45;&gt;src/index.js</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" d="M505.081,-825.206C518.52,-827.949 532.23,-832.266 544,-839 556.937,-846.402 567.77,-859.343 575.193,-870.068"/>
-<polygon fill="#000000" fill-opacity="0.466667" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" points="572.429,-872.238 580.804,-878.726 578.303,-868.431 572.429,-872.238"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M505.081,-825.206C518.52,-827.949 532.23,-832.266 544,-839 556.937,-846.402 567.77,-859.343 575.193,-870.068"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="572.429,-872.238 580.804,-878.726 578.303,-868.431 572.429,-872.238"/>
 </g>
 <!-- testbench/client/Terminal.jsx -->
 <g id="node13" class="node"><title>testbench/client/Terminal.jsx</title>
@@ -184,18 +184,18 @@
 </g>
 <!-- testbench/client/Terminal.jsx&#45;&gt;node_modules/lodash/lodash.js -->
 <g id="edge6" class="edge"><title>testbench/client/Terminal.jsx&#45;&gt;node_modules/lodash/lodash.js</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" d="M214.608,-672.555C228.852,-671.295 244.309,-667.075 254,-656 271.162,-636.388 245.843,-559.448 262,-539 287.972,-506.132 318.859,-536.623 352,-511 395.328,-477.501 422.952,-416.629 434.812,-385.869"/>
-<polygon fill="#000000" fill-opacity="0.466667" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" points="438.15,-386.932 438.349,-376.339 431.588,-384.496 438.15,-386.932"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M214.608,-672.555C228.852,-671.295 244.309,-667.075 254,-656 271.162,-636.388 245.843,-559.448 262,-539 287.972,-506.132 318.859,-536.623 352,-511 395.328,-477.501 422.952,-416.629 434.812,-385.869"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="438.15,-386.932 438.349,-376.339 431.588,-384.496 438.15,-386.932"/>
 </g>
 <!-- testbench/client/Terminal.jsx&#45;&gt;node_modules/prop&#45;types/index.js -->
 <g id="edge7" class="edge"><title>testbench/client/Terminal.jsx&#45;&gt;node_modules/prop&#45;types/index.js</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" d="M214.719,-672.65C228.984,-671.41 244.427,-667.177 254,-656 266.301,-641.638 255.6,-503.794 262,-486 284.563,-423.268 328.562,-428.411 352,-366 365.554,-329.908 343.807,-225.205 365,-193 374.394,-178.725 390.596,-169.23 405.678,-163.09"/>
-<polygon fill="#000000" fill-opacity="0.466667" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" points="407.175,-166.269 415.344,-159.523 404.751,-159.702 407.175,-166.269"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M214.719,-672.65C228.984,-671.41 244.427,-667.177 254,-656 266.301,-641.638 255.6,-503.794 262,-486 284.563,-423.268 328.562,-428.411 352,-366 365.554,-329.908 343.807,-225.205 365,-193 374.394,-178.725 390.596,-169.23 405.678,-163.09"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="407.175,-166.269 415.344,-159.523 404.751,-159.702 407.175,-166.269"/>
 </g>
 <!-- testbench/client/Terminal.jsx&#45;&gt;node_modules/react/index.js -->
 <g id="edge8" class="edge"><title>testbench/client/Terminal.jsx&#45;&gt;node_modules/react/index.js</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" d="M214.675,-672.612C228.931,-671.364 244.38,-667.137 254,-656 274.951,-631.747 242.163,-537.172 262,-512 287.849,-479.2 326.111,-517.768 352,-485 382.911,-445.876 339.613,-303.915 365,-261 374.255,-245.355 390.818,-234.035 406.171,-226.333"/>
-<polygon fill="#000000" fill-opacity="0.466667" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" points="407.904,-229.387 415.497,-221.998 404.954,-223.039 407.904,-229.387"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M214.675,-672.612C228.931,-671.364 244.38,-667.137 254,-656 274.951,-631.747 242.163,-537.172 262,-512 287.849,-479.2 326.111,-517.768 352,-485 382.911,-445.876 339.613,-303.915 365,-261 374.255,-245.355 390.818,-234.035 406.171,-226.333"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="407.904,-229.387 415.497,-221.998 404.954,-223.039 407.904,-229.387"/>
 </g>
 <!-- testbench/client/commands/index.jsx -->
 <g id="node19" class="node"><title>testbench/client/commands/index.jsx</title>
@@ -207,8 +207,8 @@
 </g>
 <!-- testbench/client/Terminal.jsx&#45;&gt;testbench/client/commands/index.jsx -->
 <g id="edge5" class="edge"><title>testbench/client/Terminal.jsx&#45;&gt;testbench/client/commands/index.jsx</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" d="M211.19,-680.005C229.66,-685.425 253.301,-692.362 272.827,-698.092"/>
-<polygon fill="#000000" fill-opacity="0.466667" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" points="272.032,-701.506 282.613,-700.964 274.003,-694.79 272.032,-701.506"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M211.19,-680.005C229.66,-685.425 253.301,-692.362 272.827,-698.092"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="272.032,-701.506 282.613,-700.964 274.003,-694.79 272.032,-701.506"/>
 </g>
 <!-- testbench/client/WebUsbSiDevicesContext.jsx -->
 <g id="node14" class="node"><title>testbench/client/WebUsbSiDevicesContext.jsx</title>
@@ -220,13 +220,13 @@
 </g>
 <!-- testbench/client/WebUsbSiDevicesContext.jsx&#45;&gt;node_modules/immutable/dist/immutable.js -->
 <g id="edge9" class="edge"><title>testbench/client/WebUsbSiDevicesContext.jsx&#45;&gt;node_modules/immutable/dist/immutable.js</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" d="M247.426,-631.945C249.817,-630.225 252.028,-628.255 254,-626 271.302,-606.216 250.053,-531.41 262,-508 285.668,-461.622 326.443,-478.365 352,-433 370.974,-399.32 346.315,-380.841 365,-347 377.057,-325.162 399.326,-307.22 416.74,-295.584"/>
-<polygon fill="#000000" fill-opacity="0.466667" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" points="418.791,-298.427 425.325,-290.086 415.016,-292.532 418.791,-298.427"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M247.426,-631.945C249.817,-630.225 252.028,-628.255 254,-626 271.302,-606.216 250.053,-531.41 262,-508 285.668,-461.622 326.443,-478.365 352,-433 370.974,-399.32 346.315,-380.841 365,-347 377.057,-325.162 399.326,-307.22 416.74,-295.584"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="418.791,-298.427 425.325,-290.086 415.016,-292.532 418.791,-298.427"/>
 </g>
 <!-- testbench/client/WebUsbSiDevicesContext.jsx&#45;&gt;node_modules/react/index.js -->
 <g id="edge10" class="edge"><title>testbench/client/WebUsbSiDevicesContext.jsx&#45;&gt;node_modules/react/index.js</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" d="M247.808,-631.78C250.061,-630.098 252.142,-628.181 254,-626 267.846,-609.746 248.901,-450.861 262,-434 287.621,-401.022 325.609,-439.365 352,-407 372.585,-381.756 347.985,-288.776 365,-261 374.496,-245.499 391.081,-234.194 406.386,-226.463"/>
-<polygon fill="#000000" fill-opacity="0.466667" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" points="408.109,-229.521 415.676,-222.105 405.136,-223.183 408.109,-229.521"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M247.808,-631.78C250.061,-630.098 252.142,-628.181 254,-626 267.846,-609.746 248.901,-450.861 262,-434 287.621,-401.022 325.609,-439.365 352,-407 372.585,-381.756 347.985,-288.776 365,-261 374.496,-245.499 391.081,-234.194 406.386,-226.463"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="408.109,-229.521 415.676,-222.105 405.136,-223.183 408.109,-229.521"/>
 </g>
 <!-- testbench/client/commands/BaseCommand.jsx -->
 <g id="node15" class="node"><title>testbench/client/commands/BaseCommand.jsx</title>
@@ -238,13 +238,13 @@
 </g>
 <!-- testbench/client/commands/BaseCommand.jsx&#45;&gt;node_modules/react/index.js -->
 <g id="edge12" class="edge"><title>testbench/client/commands/BaseCommand.jsx&#45;&gt;node_modules/react/index.js</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" d="M391.88,-649.497C377.568,-646.665 364.304,-640.257 358.5,-627 350.479,-608.679 350.479,-285.321 358.5,-267 367.204,-247.12 387.481,-233.77 405.931,-225.318"/>
-<polygon fill="#000000" fill-opacity="0.466667" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" points="407.497,-228.456 415.342,-221.336 404.769,-222.009 407.497,-228.456"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M391.88,-649.497C377.568,-646.665 364.304,-640.257 358.5,-627 350.479,-608.679 350.479,-285.321 358.5,-267 367.204,-247.12 387.481,-233.77 405.931,-225.318"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="407.497,-228.456 415.342,-221.336 404.769,-222.009 407.497,-228.456"/>
 </g>
 <!-- testbench/client/commands/BaseCommand.jsx&#45;&gt;src/index.js -->
 <g id="edge11" class="edge"><title>testbench/client/commands/BaseCommand.jsx&#45;&gt;src/index.js</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" d="M493.144,-643.98C511.265,-644.834 530.583,-649.302 544,-662 573.853,-690.252 582.857,-819.36 585.236,-868.728"/>
-<polygon fill="#000000" fill-opacity="0.466667" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" points="581.75,-869.134 585.687,-878.97 588.743,-868.826 581.75,-869.134"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M493.144,-643.98C511.265,-644.834 530.583,-649.302 544,-662 573.853,-690.252 582.857,-819.36 585.236,-868.728"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="581.75,-869.134 585.687,-878.97 588.743,-868.826 581.75,-869.134"/>
 </g>
 <!-- testbench/client/commands/getBackup.jsx -->
 <g id="node16" class="node"><title>testbench/client/commands/getBackup.jsx</title>
@@ -256,13 +256,13 @@
 </g>
 <!-- testbench/client/commands/getBackup.jsx&#45;&gt;src/index.js -->
 <g id="edge13" class="edge"><title>testbench/client/commands/getBackup.jsx&#45;&gt;src/index.js</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" d="M345.981,-628.17C348.272,-629.805 350.329,-631.731 352,-634 381.703,-674.325 330.897,-822.321 365,-859 377.366,-872.301 490.439,-881.689 549.869,-885.75"/>
-<polygon fill="#000000" fill-opacity="0.466667" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" points="549.749,-889.25 559.96,-886.424 550.215,-882.266 549.749,-889.25"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M345.981,-628.17C348.272,-629.805 350.329,-631.731 352,-634 381.703,-674.325 330.897,-822.321 365,-859 377.366,-872.301 490.439,-881.689 549.869,-885.75"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="549.749,-889.25 559.96,-886.424 550.215,-882.266 549.749,-889.25"/>
 </g>
 <!-- testbench/client/commands/getBackup.jsx&#45;&gt;testbench/client/commands/BaseCommand.jsx -->
 <g id="edge14" class="edge"><title>testbench/client/commands/getBackup.jsx&#45;&gt;testbench/client/commands/BaseCommand.jsx</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" d="M345.012,-628.004C351.617,-629.725 358.517,-631.467 365,-633 371.99,-634.653 379.36,-636.307 386.655,-637.89"/>
-<polygon fill="#000000" fill-opacity="0.466667" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" points="386.001,-641.329 396.512,-639.998 387.466,-634.484 386.001,-641.329"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M345.012,-628.004C351.617,-629.725 358.517,-631.467 365,-633 371.99,-634.653 379.36,-636.307 386.655,-637.89"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="386.001,-641.329 396.512,-639.998 387.466,-634.484 386.001,-641.329"/>
 </g>
 <!-- testbench/client/commands/getDirectOrRemoteStation.jsx -->
 <g id="node17" class="node"><title>testbench/client/commands/getDirectOrRemoteStation.jsx</title>
@@ -274,8 +274,8 @@
 </g>
 <!-- testbench/client/commands/getBackup.jsx&#45;&gt;testbench/client/commands/getDirectOrRemoteStation.jsx -->
 <g id="edge15" class="edge"><title>testbench/client/commands/getBackup.jsx&#45;&gt;testbench/client/commands/getDirectOrRemoteStation.jsx</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" d="M352.265,-618.689C353.017,-618.683 353.773,-618.677 354.535,-618.672"/>
-<polygon fill="#000000" fill-opacity="0.466667" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" points="354.685,-622.171 364.658,-618.593 354.631,-615.171 354.685,-622.171"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M352.265,-618.689C353.017,-618.683 353.773,-618.677 354.535,-618.672"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="354.685,-622.171 364.658,-618.593 354.631,-615.171 354.685,-622.171"/>
 </g>
 <!-- testbench/client/commands/getInfo.jsx -->
 <g id="node18" class="node"><title>testbench/client/commands/getInfo.jsx</title>
@@ -287,28 +287,28 @@
 </g>
 <!-- testbench/client/commands/getInfo.jsx&#45;&gt;node_modules/lodash/lodash.js -->
 <g id="edge19" class="edge"><title>testbench/client/commands/getInfo.jsx&#45;&gt;node_modules/lodash/lodash.js</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" d="M333.925,-549.887C340.289,-546.507 346.891,-542.203 352,-537 396.493,-491.688 424.31,-419.743 435.645,-385.844"/>
-<polygon fill="#000000" fill-opacity="0.466667" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" points="438.999,-386.849 438.747,-376.257 432.339,-384.694 438.999,-386.849"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M333.925,-549.887C340.289,-546.507 346.891,-542.203 352,-537 396.493,-491.688 424.31,-419.743 435.645,-385.844"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="438.999,-386.849 438.747,-376.257 432.339,-384.694 438.999,-386.849"/>
 </g>
 <!-- testbench/client/commands/getInfo.jsx&#45;&gt;node_modules/react/index.js -->
 <g id="edge20" class="edge"><title>testbench/client/commands/getInfo.jsx&#45;&gt;node_modules/react/index.js</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" d="M322.717,-549.962C332.325,-541.134 345.828,-526.756 352,-511 372.29,-459.202 336.82,-308.965 365,-261 374.208,-245.327 390.766,-234.005 406.128,-226.308"/>
-<polygon fill="#000000" fill-opacity="0.466667" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" points="407.864,-229.361 415.462,-221.977 404.918,-223.011 407.864,-229.361"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M322.717,-549.962C332.325,-541.134 345.828,-526.756 352,-511 372.29,-459.202 336.82,-308.965 365,-261 374.208,-245.327 390.766,-234.005 406.128,-226.308"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="407.864,-229.361 415.462,-221.977 404.918,-223.011 407.864,-229.361"/>
 </g>
 <!-- testbench/client/commands/getInfo.jsx&#45;&gt;src/index.js -->
 <g id="edge16" class="edge"><title>testbench/client/commands/getInfo.jsx&#45;&gt;src/index.js</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" d="M343.771,-566.689C346.955,-568.608 349.813,-571.005 352,-574 369.317,-597.72 345.006,-816.488 365,-838 392.284,-867.355 506.424,-846.064 544,-860 552.204,-863.043 560.397,-867.971 567.34,-872.851"/>
-<polygon fill="#000000" fill-opacity="0.466667" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" points="565.269,-875.673 575.373,-878.862 569.463,-870.068 565.269,-875.673"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M343.771,-566.689C346.955,-568.608 349.813,-571.005 352,-574 369.317,-597.72 345.006,-816.488 365,-838 392.284,-867.355 506.424,-846.064 544,-860 552.204,-863.043 560.397,-867.971 567.34,-872.851"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="565.269,-875.673 575.373,-878.862 569.463,-870.068 565.269,-875.673"/>
 </g>
 <!-- testbench/client/commands/getInfo.jsx&#45;&gt;testbench/client/commands/BaseCommand.jsx -->
 <g id="edge17" class="edge"><title>testbench/client/commands/getInfo.jsx&#45;&gt;testbench/client/commands/BaseCommand.jsx</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" d="M343.689,-567.289C346.803,-569.102 349.667,-571.311 352,-574 369.593,-594.285 345.912,-614.115 365,-633 369.86,-637.809 375.772,-641.344 382.131,-643.922"/>
-<polygon fill="#000000" fill-opacity="0.466667" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" points="381.107,-647.269 391.7,-647.049 383.282,-640.616 381.107,-647.269"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M343.689,-567.289C346.803,-569.102 349.667,-571.311 352,-574 369.593,-594.285 345.912,-614.115 365,-633 369.86,-637.809 375.772,-641.344 382.131,-643.922"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="381.107,-647.269 391.7,-647.049 383.282,-640.616 381.107,-647.269"/>
 </g>
 <!-- testbench/client/commands/getInfo.jsx&#45;&gt;testbench/client/commands/getDirectOrRemoteStation.jsx -->
 <g id="edge18" class="edge"><title>testbench/client/commands/getInfo.jsx&#45;&gt;testbench/client/commands/getDirectOrRemoteStation.jsx</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" d="M337.542,-568.151C342.378,-570.004 347.37,-572 352,-574 373.591,-583.329 397.469,-595.147 415.128,-604.185"/>
-<polygon fill="#000000" fill-opacity="0.466667" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" points="413.752,-607.414 424.244,-608.887 416.961,-601.193 413.752,-607.414"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M337.542,-568.151C342.378,-570.004 347.37,-572 352,-574 373.591,-583.329 397.469,-595.147 415.128,-604.185"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="413.752,-607.414 424.244,-608.887 416.961,-601.193 413.752,-607.414"/>
 </g>
 <!-- testbench/client/commands/pipe.jsx -->
 <g id="node20" class="node"><title>testbench/client/commands/pipe.jsx</title>
@@ -320,18 +320,18 @@
 </g>
 <!-- testbench/client/commands/pipe.jsx&#45;&gt;src/index.js -->
 <g id="edge21" class="edge"><title>testbench/client/commands/pipe.jsx&#45;&gt;src/index.js</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" d="M338.102,-743.948C343.473,-746.162 348.538,-749.365 352,-754 376.395,-786.665 335.168,-909.212 365,-937 394.107,-964.112 507.861,-953.621 544,-937 557.837,-930.636 568.822,-917.214 576.082,-906.024"/>
-<polygon fill="#000000" fill-opacity="0.466667" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" points="579.14,-907.73 581.285,-897.354 573.138,-904.128 579.14,-907.73"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M338.102,-743.948C343.473,-746.162 348.538,-749.365 352,-754 376.395,-786.665 335.168,-909.212 365,-937 394.107,-964.112 507.861,-953.621 544,-937 557.837,-930.636 568.822,-917.214 576.082,-906.024"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="579.14,-907.73 581.285,-897.354 573.138,-904.128 579.14,-907.73"/>
 </g>
 <!-- testbench/client/commands/pipe.jsx&#45;&gt;testbench/client/SiExternalApplication.js -->
 <g id="edge22" class="edge"><title>testbench/client/commands/pipe.jsx&#45;&gt;testbench/client/SiExternalApplication.js</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" d="M338.379,-744.743C343.475,-746.912 348.355,-749.897 352,-754 368.107,-772.133 347.347,-790.368 365,-807 366.757,-808.655 368.641,-810.147 370.626,-811.491"/>
-<polygon fill="#000000" fill-opacity="0.466667" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" points="369.434,-814.824 379.899,-816.48 372.751,-808.66 369.434,-814.824"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M338.379,-744.743C343.475,-746.912 348.355,-749.897 352,-754 368.107,-772.133 347.347,-790.368 365,-807 366.757,-808.655 368.641,-810.147 370.626,-811.491"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="369.434,-814.824 379.899,-816.48 372.751,-808.66 369.434,-814.824"/>
 </g>
 <!-- testbench/client/commands/pipe.jsx&#45;&gt;testbench/client/commands/BaseCommand.jsx -->
 <g id="edge23" class="edge"><title>testbench/client/commands/pipe.jsx&#45;&gt;testbench/client/commands/BaseCommand.jsx</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" d="M338.072,-733.525C343.312,-731.337 348.329,-728.277 352,-724 370.338,-702.637 344.713,-681.523 365,-662 369.778,-657.402 375.546,-654.092 381.747,-651.744"/>
-<polygon fill="#000000" fill-opacity="0.466667" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" points="383.161,-654.977 391.769,-648.799 381.188,-648.26 383.161,-654.977"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M338.072,-733.525C343.312,-731.337 348.329,-728.277 352,-724 370.338,-702.637 344.713,-681.523 365,-662 369.778,-657.402 375.546,-654.092 381.747,-651.744"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="383.161,-654.977 391.769,-648.799 381.188,-648.26 383.161,-654.977"/>
 </g>
 <!-- testbench/client/commands/send.jsx -->
 <g id="node21" class="node"><title>testbench/client/commands/send.jsx</title>
@@ -343,18 +343,18 @@
 </g>
 <!-- testbench/client/commands/send.jsx&#45;&gt;src/index.js -->
 <g id="edge24" class="edge"><title>testbench/client/commands/send.jsx&#45;&gt;src/index.js</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" d="M338.667,-581.075C386.546,-568.655 487.358,-551.034 544,-603 583.041,-638.819 586.228,-810.568 586.166,-868.71"/>
-<polygon fill="#000000" fill-opacity="0.466667" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" points="582.666,-868.734 586.121,-878.75 589.666,-868.766 582.666,-868.734"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M338.667,-581.075C386.546,-568.655 487.358,-551.034 544,-603 583.041,-638.819 586.228,-810.568 586.166,-868.71"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="582.666,-868.734 586.121,-878.75 589.666,-868.766 582.666,-868.734"/>
 </g>
 <!-- testbench/client/commands/send.jsx&#45;&gt;testbench/client/commands/BaseCommand.jsx -->
 <g id="edge25" class="edge"><title>testbench/client/commands/send.jsx&#45;&gt;testbench/client/commands/BaseCommand.jsx</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" d="M338.67,-595.62C343.51,-597.714 348.216,-600.446 352,-604 362.296,-613.67 353.997,-624.143 365,-633 370.063,-637.076 375.911,-640.187 382.071,-642.551"/>
-<polygon fill="#000000" fill-opacity="0.466667" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" points="381.352,-645.995 391.942,-645.683 383.469,-639.322 381.352,-645.995"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M338.67,-595.62C343.51,-597.714 348.216,-600.446 352,-604 362.296,-613.67 353.997,-624.143 365,-633 370.063,-637.076 375.911,-640.187 382.071,-642.551"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="381.352,-645.995 391.942,-645.683 383.469,-639.322 381.352,-645.995"/>
 </g>
 <!-- testbench/client/commands/send.jsx&#45;&gt;testbench/client/commands/getDirectOrRemoteStation.jsx -->
 <g id="edge26" class="edge"><title>testbench/client/commands/send.jsx&#45;&gt;testbench/client/commands/getDirectOrRemoteStation.jsx</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" d="M338.519,-594.939C353.753,-598.35 373.386,-602.747 391.418,-606.785"/>
-<polygon fill="#000000" fill-opacity="0.466667" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" points="390.709,-610.213 401.232,-608.983 392.239,-603.382 390.709,-610.213"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M338.519,-594.939C353.753,-598.35 373.386,-602.747 391.418,-606.785"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="390.709,-610.213 401.232,-608.983 392.239,-603.382 390.709,-610.213"/>
 </g>
 <!-- testbench/client/commands/setInfo.jsx -->
 <g id="node22" class="node"><title>testbench/client/commands/setInfo.jsx</title>
@@ -366,18 +366,18 @@
 </g>
 <!-- testbench/client/commands/setInfo.jsx&#45;&gt;src/index.js -->
 <g id="edge27" class="edge"><title>testbench/client/commands/setInfo.jsx&#45;&gt;src/index.js</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" d="M343.359,-656.482C346.702,-658.434 349.711,-660.896 352,-664 366.599,-683.797 347.218,-868.004 365,-885 390.538,-909.41 493.673,-900.257 549.566,-893.195"/>
-<polygon fill="#000000" fill-opacity="0.466667" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" points="550.288,-896.63 559.751,-891.865 549.382,-889.689 550.288,-896.63"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M343.359,-656.482C346.702,-658.434 349.711,-660.896 352,-664 366.599,-683.797 347.218,-868.004 365,-885 390.538,-909.41 493.673,-900.257 549.566,-893.195"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="550.288,-896.63 559.751,-891.865 549.382,-889.689 550.288,-896.63"/>
 </g>
 <!-- testbench/client/commands/setInfo.jsx&#45;&gt;testbench/client/commands/BaseCommand.jsx -->
 <g id="edge28" class="edge"><title>testbench/client/commands/setInfo.jsx&#45;&gt;testbench/client/commands/BaseCommand.jsx</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" d="M343.018,-649C354.646,-649 368.287,-649 381.648,-649"/>
-<polygon fill="#000000" fill-opacity="0.466667" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" points="381.773,-652.5 391.773,-649 381.773,-645.5 381.773,-652.5"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M343.018,-649C354.646,-649 368.287,-649 381.648,-649"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="381.773,-652.5 391.773,-649 381.773,-645.5 381.773,-652.5"/>
 </g>
 <!-- testbench/client/commands/setInfo.jsx&#45;&gt;testbench/client/commands/getDirectOrRemoteStation.jsx -->
 <g id="edge29" class="edge"><title>testbench/client/commands/setInfo.jsx&#45;&gt;testbench/client/commands/getDirectOrRemoteStation.jsx</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" d="M342.452,-639.99C349.808,-637.922 357.664,-635.803 365,-634 371.64,-632.368 378.63,-630.759 385.574,-629.226"/>
-<polygon fill="#000000" fill-opacity="0.466667" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" points="386.637,-632.577 395.671,-627.042 385.157,-625.736 386.637,-632.577"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M342.452,-639.99C349.808,-637.922 357.664,-635.803 365,-634 371.64,-632.368 378.63,-630.759 385.574,-629.226"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="386.637,-632.577 395.671,-627.042 385.157,-625.736 386.637,-632.577"/>
 </g>
 <!-- testbench/client/commands/simulate.jsx -->
 <g id="node23" class="node"><title>testbench/client/commands/simulate.jsx</title>
@@ -389,18 +389,18 @@
 </g>
 <!-- testbench/client/commands/simulate.jsx&#45;&gt;src/index.js -->
 <g id="edge30" class="edge"><title>testbench/client/commands/simulate.jsx&#45;&gt;src/index.js</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" d="M345.976,-688.174C348.268,-689.808 350.326,-691.733 352,-694 380.692,-732.865 329.834,-877.878 365,-911 393.956,-938.273 505.464,-920.861 544,-911 551.143,-909.172 558.377,-905.851 564.783,-902.289"/>
-<polygon fill="#000000" fill-opacity="0.466667" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" points="566.715,-905.211 573.467,-897.046 563.097,-899.219 566.715,-905.211"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M345.976,-688.174C348.268,-689.808 350.326,-691.733 352,-694 380.692,-732.865 329.834,-877.878 365,-911 393.956,-938.273 505.464,-920.861 544,-911 551.143,-909.172 558.377,-905.851 564.783,-902.289"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="566.715,-905.211 573.467,-897.046 563.097,-899.219 566.715,-905.211"/>
 </g>
 <!-- testbench/client/commands/simulate.jsx&#45;&gt;testbench/client/SiExternalApplication.js -->
 <g id="edge31" class="edge"><title>testbench/client/commands/simulate.jsx&#45;&gt;testbench/client/SiExternalApplication.js</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" d="M345.474,-688.023C347.941,-689.689 350.173,-691.662 352,-694 383.126,-733.835 330.461,-770.085 365,-807 366.816,-808.941 368.805,-810.666 370.93,-812.198"/>
-<polygon fill="#000000" fill-opacity="0.466667" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" points="369.296,-815.294 379.72,-817.188 372.752,-809.207 369.296,-815.294"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M345.474,-688.023C347.941,-689.689 350.173,-691.662 352,-694 383.126,-733.835 330.461,-770.085 365,-807 366.816,-808.941 368.805,-810.666 370.93,-812.198"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="369.296,-815.294 379.72,-817.188 372.752,-809.207 369.296,-815.294"/>
 </g>
 <!-- testbench/client/commands/simulate.jsx&#45;&gt;testbench/client/commands/BaseCommand.jsx -->
 <g id="edge32" class="edge"><title>testbench/client/commands/simulate.jsx&#45;&gt;testbench/client/commands/BaseCommand.jsx</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" d="M337.669,-669.956C346.282,-667.14 355.988,-664.199 365,-662 370.399,-660.683 376.044,-659.452 381.716,-658.315"/>
-<polygon fill="#000000" fill-opacity="0.466667" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" points="382.74,-661.683 391.907,-656.37 381.428,-654.807 382.74,-661.683"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M337.669,-669.956C346.282,-667.14 355.988,-664.199 365,-662 370.399,-660.683 376.044,-659.452 381.716,-658.315"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="382.74,-661.683 391.907,-656.37 381.428,-654.807 382.74,-661.683"/>
 </g>
 <!-- testbench/client/commands/test.jsx -->
 <g id="node24" class="node"><title>testbench/client/commands/test.jsx</title>
@@ -412,13 +412,13 @@
 </g>
 <!-- testbench/client/commands/test.jsx&#45;&gt;src/index.js -->
 <g id="edge33" class="edge"><title>testbench/client/commands/test.jsx&#45;&gt;src/index.js</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" d="M313.038,-778.048C317.272,-813.171 334.473,-939.694 365,-963 396.617,-987.138 509.683,-983.114 544,-963 564.568,-950.945 575.821,-924.73 581.375,-906.721"/>
-<polygon fill="#000000" fill-opacity="0.466667" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" points="584.771,-907.574 584.072,-897.002 578.026,-905.702 584.771,-907.574"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M313.038,-778.048C317.272,-813.171 334.473,-939.694 365,-963 396.617,-987.138 509.683,-983.114 544,-963 564.568,-950.945 575.821,-924.73 581.375,-906.721"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="584.771,-907.574 584.072,-897.002 578.026,-905.702 584.771,-907.574"/>
 </g>
 <!-- testbench/client/commands/test.jsx&#45;&gt;testbench/client/commands/BaseCommand.jsx -->
 <g id="edge34" class="edge"><title>testbench/client/commands/test.jsx&#45;&gt;testbench/client/commands/BaseCommand.jsx</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" d="M338.285,-763.702C343.514,-761.504 348.472,-758.396 352,-754 377.844,-721.792 336.211,-691.605 365,-662 369.796,-657.068 375.722,-653.587 382.137,-651.173"/>
-<polygon fill="#000000" fill-opacity="0.466667" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" points="383.187,-654.513 391.81,-648.356 381.23,-647.792 383.187,-654.513"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M338.285,-763.702C343.514,-761.504 348.472,-758.396 352,-754 377.844,-721.792 336.211,-691.605 365,-662 369.796,-657.068 375.722,-653.587 382.137,-651.173"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="383.187,-654.513 391.81,-648.356 381.23,-647.792 383.187,-654.513"/>
 </g>
 <!-- testbench/client/index.html -->
 <g id="node25" class="node"><title>testbench/client/index.html</title>
@@ -438,43 +438,43 @@
 </g>
 <!-- testbench/client/index.jsx&#45;&gt;node_modules/prop&#45;types/index.js -->
 <g id="edge41" class="edge"><title>testbench/client/index.jsx&#45;&gt;node_modules/prop&#45;types/index.js</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" d="M67.3597,-571.73C76.8799,-562.083 90.7461,-546.027 97,-529 102.64,-513.645 95.066,-394.996 105,-382 149.64,-323.602 191.901,-352.119 262,-330 301.826,-317.434 325.145,-334.981 352,-303 383.657,-265.3 337.068,-233.538 365,-193 374.626,-179.029 390.698,-169.593 405.632,-163.412"/>
-<polygon fill="#000000" fill-opacity="0.466667" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" points="407.079,-166.607 415.203,-159.806 404.611,-160.057 407.079,-166.607"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M67.3597,-571.73C76.8799,-562.083 90.7461,-546.027 97,-529 102.64,-513.645 95.066,-394.996 105,-382 149.64,-323.602 191.901,-352.119 262,-330 301.826,-317.434 325.145,-334.981 352,-303 383.657,-265.3 337.068,-233.538 365,-193 374.626,-179.029 390.698,-169.593 405.632,-163.412"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="407.079,-166.607 415.203,-159.806 404.611,-160.057 407.079,-166.607"/>
 </g>
 <!-- testbench/client/index.jsx&#45;&gt;node_modules/react&#45;dom/index.js -->
 <g id="edge43" class="edge"><title>testbench/client/index.jsx&#45;&gt;node_modules/react&#45;dom/index.js</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" d="M67.4107,-571.749C76.9706,-562.116 90.867,-546.071 97,-529 104.482,-508.174 91.7208,-347.702 105,-330 146.917,-274.123 200.628,-325.062 254,-280 333.765,-212.655 290.799,-146.431 365,-73 376.512,-61.6079 391.936,-52.706 405.918,-46.222"/>
-<polygon fill="#000000" fill-opacity="0.466667" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" points="407.542,-49.3319 415.302,-42.1184 404.738,-42.9183 407.542,-49.3319"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M67.4107,-571.749C76.9706,-562.116 90.867,-546.071 97,-529 104.482,-508.174 91.7208,-347.702 105,-330 146.917,-274.123 200.628,-325.062 254,-280 333.765,-212.655 290.799,-146.431 365,-73 376.512,-61.6079 391.936,-52.706 405.918,-46.222"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="407.542,-49.3319 415.302,-42.1184 404.738,-42.9183 407.542,-49.3319"/>
 </g>
 <!-- testbench/client/index.jsx&#45;&gt;node_modules/react/index.js -->
 <g id="edge42" class="edge"><title>testbench/client/index.jsx&#45;&gt;node_modules/react/index.js</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" d="M64.9184,-571.991C90.1282,-541.762 175.74,-442.244 262,-378 298.527,-350.796 325.147,-365.786 352,-329 370.142,-304.148 347.635,-286.401 365,-261 375.406,-245.779 392.393,-234.414 407.721,-226.573"/>
-<polygon fill="#000000" fill-opacity="0.466667" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" points="409.466,-229.618 416.976,-222.144 406.444,-223.304 409.466,-229.618"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M64.9184,-571.991C90.1282,-541.762 175.74,-442.244 262,-378 298.527,-350.796 325.147,-365.786 352,-329 370.142,-304.148 347.635,-286.401 365,-261 375.406,-245.779 392.393,-234.414 407.721,-226.573"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="409.466,-229.618 416.976,-222.144 406.444,-223.304 409.466,-229.618"/>
 </g>
 <!-- testbench/client/index.jsx&#45;&gt;src/index.js -->
 <g id="edge35" class="edge"><title>testbench/client/index.jsx&#45;&gt;src/index.js</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" d="M59.494,-590.381C65.9572,-621.137 86.5144,-721.778 97,-806 98.4866,-817.941 97.2826,-904.768 105,-914 231.585,-1065.43 378.186,-1088.06 544,-981 569.21,-964.723 579.446,-929.272 583.487,-907.145"/>
-<polygon fill="#000000" fill-opacity="0.466667" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" points="586.951,-907.651 585.047,-897.228 580.036,-906.563 586.951,-907.651"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M59.494,-590.381C65.9572,-621.137 86.5144,-721.778 97,-806 98.4866,-817.941 97.2826,-904.768 105,-914 231.585,-1065.43 378.186,-1088.06 544,-981 569.21,-964.723 579.446,-929.272 583.487,-907.145"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="586.951,-907.651 585.047,-897.228 580.036,-906.563 586.951,-907.651"/>
 </g>
 <!-- testbench/client/index.jsx&#45;&gt;testbench/client/MainStationList.jsx -->
 <g id="edge37" class="edge"><title>testbench/client/index.jsx&#45;&gt;testbench/client/MainStationList.jsx</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" d="M84.6548,-581C94.4629,-581 105.972,-581 117.504,-581"/>
-<polygon fill="#000000" fill-opacity="0.466667" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" points="117.603,-584.5 127.603,-581 117.603,-577.5 117.603,-584.5"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M84.6548,-581C94.4629,-581 105.972,-581 117.504,-581"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="117.603,-584.5 127.603,-581 117.603,-577.5 117.603,-584.5"/>
 </g>
 <!-- testbench/client/index.jsx&#45;&gt;testbench/client/Terminal.jsx -->
 <g id="edge39" class="edge"><title>testbench/client/index.jsx&#45;&gt;testbench/client/Terminal.jsx</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" d="M60.5368,-590.069C66.4051,-606.114 80.8935,-639.374 105,-656 113.604,-661.934 124.036,-665.621 134.305,-667.888"/>
-<polygon fill="#000000" fill-opacity="0.466667" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" points="133.984,-671.386 144.445,-669.711 135.223,-664.497 133.984,-671.386"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M60.5368,-590.069C66.4051,-606.114 80.8935,-639.374 105,-656 113.604,-661.934 124.036,-665.621 134.305,-667.888"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="133.984,-671.386 144.445,-669.711 135.223,-664.497 133.984,-671.386"/>
 </g>
 <!-- testbench/client/index.jsx&#45;&gt;testbench/client/WebUsbSiDevicesContext.jsx -->
 <g id="edge40" class="edge"><title>testbench/client/index.jsx&#45;&gt;testbench/client/WebUsbSiDevicesContext.jsx</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" d="M64.4784,-590.173C72.9049,-600.563 88.0711,-617.19 105,-626 106.549,-626.806 108.137,-627.569 109.756,-628.291"/>
-<polygon fill="#000000" fill-opacity="0.466667" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" points="108.721,-631.643 119.31,-631.993 111.25,-625.116 108.721,-631.643"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M64.4784,-590.173C72.9049,-600.563 88.0711,-617.19 105,-626 106.549,-626.806 108.137,-627.569 109.756,-628.291"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="108.721,-631.643 119.31,-631.993 111.25,-625.116 108.721,-631.643"/>
 </g>
 <!-- testbench/client/index.jsx&#45;&gt;testbench/client/index.html -->
 <g id="edge36" class="edge"><title>testbench/client/index.jsx&#45;&gt;testbench/client/index.html</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" d="M84.4869,-571.94C91.1528,-569.851 98.3029,-567.736 105,-566 115.212,-563.353 126.319,-560.88 136.734,-558.735"/>
-<polygon fill="#000000" fill-opacity="0.466667" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" points="137.742,-562.103 146.859,-556.705 136.366,-555.239 137.742,-562.103"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M84.4869,-571.94C91.1528,-569.851 98.3029,-567.736 105,-566 115.212,-563.353 126.319,-560.88 136.734,-558.735"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="137.742,-562.103 146.859,-556.705 136.366,-555.239 137.742,-562.103"/>
 </g>
 <!-- testbench/client/styles.css -->
 <g id="node27" class="node"><title>testbench/client/styles.css</title>
@@ -486,8 +486,8 @@
 </g>
 <!-- testbench/client/index.jsx&#45;&gt;testbench/client/styles.css -->
 <g id="edge38" class="edge"><title>testbench/client/index.jsx&#45;&gt;testbench/client/styles.css</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" d="M84.4869,-590.06C91.1528,-592.149 98.3029,-594.264 105,-596 115.7,-598.773 127.384,-601.356 138.224,-603.571"/>
-<polygon fill="#000000" fill-opacity="0.466667" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" points="137.807,-607.056 148.298,-605.575 139.173,-600.191 137.807,-607.056"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M84.4869,-590.06C91.1528,-592.149 98.3029,-594.264 105,-596 115.7,-598.773 127.384,-601.356 138.224,-603.571"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="137.807,-607.056 148.298,-605.575 139.173,-600.191 137.807,-607.056"/>
 </g>
 <!-- testbench/server/.eslintrc.js -->
 <g id="node28" class="node"><title>testbench/server/.eslintrc.js</title>
@@ -499,8 +499,8 @@
 </g>
 <!-- testbench/server/.eslintrc.js&#45;&gt;eslint.js -->
 <g id="edge44" class="edge"><title>testbench/server/.eslintrc.js&#45;&gt;eslint.js</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" d="M70.7988,-500.144C80.0203,-507.333 91.5808,-518.245 97,-531 111.255,-564.553 85.9952,-827.89 105,-859 113.43,-872.8 128.426,-882.161 142.683,-888.335"/>
-<polygon fill="#000000" fill-opacity="0.466667" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" points="141.758,-891.732 152.346,-892.116 144.308,-885.213 141.758,-891.732"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M70.7988,-500.144C80.0203,-507.333 91.5808,-518.245 97,-531 111.255,-564.553 85.9952,-827.89 105,-859 113.43,-872.8 128.426,-882.161 142.683,-888.335"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="141.758,-891.732 152.346,-892.116 144.308,-885.213 141.758,-891.732"/>
 </g>
 <!-- testbench/server/index.js -->
 <g id="node29" class="node"><title>testbench/server/index.js</title>
@@ -517,8 +517,8 @@
 </g>
 <!-- testbench/server/index.js&#45;&gt;node_modules/ws/index.js -->
 <g id="edge46" class="edge"><title>testbench/server/index.js&#45;&gt;node_modules/ws/index.js</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" d="M58.5171,-451.564C62.6351,-414.877 79.0981,-282.173 105,-250 183.252,-152.803 335.547,-112.832 405.179,-99.1165"/>
-<polygon fill="#000000" fill-opacity="0.466667" stroke="#000000" stroke-width="2" stroke-opacity="0.466667" points="406.057,-102.512 415.228,-97.2077 404.751,-95.6354 406.057,-102.512"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M58.5171,-451.564C62.6351,-414.877 79.0981,-282.173 105,-250 183.252,-152.803 335.547,-112.832 405.179,-99.1165"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="406.057,-102.512 415.228,-97.2077 404.751,-95.6354 406.057,-102.512"/>
 </g>
 </g>
 </svg>

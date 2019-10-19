@@ -1,14 +1,14 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Code coverage report for src/SiDevice/drivers/WebUsbSiDevice.js</title>
+    <title>Code coverage report for src/SiDevice/SiDevice.ts</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="../../../prettify.css" />
-    <link rel="stylesheet" href="../../../base.css" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style type='text/css'>
         .coverage-summary .sorter {
-            background-image: url(../../../sort-arrow-sprite.png);
+            background-image: url(../../sort-arrow-sprite.png);
         }
     </style>
 </head>
@@ -16,28 +16,28 @@
 <div class='wrapper'>
   <div class='pad1'>
     <h1>
-      <a href="../../../index.html">All files</a> / <a href="index.html">src/SiDevice/drivers</a> WebUsbSiDevice.js
+      <a href="../../index.html">All files</a> / <a href="index.html">src/SiDevice</a> SiDevice.ts
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>63/63</span>
+        <span class='fraction'>62/62</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>10/10</span>
+        <span class='fraction'>20/20</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>28/28</span>
+        <span class='fraction'>18/18</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>60/60</span>
+        <span class='fraction'>62/62</span>
       </div>
     </div>
     <p class="quiet">
@@ -178,319 +178,280 @@
 <a name='L130'></a><a href='#L130'>130</a>
 <a name='L131'></a><a href='#L131'>131</a>
 <a name='L132'></a><a href='#L132'>132</a>
-<a name='L133'></a><a href='#L133'>133</a>
-<a name='L134'></a><a href='#L134'>134</a>
-<a name='L135'></a><a href='#L135'>135</a>
-<a name='L136'></a><a href='#L136'>136</a>
-<a name='L137'></a><a href='#L137'>137</a>
-<a name='L138'></a><a href='#L138'>138</a>
-<a name='L139'></a><a href='#L139'>139</a>
-<a name='L140'></a><a href='#L140'>140</a>
-<a name='L141'></a><a href='#L141'>141</a>
-<a name='L142'></a><a href='#L142'>142</a>
-<a name='L143'></a><a href='#L143'>143</a>
-<a name='L144'></a><a href='#L144'>144</a>
-<a name='L145'></a><a href='#L145'>145</a>
-<a name='L146'></a><a href='#L146'>146</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L133'></a><a href='#L133'>133</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">42x</span>
+<span class="cline-any cline-yes">42x</span>
+<span class="cline-any cline-yes">42x</span>
+<span class="cline-any cline-yes">42x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">73x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">57x</span>
+<span class="cline-any cline-yes">51x</span>
+<span class="cline-any cline-yes">51x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">11x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import {BaseSiDevice} from '../BaseSiDevice';
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">81x</span>
+<span class="cline-any cline-yes">81x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">62x</span>
+<span class="cline-any cline-yes">62x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">65x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">81x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import {DeviceClosedError, ISiDevice, ISiDeviceDriverData, SiDeviceEvents, SiDeviceReceiveEvent, SiDeviceState, SiDeviceStateChangeEvent} from './ISiDevice';
+import * as utils from '../utils';
 &nbsp;
-const siConfiguration = 1;
-const siInterface = 0;
-const siAlternate = 0;
-const siEndpoint = 1;
-const siPacketSize = 64;
-const siDeviceFilters = [
-    {vendorId: 0x10c4, productId: 0x800a},
-];
-const matchesSiDeviceFilters = (vendorId, productId) =&gt; siDeviceFilters
-    .some((filter) =&gt; vendorId === filter.vendorId &amp;&amp; productId === filter.productId);
+export class SiDevice&lt;T extends ISiDeviceDriverData&lt;any&gt;&gt; implements ISiDevice&lt;T&gt; {
+    name: string;
+    ident: string;
+    data: T;
+    private internalState: SiDeviceState;
 &nbsp;
-export const getWebUsbSiDeviceClass = (navigatorArg) =&gt; {
-    if (!('usb' in navigatorArg)) {
-        return null;
+    constructor(typeSpecificIdent: string, data: T) {
+        this.data = data;
+        this.name = `${data.driver.name}(${typeSpecificIdent})`;
+        this.ident = `${data.driver.name}-${typeSpecificIdent}`;
+        this.internalState = SiDeviceState.Closed;
     }
-    class WebUsbSiDevice extends BaseSiDevice {
-        static typeSpecificDetect() {
-            return navigatorArg.usb.requestDevice({
-                filters: siDeviceFilters,
-            })
-                .then((webUsbDevice) =&gt; new this(webUsbDevice));
+&nbsp;
+    get state() {
+        return this.internalState;
+    }
+&nbsp;
+    setState(newState: SiDeviceState) {
+        if (newState !== this.internalState) {
+            this.internalState = newState;
+            this.dispatchEvent(
+                'stateChange',
+                new SiDeviceStateChangeEvent(this, newState),
+            );
         }
+    }
 &nbsp;
-        static getTypeSpecificAutodetectedDevices() {
-            return navigatorArg.usb.getDevices()
-                .then((webUsbDevices) =&gt; webUsbDevices.filter((webUsbDevice) =&gt; matchesSiDeviceFilters(
-                    webUsbDevice.vendorId,
-                    webUsbDevice.productId,
-                )))
-                .then((webUsbDevices) =&gt; webUsbDevices.map((webUsbDevice) =&gt; new this(webUsbDevice)));
+    open(): Promise&lt;SiDevice&lt;T&gt;&gt; {
+        if (this.state === SiDeviceState.Closing) {
+            return Promise.reject(new Error(`Cannot open closing ${this.constructor.name}`));
         }
-&nbsp;
-        static registerTypeSpecificAutodetectionCallbacks() {
-            const onConnectCallback = (event) =&gt; {
-                if (!matchesSiDeviceFilters(event.device.vendorId, event.device.productId)) {
-                    return;
-                }
-                this.handleAdd(new this(event.device));
-            };
-            navigatorArg.usb.addEventListener('connect', onConnectCallback);
-            const onDisconnectCallback = (event) =&gt; {
-                if (!matchesSiDeviceFilters(event.device.vendorId, event.device.productId)) {
-                    return;
-                }
-                this.handleRemove(new this(event.device));
-            };
-            navigatorArg.usb.addEventListener('disconnect', onDisconnectCallback);
-&nbsp;
-            return {
-                onConnectCallback: onConnectCallback,
-                onDisconnectCallback: onDisconnectCallback,
-            };
+        if (this.state === SiDeviceState.Opening) {
+            return Promise.reject(new Error(`Cannot open opening ${this.constructor.name}`));
         }
-&nbsp;
-        static deregisterTypeSpecificAutodetectionCallbacks(autodetectionCallbacks) {
-            navigatorArg.usb.removeEventListener('connect', autodetectionCallbacks.onConnectCallback);
-            navigatorArg.usb.removeEventListener('disconnect', autodetectionCallbacks.onDisconnectCallback);
+        if (this.state === SiDeviceState.Opened) {
+            return Promise.resolve(this);
         }
-&nbsp;
-        constructor(webUsbDevice) {
-            super(webUsbDevice.serialNumber);
-            this.webUsbDevice = webUsbDevice;
-        }
-&nbsp;
-        typeSpecificOpen() {
-            console.debug('Opening...');
-            return this.webUsbDevice.open()
+        this.setState(SiDeviceState.Opening);
+        try {
+            return this.data.driver.open(this)
                 .then(() =&gt; {
-                    console.debug('Resetting...');
-                    return this.webUsbDevice.reset();
+                    console.debug('Starting Receive Loop...');
+                    this.receiveLoop();
+                    this.setState(SiDeviceState.Opened);
+                    return this;
                 })
-                .then(() =&gt; {
-                    console.debug('Selecting Configuration...');
-                    return this.webUsbDevice.selectConfiguration(siConfiguration);
-                })
-                .then(() =&gt; {
-                    console.debug('Claiming Interface...');
-                    return this.webUsbDevice.claimInterface(siInterface);
-                })
-                .then(() =&gt; {
-                    console.debug('Selection Alternate Interface...');
-                    return this.webUsbDevice.selectAlternateInterface(siInterface, siAlternate);
-                })
-                .then(() =&gt; {
-                    console.debug('Enabling Serial...');
-                    return this.webUsbDevice.controlTransferOut({
-                        requestType: 'vendor',
-                        recipient: 'interface',
-                        request: 0x00,
-                        value: 0x01,
-                        index: siInterface,
-                    });
-                })
-                .then(() =&gt; {
-                    console.debug('Setting Baudrate...');
-                    return this.webUsbDevice.controlTransferOut({
-                        requestType: 'vendor',
-                        recipient: 'interface',
-                        request: 0x1E,
-                        value: 0x00,
-                        index: siInterface,
-                    }, new Uint8Array([0x00, 0x96, 0x00, 0x00]).buffer);
+                .catch((err: Error) =&gt; {
+                    this.setState(SiDeviceState.Closed);
+                    throw err;
                 });
+        } catch (err) {
+            return Promise.reject(err);
         }
+    }
 &nbsp;
-        typeSpecificClose() {
-            console.debug('Disabling Serial...');
-            return this.webUsbDevice.controlTransferOut({
-                requestType: 'vendor',
-                recipient: 'interface',
-                request: 0x00,
-                value: 0x00,
-                index: siInterface,
-            })
+    close(): Promise&lt;SiDevice&lt;T&gt;&gt; {
+        if (this.state === SiDeviceState.Closing) {
+            return Promise.reject(new Error(`Cannot close closing ${this.constructor.name}`));
+        }
+        if (this.state === SiDeviceState.Opening) {
+            return Promise.reject(new Error(`Cannot close opening ${this.constructor.name}`));
+        }
+        if (this.state === SiDeviceState.Closed) {
+            return Promise.resolve(this);
+        }
+        this.setState(SiDeviceState.Closing);
+        try {
+            return this.data.driver.close(this)
                 .then(() =&gt; {
-                    console.debug('Releasing Interface...');
-                    return this.webUsbDevice.releaseInterface(siInterface);
+                    this.setState(SiDeviceState.Closed);
+                    return this;
                 })
-                .then(() =&gt; {
-                    console.debug('Closing Device...');
-                    return this.webUsbDevice.close();
+                .catch((err: Error) =&gt; {
+                    this.setState(SiDeviceState.Closed);
+                    throw err;
                 });
+        } catch (err) {
+            return Promise.reject(err);
         }
+    }
 &nbsp;
-        typeSpecificReceive() {
-            if (this.webUsbDevice.opened !== true) {
-                console.warn('Device has been closed. Stopping receive loop.');
-                this.setSiDeviceState(this.constructor.State.Closed);
-                throw new BaseSiDevice.DeviceClosedError();
+    receiveLoop() {
+        try {
+            this.receive()
+                .then((uint8Data) =&gt; {
+                    console.debug(`&lt;= (${this.name})\n${utils.prettyHex(uint8Data, 16)}`);
+                    this.dispatchEvent(
+                        'receive',
+                        new SiDeviceReceiveEvent(this, uint8Data),
+                    );
+                })
+                .catch((err: Error) =&gt; {
+                    if (this.shouldStopReceivingBecauseOfError(err)) {
+                        console.warn('Receive loop stopped while receiving');
+                        throw err;
+                    }
+                    console.warn(`${this.name}: Error receiving: ${err.message}`);
+                    return utils.waitFor(100);
+                })
+                .then(() =&gt; this.receiveLoop())
+                .catch(() =&gt; undefined);
+        } catch (err) {
+            console.warn(`${this.name}: Error starting receiving: ${err.message}`);
+            if (this.shouldStopReceivingBecauseOfError(err)) {
+                console.warn('Receive loop stopped while starting receiving');
+                return;
             }
-            return this.webUsbDevice.transferIn(siEndpoint, siPacketSize)
-                .then((response) =&gt; {
-                    const uint8Data = new Uint8Array(response.data.buffer);
-                    return uint8Data;
-                });
-        }
-&nbsp;
-        typeSpecificSend(buffer) {
-            return this.webUsbDevice.transferOut(siEndpoint, buffer);
+            utils.waitFor(100)
+                .then(() =&gt; this.receiveLoop());
         }
     }
-    return WebUsbSiDevice;
-};
+&nbsp;
+    shouldStopReceivingBecauseOfError(error: any): boolean {
+        return (
+            error instanceof DeviceClosedError
+            || error instanceof utils.NotImplementedError
+        );
+    }
+&nbsp;
+    receive(): Promise&lt;number[]&gt; {
+        return this.data.driver.receive(this);
+    }
+&nbsp;
+    send(buffer: number[]): Promise&lt;void&gt; {
+        return this.data.driver.send(this, buffer);
+    }
+}
+export interface SiDevice&lt;T extends ISiDeviceDriverData&lt;any&gt;&gt; extends utils.EventTarget&lt;SiDeviceEvents&gt; {}
+utils.applyMixins(SiDevice, [utils.EventTarget]);
 &nbsp;</pre></td></tr>
 </table></pre>
 <div class='push'></div><!-- for sticky footer -->
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Mon Oct 14 2019 16:38:21 GMT+0000 (Coordinated Universal Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sat Oct 19 2019 23:55:58 GMT+0000 (Coordinated Universal Time)
 </div>
 </div>
-<script src="../../../prettify.js"></script>
+<script src="../../prettify.js"></script>
 <script>
 window.onload = function () {
         if (typeof prettyPrint === 'function') {
@@ -498,7 +459,7 @@ window.onload = function () {
         }
 };
 </script>
-<script src="../../../sorter.js"></script>
-<script src="../../../block-navigation.js"></script>
+<script src="../../sorter.js"></script>
+<script src="../../block-navigation.js"></script>
 </body>
 </html>

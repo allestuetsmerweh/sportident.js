@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Code coverage report for src/storage/SiInt.js</title>
+    <title>Code coverage report for src/utils/bytes.ts</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../prettify.css" />
     <link rel="stylesheet" href="../../base.css" />
@@ -16,28 +16,28 @@
 <div class='wrapper'>
   <div class='pad1'>
     <h1>
-      <a href="../../index.html">All files</a> / <a href="index.html">src/storage</a> SiInt.js
+      <a href="../../index.html">All files</a> / <a href="index.html">src/utils</a> bytes.ts
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>42/42</span>
+        <span class='fraction'>56/56</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>14/14</span>
+        <span class='fraction'>27/27</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>11/11</span>
+        <span class='fraction'>12/12</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>40/40</span>
+        <span class='fraction'>51/51</span>
       </div>
     </div>
     <p class="quiet">
@@ -124,169 +124,172 @@
 <a name='L76'></a><a href='#L76'>76</a>
 <a name='L77'></a><a href='#L77'>77</a>
 <a name='L78'></a><a href='#L78'>78</a>
-<a name='L79'></a><a href='#L79'>79</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">11683x</span>
-<span class="cline-any cline-yes">14167x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L79'></a><a href='#L79'>79</a>
+<a name='L80'></a><a href='#L80'>80</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">42x</span>
+<span class="cline-any cline-yes">1354x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">191x</span>
-<span class="cline-any cline-yes">46x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">145x</span>
-<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">42x</span>
+<span class="cline-any cline-yes">291x</span>
+<span class="cline-any cline-yes">881x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">42x</span>
+<span class="cline-any cline-yes">274x</span>
+<span class="cline-any cline-yes">26x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">42x</span>
+<span class="cline-any cline-yes">213x</span>
+<span class="cline-any cline-yes">311x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">42x</span>
+<span class="cline-any cline-yes">203x</span>
+<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">42x</span>
+<span class="cline-any cline-yes">55x</span>
+<span class="cline-any cline-yes">49x</span>
+<span class="cline-any cline-yes">49x</span>
+<span class="cline-any cline-yes">94x</span>
+<span class="cline-any cline-yes">94x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">49x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">42x</span>
+<span class="cline-any cline-yes">166x</span>
+<span class="cline-any cline-yes">166x</span>
 <span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">65x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">166x</span>
+<span class="cline-any cline-yes">457x</span>
+<span class="cline-any cline-yes">457x</span>
+<span class="cline-any cline-yes">166x</span>
+<span class="cline-any cline-yes">75x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">91x</span>
+<span class="cline-any cline-yes">91x</span>
+<span class="cline-any cline-yes">101x</span>
+<span class="cline-any cline-yes">101x</span>
+<span class="cline-any cline-yes">101x</span>
+<span class="cline-any cline-yes">101x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">91x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">42x</span>
+<span class="cline-any cline-yes">139x</span>
+<span class="cline-any cline-yes">139x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">138x</span>
+<span class="cline-any cline-yes">138x</span>
+<span class="cline-any cline-yes">11540x</span>
+<span class="cline-any cline-yes">11540x</span>
+<span class="cline-any cline-yes">11540x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11539x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">137x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">13269x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">11711x</span>
-<span class="cline-any cline-yes">3531x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8180x</span>
-<span class="cline-any cline-yes">8180x</span>
-<span class="cline-any cline-yes">8180x</span>
-<span class="cline-any cline-yes">9624x</span>
-<span class="cline-any cline-yes">9624x</span>
-<span class="cline-any cline-yes">9624x</span>
-<span class="cline-any cline-yes">9624x</span>
-<span class="cline-any cline-yes">9624x</span>
-<span class="cline-any cline-yes">9624x</span>
-<span class="cline-any cline-yes">9624x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8180x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">99x</span>
-<span class="cline-any cline-yes">30x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">69x</span>
-<span class="cline-any cline-yes">69x</span>
-<span class="cline-any cline-yes">69x</span>
-<span class="cline-any cline-yes">80x</span>
-<span class="cline-any cline-yes">80x</span>
-<span class="cline-any cline-yes">80x</span>
-<span class="cline-any cline-yes">80x</span>
-<span class="cline-any cline-yes">80x</span>
-<span class="cline-any cline-yes">80x</span>
-<span class="cline-any cline-yes">80x</span>
-<span class="cline-any cline-yes">80x</span>
-<span class="cline-any cline-yes">80x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">69x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import _ from 'lodash';
-import {SiDataType} from './SiDataType';
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">export const isByte = (byte: any): boolean =&gt; (
+    Number(byte) === byte &amp;&amp;
+    Math.floor(byte) === byte &amp;&amp;
+    byte &lt;= 0xFF &amp;&amp;
+    byte &gt;= 0x00
+);
 &nbsp;
-export class SiInt extends SiDataType {
-    constructor(parts) {
-        super();
-        this.parts = parts.map((rawPart) =&gt; ({
-            byteOffset: rawPart[0],
-            startBit: rawPart.length === 3 ? rawPart[1] : 0,
-            endBit: rawPart.length === 3 ? rawPart[2] : 8,
-        }));
+export const isByteArr = (arr: any[]): boolean =&gt; (
+    Array.isArray(arr) &amp;&amp;
+    !arr.some((e) =&gt; !isByte(e))
+);
+&nbsp;
+export const assertIsByteArr = (arr: any[]): void =&gt; {
+    if (!isByteArr(arr)) {
+        throw new Error(`${arr} is not a byte array`);
     }
+};
 &nbsp;
-    typeCheckValue(value) {
-        if (!_.isInteger(value)) {
-            throw new this.constructor.TypeError(`${this.constructor.name} value must be integer`);
-        }
-        if (value &lt; 0) {
-            throw new this.constructor.TypeError(`${this.constructor.name} value must be non-negative`);
+export const isArrOfLengths = (arr: any[], lengths: number[]): boolean =&gt; {
+    const actualLength = arr.length;
+    return lengths.some((length) =&gt; actualLength === length);
+};
+&nbsp;
+export const assertArrIsOfLengths = (arr: any[], lengths: number[]): void =&gt; {
+    if (!isArrOfLengths(arr, lengths)) {
+        throw new Error(`${arr} is not of lengths ${lengths}`);
+    }
+};
+&nbsp;
+export const arr2big = (arr: number[]): number =&gt; {
+    assertIsByteArr(arr);
+    let outnum = 0;
+    for (let i = 0; i &lt; arr.length; i++) {
+        const byte = arr[i];
+        outnum += byte * Math.pow(0x100, arr.length - i - 1);
+    }
+    return outnum;
+};
+&nbsp;
+export const prettyHex = (input: string|number[], lineLength = 0) =&gt; {
+    let iterable = input;
+    if (typeof input === 'string') {
+        iterable = [];
+        for (let strIndex = 0; strIndex &lt; input.length; strIndex++) {
+            iterable.push(input.charCodeAt(strIndex));
         }
     }
-&nbsp;
-    typeSpecificValueToString(value) {
-        return value.toString();
+    const prettyBytes = [...(iterable as number[])]
+        .map((byte) =&gt; (isByte(byte) ? `00${byte.toString(16)}` : '??'))
+        .map((paddedStr) =&gt; paddedStr.slice(-2).toUpperCase());
+    if (lineLength === 0) {
+        return prettyBytes.join(' ');
     }
+    const lines = [];
+    for (let lineIndex = 0; lineIndex &lt; prettyBytes.length / lineLength; lineIndex++) {
+        const startIndex = lineIndex * lineLength;
+        const endIndex = (lineIndex + 1) * lineLength;
+        const line = prettyBytes.slice(startIndex, endIndex).join(' ');
+        lines.push(line);
+    }
+    return lines.join('\n');
+};
 &nbsp;
-    typeSpecificValueFromString(string) {
-        const intValue = parseInt(string, 10);
-        if (!_.isInteger(intValue)) {
-            throw new this.constructor.ParseError(
-                `Value for ${this.constructor.name} must be integer, not "${string}"`,
-            );
+export const unPrettyHex = (input: string): Array&lt;number|undefined&gt; =&gt; {
+    const hexString = input.replace(/\s/g, '');
+    if ((hexString.length % 2) !== 0) {
+        throw new Error('Hex String length must be even');
+    }
+    const byteArray = [];
+    for (let byteIndex = 0; byteIndex &lt; hexString.length / 2; byteIndex++) {
+        const hexByteString = hexString.substr(byteIndex * 2, 2);
+        const byteValue = hexByteString === '??' ? undefined : parseInt(hexByteString, 16);
+        if (byteValue !== undefined &amp;&amp; (!Number.isInteger(byteValue) || byteValue &lt; 0 || byteValue &gt; 255)) {
+            throw new Error(`Invalid hex: ${hexByteString}`);
         }
-        return intValue;
+        byteArray.push(byteValue);
     }
-&nbsp;
-    isUndefined(data) {
-        return this.parts.some((part) =&gt; data.get(part.byteOffset) === undefined);
-    }
-&nbsp;
-    typeSpecificExtractFromData(data) {
-        if (this.isUndefined(data)) {
-            return undefined;
-        }
-        let bitOffset = 0;
-        let intValue = 0;
-        this.parts.forEach((part) =&gt; {
-            const {byteOffset, startBit, endBit} = part;
-            const bitLength = endBit - startBit;
-            const lengthMask = (0x01 &lt;&lt; bitLength) - 1;
-            const existingByte = data.get(byteOffset);
-            const partValue = (existingByte &gt;&gt; startBit) &amp; lengthMask;
-            intValue |= (partValue &lt;&lt; bitOffset);
-            bitOffset += bitLength;
-        });
-        return intValue;
-    }
-&nbsp;
-    typeSpecificUpdateData(data, newValue) {
-        if (this.isUndefined(data)) {
-            throw new this.constructor.ModifyUndefinedException();
-        }
-        let bitOffset = 0;
-        let tempData = data;
-        this.parts.forEach((part) =&gt; {
-            const {byteOffset, startBit, endBit} = part;
-            const bitLength = endBit - startBit;
-            const lengthMask = (0x01 &lt;&lt; bitLength) - 1;
-            const newPartValue = (newValue &gt;&gt; bitOffset) &amp; lengthMask;
-            const existingByte = tempData.get(byteOffset);
-            const preservationMask = (lengthMask &lt;&lt; startBit) ^ 0xFF;
-            const newByte = (existingByte &amp; preservationMask) | (newPartValue &lt;&lt; startBit);
-            tempData = tempData.set(byteOffset, newByte);
-            bitOffset += bitLength;
-        });
-        return tempData;
-    }
-}
+    return byteArray;
+};
 &nbsp;</pre></td></tr>
 </table></pre>
 <div class='push'></div><!-- for sticky footer -->
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Mon Oct 14 2019 16:38:21 GMT+0000 (Coordinated Universal Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sat Oct 19 2019 23:55:58 GMT+0000 (Coordinated Universal Time)
 </div>
 </div>
 <script src="../../prettify.js"></script>

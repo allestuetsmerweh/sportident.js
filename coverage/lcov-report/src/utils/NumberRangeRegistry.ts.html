@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Code coverage report for src/utils/NumberRangeRegistry.js</title>
+    <title>Code coverage report for src/utils/NumberRangeRegistry.ts</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../prettify.css" />
     <link rel="stylesheet" href="../../base.css" />
@@ -16,13 +16,13 @@
 <div class='wrapper'>
   <div class='pad1'>
     <h1>
-      <a href="../../index.html">All files</a> / <a href="index.html">src/utils</a> NumberRangeRegistry.js
+      <a href="../../index.html">All files</a> / <a href="index.html">src/utils</a> NumberRangeRegistry.ts
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>27/27</span>
+        <span class='fraction'>26/26</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
@@ -37,7 +37,7 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>25/25</span>
+        <span class='fraction'>26/26</span>
       </div>
     </div>
     <p class="quiet">
@@ -96,19 +96,18 @@
 <a name='L48'></a><a href='#L48'>48</a>
 <a name='L49'></a><a href='#L49'>49</a>
 <a name='L50'></a><a href='#L50'>50</a>
-<a name='L51'></a><a href='#L51'>51</a>
-<a name='L52'></a><a href='#L52'>52</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L51'></a><a href='#L51'>51</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">42x</span>
+<span class="cline-any cline-yes">42x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">42x</span>
 <span class="cline-any cline-yes">27x</span>
 <span class="cline-any cline-yes">27x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">68x</span>
+<span class="cline-any cline-yes">68x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">68x</span>
-<span class="cline-any cline-yes">68x</span>
 <span class="cline-any cline-yes">100x</span>
 <span class="cline-any cline-yes">100x</span>
 <span class="cline-any cline-yes">100x</span>
@@ -121,24 +120,23 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">99x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">68x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">67x</span>
 <span class="cline-any cline-yes">67x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">53x</span>
-<span class="cline-any cline-yes">53x</span>
-<span class="cline-any cline-yes">93x</span>
-<span class="cline-any cline-yes">93x</span>
-<span class="cline-any cline-yes">93x</span>
-<span class="cline-any cline-yes">93x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">53x</span>
+<span class="cline-any cline-yes">53x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">93x</span>
+<span class="cline-any cline-yes">93x</span>
+<span class="cline-any cline-yes">93x</span>
+<span class="cline-any cline-yes">93x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">53x</span>
@@ -150,47 +148,46 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import Immutable from 'immutable';
 import * as generalUtils from './general';
+import {NumberRange} from './NumberRange';
 &nbsp;
-export class NumberRangeRegistry {
-    constructor() {
-        this.numberRanges = Immutable.List();
-        this.values = Immutable.List();
-    }
+export class NumberRangeRegistry&lt;T&gt; {
+    public numberRanges: Immutable.List&lt;NumberRange&gt; = Immutable.List();
+    public values: Immutable.List&lt;T&gt; = Immutable.List();
 &nbsp;
-    register(numberRange, value) {
-        const getLength = (numberRanges) =&gt; numberRanges.size;
-        const getNewRange = (numberRanges, numberRangeToInsert, start, end) =&gt; {
-            const mid = Math.floor((start + end) / 2);
-            const midNumberRange = numberRanges.get(mid);
-            const isEntirelyBeforeMid = numberRangeToInsert.isEntirelyBefore(midNumberRange);
-            const isEntirelyAfterMid = numberRangeToInsert.isEntirelyAfter(midNumberRange);
-            if (!isEntirelyBeforeMid &amp;&amp; !isEntirelyAfterMid) {
-                throw new Error(
-                    `Refusing to insert ${numberRangeToInsert.toString()} ` +
-                    `next to ${midNumberRange.toString()}`,
-                );
-            }
-            return isEntirelyBeforeMid ? [start, mid] : [mid + 1, end];
-        };
+    register(numberRange: NumberRange, value: T): void {
         const index = generalUtils.binarySearch(this.numberRanges, numberRange, {
-            getLength: getLength,
-            getNewRange: getNewRange,
+            getLength: (numberRanges) =&gt; numberRanges.size,
+            getNewRange: (numberRanges, numberRangeToInsert, start, end) =&gt; {
+                const mid = Math.floor((start + end) / 2);
+                const midNumberRange = numberRanges.get(mid)!;
+                const isEntirelyBeforeMid = numberRangeToInsert.isEntirelyBefore(midNumberRange);
+                const isEntirelyAfterMid = numberRangeToInsert.isEntirelyAfter(midNumberRange);
+                if (!isEntirelyBeforeMid &amp;&amp; !isEntirelyAfterMid) {
+                    throw new Error(
+                        `Refusing to insert ${numberRangeToInsert.toString()} ` +
+                        `next to ${midNumberRange.toString()}`,
+                    );
+                }
+                return isEntirelyBeforeMid ? [start, mid] : [mid + 1, end];
+            },
         });
         this.numberRanges = this.numberRanges.insert(index, numberRange);
         this.values = this.values.insert(index, value);
     }
 &nbsp;
-    getValueForNumber(number) {
-        const getLength = (numberRanges) =&gt; numberRanges.size;
-        const getNewSearchRange = (numberRanges, number_, start, end) =&gt; {
-            const mid = Math.floor((start + end) / 2);
-            const midNumberRange = numberRanges.get(mid);
-            const isBeforeOrInMid = !midNumberRange.isEntirelyBefore(number_);
-            return isBeforeOrInMid ? [start, mid] : [mid + 1, end];
-        };
+    getValueForNumber(number: number): T|undefined {
+        // const binarySearchOptions: generalUtils.BinarySearchOptions&lt;
+        //     Immutable.List&lt;NumberRange&gt;,
+        //     NumberRange,
+        // &gt; = ;
         const index = generalUtils.binarySearch(this.numberRanges, number, {
-            getLength: getLength,
-            getNewRange: getNewSearchRange,
+            getLength: (numberRanges) =&gt; numberRanges.size,
+            getNewRange: (numberRanges, number_, start, end) =&gt; {
+                const mid = Math.floor((start + end) / 2);
+                const midNumberRange = numberRanges.get(mid)!;
+                const isBeforeOrInMid = !midNumberRange.isEntirelyBefore(number_);
+                return isBeforeOrInMid ? [start, mid] : [mid + 1, end];
+            },
         });
         const numberRangeAtIndex = this.numberRanges.get(index);
         if (numberRangeAtIndex !== undefined &amp;&amp; numberRangeAtIndex.contains(number)) {
@@ -205,7 +202,7 @@ export class NumberRangeRegistry {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Mon Oct 14 2019 16:38:21 GMT+0000 (Coordinated Universal Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sat Oct 19 2019 23:55:58 GMT+0000 (Coordinated Universal Time)
 </div>
 </div>
 <script src="../../prettify.js"></script>

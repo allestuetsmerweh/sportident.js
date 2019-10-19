@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Code coverage report for src/utils/bytes.js</title>
+    <title>Code coverage report for src/storage/SiStorage.ts</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../prettify.css" />
     <link rel="stylesheet" href="../../base.css" />
@@ -16,28 +16,28 @@
 <div class='wrapper'>
   <div class='pad1'>
     <h1>
-      <a href="../../index.html">All files</a> / <a href="index.html">src/utils</a> bytes.js
+      <a href="../../index.html">All files</a> / <a href="index.html">src/storage</a> SiStorage.ts
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>56/56</span>
+        <span class='fraction'>26/26</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>27/27</span>
-      </div>
-      <div class='fl pad1y space-right2'>
-        <span class="strong">100% </span>
-        <span class="quiet">Functions</span>
         <span class='fraction'>12/12</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>9/9</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>51/51</span>
+        <span class='fraction'>26/26</span>
       </div>
     </div>
     <p class="quiet">
@@ -124,164 +124,161 @@
 <a name='L76'></a><a href='#L76'>76</a>
 <a name='L77'></a><a href='#L77'>77</a>
 <a name='L78'></a><a href='#L78'>78</a>
-<a name='L79'></a><a href='#L79'>79</a>
-<a name='L80'></a><a href='#L80'>80</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">41x</span>
-<span class="cline-any cline-yes">1203x</span>
+<a name='L79'></a><a href='#L79'>79</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">27x</span>
+<span class="cline-any cline-yes">27x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">41x</span>
-<span class="cline-any cline-yes">303x</span>
-<span class="cline-any cline-yes">895x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">41x</span>
-<span class="cline-any cline-yes">286x</span>
-<span class="cline-any cline-yes">38x</span>
+<span class="cline-any cline-yes">27x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">41x</span>
-<span class="cline-any cline-yes">213x</span>
-<span class="cline-any cline-yes">311x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">41x</span>
-<span class="cline-any cline-yes">203x</span>
-<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-yes">102x</span>
+<span class="cline-any cline-yes">30617x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">102x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">41x</span>
-<span class="cline-any cline-yes">61x</span>
-<span class="cline-any cline-yes">49x</span>
-<span class="cline-any cline-yes">49x</span>
-<span class="cline-any cline-yes">94x</span>
-<span class="cline-any cline-yes">94x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">49x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">41x</span>
-<span class="cline-any cline-yes">119x</span>
-<span class="cline-any cline-yes">119x</span>
-<span class="cline-any cline-yes">19x</span>
-<span class="cline-any cline-yes">19x</span>
-<span class="cline-any cline-yes">65x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">119x</span>
-<span class="cline-any cline-yes">292x</span>
-<span class="cline-any cline-yes">292x</span>
-<span class="cline-any cline-yes">119x</span>
-<span class="cline-any cline-yes">78x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">41x</span>
-<span class="cline-any cline-yes">41x</span>
-<span class="cline-any cline-yes">51x</span>
-<span class="cline-any cline-yes">51x</span>
-<span class="cline-any cline-yes">51x</span>
-<span class="cline-any cline-yes">51x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">41x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">41x</span>
-<span class="cline-any cline-yes">143x</span>
-<span class="cline-any cline-yes">143x</span>
+<span class="cline-any cline-yes">102x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">142x</span>
-<span class="cline-any cline-yes">142x</span>
-<span class="cline-any cline-yes">11568x</span>
-<span class="cline-any cline-yes">11568x</span>
-<span class="cline-any cline-yes">11568x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">101x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">168x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">556x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">153x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">523x</span>
+<span class="cline-any cline-yes">523x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">11567x</span>
+<span class="cline-any cline-yes">522x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">141x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">export const isByte = (byte) =&gt; (
-    Number(byte) === byte &amp;&amp;
-    Math.floor(byte) === byte &amp;&amp;
-    byte &lt;= 0xFF &amp;&amp;
-    byte &gt;= 0x00
-);
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">33x</span>
+<span class="cline-any cline-yes">33x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">32x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">92x</span>
+<span class="cline-any cline-yes">92x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">91x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">27x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">35x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import _ from 'lodash';
+import Immutable from 'immutable';
+import {ISiDataType} from './ISiDataType';
+import {SiFieldValue} from './SiFieldValue';
 &nbsp;
-export const isByteArr = (arr) =&gt; (
-    Array.isArray(arr) &amp;&amp;
-    !arr.some((e) =&gt; !isByte(e))
-);
+type SiStorageDefinitions = {[id: string]: ISiDataType&lt;any&gt;};
+export type SiStorageData = Immutable.List&lt;number|undefined&gt;;
 &nbsp;
-export const assertIsByteArr = (arr) =&gt; {
-    if (!isByteArr(arr)) {
-        throw new Error(`${arr} is not a byte array`);
-    }
-};
+export class SiStorage {
+    public static readonly size: number;
+    public static readonly definitions: SiStorageDefinitions;
+    private internalData: SiStorageData;
 &nbsp;
-export const isArrOfLengths = (arr, lengths) =&gt; {
-    const actualLength = arr.length;
-    return lengths.some((length) =&gt; actualLength === length);
-};
-&nbsp;
-export const assertArrIsOfLengths = (arr, lengths) =&gt; {
-    if (!isArrOfLengths(arr, lengths)) {
-        throw new Error(`${arr} is not of lengths ${lengths}`);
-    }
-};
-&nbsp;
-export const arr2big = (arr) =&gt; {
-    assertIsByteArr(arr);
-    let outnum = 0;
-    for (let i = 0; i &lt; arr.length; i++) {
-        const byte = arr[i];
-        outnum += byte * Math.pow(0x100, arr.length - i - 1);
-    }
-    return outnum;
-};
-&nbsp;
-export const prettyHex = (input, lineLength = 0) =&gt; {
-    let iterable = input;
-    if (typeof input === 'string') {
-        iterable = [];
-        for (let strIndex = 0; strIndex &lt; input.length; strIndex++) {
-            iterable.push(input.charCodeAt(strIndex));
+    constructor(initArg?: Immutable.List&lt;number|undefined&gt;|Array&lt;number|undefined&gt;) {
+        const initArrayOrList = (initArg === undefined
+            ? _.range(this.size).map(() =&gt; undefined)
+            : initArg
+        ) as Immutable.List&lt;number|undefined&gt;|Array&lt;number|undefined&gt;;
+        const initList = (initArrayOrList instanceof Immutable.List
+            ? initArrayOrList
+            : Immutable.List(initArrayOrList)
+        ) as Immutable.List&lt;number|undefined&gt;;
+        if (initList.size !== this.size) {
+            throw new Error(
+                `SiStorage constructor list "${initArg}" =&gt; "${initList}" ` +
+                `must have size ${this.size} (but is ${initList.size})`,
+            );
         }
+        this.internalData = initList
     }
-    const prettyBytes = [...iterable]
-        .map((byte) =&gt; (isByte(byte) ? `00${byte.toString(16)}` : '??'))
-        .map((paddedStr) =&gt; paddedStr.slice(-2).toUpperCase());
-    if (lineLength === 0) {
-        return prettyBytes.join(' ');
-    }
-    const lines = [];
-    for (let lineIndex = 0; lineIndex &lt; prettyBytes.length / lineLength; lineIndex++) {
-        const startIndex = lineIndex * lineLength;
-        const endIndex = (lineIndex + 1) * lineLength;
-        const line = prettyBytes.slice(startIndex, endIndex).join(' ');
-        lines.push(line);
-    }
-    return lines.join('\n');
-};
 &nbsp;
-export const unPrettyHex = (input) =&gt; {
-    const hexString = input.replace(/\s/g, '');
-    if ((hexString.length % 2) !== 0) {
-        throw new Error('Hex String length must be even');
+    get size(): number {
+        return (this.constructor as typeof SiStorage).size;
     }
-    const byteArray = [];
-    for (let byteIndex = 0; byteIndex &lt; hexString.length / 2; byteIndex++) {
-        const hexByteString = hexString.substr(byteIndex * 2, 2);
-        const byteValue = hexByteString === '??' ? undefined : parseInt(hexByteString, 16);
-        if (byteValue !== undefined &amp;&amp; (!Number.isInteger(byteValue) || byteValue &lt; 0 || byteValue &gt; 255)) {
-            throw new Error(`Invalid hex: ${hexByteString}`);
+&nbsp;
+    get definitions(): SiStorageDefinitions {
+        return (this.constructor as typeof SiStorage).definitions;
+    }
+&nbsp;
+    get data(): SiStorageData {
+        return this.internalData;
+    }
+&nbsp;
+    get(fieldName: string): SiFieldValue&lt;any&gt;|undefined {
+        const fieldDefinition = this.definitions[fieldName];
+        if (!fieldDefinition) {
+            return undefined;
         }
-        byteArray.push(byteValue);
+        return fieldDefinition.extractFromData(this.internalData);
     }
-    return byteArray;
+&nbsp;
+    set(fieldName: string, newValue: any): void {
+        const fieldDefinition = this.definitions[fieldName];
+        if (!fieldDefinition) {
+            return;
+        }
+        this.internalData = fieldDefinition.updateData(this.internalData, newValue);
+    }
+&nbsp;
+    splice(index: number, removeNum: number, ...values: number[]) {
+        const newData = this.internalData.splice(index, removeNum, ...values);
+        if (newData.size !== this.internalData.size) {
+            throw new Error(
+                'SiStorage.splice must preserve the size of the storage data ' +
+                `(${this.internalData.size} -&gt; ${newData.size})`,
+            );
+        }
+        this.internalData = newData;
+    }
+}
+&nbsp;
+export const defineStorage = (
+    size: number,
+    definitions: SiStorageDefinitions,
+) =&gt; class MySiStorage extends SiStorage {
+    public static size = size;
+    public static definitions = definitions;
 };
 &nbsp;</pre></td></tr>
 </table></pre>
@@ -289,7 +286,7 @@ export const unPrettyHex = (input) =&gt; {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Mon Oct 14 2019 16:38:21 GMT+0000 (Coordinated Universal Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sat Oct 19 2019 23:55:58 GMT+0000 (Coordinated Universal Time)
 </div>
 </div>
 <script src="../../prettify.js"></script>
