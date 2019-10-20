@@ -1,6 +1,4 @@
 docs/
 coverage/
 node_modules/
-src/build/
-testbench/client/build/
-!.*.js
+build/

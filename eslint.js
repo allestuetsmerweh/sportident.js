@@ -122,10 +122,9 @@ module.exports = {
         extends: [
             'eslint:recommended',
             'plugin:react/recommended',
+            'plugin:@typescript-eslint/recommended',
         ],
-        plugins: [
-            'react',
-        ],
+        parser: '@typescript-eslint/parser',
         parserOptions: {
             ecmaVersion: 2018,
             ecmaFeatures: {
@@ -133,6 +132,10 @@ module.exports = {
             },
             sourceType: 'module',
         },
+        plugins: [
+            'react',
+            '@typescript-eslint',
+        ],
         settings: {
             react: {
                 createClass: 'createReactClass',
@@ -159,11 +162,17 @@ module.exports = {
         },
         extends: [
             'eslint:recommended',
+            'plugin:@typescript-eslint/recommended',
         ],
+        parser: '@typescript-eslint/parser',
         parserOptions: {
             ecmaVersion: 2018,
             sourceType: 'module',
         },
+        plugins: [
+            'react',
+            '@typescript-eslint',
+        ],
         rules: compatibleRules,
     },
 };

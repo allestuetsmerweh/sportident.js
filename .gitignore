@@ -5,3 +5,6 @@ docs/.circleci/
 docs/generated/
 docs/testbench/
 node_modules/
+packages/*/lib
+
+*.log
