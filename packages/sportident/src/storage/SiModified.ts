@@ -1,6 +1,5 @@
-import {ISiDataType, ValueToStringError, ValueFromStringError} from './ISiDataType';
+import {ISiDataType, SiStorageData, ValueToStringError, ValueFromStringError} from './interfaces';
 import {SiDataType} from './SiDataType';
-import {SiStorageData} from './SiStorage';
 
 export class SiModified<T, U> extends SiDataType<U> implements ISiDataType<U> {
     constructor(

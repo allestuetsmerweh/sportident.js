@@ -1,6 +1,5 @@
-import {ISiDataType, ValueFromStringError} from './ISiDataType';
+import {ISiDataType, SiStorageData, ValueFromStringError} from './interfaces';
 import {SiDataType} from './SiDataType';
-import {SiStorageData} from './SiStorage';
 
 export type SiDictValue<T> = {[key: string]: T|undefined};
 

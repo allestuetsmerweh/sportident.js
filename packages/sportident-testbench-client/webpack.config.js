@@ -23,7 +23,11 @@ module.exports = [
                 },
                 {
                     test: /\.jsx?$/,
-                    exclude: /node_modules/,
+                    // exclude: /node_modules/,
+                    include: [
+                        path.resolve(__dirname, 'src'),
+                        path.resolve(__dirname, 'node_modules/sportident/lib'),
+                    ],
                     loader: 'babel-loader',
                     query: {
                         presets: [

@@ -7,9 +7,12 @@ export interface IEvent<T extends string> {
 export class Event<T extends string>
         implements IEvent<T>
 {
-    type?: T;
     target: any;
     defaultPrevented: boolean = false;
+
+    constructor(
+        public type?: T,
+    ) {}
 }
 
 export type EventCallback<T extends Event<string>> = (event: T) => void;
@@ -106,7 +109,7 @@ export const dispatchEvent = (
     eventProperties: any = {},
 ): boolean => {
     const listeners = eventRegistry[type] || [];
-    const eventToDispatch = new window.Event(type);
+    const eventToDispatch = new Event(type);
     Object.assign(eventToDispatch, eventProperties);
     listeners.forEach((listener: any) => {
         try {

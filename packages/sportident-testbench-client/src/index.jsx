@@ -6,7 +6,7 @@ import stylesCss from './styles.css';
 import {MainStationList} from './MainStationList';
 import {Terminal} from './Terminal';
 import {WebUsbSiDevicesContext} from './WebUsbSiDevicesContext';
-import si from 'sportident/src';
+import si from 'sportident/lib';
 import {useSiDevices} from 'sportident-react/src';
 import {getWebUsbSiDeviceDriver} from 'sportident-webusb/src';
 

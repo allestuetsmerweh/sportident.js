@@ -7,31 +7,29 @@
     "build": "webpack",
     "eslint": "eslint ./src/ --ext .ts,.tsx",
     "testbench-client": "webpack-dev-server",
-    "tsc": "tsc",
+    "tsc": "tsc --declaration && tsc --allowJs",
     "webpack": "webpack"
   },
   "author": "Simon Hatt",
   "license": "MIT",
   "dependencies": {
     "immutable": "^4.0.0-rc.12",
-    "lodash": "^4.17.15"
+    "lodash": "^4.17.15",
+    "sportident": "^1.0.0",
+    "sportident-react": "^1.0.0",
+    "sportident-testbench-shell": "^1.0.0",
+    "sportident-webusb": "^1.0.0"
   },
   "devDependencies": {
     "@types/react": "^16.9.9",
     "@types/react-dom": "^16.9.2",
     "prop-types": "^15.7.2",
     "react": "^16.10.2",
-    "react-dom": "^16.10.2",
-    "sportident": "^1.0.0",
-    "sportident-react": "^1.0.0",
-    "sportident-webusb": "^1.0.0"
+    "react-dom": "^16.10.2"
   },
   "peerDependencies": {
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
-    "react-dom": "^16.8.6",
-    "sportident": "^1.0.0",
-    "sportident-react": "^1.0.0",
-    "sportident-webusb": "^1.0.0"
+    "react-dom": "^16.8.6"
   }
 }

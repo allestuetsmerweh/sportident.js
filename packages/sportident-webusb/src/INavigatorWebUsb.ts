@@ -1,4 +1,4 @@
-import * as utils from 'sportident/src/utils';
+import * as utils from 'sportident/lib/utils';
 
 export interface WebUsbConnectEvent extends utils.IEvent<'connect'> {
     device: WebUsbDevice;

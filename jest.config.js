@@ -20,7 +20,7 @@ const jestConfig = {
         '^.+\\.tsx?$': 'ts-jest',
     },
     testRegex: '.*/.*\\.test\\.(jsx?|tsx?)',
-    testPathIgnorePatterns: ['/node_modules/', '/dist/'],
+    testPathIgnorePatterns: ['/node_modules/', '/dist/', '/lib/'],
     collectCoverage: true,
     maxConcurrency: 1,
     coverageThreshold: {
@@ -39,7 +39,12 @@ const jestConfig = {
             lines: 95,
             statements: 95,
         },
-        './packages/sportident/src/storage': totalCoverage,
+        './packages/sportident/src/storage': {
+            branches: 97,
+            functions: 100,
+            lines: 99,
+            statements: 99,
+        },
         './packages/sportident/src/utils': percentCoverage(97),
         './packages/sportident/src/constants.ts': totalCoverage,
         './packages/sportident/src/siProtocol.ts': totalCoverage,

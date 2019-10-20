@@ -2,10 +2,10 @@
 
 import _ from 'lodash';
 import Immutable from 'immutable';
-import {ValueFromStringError} from './ISiDataType';
-import {SiBool} from './SiBool';
+import {ValueFromStringError} from './interfaces';
 import {ModifyUndefinedException} from './SiDataType';
 import {SiFieldValue} from './SiFieldValue';
+import {SiBool} from './SiBool';
 
 describe('SiBool', () => {
     const mySiBool = new SiBool(0x00, 4);

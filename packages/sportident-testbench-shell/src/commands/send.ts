@@ -1,9 +1,10 @@
-import si from 'sportident/src';
+import * as utils from 'sportident/lib/utils';
+import {ShellCommandContext} from '../Shell';
 import {BaseCommand} from './BaseCommand';
 import {getDirectOrRemoteStation} from './getDirectOrRemoteStation';
 
 export class SendCommand extends BaseCommand {
-    static getParameterDefinitions() {
+    getArgTypes() {
         return [
             {
                 name: 'target',
@@ -24,44 +25,44 @@ export class SendCommand extends BaseCommand {
         ];
     }
 
-    printUsage() {
-        super.printUsage();
-        this.printUsageDetail('e.g. send direct F9 01 0');
-        this.printUsageDetail('e.g. send remote F9 01 1');
+    printUsage(context: ShellCommandContext) {
+        super.printUsage(context);
+        context.putString('e.g. send direct F9 01 0\n');
+        context.putString('e.g. send remote F9 01 1\n');
     }
 
-    execute() {
-        const {parameters: terminalParameters, logLine, device} = this.context;
-        const station = getDirectOrRemoteStation(terminalParameters[0], device);
+    run(context: ShellCommandContext): Promise<void> {
+        const station = getDirectOrRemoteStation(context.args[1], context.env.device);
         if (station === undefined) {
-            logLine('No such station');
+            context.putString('No such station\n');
             return Promise.resolve();
         }
-        const commandStr = terminalParameters[1].replace(/\s/g, '');
+        const commandStr = context.args[2].replace(/\s/g, '');
         if (commandStr.length !== 2) {
-            logLine(`Command must be one byte, is: ${commandStr}`);
+            context.putString(`Command must be one byte, is: ${commandStr}\n`);
             return Promise.resolve();
         }
         const command = parseInt(commandStr, 16);
-        const parametersStr = terminalParameters[2].replace(/\s/g, '');
+        const parametersStr = context.args[3].replace(/\s/g, '');
         if (parametersStr.length % 2 !== 0) {
-            logLine(`Parameters must be bytes, is: ${parametersStr}`);
+            context.putString(`Parameters must be bytes, is: ${parametersStr}\n`);
             return Promise.resolve();
         }
         const parameters = [];
         for (let i = 0; i < parametersStr.length; i += 2) {
             parameters.push(parseInt(parametersStr.slice(i, i + 2), 16));
         }
-        const numResp = terminalParameters.length > 3 ? parseInt(terminalParameters[3], 10) : 0;
+        const numResp = context.args.length > 4 ? parseInt(context.args[4], 10) : 0;
         return station.sendMessage({
             command: command,
             parameters: parameters,
         }, numResp)
-            .then((allResponses) => {
-                allResponses.forEach((response, index) => {
-                    logLine(`Answer[${index}]:`);
-                    si.utils.prettyHex(response, 16).split('\n').forEach((line) => {
-                        logLine(` ${line}`);
+            .then((allResponses: number[][]) => {
+                allResponses.forEach((response: number[], index: number) => {
+                    context.putString(`Answer[${index}]:\n`);
+                    const lines = utils.prettyHex(response, 16).split('\n');
+                    lines.forEach((line: string) => {
+                        context.putString(` ${line}\n`);
                     });
                 });
             });

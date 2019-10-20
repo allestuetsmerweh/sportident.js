@@ -1,9 +1,8 @@
 import _ from 'lodash';
-import {ISiDataType, ValueFromStringError} from './ISiDataType';
+import * as utils from '../utils';
+import {ISiDataType, SiStorageData, ValueFromStringError} from './interfaces';
 import {SiDataType} from './SiDataType';
 import {SiInt, SiIntegerPartDefinition} from './SiInt';
-import {SiStorageData} from './SiStorage';
-import * as utils from '../utils';
 
 export class SiEnum extends SiDataType<any> implements ISiDataType<any> {
     private intField: SiInt;
@@ -37,7 +36,6 @@ export class SiEnum extends SiDataType<any> implements ISiDataType<any> {
         const intValue = _.isInteger(value) ? value : this.getIntValue(value);
         const intString = `${intValue}`;
         const lookupDict = this.getLookupDict();
-        console.warn(lookupDict, intString);
         return lookupDict[intString];
     }
 

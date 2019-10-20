@@ -1,0 +1,23 @@
+{
+  "name": "sportident-node-usb",
+  "version": "1.0.0",
+  "description": "",
+  "files": [
+    "lib/**/*",
+    "src/**/*"
+  ],
+  "main": "src/index.ts",
+  "types": "src/index.d.ts",
+  "scripts": {
+    "build": "tsc --declaration",
+    "eslint": "eslint ./src/ --ext .ts,.tsx",
+    "tsc": "tsc --declaration"
+  },
+  "author": "Simon Hatt",
+  "license": "MIT",
+  "dependencies": {
+    "@types/usb": "^1.5.1",
+    "sportident": "^1.0.0",
+    "usb": "^1.6.0"
+  }
+}
