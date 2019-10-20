@@ -28,10 +28,9 @@ jobs:
       - run: npm run lerna bootstrap
 
       # - run: npm run lint
+      - run: npm run build
       - run: npm run dependency-check
       - run: npm run test:ci
-
-      - run: npm run build
       - run: npm run build-docs
 
       - persist_to_workspace:

@@ -1,10 +1,10 @@
 /* eslint-env jasmine */
 
-import {testISiDeviceDriver} from 'sportident/src/SiDevice/testUtils/testISiDeviceDriver';
-import {testISiDeviceDriverWithAutodetection} from 'sportident/src/SiDevice/testUtils/testISiDeviceDriverWithAutodetection';
-import {SiDeviceState} from 'sportident/src/SiDevice/ISiDevice';
-import * as utils from 'sportident/src/utils';
-import * as testUtils from 'sportident/src/testUtils';
+import {testISiDeviceDriver} from 'sportident/lib/SiDevice/testUtils/testISiDeviceDriver';
+import {testISiDeviceDriverWithAutodetection} from 'sportident/lib/SiDevice/testUtils/testISiDeviceDriverWithAutodetection';
+import {SiDeviceState} from 'sportident/lib/SiDevice/ISiDevice';
+import * as utils from 'sportident/lib/utils';
+import * as testUtils from 'sportident/lib/testUtils';
 import {IWebUsbSiDevice, getWebUsbSiDeviceDriver, WebUsbSiDeviceDriverData} from './WebUsbSiDeviceDriver';
 import * as nav from './INavigatorWebUsb';
 

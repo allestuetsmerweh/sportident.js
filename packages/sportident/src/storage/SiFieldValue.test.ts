@@ -1,10 +1,9 @@
 /* eslint-env jasmine */
 
 import _ from 'lodash';
-import {ISiDataType, ValueToStringError, ValueFromStringError} from './ISiDataType';
+import {ISiDataType, SiStorageData, ValueToStringError, ValueFromStringError} from './interfaces';
 import {SiDataType} from './SiDataType';
 import {SiFieldValue} from './SiFieldValue';
-import {SiStorageData} from './SiStorage';
 
 describe('SiFieldValue', () => {
     class MyType extends SiDataType<number> implements ISiDataType<number> {

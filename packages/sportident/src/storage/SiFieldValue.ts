@@ -1,6 +1,6 @@
-import {ISiDataType, ValueToStringError, ValueFromStringError} from './ISiDataType';
+import {ISiFieldValue, ISiDataType, ValueToStringError, ValueFromStringError} from './interfaces';
 
-export class SiFieldValue<T> {
+export class SiFieldValue<T> implements ISiFieldValue<T> {
     static fromString<U>(
         field: ISiDataType<U>,
         stringValue: string,

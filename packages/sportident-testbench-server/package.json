@@ -6,7 +6,7 @@
   "scripts": {
     "eslint": "eslint ./src/ --ext .ts,.tsx",
     "testbench-server": "node ./src/index.js",
-    "tsc": "tsc"
+    "tsc": "tsc --declaration && tsc --allowJs"
   },
   "author": "Simon Hatt",
   "license": "MIT",

@@ -1,7 +1,6 @@
 import _ from 'lodash';
-import {ISiDataType, ValueFromStringError} from './ISiDataType';
+import {ISiDataType, SiStorageData, ValueFromStringError} from './interfaces';
 import {SiDataType} from './SiDataType';
-import {SiStorageData} from './SiStorage';
 
 export type SiArrayValue<T> = (T|undefined)[];
 

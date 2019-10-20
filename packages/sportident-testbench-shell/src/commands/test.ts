@@ -1,39 +1,44 @@
-import si from 'sportident/src';
+import si from 'sportident/lib';
+import {ShellCommandContext} from '../Shell';
 import {BaseCommand} from './BaseCommand';
 
-const tests = {
-    'card': ({logLine, device}) => {
-        const mainStation = si.SiMainStation.fromSiDevice(device);
-        let fixedSiNumber = null;
-        const samples = {};
-        const _wait = (seconds) => () => new Promise((resolve) => {
-            logLine('Please wait...');
-            setTimeout(resolve, seconds * 1000);
-        });
+const tests: {[name: string]: (context: ShellCommandContext) => Promise<void>} = {
+    'card': (context: ShellCommandContext) => {
+        const mainStation = si.SiMainStation.fromSiDevice(context.env.device);
+        let fixedSiNumber: number|undefined;
+        const samples: {[key: string]: any} = {};
+        // const _wait = (seconds: number) => () => new Promise((resolve) => {
+        //     context.putString('Please wait...\n');
+        //     setTimeout(resolve, seconds * 1000);
+        // });
         let cardState = '';
-        const resetCardCallbacks = (mainStation_) => {
+        const resetCardCallbacks = (mainStation_: any) => {
             mainStation_._eventListeners = {};
         };
-        const simulateStation = (mode, code, actionName) => () => mainStation.atomically(() => {
+        const simulateStation = (
+            mode: number,
+            code: number,
+            actionName: string,
+        ) => () => mainStation.atomically(() => {
             mainStation.setInfo('code', code);
             mainStation.setInfo('mode', mode);
             mainStation.setInfo('autoSend', true);
         })
             .then(() => {
-                logLine(`Insert card to ${actionName}...`);
+                context.putString(`Insert card to ${actionName}...\n`);
                 return new Promise((resolve) => {
                     resetCardCallbacks(mainStation);
-                    mainStation.addEventListener('siCardObserved', (cardEvent) => {
+                    mainStation.addEventListener('siCardObserved', (cardEvent: any) => {
                         const card = cardEvent.siCard;
-                        if (fixedSiNumber === null) {
+                        if (fixedSiNumber === undefined) {
                             fixedSiNumber = card.cardNumber;
                         }
                         if (fixedSiNumber !== card.cardNumber) {
-                            logLine(`Other ${card.constructor.name}: ${card.cardNumber} (not ${fixedSiNumber})`);
+                            context.putString(`Other ${card.constructor.name}: ${card.cardNumber} (not ${fixedSiNumber})\n`);
                             return;
                         }
                         resetCardCallbacks(mainStation);
-                        logLine(`${actionName} ${card.constructor.name} succeeded: ${card.cardNumber}`);
+                        context.putString(`${actionName} ${card.constructor.name} succeeded: ${card.cardNumber}\n`);
                         if (mode === si.BaseSiStation.Mode.Clear) {
                             cardState = '';
                         } else {
@@ -49,37 +54,37 @@ const tests = {
             mainStation.setInfo('code', 10);
         })
             .then(() => {
-                logLine('Insert card to read...');
+                context.putString('Insert card to read...\n');
                 return new Promise((resolve) => {
                     resetCardCallbacks(mainStation);
-                    const handleCardRemoved = (removeEvent) => {
+                    const handleCardRemoved = (removeEvent: any) => {
                         const removedCard = removeEvent.siCard;
                         if (fixedSiNumber === removedCard.cardNumber) {
                             resetCardCallbacks(mainStation);
                             setTimeout(resolve, 1);
                         }
                     };
-                    const handleCardRead = (card) => {
-                        logLine(`${card.constructor.name} ${card.cardNumber} read.`);
+                    const handleCardRead = (card: any) => {
+                        context.putString(`${card.constructor.name} ${card.cardNumber} read.\n`);
                         samples[cardState] = card.toDict();
-                        logLine(cardState);
-                        card.toString().split('\n').forEach((line) => {
-                            logLine(line);
+                        context.putString(`${cardState}\n`);
+                        card.toString().split('\n').forEach((line: string) => {
+                            context.putString(`${line}\n`);
                         });
                         card.confirm();
-                        logLine('Remove card...');
+                        context.putString('Remove card...\n');
                         mainStation.addEventListener('siCardRemoved', handleCardRemoved);
                     };
-                    const handleCardInserted = (cardEvent) => {
+                    const handleCardInserted = (cardEvent: any) => {
                         const card = cardEvent.siCard;
                         if (fixedSiNumber === null) {
                             fixedSiNumber = card.cardNumber;
                         }
                         if (fixedSiNumber !== card.cardNumber) {
-                            logLine(`Other ${card.constructor.name}: ${card.cardNumber} (not ${fixedSiNumber})`);
+                            context.putString(`Other ${card.constructor.name}: ${card.cardNumber} (not ${fixedSiNumber})\n`);
                             return;
                         }
-                        logLine(`Reading ${card.constructor.name} ${card.cardNumber}...`);
+                        context.putString(`Reading ${card.constructor.name} ${card.cardNumber}...\n`);
                         card.read()
                             .then(handleCardRead);
                     };
@@ -172,20 +177,15 @@ const tests = {
             .then(readoutCard())
             .then(simulateStation(si.BaseSiStation.Mode.Control, 70, 'Punch 70'))
             .then(readoutCard())
-            .then(simulateStation(si.BaseSiStation.Mode.Clear, 4, 'Clear'))
-            .then(readoutCard('clear'))
-            .then(simulateStation(si.BaseSiStation.Mode.Control, 31, 'Punch 31'))
-            .then(readoutCard('clear-31'))
-            .then(readoutCard('clear-[31-70]'))
             .then(() => {
-                logLine('Finished!');
+                context.putString('Finished!\n');
                 console.log('SAMPLES', samples);
             });
     },
 };
 
 export class TestCommand extends BaseCommand {
-    static getParameterDefinitions() {
+    getArgTypes() {
         return [
             {
                 name: 'test name',
@@ -194,9 +194,12 @@ export class TestCommand extends BaseCommand {
         ];
     }
 
-    execute() {
-        const {parameters} = this.context;
-        const what = parameters[0];
-        return tests[what](this.context);
+    printUsage(context: ShellCommandContext) {
+        // TODO
+    }
+
+    run(context: ShellCommandContext): Promise<void> {
+        const what = context.args[1];
+        return tests[what](context);
     }
 }

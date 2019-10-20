@@ -2,11 +2,10 @@
 
 import _ from 'lodash';
 import Immutable from 'immutable';
-import {ValueFromStringError} from './ISiDataType';
+import {SiStorageData, ValueFromStringError} from './interfaces';
 import {ModifyUndefinedException, SiDataType} from './SiDataType';
-import {SiArray} from './SiArray';
 import {SiFieldValue} from './SiFieldValue';
-import {SiStorageData} from './SiStorage';
+import {SiArray} from './SiArray';
 
 describe('SiArray', () => {
     class FakeDataType extends SiDataType<string> {
@@ -16,6 +15,10 @@ describe('SiArray', () => {
 
         typeSpecificIsValueValid(value: string) {
             return true;
+        }
+
+        typeSpecificValueFromString(str: string): string|ValueFromStringError|never {
+            return str.substr(2, str.length - 2);
         }
 
         typeSpecificValueToString(value: string): string {

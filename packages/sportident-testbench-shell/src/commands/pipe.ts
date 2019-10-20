@@ -1,9 +1,11 @@
-import si from 'sportident/src';
+import si from 'sportident/lib';
+import {ShellCommandContext} from '../Shell';
 import {BaseCommand} from './BaseCommand';
+// @ts-ignore
 import {SiExternalApplication} from '../SiExternalApplication';
 
 export class PipeCommand extends BaseCommand {
-    static getParameterDefinitions() {
+    getArgTypes() {
         return [
             {
                 name: 'path',
@@ -13,36 +15,36 @@ export class PipeCommand extends BaseCommand {
         ];
     }
 
-    printUsage() {
-        super.printUsage();
-        this.printUsageDetail('e.g. pipe /tmp/vwin_com1');
+    printUsage(context: ShellCommandContext) {
+        super.printUsage(context);
+        context.putString('e.g. pipe /tmp/vwin_com1\n');
     }
 
-    execute() {
-        const {parameters, userInput, device} = this.context;
-        const url = parameters[0];
+    run(context: ShellCommandContext): Promise<void> {
+        const url = context.args[1];
+        const device = context.env.device;
         return new Promise((resolve, _reject) => {
             const externalApplication = new SiExternalApplication(url);
 
-            let deviceToApplicationBuffer = [];
-            let applicationToDeviceBuffer = [];
+            let deviceToApplicationBuffer: number[] = [];
+            let applicationToDeviceBuffer: number[] = [];
 
-            const onDeviceReceive = (e) => {
+            const onDeviceReceive = (e: any) => {
                 const uint8Data = e.uint8Data;
                 deviceToApplicationBuffer.push(...uint8Data);
                 const {messages, remainder} = si.protocol.parseAll(deviceToApplicationBuffer);
-                messages.forEach((message) => {
+                messages.forEach((message: any) => {
                     console.log('SiDevice:', si.protocol.prettyMessage(message));
                 });
                 deviceToApplicationBuffer = remainder;
                 externalApplication.send(uint8Data);
             };
             device.addEventListener('receive', onDeviceReceive);
-            const onApplicationReceive = (e) => {
+            const onApplicationReceive = (e: any) => {
                 const uint8Data = e.uint8Data;
                 applicationToDeviceBuffer.push(...uint8Data);
                 const {messages, remainder} = si.protocol.parseAll(applicationToDeviceBuffer);
-                messages.forEach((message) => {
+                messages.forEach((message: any) => {
                     console.log('SiExternalApplication:', si.protocol.prettyMessage(message));
                 });
                 applicationToDeviceBuffer = remainder;
@@ -50,13 +52,13 @@ export class PipeCommand extends BaseCommand {
             };
             externalApplication.addEventListener('receive', onApplicationReceive);
 
-            userInput.addEventListener('keyup', (event) => {
-                if (event.keyCode === 67 && event.ctrlKey && !event.altKey && !event.metaKey && !event.shiftKey) { // Ctrl-C
-                    device.removeEventListener('receive', onDeviceReceive);
-                    externalApplication.removeEventListener('receive', onApplicationReceive);
-                    externalApplication.close();
-                    resolve('Piping finished.');
-                }
+            context.waitChar().then(() => {
+                // if (event.keyCode === 67 && event.ctrlKey && !event.altKey && !event.metaKey && !event.shiftKey) { // Ctrl-C
+                device.removeEventListener('receive', onDeviceReceive);
+                externalApplication.removeEventListener('receive', onApplicationReceive);
+                externalApplication.close();
+                context.putString('Piping finished.\n');
+                // }
             });
         });
     }

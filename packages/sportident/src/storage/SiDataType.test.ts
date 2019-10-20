@@ -2,21 +2,11 @@
 
 import _ from 'lodash';
 import Immutable from 'immutable';
-import * as utils from '../utils';
-import {ValueFromStringError} from './ISiDataType';
-import {SiStorage, SiStorageData} from './SiStorage';
+import {SiStorageData, ValueFromStringError} from './interfaces';
 import {SiFieldValue} from './SiFieldValue';
 import {SiDataType} from './SiDataType';
 
 describe('SiDataType', () => {
-    const mySiDataType = new SiDataType();
-    it('override methods', () => {
-        expect(() => mySiDataType.typeSpecificIsValueValid('')).toThrow(utils.NotImplementedError);
-        expect(() => mySiDataType.typeSpecificValueToString('')).toThrow(utils.NotImplementedError);
-        expect(() => mySiDataType.typeSpecificValueFromString('')).toThrow(utils.NotImplementedError);
-        expect(() => mySiDataType.typeSpecificExtractFromData(Immutable.List())).toThrow(utils.NotImplementedError);
-        expect(() => mySiDataType.typeSpecificUpdateData(Immutable.List(), '')).toThrow(utils.NotImplementedError);
-    });
     class MyType extends SiDataType<number> {
         typeSpecificIsValueValid(value: number): boolean {
             return _.isInteger(value);
@@ -80,25 +70,25 @@ describe('SiDataType', () => {
         expect(updateData(myField, [0x00], 0x61)).toEqual([0x61]);
         expect(updateData(myField, [0x00], fieldValueOf(0x61))).toEqual([0x61]);
     });
-
-    it('SiStorage plain SiDataType', () => {
-        class WeirdStorage extends SiStorage {
-            public static size = 0x01;
-            public static definitions = {
-                wtf: new SiDataType(),
-            };
-        }
-
-        const myWeirdStorage = new WeirdStorage(
-            utils.unPrettyHex('00'),
-        );
-
-        expect(() => myWeirdStorage.get('wtf')).toThrow();
-        expect(() => myWeirdStorage.set('wtf', 0xFFFFFFFF)).toThrow();
-        expect(myWeirdStorage.data.toJS()).toEqual(utils.unPrettyHex('00'));
-
-        expect(myWeirdStorage.get('inexistent')).toBe(undefined);
-        myWeirdStorage.set('inexistent', 0xFFFFFFFF);
-        expect(myWeirdStorage.data.toJS()).toEqual(utils.unPrettyHex('00'));
-    });
+    //
+    // it('SiStorage plain SiDataType', () => {
+    //     class WeirdStorage extends SiStorage {
+    //         public static size = 0x01;
+    //         public static definitions = {
+    //             wtf: new MyType(),
+    //         };
+    //     }
+    //
+    //     const myWeirdStorage = new WeirdStorage(
+    //         utils.unPrettyHex('00'),
+    //     );
+    //
+    //     expect(() => myWeirdStorage.get('wtf')).toThrow();
+    //     expect(() => myWeirdStorage.set('wtf', 0xFFFFFFFF)).toThrow();
+    //     expect(myWeirdStorage.data.toJS()).toEqual(utils.unPrettyHex('00'));
+    //
+    //     expect(myWeirdStorage.get('inexistent')).toBe(undefined);
+    //     myWeirdStorage.set('inexistent', 0xFFFFFFFF);
+    //     expect(myWeirdStorage.data.toJS()).toEqual(utils.unPrettyHex('00'));
+    // });
 });

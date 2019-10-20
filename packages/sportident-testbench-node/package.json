@@ -1,0 +1,22 @@
+{
+  "name": "sportident-testbench-node",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./src/index.ts",
+  "scripts": {
+    "build": "webpack",
+    "eslint": "eslint ./src/ --ext .ts,.tsx",
+    "testbench-node": "ts-node ./src/index.ts",
+    "testbench-node-built": "node ./build/sportident-testbench-node.node.js",
+    "tsc": "tsc --declaration"
+  },
+  "author": "Simon Hatt",
+  "license": "MIT",
+  "dependencies": {
+    "immutable": "^4.0.0-rc.12",
+    "lodash": "^4.17.15",
+    "sportident-node-usb": "^1.0.0",
+    "sportident-testbench-shell": "^1.0.0",
+    "ts-node": "^8.4.1"
+  }
+}

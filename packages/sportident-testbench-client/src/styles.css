@@ -112,7 +112,7 @@ div {
     height: 32px;
 }
 
-#si-device-detail {
+.terminal {
     position: absolute;
     top: 0;
     right: 0;
@@ -120,51 +120,8 @@ div {
     left: 200px;
     width: auto;
     height: auto;
-}
-
-#si-device-detail-log {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 32px;
-    left: 0;
-    width: auto;
-    height: auto;
     background-color: rgb(76,25,0);
     color: rgb(255,255,255);
     font-family: monospace;
     overflow-y: scroll;
-}
-
-#si-device-detail-log .error-message {
-    color: rgb(255,50,50);
-    font-weight: bold;
-}
-
-#si-device-detail-log .usage-detail {
-    margin-left: 20px;
-}
-
-#si-device-detail-log .title {
-    font-weight: bold;
-}
-
-#si-device-detail-userinput-container {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    width: auto;
-    height: 32px;
-}
-
-#si-device-detail-userinput {
-    width: 100%;
-    height: 32px;
-    border: 0;
-    display: block;
-    line-height: 32px;
-    background-color: rgb(76,25,0);
-    color: rgb(255,255,255);
-    font-family: monospace;
 }

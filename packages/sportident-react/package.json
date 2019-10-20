@@ -6,9 +6,9 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc --declaration",
     "eslint": "eslint ./src/ --ext .ts,.tsx",
-    "tsc": "tsc"
+    "tsc": "tsc --declaration"
   },
   "author": "Simon Hatt",
   "license": "MIT",

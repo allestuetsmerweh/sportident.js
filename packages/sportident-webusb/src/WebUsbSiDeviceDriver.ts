@@ -1,7 +1,7 @@
-import * as utils from 'sportident/src/utils';
-import {DeviceClosedError, ISiDevice, ISiDeviceDriverData, SiDeviceState} from 'sportident/src/SiDevice/ISiDevice';
-import {ISiDeviceDriver, ISiDeviceDriverWithAutodetection, ISiDeviceDriverWithDetection, SiDeviceDriverWithAutodetectionEvents, SiDeviceAddEvent, SiDeviceRemoveEvent} from 'sportident/src/SiDevice/ISiDeviceDriver';
-import {SiDevice} from 'sportident/src/SiDevice/SiDevice';
+import * as utils from 'sportident/lib/utils';
+import {DeviceClosedError, ISiDevice, ISiDeviceDriverData, SiDeviceState} from 'sportident/lib/SiDevice/ISiDevice';
+import {ISiDeviceDriver, ISiDeviceDriverWithAutodetection, ISiDeviceDriverWithDetection, SiDeviceDriverWithAutodetectionEvents, SiDeviceAddEvent, SiDeviceRemoveEvent} from 'sportident/lib/SiDevice/ISiDeviceDriver';
+import {SiDevice} from 'sportident/lib/SiDevice/SiDevice';
 import * as nav from './INavigatorWebUsb';
 
 const siConfiguration = 1;

@@ -2,10 +2,10 @@
 
 import _ from 'lodash';
 import Immutable from 'immutable';
-import {ValueToStringError, ValueFromStringError} from './ISiDataType';
+import {ValueToStringError, ValueFromStringError} from './interfaces';
 import {ModifyUndefinedException} from './SiDataType';
-import {SiInt} from './SiInt';
 import {SiFieldValue} from './SiFieldValue';
+import {SiInt} from './SiInt';
 
 type FakeSiStorageData = (number|undefined)[];
 

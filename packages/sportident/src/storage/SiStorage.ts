@@ -1,10 +1,8 @@
 import _ from 'lodash';
 import Immutable from 'immutable';
-import {ISiDataType} from './ISiDataType';
-import {SiFieldValue} from './SiFieldValue';
+import {ISiDataType, ISiFieldValue, SiStorageData} from './interfaces';
 
 type SiStorageDefinitions = {[id: string]: ISiDataType<any>};
-export type SiStorageData = Immutable.List<number|undefined>;
 
 export class SiStorage {
     public static readonly size: number;
@@ -43,7 +41,7 @@ export class SiStorage {
         return this.internalData;
     }
 
-    get(fieldName: string): SiFieldValue<any>|undefined {
+    get(fieldName: string): ISiFieldValue<any>|undefined {
         const fieldDefinition = this.definitions[fieldName];
         if (!fieldDefinition) {
             return undefined;

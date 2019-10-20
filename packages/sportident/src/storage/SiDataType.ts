@@ -1,19 +1,17 @@
 import _ from 'lodash';
-import * as utils from '../utils';
-import {ValueToStringError, ValueFromStringError} from './ISiDataType';
+import {SiStorageData, ValueToStringError, ValueFromStringError} from './interfaces';
 import {SiFieldValue} from './SiFieldValue';
-import {SiStorageData} from './SiStorage';
 
-export class ModifyUndefinedException extends utils.Error {};
+export class ModifyUndefinedException {
+    constructor(public message: string = '') {}
+};
 
-export class SiDataType<T> {
+export abstract class SiDataType<T> {
     isValueValid(value: T) {
         return this.typeSpecificIsValueValid(value);
     }
 
-    typeSpecificIsValueValid(_value: T): boolean|never {
-        return utils.notImplemented(`${this.constructor.name} must implement typeSpecificIsValueValid()`);
-    }
+    abstract typeSpecificIsValueValid(_value: T): boolean|never;
 
     valueToString(value: T): string|ValueToStringError {
         if (!this.isValueValid(value)) {
@@ -22,9 +20,7 @@ export class SiDataType<T> {
         return this.typeSpecificValueToString(value);
     }
 
-    typeSpecificValueToString(_value: T): string|ValueToStringError|never {
-        return utils.notImplemented(`${this.constructor.name} must implement typeSpecificValueToString()`);
-    }
+    abstract typeSpecificValueToString(_value: T): string|ValueToStringError|never;
 
     valueFromString(string: string): T|ValueFromStringError {
         const value = this.typeSpecificValueFromString(string);
@@ -37,9 +33,7 @@ export class SiDataType<T> {
         return value;
     }
 
-    typeSpecificValueFromString(_string: string): T|ValueFromStringError|never {
-        return utils.notImplemented(`${this.constructor.name} must implement typeSpecificValueFromString()`);
-    }
+    abstract typeSpecificValueFromString(_string: string): T|ValueFromStringError|never;
 
     extractFromData(data: SiStorageData): SiFieldValue<T>|undefined {
         const extractedValue = this.typeSpecificExtractFromData(data);
@@ -49,9 +43,7 @@ export class SiDataType<T> {
         return new SiFieldValue(this, extractedValue);
     }
 
-    typeSpecificExtractFromData(_data: SiStorageData): T|undefined|never {
-        return utils.notImplemented(`${this.constructor.name} must implement typeSpecificExtractFromData()`);
-    }
+    abstract typeSpecificExtractFromData(_data: SiStorageData): T|undefined|never;
 
     updateData(data: SiStorageData, newValue: T|SiFieldValue<T>): SiStorageData {
         const valueForUpdate = (newValue instanceof SiFieldValue) ? newValue.value : newValue;
@@ -61,7 +53,5 @@ export class SiDataType<T> {
         return this.typeSpecificUpdateData(data, valueForUpdate as T);
     }
 
-    typeSpecificUpdateData(data: SiStorageData, _newValue: T): SiStorageData|never {
-        return utils.notImplemented(`${this.constructor.name} must implement typeSpecificUpdateData()`);
-    }
+    abstract typeSpecificUpdateData(data: SiStorageData, _newValue: T): SiStorageData|never;
 }

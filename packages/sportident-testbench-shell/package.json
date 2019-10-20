@@ -1,0 +1,16 @@
+{
+  "name": "sportident-testbench-shell",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.ts",
+  "scripts": {
+    "build": "tsc --declaration",
+    "eslint": "eslint ./src/ --ext .ts,.tsx",
+    "tsc": "tsc --declaration"
+  },
+  "author": "Simon Hatt",
+  "license": "MIT",
+  "dependencies": {
+    "sportident": "^1.0.0"
+  }
+}
