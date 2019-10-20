@@ -1,0 +1,15 @@
+{
+  "name": "sportident-node-serialport",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "eslint": "eslint ./src/ --ext .ts,.tsx",
+    "tsc": "tsc"
+  },
+  "author": "Simon Hatt",
+  "license": "MIT",
+  "dependencies": {
+    "serialport": "^7.1.5"
+  }
+}

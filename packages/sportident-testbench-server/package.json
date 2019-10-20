@@ -1,0 +1,16 @@
+{
+  "name": "sportident-testbench-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "eslint": "eslint ./src/ --ext .ts,.tsx",
+    "testbench-server": "node ./src/index.js",
+    "tsc": "tsc"
+  },
+  "author": "Simon Hatt",
+  "license": "MIT",
+  "dependencies": {
+    "ws": "^7.1.2"
+  }
+}

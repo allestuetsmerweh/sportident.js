@@ -1,0 +1,21 @@
+{
+  "name": "sportident-webusb",
+  "version": "1.0.0",
+  "description": "",
+  "files": ["lib/**/*", "src/**/*"],
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "eslint": "eslint ./src/ --ext .ts,.tsx",
+    "tsc": "tsc"
+  },
+  "author": "Simon Hatt",
+  "license": "MIT",
+  "devDependencies": {
+    "sportident": "^1.0.0"
+  },
+  "peerDependencies": {
+    "sportident": "^1.0.0"
+  }
+}

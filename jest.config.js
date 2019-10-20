@@ -24,32 +24,26 @@ const jestConfig = {
     collectCoverage: true,
     maxConcurrency: 1,
     coverageThreshold: {
-        'src/': {
+        './packages/sportident/src/': {
             branches: 94,
             functions: 94,
             lines: 95,
             statements: 93,
         },
-        './src/SiCard': percentCoverage(90),
-        './src/SiDevice': percentCoverage(85),
-        './src/simulation': totalCoverage,
-        './src/SiStation': {
+        './packages/sportident/src/SiCard': percentCoverage(90),
+        './packages/sportident/src/SiDevice': percentCoverage(85),
+        './packages/sportident/src/simulation': totalCoverage,
+        './packages/sportident/src/SiStation': {
             branches: 89,
             functions: 95,
             lines: 95,
             statements: 95,
         },
-        './src/storage': totalCoverage,
-        './src/utils': percentCoverage(97),
-        './src/constants.ts': totalCoverage,
-        './src/react.jsx': {
-            branches: 0,
-            functions: 0,
-            lines: 0,
-            statements: 0,
-        },
-        './src/siProtocol.ts': totalCoverage,
-        './src/testUtils.ts': totalCoverage,
+        './packages/sportident/src/storage': totalCoverage,
+        './packages/sportident/src/utils': percentCoverage(97),
+        './packages/sportident/src/constants.ts': totalCoverage,
+        './packages/sportident/src/siProtocol.ts': totalCoverage,
+        './packages/sportident/src/testUtils.ts': totalCoverage,
     },
 };
 module.exports = jestConfig;

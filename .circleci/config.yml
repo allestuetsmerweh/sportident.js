@@ -23,14 +23,15 @@ jobs:
       - save_cache:
           paths:
             - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
+          key: v1-dependencies-{{ checksum "package-lock.json" }}
 
-      - run: npm run eslint
+      - run: npm run lerna bootstrap
+
+      # - run: npm run lint
       - run: npm run dependency-check
-      - run: npm run jest:ci
+      - run: npm run test:ci
 
-      - run: npm run webpack-src
-      - run: npm run webpack-testbench
+      - run: npm run build
       - run: npm run build-docs
 
       - persist_to_workspace:
