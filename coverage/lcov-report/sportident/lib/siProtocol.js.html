@@ -25,9 +25,9 @@
         <span class='fraction'>25/191</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">8.7% </span>
+        <span class="strong">9.01% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>10/115</span>
+        <span class='fraction'>10/111</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">11.11% </span>
@@ -337,14 +337,7 @@
 <a name='L289'></a><a href='#L289'>289</a>
 <a name='L290'></a><a href='#L290'>290</a>
 <a name='L291'></a><a href='#L291'>291</a>
-<a name='L292'></a><a href='#L292'>292</a>
-<a name='L293'></a><a href='#L293'>293</a>
-<a name='L294'></a><a href='#L294'>294</a>
-<a name='L295'></a><a href='#L295'>295</a>
-<a name='L296'></a><a href='#L296'>296</a>
-<a name='L297'></a><a href='#L297'>297</a>
-<a name='L298'></a><a href='#L298'>298</a>
-<a name='L299'></a><a href='#L299'>299</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L292'></a><a href='#L292'>292</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -456,14 +449,10 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -557,7 +546,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -587,10 +575,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -752,17 +738,13 @@ exports.cardNumber2arr = <span class="fstat-no" title="function not covered" >(c
     ];
 };
 exports.prettyMessage = <span class="fstat-no" title="function not covered" >(m</span>essage) =&gt; {
-    const messageWithMode = <span class="cstat-no" title="statement not covered" >message;</span>
-    const prettyMode = (<span class="cstat-no" title="statement not covered" >messageWithMode.mode !== undefined</span>
-        ? `Mode: ${utils.prettyHex([messageWithMode.mode])} (${messageWithMode.mode})\n`
-        : '');
-    const prettyCommand = (<span class="cstat-no" title="statement not covered" >message.command !== undefined</span>
-        ? `Command: ${constants_1.proto.cmdLookup[message.command]} ${utils.prettyHex([message.command])} (${message.command})\n`
-        : 'Command: -\n');
-    const prettyParameters = (<span class="cstat-no" title="statement not covered" >message.parameters !== undefined</span>
-        ? `Parameters: ${utils.prettyHex(message.parameters)} (${JSON.stringify(message.parameters)})`
-        : 'Parameters: -');
-<span class="cstat-no" title="statement not covered" >    return `${prettyMode}${prettyCommand}${prettyParameters}`;</span>
+<span class="cstat-no" title="statement not covered" >    if (message.mode !== undefined) {</span>
+        const prettyMode = <span class="cstat-no" title="statement not covered" >`Mode: ${utils.prettyHex([message.mode])} (${message.mode})\n`;</span>
+<span class="cstat-no" title="statement not covered" >        return `${prettyMode}`;</span>
+    }
+    const prettyCommand = <span class="cstat-no" title="statement not covered" >`Command: ${constants_1.proto.cmdLookup[message.command]} ${utils.prettyHex([message.command])} (${message.command})\n`;</span>
+    const prettyParameters = <span class="cstat-no" title="statement not covered" >`Parameters: ${utils.prettyHex(message.parameters)} (${JSON.stringify(message.parameters)})`;</span>
+<span class="cstat-no" title="statement not covered" >    return `${prettyCommand}${prettyParameters}`;</span>
 };
 exports.CRC16 = <span class="fstat-no" title="function not covered" >(s</span>tr) =&gt; {
     const CRC_POLYNOM = <span class="cstat-no" title="statement not covered" >0x8005;</span>
@@ -849,7 +831,6 @@ exports.parse = <span class="fstat-no" title="function not covered" >(i</span>np
     }
 <span class="cstat-no" title="statement not covered" >    return {</span>
         message: {
-            mode: constants_1.proto.ETX,
             command: command,
             parameters: parameters,
         },
@@ -874,28 +855,26 @@ exports.parseAll = <span class="fstat-no" title="function not covered" >(i</span
     };
 };
 exports.render = <span class="fstat-no" title="function not covered" >(m</span>essage) =&gt; {
-    const renderCommand = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
+    const renderCommand = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(m</span>essageWithoutMode) =&gt; {</span>
         const commandString = <span class="cstat-no" title="statement not covered" >[</span>
-            message.command,
-            message.parameters.length,
-            ...message.parameters,
+            messageWithoutMode.command,
+            messageWithoutMode.parameters.length,
+            ...messageWithoutMode.parameters,
         ];
         const crc = <span class="cstat-no" title="statement not covered" >exports.CRC16(commandString);</span>
 <span class="cstat-no" title="statement not covered" >        return [constants_1.proto.STX, ...commandString, ...crc, constants_1.proto.ETX];</span>
     };
-    const messageWithMode = <span class="cstat-no" title="statement not covered" >message;</span>
-<span class="cstat-no" title="statement not covered" >    if (messageWithMode.mode === undefined) {</span>
-<span class="cstat-no" title="statement not covered" >        return renderCommand();</span>
+<span class="cstat-no" title="statement not covered" >    if (message.mode === undefined) {</span>
+<span class="cstat-no" title="statement not covered" >        return renderCommand(message);</span>
     }
     const renderFunctionsByMode = <span class="cstat-no" title="statement not covered" >{</span>
-        [constants_1.proto.ETX]: renderCommand,
         [constants_1.proto.WAKEUP]: <span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >[constants_1.proto.WAKEUP],</span>
         [constants_1.proto.NAK]: <span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >[constants_1.proto.NAK],</span>
         [constants_1.proto.ACK]: <span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >[constants_1.proto.ACK],</span>
     };
-    const renderFunction = <span class="cstat-no" title="statement not covered" >renderFunctionsByMode[messageWithMode.mode];</span>
+    const renderFunction = <span class="cstat-no" title="statement not covered" >renderFunctionsByMode[message.mode];</span>
 <span class="cstat-no" title="statement not covered" >    if (renderFunction === undefined) {</span>
-<span class="cstat-no" title="statement not covered" >        throw new Error(`Cannot render with mode ${utils.prettyHex([messageWithMode.mode])}`);</span>
+<span class="cstat-no" title="statement not covered" >        throw new Error(`Cannot render with mode ${utils.prettyHex([message.mode])}`);</span>
     }
 <span class="cstat-no" title="statement not covered" >    return renderFunction();</span>
 };
@@ -946,7 +925,7 @@ exports.SiDate = SiDate;
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Mon Nov 04 2019 22:09:03 GMT+0000 (Coordinated Universal Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sat Nov 09 2019 00:31:06 GMT+0000 (Coordinated Universal Time)
 </div>
 </div>
 <script src="../../prettify.js"></script>

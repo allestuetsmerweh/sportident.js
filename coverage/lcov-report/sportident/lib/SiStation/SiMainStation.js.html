@@ -20,24 +20,24 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">20.75% </span>
+        <span class="strong">26.42% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>11/53</span>
+        <span class='fraction'>14/53</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">26.32% </span>
+        <span class="strong">22.73% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>5/19</span>
+        <span class='fraction'>5/22</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">9.09% </span>
+        <span class="strong">14.29% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>1/11</span>
+        <span class='fraction'>1/7</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">20.41% </span>
+        <span class="strong">26.53% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>10/49</span>
+        <span class='fraction'>13/49</span>
       </div>
     </div>
     <p class="quiet">
@@ -118,13 +118,7 @@
 <a name='L70'></a><a href='#L70'>70</a>
 <a name='L71'></a><a href='#L71'>71</a>
 <a name='L72'></a><a href='#L72'>72</a>
-<a name='L73'></a><a href='#L73'>73</a>
-<a name='L74'></a><a href='#L74'>74</a>
-<a name='L75'></a><a href='#L75'>75</a>
-<a name='L76'></a><a href='#L76'>76</a>
-<a name='L77'></a><a href='#L77'>77</a>
-<a name='L78'></a><a href='#L78'>78</a>
-<a name='L79'></a><a href='#L79'>79</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L73'></a><a href='#L73'>73</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -136,15 +130,13 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -155,13 +147,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -201,6 +187,8 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">"use strict";
 var __importStar = (this &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >this.__importStar)</span> || function (mod) {
@@ -214,56 +202,48 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const utils = __importStar(require("../utils"));
 const siProtocol = __importStar(require("../siProtocol"));
 const constants_1 = require("../constants");
+// @ts-ignore
 const SiCard_1 = require("../SiCard");
-const SiTargetMultiplexer_1 = require("./SiTargetMultiplexer");
+const ISiMainStation_1 = require("./ISiMainStation");
+const ISiTargetMultiplexer_1 = require("./ISiTargetMultiplexer");
 const BaseSiStation_1 = require("./BaseSiStation");
 class SiMainStation extends BaseSiStation_1.BaseSiStation {
-<span class="fstat-no" title="function not covered" >    st</span>atic get multiplexerTarget() {
-<span class="cstat-no" title="statement not covered" >        return SiTargetMultiplexer_1.SiTargetMultiplexer.Target.Direct;</span>
-    }
-<span class="fstat-no" title="function not covered" >    co</span>nstructor(siTargetMultiplexer) {
-<span class="cstat-no" title="statement not covered" >        super(siTargetMultiplexer);</span>
-<span class="cstat-no" title="statement not covered" >        this.siCard = false;</span>
-<span class="cstat-no" title="statement not covered" >        this._eventListeners = {};</span>
+<span class="fstat-no" title="function not covered" >    co</span>nstructor(siTargetMultiplexer, multiplexerTarget = <span class="branch-0 cbranch-no" title="branch not covered" >ISiTargetMultiplexer_1.SiTargetMultiplexerTarget.Direct)</span> {
+<span class="cstat-no" title="statement not covered" >        super(siTargetMultiplexer, multiplexerTarget);</span>
+<span class="cstat-no" title="statement not covered" >        this.siCard = null;</span>
 <span class="cstat-no" title="statement not covered" >        siTargetMultiplexer.addEventListener('message', <span class="fstat-no" title="function not covered" >(e</span>) =&gt; {</span>
             const message = <span class="cstat-no" title="statement not covered" >e.message;</span>
 <span class="cstat-no" title="statement not covered" >            this.handleMessage(message);</span>
 <span class="cstat-no" title="statement not covered" >            console.log(`There's a SiMainStation listening to this ${message}`);</span>
         });
     }
-<span class="fstat-no" title="function not covered" >    ad</span>dEventListener(type, callback) {
-<span class="cstat-no" title="statement not covered" >        return utils.addEventListener(this._eventListeners, type, callback);</span>
-    }
-<span class="fstat-no" title="function not covered" >    re</span>moveEventListener(type, callback) {
-<span class="cstat-no" title="statement not covered" >        return utils.removeEventListener(this._eventListeners, type, callback);</span>
-    }
-<span class="fstat-no" title="function not covered" >    di</span>spatchEvent(type, args) {
-<span class="cstat-no" title="statement not covered" >        return utils.dispatchEvent(this._eventListeners, type, args);</span>
-    }
 <span class="fstat-no" title="function not covered" >    ha</span>ndleMessage(message) {
+<span class="cstat-no" title="statement not covered" >        if (message.mode !== undefined) {</span>
+<span class="cstat-no" title="statement not covered" >            return;</span>
+        }
         const { command, parameters } = <span class="cstat-no" title="statement not covered" >message;</span>
         const detectedSiCard = <span class="cstat-no" title="statement not covered" >SiCard_1.BaseSiCard.detectFromMessage(message);</span>
 <span class="cstat-no" title="statement not covered" >        if (detectedSiCard !== undefined) {</span>
 <span class="cstat-no" title="statement not covered" >            detectedSiCard.mainStation = this;</span>
 <span class="cstat-no" title="statement not covered" >            this.siCard = detectedSiCard;</span>
-<span class="cstat-no" title="statement not covered" >            this.dispatchEvent('siCardInserted', { siCard: this.siCard, siMainStation: this });</span>
+<span class="cstat-no" title="statement not covered" >            this.dispatchEvent('siCardInserted', new ISiMainStation_1.SiMainStationSiCardInsertedEvent(this, detectedSiCard));</span>
 <span class="cstat-no" title="statement not covered" >            return;</span>
         }
         const handleSiCardRemoved = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
             const removedCardNumber = <span class="cstat-no" title="statement not covered" >siProtocol.arr2cardNumber([parameters[5], parameters[4], parameters[3]]);</span> // TODO: also [2]?
-<span class="cstat-no" title="statement not covered" >            if (this.siCard !== false &amp;&amp; this.siCard.cardNumber === removedCardNumber) {</span>
-<span class="cstat-no" title="statement not covered" >                this.dispatchEvent('siCardRemoved', { siCard: this.siCard, siMainStation: this });</span>
+<span class="cstat-no" title="statement not covered" >            if (this.siCard !== null &amp;&amp; this.siCard.cardNumber === removedCardNumber) {</span>
+<span class="cstat-no" title="statement not covered" >                this.dispatchEvent('siCardRemoved', new ISiMainStation_1.SiMainStationSiCardRemovedEvent(this, this.siCard));</span>
             }
             else {
 <span class="cstat-no" title="statement not covered" >                console.warn(`Card ${removedCardNumber} was removed, but never inserted`);</span>
             }
-<span class="cstat-no" title="statement not covered" >            this.siCard = false;</span>
+<span class="cstat-no" title="statement not covered" >            this.siCard = null;</span>
         };
         const handleSiCardObserved = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
             const observedCardNumber = <span class="cstat-no" title="statement not covered" >siProtocol.arr2cardNumber([parameters[5], parameters[4], parameters[3]]);</span> // TODO: also [2]?
             const transRecordCard = <span class="cstat-no" title="statement not covered" >SiCard_1.BaseSiCard.fromCardNumber(observedCardNumber);</span>
 <span class="cstat-no" title="statement not covered" >            transRecordCard.mainStation = this;</span>
-<span class="cstat-no" title="statement not covered" >            this.dispatchEvent('siCardObserved', { siCard: transRecordCard, siMainStation: this });</span>
+<span class="cstat-no" title="statement not covered" >            this.dispatchEvent('siCardObserved', new ISiMainStation_1.SiMainStationSiCardObservedEvent(this, transRecordCard));</span>
         };
         const handlerByCommand = <span class="cstat-no" title="statement not covered" >{</span>
             [constants_1.proto.cmd.SI_REM]: handleSiCardRemoved,
@@ -276,17 +256,19 @@ class SiMainStation extends BaseSiStation_1.BaseSiStation {
 <span class="cstat-no" title="statement not covered" >        handler();</span>
     }
 <span class="fstat-no" title="function not covered" >    se</span>ndMessage(message, numResponses, timeoutInMiliseconds) {
-<span class="cstat-no" title="statement not covered" >        return this.siTargetMultiplexer.sendMessage(SiTargetMultiplexer_1.SiTargetMultiplexer.Target.Direct, message, numResponses, timeoutInMiliseconds);</span>
+<span class="cstat-no" title="statement not covered" >        return this.siTargetMultiplexer.sendMessage(ISiTargetMultiplexer_1.SiTargetMultiplexerTarget.Direct, message, numResponses, timeoutInMiliseconds);</span>
     }
 }
 exports.SiMainStation = SiMainStation;
+SiMainStation.multiplexerTarget = ISiTargetMultiplexer_1.SiTargetMultiplexerTarget.Direct;
+utils.applyMixins(SiMainStation, [utils.EventTarget]);
 //# sourceMappingURL=SiMainStation.js.map</pre></td></tr>
 </table></pre>
 <div class='push'></div><!-- for sticky footer -->
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Mon Nov 04 2019 22:09:03 GMT+0000 (Coordinated Universal Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sat Nov 09 2019 00:31:06 GMT+0000 (Coordinated Universal Time)
 </div>
 </div>
 <script src="../../../prettify.js"></script>

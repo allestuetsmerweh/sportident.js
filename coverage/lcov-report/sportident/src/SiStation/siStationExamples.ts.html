@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Code coverage report for sportident/src/SiStation/siStationExamples.js</title>
+    <title>Code coverage report for sportident/src/SiStation/siStationExamples.ts</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../../prettify.css" />
     <link rel="stylesheet" href="../../../base.css" />
@@ -16,13 +16,13 @@
 <div class='wrapper'>
   <div class='pad1'>
     <h1>
-      <a href="../../../index.html">All files</a> / <a href="index.html">sportident/src/SiStation</a> siStationExamples.js
+      <a href="../../../index.html">All files</a> / <a href="index.html">sportident/src/SiStation</a> siStationExamples.ts
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>7/7</span>
+        <span class='fraction'>9/9</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
@@ -37,7 +37,7 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>6/6</span>
+        <span class='fraction'>8/8</span>
       </div>
     </div>
     <p class="quiet">
@@ -152,10 +152,20 @@
 <a name='L104'></a><a href='#L104'>104</a>
 <a name='L105'></a><a href='#L105'>105</a>
 <a name='L106'></a><a href='#L106'>106</a>
-<a name='L107'></a><a href='#L107'>107</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L107'></a><a href='#L107'>107</a>
+<a name='L108'></a><a href='#L108'>108</a>
+<a name='L109'></a><a href='#L109'>109</a>
+<a name='L110'></a><a href='#L110'>110</a>
+<a name='L111'></a><a href='#L111'>111</a>
+<a name='L112'></a><a href='#L112'>112</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -259,9 +269,14 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import * as utils from '../utils';
-import {BaseSiStation} from './BaseSiStation';
+import {SiStationMode, SiStationModel} from './ISiStation';
 &nbsp;
 const cache = {};
+&nbsp;
+export interface StationSample {
+    stationData: {[attr: string]: any};
+    storageData: (number|undefined)[]
+}
 &nbsp;
 export const getBSM8Station = utils.cached(
     cache,
@@ -276,7 +291,7 @@ export const getBSM8Station = utils.cached(
             beeps: false,
             buildDate: new Date('2014-06-11 00:00:00'),
             code: 31,
-            deviceModel: BaseSiStation.Model.BSM8.val,
+            deviceModel: SiStationModel.BSM8,
             extendedProtocol: true,
             firmwareVersion: 3552567,
             flashes: true,
@@ -285,7 +300,7 @@ export const getBSM8Station = utils.cached(
             lastWriteDate: new Date('2019-06-20 23:17:13'),
             memoryOverflow: 0,
             memorySize: 128,
-            mode: BaseSiStation.Mode.Readout.val,
+            mode: SiStationMode.Readout,
             passwordOnly: false,
             powerMode: 8,
             program: 48,
@@ -324,7 +339,7 @@ export const getBSM7Station = utils.cached(
             beeps: true,
             buildDate: new Date('2009-11-31 00:00:00'),
             code: 10,
-            deviceModel: BaseSiStation.Model.BSM7.val,
+            deviceModel: SiStationModel.BSM7,
             extendedProtocol: true,
             firmwareVersion: 3551795,
             flashes: true,
@@ -333,7 +348,7 @@ export const getBSM7Station = utils.cached(
             lastWriteDate: new Date('2009-01-01T00:51:55'),
             memoryOverflow: 0,
             memorySize: 128,
-            mode: BaseSiStation.Mode.Readout.val,
+            mode: SiStationMode.Readout,
             passwordOnly: false,
             powerMode: 8,
             program: 36,
@@ -360,7 +375,7 @@ export const getBSM7Station = utils.cached(
 );
 &nbsp;
 &nbsp;
-export const getSiStationExamples = () =&gt; ({
+export const getSiStationExamples = (): {[sampleName: string]: StationSample} =&gt; ({
     BSM8Station: getBSM8Station(),
     BSM7Station: getBSM7Station(),
 });
@@ -370,7 +385,7 @@ export const getSiStationExamples = () =&gt; ({
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Mon Nov 04 2019 22:09:03 GMT+0000 (Coordinated Universal Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sat Nov 09 2019 00:31:06 GMT+0000 (Coordinated Universal Time)
 </div>
 </div>
 <script src="../../../prettify.js"></script>
