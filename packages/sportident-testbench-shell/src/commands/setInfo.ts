@@ -1,5 +1,5 @@
 // @ts-ignore
-import {BaseSiStation} from 'sportident/lib/SiStation/BaseSiStation';
+import {SiStationStorageDefinition} from 'sportident/lib/SiStation/BaseSiStation';
 import {SiFieldValue} from 'sportident/lib/storage/SiFieldValue';
 import {ShellCommandContext} from '../Shell';
 import {BaseCommand} from './BaseCommand';
@@ -14,7 +14,7 @@ export class SetInfoCommand extends BaseCommand {
             },
             {
                 name: 'information name',
-                choices: Object.keys(BaseSiStation.StorageDefinition.definitions),
+                choices: Object.keys(SiStationStorageDefinition.definitions),
             },
             {
                 name: 'new value',

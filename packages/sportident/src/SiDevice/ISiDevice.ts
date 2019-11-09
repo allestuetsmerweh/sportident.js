@@ -43,6 +43,7 @@ export interface ISiDevice<T extends ISiDeviceDriverData<any>>
     state: SiDeviceState;
     setState: (newState: SiDeviceState) => void;
     data: T;
+    siTargetMultiplexer?: any;
     open: () => Promise<ISiDevice<T>>;
     close: () => Promise<ISiDevice<T>>;
     receiveLoop: () => void;

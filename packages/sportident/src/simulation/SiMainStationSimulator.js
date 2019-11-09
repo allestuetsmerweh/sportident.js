@@ -1,11 +1,11 @@
 import {proto} from '../constants';
 import * as utils from '../utils';
 import * as siProtocol from '../siProtocol';
-import {SiMainStation} from '../SiStation/SiMainStation';
+import {SiStationStorageDefinition} from '../SiStation/BaseSiStation';
 
 export class SiMainStationSimulator {
     constructor(storage) {
-        this.storage = new SiMainStation.StorageDefinition(storage);
+        this.storage = new SiStationStorageDefinition(storage);
         this.isMaster = true;
         this.dateOffset = 0;
         this.cardSimulator = null;

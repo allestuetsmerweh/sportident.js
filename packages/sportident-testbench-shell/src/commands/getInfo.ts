@@ -1,5 +1,5 @@
 // @ts-ignore
-import {BaseSiStation} from 'sportident/lib/SiStation/BaseSiStation';
+import {SiStationStorageDefinition} from 'sportident/lib/SiStation/BaseSiStation';
 import {ShellCommandContext} from '../Shell';
 import {BaseCommand} from './BaseCommand';
 import {getDirectOrRemoteStation} from './getDirectOrRemoteStation';
@@ -13,7 +13,7 @@ export class GetInfoCommand extends BaseCommand {
             },
             {
                 name: 'information name',
-                choices: Object.keys(BaseSiStation.StorageDefinition.definitions),
+                choices: Object.keys(SiStationStorageDefinition.definitions),
                 isOptional: true,
             },
         ];
@@ -34,7 +34,7 @@ export class GetInfoCommand extends BaseCommand {
         }
         const infoNames = (context.args[2]
             ? [context.args[2]]
-            : Object.keys(station.constructor.StorageDefinition.definitions)
+            : Object.keys(SiStationStorageDefinition.definitions)
         );
         return station.readInfo()
             .then(() => {

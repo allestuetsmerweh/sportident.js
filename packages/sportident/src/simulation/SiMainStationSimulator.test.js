@@ -23,8 +23,8 @@ describe('SiMainStationSimulator', () => {
         mySiMainStationSimulator.dateOffset = 3600;
         const dateTime2 = mySiMainStationSimulator.getDateTime();
         expect(dateTime1 instanceof Date).toBe(true);
-        expect(dateTime2 - dateTime1).toBeLessThan(3600 + 5);
-        expect(dateTime2 - dateTime1).toBeGreaterThan(3600 - 5);
+        expect(dateTime2 - dateTime1).toBeLessThan(3600 + 10);
+        expect(dateTime2 - dateTime1).toBeGreaterThan(3600 - 10);
     });
     it('dispatching messages', () => {
         const dispatchedMessages = [];

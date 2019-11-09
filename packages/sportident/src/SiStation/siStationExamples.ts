@@ -1,7 +1,12 @@
 import * as utils from '../utils';
-import {BaseSiStation} from './BaseSiStation';
+import {SiStationMode, SiStationModel} from './ISiStation';
 
 const cache = {};
+
+export interface StationSample {
+    stationData: {[attr: string]: any};
+    storageData: (number|undefined)[]
+}
 
 export const getBSM8Station = utils.cached(
     cache,
@@ -16,7 +21,7 @@ export const getBSM8Station = utils.cached(
             beeps: false,
             buildDate: new Date('2014-06-11 00:00:00'),
             code: 31,
-            deviceModel: BaseSiStation.Model.BSM8.val,
+            deviceModel: SiStationModel.BSM8,
             extendedProtocol: true,
             firmwareVersion: 3552567,
             flashes: true,
@@ -25,7 +30,7 @@ export const getBSM8Station = utils.cached(
             lastWriteDate: new Date('2019-06-20 23:17:13'),
             memoryOverflow: 0,
             memorySize: 128,
-            mode: BaseSiStation.Mode.Readout.val,
+            mode: SiStationMode.Readout,
             passwordOnly: false,
             powerMode: 8,
             program: 48,
@@ -64,7 +69,7 @@ export const getBSM7Station = utils.cached(
             beeps: true,
             buildDate: new Date('2009-11-31 00:00:00'),
             code: 10,
-            deviceModel: BaseSiStation.Model.BSM7.val,
+            deviceModel: SiStationModel.BSM7,
             extendedProtocol: true,
             firmwareVersion: 3551795,
             flashes: true,
@@ -73,7 +78,7 @@ export const getBSM7Station = utils.cached(
             lastWriteDate: new Date('2009-01-01T00:51:55'),
             memoryOverflow: 0,
             memorySize: 128,
-            mode: BaseSiStation.Mode.Readout.val,
+            mode: SiStationMode.Readout,
             passwordOnly: false,
             powerMode: 8,
             program: 36,
@@ -100,7 +105,7 @@ export const getBSM7Station = utils.cached(
 );
 
 
-export const getSiStationExamples = () => ({
+export const getSiStationExamples = (): {[sampleName: string]: StationSample} => ({
     BSM8Station: getBSM8Station(),
     BSM7Station: getBSM7Station(),
 });

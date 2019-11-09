@@ -106,11 +106,10 @@ export const cardNumber2arr = (cardNumber: number): number[] => {
 
 interface SiMessageWithMode {
     mode: number;
-    command?: number;
-    parameters?: number[];
 }
 
 interface SiMessageWithoutMode {
+    mode?: undefined;
     command: number;
     parameters: number[];
 }
@@ -118,20 +117,13 @@ interface SiMessageWithoutMode {
 export type SiMessage = SiMessageWithMode|SiMessageWithoutMode;
 
 export const prettyMessage = (message: SiMessage): string => {
-    const messageWithMode = message as SiMessageWithMode;
-    const prettyMode = (messageWithMode.mode !== undefined
-        ? `Mode: ${utils.prettyHex([messageWithMode.mode])} (${messageWithMode.mode})\n`
-        : ''
-    );
-    const prettyCommand = (message.command !== undefined
-        ? `Command: ${proto.cmdLookup[message.command]} ${utils.prettyHex([message.command])} (${message.command})\n`
-        : 'Command: -\n'
-    );
-    const prettyParameters = (message.parameters !== undefined
-        ? `Parameters: ${utils.prettyHex(message.parameters)} (${JSON.stringify(message.parameters)})`
-        : 'Parameters: -'
-    );
-    return `${prettyMode}${prettyCommand}${prettyParameters}`;
+    if (message.mode !== undefined) {
+        const prettyMode = `Mode: ${utils.prettyHex([message.mode])} (${message.mode})\n`;
+        return `${prettyMode}`;
+    }
+    const prettyCommand = `Command: ${proto.cmdLookup[message.command]} ${utils.prettyHex([message.command])} (${message.command})\n`;
+    const prettyParameters = `Parameters: ${utils.prettyHex(message.parameters)} (${JSON.stringify(message.parameters)})`;
+    return `${prettyCommand}${prettyParameters}`;
 };
 
 export const CRC16 = (str: number[]): [number, number] => {
@@ -222,7 +214,6 @@ export const parse = (inputData: number[]): SiMessageParseResult => {
     }
     return {
         message: {
-            mode: proto.ETX,
             command: command,
             parameters: parameters,
         },
@@ -254,28 +245,26 @@ export const parseAll = (inputData: number[]): SiMessagesParseResult => {
 };
 
 export const render = (message: SiMessage): number[] => {
-    const renderCommand = () => {
+    const renderCommand = (messageWithoutMode: SiMessageWithoutMode) => {
         const commandString = [
-            message.command!,
-            message.parameters!.length,
-            ...message.parameters!,
+            messageWithoutMode.command,
+            messageWithoutMode.parameters.length,
+            ...messageWithoutMode.parameters,
         ];
         const crc = CRC16(commandString);
         return [proto.STX, ...commandString, ...crc, proto.ETX] as number[];
     };
-    const messageWithMode = message as SiMessageWithMode;
-    if (messageWithMode.mode === undefined) {
-        return renderCommand();
+    if (message.mode === undefined) {
+        return renderCommand(message);
     }
     const renderFunctionsByMode: {[key: number]: () => number[]} = {
-        [proto.ETX]: renderCommand,
         [proto.WAKEUP]: () => [proto.WAKEUP],
         [proto.NAK]: () => [proto.NAK],
         [proto.ACK]: () => [proto.ACK],
     };
-    const renderFunction = renderFunctionsByMode[messageWithMode.mode];
+    const renderFunction = renderFunctionsByMode[message.mode];
     if (renderFunction === undefined) {
-        throw new Error(`Cannot render with mode ${utils.prettyHex([messageWithMode.mode])}`);
+        throw new Error(`Cannot render with mode ${utils.prettyHex([message.mode])}`);
     }
     return renderFunction();
 };
