@@ -37,7 +37,7 @@ export const arr2big = (arr: number[]): number => {
     return outnum;
 };
 
-export const prettyHex = (input: string|number[], lineLength = 0) => {
+export const prettyHex = (input: string|(number|undefined)[], lineLength = 0) => {
     let iterable = input;
     if (typeof input === 'string') {
         iterable = [];
@@ -45,8 +45,8 @@ export const prettyHex = (input: string|number[], lineLength = 0) => {
             iterable.push(input.charCodeAt(strIndex));
         }
     }
-    const prettyBytes = [...(iterable as number[])]
-        .map((byte) => (isByte(byte) ? `00${byte.toString(16)}` : '??'))
+    const prettyBytes = [...(iterable as (number|undefined)[])]
+        .map((byte) => (byte !== undefined ? `00${byte.toString(16)}` : '??'))
         .map((paddedStr) => paddedStr.slice(-2).toUpperCase());
     if (lineLength === 0) {
         return prettyBytes.join(' ');

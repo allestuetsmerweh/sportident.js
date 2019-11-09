@@ -1,7 +1,6 @@
 /* globals jest */
 
 import _ from 'lodash';
-import {proto} from './constants';
 
 export const useFakeTimers = (): void => {
     jest.useFakeTimers();
@@ -43,7 +42,7 @@ export const getRandomByteExcept = (except: number[]): number => {
 export const getRandomMessage = (numParameters: number): any => { // TODO: any => SiProtoMessage
     const command = getRandomByte();
     const parameters = _.range(numParameters).map(() => getRandomByte());
-    return {mode: proto.ETX, command: command, parameters: parameters};
+    return {command: command, parameters: parameters};
 };
 
 export interface Mockable<T> {

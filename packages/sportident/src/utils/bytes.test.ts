@@ -87,7 +87,8 @@ describe('byte utils', () => {
         expect(byteUtils.prettyHex('AA')).toBe('41 41');
         expect(byteUtils.prettyHex('000')).toBe('30 30 30');
         expect(byteUtils.prettyHex('    ')).toBe('20 20 20 20');
-        expect(byteUtils.prettyHex([0xFFF])).toBe('??');
+        expect(byteUtils.prettyHex([0xFFF])).toBe('FF');
+        expect(byteUtils.prettyHex([undefined])).toBe('??');
     });
     it('prettyHex with lineLength', () => {
         expect(byteUtils.prettyHex('', 0)).toBe('');
@@ -104,7 +105,8 @@ describe('byte utils', () => {
         expect(byteUtils.prettyHex('1234567', 4)).toBe('31 32 33 34\n35 36 37');
         expect(byteUtils.prettyHex('12345678', 4)).toBe('31 32 33 34\n35 36 37 38');
         expect(byteUtils.prettyHex('123456789', 4)).toBe('31 32 33 34\n35 36 37 38\n39');
-        expect(byteUtils.prettyHex([0xFFF], 4)).toBe('??');
+        expect(byteUtils.prettyHex([0xFFF], 4)).toBe('FF');
+        expect(byteUtils.prettyHex([undefined], 4)).toBe('??');
     });
     it('unPrettyHex', () => {
         expect(byteUtils.unPrettyHex('')).toEqual([]);

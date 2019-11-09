@@ -272,9 +272,9 @@ describe('siProtocol', () => {
             siProtocol.parse(siProtocol.render(message)).message
         );
         expect(parseForMessage({command: 0x00, parameters: []}))
-            .toEqual({mode: proto.ETX, command: 0x00, parameters: []});
+            .toEqual({command: 0x00, parameters: []});
         expect(parseForMessage({command: 0xFF, parameters: [0xEE]}))
-            .toEqual({mode: proto.ETX, command: 0xFF, parameters: [0xEE]});
+            .toEqual({command: 0xFF, parameters: [0xEE]});
     });
     it('parse command with remainder', () => {
         const parseForMessageWithRemainder = (message: siProtocol.SiMessage) => siProtocol.parse([
@@ -283,12 +283,12 @@ describe('siProtocol', () => {
         ]);
         expect(parseForMessageWithRemainder({command: 0x00, parameters: []}))
             .toEqual({
-                message: {mode: proto.ETX, command: 0x00, parameters: []},
+                message: {command: 0x00, parameters: []},
                 remainder: [0xDD],
             });
         expect(parseForMessageWithRemainder({command: 0xFF, parameters: [0xEE]}))
             .toEqual({
-                message: {mode: proto.ETX, command: 0xFF, parameters: [0xEE]},
+                message: {command: 0xFF, parameters: [0xEE]},
                 remainder: [0xDD],
             });
     });
@@ -333,7 +333,7 @@ describe('siProtocol', () => {
         expect(siProtocol.parseAll(stream1))
             .toEqual({
                 messages: [
-                    {mode: proto.ETX, command: 0x00, parameters: []},
+                    {command: 0x00, parameters: []},
                 ],
                 remainder: [],
             });
@@ -346,9 +346,9 @@ describe('siProtocol', () => {
         expect(siProtocol.parseAll(stream2))
             .toEqual({
                 messages: [
-                    {mode: proto.ETX, command: 0x00, parameters: []},
+                    {command: 0x00, parameters: []},
                     {mode: proto.WAKEUP},
-                    {mode: proto.ETX, command: 0xFF, parameters: [0xEE]},
+                    {command: 0xFF, parameters: [0xEE]},
                 ],
                 remainder: [],
             });
@@ -370,7 +370,7 @@ describe('siProtocol', () => {
             expect(siProtocol.parseAll(stream1))
                 .toEqual({
                     messages: [
-                        {mode: proto.ETX, command: 0x00, parameters: []},
+                        {command: 0x00, parameters: []},
                         {mode: proto.NAK},
                     ],
                     remainder: cutOffCommand,
@@ -386,8 +386,8 @@ describe('siProtocol', () => {
                 .toEqual({
                     messages: [
                         {mode: proto.WAKEUP},
-                        {mode: proto.ETX, command: 0x00, parameters: []},
-                        {mode: proto.ETX, command: 0xFF, parameters: [0xEE]},
+                        {command: 0x00, parameters: []},
+                        {command: 0xFF, parameters: [0xEE]},
                     ],
                     remainder: cutOffCommand,
                 });
@@ -397,31 +397,13 @@ describe('siProtocol', () => {
     it('render ACK', () => {
         expect(siProtocol.render({mode: proto.ACK}))
             .toEqual([proto.ACK]);
-        expect(siProtocol.render({mode: proto.ACK, command: 0xFF}))
-            .toEqual([proto.ACK]);
-        expect(siProtocol.render({mode: proto.ACK, parameters: [0xEE]}))
-            .toEqual([proto.ACK]);
-        expect(siProtocol.render({mode: proto.ACK, command: 0xFF, parameters: [0xEE]}))
-            .toEqual([proto.ACK]);
     });
     it('render NAK', () => {
         expect(siProtocol.render({mode: proto.NAK}))
             .toEqual([proto.NAK]);
-        expect(siProtocol.render({mode: proto.NAK, command: 0xFF}))
-            .toEqual([proto.NAK]);
-        expect(siProtocol.render({mode: proto.NAK, parameters: [0xEE]}))
-            .toEqual([proto.NAK]);
-        expect(siProtocol.render({mode: proto.NAK, command: 0xFF, parameters: [0xEE]}))
-            .toEqual([proto.NAK]);
     });
     it('render WAKEUP', () => {
         expect(siProtocol.render({mode: proto.WAKEUP}))
-            .toEqual([proto.WAKEUP]);
-        expect(siProtocol.render({mode: proto.WAKEUP, command: 0xFF}))
-            .toEqual([proto.WAKEUP]);
-        expect(siProtocol.render({mode: proto.WAKEUP, parameters: [0xEE]}))
-            .toEqual([proto.WAKEUP]);
-        expect(siProtocol.render({mode: proto.WAKEUP, command: 0xFF, parameters: [0xEE]}))
             .toEqual([proto.WAKEUP]);
     });
     it('render command', () => {
@@ -429,20 +411,14 @@ describe('siProtocol', () => {
             .toEqual([proto.STX, 0x00, 0x00, 0x00, 0x00, proto.ETX]);
         expect(siProtocol.render({command: 0xFF, parameters: [0xEE]}))
             .toEqual([proto.STX, 0xFF, 0x01, 0xEE, 0xEC, 0x0A, proto.ETX]);
-        expect(siProtocol.render({mode: proto.ETX, command: 0x00, parameters: []}))
+        expect(siProtocol.render({mode: undefined, command: 0x00, parameters: []}))
             .toEqual([proto.STX, 0x00, 0x00, 0x00, 0x00, proto.ETX]);
-        expect(siProtocol.render({mode: proto.ETX, command: 0xFF, parameters: [0xEE]}))
+        expect(siProtocol.render({mode: undefined, command: 0xFF, parameters: [0xEE]}))
             .toEqual([proto.STX, 0xFF, 0x01, 0xEE, 0xEC, 0x0A, proto.ETX]);
     });
     it('render invalid mode', () => {
-        const invalidMode = testUtils.getRandomByteExcept([proto.ETX, proto.WAKEUP, proto.NAK, proto.ACK]);
+        const invalidMode = testUtils.getRandomByteExcept([proto.WAKEUP, proto.NAK, proto.ACK]);
         expect(() => siProtocol.render({mode: invalidMode}))
-            .toThrow();
-        expect(() => siProtocol.render({mode: invalidMode, command: 0xFF}))
-            .toThrow();
-        expect(() => siProtocol.render({mode: invalidMode, parameters: [0xEE]}))
-            .toThrow();
-        expect(() => siProtocol.render({mode: invalidMode, command: 0xFF, parameters: [0xEE]}))
             .toThrow();
     });
 
