@@ -13,7 +13,7 @@ jobs:
     steps:
       - checkout
 
-      - run: sudo apt install graphviz
+      - run: sudo apt install graphviz libudev-dev
 
       - restore_cache:
           keys:

@@ -8,6 +8,8 @@
     "target": "es6",
     "esModuleInterop": true,
     "jsx": "react",
+    "allowJs": true,
+    "declaration": true,
     "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,

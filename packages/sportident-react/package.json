@@ -2,13 +2,16 @@
   "name": "sportident-react",
   "version": "1.0.0",
   "description": "",
-  "files": ["lib/**/*", "src/**/*"],
+  "files": [
+    "lib/**/*",
+    "src/**/*"
+  ],
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "build": "tsc --declaration",
+    "build": "tsc",
     "eslint": "eslint ./src/ --ext .ts,.tsx",
-    "tsc": "tsc --declaration"
+    "tsc": "tsc"
   },
   "author": "Simon Hatt",
   "license": "MIT",
@@ -17,10 +20,10 @@
     "lodash": "^4.17.15"
   },
   "devDependencies": {
-    "@types/react": "^16.9.9",
+    "@types/react": "^16.9.11",
     "prop-types": "^15.7.2",
-    "react": "^16.10.2",
-    "react-test-renderer": "^16.10.2"
+    "react": "^16.11.0",
+    "react-test-renderer": "^16.11.0"
   },
   "peerDependencies": {
     "prop-types": "^15.7.2",
