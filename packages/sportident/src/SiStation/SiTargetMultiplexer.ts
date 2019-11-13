@@ -193,11 +193,11 @@ export class SiTargetMultiplexer implements ISiTargetMultiplexer {
 
         const sendTask = this._sendQueue[0];
         sendTask.state = SendTaskState.Sending;
-        const uint8Data = new Uint8Array([
+        const uint8Data = [
             proto.WAKEUP,
             ...siProtocol.render(sendTask.message),
-        ]);
-        this.siDevice.send([...uint8Data])
+        ];
+        this.siDevice.send(uint8Data)
             .then(() => {
                 sendTask.state = SendTaskState.Sent;
                 console.debug(`=> (${this.siDevice.name})\n${utils.prettyHex([...uint8Data], 16)}`);

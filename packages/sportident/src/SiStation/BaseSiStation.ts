@@ -195,7 +195,7 @@ export abstract class BaseSiStation {
 
 export const SiStationStorageDefinition = storage.defineStorage(0x80, {
     code: new storage.SiInt([[0x72], [0x73, 6, 8]]),
-    mode: new storage.SiEnum([[0x71]], SiStationMode, (value) => value.val),
+    mode: new storage.SiEnum([[0x71]], SiStationMode),
     beeps: new storage.SiBool(0x73, 2),
     flashes: new storage.SiBool(0x73, 0),
     autoSend: new storage.SiBool(0x74, 1),
@@ -203,7 +203,7 @@ export const SiStationStorageDefinition = storage.defineStorage(0x80, {
     serialNumber: new storage.SiInt([[0x03], [0x02], [0x01], [0x00]]),
     firmwareVersion: new storage.SiInt([[0x07], [0x06], [0x05]]),
     buildDate: new siProtocol.SiDate(3, (i) => 0x08 + i),
-    deviceModel: new storage.SiEnum([[0x0C], [0x0B]], SiStationModel, (value) => value.val),
+    deviceModel: new storage.SiEnum([[0x0C], [0x0B]], SiStationModel),
     memorySize: new storage.SiInt([[0x0D]]),
     batteryDate: new siProtocol.SiDate(3, (i) => 0x15 + i),
     batteryCapacity: new storage.SiInt([[0x1A], [0x19]]),
