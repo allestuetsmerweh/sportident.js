@@ -2,28 +2,37 @@ import _ from 'lodash';
 import {proto} from '../../../constants';
 import * as siProtocol from '../../../siProtocol';
 import {BaseSiCardSimulator} from '../BaseSiCardSimulator';
-import {ModernSiCard} from '../../../SiCard/types/ModernSiCard';
+import {ModernSiCard, ModernSiCardStorageDefinition} from '../../../SiCard/types/ModernSiCard';
 import {getModernSiCardExamples} from '../../../SiCard/types/modernSiCardExamples';
 
 export class ModernSiCardSimulator extends BaseSiCardSimulator {
+    static siCardClass = ModernSiCard;
+    static getAllExamples = getModernSiCardExamples;
+
+    constructor(storage: (number|undefined)[]|undefined) {
+        super();
+        this.storage = new ModernSiCardStorageDefinition(storage);
+    }
+
     handleDetect() {
-        const cardNumberArr = siProtocol.cardNumber2arr(this.storage.get('cardNumber').value);
+        const cardNumberArr = siProtocol.cardNumber2arr(this.storage.get('cardNumber')!.value);
         cardNumberArr.reverse();
         return {
             command: proto.cmd.SI8_DET,
-            parameters: [...cardNumberArr],
+            parameters: [...cardNumberArr] as number[],
         };
     }
 
-    handleRequest(message) {
+    handleRequest(message: siProtocol.SiMessage) {
         if (
-            message.command !== proto.cmd.GET_SI8
+            message.mode !== undefined
+            || message.command !== proto.cmd.GET_SI8
             || message.parameters.length !== 1
         ) {
             throw new Error(`ModernSiCard can not handle ${siProtocol.prettyMessage(message)}`);
         }
         const pageIndex = message.parameters[0];
-        const getPageAtIndex = (index) => ({
+        const getPageAtIndex = (index: number) => ({
             command: proto.cmd.GET_SI8,
             parameters: [
                 index,
@@ -36,5 +45,3 @@ export class ModernSiCardSimulator extends BaseSiCardSimulator {
         return [getPageAtIndex(pageIndex)];
     }
 }
-ModernSiCardSimulator.siCardClass = ModernSiCard;
-ModernSiCardSimulator.getAllExamples = getModernSiCardExamples;

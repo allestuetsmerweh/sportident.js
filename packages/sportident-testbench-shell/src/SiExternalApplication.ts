@@ -1,8 +1,8 @@
 import * as utils from 'sportident/lib/utils';
+import {SiExternalApplicationEvents, SiExternalApplicationReceiveEvent} from './ISiExternalApplication';
 
 export class SiExternalApplication {
     private ws: WebSocket;
-    private eventListeners: any = {};
     private pollInterval: any;
 
     constructor(url: string) {
@@ -24,21 +24,12 @@ export class SiExternalApplication {
         }, 1000);
     }
 
-    addEventListener(type: string, callback: (e: any) => void) {
-        return utils.addEventListener(this.eventListeners, type, callback);
-    }
-
-    removeEventListener(type: string, callback: (e: any) => void) {
-        return utils.removeEventListener(this.eventListeners, type, callback);
-    }
-
-    dispatchEvent(type: string, args: object) {
-        return utils.dispatchEvent(this.eventListeners, type, args);
-    }
-
     handleSocketReceive(data: string) {
-        const uint8Data = new Uint8Array(JSON.parse(data));
-        this.dispatchEvent('receive', {uint8Data: uint8Data});
+        const uint8Data = JSON.parse(data) as number[];
+        this.dispatchEvent(
+            'receive',
+            new SiExternalApplicationReceiveEvent(this, uint8Data),
+        );
     }
 
     send(uint8Data: number[]) {
@@ -51,3 +42,5 @@ export class SiExternalApplication {
         this.ws.close();
     }
 }
+export interface SiExternalApplication extends utils.EventTarget<SiExternalApplicationEvents> {}
+utils.applyMixins(SiExternalApplication, [utils.EventTarget]);

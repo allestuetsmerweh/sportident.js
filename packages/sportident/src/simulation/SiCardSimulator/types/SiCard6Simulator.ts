@@ -2,28 +2,37 @@ import _ from 'lodash';
 import {proto} from '../../../constants';
 import * as siProtocol from '../../../siProtocol';
 import {BaseSiCardSimulator} from '../BaseSiCardSimulator';
-import {SiCard6} from '../../../SiCard/types/SiCard6';
+import {SiCard6, SiCard6StorageDefinition} from '../../../SiCard/types/SiCard6';
 import {getSiCard6Examples} from '../../../SiCard/types/siCard6Examples';
 
 export class SiCard6Simulator extends BaseSiCardSimulator {
+    static siCardClass = SiCard6;
+    static getAllExamples = getSiCard6Examples;
+
+    constructor(storage: (number|undefined)[]|undefined) {
+        super();
+        this.storage = new SiCard6StorageDefinition(storage);
+    }
+
     handleDetect() {
-        const cardNumberArr = siProtocol.cardNumber2arr(this.storage.get('cardNumber').value);
+        const cardNumberArr = siProtocol.cardNumber2arr(this.storage.get('cardNumber')!.value);
         cardNumberArr.reverse();
         return {
             command: proto.cmd.SI6_DET,
-            parameters: [...cardNumberArr],
+            parameters: [...cardNumberArr] as number[],
         };
     }
 
-    handleRequest(message) {
+    handleRequest(message: siProtocol.SiMessage) {
         if (
-            message.command !== proto.cmd.GET_SI6
+            message.mode !== undefined
+            || message.command !== proto.cmd.GET_SI6
             || message.parameters.length !== 1
         ) {
             throw new Error(`SiCard6 can not handle ${siProtocol.prettyMessage(message)}`);
         }
         const pageIndex = message.parameters[0];
-        const getPageAtIndex = (index) => ({
+        const getPageAtIndex = (index: number) => ({
             command: proto.cmd.GET_SI6,
             parameters: [
                 index,
@@ -36,5 +45,3 @@ export class SiCard6Simulator extends BaseSiCardSimulator {
         return [getPageAtIndex(pageIndex)];
     }
 }
-SiCard6Simulator.siCardClass = SiCard6;
-SiCard6Simulator.getAllExamples = getSiCard6Examples;

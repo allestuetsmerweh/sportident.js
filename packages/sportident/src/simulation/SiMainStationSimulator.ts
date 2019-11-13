@@ -1,30 +1,25 @@
 import {proto} from '../constants';
 import * as utils from '../utils';
+import * as storage from '../storage';
 import * as siProtocol from '../siProtocol';
 import {SiStationStorageDefinition} from '../SiStation/BaseSiStation';
+import {SiMainStationSimulatorEvents, SiMainStationSimulatorMessageEvent} from './ISiMainStationSimulator';
+import {ISiCardSimulator} from './SiCardSimulator/ISiCardSimulator';
 
 export class SiMainStationSimulator {
-    constructor(storage) {
+    public storage: storage.SiStorage;
+    public isMaster: boolean = true;
+    public dateOffset: number = 0;
+    public cardSimulator?: ISiCardSimulator;
+
+    constructor(storage: (number|undefined)[]|undefined) {
         this.storage = new SiStationStorageDefinition(storage);
-        this.isMaster = true;
-        this.dateOffset = 0;
-        this.cardSimulator = null;
-        this._eventListeners = {};
     }
 
-    addEventListener(type, callback) {
-        return utils.addEventListener(this._eventListeners, type, callback);
-    }
-
-    removeEventListener(type, callback) {
-        return utils.removeEventListener(this._eventListeners, type, callback);
-    }
-
-    dispatchEvent(type, args) {
-        return utils.dispatchEvent(this._eventListeners, type, args);
-    }
-
-    dispatchCardMessage(cardMessage) {
+    dispatchCardMessage(cardMessage: siProtocol.SiMessage) {
+        if (cardMessage.mode !== undefined) {
+            return;
+        }
         const message = {
             command: cardMessage.command,
             parameters: [...this.getCode(), ...cardMessage.parameters],
@@ -32,30 +27,34 @@ export class SiMainStationSimulator {
         this.dispatchMessage(message);
     }
 
-    dispatchMessage(message) {
-        this.dispatchEvent('message', {message: message});
+    dispatchMessage(message: siProtocol.SiMessage) {
+        this.dispatchEvent(
+            'message',
+            new SiMainStationSimulatorMessageEvent(this, message),
+        );
     }
 
-    getCode() {
+    getCode(): number[] {
         return [
-            ((this.storage.data.get(0x73) & 0xC0) << 2),
-            this.storage.data.get(0x72),
+            ((this.storage.data.get(0x73)! & 0xC0) << 2),
+            this.storage.data.get(0x72)!,
         ];
     }
 
-    getDateTime() {
+    getDateTime(): Date {
         return new Date(Date.now() + this.dateOffset);
     }
 
-    insertCard(cardSimulator) {
-        console.warn(cardSimulator, cardSimulator.storage);
+    insertCard(cardSimulator: ISiCardSimulator) {
         this.cardSimulator = cardSimulator;
         const cardMessage = this.cardSimulator.handleDetect();
         this.dispatchCardMessage(cardMessage);
     }
 
-    sendMessage(message) {
-        console.warn(siProtocol.prettyMessage(message));
+    sendMessage(message: siProtocol.SiMessage) {
+        if (message.mode !== undefined) {
+            return;
+        }
         if (message.command === proto.cmd.SIGNAL) {
             const numSignal = message.parameters[0];
             this.dispatchMessage({
@@ -79,7 +78,8 @@ export class SiMainStationSimulator {
                 parameters: [...this.getCode(), ...siProtocol.date2arr(this.getDateTime())],
             });
         } else if (message.command === proto.cmd.SET_TIME) {
-            const _newTime = siProtocol.arr2date(message.parameters.slice(0, 7));
+            const newTime = siProtocol.arr2date(message.parameters.slice(0, 7));
+            console.log(newTime); // TODO: Use new time to set dateOffset
             this.dispatchMessage({
                 command: proto.cmd.SET_TIME,
                 parameters: [...this.getCode(), ...siProtocol.date2arr(this.getDateTime())],
@@ -89,14 +89,20 @@ export class SiMainStationSimulator {
             const length = message.parameters[1];
             this.dispatchMessage({
                 command: proto.cmd.GET_SYS_VAL,
-                parameters: [...this.getCode(), offset, ...this.storage.data.slice(offset, offset + length)],
+                parameters: [
+                    ...this.getCode(),
+                    offset,
+                    ...this.storage.data.slice(offset, offset + length),
+                ] as number[],
             });
         } else if (message.command === proto.cmd.SET_SYS_VAL) {
             const offset = message.parameters[0];
             const newContent = message.parameters.slice(1);
-            newContent.forEach((newByte, index) => {
-                this.storage[offset + index] = newByte;
+            let data = this.storage.data;
+            newContent.forEach((newByte: number, index: number) => {
+                data = data.set(offset + index, newByte);
             });
+            this.storage = new SiStationStorageDefinition(data);
             this.dispatchMessage({
                 command: proto.cmd.SET_SYS_VAL,
                 parameters: [...this.getCode(), offset],
@@ -106,8 +112,11 @@ export class SiMainStationSimulator {
             || message.command === proto.cmd.GET_SI6
             || message.command === proto.cmd.GET_SI8
         ) {
+            if (this.cardSimulator === undefined) {
+                return;
+            }
             const cardMessages = this.cardSimulator.handleRequest(message);
-            cardMessages.forEach((cardMessage) => {
+            cardMessages.forEach((cardMessage: siProtocol.SiMessage) => {
                 this.dispatchCardMessage(cardMessage);
             });
         } else if (message.command === proto.cmd.ERASE_BDATA) {
@@ -118,3 +127,5 @@ export class SiMainStationSimulator {
         }
     }
 }
+export interface SiMainStationSimulator extends utils.EventTarget<SiMainStationSimulatorEvents> {}
+utils.applyMixins(SiMainStationSimulator, [utils.EventTarget]);
