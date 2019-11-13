@@ -30,11 +30,11 @@
 <text text-anchor="middle" x="209.5" y="-878.8" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="9.00">src</text>
 </g>
 <g id="clust6" class="cluster"><title>cluster_packages/sportident/src/SiCard</title>
-<path fill="#ffffff" stroke="black" stroke-width="2" d="M252,-564C252,-564 367,-564 367,-564 373,-564 379,-570 379,-576 379,-576 379,-668 379,-668 379,-674 373,-680 367,-680 367,-680 252,-680 252,-680 246,-680 240,-674 240,-668 240,-668 240,-576 240,-576 240,-570 246,-564 252,-564"/>
+<path fill="#ffffff" stroke="black" stroke-width="2" d="M251.5,-564C251.5,-564 367.5,-564 367.5,-564 373.5,-564 379.5,-570 379.5,-576 379.5,-576 379.5,-668 379.5,-668 379.5,-674 373.5,-680 367.5,-680 367.5,-680 251.5,-680 251.5,-680 245.5,-680 239.5,-674 239.5,-668 239.5,-668 239.5,-576 239.5,-576 239.5,-570 245.5,-564 251.5,-564"/>
 <text text-anchor="middle" x="309.5" y="-668.8" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="9.00">SiCard</text>
 </g>
 <g id="clust7" class="cluster"><title>cluster_packages/sportident/src/SiCard/types</title>
-<path fill="#ffffff" stroke="black" stroke-width="2" d="M260,-572C260,-572 359,-572 359,-572 365,-572 371,-578 371,-584 371,-584 371,-642 371,-642 371,-648 365,-654 359,-654 359,-654 260,-654 260,-654 254,-654 248,-648 248,-642 248,-642 248,-584 248,-584 248,-578 254,-572 260,-572"/>
+<path fill="#ffffff" stroke="black" stroke-width="2" d="M259.5,-572C259.5,-572 359.5,-572 359.5,-572 365.5,-572 371.5,-578 371.5,-584 371.5,-584 371.5,-642 371.5,-642 371.5,-648 365.5,-654 359.5,-654 359.5,-654 259.5,-654 259.5,-654 253.5,-654 247.5,-648 247.5,-642 247.5,-642 247.5,-584 247.5,-584 247.5,-578 253.5,-572 259.5,-572"/>
 <text text-anchor="middle" x="309.5" y="-642.8" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="9.00">types</text>
 </g>
 <g id="clust8" class="cluster"><title>cluster_packages/sportident/src/SiDevice</title>
@@ -73,19 +73,19 @@
 </a>
 </g>
 </g>
-<!-- packages/sportident/src/SiCard/types/siCard5Examples.js -->
-<g id="node2" class="node"><title>packages/sportident/src/SiCard/types/siCard5Examples.js</title>
-<g id="a_node2"><a xlink:href="packages/sportident/src/SiCard/types/siCard5Examples.js" xlink:title="siCard5Examples.js">
-<path fill="#ffffcc" stroke="black" d="M357,-628C357,-628 262,-628 262,-628 259,-628 256,-625 256,-622 256,-622 256,-616 256,-616 256,-613 259,-610 262,-610 262,-610 357,-610 357,-610 360,-610 363,-613 363,-616 363,-616 363,-622 363,-622 363,-625 360,-628 357,-628"/>
-<text text-anchor="middle" x="309.5" y="-616.8" font-family="Helvetica,sans-Serif" font-size="9.00">siCard5Examples.js</text>
+<!-- packages/sportident/src/SiCard/types/siCard5Examples.ts -->
+<g id="node2" class="node"><title>packages/sportident/src/SiCard/types/siCard5Examples.ts</title>
+<g id="a_node2"><a xlink:href="packages/sportident/src/SiCard/types/siCard5Examples.ts" xlink:title="siCard5Examples.ts">
+<path fill="#ddfeff" stroke="black" d="M357.5,-628C357.5,-628 261.5,-628 261.5,-628 258.5,-628 255.5,-625 255.5,-622 255.5,-622 255.5,-616 255.5,-616 255.5,-613 258.5,-610 261.5,-610 261.5,-610 357.5,-610 357.5,-610 360.5,-610 363.5,-613 363.5,-616 363.5,-616 363.5,-622 363.5,-622 363.5,-625 360.5,-628 357.5,-628"/>
+<text text-anchor="middle" x="309.5" y="-616.8" font-family="Helvetica,sans-Serif" font-size="9.00">siCard5Examples.ts</text>
 </a>
 </g>
 </g>
-<!-- packages/sportident/src/SiCard/types/siCard6Examples.js -->
-<g id="node3" class="node"><title>packages/sportident/src/SiCard/types/siCard6Examples.js</title>
-<g id="a_node3"><a xlink:href="packages/sportident/src/SiCard/types/siCard6Examples.js" xlink:title="siCard6Examples.js">
-<path fill="#ffffcc" stroke="black" d="M357,-598C357,-598 262,-598 262,-598 259,-598 256,-595 256,-592 256,-592 256,-586 256,-586 256,-583 259,-580 262,-580 262,-580 357,-580 357,-580 360,-580 363,-583 363,-586 363,-586 363,-592 363,-592 363,-595 360,-598 357,-598"/>
-<text text-anchor="middle" x="309.5" y="-586.8" font-family="Helvetica,sans-Serif" font-size="9.00">siCard6Examples.js</text>
+<!-- packages/sportident/src/SiCard/types/siCard6Examples.ts -->
+<g id="node3" class="node"><title>packages/sportident/src/SiCard/types/siCard6Examples.ts</title>
+<g id="a_node3"><a xlink:href="packages/sportident/src/SiCard/types/siCard6Examples.ts" xlink:title="siCard6Examples.ts">
+<path fill="#ddfeff" stroke="black" d="M357.5,-598C357.5,-598 261.5,-598 261.5,-598 258.5,-598 255.5,-595 255.5,-592 255.5,-592 255.5,-586 255.5,-586 255.5,-583 258.5,-580 261.5,-580 261.5,-580 357.5,-580 357.5,-580 360.5,-580 363.5,-583 363.5,-586 363.5,-586 363.5,-592 363.5,-592 363.5,-595 360.5,-598 357.5,-598"/>
+<text text-anchor="middle" x="309.5" y="-586.8" font-family="Helvetica,sans-Serif" font-size="9.00">siCard6Examples.ts</text>
 </a>
 </g>
 </g>
@@ -282,13 +282,13 @@
 </a>
 </g>
 </g>
-<!-- packages/sportident/src/SiStation/SiMainStation.test.ts&#45;&gt;packages/sportident/src/SiCard/types/siCard5Examples.js -->
-<g id="edge15" class="edge"><title>packages/sportident/src/SiStation/SiMainStation.test.ts&#45;&gt;packages/sportident/src/SiCard/types/siCard5Examples.js</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M189.098,-226.459C202.356,-228.736 215.184,-233.843 224,-244 237.113,-259.108 219.117,-588.695 232,-604 235.908,-608.643 240.795,-612.12 246.197,-614.696"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="245.101,-618.023 255.693,-618.23 247.542,-611.462 245.101,-618.023"/>
+<!-- packages/sportident/src/SiStation/SiMainStation.test.ts&#45;&gt;packages/sportident/src/SiCard/types/siCard5Examples.ts -->
+<g id="edge15" class="edge"><title>packages/sportident/src/SiStation/SiMainStation.test.ts&#45;&gt;packages/sportident/src/SiCard/types/siCard5Examples.ts</title>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M189.098,-226.459C202.356,-228.736 215.184,-233.843 224,-244 237.113,-259.108 219.117,-588.695 232,-604 235.759,-608.465 240.422,-611.852 245.578,-614.396"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="244.713,-617.813 255.303,-618.118 247.215,-611.275 244.713,-617.813"/>
 </g>
-<!-- packages/sportident/src/SiStation/SiMainStation.test.ts&#45;&gt;packages/sportident/src/SiCard/types/siCard6Examples.js -->
-<g id="edge16" class="edge"><title>packages/sportident/src/SiStation/SiMainStation.test.ts&#45;&gt;packages/sportident/src/SiCard/types/siCard6Examples.js</title>
+<!-- packages/sportident/src/SiStation/SiMainStation.test.ts&#45;&gt;packages/sportident/src/SiCard/types/siCard6Examples.ts -->
+<g id="edge16" class="edge"><title>packages/sportident/src/SiStation/SiMainStation.test.ts&#45;&gt;packages/sportident/src/SiCard/types/siCard6Examples.ts</title>
 <path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M189.076,-226.478C202.334,-228.755 215.168,-233.857 224,-244 235.496,-257.202 221.954,-544.664 232,-559 236.943,-566.054 243.809,-571.449 251.417,-575.575"/>
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="250.075,-578.811 260.617,-579.861 253.03,-572.466 250.075,-578.811"/>
 </g>

@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Code coverage report for sportident/src/SiCard/types/modernSiCardExamples.js</title>
+    <title>Code coverage report for sportident/src/SiCard/types/modernSiCardExamples.ts</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../../../prettify.css" />
     <link rel="stylesheet" href="../../../../base.css" />
@@ -16,13 +16,13 @@
 <div class='wrapper'>
   <div class='pad1'>
     <h1>
-      <a href="../../../../index.html">All files</a> / <a href="index.html">sportident/src/SiCard/types</a> modernSiCardExamples.js
+      <a href="../../../../index.html">All files</a> / <a href="index.html">sportident/src/SiCard/types</a> modernSiCardExamples.ts
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>28/28</span>
+        <span class='fraction'>31/31</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
@@ -37,7 +37,7 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>26/26</span>
+        <span class='fraction'>29/29</span>
       </div>
     </div>
     <p class="quiet">
@@ -433,9 +433,11 @@
 <a name='L385'></a><a href='#L385'>385</a>
 <a name='L386'></a><a href='#L386'>386</a>
 <a name='L387'></a><a href='#L387'>387</a>
-<a name='L388'></a><a href='#L388'>388</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L388'></a><a href='#L388'>388</a>
+<a name='L389'></a><a href='#L389'>389</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -822,7 +824,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import _ from 'lodash';
 import * as utils from '../../utils';
-import {ModernSiCard} from './ModernSiCard';
+import {SiCardSample} from '../ISiCardExamples';
+import {ModernSiCardSeries} from './ModernSiCard';
 &nbsp;
 const cache = {};
 &nbsp;
@@ -875,7 +878,7 @@ export const getCardWith16Punches = utils.cached(
     () =&gt; ({
         cardData: {
             uid: 0x772A4299,
-            cardSeries: ModernSiCard.Series.SiCard10.val,
+            cardSeries: ModernSiCardSeries.SiCard10,
             cardNumber: 7050892,
             startTime: 4386,
             finishTime: 61166,
@@ -950,7 +953,7 @@ export const getCardWith64Punches = utils.cached(
     () =&gt; ({
         cardData: {
             uid: 0x772A4299,
-            cardSeries: ModernSiCard.Series.SiCard10.val,
+            cardSeries: ModernSiCardSeries.SiCard10,
             cardNumber: 7050892,
             startTime: 4386,
             finishTime: 61166,
@@ -999,7 +1002,7 @@ export const getCardWith96Punches = utils.cached(
     () =&gt; ({
         cardData: {
             uid: 0x772A4299,
-            cardSeries: ModernSiCard.Series.SiCard10.val,
+            cardSeries: ModernSiCardSeries.SiCard10,
             cardNumber: 7050892,
             startTime: 4386,
             finishTime: 61166,
@@ -1048,7 +1051,7 @@ export const getFullCard = utils.cached(
     () =&gt; ({
         cardData: {
             uid: 0x772A4299,
-            cardSeries: ModernSiCard.Series.SiCard10.val,
+            cardSeries: ModernSiCardSeries.SiCard10,
             cardNumber: 7050892,
             startTime: 4386,
             finishTime: 61166,
@@ -1106,7 +1109,7 @@ export const getPartialCardHolderCard = utils.cached(
     () =&gt; ({
         cardData: {
             uid: 0x772A4299,
-            cardSeries: ModernSiCard.Series.SiCard10.val,
+            cardSeries: ModernSiCardSeries.SiCard10,
             cardNumber: 7050892,
             startTime: 4386,
             finishTime: 61166,
@@ -1155,7 +1158,7 @@ export const getEmptyCard = utils.cached(
     () =&gt; ({
         cardData: {
             uid: 0x772A4299,
-            cardSeries: ModernSiCard.Series.SiCard10.val,
+            cardSeries: ModernSiCardSeries.SiCard10,
             cardNumber: 7050892,
             startTime: 4386,
             finishTime: 61166,
@@ -1199,7 +1202,7 @@ export const getEmptyCard = utils.cached(
     }),
 );
 &nbsp;
-export const getModernSiCardExamples = () =&gt; ({
+export const getModernSiCardExamples = (): {[name: string]: SiCardSample} =&gt; ({
     cardWith16Punches: getCardWith16Punches(),
     cardWith64Punches: getCardWith64Punches(),
     cardWith96Punches: getCardWith96Punches(),
@@ -1213,7 +1216,7 @@ export const getModernSiCardExamples = () =&gt; ({
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sat Nov 09 2019 00:31:06 GMT+0000 (Coordinated Universal Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Wed Nov 13 2019 20:32:39 GMT+0000 (Coordinated Universal Time)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>

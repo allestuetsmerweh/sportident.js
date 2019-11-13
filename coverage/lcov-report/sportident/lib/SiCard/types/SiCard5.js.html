@@ -20,24 +20,24 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">35.56% </span>
-        <span class="quiet">Statements</span>
-        <span class='fraction'>16/45</span>
-      </div>
-      <div class='fl pad1y space-right2'>
         <span class="strong">33.33% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>16/48</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">28.57% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>10/30</span>
+        <span class='fraction'>10/35</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">11.11% </span>
+        <span class="strong">10.53% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>2/18</span>
+        <span class='fraction'>2/19</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">42.86% </span>
+        <span class="strong">39.47% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>15/35</span>
+        <span class='fraction'>15/38</span>
       </div>
     </div>
     <p class="quiet">
@@ -121,7 +121,16 @@
 <a name='L73'></a><a href='#L73'>73</a>
 <a name='L74'></a><a href='#L74'>74</a>
 <a name='L75'></a><a href='#L75'>75</a>
-<a name='L76'></a><a href='#L76'>76</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L76'></a><a href='#L76'>76</a>
+<a name='L77'></a><a href='#L77'>77</a>
+<a name='L78'></a><a href='#L78'>78</a>
+<a name='L79'></a><a href='#L79'>79</a>
+<a name='L80'></a><a href='#L80'>80</a>
+<a name='L81'></a><a href='#L81'>81</a>
+<a name='L82'></a><a href='#L82'>82</a>
+<a name='L83'></a><a href='#L83'>83</a>
+<a name='L84'></a><a href='#L84'>84</a>
+<a name='L85'></a><a href='#L85'>85</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -147,13 +156,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -162,9 +164,23 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -180,6 +196,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -215,8 +233,11 @@ const constants_1 = require("../../constants");
 const BaseSiCard_1 = require("../BaseSiCard");
 const bytesPerPage = 128;
 class SiCard5 extends BaseSiCard_1.BaseSiCard {
+<span class="fstat-no" title="function not covered" >    st</span>atic get StorageDefinition() {
+<span class="cstat-no" title="statement not covered" >        return exports.SiCard5StorageDefinition;</span>
+    }
 <span class="fstat-no" title="function not covered" >    st</span>atic typeSpecificShouldDetectFromMessage(message) {
-<span class="cstat-no" title="statement not covered" >        return message.command === constants_1.proto.cmd.SI5_DET;</span>
+<span class="cstat-no" title="statement not covered" >        return message.mode === undefined &amp;&amp; message.command === constants_1.proto.cmd.SI5_DET;</span>
     }
 <span class="fstat-no" title="function not covered" >    st</span>atic getPunchOffset(i) {
 <span class="cstat-no" title="statement not covered" >        return (i &gt;= 30</span>
@@ -229,6 +250,9 @@ class SiCard5 extends BaseSiCard_1.BaseSiCard {
 <span class="cstat-no" title="statement not covered" >        return firstInvalidIndex === -1 ? allPunches : allPunches.slice(0, firstInvalidIndex);</span>
     }
 <span class="fstat-no" title="function not covered" >    ty</span>peSpecificRead() {
+<span class="cstat-no" title="statement not covered" >        if (!this.mainStation) {</span>
+<span class="cstat-no" title="statement not covered" >            throw new Error('No main station');</span>
+        }
 <span class="cstat-no" title="statement not covered" >        return this.mainStation.sendMessage({</span>
             command: constants_1.proto.cmd.GET_SI5,
             parameters: [],
@@ -239,17 +263,18 @@ class SiCard5 extends BaseSiCard_1.BaseSiCard {
 <span class="cstat-no" title="statement not covered" >            if (this.cardNumber !== readCardNumber) {</span>
 <span class="cstat-no" title="statement not covered" >                console.warn(`SICard5 Number ${readCardNumber} (expected ${this.cardNumber})`);</span>
             }
-<span class="cstat-no" title="statement not covered" >            Object.keys(this.constructor.StorageDefinition.definitions).forEach(<span class="fstat-no" title="function not covered" >(k</span>ey) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >            Object.keys(this.StorageDefinition.definitions).forEach(<span class="fstat-no" title="function not covered" >(k</span>ey) =&gt; {</span>
+                // @ts-ignore
 <span class="cstat-no" title="statement not covered" >                this[key] = this.storage.get(key).value;</span>
             });
         });
     }
 }
 exports.SiCard5 = SiCard5;
-BaseSiCard_1.BaseSiCard.registerNumberRange(1000, 500000, SiCard5);
 SiCard5.maxNumPunches = 36;
-SiCard5.StorageDefinition = storage.defineStorage(0x80, {
-    cardNumber: new storage.SiModified(new storage.SiArray(3, <span class="fstat-no" title="function not covered" >(i</span>) =&gt; <span class="cstat-no" title="statement not covered" >new storage.SiInt([[([0x05, 0x04, 0x06][i])]]))</span>, <span class="fstat-no" title="function not covered" >(e</span>xtractedValue) =&gt; <span class="cstat-no" title="statement not covered" >siProtocol.arr2cardNumber(extractedValue),</span> <span class="fstat-no" title="function not covered" >(c</span>ardNumber) =&gt; <span class="cstat-no" title="statement not covered" >siProtocol.cardNumber2arr(cardNumber),</span> <span class="fstat-no" title="function not covered" >(c</span>ardNumber) =&gt; <span class="cstat-no" title="statement not covered" >`${cardNumber}`,</span> <span class="fstat-no" title="function not covered" >(c</span>ardNumberString) =&gt; <span class="cstat-no" title="statement not covered" >parseInt(cardNumberString, 10),</span> <span class="fstat-no" title="function not covered" >(c</span>ardNumber) =&gt; <span class="cstat-no" title="statement not covered" >lodash_1.default.isInteger(cardNumber) &amp;&amp; cardNumber &gt;= 0)</span>,
+BaseSiCard_1.BaseSiCard.registerNumberRange(1000, 500000, SiCard5);
+exports.SiCard5StorageDefinition = storage.defineStorage(0x80, {
+    cardNumber: new storage.SiModified(new storage.SiArray(3, <span class="fstat-no" title="function not covered" >(i</span>) =&gt; <span class="cstat-no" title="statement not covered" >new storage.SiInt([[([0x05, 0x04, 0x06][i])]]))</span>, <span class="fstat-no" title="function not covered" >(e</span>xtractedValue) =&gt; <span class="cstat-no" title="statement not covered" >siProtocol.arr2cardNumber(extractedValue),</span> <span class="fstat-no" title="function not covered" >(c</span>ardNumber) =&gt; <span class="cstat-no" title="statement not covered" >siProtocol.cardNumber2arr(cardNumber),</span> <span class="fstat-no" title="function not covered" >(c</span>ardNumber) =&gt; <span class="cstat-no" title="statement not covered" >`${cardNumber}`,</span> <span class="fstat-no" title="function not covered" >(c</span>ardNumberString) =&gt; <span class="cstat-no" title="statement not covered" >parseInt(cardNumberString, 10),</span> <span class="fstat-no" title="function not covered" >(c</span>ardNumber) =&gt; <span class="cstat-no" title="statement not covered" >cardNumber !== undefined &amp;&amp; lodash_1.default.isInteger(cardNumber) &amp;&amp; cardNumber &gt;= 0)</span>,
     startTime: new storage.SiInt([[0x13], [0x14]]),
     finishTime: new storage.SiInt([[0x15], [0x16]]),
     checkTime: new storage.SiInt([[0x19], [0x1A]]),
@@ -258,13 +283,15 @@ SiCard5.StorageDefinition = storage.defineStorage(0x80, {
         code: new storage.SiInt([
             [SiCard5.getPunchOffset(i) + 0],
         ]),
-        time: new storage.SiInt([...(i &gt;= 30
-                ? []
-                : [
-                    [SiCard5.getPunchOffset(i) + 1],
-                    [SiCard5.getPunchOffset(i) + 2],
-                ])]),
-    })), <span class="fstat-no" title="function not covered" >(a</span>llPunches) =&gt; <span class="cstat-no" title="statement not covered" >SiCard5.cropPunches(allPunches))</span>,
+        time: new storage.SiInt((i &gt;= 30
+            ? []
+            : [
+                [SiCard5.getPunchOffset(i) + 1],
+                [SiCard5.getPunchOffset(i) + 2],
+            ])),
+    })), 
+    // TODO: a punch in allPunches can't actually be undefined
+<span class="fstat-no" title="function not covered" >    (a</span>llPunches) =&gt; <span class="cstat-no" title="statement not covered" >SiCard5.cropPunches(allPunches))</span>,
     cardHolder: new storage.SiDict({
         countryCode: new storage.SiInt([[0x01]]),
         clubCode: new storage.SiInt([[0x03], [0x02]]),
@@ -277,7 +304,7 @@ SiCard5.StorageDefinition = storage.defineStorage(0x80, {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sat Nov 09 2019 00:31:06 GMT+0000 (Coordinated Universal Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Wed Nov 13 2019 20:32:39 GMT+0000 (Coordinated Universal Time)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>

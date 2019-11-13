@@ -22,22 +22,22 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>178/178</span>
+        <span class='fraction'>183/183</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>93/93</span>
+        <span class='fraction'>97/97</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>25/25</span>
+        <span class='fraction'>26/26</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>174/174</span>
+        <span class='fraction'>178/178</span>
       </div>
     </div>
     <p class="quiet">
@@ -378,7 +378,13 @@
 <a name='L330'></a><a href='#L330'>330</a>
 <a name='L331'></a><a href='#L331'>331</a>
 <a name='L332'></a><a href='#L332'>332</a>
-<a name='L333'></a><a href='#L333'>333</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">24x</span>
+<a name='L333'></a><a href='#L333'>333</a>
+<a name='L334'></a><a href='#L334'>334</a>
+<a name='L335'></a><a href='#L335'>335</a>
+<a name='L336'></a><a href='#L336'>336</a>
+<a name='L337'></a><a href='#L337'>337</a>
+<a name='L338'></a><a href='#L338'>338</a>
+<a name='L339'></a><a href='#L339'>339</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">24x</span>
 <span class="cline-any cline-yes">24x</span>
 <span class="cline-any cline-yes">24x</span>
 <span class="cline-any cline-yes">24x</span>
@@ -452,6 +458,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-yes">401x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">123x</span>
 <span class="cline-any cline-yes">123x</span>
 <span class="cline-any cline-yes">118x</span>
@@ -468,6 +477,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-yes">41x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">40x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -519,15 +531,15 @@
 <span class="cline-any cline-yes">74x</span>
 <span class="cline-any cline-yes">74x</span>
 <span class="cline-any cline-yes">1184x</span>
-<span class="cline-any cline-yes">401x</span>
-<span class="cline-any cline-yes">401x</span>
-<span class="cline-any cline-yes">236x</span>
+<span class="cline-any cline-yes">368x</span>
+<span class="cline-any cline-yes">368x</span>
+<span class="cline-any cline-yes">228x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">401x</span>
+<span class="cline-any cline-yes">368x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">783x</span>
-<span class="cline-any cline-yes">783x</span>
-<span class="cline-any cline-yes">145x</span>
+<span class="cline-any cline-yes">816x</span>
+<span class="cline-any cline-yes">816x</span>
+<span class="cline-any cline-yes">154x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1184x</span>
@@ -783,23 +795,29 @@ export const date2arr = (dateTime: Date): number[] =&gt; {
     ];
 };
 &nbsp;
-export const arr2cardNumber = (arr: number[]): number =&gt; {
+export const arr2cardNumber = (arr: (number|undefined)[]): number|undefined =&gt; {
+    if (arr.some((byte) =&gt; byte === undefined)) {
+        return undefined;
+    }
     utils.assertIsByteArr(arr);
     utils.assertArrIsOfLengths(arr, [3, 4]);
-    let cardnum = (arr[1] &lt;&lt; 8) | arr[0];
-    const fourthSet = (arr.length === 4 &amp;&amp; arr[3] !== 0x00);
-    if (fourthSet || 4 &lt; arr[2]) {
-        cardnum |= (arr[2] &lt;&lt; 16);
+    let cardnum = (arr[1]! &lt;&lt; 8) | arr[0]!;
+    const fourthSet = (arr.length === 4 &amp;&amp; arr[3]! !== 0x00);
+    if (fourthSet || 4 &lt; arr[2]!) {
+        cardnum |= (arr[2]! &lt;&lt; 16);
     } else {
-        cardnum += (arr[2] * 100000);
+        cardnum += (arr[2]! * 100000);
     }
     if (arr.length === 4) {
-        cardnum |= (arr[3] &lt;&lt; 24);
+        cardnum |= (arr[3]! &lt;&lt; 24);
     }
     return cardnum;
 };
 &nbsp;
-export const cardNumber2arr = (cardNumber: number): number[] =&gt; {
+export const cardNumber2arr = (cardNumber: number|undefined): (number|undefined)[] =&gt; {
+    if (cardNumber === undefined) {
+        return [undefined, undefined, undefined, undefined];
+    }
     const arr2 = (cardNumber &lt; 500000
         ? Math.floor(cardNumber / 100000) &amp; 0xFF
         : (cardNumber &gt;&gt; 16) &amp; 0xFF
@@ -1048,7 +1066,7 @@ export class SiDate extends storage.SiDataType&lt;Date&gt; implements storage.IS
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sat Nov 09 2019 00:31:06 GMT+0000 (Coordinated Universal Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Wed Nov 13 2019 20:32:39 GMT+0000 (Coordinated Universal Time)
 </div>
 </div>
 <script src="../../prettify.js"></script>
