@@ -291,9 +291,10 @@ class WebUsbSiDeviceDriver implements
 
     send(
         device: IWebUsbSiDevice,
-        buffer: number[],
+        uint8Data: number[],
     ): Promise<any> {
         const navigatorDevice = device.data.device;
+        const buffer = new Uint8Array(uint8Data);
         return navigatorDevice.transferOut(siEndpoint, buffer)
             .then(() => true);
     }

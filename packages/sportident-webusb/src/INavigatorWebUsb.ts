@@ -44,7 +44,7 @@ export interface WebUsbDevice {
     releaseInterface: (interfaceNumber: number) => Promise<void>;
     selectAlternateInterface: (interfaceNumber: number, alternate: number) => Promise<void>;
     transferIn: (endpoint: number, length: number) => Promise<WebUsbTransferInData>;
-    transferOut: (endpoint: number, buffer: number[]) => Promise<void>;
+    transferOut: (endpoint: number, buffer: ArrayBuffer) => Promise<void>;
     controlTransferOut: (endpoint: WebUsbControlTransferSetup, data?: ArrayBuffer) => Promise<void>;
 }
 
