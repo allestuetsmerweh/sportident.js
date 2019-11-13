@@ -26,7 +26,7 @@ const jestConfig = {
     coverageThreshold: {
         './packages/sportident/src/': {
             branches: 92,
-            functions: 94,
+            functions: 93,
             lines: 95,
             statements: 93,
         },
@@ -37,7 +37,12 @@ const jestConfig = {
             statements: 94,
         },
         './packages/sportident/src/SiDevice': percentCoverage(85),
-        './packages/sportident/src/simulation': totalCoverage,
+        './packages/sportident/src/simulation': {
+            branches: 94,
+            functions: 100,
+            lines: 97,
+            statements: 97,
+        },
         './packages/sportident/src/SiStation': {
             branches: 84,
             functions: 94,
@@ -50,7 +55,7 @@ const jestConfig = {
             lines: 99,
             statements: 99,
         },
-        './packages/sportident/src/utils': percentCoverage(96),
+        './packages/sportident/src/utils': totalCoverage,
         './packages/sportident/src/constants.ts': totalCoverage,
         './packages/sportident/src/siProtocol.ts': totalCoverage,
         './packages/sportident/src/testUtils.ts': totalCoverage,
