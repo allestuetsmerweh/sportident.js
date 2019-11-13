@@ -25,16 +25,21 @@ const jestConfig = {
     maxConcurrency: 1,
     coverageThreshold: {
         './packages/sportident/src/': {
-            branches: 94,
+            branches: 92,
             functions: 94,
             lines: 95,
             statements: 93,
         },
-        './packages/sportident/src/SiCard': percentCoverage(90),
+        './packages/sportident/src/SiCard': {
+            branches: 85,
+            functions: 89,
+            lines: 93,
+            statements: 94,
+        },
         './packages/sportident/src/SiDevice': percentCoverage(85),
         './packages/sportident/src/simulation': totalCoverage,
         './packages/sportident/src/SiStation': {
-            branches: 85,
+            branches: 84,
             functions: 94,
             lines: 95,
             statements: 95,

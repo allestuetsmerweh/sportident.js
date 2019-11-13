@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import * as utils from '../../utils';
+import {SiCardSample} from '../ISiCardExamples';
 
 const cache = {};
 
@@ -77,7 +78,7 @@ export const getCardWith16Punches = utils.cached(
                 zip: 'j',
                 country: 'k',
                 userId: 'l',
-                isComplete: true,
+                isComplete: 'non-falsy',
             },
         },
         storageData: [
@@ -146,7 +147,7 @@ export const getFullCard = utils.cached(
                 zip: 'jjjjjjjj',
                 country: 'kkkk',
                 userId: 'llllllllllllllll',
-                isComplete: true,
+                isComplete: 'non-falsy',
             },
         },
         storageData: [
@@ -198,7 +199,7 @@ export const getPartialCardHolderCard = utils.cached(
                 lastName: 'b',
                 club: 'e',
                 country: 'k',
-                isComplete: false,
+                isComplete: '',
             },
         },
         storageData: [
@@ -241,7 +242,7 @@ export const getEmptyCard = utils.cached(
                 lastName: 'b',
                 club: 'e',
                 country: 'k',
-                isComplete: false,
+                isComplete: '',
             },
         },
         storageData: [
@@ -266,7 +267,7 @@ export const getEmptyCard = utils.cached(
     }),
 );
 
-export const getSiCard6Examples = () => ({
+export const getSiCard6Examples = (): {[name: string]: SiCardSample} => ({
     cardWith16Punches: getCardWith16Punches(),
     fullCard: getFullCard(),
     partialCardHolderCard: getPartialCardHolderCard(),

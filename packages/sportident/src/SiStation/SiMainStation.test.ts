@@ -61,7 +61,7 @@ describe('SiMainStation', () => {
                     parameters: [
                         ...[0x00, 0x00],
                         ...mySiCard5Simulator.handleDetect().parameters,
-                    ],
+                    ] as number[],
                 },
             ),
         );
@@ -82,7 +82,7 @@ describe('SiMainStation', () => {
                     parameters: [
                         ...[0x00, 0x00],
                         ...mySiCard5Simulator.handleDetect().parameters,
-                    ],
+                    ] as number[],
                 },
             ),
         );
@@ -125,7 +125,7 @@ describe('SiMainStation', () => {
                     parameters: [
                         ...[0x00, 0x00],
                         ...mySiCard6Simulator.handleDetect().parameters,
-                    ],
+                    ] as number[],
                 },
             ),
         );

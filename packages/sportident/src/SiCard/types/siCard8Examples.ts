@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import * as utils from '../../utils';
+import {SiCardSample} from '../ISiCardExamples';
 
 const cache = {};
 
@@ -35,7 +36,7 @@ export const getCardWith16Punches = utils.cached(
     () => ({
         cardData: {
             uid: 0x772A4299,
-            cardNumber: 1234567,
+            cardNumber: 2345678,
             startTime: 4386,
             finishTime: 61166,
             checkTime: 7970,
@@ -67,15 +68,24 @@ export const getCardWith16Punches = utils.cached(
         storageData: [
             ...utils.unPrettyHex(`
                 77 2A 42 99 EA EA EA EA 37 02 22 1F 07 03 22 11
-                EE EE EE EE 0F 7F 10 09 0F 12 D6 87 06 0F 61 53
+                EE EE EE EE 0F 7F 10 09 0F 23 CA CE 06 0F 61 53
                 61 3B 62 3B EE EE EE EE EE EE EE EE EE EE EE EE
-                EE EE EE EE EE EE EE EE 1F 1F 1F 1F 20 20 20 20
+                EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE
+                EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE
+                EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE
+                EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE
+                EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE
+            `),
+            ...utils.unPrettyHex(`
+                20 20 20 20 20 20 20 20 1F 1F 1F 1F 20 20 20 20
                 21 21 21 21 22 22 22 22 23 23 23 23 24 24 24 24
                 25 25 25 25 26 26 26 26 27 27 27 27 28 28 28 28
                 29 29 29 29 2A 2A 2A 2A 2B 2B 2B 2B 2C 2C 2C 2C
                 2D 2D 2D 2D 2E 2E 2E 2E EE EE EE EE EE EE EE EE
+                EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE
+                EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE
+                EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE
             `),
-            ...getNoTimesPage(),
         ],
     }),
 );
@@ -85,28 +95,28 @@ export const getFullCard = utils.cached(
     () => ({
         cardData: {
             uid: 0x772A4299,
-            cardNumber: 1234567,
+            cardNumber: 2345678,
             startTime: 4386,
             finishTime: 61166,
             checkTime: 7970,
-            punchCount: 50,
-            punches: _.range(50).map(() => ({code: 32, time: 8224})),
+            punchCount: 30,
+            punches: _.range(30).map(() => ({code: 32, time: 8224})),
             cardHolder: {
-                firstName: 'aaaaaaaaaaaaaaa',
-                lastName: 'bbbbbbb',
+                firstName: 'a',
+                lastName: 'b',
                 isComplete: true,
             },
         },
         storageData: [
             ...utils.unPrettyHex(`
                 77 2A 42 99 EA EA EA EA 37 02 22 1F 07 03 22 11
-                EE EE EE EE 0F 7F 32 09 0F 12 D6 87 06 0F 61 53
-                61 61 61 61 61 61 61 61 61 61 61 61 61 61 61 3B
-                62 62 62 62 62 62 62 3B 20 20 20 20 20 20 20 20
-                20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20
-                20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20
-                20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20
-                20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20
+                EE EE EE EE 0F 7F 1E 09 0F 23 CA CE 06 0F 61 53
+                61 3B 62 3B EE EE EE EE EE EE EE EE EE EE EE EE
+                EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE
+                EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE
+                EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE
+                EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE
+                EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE
             `),
             ...getFullTimesPage(),
         ],
@@ -118,7 +128,7 @@ export const getEmptyCard = utils.cached(
     () => ({
         cardData: {
             uid: 0x772A4299,
-            cardNumber: 1234567,
+            cardNumber: 2345678,
             startTime: 4386,
             finishTime: 61166,
             checkTime: 7970,
@@ -133,7 +143,7 @@ export const getEmptyCard = utils.cached(
         storageData: [
             ...utils.unPrettyHex(`
                 77 2A 42 99 EA EA EA EA 37 02 22 1F 07 03 22 11
-                EE EE EE EE 0F 7F 00 09 0F 12 D6 87 06 0F 61 53
+                EE EE EE EE 0F 7F 00 09 0F 23 CA CE 06 0F 61 53
                 EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE
                 EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE
                 EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE
@@ -146,7 +156,7 @@ export const getEmptyCard = utils.cached(
     }),
 );
 
-export const getSiCard9Examples = () => ({
+export const getSiCard8Examples = (): {[name: string]: SiCardSample} => ({
     cardWith16Punches: getCardWith16Punches(),
     fullCard: getFullCard(),
     emptyCard: getEmptyCard(),

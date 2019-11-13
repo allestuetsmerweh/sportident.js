@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import * as utils from '../../utils';
+import {SiCardSample} from '../ISiCardExamples';
 
 const cache = {};
 
@@ -75,7 +76,7 @@ export const getFullCard = utils.cached(
     }),
 );
 
-export const getSiCard5Examples = () => ({
+export const getSiCard5Examples = (): {[name: string]: SiCardSample} => ({
     cardWith16Punches: getCardWith16Punches(),
     fullCard: getFullCard(),
 });

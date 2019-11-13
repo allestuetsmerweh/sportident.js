@@ -2,10 +2,12 @@
 
 import _ from 'lodash';
 import {proto} from '../../constants';
+import * as siProtocol from '../../siProtocol';
 import * as testUtils from '../../testUtils';
 import {BaseSiCard} from '../BaseSiCard';
 import {SiCard6} from './SiCard6';
 import {getSiCard6Examples} from './siCard6Examples';
+// @ts-ignore
 import {SiCard6Simulator} from '../../simulation/SiCardSimulator/types/SiCard6Simulator';
 
 describe('SiCard6', () => {
@@ -18,11 +20,11 @@ describe('SiCard6', () => {
     it('typeSpecificShouldDetectFromMessage works', () => {
         expect(SiCard6.typeSpecificShouldDetectFromMessage({
             command: proto.cmd.SI6_DET,
-            parameters: undefined,
+            parameters: [],
         })).toBe(true);
         expect(SiCard6.typeSpecificShouldDetectFromMessage({
             command: testUtils.getRandomByteExcept([proto.cmd.SI6_DET]),
-            parameters: undefined,
+            parameters: [],
         })).toBe(false);
     });
     it('getPunchOffset', () => {
@@ -66,12 +68,16 @@ describe('SiCard6', () => {
         const {storageData, cardData} = examples[exampleName];
         const mySiCard6Simulator = new SiCard6Simulator(storageData);
         const mainStationSimulation = {
-            sendMessage: (message, numResponses) => {
-                const responses = mySiCard6Simulator.handleRequest(message);
+            sendMessage: (message: siProtocol.SiMessage, numResponses?: number) => {
+                const responses: siProtocol.SiMessage[] = mySiCard6Simulator.handleRequest(message);
                 if (responses.length !== numResponses) {
                     throw new Error('Invalid numResponses');
                 }
-                return Promise.resolve(responses.map((response) => [0x00, 0x00, ...response.parameters]));
+                return Promise.resolve(responses.map(
+                    (response: siProtocol.SiMessage) => (
+                        response.mode === undefined ? [0x00, 0x00, ...response.parameters] : []
+                    ),
+                ));
             },
         };
 
@@ -80,6 +86,7 @@ describe('SiCard6', () => {
             mySiCard6.mainStation = mainStationSimulation;
             mySiCard6.typeSpecificRead().then(() => {
                 Object.keys(cardData).forEach((cardDataKey) => {
+                    // @ts-ignore
                     expect(mySiCard6[cardDataKey]).toEqual(cardData[cardDataKey]);
                 });
                 done();
@@ -91,6 +98,7 @@ describe('SiCard6', () => {
             mySiCard6.mainStation = mainStationSimulation;
             mySiCard6.typeSpecificRead().then(() => {
                 Object.keys(cardData).forEach((cardDataKey) => {
+                    // @ts-ignore
                     expect(mySiCard6[cardDataKey]).toEqual(cardData[cardDataKey]);
                 });
                 done();
@@ -101,7 +109,7 @@ describe('SiCard6', () => {
         const testError = new Error('test');
         let typeSpecificReadCardHolderCalled = false;
         class SiCard6WithoutCardHolder extends SiCard6 {
-            typeSpecificGetPage(_pageNumber) {
+            typeSpecificGetPage() {
                 return Promise.resolve(_.range(128).map(() => 0x00));
             }
 
@@ -122,7 +130,7 @@ describe('SiCard6', () => {
         const testError = new Error('test');
         let attemptedToGetPage6 = false;
         class SiCard6WithoutCardHolder extends SiCard6 {
-            typeSpecificGetPage(pageNumber) {
+            typeSpecificGetPage(pageNumber: number) {
                 if (pageNumber === 6) {
                     attemptedToGetPage6 = true;
                     return Promise.reject(testError);

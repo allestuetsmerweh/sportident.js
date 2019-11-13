@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import * as utils from '../../utils';
-import {ModernSiCard} from './ModernSiCard';
+import {SiCardSample} from '../ISiCardExamples';
+import {ModernSiCardSeries} from './ModernSiCard';
 
 const cache = {};
 
@@ -53,7 +54,7 @@ export const getCardWith16Punches = utils.cached(
     () => ({
         cardData: {
             uid: 0x772A4299,
-            cardSeries: ModernSiCard.Series.SiCard10.val,
+            cardSeries: ModernSiCardSeries.SiCard10,
             cardNumber: 7050892,
             startTime: 4386,
             finishTime: 61166,
@@ -128,7 +129,7 @@ export const getCardWith64Punches = utils.cached(
     () => ({
         cardData: {
             uid: 0x772A4299,
-            cardSeries: ModernSiCard.Series.SiCard10.val,
+            cardSeries: ModernSiCardSeries.SiCard10,
             cardNumber: 7050892,
             startTime: 4386,
             finishTime: 61166,
@@ -177,7 +178,7 @@ export const getCardWith96Punches = utils.cached(
     () => ({
         cardData: {
             uid: 0x772A4299,
-            cardSeries: ModernSiCard.Series.SiCard10.val,
+            cardSeries: ModernSiCardSeries.SiCard10,
             cardNumber: 7050892,
             startTime: 4386,
             finishTime: 61166,
@@ -226,7 +227,7 @@ export const getFullCard = utils.cached(
     () => ({
         cardData: {
             uid: 0x772A4299,
-            cardSeries: ModernSiCard.Series.SiCard10.val,
+            cardSeries: ModernSiCardSeries.SiCard10,
             cardNumber: 7050892,
             startTime: 4386,
             finishTime: 61166,
@@ -284,7 +285,7 @@ export const getPartialCardHolderCard = utils.cached(
     () => ({
         cardData: {
             uid: 0x772A4299,
-            cardSeries: ModernSiCard.Series.SiCard10.val,
+            cardSeries: ModernSiCardSeries.SiCard10,
             cardNumber: 7050892,
             startTime: 4386,
             finishTime: 61166,
@@ -333,7 +334,7 @@ export const getEmptyCard = utils.cached(
     () => ({
         cardData: {
             uid: 0x772A4299,
-            cardSeries: ModernSiCard.Series.SiCard10.val,
+            cardSeries: ModernSiCardSeries.SiCard10,
             cardNumber: 7050892,
             startTime: 4386,
             finishTime: 61166,
@@ -377,7 +378,7 @@ export const getEmptyCard = utils.cached(
     }),
 );
 
-export const getModernSiCardExamples = () => ({
+export const getModernSiCardExamples = (): {[name: string]: SiCardSample} => ({
     cardWith16Punches: getCardWith16Punches(),
     cardWith64Punches: getCardWith64Punches(),
     cardWith96Punches: getCardWith96Punches(),

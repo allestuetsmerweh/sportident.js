@@ -1,8 +1,11 @@
 /* eslint-env jasmine */
 
+import * as siProtocol from '../../siProtocol';
 import {BaseSiCard} from '../BaseSiCard';
+import {ModernSiCardSeries} from './ModernSiCard';
 import {SiCard9} from './SiCard9';
 import {getSiCard9Examples} from './siCard9Examples';
+// @ts-ignore
 import {SiCard9Simulator} from '../../simulation/SiCardSimulator/types/SiCard9Simulator';
 
 describe('SiCard9', () => {
@@ -20,12 +23,16 @@ describe('SiCard9', () => {
         const {storageData, cardData} = examples[exampleName];
         const myModernSiCardSimulator = new SiCard9Simulator(storageData);
         const mainStationSimulation = {
-            sendMessage: (message, numResponses) => {
-                const responses = myModernSiCardSimulator.handleRequest(message);
+            sendMessage: (message: siProtocol.SiMessage, numResponses?: number) => {
+                const responses: siProtocol.SiMessage[] = myModernSiCardSimulator.handleRequest(message);
                 if (responses.length !== numResponses) {
                     throw new Error('Invalid numResponses');
                 }
-                return Promise.resolve(responses.map((response) => [0x00, 0x00, ...response.parameters]));
+                return Promise.resolve(responses.map(
+                    (response: siProtocol.SiMessage) => (
+                        response.mode === undefined ? [0x00, 0x00, ...response.parameters] : []
+                    ),
+                ));
             },
         };
 
@@ -34,10 +41,11 @@ describe('SiCard9', () => {
             mySiCard9.mainStation = mainStationSimulation;
             mySiCard9.typeSpecificRead().then(() => {
                 Object.keys(cardData).forEach((cardDataKey) => {
+                    // @ts-ignore
                     expect(mySiCard9[cardDataKey]).toEqual(cardData[cardDataKey]);
                 });
-                const cardSeriesString = mySiCard9.storage.get('cardSeries').toString();
-                expect(SiCard9.Series[cardSeriesString]).not.toBe(undefined);
+                const cardSeriesString = mySiCard9.storage.get('cardSeries')!.toString();
+                expect(cardSeriesString in ModernSiCardSeries).toBe(true);
                 done();
             });
         });
@@ -47,6 +55,7 @@ describe('SiCard9', () => {
             mySiCard9.mainStation = mainStationSimulation;
             mySiCard9.typeSpecificRead().then(() => {
                 Object.keys(cardData).forEach((cardDataKey) => {
+                    // @ts-ignore
                     expect(mySiCard9[cardDataKey]).toEqual(cardData[cardDataKey]);
                 });
                 done();

@@ -11,44 +11,55 @@ beforeEach(() => {
 });
 
 describe('BaseSiCard', () => {
+    class FakeSiCard1 extends BaseSiCard {
+        typeSpecificRead() {
+            return Promise.resolve();
+        }
+    }
+    class FakeSiCard2 extends BaseSiCard {
+        typeSpecificRead() {
+            return Promise.resolve();
+        }
+    }
+
     it('registerNumberRange', () => {
-        class SiCard1 extends BaseSiCard {}
-        class SiCard2 extends BaseSiCard {}
-        BaseSiCard.registerNumberRange(100, 1000, SiCard1);
-        BaseSiCard.registerNumberRange(0, 100, SiCard2);
-        BaseSiCard.registerNumberRange(1000, 2000, SiCard2);
+        BaseSiCard.registerNumberRange(100, 1000, FakeSiCard1);
+        BaseSiCard.registerNumberRange(0, 100, FakeSiCard2);
+        BaseSiCard.registerNumberRange(1000, 2000, FakeSiCard2);
         expect(BaseSiCard.getTypeByCardNumber(-1)).toEqual(undefined);
-        expect(BaseSiCard.getTypeByCardNumber(0)).toEqual(SiCard2);
-        expect(BaseSiCard.getTypeByCardNumber(99)).toEqual(SiCard2);
-        expect(BaseSiCard.getTypeByCardNumber(100)).toEqual(SiCard1);
-        expect(BaseSiCard.getTypeByCardNumber(999)).toEqual(SiCard1);
-        expect(BaseSiCard.getTypeByCardNumber(1000)).toEqual(SiCard2);
-        expect(BaseSiCard.getTypeByCardNumber(1999)).toEqual(SiCard2);
+        expect(BaseSiCard.getTypeByCardNumber(0)).toEqual(FakeSiCard2);
+        expect(BaseSiCard.getTypeByCardNumber(99)).toEqual(FakeSiCard2);
+        expect(BaseSiCard.getTypeByCardNumber(100)).toEqual(FakeSiCard1);
+        expect(BaseSiCard.getTypeByCardNumber(999)).toEqual(FakeSiCard1);
+        expect(BaseSiCard.getTypeByCardNumber(1000)).toEqual(FakeSiCard2);
+        expect(BaseSiCard.getTypeByCardNumber(1999)).toEqual(FakeSiCard2);
         expect(BaseSiCard.getTypeByCardNumber(2000)).toEqual(undefined);
     });
     it('fromCardNumber', () => {
-        class SiCard1 extends BaseSiCard {}
-        BaseSiCard.registerNumberRange(100, 1000, SiCard1);
+        BaseSiCard.registerNumberRange(100, 1000, FakeSiCard1);
         const siCard500 = BaseSiCard.fromCardNumber(500);
         expect(siCard500 instanceof BaseSiCard).toBe(true);
-        expect(siCard500 instanceof SiCard1).toBe(true);
+        expect(siCard500 instanceof FakeSiCard1).toBe(true);
         const siCard5000 = BaseSiCard.fromCardNumber(5000);
         expect(siCard5000).toBe(undefined);
     });
     it('detectFromMessage', () => {
         let commandChecked = false;
         class SiCard1 extends BaseSiCard {
-            static typeSpecificShouldDetectFromMessage(message) {
+            static typeSpecificShouldDetectFromMessage(message: siProtocol.SiMessage) {
                 commandChecked = true;
-                return message.command === proto.cmd.SI5_DET;
+                return message.mode === undefined && message.command === proto.cmd.SI5_DET;
+            }
+
+            typeSpecificRead() {
+                return Promise.resolve();
             }
         }
         BaseSiCard.registerNumberRange(1000, 10000, SiCard1);
-        class SiCard2 extends BaseSiCard {}
-        BaseSiCard.registerNumberRange(10000, 20000, SiCard2);
+        BaseSiCard.registerNumberRange(10000, 20000, FakeSiCard2);
 
-        const getParametersForCardNumber = (cardNumber) => {
-            const cardNumberArr = siProtocol.cardNumber2arr(cardNumber);
+        const getParametersForCardNumber = (cardNumber: number) => {
+            const cardNumberArr = siProtocol.cardNumber2arr(cardNumber) as number[];
             cardNumberArr.reverse();
             return [0x00, 0x00, ...cardNumberArr];
         };
@@ -87,21 +98,25 @@ describe('BaseSiCard', () => {
         expect(wrongCommandResult).toBe(undefined);
     });
     it('instance', async (done) => {
-        const baseSiCard500 = new BaseSiCard(500);
-        expect(() => baseSiCard500.read()).toThrow();
-
+        const SiCard1StorageDefinition = storage.defineStorage(0x00, {});
         class SiCard1 extends BaseSiCard {
+            static get StorageDefinition() {
+                return SiCard1StorageDefinition;
+            }
+
             typeSpecificRead() {
                 this.punchCount = 1;
                 this.punches = [{code: 31, time: 3}];
                 this.cardHolder = {firstName: 'John'};
-                return Promise.resolve(this);
+                return Promise.resolve();
             }
         }
-        SiCard1.StorageDefinition = storage.defineStorage(0x00, {});
         const siCard500 = new SiCard1(500);
         siCard500.mainStation = {
-            sendMessage: () => Promise.resolve(),
+            sendMessage: (
+                message: siProtocol.SiMessage,
+                numResponses?: number,
+            ) => Promise.resolve([]),
         };
         const result = await siCard500.read();
         expect(result).toBe(siCard500);

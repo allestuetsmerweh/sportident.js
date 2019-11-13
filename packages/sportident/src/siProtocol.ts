@@ -71,23 +71,29 @@ export const date2arr = (dateTime: Date): number[] => {
     ];
 };
 
-export const arr2cardNumber = (arr: number[]): number => {
+export const arr2cardNumber = (arr: (number|undefined)[]): number|undefined => {
+    if (arr.some((byte) => byte === undefined)) {
+        return undefined;
+    }
     utils.assertIsByteArr(arr);
     utils.assertArrIsOfLengths(arr, [3, 4]);
-    let cardnum = (arr[1] << 8) | arr[0];
-    const fourthSet = (arr.length === 4 && arr[3] !== 0x00);
-    if (fourthSet || 4 < arr[2]) {
-        cardnum |= (arr[2] << 16);
+    let cardnum = (arr[1]! << 8) | arr[0]!;
+    const fourthSet = (arr.length === 4 && arr[3]! !== 0x00);
+    if (fourthSet || 4 < arr[2]!) {
+        cardnum |= (arr[2]! << 16);
     } else {
-        cardnum += (arr[2] * 100000);
+        cardnum += (arr[2]! * 100000);
     }
     if (arr.length === 4) {
-        cardnum |= (arr[3] << 24);
+        cardnum |= (arr[3]! << 24);
     }
     return cardnum;
 };
 
-export const cardNumber2arr = (cardNumber: number): number[] => {
+export const cardNumber2arr = (cardNumber: number|undefined): (number|undefined)[] => {
+    if (cardNumber === undefined) {
+        return [undefined, undefined, undefined, undefined];
+    }
     const arr2 = (cardNumber < 500000
         ? Math.floor(cardNumber / 100000) & 0xFF
         : (cardNumber >> 16) & 0xFF

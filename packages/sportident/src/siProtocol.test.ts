@@ -166,6 +166,10 @@ describe('siProtocol', () => {
         expect(siProtocol.arr2cardNumber([0x00, 0x00, 0x00, 0x00])).toBe(0x00000000);
         expect(siProtocol.arr2cardNumber([0x00, 0x00, 0x00, 0x01])).toBe(0x01000000);
         expect(siProtocol.arr2cardNumber([0x12, 0x34, 0x56, 0x78])).toBe(0x78563412);
+        expect(siProtocol.arr2cardNumber([0x12, 0x34, 0x56, undefined])).toBe(undefined);
+        expect(siProtocol.arr2cardNumber([0x12, 0x34, undefined, 0x78])).toBe(undefined);
+        expect(siProtocol.arr2cardNumber([0x12, undefined, 0x56, 0x78])).toBe(undefined);
+        expect(siProtocol.arr2cardNumber([undefined, 0x34, 0x56, 0x78])).toBe(undefined);
     });
     it('arr2cardNumber sanitizes', () => {
         expect(() => siProtocol.arr2cardNumber([])).toThrow();
@@ -186,6 +190,7 @@ describe('siProtocol', () => {
         expect(siProtocol.cardNumber2arr(0x00000000)).toEqual([0x00, 0x00, 0x00, 0x00]);
         expect(siProtocol.cardNumber2arr(0x01000000)).toEqual([0x00, 0x00, 0x00, 0x01]);
         expect(siProtocol.cardNumber2arr(0x78563412)).toEqual([0x12, 0x34, 0x56, 0x78]);
+        expect(siProtocol.cardNumber2arr(undefined)).toEqual([undefined, undefined, undefined, undefined]);
     });
     it('consistent cardNumber <=> arr conversion', () => {
         const cardNumbers = [

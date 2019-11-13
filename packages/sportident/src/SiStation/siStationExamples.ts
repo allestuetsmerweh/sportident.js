@@ -105,7 +105,7 @@ export const getBSM7Station = utils.cached(
 );
 
 
-export const getSiStationExamples = (): {[sampleName: string]: StationSample} => ({
+export const getSiStationExamples = (): {[name: string]: StationSample} => ({
     BSM8Station: getBSM8Station(),
     BSM7Station: getBSM7Station(),
 });
