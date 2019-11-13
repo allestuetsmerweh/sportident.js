@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1573684772923" clover="3.2.0">
-  <project timestamp="1573684772923" name="All files">
-    <metrics statements="3943" coveredstatements="2646" conditionals="1682" coveredconditionals="893" methods="1230" coveredmethods="712" elements="6855" coveredelements="4251" complexity="0" loc="3943" ncloc="3943" packages="22" files="126" classes="126"/>
+<coverage generated="1573686644105" clover="3.2.0">
+  <project timestamp="1573686644105" name="All files">
+    <metrics statements="3940" coveredstatements="2647" conditionals="1682" coveredconditionals="893" methods="1226" coveredmethods="712" elements="6848" coveredelements="4252" complexity="0" loc="3940" ncloc="3940" packages="22" files="126" classes="126"/>
     <package name="sportident-react.src">
       <metrics statements="34" coveredstatements="1" conditionals="7" coveredconditionals="0" methods="11" coveredmethods="0"/>
       <file name="react.jsx" path="/home/circleci/repo/packages/sportident-react/src/react.jsx">
@@ -346,9 +346,9 @@
       </file>
     </package>
     <package name="sportident-webusb.src">
-      <metrics statements="123" coveredstatements="119" conditionals="22" coveredconditionals="17" methods="44" coveredmethods="44"/>
+      <metrics statements="124" coveredstatements="120" conditionals="22" coveredconditionals="17" methods="44" coveredmethods="44"/>
       <file name="WebUsbSiDeviceDriver.ts" path="/home/circleci/repo/packages/sportident-webusb/src/WebUsbSiDeviceDriver.ts">
-        <metrics statements="123" coveredstatements="119" conditionals="22" coveredconditionals="17" methods="44" coveredmethods="44"/>
+        <metrics statements="124" coveredstatements="120" conditionals="22" coveredconditionals="17" methods="44" coveredmethods="44"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
@@ -469,9 +469,10 @@
         <line num="296" count="1" type="stmt"/>
         <line num="297" count="1" type="stmt"/>
         <line num="298" count="1" type="stmt"/>
-        <line num="302" count="1" type="stmt"/>
-        <line num="304" count="1" type="stmt"/>
-        <line num="306" count="5" type="stmt"/>
+        <line num="299" count="1" type="stmt"/>
+        <line num="303" count="1" type="stmt"/>
+        <line num="305" count="1" type="stmt"/>
+        <line num="307" count="5" type="stmt"/>
       </file>
     </package>
     <package name="sportident.lib">
@@ -1557,9 +1558,9 @@
       </file>
     </package>
     <package name="sportident.lib.SiStation">
-      <metrics statements="386" coveredstatements="127" conditionals="151" coveredconditionals="40" methods="93" coveredmethods="11"/>
+      <metrics statements="384" coveredstatements="127" conditionals="151" coveredconditionals="40" methods="91" coveredmethods="11"/>
       <file name="BaseSiStation.js" path="/home/circleci/repo/packages/sportident/lib/SiStation/BaseSiStation.js">
-        <metrics statements="83" coveredstatements="12" conditionals="29" coveredconditionals="5" methods="32" coveredmethods="1"/>
+        <metrics statements="81" coveredstatements="12" conditionals="29" coveredconditionals="5" methods="30" coveredmethods="1"/>
         <line num="2" count="1" type="cond" truecount="2" falsecount="1"/>
         <line num="3" count="2" type="cond" truecount="3" falsecount="1"/>
         <line num="4" count="0" type="stmt"/>
@@ -1638,9 +1639,7 @@
         <line num="160" count="1" type="stmt"/>
         <line num="161" count="1" type="stmt"/>
         <line num="162" count="1" type="stmt"/>
-        <line num="164" count="0" type="stmt"/>
         <line num="171" count="0" type="stmt"/>
-        <line num="172" count="0" type="stmt"/>
         <line num="174" count="0" type="stmt"/>
         <line num="183" count="0" type="stmt"/>
       </file>
@@ -2607,13 +2606,13 @@
         <line num="145" count="74" type="stmt"/>
         <line num="146" count="74" type="stmt"/>
         <line num="147" count="1184" type="cond" truecount="2" falsecount="0"/>
-        <line num="148" count="382" type="stmt"/>
-        <line num="149" count="382" type="cond" truecount="2" falsecount="0"/>
-        <line num="150" count="232" type="stmt"/>
-        <line num="152" count="382" type="stmt"/>
-        <line num="154" count="802" type="stmt"/>
-        <line num="155" count="802" type="cond" truecount="2" falsecount="0"/>
-        <line num="156" count="150" type="stmt"/>
+        <line num="148" count="378" type="stmt"/>
+        <line num="149" count="378" type="cond" truecount="2" falsecount="0"/>
+        <line num="150" count="230" type="stmt"/>
+        <line num="152" count="378" type="stmt"/>
+        <line num="154" count="806" type="stmt"/>
+        <line num="155" count="806" type="cond" truecount="2" falsecount="0"/>
+        <line num="156" count="149" type="stmt"/>
         <line num="159" count="1184" type="stmt"/>
         <line num="161" count="74" type="stmt"/>
         <line num="163" count="66" type="stmt"/>
@@ -2727,7 +2726,7 @@
         <line num="33" count="28" type="stmt"/>
         <line num="34" count="28" type="stmt"/>
         <line num="35" count="2572" type="cond" truecount="2" falsecount="0"/>
-        <line num="36" count="2563" type="stmt"/>
+        <line num="36" count="2562" type="stmt"/>
         <line num="39" count="28" type="stmt"/>
         <line num="42" count="19" type="stmt"/>
         <line num="43" count="47" type="stmt"/>
@@ -3368,9 +3367,9 @@
       </file>
     </package>
     <package name="sportident.src.SiStation">
-      <metrics statements="334" coveredstatements="319" conditionals="85" coveredconditionals="72" methods="87" coveredmethods="82"/>
+      <metrics statements="332" coveredstatements="319" conditionals="85" coveredconditionals="72" methods="85" coveredmethods="82"/>
       <file name="BaseSiStation.ts" path="/home/circleci/repo/packages/sportident/src/SiStation/BaseSiStation.ts">
-        <metrics statements="77" coveredstatements="74" conditionals="18" coveredconditionals="15" methods="31" coveredmethods="29"/>
+        <metrics statements="75" coveredstatements="74" conditionals="18" coveredconditionals="15" methods="29" coveredmethods="29"/>
         <line num="1" count="4" type="stmt"/>
         <line num="2" count="4" type="stmt"/>
         <line num="3" count="4" type="stmt"/>
@@ -3443,9 +3442,7 @@
         <line num="183" count="1" type="stmt"/>
         <line num="189" count="1" type="stmt"/>
         <line num="196" count="4" type="stmt"/>
-        <line num="198" count="0" type="stmt"/>
         <line num="205" count="6" type="stmt"/>
-        <line num="206" count="0" type="stmt"/>
         <line num="208" count="6" type="stmt"/>
         <line num="217" count="12" type="stmt"/>
       </file>
