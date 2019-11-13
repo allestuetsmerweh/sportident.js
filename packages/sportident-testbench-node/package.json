@@ -8,7 +8,7 @@
     "eslint": "eslint ./src/ --ext .ts,.tsx",
     "testbench-node": "ts-node ./src/index.ts",
     "testbench-node-built": "node ./build/sportident-testbench-node.node.js",
-    "tsc": "tsc --declaration"
+    "tsc": "tsc"
   },
   "author": "Simon Hatt",
   "license": "MIT",

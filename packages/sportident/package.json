@@ -2,13 +2,16 @@
   "name": "sportident",
   "version": "1.0.0",
   "description": "",
-  "files": ["lib/**/*", "src/**/*"],
+  "files": [
+    "lib/**/*",
+    "src/**/*"
+  ],
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "build": "tsc --declaration",
+    "build": "tsc",
     "eslint": "eslint ./src/ --ext .ts,.tsx",
-    "tsc": "tsc --declaration"
+    "tsc": "tsc"
   },
   "author": "Simon Hatt",
   "license": "MIT",

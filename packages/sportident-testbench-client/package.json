@@ -7,7 +7,7 @@
     "build": "webpack",
     "eslint": "eslint ./src/ --ext .ts,.tsx",
     "testbench-client": "webpack-dev-server",
-    "tsc": "tsc --declaration && tsc --allowJs",
+    "tsc": "tsc",
     "webpack": "webpack"
   },
   "author": "Simon Hatt",
@@ -21,11 +21,11 @@
     "sportident-webusb": "^1.0.0"
   },
   "devDependencies": {
-    "@types/react": "^16.9.9",
-    "@types/react-dom": "^16.9.2",
+    "@types/react": "^16.9.11",
+    "@types/react-dom": "^16.9.4",
     "prop-types": "^15.7.2",
-    "react": "^16.10.2",
-    "react-dom": "^16.10.2"
+    "react": "^16.11.0",
+    "react-dom": "^16.11.0"
   },
   "peerDependencies": {
     "prop-types": "^15.7.2",

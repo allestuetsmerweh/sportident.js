@@ -9,15 +9,15 @@
   "main": "src/index.ts",
   "types": "src/index.d.ts",
   "scripts": {
-    "build": "tsc --declaration",
+    "build": "tsc",
     "eslint": "eslint ./src/ --ext .ts,.tsx",
-    "tsc": "tsc --declaration"
+    "tsc": "tsc"
   },
   "author": "Simon Hatt",
   "license": "MIT",
   "dependencies": {
-    "@types/usb": "^1.5.1",
+    "@types/usb": "^1.5.0",
     "sportident": "^1.0.0",
-    "usb": "^1.6.0"
+    "usb": "^1.6.1"
   }
 }
