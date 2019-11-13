@@ -1,7 +1,7 @@
 /* eslint-env jasmine */
 
 import {BaseSiCard} from '../BaseSiCard';
-import {TCard} from './SIAC';
+import {TCard} from './TCard';
 
 describe('TCard', () => {
     it('is registered', () => {

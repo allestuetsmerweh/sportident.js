@@ -1,10 +1,12 @@
 /* eslint-env jasmine */
 
 import {proto} from '../../constants';
+import * as siProtocol from '../../siProtocol';
 import * as testUtils from '../../testUtils';
 import {BaseSiCard} from '../BaseSiCard';
 import {SiCard5} from './SiCard5';
 import {getSiCard5Examples} from './siCard5Examples';
+// @ts-ignore
 import {SiCard5Simulator} from '../../simulation/SiCardSimulator/types/SiCard5Simulator';
 
 describe('SiCard5', () => {
@@ -19,11 +21,11 @@ describe('SiCard5', () => {
     it('typeSpecificShouldDetectFromMessage works', () => {
         expect(SiCard5.typeSpecificShouldDetectFromMessage({
             command: proto.cmd.SI5_DET,
-            parameters: undefined,
+            parameters: [],
         })).toBe(true);
         expect(SiCard5.typeSpecificShouldDetectFromMessage({
             command: testUtils.getRandomByteExcept([proto.cmd.SI5_DET]),
-            parameters: undefined,
+            parameters: [],
         })).toBe(false);
     });
     it('getPunchOffset', () => {
@@ -86,12 +88,16 @@ describe('SiCard5', () => {
         const {storageData, cardData} = examples[exampleName];
         const mySiCard5Simulator = new SiCard5Simulator(storageData);
         const mainStationSimulation = {
-            sendMessage: (message, numResponses) => {
-                const responses = mySiCard5Simulator.handleRequest(message);
+            sendMessage: (message: siProtocol.SiMessage, numResponses?: number) => {
+                const responses: siProtocol.SiMessage[] = mySiCard5Simulator.handleRequest(message);
                 if (responses.length !== numResponses) {
                     throw new Error('Invalid numResponses');
                 }
-                return Promise.resolve(responses.map((response) => [0x00, 0x00, ...response.parameters]));
+                return Promise.resolve(responses.map(
+                    (response: siProtocol.SiMessage) => (
+                        response.mode === undefined ? [0x00, 0x00, ...response.parameters] : []
+                    ),
+                ));
             },
         };
 
@@ -100,6 +106,7 @@ describe('SiCard5', () => {
             mySiCard5.mainStation = mainStationSimulation;
             mySiCard5.typeSpecificRead().then(() => {
                 Object.keys(cardData).forEach((cardDataKey) => {
+                    // @ts-ignore
                     expect(mySiCard5[cardDataKey]).toEqual(cardData[cardDataKey]);
                 });
                 done();
@@ -111,6 +118,7 @@ describe('SiCard5', () => {
             mySiCard5.mainStation = mainStationSimulation;
             mySiCard5.typeSpecificRead().then(() => {
                 Object.keys(cardData).forEach((cardDataKey) => {
+                    // @ts-ignore
                     expect(mySiCard5[cardDataKey]).toEqual(cardData[cardDataKey]);
                 });
                 done();

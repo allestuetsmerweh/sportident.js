@@ -1,6 +1,7 @@
 /* eslint-env jasmine */
 
 import _ from 'lodash';
+import * as siProtocol from '../../siProtocol';
 import {proto} from '../../constants';
 import {BaseSiCard} from '../BaseSiCard';
 import {SiCard10} from './SiCard10';
@@ -13,11 +14,15 @@ describe('SiCard10', () => {
     it('is modern', (done) => {
         const mySIAC = new SiCard10(8500000);
         mySIAC.mainStation = {
-            sendMessage: ({command, parameters}, numResponses) => {
+            sendMessage: (message: siProtocol.SiMessage, numResponses?: number) => {
+                if (message.mode !== undefined) {
+                    return Promise.reject(new Error('message mode is not undefined'));
+                }
+                const {command, parameters} = message;
                 expect(command).toBe(proto.cmd.GET_SI8);
                 expect(numResponses).toBe(1);
                 const pageNumberToGet = parameters[0];
-                const getPage = (pageNumber) => [
+                const getPage = (pageNumber: number) => [
                     ...[0x00, 0x00, pageNumber],
                     ..._.range(128).map(() => 0),
                 ];

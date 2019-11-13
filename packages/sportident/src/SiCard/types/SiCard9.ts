@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import * as storage from '../../storage';
 import * as siProtocol from '../../siProtocol';
-import {ModernSiCard} from './ModernSiCard';
+import {ModernSiCard, ModernSiCardSeries, PotentialModernSiCardPunch} from './ModernSiCard';
 import {BaseSiCard} from '../BaseSiCard';
 
 class ReadFinishedException {}
@@ -9,11 +9,16 @@ const punchesPerPage = 32;
 const bytesPerPage = 128;
 
 export class SiCard9 extends ModernSiCard {
-    static getPunchOffset(i) {
+    static maxNumPunches = 50;
+    static get StorageDefinition() {
+        return SiCard9StorageDefinition;
+    }
+
+    static getPunchOffset(i: number): number {
         return 0x38 + i * 4;
     }
 
-    static parseCardHolderString(semicolonSeparatedString) {
+    static parseCardHolderString(semicolonSeparatedString: string): {[property: string]: any} {
         const informationComponents = semicolonSeparatedString.split(';');
         return {
             firstName: informationComponents.length > 1 ? informationComponents[0] : undefined,
@@ -22,32 +27,33 @@ export class SiCard9 extends ModernSiCard {
         };
     }
 
-    typeSpecificRead() {
+    typeSpecificRead(): Promise<void> {
         return new Promise((resolve, reject) => {
             this.typeSpecificGetPage(0)
-                .then((page0) => {
+                .then((page0: number[]) => {
                     this.storage.splice(bytesPerPage * 0, bytesPerPage, ...page0);
 
-                    const readCardNumber = this.storage.get('cardNumber').value;
+                    const readCardNumber = this.storage.get('cardNumber')!.value;
                     if (this.cardNumber !== readCardNumber) {
                         console.warn(`SICard9 Number ${readCardNumber} (expected ${this.cardNumber})`);
                     }
 
-                    if (this.storage.get('punchCount').value <= punchesPerPage * 0) {
+                    if (this.storage.get('punchCount')!.value <= punchesPerPage * 0) {
                         throw new ReadFinishedException();
                     }
                     return this.typeSpecificGetPage(1);
                 })
-                .then((page1) => {
+                .then((page1: number[]) => {
                     this.storage.splice(bytesPerPage * 1, bytesPerPage, ...page1);
                     throw new ReadFinishedException();
                 })
-                .catch((exc) => {
+                .catch((exc: Error) => {
                     if (exc instanceof ReadFinishedException) {
-                        Object.keys(this.constructor.StorageDefinition.definitions).forEach((key) => {
+                        Object.keys(this.StorageDefinition.definitions).forEach((key) => {
+                            // @ts-ignore
                             this[key] = this.storage.get(key).value;
                         });
-                        resolve(this);
+                        resolve();
                     } else {
                         reject(exc);
                     }
@@ -57,10 +63,9 @@ export class SiCard9 extends ModernSiCard {
 }
 BaseSiCard.registerNumberRange(1000000, 2000000, SiCard9);
 
-SiCard9.maxNumPunches = 50;
-SiCard9.StorageDefinition = storage.defineStorage(0x100, {
+export const SiCard9StorageDefinition = storage.defineStorage(0x100, {
     uid: new storage.SiInt([[0x03], [0x02], [0x01], [0x00]]),
-    cardSeries: new storage.SiEnum([[0x18]], ModernSiCard.Series, (value) => value.val),
+    cardSeries: new storage.SiEnum([[0x18]], ModernSiCardSeries),
     cardNumber: new storage.SiModified(
         new storage.SiArray(
             3,
@@ -70,7 +75,7 @@ SiCard9.StorageDefinition = storage.defineStorage(0x100, {
         (cardNumber) => siProtocol.cardNumber2arr(cardNumber),
         (cardNumber) => `${cardNumber}`,
         (cardNumberString) => parseInt(cardNumberString, 10),
-        (cardNumber) => _.isInteger(cardNumber) && cardNumber >= 0,
+        (cardNumber) => cardNumber !== undefined && _.isInteger(cardNumber) && cardNumber >= 0,
     ),
     startTime: new storage.SiInt([[0x0E], [0x0F]]),
     finishTime: new storage.SiInt([[0x12], [0x13]]),
@@ -89,7 +94,7 @@ SiCard9.StorageDefinition = storage.defineStorage(0x100, {
                 ]),
             }),
         ),
-        (allPunches) => SiCard9.cropPunches(allPunches),
+        (allPunches) => SiCard9.cropPunches(allPunches as unknown as PotentialModernSiCardPunch[]),
     ),
     cardHolder: new storage.SiModified(
         new storage.SiArray(

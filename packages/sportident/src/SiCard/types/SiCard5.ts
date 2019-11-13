@@ -6,38 +6,52 @@ import {BaseSiCard} from '../BaseSiCard';
 
 const bytesPerPage = 128;
 
+interface PotentialSiCard5Punch {
+    code: number|undefined;
+    time: number|undefined;
+}
+
 export class SiCard5 extends BaseSiCard {
-    static typeSpecificShouldDetectFromMessage(message) {
-        return message.command === proto.cmd.SI5_DET;
+    static maxNumPunches = 36;
+    static get StorageDefinition() {
+        return SiCard5StorageDefinition;
     }
 
-    static getPunchOffset(i) {
+    static typeSpecificShouldDetectFromMessage(message: siProtocol.SiMessage) {
+        return message.mode === undefined && message.command === proto.cmd.SI5_DET;
+    }
+
+    static getPunchOffset(i: number): number {
         return (i >= 30
             ? 0x20 + (i - 30) * 16
             : 0x20 + Math.floor(i / 5) + 1 + i * 3
         );
     }
 
-    static cropPunches(allPunches) {
-        const isPunchEntryInvalid = (punch) => punch.code === undefined || punch.code === 0x00;
+    static cropPunches(allPunches: PotentialSiCard5Punch[]) {
+        const isPunchEntryInvalid = (punch: PotentialSiCard5Punch) => punch.code === undefined || punch.code === 0x00;
         const firstInvalidIndex = allPunches.findIndex(isPunchEntryInvalid);
         return firstInvalidIndex === -1 ? allPunches : allPunches.slice(0, firstInvalidIndex);
     }
 
     typeSpecificRead() {
+        if (!this.mainStation) {
+            throw new Error('No main station');
+        }
         return this.mainStation.sendMessage({
             command: proto.cmd.GET_SI5,
             parameters: [],
         }, 1)
-            .then((data) => {
+            .then((data: number[][]) => {
                 this.storage.splice(bytesPerPage * 0, bytesPerPage, ...data[0].slice(2));
 
-                const readCardNumber = this.storage.get('cardNumber').value;
+                const readCardNumber = this.storage.get('cardNumber')!.value;
                 if (this.cardNumber !== readCardNumber) {
                     console.warn(`SICard5 Number ${readCardNumber} (expected ${this.cardNumber})`);
                 }
 
-                Object.keys(this.constructor.StorageDefinition.definitions).forEach((key) => {
+                Object.keys(this.StorageDefinition.definitions).forEach((key) => {
+                    // @ts-ignore
                     this[key] = this.storage.get(key).value;
                 });
             });
@@ -45,8 +59,7 @@ export class SiCard5 extends BaseSiCard {
 }
 BaseSiCard.registerNumberRange(1000, 500000, SiCard5);
 
-SiCard5.maxNumPunches = 36;
-SiCard5.StorageDefinition = storage.defineStorage(0x80, {
+export const SiCard5StorageDefinition = storage.defineStorage(0x80, {
     cardNumber: new storage.SiModified(
         new storage.SiArray(
             3,
@@ -56,7 +69,7 @@ SiCard5.StorageDefinition = storage.defineStorage(0x80, {
         (cardNumber) => siProtocol.cardNumber2arr(cardNumber),
         (cardNumber) => `${cardNumber}`,
         (cardNumberString) => parseInt(cardNumberString, 10),
-        (cardNumber) => _.isInteger(cardNumber) && cardNumber >= 0,
+        (cardNumber) => cardNumber !== undefined && _.isInteger(cardNumber) && cardNumber >= 0,
     ),
     startTime: new storage.SiInt([[0x13], [0x14]]),
     finishTime: new storage.SiInt([[0x15], [0x16]]),
@@ -72,16 +85,17 @@ SiCard5.StorageDefinition = storage.defineStorage(0x80, {
                 code: new storage.SiInt([
                     [SiCard5.getPunchOffset(i) + 0],
                 ]),
-                time: new storage.SiInt([...(i >= 30
+                time: new storage.SiInt((i >= 30
                     ? []
                     : [
                         [SiCard5.getPunchOffset(i) + 1],
                         [SiCard5.getPunchOffset(i) + 2],
                     ]
-                )]),
+                )),
             }),
         ),
-        (allPunches) => SiCard5.cropPunches(allPunches),
+        // TODO: a punch in allPunches can't actually be undefined
+        (allPunches) => SiCard5.cropPunches(allPunches as unknown as PotentialSiCard5Punch[]),
     ),
     cardHolder: new storage.SiDict({
         countryCode: new storage.SiInt([[0x01]]),

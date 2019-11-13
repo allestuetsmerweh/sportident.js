@@ -3,16 +3,18 @@
 import _ from 'lodash';
 import {proto} from '../../constants';
 import * as utils from '../../utils';
+import * as siProtocol from '../../siProtocol';
 import * as testUtils from '../../testUtils';
-import {ModernSiCard} from './ModernSiCard';
+import {ModernSiCard, ModernSiCardSeries} from './ModernSiCard';
 import {getModernSiCardExamples} from './modernSiCardExamples';
+// @ts-ignore
 import {ModernSiCardSimulator} from '../../simulation/SiCardSimulator/types/ModernSiCardSimulator';
 
 describe('ModernSiCard', () => {
     it('exists', () => {
         expect(ModernSiCard).not.toBe(undefined);
 
-        const myModernSiCard = new ModernSiCard();
+        const myModernSiCard = new ModernSiCard(0);
         expect(myModernSiCard.storage.data.has(0)).toBe(true);
         expect(myModernSiCard.storage.data.get(0)).toBe(undefined);
         expect(myModernSiCard.storage.data.has(1023)).toBe(true);
@@ -23,11 +25,11 @@ describe('ModernSiCard', () => {
     it('typeSpecificShouldDetectFromMessage works', () => {
         expect(ModernSiCard.typeSpecificShouldDetectFromMessage({
             command: proto.cmd.SI8_DET,
-            parameters: undefined,
+            parameters: [],
         })).toBe(true);
         expect(ModernSiCard.typeSpecificShouldDetectFromMessage({
             command: testUtils.getRandomByteExcept([proto.cmd.SI8_DET]),
-            parameters: undefined,
+            parameters: [],
         })).toBe(false);
     });
     it('getPunchOffset', () => {
@@ -139,21 +141,26 @@ describe('ModernSiCard', () => {
             const myModernSiCard = new ModernSiCard(cardData.cardNumber);
             const myModernSiCardSimulator = new ModernSiCardSimulator(storageData);
             myModernSiCard.mainStation = {
-                sendMessage: (message, numResponses) => {
-                    const responses = myModernSiCardSimulator.handleRequest(message);
+                sendMessage: (message: siProtocol.SiMessage, numResponses?: number) => {
+                    const responses: siProtocol.SiMessage[] = myModernSiCardSimulator.handleRequest(message);
                     if (responses.length !== numResponses) {
                         throw new Error('Invalid numResponses');
                     }
-                    return Promise.resolve(responses.map((response) => [0x00, 0x00, ...response.parameters]));
+                    return Promise.resolve(responses.map(
+                        (response: siProtocol.SiMessage) => (
+                            response.mode === undefined ? [0x00, 0x00, ...response.parameters] : []
+                        ),
+                    ));
                 },
             };
 
             myModernSiCard.typeSpecificRead().then(() => {
                 Object.keys(cardData).forEach((cardDataKey) => {
+                    // @ts-ignore
                     expect(myModernSiCard[cardDataKey]).toEqual(cardData[cardDataKey]);
                 });
-                const cardSeriesString = myModernSiCard.storage.get('cardSeries').toString();
-                expect(ModernSiCard.Series[cardSeriesString]).not.toBe(undefined);
+                const cardSeriesString = myModernSiCard.storage.get('cardSeries')!.toString();
+                expect(cardSeriesString in ModernSiCardSeries).toBe(true);
                 done();
             });
         });
@@ -183,7 +190,7 @@ describe('ModernSiCard', () => {
         const testError = new Error('test');
         let attemptedToGetPage4 = false;
         class ModernSiCardWithoutCardHolder extends ModernSiCard {
-            typeSpecificGetPage(pageNumber) {
+            typeSpecificGetPage(pageNumber: number) {
                 if (pageNumber === 4) {
                     attemptedToGetPage4 = true;
                     return Promise.reject(testError);

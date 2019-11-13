@@ -4,13 +4,12 @@ import _ from 'lodash';
 import {BaseSiCard} from '../BaseSiCard';
 import * as siCardIndex from './index';
 
-const isSubclassOf = (subclass, superclass) => subclass.prototype instanceof superclass;
-
 describe('SiCard index', () => {
-    const cardTypesInRegistry = BaseSiCard._cardNumberRangeRegistry.values;
-    Object.keys(siCardIndex).forEach((siCardExportName) => {
-        const siCardExport = siCardIndex[siCardExportName];
-        if (isSubclassOf(siCardExport, BaseSiCard)) {
+    const cardTypesInRegistry = BaseSiCard.cardNumberRangeRegistry.values;
+    Object.keys(siCardIndex).forEach((siCardExportName: string) => {
+        // @ts-ignore
+        const siCardExport: any = siCardIndex[siCardExportName];
+        if (siCardExport.prototype instanceof BaseSiCard) {
             const cardType = siCardExport;
             it(`card type ${siCardExportName} has been registered`, () => {
                 expect(cardTypesInRegistry.includes(cardType)).toBe(true);

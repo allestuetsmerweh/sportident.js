@@ -56,6 +56,9 @@ export class SiMainStation extends BaseSiStation {
         };
         const handleSiCardObserved = () => {
             const observedCardNumber = siProtocol.arr2cardNumber([parameters[5], parameters[4], parameters[3]]); // TODO: also [2]?
+            if (observedCardNumber === undefined) {
+                return;
+            }
             const transRecordCard = BaseSiCard.fromCardNumber(observedCardNumber);
             transRecordCard.mainStation = this;
             this.dispatchEvent(
