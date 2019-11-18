@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "lib": ["dom"],
-    "outDir": "./dist/",
+    "composite": true,
     "sourceMap": true,
     "noImplicitAny": true,
     "module": "commonjs",

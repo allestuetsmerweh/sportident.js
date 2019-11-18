@@ -7,8 +7,8 @@ import {MainStationList} from './MainStationList';
 import {Terminal} from './Terminal';
 import {WebUsbSiDevicesContext} from './WebUsbSiDevicesContext';
 import si from 'sportident/lib';
-import {useSiDevices} from 'sportident-react/src';
-import {getWebUsbSiDeviceDriver} from 'sportident-webusb/src';
+import {useSiDevices} from 'sportident-react/lib';
+import {getWebUsbSiDeviceDriver} from 'sportident-webusb/lib';
 
 export default () => indexHtml.replace(
     '<!--INSERT_CSS_HERE-->',
