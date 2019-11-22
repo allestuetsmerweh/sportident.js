@@ -1,4 +1,5 @@
 import * as utils from '../utils';
+// eslint-disable-next-line no-unused-vars
 import {ISiDevice, ISiDeviceDriverData} from './ISiDevice';
 
 export interface ISiDeviceDriver<T extends ISiDeviceDriverData<any>> {
@@ -22,6 +23,7 @@ export class SiDeviceAddEvent<
     T extends ISiDeviceDriverData<any>
 > extends utils.Event<'add'> {
     constructor(
+        // eslint-disable-next-line no-unused-vars
         public siDevice: ISiDevice<T>,
     ) {
         super();
@@ -31,6 +33,7 @@ export class SiDeviceRemoveEvent<
     T extends ISiDeviceDriverData<any>
 > extends utils.Event<'remove'> {
     constructor(
+        // eslint-disable-next-line no-unused-vars
         public siDevice: ISiDevice<T>,
     ) {
         super();

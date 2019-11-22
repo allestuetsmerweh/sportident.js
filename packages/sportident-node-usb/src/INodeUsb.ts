@@ -39,6 +39,6 @@ export const promisify = (fn: (check: (error?: any, data?: any) => void) => void
         } else {
             resolve(data);
         }
-    }
+    };
     fn(check);
-})
+});

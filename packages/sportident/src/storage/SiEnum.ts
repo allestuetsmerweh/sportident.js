@@ -1,7 +1,9 @@
 import _ from 'lodash';
 import * as utils from '../utils';
+// eslint-disable-next-line no-unused-vars
 import {ISiDataType, SiStorageData, ValueFromStringError} from './interfaces';
 import {SiDataType} from './SiDataType';
+// eslint-disable-next-line no-unused-vars
 import {SiInt, SiIntegerPartDefinition} from './SiInt';
 
 export class SiEnum extends SiDataType<any> implements ISiDataType<any> {
@@ -9,7 +11,9 @@ export class SiEnum extends SiDataType<any> implements ISiDataType<any> {
 
     constructor(
         parts: SiIntegerPartDefinition[],
+        // eslint-disable-next-line no-unused-vars
         public readonly dict: {[key: string]: any},
+        // eslint-disable-next-line no-unused-vars
         public readonly getIntValue = (value: any): number|undefined => value as number,
     ) {
         super();

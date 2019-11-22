@@ -1,5 +1,10 @@
 export class Error {
-    constructor(public message: string = '') {}
+    // eslint-disable-next-line no-useless-constructor
+    constructor(
+        // eslint-disable-next-line no-unused-vars
+        public message: string = '',
+    // eslint-disable-next-line no-empty-function
+    ) {}
 }
 
 export class NotImplementedError extends Error {}

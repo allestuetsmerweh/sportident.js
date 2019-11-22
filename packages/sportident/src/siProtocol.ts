@@ -289,7 +289,7 @@ export class SiDate extends storage.SiDataType<Date> implements storage.ISiDataT
         );
     }
 
-    typeSpecificIsValueValid(value: Date) {
+    typeSpecificIsValueValid(_value: Date) {
         return true;
     }
 

@@ -2,6 +2,7 @@
 
 import _ from 'lodash';
 import Immutable from 'immutable';
+// eslint-disable-next-line no-unused-vars
 import {SiStorageData, ValueFromStringError} from './interfaces';
 import {ModifyUndefinedException, SiDataType} from './SiDataType';
 import {SiFieldValue} from './SiFieldValue';
@@ -9,11 +10,14 @@ import {SiArray} from './SiArray';
 
 describe('SiArray', () => {
     class FakeDataType extends SiDataType<string> {
-        constructor(public index: number) {
+        constructor(
+            // eslint-disable-next-line no-unused-vars
+            public index: number,
+        ) {
             super();
         }
 
-        typeSpecificIsValueValid(value: string) {
+        typeSpecificIsValueValid(_value: string) {
             return true;
         }
 

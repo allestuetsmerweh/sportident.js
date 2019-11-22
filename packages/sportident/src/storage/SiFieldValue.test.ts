@@ -1,13 +1,14 @@
 /* eslint-env jasmine */
 
 import _ from 'lodash';
+// eslint-disable-next-line no-unused-vars
 import {ISiDataType, SiStorageData, ValueToStringError, ValueFromStringError} from './interfaces';
 import {SiDataType} from './SiDataType';
 import {SiFieldValue} from './SiFieldValue';
 
 describe('SiFieldValue', () => {
     class MyType extends SiDataType<number> implements ISiDataType<number> {
-        typeSpecificIsValueValid(value: number) {
+        typeSpecificIsValueValid(_value: number) {
             return true;
         }
 
@@ -23,7 +24,7 @@ describe('SiFieldValue', () => {
             return _.isInteger(value) ? value : new ValueFromStringError();
         }
 
-        typeSpecificExtractFromData(data: SiStorageData): number {
+        typeSpecificExtractFromData(_data: SiStorageData): number {
             return 1;
         }
 

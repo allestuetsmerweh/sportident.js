@@ -1,19 +1,22 @@
 import {proto} from '../constants';
 import * as utils from '../utils';
+// eslint-disable-next-line no-unused-vars
 import * as storage from '../storage';
 import * as siProtocol from '../siProtocol';
 import {SiStationStorageDefinition} from '../SiStation/BaseSiStation';
+// eslint-disable-next-line no-unused-vars
 import {SiMainStationSimulatorEvents, SiMainStationSimulatorMessageEvent} from './ISiMainStationSimulator';
+// eslint-disable-next-line no-unused-vars
 import {ISiCardSimulator} from './SiCardSimulator/ISiCardSimulator';
 
 export class SiMainStationSimulator {
     public storage: storage.SiStorage;
-    public isMaster: boolean = true;
-    public dateOffset: number = 0;
+    public isMaster = true;
+    public dateOffset = 0;
     public cardSimulator?: ISiCardSimulator;
 
-    constructor(storage: (number|undefined)[]|undefined) {
-        this.storage = new SiStationStorageDefinition(storage);
+    constructor(storageArg: (number|undefined)[]|undefined) {
+        this.storage = new SiStationStorageDefinition(storageArg);
     }
 
     dispatchCardMessage(cardMessage: siProtocol.SiMessage) {
@@ -127,5 +130,6 @@ export class SiMainStationSimulator {
         }
     }
 }
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface SiMainStationSimulator extends utils.EventTarget<SiMainStationSimulatorEvents> {}
 utils.applyMixins(SiMainStationSimulator, [utils.EventTarget]);

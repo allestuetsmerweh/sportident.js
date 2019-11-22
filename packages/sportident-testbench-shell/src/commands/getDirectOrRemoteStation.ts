@@ -1,5 +1,5 @@
+// eslint-disable-next-line no-unused-vars
 import {SiDevice} from 'sportident/lib/SiDevice';
-// @ts-ignore
 import {CoupledSiStation, SiMainStation} from 'sportident/lib/SiStation';
 
 export const getDirectOrRemoteStation = (userChoice: string, device: SiDevice<any>) => {

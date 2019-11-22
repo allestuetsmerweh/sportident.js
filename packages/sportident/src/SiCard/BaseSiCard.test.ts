@@ -100,9 +100,7 @@ describe('BaseSiCard', () => {
     it('instance', async (done) => {
         const SiCard1StorageDefinition = storage.defineStorage(0x00, {});
         class SiCard1 extends BaseSiCard {
-            static get StorageDefinition() {
-                return SiCard1StorageDefinition;
-            }
+            static StorageDefinition = SiCard1StorageDefinition;
 
             typeSpecificRead() {
                 this.punchCount = 1;
@@ -114,8 +112,8 @@ describe('BaseSiCard', () => {
         const siCard500 = new SiCard1(500);
         siCard500.mainStation = {
             sendMessage: (
-                message: siProtocol.SiMessage,
-                numResponses?: number,
+                _message: siProtocol.SiMessage,
+                _numResponses?: number,
             ) => Promise.resolve([]),
         };
         const result = await siCard500.read();

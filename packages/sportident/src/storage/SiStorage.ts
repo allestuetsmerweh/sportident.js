@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import Immutable from 'immutable';
+// eslint-disable-next-line no-unused-vars
 import {ISiDataType, ISiFieldValue, SiStorageData} from './interfaces';
 
 type SiStorageDefinitions = {[id: string]: ISiDataType<any>};
@@ -26,7 +27,7 @@ export class SiStorage {
                 `must have size ${this.size} (but is ${initList.size})`,
             );
         }
-        this.internalData = initList
+        this.internalData = initList;
     }
 
     get size(): number {

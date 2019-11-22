@@ -1,10 +1,13 @@
 /* eslint-env jasmine */
 
 import {proto} from '../constants';
+// eslint-disable-next-line no-unused-vars
 import * as siProtocol from '../siProtocol';
 import * as testUtils from '../testUtils';
 import {getBSM8Station} from '../SiStation/siStationExamples';
+// eslint-disable-next-line no-unused-vars
 import {ISiCardSimulator} from './SiCardSimulator/ISiCardSimulator';
+// eslint-disable-next-line no-unused-vars
 import {SiMainStationSimulatorMessageEvent} from './ISiMainStationSimulator';
 import {SiMainStationSimulator} from './SiMainStationSimulator';
 
@@ -168,8 +171,8 @@ describe('SiMainStationSimulator', () => {
             handleDetect: () => cardInsertionMessage,
             handleRequest: (message: siProtocol.SiMessage) => (
                 message.mode === undefined
-                ? [{command: message.command, parameters: cardRetrievalParameters}]
-                : []
+                    ? [{command: message.command, parameters: cardRetrievalParameters}]
+                    : []
             ),
         };
         mySiMainStationSimulator.insertCard(fakeCardSimulator);

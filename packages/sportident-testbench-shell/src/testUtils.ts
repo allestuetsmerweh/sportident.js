@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import {Shell, ShellCommand, ShellOptions} from './Shell';
 
 export class ShellControl {

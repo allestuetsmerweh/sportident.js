@@ -43,7 +43,9 @@ export class Shell {
     private options: AllShellOptions;
 
     constructor(
+        // eslint-disable-next-line no-unused-vars
         public ui: ShellUserInterface,
+        // eslint-disable-next-line no-unused-vars
         private commands: {[commandName: string]: ShellCommand},
         options: ShellOptions = {},
     ) {
@@ -73,9 +75,8 @@ export class Shell {
                         .catch(() => undefined)
                         .then(() => promptForNewCommand())
                         .then(loop);
-                } else {
-                    command.printUsage(this.getCommandContext(args));
                 }
+                command.printUsage(this.getCommandContext(args));
             } else {
                 this.putString(`Unknown command: ${args[0]}\n`);
                 const availableCommands = Object.keys(this.commands).join(', ');
@@ -134,7 +135,7 @@ export class Shell {
                 const rest = newContent.substr(commandStr.length);
                 [...rest].forEach((char) => {
                     this.ui.putChar(char.charCodeAt(0));
-                })
+                });
                 return [false, newContent];
             }
         }
@@ -149,7 +150,7 @@ export class Shell {
                     const rest = options[0].substr(existingLastArg.length);
                     [...rest].forEach((char) => {
                         this.ui.putChar(char.charCodeAt(0));
-                    })
+                    });
                     return [false, newContent];
                 }
             }
@@ -190,7 +191,7 @@ export class Shell {
                 }
             };
             poll();
-        })
+        });
     }
 
     putString(strToPut: string) {

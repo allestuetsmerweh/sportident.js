@@ -5,6 +5,7 @@ import * as siProtocol from '../siProtocol';
 import * as testUtils from '../testUtils';
 import {SiDeviceState, SiDeviceReceiveEvent} from '../SiDevice/ISiDevice';
 import {SiDevice} from '../SiDevice/SiDevice';
+// eslint-disable-next-line no-unused-vars
 import {SendTaskState, SiTargetMultiplexerDirectMessageEvent, SiTargetMultiplexerMessageEvent, SiTargetMultiplexerRemoteMessageEvent, SiTargetMultiplexerTarget} from './ISiTargetMultiplexer';
 import {SiTargetMultiplexer} from './SiTargetMultiplexer';
 
@@ -201,15 +202,15 @@ describe('SiTargetMultiplexer', () => {
         setTimeout(() => {
             siDevice.dispatchEvent(
                 'receive',
-                new SiDeviceReceiveEvent(siDevice, siProtocol.render(randomMessage),
-            ));
+                new SiDeviceReceiveEvent(siDevice, siProtocol.render(randomMessage)),
+            );
             timeState.receive1 = true;
         }, 1);
         setTimeout(() => {
             siDevice.dispatchEvent(
                 'receive',
-                new SiDeviceReceiveEvent(siDevice, siProtocol.render(randomMessage),
-            ));
+                new SiDeviceReceiveEvent(siDevice, siProtocol.render(randomMessage)),
+            );
             timeState.receive2 = true;
         }, 2);
         await testUtils.advanceTimersByTime(0);

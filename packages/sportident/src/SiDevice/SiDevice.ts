@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import {DeviceClosedError, ISiDevice, ISiDeviceDriverData, SiDeviceEvents, SiDeviceReceiveEvent, SiDeviceState, SiDeviceStateChangeEvent} from './ISiDevice';
 import * as utils from '../utils';
 
@@ -128,5 +129,6 @@ export class SiDevice<T extends ISiDeviceDriverData<any>> implements ISiDevice<T
         return this.data.driver.send(this, buffer);
     }
 }
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface SiDevice<T extends ISiDeviceDriverData<any>> extends utils.EventTarget<SiDeviceEvents> {}
 utils.applyMixins(SiDevice, [utils.EventTarget]);

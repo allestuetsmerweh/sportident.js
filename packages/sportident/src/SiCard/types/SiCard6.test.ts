@@ -2,10 +2,11 @@
 
 import _ from 'lodash';
 import {proto} from '../../constants';
+// eslint-disable-next-line no-unused-vars
 import * as siProtocol from '../../siProtocol';
 import * as testUtils from '../../testUtils';
 import {BaseSiCard} from '../BaseSiCard';
-import {SiCard6} from './SiCard6';
+import {cropPunches, getPunchOffset, SiCard6} from './SiCard6';
 import {getSiCard6Examples} from './siCard6Examples';
 // @ts-ignore
 import {SiCard6Simulator} from '../../simulation/SiCardSimulator/types/SiCard6Simulator';
@@ -28,30 +29,30 @@ describe('SiCard6', () => {
         })).toBe(false);
     });
     it('getPunchOffset', () => {
-        expect(SiCard6.getPunchOffset(0)).toEqual(0x300);
-        expect(SiCard6.getPunchOffset(1)).toEqual(0x304);
-        expect(SiCard6.getPunchOffset(63)).toEqual(0x3FC);
+        expect(getPunchOffset(0)).toEqual(0x300);
+        expect(getPunchOffset(1)).toEqual(0x304);
+        expect(getPunchOffset(63)).toEqual(0x3FC);
     });
     it('cropPunches', () => {
-        expect(SiCard6.cropPunches([])).toEqual([]);
-        expect(SiCard6.cropPunches([
+        expect(cropPunches([])).toEqual([]);
+        expect(cropPunches([
             {code: 31, time: 1},
         ])).toEqual([
             {code: 31, time: 1},
         ]);
-        expect(SiCard6.cropPunches([
+        expect(cropPunches([
             {code: 32, time: 0xEEEE},
         ])).toEqual([
         ]);
-        expect(SiCard6.cropPunches([
+        expect(cropPunches([
             {code: undefined, time: undefined},
         ])).toEqual([
         ]);
-        expect(SiCard6.cropPunches([
+        expect(cropPunches([
             {code: 33, time: undefined},
         ])).toEqual([
         ]);
-        expect(SiCard6.cropPunches([
+        expect(cropPunches([
             {code: 31, time: 1},
             {code: 32, time: 2},
             {code: 33, time: 3},

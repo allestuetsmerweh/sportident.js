@@ -1,12 +1,15 @@
 /* eslint-env jasmine */
 
 import _ from 'lodash';
-import * as testUtils from '../testUtils';
+// eslint-disable-next-line no-unused-vars
 import * as siProtocol from '../siProtocol';
+import * as testUtils from '../testUtils';
 import {proto} from '../constants';
 import {SiDataType} from '../storage';
+// eslint-disable-next-line no-unused-vars
 import {ISiDevice} from '../SiDevice/ISiDevice';
 import {SiDevice} from '../SiDevice/SiDevice';
+// eslint-disable-next-line no-unused-vars
 import {ISiTargetMultiplexer, SiTargetMultiplexerTarget} from './ISiTargetMultiplexer';
 import {SiTargetMultiplexer} from './SiTargetMultiplexer';
 import {BaseSiStation} from './BaseSiStation';
@@ -69,7 +72,7 @@ describe('SiStation', () => {
                 throw new Error();
             },
         } as ISiTargetMultiplexer;
-        let timeState = {infoHasBeenRead: false, changesHaveBeenWritten: false};
+        const timeState = {infoHasBeenRead: false, changesHaveBeenWritten: false};
         mySiStation.readInfo()
             .then(() => {
                 timeState.infoHasBeenRead = true;
@@ -124,7 +127,7 @@ describe('SiStation', () => {
                         _target: SiTargetMultiplexerTarget,
                         message: siProtocol.SiMessage,
                         numResponses: number,
-                     ) => {
+                    ) => {
                         if (message.mode !== undefined) {
                             return Promise.resolve([]);
                         }
@@ -158,7 +161,7 @@ describe('SiStation', () => {
             {
                 sendMessage: () => Promise.resolve([[0x00, 0x00, 0x01, 0x0C, 0x1F, 0x00, 0xA8, 0xBF, 0x40]]),
             } as unknown as ISiTargetMultiplexer,
-            SiTargetMultiplexerTarget.Direct
+            SiTargetMultiplexerTarget.Direct,
         );
         const timeState: {[key: string]: Date|undefined} = {
             retrievedTime: undefined,
@@ -184,7 +187,7 @@ describe('SiStation', () => {
             {
                 sendMessage: () => Promise.resolve([[0x00, 0x00, 0x02]]),
             } as unknown as ISiTargetMultiplexer,
-            SiTargetMultiplexerTarget.Direct
+            SiTargetMultiplexerTarget.Direct,
         );
         const timeState = {signalTwiceSucceeded: false, signalOnceFailed: false};
         mySiStation.signal(2)
@@ -207,7 +210,7 @@ describe('SiStation', () => {
             {
                 sendMessage: () => Promise.resolve(),
             } as unknown as ISiTargetMultiplexer,
-            SiTargetMultiplexerTarget.Direct
+            SiTargetMultiplexerTarget.Direct,
         );
         const timeState = {powerOffSucceeded: false};
         mySiStation.powerOff()

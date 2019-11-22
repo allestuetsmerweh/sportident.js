@@ -9,6 +9,7 @@ testUtils.useFakeTimers();
 describe('event utils', () => {
     class MyEvent extends eventUtils.Event<'myEvent'> {
         constructor(
+            // eslint-disable-next-line no-unused-vars
             public eventObject: object,
         ) {
             super();
@@ -18,6 +19,7 @@ describe('event utils', () => {
     type MyEvents = {'myEvent': MyEvent};
 
     class MyEventTarget {}
+    // eslint-disable-next-line @typescript-eslint/no-empty-interface
     interface MyEventTarget extends eventUtils.EventTarget<MyEvents> {}
     mixinUtils.applyMixins(MyEventTarget, [eventUtils.EventTarget]);
 

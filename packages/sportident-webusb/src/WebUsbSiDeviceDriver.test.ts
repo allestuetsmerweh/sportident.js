@@ -5,7 +5,9 @@ import {testISiDeviceDriverWithAutodetection} from 'sportident/lib/SiDevice/test
 import {SiDeviceState} from 'sportident/lib/SiDevice/ISiDevice';
 import * as utils from 'sportident/lib/utils';
 import * as testUtils from 'sportident/lib/testUtils';
+// eslint-disable-next-line no-unused-vars
 import {IWebUsbSiDevice, getWebUsbSiDeviceDriver, WebUsbSiDeviceDriverData} from './WebUsbSiDeviceDriver';
+// eslint-disable-next-line no-unused-vars
 import * as nav from './INavigatorWebUsb';
 
 testUtils.useFakeTimers();
@@ -16,14 +18,20 @@ const siSerialNumber1 = '1';
 const siSerialNumber2 = '3';
 const nonSiVendorId = 0x1111;
 const nonSiProductId = 0x1112;
-const nonSiSerialNumber1 =  '2';
+const nonSiSerialNumber1 = '2';
 
 class FakeWebUsbDevice implements nav.WebUsbDevice {
+    // eslint-disable-next-line no-useless-constructor
     constructor(
+        // eslint-disable-next-line no-unused-vars
         public serialNumber: string,
+        // eslint-disable-next-line no-unused-vars
         public vendorId: number,
+        // eslint-disable-next-line no-unused-vars
         public productId: number,
+        // eslint-disable-next-line no-unused-vars
         public opened: boolean = false,
+    // eslint-disable-next-line no-empty-function
     ) {}
 
     open(): Promise<void> {
@@ -84,6 +92,7 @@ class TestNavigatorUsb implements nav.WebUsb {
         ]);
     }
 }
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface TestNavigatorUsb extends utils.EventTarget<nav.WebUsbEvents> {}
 utils.applyMixins(TestNavigatorUsb, [utils.EventTarget]);
 

@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import * as utils from 'sportident/lib/utils';
 
 export interface WebUsbConnectEvent extends utils.IEvent<'connect'> {

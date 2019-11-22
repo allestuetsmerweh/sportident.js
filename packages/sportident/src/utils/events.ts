@@ -4,14 +4,15 @@ export interface IEvent<T extends string> {
     defaultPrevented: boolean;
 }
 
-export class Event<T extends string>
-        implements IEvent<T>
-{
+export class Event<T extends string> implements IEvent<T> {
     target: any;
-    defaultPrevented: boolean = false;
+    defaultPrevented = false;
 
+    // eslint-disable-next-line no-useless-constructor
     constructor(
+        // eslint-disable-next-line no-unused-vars
         public type?: T,
+    // eslint-disable-next-line no-empty-function
     ) {}
 }
 

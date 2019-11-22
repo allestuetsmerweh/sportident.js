@@ -1,9 +1,10 @@
 import * as utils from '../utils';
 import * as siProtocol from '../siProtocol';
 import {proto} from '../constants';
-// @ts-ignore
 import {BaseSiCard} from '../SiCard';
+// eslint-disable-next-line no-unused-vars
 import {ISiCard, SiMainStationEvents, SiMainStationSiCardInsertedEvent, SiMainStationSiCardObservedEvent, SiMainStationSiCardRemovedEvent} from './ISiMainStation';
+// eslint-disable-next-line no-unused-vars
 import {ISiTargetMultiplexer, SiTargetMultiplexerMessageEvent, SiTargetMultiplexerTarget} from './ISiTargetMultiplexer';
 import {BaseSiStation} from './BaseSiStation';
 
@@ -90,5 +91,6 @@ export class SiMainStation extends BaseSiStation {
         );
     }
 }
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface SiMainStation extends utils.EventTarget<SiMainStationEvents> {}
 utils.applyMixins(SiMainStation, [utils.EventTarget]);

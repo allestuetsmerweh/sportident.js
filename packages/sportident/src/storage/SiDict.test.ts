@@ -2,20 +2,25 @@
 
 import _ from 'lodash';
 import Immutable from 'immutable';
+// eslint-disable-next-line no-unused-vars
 import {SiStorageData, ValueToStringError, ValueFromStringError} from './interfaces';
 import {ModifyUndefinedException, SiDataType} from './SiDataType';
 import {SiFieldValue} from './SiFieldValue';
+// eslint-disable-next-line no-unused-vars
 import {SiDict, SiDictValue} from './SiDict';
 
 type FakeSiStorageData = (number|undefined)[];
 
 describe('SiDict', () => {
     class FakeDataType extends SiDataType<string> {
-        constructor(public index: number) {
+        constructor(
+            // eslint-disable-next-line no-unused-vars
+            public index: number,
+        ) {
             super();
         }
 
-        typeSpecificIsValueValid(value: string) {
+        typeSpecificIsValueValid(_value: string) {
             return true;
         }
 
@@ -101,7 +106,7 @@ describe('SiDict', () => {
     it('updateData modify undefined', () => {
         const updateData = (
             data: FakeSiStorageData,
-            newValue: any
+            newValue: any,
         ): FakeSiStorageData => (
             mySiDict.updateData(Immutable.List(data), newValue).toJS()
         );

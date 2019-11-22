@@ -1,8 +1,9 @@
 import si from 'sportident/lib';
+// eslint-disable-next-line no-unused-vars
 import * as siProtocol from 'sportident/lib/siProtocol';
+// eslint-disable-next-line no-unused-vars
 import {ShellCommandContext} from '../Shell';
 import {BaseCommand} from './BaseCommand';
-// @ts-ignore
 import {SiExternalApplication} from '../SiExternalApplication';
 
 const isSubclassOf = (subclass: any, superclass: any) => subclass.prototype instanceof superclass;

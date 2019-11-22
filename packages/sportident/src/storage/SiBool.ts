@@ -1,16 +1,19 @@
 import _ from 'lodash';
+// eslint-disable-next-line no-unused-vars
 import {ISiDataType, SiStorageData, ValueFromStringError} from './interfaces';
 import {ModifyUndefinedException, SiDataType} from './SiDataType';
 
 export class SiBool extends SiDataType<boolean> implements ISiDataType<boolean> {
     constructor(
+        // eslint-disable-next-line no-unused-vars
         private byteOffset: number,
+        // eslint-disable-next-line no-unused-vars
         private bitOffset: number = 0,
     ) {
         super();
     }
 
-    typeSpecificIsValueValid(value: boolean): boolean {
+    typeSpecificIsValueValid(_value: boolean): boolean {
         return true;
     }
 

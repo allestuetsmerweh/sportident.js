@@ -1,11 +1,13 @@
 import * as utils from '../utils';
 
+/* eslint-disable no-unused-vars */
 export enum SiDeviceState {
     Closed = 0,
     Opening = 1,
     Opened = 2,
     Closing = 3,
 }
+/* eslint-enable no-unused-vars */
 
 export interface ISiDeviceDriverData<T> {
     driver: T;
@@ -15,7 +17,9 @@ export class DeviceClosedError extends utils.Error {}
 
 export class SiDeviceStateChangeEvent extends utils.Event<'stateChange'> {
     constructor(
+        // eslint-disable-next-line no-unused-vars
         public siDevice: ISiDevice<ISiDeviceDriverData<any>>,
+        // eslint-disable-next-line no-unused-vars
         public state: SiDeviceState,
     ) {
         super();
@@ -23,7 +27,9 @@ export class SiDeviceStateChangeEvent extends utils.Event<'stateChange'> {
 }
 export class SiDeviceReceiveEvent extends utils.Event<'receive'> {
     constructor(
+        // eslint-disable-next-line no-unused-vars
         public siDevice: ISiDevice<ISiDeviceDriverData<any>>,
+        // eslint-disable-next-line no-unused-vars
         public uint8Data: number[],
     ) {
         super();

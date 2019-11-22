@@ -1,6 +1,7 @@
 /* eslint-env jasmine */
 
 import * as testUtils from 'sportident/lib/testUtils';
+// eslint-disable-next-line no-unused-vars
 import {ShellCommandContext} from './Shell';
 import {ShellControl} from './testUtils';
 
@@ -9,7 +10,7 @@ testUtils.useFakeTimers();
 const COMMANDS = {
     test: {
         autocomplete: (args: string[]) => args,
-        validateArgs: (context: ShellCommandContext) => true,
+        validateArgs: (_context: ShellCommandContext) => true,
         run: (context: ShellCommandContext) => {
             const newNumber = ((context.env.testNumber as number) || 0) + 1;
             context.putString(`t${newNumber}\n`);
@@ -17,7 +18,7 @@ const COMMANDS = {
             return Promise.resolve();
         },
         printUsage: (context: ShellCommandContext) => {
-            context.putString(`usage\n`);
+            context.putString('usage\n');
         },
     },
 };
