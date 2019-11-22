@@ -1,21 +1,21 @@
 /* eslint-env jasmine */
 
 import {proto} from '../constants';
-import * as testUtils from '../testUtils';
+// eslint-disable-next-line no-unused-vars
 import * as siProtocol from '../siProtocol';
+import * as testUtils from '../testUtils';
+// eslint-disable-next-line no-unused-vars
 import {ISiDevice} from '../SiDevice/ISiDevice';
 import {SiDevice} from '../SiDevice/SiDevice';
+// eslint-disable-next-line no-unused-vars
 import {SiMainStationSiCardInsertedEvent, SiMainStationSiCardObservedEvent, SiMainStationSiCardRemovedEvent} from './ISiMainStation';
+// eslint-disable-next-line no-unused-vars
 import {ISiTargetMultiplexer, SiTargetMultiplexerMessageEvent, SiTargetMultiplexerTarget} from './ISiTargetMultiplexer';
 import {SiTargetMultiplexer} from './SiTargetMultiplexer';
 import {SiMainStation} from './SiMainStation';
-// @ts-ignore
 import {getSiCard5Examples} from '../SiCard/types/siCard5Examples';
-// @ts-ignore
 import {getSiCard6Examples} from '../SiCard/types/siCard6Examples';
-// @ts-ignore
 import {SiCard5Simulator} from '../simulation/SiCardSimulator/types/SiCard5Simulator';
-// @ts-ignore
 import {SiCard6Simulator} from '../simulation/SiCardSimulator/types/SiCard6Simulator';
 
 testUtils.useFakeTimers();

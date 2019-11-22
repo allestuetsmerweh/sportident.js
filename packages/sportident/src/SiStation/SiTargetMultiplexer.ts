@@ -1,9 +1,65 @@
 import {proto} from '../constants';
 import * as utils from '../utils';
 import * as siProtocol from '../siProtocol';
+// eslint-disable-next-line no-unused-vars
 import {ISiStation} from './ISiStation';
+// eslint-disable-next-line no-unused-vars
 import {ISiTargetMultiplexer, SendTaskState, SiTargetMultiplexerDirectMessageEvent, SiTargetMultiplexerEvents, SiTargetMultiplexerMessageEvent, SiTargetMultiplexerRemoteMessageEvent, SiTargetMultiplexerTarget} from './ISiTargetMultiplexer';
+// eslint-disable-next-line no-unused-vars
 import {ISiDevice, SiDeviceState} from '../SiDevice/ISiDevice';
+
+class SendTask {
+    public state: SendTaskState = SendTaskState.Queued;
+    public responses: number[][] = [];
+    private timeoutTimer: any;
+
+    constructor(
+        // eslint-disable-next-line no-unused-vars
+        public message: siProtocol.SiMessage,
+        // eslint-disable-next-line no-unused-vars
+        public numResponses: number,
+        // eslint-disable-next-line no-unused-vars
+        public timeoutInMiliseconds: number,
+        // eslint-disable-next-line no-unused-vars
+        public onResolve: (task: SendTask) => void,
+        // eslint-disable-next-line no-unused-vars
+        public onReject: (task: SendTask) => void,
+    ) {
+        this.timeoutTimer = setTimeout(() => {
+            const shouldAbortInState: {[state in SendTaskState]: boolean} = {
+                [SendTaskState.Queued]: true,
+                [SendTaskState.Sending]: true,
+                [SendTaskState.Sent]: true,
+                [SendTaskState.Succeeded]: false,
+                [SendTaskState.Failed]: false,
+            };
+            if (!shouldAbortInState[this.state]) {
+                return;
+            }
+            console.debug(`Timeout: ${siProtocol.prettyMessage(this.message)} (expected ${this.numResponses} responses)`, this.responses);
+            this.fail();
+        }, timeoutInMiliseconds);
+    }
+
+    addResponse(response: number[]) {
+        this.responses.push(response);
+        if (this.responses.length === this.numResponses) {
+            this.succeed();
+        }
+    }
+
+    succeed() {
+        this.state = SendTaskState.Succeeded;
+        clearTimeout(this.timeoutTimer);
+        this.onResolve(this);
+    }
+
+    fail() {
+        this.state = SendTaskState.Failed;
+        clearTimeout(this.timeoutTimer);
+        this.onReject(this);
+    }
+}
 
 export class SiTargetMultiplexer implements ISiTargetMultiplexer {
     static fromSiDevice(siDevice: ISiDevice<any>): SiTargetMultiplexer {
@@ -29,7 +85,13 @@ export class SiTargetMultiplexer implements ISiTargetMultiplexer {
     private _receiveBuffer: number[] = [];
     private _sendQueue: SendTask[] = [];
 
-    constructor(public siDevice: ISiDevice<any>) {}
+
+    // eslint-disable-next-line no-useless-constructor
+    constructor(
+        // eslint-disable-next-line no-unused-vars
+        public siDevice: ISiDevice<any>,
+    // eslint-disable-next-line no-empty-function
+    ) {}
 
     get _test() {
         return {
@@ -151,8 +213,8 @@ export class SiTargetMultiplexer implements ISiTargetMultiplexer {
 
     sendMessageToLatestTarget(
         message: siProtocol.SiMessage,
-        numResponses: number = 0,
-        timeoutInMiliseconds: number = 10000,
+        numResponses = 0,
+        timeoutInMiliseconds = 10000,
     ): Promise<number[][]> {
         return new Promise((resolve, reject) => {
             const sendTask = new SendTask(
@@ -211,53 +273,6 @@ export class SiTargetMultiplexer implements ISiTargetMultiplexer {
             });
     }
 }
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface SiTargetMultiplexer extends utils.EventTarget<SiTargetMultiplexerEvents> {}
 utils.applyMixins(SiTargetMultiplexer, [utils.EventTarget]);
-
-class SendTask {
-    public state: SendTaskState = SendTaskState.Queued;
-    public responses: number[][] = [];
-    private timeoutTimer: any;
-
-    constructor(
-        public message: siProtocol.SiMessage,
-        public numResponses: number,
-        public timeoutInMiliseconds: number,
-        public onResolve: (task: SendTask) => void,
-        public onReject: (task: SendTask) => void,
-    ) {
-        this.timeoutTimer = setTimeout(() => {
-            const shouldAbortInState: {[state in SendTaskState]: boolean} = {
-                [SendTaskState.Queued]: true,
-                [SendTaskState.Sending]: true,
-                [SendTaskState.Sent]: true,
-                [SendTaskState.Succeeded]: false,
-                [SendTaskState.Failed]: false,
-            };
-            if (!shouldAbortInState[this.state]) {
-                return;
-            }
-            console.debug(`Timeout: ${siProtocol.prettyMessage(this.message)} (expected ${this.numResponses} responses)`, this.responses);
-            this.fail();
-        }, timeoutInMiliseconds);
-    }
-
-    addResponse(response: number[]) {
-        this.responses.push(response);
-        if (this.responses.length === this.numResponses) {
-            this.succeed();
-        }
-    }
-
-    succeed() {
-        this.state = SendTaskState.Succeeded;
-        clearTimeout(this.timeoutTimer);
-        this.onResolve(this);
-    }
-
-    fail() {
-        this.state = SendTaskState.Failed;
-        clearTimeout(this.timeoutTimer);
-        this.onReject(this);
-    }
-}

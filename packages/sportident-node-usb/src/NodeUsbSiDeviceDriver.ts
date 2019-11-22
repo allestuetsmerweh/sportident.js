@@ -1,6 +1,8 @@
 import usb from 'usb';
 import * as utils from 'sportident/lib/utils';
+// eslint-disable-next-line no-unused-vars
 import {DeviceClosedError, ISiDevice, ISiDeviceDriverData, SiDeviceState} from 'sportident/lib/SiDevice/ISiDevice';
+// eslint-disable-next-line no-unused-vars
 import {ISiDeviceDriver, ISiDeviceDriverWithDetection, SiDeviceDriverWithAutodetectionEvents} from 'sportident/lib/SiDevice/ISiDeviceDriver';
 import {SiDevice} from 'sportident/lib/SiDevice/SiDevice';
 import * as iNodeUsb from './INodeUsb';
@@ -47,9 +49,8 @@ export type NodeUsbSiDevice = SiDevice<NodeUsbSiDeviceDriverData>;
 
 class NodeUsbSiDeviceDriver implements
         ISiDeviceDriver<NodeUsbSiDeviceDriverData>,
-        ISiDeviceDriverWithDetection<NodeUsbSiDeviceDriverData, []>
-        // ISiDeviceDriverWithAutodetection<NodeUsbSiDeviceDriverData>
-{
+        ISiDeviceDriverWithDetection<NodeUsbSiDeviceDriverData, []> {
+    /* ISiDeviceDriverWithAutodetection<NodeUsbSiDeviceDriverData> */
     static singleton?: NodeUsbSiDeviceDriver;
     static getSingleton(): NodeUsbSiDeviceDriver {
         if (!this.singleton) {
@@ -68,8 +69,11 @@ class NodeUsbSiDeviceDriver implements
 
     // private autodetectionCallbacks?: NodeUsbAutodetectionCallbacks;
 
+    // eslint-disable-next-line no-useless-constructor
     constructor(
+        // eslint-disable-next-line no-unused-vars
         private nodeUsb: any,
+    // eslint-disable-next-line no-empty-function
     ) {}
 
     detect(): Promise<NodeUsbSiDevice> {
@@ -225,25 +229,25 @@ class NodeUsbSiDeviceDriver implements
         device: INodeUsbSiDevice,
     ): Promise<any> {
         return Promise.resolve(device.data.device.open())
-            .then(() => {
-                return iNodeUsb.promisify((callback) => (
+            .then(() => (
+                iNodeUsb.promisify((callback) => (
                     device.data.device.setConfiguration(siConfiguration, callback)
-                ));
-            })
-            .then(() => {
-                return device.data.device.interface(siInterface);
-            })
+                ))
+            ))
+            .then(() => (
+                device.data.device.interface(siInterface)
+            ))
             .then((usbInterface: iNodeUsb.NodeUsbDeviceInterface) => {
                 device.data.interface = usbInterface;
                 return device.data.interface.claim();
             })
-            .then(() => {
-                return iNodeUsb.promisify((callback) => (
+            .then(() => (
+                iNodeUsb.promisify((callback) => (
                     device.data.interface!.setAltSetting(siAlternate, callback)
-                ));
-            })
-            .then(() => {
-                return iNodeUsb.promisify((callback) => (
+                ))
+            ))
+            .then(() => (
+                iNodeUsb.promisify((callback) => (
                     device.data.device.controlTransfer(
                         vendorInterfaceOut,
                         0x00, // request
@@ -252,10 +256,10 @@ class NodeUsbSiDeviceDriver implements
                         Buffer.from([]), // data
                         callback,
                     )
-                ));
-            })
-            .then(() => {
-                return iNodeUsb.promisify((callback) => (
+                ))
+            ))
+            .then(() => (
+                iNodeUsb.promisify((callback) => (
                     device.data.device.controlTransfer(
                         vendorInterfaceOut,
                         0x1E, // request
@@ -264,8 +268,8 @@ class NodeUsbSiDeviceDriver implements
                         Buffer.from([0x00, 0x96, 0x00, 0x00]), // data
                         callback,
                     )
-                ));
-            })
+                ))
+            ))
             .then(() => true);
     }
 
@@ -302,9 +306,10 @@ class NodeUsbSiDeviceDriver implements
         if (!usbInterface) {
             throw new DeviceClosedError();
         }
-        return iNodeUsb.promisify((callback) => usbInterface
-            .endpoint(siEndpointIn)
-            .transfer(siPacketSize, callback)
+        return iNodeUsb.promisify(
+            (callback) => usbInterface
+                .endpoint(siEndpointIn)
+                .transfer(siPacketSize, callback),
         )
             .then((data: any) => {
                 console.log('succ', data);
@@ -328,13 +333,15 @@ class NodeUsbSiDeviceDriver implements
         device: INodeUsbSiDevice,
         buffer: number[],
     ): Promise<any> {
-        return iNodeUsb.promisify((callback) => device.data.interface!
-            .endpoint(siEndpointOut)
-            .transfer(Buffer.from(buffer), callback)
+        return iNodeUsb.promisify(
+            (callback) => device.data.interface!
+                .endpoint(siEndpointOut)
+                .transfer(Buffer.from(buffer), callback),
         )
             .then(() => true);
     }
-};
+}
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface NodeUsbSiDeviceDriver extends utils.EventTarget<SiDeviceDriverWithAutodetectionEvents<NodeUsbSiDeviceDriverData>> {}
 utils.applyMixins(NodeUsbSiDeviceDriver, [utils.EventTarget]);
 

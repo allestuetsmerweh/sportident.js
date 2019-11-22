@@ -79,7 +79,7 @@ export abstract class BaseSiCard {
     }
 
     // abstract
-    static typeSpecificShouldDetectFromMessage(message: siProtocol.SiMessage): boolean {
+    static typeSpecificShouldDetectFromMessage(_message: siProtocol.SiMessage): boolean {
         return false;
     }
 

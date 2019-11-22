@@ -1,10 +1,11 @@
 /* eslint-env jasmine */
 
 import _ from 'lodash';
+// eslint-disable-next-line no-unused-vars
 import * as siProtocol from '../../siProtocol';
 import {BaseSiCard} from '../BaseSiCard';
 import {ModernSiCardSeries} from './ModernSiCard';
-import {SiCard8} from './SiCard8';
+import {getPunchOffset, SiCard8} from './SiCard8';
 import {getSiCard8Examples} from './siCard8Examples';
 // @ts-ignore
 import {SiCard8Simulator} from '../../simulation/SiCardSimulator/types/SiCard8Simulator';
@@ -17,9 +18,9 @@ describe('SiCard8', () => {
         expect(BaseSiCard.getTypeByCardNumber(2999999)).toEqual(SiCard8);
     });
     it('getPunchOffset', () => {
-        expect(SiCard8.getPunchOffset(0)).toEqual(0x88);
-        expect(SiCard8.getPunchOffset(1)).toEqual(0x8C);
-        expect(SiCard8.getPunchOffset(29)).toEqual(0xFC);
+        expect(getPunchOffset(0)).toEqual(0x88);
+        expect(getPunchOffset(1)).toEqual(0x8C);
+        expect(getPunchOffset(29)).toEqual(0xFC);
     });
     const examples = getSiCard8Examples();
     Object.keys(examples).forEach((exampleName) => {

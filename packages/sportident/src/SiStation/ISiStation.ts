@@ -1,7 +1,7 @@
-export interface ISiStation {
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface ISiStation {}
 
-}
-
+/* eslint-disable no-unused-vars */
 export enum SiStationMode {
     SIACSpecialFunction1 = 0x01,
     Control = 0x02,
@@ -17,16 +17,20 @@ export enum SiStationMode {
     BCStart = 0x13,
     BCFinish = 0x14,
     BCSlave = 0x1F,
-};
+}
+/* eslint-enable no-unused-vars */
 
+/* eslint-disable no-unused-vars */
 export enum SiStationType {
     Main = 0x00,
     Sprint = 0x01,
     Print = 0x02,
     Field = 0x03,
     Master = 0x04,
-};
+}
+/* eslint-enable no-unused-vars */
 
+/* eslint-disable no-unused-vars */
 export enum SiStationModel {
     BSF3 = 0x8003,
     BSF4 = 0x8004,
@@ -46,7 +50,8 @@ export enum SiStationModel {
     BS7P = 0xB197,
     BS7GSM = 0xB897,
     BS8P = 0xB198,
-};
+}
+/* eslint-enable no-unused-vars */
 
 interface SiStationModelInfo {
     description: string;

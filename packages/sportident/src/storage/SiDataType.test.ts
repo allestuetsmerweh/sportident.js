@@ -2,6 +2,7 @@
 
 import _ from 'lodash';
 import Immutable from 'immutable';
+// eslint-disable-next-line no-unused-vars
 import {SiStorageData, ValueFromStringError} from './interfaces';
 import {SiFieldValue} from './SiFieldValue';
 import {SiDataType} from './SiDataType';

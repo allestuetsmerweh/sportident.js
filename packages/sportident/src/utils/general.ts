@@ -3,15 +3,18 @@ export type Cache<T> = {[id: string]: T};
 export const cached = <T>(
     cache: Cache<T>,
     getThing: () => T,
-) => (): T => {
-    const getThingIdent = `${getThing.name}-${getThing.toString()}`;
-    const cachedThing = cache[getThingIdent];
-    if (cachedThing === undefined) {
-        const newThing = getThing();
-        cache[getThingIdent] = newThing;
-        return newThing;
-    }
-    return cachedThing;
+) => {
+    const getter = (): T => {
+        const getThingIdent = `${getThing.name}-${getThing.toString()}`;
+        const cachedThing = cache[getThingIdent];
+        if (cachedThing === undefined) {
+            const newThing = getThing();
+            cache[getThingIdent] = newThing;
+            return newThing;
+        }
+        return cachedThing;
+    };
+    return getter;
 };
 
 export type Lookup = {[id: string]: string};
@@ -42,9 +45,12 @@ export const getLookup = <T>(
 export const waitFor = <T>(
     milliseconds: number,
     value?: T,
-): Promise<T|undefined> => new Promise((resolve) => {
-    setTimeout(() => resolve(value), milliseconds);
-});
+): Promise<T|undefined> => {
+    const promise: Promise<T|undefined> = new Promise((resolve) => {
+        setTimeout(() => resolve(value), milliseconds);
+    });
+    return promise;
+};
 
 export interface BinarySearchOptions<L, T> {
     getLength?: (list: L) => number;

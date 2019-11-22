@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import {ShellCommandContext} from '../Shell';
 
 export interface ArgType {

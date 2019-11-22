@@ -1,4 +1,5 @@
 import * as utils from 'sportident/lib/utils';
+// eslint-disable-next-line no-unused-vars
 import {SiExternalApplicationEvents, SiExternalApplicationReceiveEvent} from './ISiExternalApplication';
 
 export class SiExternalApplication {
@@ -42,5 +43,6 @@ export class SiExternalApplication {
         this.ws.close();
     }
 }
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface SiExternalApplication extends utils.EventTarget<SiExternalApplicationEvents> {}
 utils.applyMixins(SiExternalApplication, [utils.EventTarget]);

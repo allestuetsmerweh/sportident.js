@@ -1,10 +1,59 @@
 import {proto} from '../constants';
 import * as storage from '../storage';
 import * as siProtocol from '../siProtocol';
+// eslint-disable-next-line no-unused-vars
 import {ISiDevice} from '../SiDevice/ISiDevice';
 import {SiStationMode, SiStationModel} from './ISiStation';
+// eslint-disable-next-line no-unused-vars
 import {ISiTargetMultiplexer, SiTargetMultiplexerTarget} from './ISiTargetMultiplexer';
 import {SiTargetMultiplexer} from './SiTargetMultiplexer';
+
+export const SiStationStorageDefinition = storage.defineStorage(0x80, {
+    code: new storage.SiInt([[0x72], [0x73, 6, 8]]),
+    mode: new storage.SiEnum([[0x71]], SiStationMode),
+    beeps: new storage.SiBool(0x73, 2),
+    flashes: new storage.SiBool(0x73, 0),
+    autoSend: new storage.SiBool(0x74, 1),
+    extendedProtocol: new storage.SiBool(0x74, 0),
+    serialNumber: new storage.SiInt([[0x03], [0x02], [0x01], [0x00]]),
+    firmwareVersion: new storage.SiInt([[0x07], [0x06], [0x05]]),
+    buildDate: new siProtocol.SiDate(3, (i) => 0x08 + i),
+    deviceModel: new storage.SiEnum([[0x0C], [0x0B]], SiStationModel),
+    memorySize: new storage.SiInt([[0x0D]]),
+    batteryDate: new siProtocol.SiDate(3, (i) => 0x15 + i),
+    batteryCapacity: new storage.SiInt([[0x1A], [0x19]]),
+    batteryState: new storage.SiInt([[0x37], [0x36], [0x35], [0x34]]),
+    // 2000mAh: 000000=0%, 6E0000=100%, 1000mAh:000000=0%, 370000=100%
+    backupPointer: new storage.SiInt([[0x22], [0x21], [0x1D], [0x1C]]),
+    siCard6Mode: new storage.SiInt([[0x33]]),
+    // 08 or FF = 192 punches, 00 or C1 normal
+    memoryOverflow: new storage.SiInt([[0x3D]]),
+    // overflow if != 00
+    lastWriteDate: new siProtocol.SiDate(6, (i) => 0x75 + i),
+    autoOffTimeout: new storage.SiInt([[0x7F], [0x7E]]),
+    refreshRate: new storage.SiInt([[0x10]]),
+    // in 3/sec ???
+    powerMode: new storage.SiInt([[0x11]]),
+    // 06 low power, 08 standard/sprint
+    interval: new storage.SiInt([[0x49], [0x48]]),
+    // in 32*ms
+    wtf: new storage.SiInt([[0x4B], [0x4A]]),
+    // in 32*ms
+    program: new storage.SiInt([[0x70]]),
+    // xx0xxxxxb competition, xx1xxxxxb training
+    handshake: new storage.SiBool(0x74, 2),
+    sprint4ms: new storage.SiBool(0x74, 3),
+    passwordOnly: new storage.SiBool(0x74, 4),
+    stopOnFullBackup: new storage.SiBool(0x74, 5),
+    autoReadout: new storage.SiBool(0x74, 7),
+    // depends on autoSend
+    sleepDay: new storage.SiInt([[0x7B]]),
+    //   xxxxxxx0b - seconds relative to midnight/midday: 0 = am, 1 = pm
+    //   xxxx000xb - day of week: 000 = Sunday, 110 = Saturday
+    //   xx00xxxxb - week counter 0..3, relative to programming date
+    sleepSeconds: new storage.SiInt([[0x7D], [0x7C]]),
+    workingMinutes: new storage.SiInt([[0x7F], [0x7E]]),
+});
 
 export abstract class BaseSiStation {
     static multiplexerTarget: SiTargetMultiplexerTarget = SiTargetMultiplexerTarget.Unknown;
@@ -29,7 +78,9 @@ export abstract class BaseSiStation {
     }
 
     constructor(
+        // eslint-disable-next-line no-unused-vars
         public siTargetMultiplexer: ISiTargetMultiplexer,
+        // eslint-disable-next-line no-unused-vars
         public readonly multiplexerTarget: SiTargetMultiplexerTarget,
     ) {
         this.storage = new SiStationStorageDefinition();
@@ -43,8 +94,8 @@ export abstract class BaseSiStation {
 
     sendMessage(
         message: siProtocol.SiMessage,
-        numResponses: number = 0,
-        timeoutInMiliseconds: number = 10000,
+        numResponses = 0,
+        timeoutInMiliseconds = 10000,
     ) {
         return this.siTargetMultiplexer.sendMessage(
             this.multiplexerTarget,
@@ -192,50 +243,3 @@ export abstract class BaseSiStation {
         }, 0);
     }
 }
-
-export const SiStationStorageDefinition = storage.defineStorage(0x80, {
-    code: new storage.SiInt([[0x72], [0x73, 6, 8]]),
-    mode: new storage.SiEnum([[0x71]], SiStationMode),
-    beeps: new storage.SiBool(0x73, 2),
-    flashes: new storage.SiBool(0x73, 0),
-    autoSend: new storage.SiBool(0x74, 1),
-    extendedProtocol: new storage.SiBool(0x74, 0),
-    serialNumber: new storage.SiInt([[0x03], [0x02], [0x01], [0x00]]),
-    firmwareVersion: new storage.SiInt([[0x07], [0x06], [0x05]]),
-    buildDate: new siProtocol.SiDate(3, (i) => 0x08 + i),
-    deviceModel: new storage.SiEnum([[0x0C], [0x0B]], SiStationModel),
-    memorySize: new storage.SiInt([[0x0D]]),
-    batteryDate: new siProtocol.SiDate(3, (i) => 0x15 + i),
-    batteryCapacity: new storage.SiInt([[0x1A], [0x19]]),
-    batteryState: new storage.SiInt([[0x37], [0x36], [0x35], [0x34]]),
-    // 2000mAh: 000000=0%, 6E0000=100%, 1000mAh:000000=0%, 370000=100%
-    backupPointer: new storage.SiInt([[0x22], [0x21], [0x1D], [0x1C]]),
-    siCard6Mode: new storage.SiInt([[0x33]]),
-    // 08 or FF = 192 punches, 00 or C1 normal
-    memoryOverflow: new storage.SiInt([[0x3D]]),
-    // overflow if != 00
-    lastWriteDate: new siProtocol.SiDate(6, (i) => 0x75 + i),
-    autoOffTimeout: new storage.SiInt([[0x7F], [0x7E]]),
-    refreshRate: new storage.SiInt([[0x10]]),
-    // in 3/sec ???
-    powerMode: new storage.SiInt([[0x11]]),
-    // 06 low power, 08 standard/sprint
-    interval: new storage.SiInt([[0x49], [0x48]]),
-    // in 32*ms
-    wtf: new storage.SiInt([[0x4B], [0x4A]]),
-    // in 32*ms
-    program: new storage.SiInt([[0x70]]),
-    // xx0xxxxxb competition, xx1xxxxxb training
-    handshake: new storage.SiBool(0x74, 2),
-    sprint4ms: new storage.SiBool(0x74, 3),
-    passwordOnly: new storage.SiBool(0x74, 4),
-    stopOnFullBackup: new storage.SiBool(0x74, 5),
-    autoReadout: new storage.SiBool(0x74, 7),
-    // depends on autoSend
-    sleepDay: new storage.SiInt([[0x7B]]),
-    //   xxxxxxx0b - seconds relative to midnight/midday: 0 = am, 1 = pm
-    //   xxxx000xb - day of week: 000 = Sunday, 110 = Saturday
-    //   xx00xxxxb - week counter 0..3, relative to programming date
-    sleepSeconds: new storage.SiInt([[0x7D], [0x7C]]),
-    workingMinutes: new storage.SiInt([[0x7F], [0x7E]]),
-});

@@ -1,7 +1,11 @@
+// eslint-disable-next-line no-unused-vars
 import * as utils from 'sportident/lib/utils';
+// eslint-disable-next-line no-unused-vars
 import {DeviceClosedError, ISiDevice, ISiDeviceDriverData, SiDeviceState} from 'sportident/lib/SiDevice/ISiDevice';
+// eslint-disable-next-line no-unused-vars
 import {ISiDeviceDriver, ISiDeviceDriverWithAutodetection, ISiDeviceDriverWithDetection, SiDeviceDriverWithAutodetectionEvents, SiDeviceAddEvent, SiDeviceRemoveEvent} from 'sportident/lib/SiDevice/ISiDeviceDriver';
 import {SiDevice} from 'sportident/lib/SiDevice/SiDevice';
+// eslint-disable-next-line no-unused-vars
 import * as nav from './INavigatorWebUsb';
 
 const siConfiguration = 1;
@@ -40,8 +44,7 @@ export type WebUsbSiDevice = SiDevice<WebUsbSiDeviceDriverData>;
 class WebUsbSiDeviceDriver implements
         ISiDeviceDriver<WebUsbSiDeviceDriverData>,
         ISiDeviceDriverWithDetection<WebUsbSiDeviceDriverData, []>,
-        ISiDeviceDriverWithAutodetection<WebUsbSiDeviceDriverData>
-{
+        ISiDeviceDriverWithAutodetection<WebUsbSiDeviceDriverData> {
     public name = 'WebUSB';
 
     private siDeviceByIdent:
@@ -52,8 +55,11 @@ class WebUsbSiDeviceDriver implements
 
     private autodetectionCallbacks?: WebUsbAutodetectionCallbacks;
 
+    // eslint-disable-next-line no-useless-constructor
     constructor(
+        // eslint-disable-next-line no-unused-vars
         private navigatorUsb: nav.WebUsb,
+    // eslint-disable-next-line no-empty-function
     ) {}
 
     detect(): Promise<WebUsbSiDevice> {
@@ -106,7 +112,7 @@ class WebUsbSiDeviceDriver implements
     }
 
     autodetectSiDevices(
-        navigatorWebUsbDevices: nav.WebUsbDevice[]
+        navigatorWebUsbDevices: nav.WebUsbDevice[],
     ): Promise<WebUsbSiDevice[]> {
         // TODO: Make this easier when Promise.allSettled polyfill is available
         return new Promise((resolve) => {
@@ -126,8 +132,8 @@ class WebUsbSiDeviceDriver implements
                             onSettled();
                         })
                         .catch(() => onSettled())
-                )
-            )
+                ),
+            );
         });
     }
 
@@ -298,7 +304,8 @@ class WebUsbSiDeviceDriver implements
         return navigatorDevice.transferOut(siEndpoint, buffer)
             .then(() => true);
     }
-};
+}
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface WebUsbSiDeviceDriver extends utils.EventTarget<SiDeviceDriverWithAutodetectionEvents<WebUsbSiDeviceDriverData>> {}
 utils.applyMixins(WebUsbSiDeviceDriver, [utils.EventTarget]);
 

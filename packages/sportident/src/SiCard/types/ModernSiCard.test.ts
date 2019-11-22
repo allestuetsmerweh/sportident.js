@@ -3,9 +3,10 @@
 import _ from 'lodash';
 import {proto} from '../../constants';
 import * as utils from '../../utils';
+// eslint-disable-next-line no-unused-vars
 import * as siProtocol from '../../siProtocol';
 import * as testUtils from '../../testUtils';
-import {ModernSiCard, ModernSiCardSeries} from './ModernSiCard';
+import {cropPunches, getCroppedString, getPunchOffset, ModernSiCard, ModernSiCardSeries, parseCardHolder, parseCardHolderString} from './ModernSiCard';
 import {getModernSiCardExamples} from './modernSiCardExamples';
 // @ts-ignore
 import {ModernSiCardSimulator} from '../../simulation/SiCardSimulator/types/ModernSiCardSimulator';
@@ -33,31 +34,31 @@ describe('ModernSiCard', () => {
         })).toBe(false);
     });
     it('getPunchOffset', () => {
-        expect(ModernSiCard.getPunchOffset(0)).toEqual(0x200);
-        expect(ModernSiCard.getPunchOffset(1)).toEqual(0x204);
-        expect(ModernSiCard.getPunchOffset(64)).toEqual(0x300);
-        expect(ModernSiCard.getPunchOffset(127)).toEqual(0x3FC);
+        expect(getPunchOffset(0)).toEqual(0x200);
+        expect(getPunchOffset(1)).toEqual(0x204);
+        expect(getPunchOffset(64)).toEqual(0x300);
+        expect(getPunchOffset(127)).toEqual(0x3FC);
     });
     it('cropPunches', () => {
-        expect(ModernSiCard.cropPunches([])).toEqual([]);
-        expect(ModernSiCard.cropPunches([
+        expect(cropPunches([])).toEqual([]);
+        expect(cropPunches([
             {code: 31, time: 1},
         ])).toEqual([
             {code: 31, time: 1},
         ]);
-        expect(ModernSiCard.cropPunches([
+        expect(cropPunches([
             {code: 32, time: 0xEEEE},
         ])).toEqual([
         ]);
-        expect(ModernSiCard.cropPunches([
+        expect(cropPunches([
             {code: undefined, time: undefined},
         ])).toEqual([
         ]);
-        expect(ModernSiCard.cropPunches([
+        expect(cropPunches([
             {code: 33, time: undefined},
         ])).toEqual([
         ]);
-        expect(ModernSiCard.cropPunches([
+        expect(cropPunches([
             {code: 31, time: 1},
             {code: 32, time: 2},
             {code: 33, time: 3},
@@ -112,27 +113,27 @@ describe('ModernSiCard', () => {
         isComplete: true,
     };
     it('getCroppedString', () => {
-        expect(ModernSiCard.getCroppedString([])).toEqual('');
-        expect(ModernSiCard.getCroppedString([0x61])).toEqual('a');
-        expect(ModernSiCard.getCroppedString([0xEE])).toEqual('');
-        expect(ModernSiCard.getCroppedString([0x41, 0xEE])).toEqual('A');
-        expect(ModernSiCard.getCroppedString(cardHolderCharCodes1)).toEqual(cardHolderString1);
+        expect(getCroppedString([])).toEqual('');
+        expect(getCroppedString([0x61])).toEqual('a');
+        expect(getCroppedString([0xEE])).toEqual('');
+        expect(getCroppedString([0x41, 0xEE])).toEqual('A');
+        expect(getCroppedString(cardHolderCharCodes1)).toEqual(cardHolderString1);
     });
     it('parseCardHolderString', () => {
-        expect(ModernSiCard.parseCardHolderString('')).toEqual(emptyCardHolderDict);
-        expect(ModernSiCard.parseCardHolderString('A')).toEqual(emptyCardHolderDict);
-        expect(ModernSiCard.parseCardHolderString('A;')).toEqual({...emptyCardHolderDict, firstName: 'A'});
-        expect(ModernSiCard.parseCardHolderString('A;B')).toEqual({...emptyCardHolderDict, firstName: 'A'});
-        expect(ModernSiCard.parseCardHolderString(cardHolderString1)).toEqual(cardHolderDict1);
+        expect(parseCardHolderString('')).toEqual(emptyCardHolderDict);
+        expect(parseCardHolderString('A')).toEqual(emptyCardHolderDict);
+        expect(parseCardHolderString('A;')).toEqual({...emptyCardHolderDict, firstName: 'A'});
+        expect(parseCardHolderString('A;B')).toEqual({...emptyCardHolderDict, firstName: 'A'});
+        expect(parseCardHolderString(cardHolderString1)).toEqual(cardHolderDict1);
     });
     it('parseCardHolder', () => {
-        expect(ModernSiCard.parseCardHolder([])).toEqual(emptyCardHolderDict);
-        expect(ModernSiCard.parseCardHolder([0x61])).toEqual(emptyCardHolderDict);
-        expect(ModernSiCard.parseCardHolder([0x61, 0x3B])).toEqual({...emptyCardHolderDict, firstName: 'a'});
-        expect(ModernSiCard.parseCardHolder([0xEE])).toEqual(emptyCardHolderDict);
-        expect(ModernSiCard.parseCardHolder([0x41, 0xEE, 0x3B])).toEqual(emptyCardHolderDict);
-        expect(ModernSiCard.parseCardHolder([0x41, 0x3B, 0xEE])).toEqual({...emptyCardHolderDict, firstName: 'A'});
-        expect(ModernSiCard.parseCardHolder(cardHolderCharCodes1)).toEqual(cardHolderDict1);
+        expect(parseCardHolder([])).toEqual(emptyCardHolderDict);
+        expect(parseCardHolder([0x61])).toEqual(emptyCardHolderDict);
+        expect(parseCardHolder([0x61, 0x3B])).toEqual({...emptyCardHolderDict, firstName: 'a'});
+        expect(parseCardHolder([0xEE])).toEqual(emptyCardHolderDict);
+        expect(parseCardHolder([0x41, 0xEE, 0x3B])).toEqual(emptyCardHolderDict);
+        expect(parseCardHolder([0x41, 0x3B, 0xEE])).toEqual({...emptyCardHolderDict, firstName: 'A'});
+        expect(parseCardHolder(cardHolderCharCodes1)).toEqual(cardHolderDict1);
     });
     const examples = getModernSiCardExamples();
     Object.keys(examples).forEach((exampleName) => {

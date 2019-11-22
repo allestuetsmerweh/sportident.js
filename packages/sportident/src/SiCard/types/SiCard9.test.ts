@@ -1,9 +1,10 @@
 /* eslint-env jasmine */
 
+// eslint-disable-next-line no-unused-vars
 import * as siProtocol from '../../siProtocol';
 import {BaseSiCard} from '../BaseSiCard';
 import {ModernSiCardSeries} from './ModernSiCard';
-import {SiCard9} from './SiCard9';
+import {getPunchOffset, SiCard9} from './SiCard9';
 import {getSiCard9Examples} from './siCard9Examples';
 // @ts-ignore
 import {SiCard9Simulator} from '../../simulation/SiCardSimulator/types/SiCard9Simulator';
@@ -14,9 +15,9 @@ describe('SiCard9', () => {
         expect(BaseSiCard.getTypeByCardNumber(1999999)).toEqual(SiCard9);
     });
     it('getPunchOffset', () => {
-        expect(SiCard9.getPunchOffset(0)).toEqual(0x38);
-        expect(SiCard9.getPunchOffset(1)).toEqual(0x3C);
-        expect(SiCard9.getPunchOffset(49)).toEqual(0xFC);
+        expect(getPunchOffset(0)).toEqual(0x38);
+        expect(getPunchOffset(1)).toEqual(0x3C);
+        expect(getPunchOffset(49)).toEqual(0xFC);
     });
     const examples = getSiCard9Examples();
     Object.keys(examples).forEach((exampleName) => {

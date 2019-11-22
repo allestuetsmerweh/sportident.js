@@ -42,7 +42,7 @@ const compatibleRules = {
     'keyword-spacing': 'error',
     'linebreak-style': ['error', 'unix'],
     'lines-around-directive': 'error',
-    'lines-between-class-members': 'error',
+    'lines-between-class-members': ['error', 'always', {exceptAfterSingleLine: true}],
     'no-alert': 'error',
     'no-array-constructor': 'error',
     'no-await-in-loop': 'error',
@@ -110,7 +110,14 @@ const compatibleRules = {
     'spaced-comment': ['error', 'always', {'block': {'balanced': true}}],
     'symbol-description': 'error',
     'template-curly-spacing': 'error',
-    'wrap-iife': 'error'
+    'wrap-iife': 'error',
+    '@typescript-eslint/ban-ts-ignore': 'off',
+    '@typescript-eslint/explicit-function-return-type': 'off',
+    '@typescript-eslint/interface-name-prefix': 'off',
+    '@typescript-eslint/member-delimiter-style': 'off',
+    '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/no-non-null-assertion': 'off',
+    '@typescript-eslint/no-unused-vars': 'off', // handled by 'no-unused-vars'
 };
 
 module.exports = {

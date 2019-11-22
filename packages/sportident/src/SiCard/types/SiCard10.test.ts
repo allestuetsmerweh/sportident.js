@@ -1,8 +1,9 @@
 /* eslint-env jasmine */
 
 import _ from 'lodash';
-import * as siProtocol from '../../siProtocol';
 import {proto} from '../../constants';
+// eslint-disable-next-line no-unused-vars
+import * as siProtocol from '../../siProtocol';
 import {BaseSiCard} from '../BaseSiCard';
 import {SiCard10} from './SiCard10';
 

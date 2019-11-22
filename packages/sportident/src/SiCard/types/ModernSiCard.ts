@@ -8,6 +8,9 @@ class ReadFinishedException {}
 const punchesPerPage = 32;
 const bytesPerPage = 128;
 
+const MAX_NUM_PUNCHES = 128;
+
+/* eslint-disable no-unused-vars */
 export enum ModernSiCardSeries {
     SiCard8 = 0x02,
     SiCard9 = 0x01,
@@ -15,60 +18,104 @@ export enum ModernSiCardSeries {
     PCard = 0x04,
     TCard = 0x06,
 }
+/* eslint-enable no-unused-vars */
 
 export interface PotentialModernSiCardPunch {
     code: number|undefined;
     time: number|undefined;
 }
 
+
+export const getPunchOffset = (i: number): number => (
+    bytesPerPage * 4 + i * 4
+);
+
+export const cropPunches = (allPunches: PotentialModernSiCardPunch[]) => {
+    const isPunchEntryInvalid = (punch: PotentialModernSiCardPunch) => punch.time === undefined || punch.time === 0xEEEE;
+    const firstInvalidIndex = allPunches.findIndex(isPunchEntryInvalid);
+    return firstInvalidIndex === -1 ? allPunches : allPunches.slice(0, firstInvalidIndex);
+};
+
+export const getCroppedString = (charCodes: (number|undefined)[]) => {
+    const isCharacterInvalid = (charCode: number|undefined) => charCode === undefined || charCode === 0xEE;
+    const firstInvalidIndex = charCodes.findIndex(isCharacterInvalid);
+    const croppedCharCodes = (firstInvalidIndex === -1 ? charCodes : charCodes.slice(0, firstInvalidIndex)) as number[];
+    return croppedCharCodes.map((charCode: number) => String.fromCharCode(charCode)).join('');
+};
+
+export const parseCardHolderString = (
+    semicolonSeparatedString: string,
+): {[property: string]: any} => {
+    const informationComponents = semicolonSeparatedString.split(';');
+    return {
+        firstName: informationComponents.length > 1 ? informationComponents[0] : undefined,
+        lastName: informationComponents.length > 2 ? informationComponents[1] : undefined,
+        gender: informationComponents.length > 3 ? informationComponents[2] : undefined,
+        birthday: informationComponents.length > 4 ? informationComponents[3] : undefined,
+        club: informationComponents.length > 5 ? informationComponents[4] : undefined,
+        email: informationComponents.length > 6 ? informationComponents[5] : undefined,
+        phone: informationComponents.length > 7 ? informationComponents[6] : undefined,
+        city: informationComponents.length > 8 ? informationComponents[7] : undefined,
+        street: informationComponents.length > 9 ? informationComponents[8] : undefined,
+        zip: informationComponents.length > 10 ? informationComponents[9] : undefined,
+        country: informationComponents.length > 11 ? informationComponents[10] : undefined,
+        isComplete: informationComponents.length > 11,
+    };
+};
+
+export const parseCardHolder = (maybeCharCodes: (number|undefined)[]) => {
+    const semicolonSeparatedString = getCroppedString(maybeCharCodes);
+    return parseCardHolderString(semicolonSeparatedString || '');
+};
+
+export const ModernSiCardStorageDefinition = storage.defineStorage(0x400, {
+    uid: new storage.SiInt([[0x03], [0x02], [0x01], [0x00]]),
+    cardSeries: new storage.SiEnum([[0x18]], ModernSiCardSeries),
+    cardNumber: new storage.SiModified(
+        new storage.SiArray(
+            3,
+            (i) => new storage.SiInt([[0x19 + (2 - i)]]),
+        ),
+        (extractedValue) => siProtocol.arr2cardNumber(extractedValue),
+        (cardNumber) => siProtocol.cardNumber2arr(cardNumber),
+        (cardNumber) => `${cardNumber}`,
+        (cardNumberString) => parseInt(cardNumberString, 10),
+        (cardNumber) => cardNumber !== undefined && _.isInteger(cardNumber) && cardNumber >= 0,
+    ),
+    startTime: new storage.SiInt([[0x0E], [0x0F]]),
+    finishTime: new storage.SiInt([[0x12], [0x13]]),
+    checkTime: new storage.SiInt([[0x0A], [0x0B]]),
+    punchCount: new storage.SiInt([[0x16]]),
+    punches: new storage.SiModified(
+        new storage.SiArray(
+            MAX_NUM_PUNCHES,
+            (i) => new storage.SiDict({
+                code: new storage.SiInt([
+                    [getPunchOffset(i) + 1],
+                ]),
+                time: new storage.SiInt([
+                    [getPunchOffset(i) + 2],
+                    [getPunchOffset(i) + 3],
+                ]),
+            }),
+        ),
+        (allPunches) => cropPunches(allPunches as unknown as PotentialModernSiCardPunch[]),
+    ),
+    cardHolder: new storage.SiModified(
+        new storage.SiArray(
+            0x80,
+            (i) => new storage.SiInt([[0x20 + i]]),
+        ),
+        (charCodes) => parseCardHolder(charCodes),
+    ),
+});
+
 export class ModernSiCard extends BaseSiCard {
-    static maxNumPunches = 128;
-    static get StorageDefinition() {
-        return ModernSiCardStorageDefinition;
-    }
+    static maxNumPunches = MAX_NUM_PUNCHES;
+    static StorageDefinition = ModernSiCardStorageDefinition;
 
     static typeSpecificShouldDetectFromMessage(message: siProtocol.SiMessage) {
         return message.mode === undefined && message.command === proto.cmd.SI8_DET;
-    }
-
-    static getPunchOffset(i: number): number {
-        return bytesPerPage * 4 + i * 4;
-    }
-
-    static cropPunches(allPunches: PotentialModernSiCardPunch[]) {
-        const isPunchEntryInvalid = (punch: PotentialModernSiCardPunch) => punch.time === undefined || punch.time === 0xEEEE;
-        const firstInvalidIndex = allPunches.findIndex(isPunchEntryInvalid);
-        return firstInvalidIndex === -1 ? allPunches : allPunches.slice(0, firstInvalidIndex);
-    }
-
-    static parseCardHolder(maybeCharCodes: (number|undefined)[]) {
-        const semicolonSeparatedString = this.getCroppedString(maybeCharCodes);
-        return this.parseCardHolderString(semicolonSeparatedString || '');
-    }
-
-    static getCroppedString(charCodes: (number|undefined)[]) {
-        const isCharacterInvalid = (charCode: number|undefined) => charCode === undefined || charCode === 0xEE;
-        const firstInvalidIndex = charCodes.findIndex(isCharacterInvalid);
-        const croppedCharCodes = (firstInvalidIndex === -1 ? charCodes : charCodes.slice(0, firstInvalidIndex)) as number[];
-        return croppedCharCodes.map((charCode: number) => String.fromCharCode(charCode)).join('');
-    }
-
-    static parseCardHolderString(semicolonSeparatedString: string): {[property: string]: any} {
-        const informationComponents = semicolonSeparatedString.split(';');
-        return {
-            firstName: informationComponents.length > 1 ? informationComponents[0] : undefined,
-            lastName: informationComponents.length > 2 ? informationComponents[1] : undefined,
-            gender: informationComponents.length > 3 ? informationComponents[2] : undefined,
-            birthday: informationComponents.length > 4 ? informationComponents[3] : undefined,
-            club: informationComponents.length > 5 ? informationComponents[4] : undefined,
-            email: informationComponents.length > 6 ? informationComponents[5] : undefined,
-            phone: informationComponents.length > 7 ? informationComponents[6] : undefined,
-            city: informationComponents.length > 8 ? informationComponents[7] : undefined,
-            street: informationComponents.length > 9 ? informationComponents[8] : undefined,
-            zip: informationComponents.length > 10 ? informationComponents[9] : undefined,
-            country: informationComponents.length > 11 ? informationComponents[10] : undefined,
-            isComplete: informationComponents.length > 11,
-        };
     }
 
     typeSpecificGetPage(pageNumber: number) {
@@ -165,45 +212,3 @@ export class ModernSiCard extends BaseSiCard {
             });
     }
 }
-
-export const ModernSiCardStorageDefinition = storage.defineStorage(0x400, {
-    uid: new storage.SiInt([[0x03], [0x02], [0x01], [0x00]]),
-    cardSeries: new storage.SiEnum([[0x18]], ModernSiCardSeries),
-    cardNumber: new storage.SiModified(
-        new storage.SiArray(
-            3,
-            (i) => new storage.SiInt([[0x19 + (2 - i)]]),
-        ),
-        (extractedValue) => siProtocol.arr2cardNumber(extractedValue),
-        (cardNumber) => siProtocol.cardNumber2arr(cardNumber),
-        (cardNumber) => `${cardNumber}`,
-        (cardNumberString) => parseInt(cardNumberString, 10),
-        (cardNumber) => cardNumber !== undefined && _.isInteger(cardNumber) && cardNumber >= 0,
-    ),
-    startTime: new storage.SiInt([[0x0E], [0x0F]]),
-    finishTime: new storage.SiInt([[0x12], [0x13]]),
-    checkTime: new storage.SiInt([[0x0A], [0x0B]]),
-    punchCount: new storage.SiInt([[0x16]]),
-    punches: new storage.SiModified(
-        new storage.SiArray(
-            ModernSiCard.maxNumPunches,
-            (i) => new storage.SiDict({
-                code: new storage.SiInt([
-                    [ModernSiCard.getPunchOffset(i) + 1],
-                ]),
-                time: new storage.SiInt([
-                    [ModernSiCard.getPunchOffset(i) + 2],
-                    [ModernSiCard.getPunchOffset(i) + 3],
-                ]),
-            }),
-        ),
-        (allPunches) => ModernSiCard.cropPunches(allPunches as unknown as PotentialModernSiCardPunch[]),
-    ),
-    cardHolder: new storage.SiModified(
-        new storage.SiArray(
-            0x80,
-            (i) => new storage.SiInt([[0x20 + i]]),
-        ),
-        (charCodes) => ModernSiCard.parseCardHolder(charCodes),
-    ),
-});

@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import * as utils from '../../utils';
+// eslint-disable-next-line no-unused-vars
 import {SiCardSample} from '../ISiCardExamples';
 import {ModernSiCardSeries} from './ModernSiCard';
 

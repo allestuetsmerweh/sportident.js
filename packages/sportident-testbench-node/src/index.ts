@@ -13,7 +13,7 @@ nodeUsbDriver.detect()
         process.stdin.setEncoding('utf-8');
         process.stdin.on('data', (char: string) => {
             const charCode = char.charCodeAt(0);
-            if (charCode ===  127) {
+            if (charCode === 127) {
                 getCharBuffer.push(8);
                 getCharBuffer.push(32);
                 getCharBuffer.push(8);
@@ -30,12 +30,12 @@ nodeUsbDriver.detect()
                     }
                     return getCharBuffer.shift();
                 },
-                putChar: (char: number) => process.stdout.write(String.fromCharCode(char))
+                putChar: (char: number) => process.stdout.write(String.fromCharCode(char)),
             },
             getSiShellCommands(),
             {
                 initialEnv: {device: device},
-            }
+            },
         );
 
         siShell.run().then(() => {

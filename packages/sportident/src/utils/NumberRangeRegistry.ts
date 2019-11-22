@@ -1,5 +1,6 @@
 import Immutable from 'immutable';
 import * as generalUtils from './general';
+// eslint-disable-next-line no-unused-vars
 import {NumberRange} from './NumberRange';
 
 export class NumberRangeRegistry<T> {
@@ -28,10 +29,6 @@ export class NumberRangeRegistry<T> {
     }
 
     getValueForNumber(number: number): T|undefined {
-        // const binarySearchOptions: generalUtils.BinarySearchOptions<
-        //     Immutable.List<NumberRange>,
-        //     NumberRange,
-        // > = ;
         const index = generalUtils.binarySearch(this.numberRanges, number, {
             getLength: (numberRanges) => numberRanges.size,
             getNewRange: (numberRanges, number_, start, end) => {

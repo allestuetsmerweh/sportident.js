@@ -1,7 +1,7 @@
 /* eslint-env jasmine */
 
-// import * as utils from '../utils';
 import * as testUtils from '../testUtils';
+// eslint-disable-next-line no-unused-vars
 import {DeviceClosedError, ISiDeviceDriverData, SiDeviceState, SiDeviceStateChangeEvent} from './ISiDevice';
 import {SiDevice} from './SiDevice';
 
@@ -43,7 +43,7 @@ describe('SiDevice', () => {
         let count = 0;
         const data = {
             driver: {
-                receive: (_device: any, buffer: number[]) => {
+                receive: (_device: any, _buffer: number[]) => {
                     if (count > 2) {
                         throw new DeviceClosedError('test');
                     }
@@ -61,7 +61,7 @@ describe('SiDevice', () => {
         let count = 0;
         const data = {
             driver: {
-                receive: (_device: any, buffer: number[]) => {
+                receive: (_device: any, _buffer: number[]) => {
                     if (count > 2) {
                         throw new DeviceClosedError('test');
                     }
@@ -119,9 +119,9 @@ describe('SiDevice', () => {
     it('opening can reject', (done) => {
         const data = {
             driver: {
-                open: (_device: any) => {
-                    return Promise.reject(new Error('test'));
-                },
+                open: (_device: any) => (
+                    Promise.reject(new Error('test'))
+                ),
             },
         } as ISiDeviceDriverData<any>;
         const siDevice = new SiDevice('receiveLoopFail', data);
@@ -204,9 +204,9 @@ describe('SiDevice', () => {
     it('closing can reject', (done) => {
         const data = {
             driver: {
-                close: (_device: any) => {
-                    return Promise.reject(new Error('test'));
-                },
+                close: (_device: any) => (
+                    Promise.reject(new Error('test'))
+                ),
             },
         } as ISiDeviceDriverData<any>;
         const siDevice = new SiDevice('receiveLoopFail', data);
@@ -222,7 +222,7 @@ describe('SiDevice', () => {
         let count = 0;
         const data = {
             driver: {
-                receive: (_device: any, buffer: number[]) => new Promise((resolve) => {
+                receive: (_device: any, _buffer: number[]) => new Promise((resolve) => {
                     if (count > 2) {
                         throw new DeviceClosedError('test');
                     }
@@ -255,7 +255,7 @@ describe('SiDevice', () => {
         let count = 0;
         const data = {
             driver: {
-                receive: (_device: any, buffer: number[]) => {
+                receive: (_device: any, _buffer: number[]) => {
                     if (count > 2) {
                         throw new DeviceClosedError('test');
                     }
@@ -286,7 +286,7 @@ describe('SiDevice', () => {
         let count = 0;
         const data = {
             driver: {
-                receive: (_device: any, buffer: number[]) => {
+                receive: (_device: any, _buffer: number[]) => {
                     if (count > 2) {
                         throw new DeviceClosedError('test');
                     }
@@ -317,7 +317,7 @@ describe('SiDevice', () => {
         let count = 0;
         const data = {
             driver: {
-                receive: (_device: any, buffer: number[]) => {
+                receive: (_device: any, _buffer: number[]) => {
                     count += 1;
                     throw new DeviceClosedError('test');
                 },

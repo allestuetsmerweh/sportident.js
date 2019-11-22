@@ -1,12 +1,9 @@
+// eslint-disable-next-line no-unused-vars
 import Immutable from 'immutable';
-// import * as utils from 'utils';
+import * as utils from '../utils';
 
-export class ValueToStringError {
-    constructor(public message: string = '') {}
-};
-export class ValueFromStringError {
-    constructor(public message: string = '') {}
-};
+export class ValueToStringError extends utils.Error {}
+export class ValueFromStringError extends utils.Error {}
 
 export interface ISiFieldValue<T> {
     field: ISiDataType<T>;

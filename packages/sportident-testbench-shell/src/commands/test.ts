@@ -1,5 +1,6 @@
 import si from 'sportident/lib';
 import {SiStationMode} from 'sportident/lib/SiStation/ISiStation';
+// eslint-disable-next-line no-unused-vars
 import {ShellCommandContext} from '../Shell';
 import {BaseCommand} from './BaseCommand';
 
@@ -9,6 +10,9 @@ const tests: {[name: string]: (context: ShellCommandContext) => Promise<void>} =
         let fixedSiNumber: number|undefined;
         const samples: {[key: string]: any} = {};
 
+        const resetCardCallbacks = () => {
+            mainStation.eventRegistry = undefined;
+        };
         let currentReject: (() => void)|undefined = undefined;
         context.waitChar().then((char: number) => {
             if (char === 27 || char === 3) { // Escape || Ctrl-C
@@ -20,9 +24,6 @@ const tests: {[name: string]: (context: ShellCommandContext) => Promise<void>} =
         });
 
         let cardState = '';
-        const resetCardCallbacks = () => {
-            mainStation.eventRegistry = undefined;
-        };
         const simulateStation = (
             mode: number,
             code: number,
@@ -35,7 +36,7 @@ const tests: {[name: string]: (context: ShellCommandContext) => Promise<void>} =
             .then(() => {
                 context.putString(`Insert card to ${actionName}...\n`);
                 return new Promise((resolve, reject) => {
-                    currentReject  = reject;
+                    currentReject = reject;
                     resetCardCallbacks();
                     mainStation.addEventListener('siCardObserved', (cardEvent: any) => {
                         const card = cardEvent.siCard;
@@ -53,7 +54,7 @@ const tests: {[name: string]: (context: ShellCommandContext) => Promise<void>} =
                         } else {
                             cardState += `${cardState === '' ? '' : '-'}${actionName}`;
                         }
-                        currentReject  = undefined;
+                        currentReject = undefined;
                         setTimeout(resolve, 1);
                     });
                 });
@@ -66,13 +67,13 @@ const tests: {[name: string]: (context: ShellCommandContext) => Promise<void>} =
             .then(() => {
                 context.putString('Insert card to read...\n');
                 return new Promise((resolve, reject) => {
-                    currentReject  = reject;
+                    currentReject = reject;
                     resetCardCallbacks();
                     const handleCardRemoved = (removeEvent: any) => {
                         const removedCard = removeEvent.siCard;
                         if (fixedSiNumber === removedCard.cardNumber) {
                             resetCardCallbacks();
-                            currentReject  = undefined;
+                            currentReject = undefined;
                             setTimeout(resolve, 1);
                         }
                     };

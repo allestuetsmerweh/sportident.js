@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import {ISiDataType, SiStorageData, ValueFromStringError} from './interfaces';
 import {SiDataType} from './SiDataType';
 
@@ -5,15 +6,16 @@ export type SiDictValue<T> = {[key: string]: T|undefined};
 
 export class SiDict<T> extends SiDataType<SiDictValue<T>> implements ISiDataType<SiDictValue<T>> {
     constructor(
+        // eslint-disable-next-line no-unused-vars
         public readonly definitionDict: {[key: string]: ISiDataType<T>},
     ) {
         super();
     }
 
     typeSpecificIsValueValid(value: SiDictValue<T>): boolean {
-        return Object.keys(this.definitionDict).every((key) => {
-            return (value[key] !== undefined);
-        });
+        return Object.keys(this.definitionDict).every((key) => (
+            value[key] !== undefined
+        ));
     }
 
     typeSpecificValueToString(value: SiDictValue<T>): string {
