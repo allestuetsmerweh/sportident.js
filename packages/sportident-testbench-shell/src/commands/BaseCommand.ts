@@ -1,4 +1,3 @@
-// import si from 'sportident/src';
 import {ShellCommandContext} from '../Shell';
 
 export interface ArgType {
@@ -67,32 +66,12 @@ export abstract class BaseCommand {
             .map((argType: ArgType) => `[${argType.name}]${argType.isOptional ? '?' : ''}`)
             .join(' ');
         const usageTitle = `Usage: ${context.args[0]} ${argUsage}`;
-        // this.context.logReact((
-        //     <div className='usage-title title'>
-        //         {usageTitle}
-        //     </div>
-        // ));
         context.putString(`${usageTitle}\n`);
         argTypes.forEach((argType: ArgType) => {
             const choicesString = argType.choices ? argType.choices.join(', ') : '';
             const descriptionString = argType.description || '';
-            const argUsageDescription = `: ${descriptionString}${choicesString}`;
-            // this.printUsageDetail((
-            //     <>
-            //         <span className='title'>{argType.name}</span>
-            //         {argUsageDescription}
-            //     </>
-            // ));
-            context.putString(`${argType.name}\n`);
-            context.putString(`${argUsageDescription}\n`);
+            const argUsageDescription = `${descriptionString}${choicesString}`;
+            context.putString(`${argType.name}: ${argUsageDescription}\n`);
         });
     }
-
-    // printUsageDetail(children) {
-    //     this.context.logReact((
-    //         <div className='usage-detail'>
-    //             {children}
-    //         </div>
-    //     ));
-    // }
 }

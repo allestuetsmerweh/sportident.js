@@ -8,13 +8,20 @@ const tests: {[name: string]: (context: ShellCommandContext) => Promise<void>} =
         const mainStation = si.SiMainStation.fromSiDevice(context.env.device);
         let fixedSiNumber: number|undefined;
         const samples: {[key: string]: any} = {};
-        // const _wait = (seconds: number) => () => new Promise((resolve) => {
-        //     context.putString('Please wait...\n');
-        //     setTimeout(resolve, seconds * 1000);
-        // });
+
+        let currentReject: (() => void)|undefined = undefined;
+        context.waitChar().then((char: number) => {
+            if (char === 27 || char === 3) { // Escape || Ctrl-C
+                resetCardCallbacks();
+                if (currentReject !== undefined) {
+                    currentReject();
+                }
+            }
+        });
+
         let cardState = '';
-        const resetCardCallbacks = (mainStation_: any) => {
-            mainStation_._eventListeners = {};
+        const resetCardCallbacks = () => {
+            mainStation.eventRegistry = undefined;
         };
         const simulateStation = (
             mode: number,
@@ -27,8 +34,9 @@ const tests: {[name: string]: (context: ShellCommandContext) => Promise<void>} =
         })
             .then(() => {
                 context.putString(`Insert card to ${actionName}...\n`);
-                return new Promise((resolve) => {
-                    resetCardCallbacks(mainStation);
+                return new Promise((resolve, reject) => {
+                    currentReject  = reject;
+                    resetCardCallbacks();
                     mainStation.addEventListener('siCardObserved', (cardEvent: any) => {
                         const card = cardEvent.siCard;
                         if (fixedSiNumber === undefined) {
@@ -38,13 +46,14 @@ const tests: {[name: string]: (context: ShellCommandContext) => Promise<void>} =
                             context.putString(`Other ${card.constructor.name}: ${card.cardNumber} (not ${fixedSiNumber})\n`);
                             return;
                         }
-                        resetCardCallbacks(mainStation);
+                        resetCardCallbacks();
                         context.putString(`${actionName} ${card.constructor.name} succeeded: ${card.cardNumber}\n`);
                         if (mode === SiStationMode.Clear) {
                             cardState = '';
                         } else {
                             cardState += `${cardState === '' ? '' : '-'}${actionName}`;
                         }
+                        currentReject  = undefined;
                         setTimeout(resolve, 1);
                     });
                 });
@@ -56,12 +65,14 @@ const tests: {[name: string]: (context: ShellCommandContext) => Promise<void>} =
         })
             .then(() => {
                 context.putString('Insert card to read...\n');
-                return new Promise((resolve) => {
-                    resetCardCallbacks(mainStation);
+                return new Promise((resolve, reject) => {
+                    currentReject  = reject;
+                    resetCardCallbacks();
                     const handleCardRemoved = (removeEvent: any) => {
                         const removedCard = removeEvent.siCard;
                         if (fixedSiNumber === removedCard.cardNumber) {
-                            resetCardCallbacks(mainStation);
+                            resetCardCallbacks();
+                            currentReject  = undefined;
                             setTimeout(resolve, 1);
                         }
                     };
@@ -181,7 +192,8 @@ const tests: {[name: string]: (context: ShellCommandContext) => Promise<void>} =
             .then(() => {
                 context.putString('Finished!\n');
                 console.log('SAMPLES', samples);
-            });
+            })
+            .catch(() => undefined);
     },
 };
 
@@ -189,14 +201,14 @@ export class TestCommand extends BaseCommand {
     getArgTypes() {
         return [
             {
-                name: 'test name',
+                name: 'testName',
                 choices: Object.keys(tests),
             },
         ];
     }
 
     printUsage(context: ShellCommandContext) {
-        // TODO
+        super.printUsage(context);
     }
 
     run(context: ShellCommandContext): Promise<void> {

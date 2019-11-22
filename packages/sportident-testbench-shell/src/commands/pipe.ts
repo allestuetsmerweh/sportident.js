@@ -52,13 +52,14 @@ export class PipeCommand extends BaseCommand {
             };
             externalApplication.addEventListener('receive', onApplicationReceive);
 
-            context.waitChar().then(() => {
-                // if (event.keyCode === 67 && event.ctrlKey && !event.altKey && !event.metaKey && !event.shiftKey) { // Ctrl-C
-                device.removeEventListener('receive', onDeviceReceive);
-                externalApplication.removeEventListener('receive', onApplicationReceive);
-                externalApplication.close();
-                context.putString('Piping finished.\n');
-                // }
+            context.waitChar().then((char: number) => {
+                if (char === 27 || char === 3) { // Escape || Ctrl-C
+                    device.removeEventListener('receive', onDeviceReceive);
+                    externalApplication.removeEventListener('receive', onApplicationReceive);
+                    externalApplication.close();
+                    context.putString('Piping finished.\n');
+                    resolve();
+                }
             });
         });
     }

@@ -7,6 +7,7 @@ export interface ShellCommand {
     autocomplete: (args: string[]) => string[];
     validateArgs: (context: ShellCommandContext) => boolean;
     run: (context: ShellCommandContext) => Promise<void>;
+    printUsage: (context: ShellCommandContext) => void;
 }
 
 export interface ShellCommandContext {
@@ -57,7 +58,7 @@ export class Shell {
     run(): Promise<any> {
         const promptForNewCommand = () => {
             this.putString(this.options.prompt);
-            return this.getLineWithCommandAutocomplete();
+            return this.getLine(this.autocompleteCommand.bind(this));
         };
         const loop = (commandStr: string): Promise<string> => {
             if (commandStr === 'exit') {
@@ -72,6 +73,8 @@ export class Shell {
                         .catch(() => undefined)
                         .then(() => promptForNewCommand())
                         .then(loop);
+                } else {
+                    command.printUsage(this.getCommandContext(args));
                 }
             } else {
                 this.putString(`Unknown command: ${args[0]}\n`);
@@ -95,7 +98,9 @@ export class Shell {
         };
     }
 
-    getLineWithCommandAutocomplete(): Promise<string> {
+    getLine(
+        autocomplete?: (commandStr: string) => [boolean, string],
+    ): Promise<string> {
         return this.parseInput(
             (content: string, nextChar: number, ui: ShellUserInterface) => {
                 if (nextChar === 13 || nextChar === 10) { // Enter
@@ -105,16 +110,13 @@ export class Shell {
                 if (nextChar === 27 || nextChar === 3) { // Escape / Ctrl-C
                     return [true, 'exit'];
                 }
-                if (nextChar === 9) { // Tab
-                    return this.autocompleteCommand(content);
+                if (nextChar === 9 && autocomplete !== undefined) { // Tab
+                    return autocomplete(content);
                 }
                 if (nextChar === 8) { // Backspace
                     ui.putChar(nextChar);
                     return [false, content.substr(0, content.length - 1)];
                 }
-                // [...`${nextChar}`].forEach((char) => {
-                //     this.ui.putChar(char.charCodeAt(0));
-                // });
                 const newContent = `${content}${String.fromCharCode(nextChar)}`;
                 this.ui.putChar(nextChar);
                 return [false, newContent];
@@ -158,21 +160,6 @@ export class Shell {
     autocompleteCommandName(arg: string): string[] {
         return Object.keys(this.commands).filter(
             (commandName) => commandName.substr(0, arg.length) === arg,
-        );
-    }
-
-    getLine(): Promise<string> {
-        return this.parseInput(
-            (content: string, nextChar: number, ui: ShellUserInterface) => {
-                if (nextChar === 13 || nextChar === 10) {
-                    ui.putChar(nextChar);
-                    return [true, content];
-                }
-                const newContent = `${content}${String.fromCharCode(nextChar)}`;
-                this.ui.putChar(nextChar);
-                return [false, newContent]
-            },
-            () => '',
         );
     }
 

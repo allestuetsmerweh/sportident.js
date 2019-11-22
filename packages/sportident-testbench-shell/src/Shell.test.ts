@@ -15,7 +15,10 @@ const COMMANDS = {
             context.putString(`t${newNumber}\n`);
             context.env.testNumber = newNumber;
             return Promise.resolve();
-        }
+        },
+        printUsage: (context: ShellCommandContext) => {
+            context.putString(`usage\n`);
+        },
     },
 };
 
