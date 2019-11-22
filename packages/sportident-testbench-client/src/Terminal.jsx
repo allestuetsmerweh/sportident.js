@@ -46,7 +46,7 @@ const keyCodeFromDomEventKey = (domKey) => {
     switch (domKey) {
         case 'Backspace': return 8;
         case 'Enter': return 13;
-        case 'Escape': return undefined;
+        case 'Escape': return 27;
         case 'Shift': return undefined;
         case 'Tab': return 9;
         default: {
@@ -69,7 +69,7 @@ const TerminalCursor = () => {
             clearInterval(interval);
         }
     }, []);
-    return shown ? '\u2588' : ' ';
+    return shown ? '\u2588' : '\u00A0'; // \u2588=box, \u00A0=space
 };
 
 export const Terminal = (props) => {
@@ -206,6 +206,12 @@ export const Terminal = (props) => {
         setInputQueue([...inputQueue, keyCode]);
     }, [inputQueue]);
 
+    const onPaste = React.useCallback((event) => {
+        const pastedText = event.clipboardData.getData('text');
+        const charCodes = [...pastedText].map((char) => char.charCodeAt(0));
+        setInputQueue([...inputQueue, ...charCodes]);
+    }, [inputQueue]);
+
     const appendToShellContent = (charCode) => {
         switch (charCode) {
             case 8: {
@@ -274,6 +280,7 @@ export const Terminal = (props) => {
             id='si-terminal'
             className='terminal'
             onKeyDown={onKeyDown}
+            onPaste={onPaste}
             ref={terminalElem}
             tabIndex={-1}
         >
