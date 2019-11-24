@@ -4,7 +4,6 @@
   "description": "",
   "main": "./src/index.ts",
   "scripts": {
-    "build": "tsc",
     "eslint": "eslint ./src/ --ext .ts,.tsx",
     "testbench-node": "ts-node ./src/index.ts",
     "tsc": "tsc"
@@ -15,7 +14,9 @@
     "immutable": "^4.0.0-rc.12",
     "lodash": "^4.17.15",
     "sportident-node-usb": "^2.0.0-alpha.0",
-    "sportident-testbench-shell": "^2.0.0-alpha.0",
+    "sportident-testbench-shell": "^2.0.0-alpha.0"
+  },
+  "devDependencies": {
     "ts-node": "^8.4.1"
   }
 }

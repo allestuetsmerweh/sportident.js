@@ -1,10 +1,16 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "rootDir": "./src/",
     "outDir": "./lib/"
   },
   "include": [
     "./src"
+  ],
+  "references": [
+    {"path": "../sportident"},
+    {"path": "../sportident-react"},
+    {"path": "../sportident-testbench-shell"},
+    {"path": "../sportident-webusb"}
   ]
 }
