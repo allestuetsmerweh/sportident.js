@@ -6,8 +6,8 @@
     "lib/**/*",
     "src/**/*"
   ],
-  "main": "src/index.ts",
-  "types": "src/index.d.ts",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "scripts": {
     "build": "tsc",
     "eslint": "eslint ./src/ --ext .ts,.tsx",

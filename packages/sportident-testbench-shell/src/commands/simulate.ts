@@ -1,4 +1,4 @@
-import si from 'sportident/src';
+import si from 'sportident/lib';
 import * as siProtocol from 'sportident/lib/siProtocol';
 import {ShellCommandContext} from '../Shell';
 import {BaseCommand} from './BaseCommand';
