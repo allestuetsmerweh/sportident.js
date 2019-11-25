@@ -353,10 +353,21 @@
 <a name='L305'></a><a href='#L305'>305</a>
 <a name='L306'></a><a href='#L306'>306</a>
 <a name='L307'></a><a href='#L307'>307</a>
-<a name='L308'></a><a href='#L308'>308</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L308'></a><a href='#L308'>308</a>
+<a name='L309'></a><a href='#L309'>309</a>
+<a name='L310'></a><a href='#L310'>310</a>
+<a name='L311'></a><a href='#L311'>311</a>
+<a name='L312'></a><a href='#L312'>312</a>
+<a name='L313'></a><a href='#L313'>313</a>
+<a name='L314'></a><a href='#L314'>314</a>
+<a name='L315'></a><a href='#L315'>315</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -396,7 +407,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">5x</span>
@@ -408,7 +418,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -655,15 +668,20 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import * as utils from 'sportident/lib/utils';
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// eslint-disable-next-line no-unused-vars
+import * as utils from 'sportident/lib/utils';
+// eslint-disable-next-line no-unused-vars
 import {DeviceClosedError, ISiDevice, ISiDeviceDriverData, SiDeviceState} from 'sportident/lib/SiDevice/ISiDevice';
+// eslint-disable-next-line no-unused-vars
 import {ISiDeviceDriver, ISiDeviceDriverWithAutodetection, ISiDeviceDriverWithDetection, SiDeviceDriverWithAutodetectionEvents, SiDeviceAddEvent, SiDeviceRemoveEvent} from 'sportident/lib/SiDevice/ISiDeviceDriver';
 import {SiDevice} from 'sportident/lib/SiDevice/SiDevice';
+// eslint-disable-next-line no-unused-vars
 import * as nav from './INavigatorWebUsb';
 &nbsp;
 const siConfiguration = 1;
@@ -702,8 +720,7 @@ export type WebUsbSiDevice = SiDevice&lt;WebUsbSiDeviceDriverData&gt;;
 class WebUsbSiDeviceDriver implements
         ISiDeviceDriver&lt;WebUsbSiDeviceDriverData&gt;,
         ISiDeviceDriverWithDetection&lt;WebUsbSiDeviceDriverData, []&gt;,
-        ISiDeviceDriverWithAutodetection&lt;WebUsbSiDeviceDriverData&gt;
-{
+        ISiDeviceDriverWithAutodetection&lt;WebUsbSiDeviceDriverData&gt; {
     public name = 'WebUSB';
 &nbsp;
     private siDeviceByIdent:
@@ -714,8 +731,11 @@ class WebUsbSiDeviceDriver implements
 &nbsp;
     private autodetectionCallbacks?: WebUsbAutodetectionCallbacks;
 &nbsp;
+    // eslint-disable-next-line no-useless-constructor
     constructor(
+        // eslint-disable-next-line no-unused-vars
         private navigatorUsb: nav.WebUsb,
+    // eslint-disable-next-line no-empty-function
     ) {}
 &nbsp;
     detect(): Promise&lt;WebUsbSiDevice&gt; {
@@ -768,7 +788,7 @@ class WebUsbSiDeviceDriver implements
     }
 &nbsp;
     autodetectSiDevices(
-        navigatorWebUsbDevices: nav.WebUsbDevice[]
+        navigatorWebUsbDevices: nav.WebUsbDevice[],
     ): Promise&lt;WebUsbSiDevice[]&gt; {
         // TODO: Make this easier when Promise.allSettled polyfill is available
         return new Promise((resolve) =&gt; {
@@ -788,8 +808,8 @@ class WebUsbSiDeviceDriver implements
                             onSettled();
                         })
                         .catch(() =&gt; onSettled())
-                )
-            )
+                ),
+            );
         });
     }
 &nbsp;
@@ -960,7 +980,8 @@ class WebUsbSiDeviceDriver implements
         return navigatorDevice.transferOut(siEndpoint, buffer)
             .then(() =&gt; true);
     }
-};
+}
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface WebUsbSiDeviceDriver extends utils.EventTarget&lt;SiDeviceDriverWithAutodetectionEvents&lt;WebUsbSiDeviceDriverData&gt;&gt; {}
 utils.applyMixins(WebUsbSiDeviceDriver, [utils.EventTarget]);
 &nbsp;
@@ -973,7 +994,7 @@ export const getWebUsbSiDeviceDriver = (
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Mon Nov 25 2019 19:36:29 GMT+0000 (Coordinated Universal Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Mon Nov 25 2019 22:38:47 GMT+0000 (Coordinated Universal Time)
 </div>
 </div>
 <script src="../../prettify.js"></script>
