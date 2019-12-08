@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Code coverage report for sportident-react/src/react.jsx</title>
+    <title>Code coverage report for sportident-react/src/react.tsx</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../prettify.css" />
     <link rel="stylesheet" href="../../base.css" />
@@ -16,13 +16,13 @@
 <div class='wrapper'>
   <div class='pad1'>
     <h1>
-      <a href="../../index.html">All files</a> / <a href="index.html">sportident-react/src</a> react.jsx
+      <a href="../../index.html">All files</a> / <a href="index.html">sportident-react/src</a> react.tsx
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">2.78% </span>
+        <span class="strong">7.89% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>1/36</span>
+        <span class='fraction'>3/38</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>0/11</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">2.94% </span>
+        <span class="strong">8.33% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>1/34</span>
+        <span class='fraction'>3/36</span>
       </div>
     </div>
     <p class="quiet">
@@ -95,10 +95,20 @@
 <a name='L47'></a><a href='#L47'>47</a>
 <a name='L48'></a><a href='#L48'>48</a>
 <a name='L49'></a><a href='#L49'>49</a>
-<a name='L50'></a><a href='#L50'>50</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L50'></a><a href='#L50'>50</a>
+<a name='L51'></a><a href='#L51'>51</a>
+<a name='L52'></a><a href='#L52'>52</a>
+<a name='L53'></a><a href='#L53'>53</a>
+<a name='L54'></a><a href='#L54'>54</a>
+<a name='L55'></a><a href='#L55'>55</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -146,11 +156,16 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import React from 'react';
 import Immutable from 'immutable';
+import {SiDeviceAddEvent, ISiDeviceDriverWithAutodetection, SiDeviceRemoveEvent} from 'sportident/lib/SiDevice/ISiDeviceDriver';
+import {ISiDevice, ISiDeviceDriverData} from 'sportident/lib/SiDevice/ISiDevice';
 &nbsp;
-export const useSiDevices = <span class="fstat-no" title="function not covered" >(s</span>iDeviceDriver, useReact = <span class="branch-0 cbranch-no" title="branch not covered" >React)</span> =&gt; {
+export const useSiDevices = <span class="fstat-no" title="function not covered" >(</span>
+    siDeviceDriver: ISiDeviceDriverWithAutodetection&lt;ISiDeviceDriverData&lt;any&gt;&gt;,
+    useReact = <span class="branch-0 cbranch-no" title="branch not covered" >React,</span>
+): Immutable.Map&lt;string, ISiDevice&lt;any&gt;&gt; =&gt; {
     const [siDevices, setSiDevices] = <span class="cstat-no" title="statement not covered" >useReact.useState(Immutable.Map({}));</span>
-<span class="cstat-no" title="statement not covered" >    useReact.useEffect(<span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
-        const onDeviceAdd = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(e</span>vent) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    useReact.useEffect(<span class="fstat-no" title="function not covered" >() =</span>&gt; {</span>
+        const onDeviceAdd = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(e</span>vent: SiDeviceAddEvent&lt;ISiDeviceDriverData&lt;any&gt;&gt;) =&gt; {</span>
             const device = <span class="cstat-no" title="statement not covered" >event.siDevice;</span>
 <span class="cstat-no" title="statement not covered" >            setSiDevices(<span class="fstat-no" title="function not covered" >(c</span>urrentSiDevices) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >                if (!currentSiDevices.has(device.ident)) {</span>
@@ -160,7 +175,7 @@ export const useSiDevices = <span class="fstat-no" title="function not covered" 
 <span class="cstat-no" title="statement not covered" >                return currentSiDevices;</span>
             });
         };
-        const onDeviceRemove = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(e</span>vent) =&gt; {</span>
+        const onDeviceRemove = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(e</span>vent: SiDeviceRemoveEvent&lt;ISiDeviceDriverData&lt;any&gt;&gt;) =&gt; {</span>
             const device = <span class="cstat-no" title="statement not covered" >event.siDevice;</span>
 <span class="cstat-no" title="statement not covered" >            setSiDevices(<span class="fstat-no" title="function not covered" >(c</span>urrentSiDevices) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >                if (currentSiDevices.has(device.ident)) {</span>
@@ -184,14 +199,14 @@ export const useSiDevices = <span class="fstat-no" title="function not covered" 
             });
         });
 <span class="cstat-no" title="statement not covered" >        console.log('useSiDevices: setup');</span>
-<span class="cstat-no" title="statement not covered" >        return <span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        return <span class="fstat-no" title="function not covered" >() =</span>&gt; {</span>
 <span class="cstat-no" title="statement not covered" >            console.log('useSiDevices: cleanup');</span>
 <span class="cstat-no" title="statement not covered" >            siDeviceDriver.stopAutoDetection();</span>
 <span class="cstat-no" title="statement not covered" >            siDeviceDriver.removeEventListener('add', onDeviceAdd);</span>
 <span class="cstat-no" title="statement not covered" >            siDeviceDriver.removeEventListener('remove', onDeviceRemove);</span>
         };
     }, []);
-<span class="cstat-no" title="statement not covered" >    return siDevices;</span>
+<span class="cstat-no" title="statement not covered" >    return siDevices as Immutable.Map&lt;string, ISiDevice&lt;any&gt;&gt;;</span>
 };
 &nbsp;</pre></td></tr>
 </table></pre>
@@ -199,7 +214,7 @@ export const useSiDevices = <span class="fstat-no" title="function not covered" 
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Mon Nov 25 2019 22:38:47 GMT+0000 (Coordinated Universal Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sun Dec 08 2019 15:58:15 GMT+0000 (Coordinated Universal Time)
 </div>
 </div>
 <script src="../../prettify.js"></script>
