@@ -17,7 +17,8 @@
   "license": "MIT",
   "dependencies": {
     "immutable": "^4.0.0-rc.12",
-    "lodash": "^4.17.15"
+    "lodash": "^4.17.15",
+    "sportident": "^2.0.0-alpha.0"
   },
   "devDependencies": {
     "@types/react": "^16.9.11",
