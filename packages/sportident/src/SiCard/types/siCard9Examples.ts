@@ -38,9 +38,9 @@ export const getCardWith16Punches = utils.cached(
         cardData: {
             uid: 0x772A4299,
             cardNumber: 1234567,
-            startTime: 4386,
+            startTime: 8721,
             finishTime: 61166,
-            checkTime: 7970,
+            checkTime: 8735,
             punchCount: 16,
             punches: [
                 {code: 31, time: 7967},
@@ -88,9 +88,9 @@ export const getFullCard = utils.cached(
         cardData: {
             uid: 0x772A4299,
             cardNumber: 1234567,
-            startTime: 4386,
+            startTime: 8721,
             finishTime: 61166,
-            checkTime: 7970,
+            checkTime: 8735,
             punchCount: 50,
             punches: _.range(50).map(() => ({code: 32, time: 8224})),
             cardHolder: {
@@ -121,9 +121,9 @@ export const getEmptyCard = utils.cached(
         cardData: {
             uid: 0x772A4299,
             cardNumber: 1234567,
-            startTime: 4386,
+            startTime: 8721,
             finishTime: 61166,
-            checkTime: 7970,
+            checkTime: 8735,
             punchCount: 0,
             punches: [],
             cardHolder: {

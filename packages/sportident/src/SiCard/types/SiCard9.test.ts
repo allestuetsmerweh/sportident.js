@@ -40,10 +40,15 @@ describe('SiCard9', () => {
             const mySiCard9 = new SiCard9(cardData.cardNumber);
             mySiCard9.mainStation = mainStationSimulation;
             mySiCard9.typeSpecificRead().then(() => {
-                Object.keys(cardData).forEach((cardDataKey) => {
-                    // @ts-ignore
-                    expect(mySiCard9[cardDataKey]).toEqual(cardData[cardDataKey]);
-                });
+                expect(mySiCard9.cardNumber).toEqual(cardData.cardNumber);
+                expect(mySiCard9.startTime).toEqual(cardData.startTime);
+                expect(mySiCard9.finishTime).toEqual(cardData.finishTime);
+                expect(mySiCard9.checkTime).toEqual(cardData.checkTime);
+                expect(mySiCard9.punchCount).toEqual(cardData.punchCount);
+                expect(mySiCard9.punches).toEqual(cardData.punches);
+                expect(mySiCard9.cardHolder).toEqual(cardData.cardHolder);
+                expect(mySiCard9.uid).toEqual(cardData.uid);
+
                 const cardSeriesString = mySiCard9.storage.get('cardSeries')!.toString();
                 expect(cardSeriesString in ModernSiCardSeries).toBe(true);
                 done();
@@ -54,10 +59,14 @@ describe('SiCard9', () => {
             const mySiCard9 = new SiCard9(cardData.cardNumber + 1);
             mySiCard9.mainStation = mainStationSimulation;
             mySiCard9.typeSpecificRead().then(() => {
-                Object.keys(cardData).forEach((cardDataKey) => {
-                    // @ts-ignore
-                    expect(mySiCard9[cardDataKey]).toEqual(cardData[cardDataKey]);
-                });
+                expect(mySiCard9.cardNumber).toEqual(cardData.cardNumber);
+                expect(mySiCard9.startTime).toEqual(cardData.startTime);
+                expect(mySiCard9.finishTime).toEqual(cardData.finishTime);
+                expect(mySiCard9.checkTime).toEqual(cardData.checkTime);
+                expect(mySiCard9.punchCount).toEqual(cardData.punchCount);
+                expect(mySiCard9.punches).toEqual(cardData.punches);
+                expect(mySiCard9.cardHolder).toEqual(cardData.cardHolder);
+                expect(mySiCard9.uid).toEqual(cardData.uid);
                 done();
             });
         });

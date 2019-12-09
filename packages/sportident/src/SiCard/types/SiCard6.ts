@@ -47,10 +47,10 @@ export const SiCard6StorageDefinition = storage.defineStorage(0x400, {
         (cardNumberString) => parseInt(cardNumberString, 10),
         (cardNumber) => cardNumber !== undefined && _.isInteger(cardNumber) && cardNumber >= 0,
     ),
-    startTime: new storage.SiInt([[0x1A], [0x1B]]),
-    finishTime: new storage.SiInt([[0x16], [0x17]]),
-    checkTime: new storage.SiInt([[0x1E], [0x1F]]),
-    clearTime: new storage.SiInt([[0x22], [0x23]]),
+    startTime: new storage.SiInt([[0x1B], [0x1A]]),
+    finishTime: new storage.SiInt([[0x17], [0x16]]),
+    checkTime: new storage.SiInt([[0x1F], [0x1E]]),
+    clearTime: new storage.SiInt([[0x23], [0x22]]),
     lastPunchedCode: new storage.SiInt([[0x11], [0x10]]),
     punchCount: new storage.SiInt([[0x12]]),
     punchCountPlus1: new storage.SiInt([[0x13]]),
@@ -62,8 +62,8 @@ export const SiCard6StorageDefinition = storage.defineStorage(0x400, {
                     [getPunchOffset(i) + 1],
                 ]),
                 time: new storage.SiInt([
-                    [getPunchOffset(i) + 2],
                     [getPunchOffset(i) + 3],
+                    [getPunchOffset(i) + 2],
                 ]),
             }),
         ),
@@ -135,6 +135,9 @@ export class SiCard6 extends BaseSiCard {
         return message.mode === undefined && message.command === proto.cmd.SI6_DET;
     }
 
+    public punchCountPlus1?: number;
+    public lastPunchedCode?: number;
+
     typeSpecificGetPage(pageNumber: number) {
         if (!this.mainStation) {
             throw new Error('No main station');
@@ -158,10 +161,16 @@ export class SiCard6 extends BaseSiCard {
                 .then(() => this.typeSpecificReadCardHolder())
                 .then(() => this.typeSpecificReadPunches())
                 .then(() => {
-                    Object.keys(this.StorageDefinition.definitions).forEach((key) => {
-                        // @ts-ignore
-                        this[key] = this.storage.get(key).value;
-                    });
+                    this.cardNumber = this.storage.get('cardNumber')!.value;
+                    this.startTime = this.storage.get('startTime')!.value;
+                    this.finishTime = this.storage.get('finishTime')!.value;
+                    this.clearTime = this.storage.get('clearTime')!.value;
+                    this.checkTime = this.storage.get('checkTime')!.value;
+                    this.punchCount = this.storage.get('punchCount')!.value;
+                    this.punchCountPlus1 = this.storage.get('punchCountPlus1')!.value;
+                    this.punches = this.storage.get('punches')!.value;
+                    this.cardHolder = this.storage.get('cardHolder')!.value;
+                    this.lastPunchedCode = this.storage.get('lastPunchedCode')!.value;
                     resolve();
                 })
                 .catch((exc: Error) => reject(exc));
