@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">95% </span>
+        <span class="strong">95.37% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>95/100</span>
+        <span class='fraction'>103/108</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">84% </span>
@@ -30,14 +30,14 @@
         <span class='fraction'>21/25</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">93.33% </span>
+        <span class="strong">93.22% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>56/60</span>
+        <span class='fraction'>55/59</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">94.74% </span>
+        <span class="strong">95.15% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>90/95</span>
+        <span class='fraction'>98/103</span>
       </div>
     </div>
     <p class="quiet">
@@ -261,7 +261,16 @@
 <a name='L213'></a><a href='#L213'>213</a>
 <a name='L214'></a><a href='#L214'>214</a>
 <a name='L215'></a><a href='#L215'>215</a>
-<a name='L216'></a><a href='#L216'>216</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">5x</span>
+<a name='L216'></a><a href='#L216'>216</a>
+<a name='L217'></a><a href='#L217'>217</a>
+<a name='L218'></a><a href='#L218'>218</a>
+<a name='L219'></a><a href='#L219'>219</a>
+<a name='L220'></a><a href='#L220'>220</a>
+<a name='L221'></a><a href='#L221'>221</a>
+<a name='L222'></a><a href='#L222'>222</a>
+<a name='L223'></a><a href='#L223'>223</a>
+<a name='L224'></a><a href='#L224'>224</a>
+<a name='L225'></a><a href='#L225'>225</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
@@ -399,6 +408,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">26x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -422,9 +434,15 @@
 <span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">80x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
@@ -525,10 +543,10 @@ export const SiCard6StorageDefinition = storage.defineStorage(0x400, {
 <span class="fstat-no" title="function not covered" >        (c</span>ardNumberString) =&gt; <span class="cstat-no" title="statement not covered" >parseInt(cardNumberString, 10),</span>
 <span class="fstat-no" title="function not covered" >        (c</span>ardNumber) =&gt; <span class="cstat-no" title="statement not covered" >cardNumber !== undefined &amp;&amp; _.isInteger(cardNumber) &amp;&amp; cardNumber &gt;= 0,</span>
     ),
-    startTime: new storage.SiInt([[0x1A], [0x1B]]),
-    finishTime: new storage.SiInt([[0x16], [0x17]]),
-    checkTime: new storage.SiInt([[0x1E], [0x1F]]),
-    clearTime: new storage.SiInt([[0x22], [0x23]]),
+    startTime: new storage.SiInt([[0x1B], [0x1A]]),
+    finishTime: new storage.SiInt([[0x17], [0x16]]),
+    checkTime: new storage.SiInt([[0x1F], [0x1E]]),
+    clearTime: new storage.SiInt([[0x23], [0x22]]),
     lastPunchedCode: new storage.SiInt([[0x11], [0x10]]),
     punchCount: new storage.SiInt([[0x12]]),
     punchCountPlus1: new storage.SiInt([[0x13]]),
@@ -540,8 +558,8 @@ export const SiCard6StorageDefinition = storage.defineStorage(0x400, {
                     [getPunchOffset(i) + 1],
                 ]),
                 time: new storage.SiInt([
-                    [getPunchOffset(i) + 2],
                     [getPunchOffset(i) + 3],
+                    [getPunchOffset(i) + 2],
                 ]),
             }),
         ),
@@ -613,6 +631,9 @@ export class SiCard6 extends BaseSiCard {
         return message.mode === undefined &amp;&amp; message.command === proto.cmd.SI6_DET;
     }
 &nbsp;
+    public punchCountPlus1?: number;
+    public lastPunchedCode?: number;
+&nbsp;
     typeSpecificGetPage(pageNumber: number) {
         <span class="missing-if-branch" title="if path not taken" >I</span>if (!this.mainStation) {
 <span class="cstat-no" title="statement not covered" >            throw new Error('No main station');</span>
@@ -636,10 +657,16 @@ export class SiCard6 extends BaseSiCard {
                 .then(() =&gt; this.typeSpecificReadCardHolder())
                 .then(() =&gt; this.typeSpecificReadPunches())
                 .then(() =&gt; {
-                    Object.keys(this.StorageDefinition.definitions).forEach((key) =&gt; {
-                        // @ts-ignore
-                        this[key] = this.storage.get(key).value;
-                    });
+                    this.cardNumber = this.storage.get('cardNumber')!.value;
+                    this.startTime = this.storage.get('startTime')!.value;
+                    this.finishTime = this.storage.get('finishTime')!.value;
+                    this.clearTime = this.storage.get('clearTime')!.value;
+                    this.checkTime = this.storage.get('checkTime')!.value;
+                    this.punchCount = this.storage.get('punchCount')!.value;
+                    this.punchCountPlus1 = this.storage.get('punchCountPlus1')!.value;
+                    this.punches = this.storage.get('punches')!.value;
+                    this.cardHolder = this.storage.get('cardHolder')!.value;
+                    this.lastPunchedCode = this.storage.get('lastPunchedCode')!.value;
                     resolve();
                 })
                 .catch((exc: Error) =&gt; reject(exc));
@@ -697,7 +724,7 @@ BaseSiCard.registerNumberRange(2003000, 2004000, SiCard6);
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Mon Dec 09 2019 19:12:40 GMT+0000 (Coordinated Universal Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Mon Dec 09 2019 21:27:00 GMT+0000 (Coordinated Universal Time)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>

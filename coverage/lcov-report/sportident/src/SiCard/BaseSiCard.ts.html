@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">94.34% </span>
+        <span class="strong">93.62% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>50/53</span>
+        <span class='fraction'>44/47</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">81.25% </span>
+        <span class="strong">67.86% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>13/16</span>
+        <span class='fraction'>19/28</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>15/15</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">94.34% </span>
+        <span class="strong">93.62% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>50/53</span>
+        <span class='fraction'>44/47</span>
       </div>
     </div>
     <p class="quiet">
@@ -204,7 +204,11 @@
 <a name='L156'></a><a href='#L156'>156</a>
 <a name='L157'></a><a href='#L157'>157</a>
 <a name='L158'></a><a href='#L158'>158</a>
-<a name='L159'></a><a href='#L159'>159</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L159'></a><a href='#L159'>159</a>
+<a name='L160'></a><a href='#L160'>160</a>
+<a name='L161'></a><a href='#L161'>161</a>
+<a name='L162'></a><a href='#L162'>162</a>
+<a name='L163'></a><a href='#L163'>163</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">18x</span>
 <span class="cline-any cline-yes">18x</span>
 <span class="cline-any cline-yes">18x</span>
@@ -303,22 +307,14 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">45x</span>
 <span class="cline-any cline-yes">45x</span>
-<span class="cline-any cline-yes">45x</span>
-<span class="cline-any cline-yes">45x</span>
-<span class="cline-any cline-yes">45x</span>
-<span class="cline-any cline-yes">45x</span>
-<span class="cline-any cline-yes">45x</span>
-<span class="cline-any cline-yes">45x</span>
-<span class="cline-any cline-yes">45x</span>
-<span class="cline-any cline-yes">45x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">121x</span>
-<span class="cline-any cline-yes">121x</span>
+<span class="cline-any cline-yes">88x</span>
+<span class="cline-any cline-yes">88x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -352,13 +348,25 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -447,27 +455,19 @@ export abstract class BaseSiCard {
         return false;
     }
 &nbsp;
-    public mainStation: ISiMainStation|undefined;
+    public mainStation?: ISiMainStation|undefined;
     public cardNumber: number;
-    public punchCount: number;
-    public clearTime: number;
-    public checkTime: number;
-    public startTime: number;
-    public finishTime: number;
-    public punches: SiCardPunch[];
-    public cardHolder: {[property: string]: any};
+    public punchCount?: number;
+    public clearTime?: number;
+    public checkTime?: number;
+    public startTime?: number;
+    public finishTime?: number;
+    public punches?: SiCardPunch[];
+    public cardHolder?: {[property: string]: any};
     public storage: storage.SiStorage;
 &nbsp;
     constructor(cardNumber: number) {
-        this.mainStation = undefined;
         this.cardNumber = cardNumber;
-        this.punchCount = -1;
-        this.clearTime = -1;
-        this.checkTime = -1;
-        this.startTime = -1;
-        this.finishTime = -1;
-        this.punches = [];
-        this.cardHolder = {};
         this.storage = (this.StorageDefinition
             ? new this.StorageDefinition()
             : new EmptyStorage() // TODO: find better solution
@@ -508,15 +508,27 @@ export abstract class BaseSiCard {
     }
 &nbsp;
     toString() {
+        const punchesString = (this.punches
+            ? this.punches.map(
+                (punch) =&gt; `${punch.code}: ${punch.time}`,
+            ).join('\n')
+            : <span class="branch-1 cbranch-no" title="branch not covered" >'?'</span>
+        );
+        const cardHolderString = (this.cardHolder
+            ? Object.keys(this.cardHolder).map(
+                (key) =&gt; `${key}: ${this.cardHolder![key]}`,
+            ).join('\n')
+            : <span class="branch-1 cbranch-no" title="branch not covered" >'?'</span>
+        );
         return (
             `${this.constructor.name} Number: ${this.cardNumber}\n` +
-            `Clear: ${this.clearTime}\n` +
-            `Check: ${this.checkTime}\n` +
-            `Start: ${this.startTime}\n` +
-            `Finish: ${this.finishTime}\n` +
-            `${this.punches.map((punch) =&gt; `${punch.code}: ${punch.time}`).join('\n')}\n` +
+            `Clear: ${this.clearTime !== undefined ? <span class="branch-0 cbranch-no" title="branch not covered" >this.clearTime </span>: '?'}\n` +
+            `Check: ${this.checkTime !== undefined ? <span class="branch-0 cbranch-no" title="branch not covered" >this.checkTime </span>: '?'}\n` +
+            `Start: ${this.startTime !== undefined ? <span class="branch-0 cbranch-no" title="branch not covered" >this.startTime </span>: '?'}\n` +
+            `Finish: ${this.finishTime !== undefined ? <span class="branch-0 cbranch-no" title="branch not covered" >this.finishTime </span>: '?'}\n` +
+            `${punchesString}\n` +
             'Card Holder:\n' +
-            `${Object.keys(this.cardHolder).map((key) =&gt; `${key}: ${this.cardHolder[key]}`).join('\n')}\n`
+            `${cardHolderString}\n`
         );
     }
 }
@@ -526,7 +538,7 @@ export abstract class BaseSiCard {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Mon Dec 09 2019 19:12:40 GMT+0000 (Coordinated Universal Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Mon Dec 09 2019 21:27:00 GMT+0000 (Coordinated Universal Time)
 </div>
 </div>
 <script src="../../../prettify.js"></script>

@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">91.49% </span>
+        <span class="strong">92.59% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>43/47</span>
+        <span class='fraction'>50/54</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">80% </span>
@@ -30,14 +30,14 @@
         <span class='fraction'>12/15</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">78.95% </span>
+        <span class="strong">77.78% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>15/19</span>
+        <span class='fraction'>14/18</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">91.49% </span>
+        <span class="strong">92.59% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>43/47</span>
+        <span class='fraction'>50/54</span>
       </div>
     </div>
     <p class="quiet">
@@ -159,7 +159,14 @@
 <a name='L111'></a><a href='#L111'>111</a>
 <a name='L112'></a><a href='#L112'>112</a>
 <a name='L113'></a><a href='#L113'>113</a>
-<a name='L114'></a><a href='#L114'>114</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">4x</span>
+<a name='L114'></a><a href='#L114'>114</a>
+<a name='L115'></a><a href='#L115'>115</a>
+<a name='L116'></a><a href='#L116'>116</a>
+<a name='L117'></a><a href='#L117'>117</a>
+<a name='L118'></a><a href='#L118'>118</a>
+<a name='L119'></a><a href='#L119'>119</a>
+<a name='L120'></a><a href='#L120'>120</a>
+<a name='L121'></a><a href='#L121'>121</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -238,6 +245,8 @@
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -260,9 +269,14 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">54x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -318,9 +332,9 @@ export const SiCard9StorageDefinition = storage.defineStorage(0x100, {
 <span class="fstat-no" title="function not covered" >        (c</span>ardNumberString) =&gt; <span class="cstat-no" title="statement not covered" >parseInt(cardNumberString, 10),</span>
 <span class="fstat-no" title="function not covered" >        (c</span>ardNumber) =&gt; <span class="cstat-no" title="statement not covered" >cardNumber !== undefined &amp;&amp; _.isInteger(cardNumber) &amp;&amp; cardNumber &gt;= 0,</span>
     ),
-    startTime: new storage.SiInt([[0x0E], [0x0F]]),
-    finishTime: new storage.SiInt([[0x12], [0x13]]),
-    checkTime: new storage.SiInt([[0x0A], [0x0B]]),
+    startTime: new storage.SiInt([[0x0F], [0x0E]]),
+    finishTime: new storage.SiInt([[0x13], [0x12]]),
+    checkTime: new storage.SiInt([[0x0B], [0x0A]]),
     punchCount: new storage.SiInt([[0x16]]),
     punches: new storage.SiModified(
         new storage.SiArray(
@@ -330,8 +344,8 @@ export const SiCard9StorageDefinition = storage.defineStorage(0x100, {
                     [getPunchOffset(i) + 1],
                 ]),
                 time: new storage.SiInt([
-                    [getPunchOffset(i) + 2],
                     [getPunchOffset(i) + 3],
+                    [getPunchOffset(i) + 2],
                 ]),
             }),
         ),
@@ -349,6 +363,8 @@ export const SiCard9StorageDefinition = storage.defineStorage(0x100, {
 export class SiCard9 extends ModernSiCard {
     static maxNumPunches = MAX_NUM_PUNCHES;
     static StorageDefinition = SiCard9StorageDefinition;
+&nbsp;
+    public uid?: number;
 &nbsp;
     typeSpecificRead(): Promise&lt;void&gt; {
         return new Promise((resolve, reject) =&gt; {
@@ -372,10 +388,15 @@ export class SiCard9 extends ModernSiCard {
                 })
                 .catch((exc: Error) =&gt; {
                     if (exc instanceof ReadFinishedException) {
-                        Object.keys(this.StorageDefinition.definitions).forEach((key) =&gt; {
-                            // @ts-ignore
-                            this[key] = this.storage.get(key).value;
-                        });
+                        this.cardNumber = this.storage.get('cardNumber')!.value;
+                        this.cardSeries = this.storage.get('cardSeries')!.value;
+                        this.startTime = this.storage.get('startTime')!.value;
+                        this.finishTime = this.storage.get('finishTime')!.value;
+                        this.checkTime = this.storage.get('checkTime')!.value;
+                        this.punchCount = this.storage.get('punchCount')!.value;
+                        this.punches = this.storage.get('punches')!.value;
+                        this.cardHolder = this.storage.get('cardHolder')!.value;
+                        this.uid = this.storage.get('uid')!.value;
                         resolve();
                     } else {
                         reject(exc);
@@ -391,7 +412,7 @@ BaseSiCard.registerNumberRange(1000000, 2000000, SiCard9);
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Mon Dec 09 2019 19:12:40 GMT+0000 (Coordinated Universal Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Mon Dec 09 2019 21:27:00 GMT+0000 (Coordinated Universal Time)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>

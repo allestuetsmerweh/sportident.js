@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">86.84% </span>
+        <span class="strong">88.64% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>33/38</span>
+        <span class='fraction'>39/44</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">76.47% </span>
@@ -30,14 +30,14 @@
         <span class='fraction'>13/17</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">75% </span>
+        <span class="strong">73.33% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>12/16</span>
+        <span class='fraction'>11/15</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">86.11% </span>
+        <span class="strong">88.1% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>31/36</span>
+        <span class='fraction'>37/42</span>
       </div>
     </div>
     <p class="quiet">
@@ -148,7 +148,12 @@
 <a name='L100'></a><a href='#L100'>100</a>
 <a name='L101'></a><a href='#L101'>101</a>
 <a name='L102'></a><a href='#L102'>102</a>
-<a name='L103'></a><a href='#L103'>103</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">5x</span>
+<a name='L103'></a><a href='#L103'>103</a>
+<a name='L104'></a><a href='#L104'>104</a>
+<a name='L105'></a><a href='#L105'>105</a>
+<a name='L106'></a><a href='#L106'>106</a>
+<a name='L107'></a><a href='#L107'>107</a>
+<a name='L108'></a><a href='#L108'>108</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
@@ -227,6 +232,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -241,11 +248,14 @@
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">32x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -287,9 +297,9 @@ export const SiCard5StorageDefinition = storage.defineStorage(0x80, {
 <span class="fstat-no" title="function not covered" >        (c</span>ardNumberString) =&gt; <span class="cstat-no" title="statement not covered" >parseInt(cardNumberString, 10),</span>
 <span class="fstat-no" title="function not covered" >        (c</span>ardNumber) =&gt; <span class="cstat-no" title="statement not covered" >cardNumber !== undefined &amp;&amp; _.isInteger(cardNumber) &amp;&amp; cardNumber &gt;= 0,</span>
     ),
-    startTime: new storage.SiInt([[0x13], [0x14]]),
-    finishTime: new storage.SiInt([[0x15], [0x16]]),
-    checkTime: new storage.SiInt([[0x19], [0x1A]]),
+    startTime: new storage.SiInt([[0x14], [0x13]]),
+    finishTime: new storage.SiInt([[0x16], [0x15]]),
+    checkTime: new storage.SiInt([[0x1A], [0x19]]),
     punchCount: new storage.SiModified(
         new storage.SiInt([[0x17]]),
         (extractedValue) =&gt; extractedValue - 1,
@@ -304,8 +314,8 @@ export const SiCard5StorageDefinition = storage.defineStorage(0x80, {
                 time: new storage.SiInt((i &gt;= 30
                     ? []
                     : [
-                        [getPunchOffset(i) + 1],
                         [getPunchOffset(i) + 2],
+                        [getPunchOffset(i) + 1],
                     ]
                 )),
             }),
@@ -328,6 +338,8 @@ export class SiCard5 extends BaseSiCard {
         return message.mode === undefined &amp;&amp; message.command === proto.cmd.SI5_DET;
     }
 &nbsp;
+    public softwareVersion?: number;
+&nbsp;
     typeSpecificRead() {
         <span class="missing-if-branch" title="if path not taken" >I</span>if (!this.mainStation) {
 <span class="cstat-no" title="statement not covered" >            throw new Error('No main station');</span>
@@ -343,11 +355,14 @@ export class SiCard5 extends BaseSiCard {
                 if (this.cardNumber !== readCardNumber) {
                     console.warn(`SICard5 Number ${readCardNumber} (expected ${this.cardNumber})`);
                 }
-&nbsp;
-                Object.keys(this.StorageDefinition.definitions).forEach((key) =&gt; {
-                    // @ts-ignore
-                    this[key] = this.storage.get(key).value;
-                });
+                this.cardNumber = this.storage.get('cardNumber')!.value;
+                this.startTime = this.storage.get('startTime')!.value;
+                this.finishTime = this.storage.get('finishTime')!.value;
+                this.checkTime = this.storage.get('checkTime')!.value;
+                this.punchCount = this.storage.get('punchCount')!.value;
+                this.punches = this.storage.get('punches')!.value;
+                this.cardHolder = this.storage.get('cardHolder')!.value;
+                this.softwareVersion = this.storage.get('softwareVersion')!.value;
             });
     }
 }
@@ -358,7 +373,7 @@ BaseSiCard.registerNumberRange(1000, 500000, SiCard5);
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Mon Dec 09 2019 19:12:40 GMT+0000 (Coordinated Universal Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Mon Dec 09 2019 21:27:00 GMT+0000 (Coordinated Universal Time)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
