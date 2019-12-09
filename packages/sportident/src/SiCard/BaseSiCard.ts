@@ -83,27 +83,19 @@ export abstract class BaseSiCard {
         return false;
     }
 
-    public mainStation: ISiMainStation|undefined;
+    public mainStation?: ISiMainStation|undefined;
     public cardNumber: number;
-    public punchCount: number;
-    public clearTime: number;
-    public checkTime: number;
-    public startTime: number;
-    public finishTime: number;
-    public punches: SiCardPunch[];
-    public cardHolder: {[property: string]: any};
+    public punchCount?: number;
+    public clearTime?: number;
+    public checkTime?: number;
+    public startTime?: number;
+    public finishTime?: number;
+    public punches?: SiCardPunch[];
+    public cardHolder?: {[property: string]: any};
     public storage: storage.SiStorage;
 
     constructor(cardNumber: number) {
-        this.mainStation = undefined;
         this.cardNumber = cardNumber;
-        this.punchCount = -1;
-        this.clearTime = -1;
-        this.checkTime = -1;
-        this.startTime = -1;
-        this.finishTime = -1;
-        this.punches = [];
-        this.cardHolder = {};
         this.storage = (this.StorageDefinition
             ? new this.StorageDefinition()
             : new EmptyStorage() // TODO: find better solution
@@ -144,15 +136,27 @@ export abstract class BaseSiCard {
     }
 
     toString() {
+        const punchesString = (this.punches
+            ? this.punches.map(
+                (punch) => `${punch.code}: ${punch.time}`,
+            ).join('\n')
+            : '?'
+        );
+        const cardHolderString = (this.cardHolder
+            ? Object.keys(this.cardHolder).map(
+                (key) => `${key}: ${this.cardHolder![key]}`,
+            ).join('\n')
+            : '?'
+        );
         return (
             `${this.constructor.name} Number: ${this.cardNumber}\n` +
-            `Clear: ${this.clearTime}\n` +
-            `Check: ${this.checkTime}\n` +
-            `Start: ${this.startTime}\n` +
-            `Finish: ${this.finishTime}\n` +
-            `${this.punches.map((punch) => `${punch.code}: ${punch.time}`).join('\n')}\n` +
+            `Clear: ${this.clearTime !== undefined ? this.clearTime : '?'}\n` +
+            `Check: ${this.checkTime !== undefined ? this.checkTime : '?'}\n` +
+            `Start: ${this.startTime !== undefined ? this.startTime : '?'}\n` +
+            `Finish: ${this.finishTime !== undefined ? this.finishTime : '?'}\n` +
+            `${punchesString}\n` +
             'Card Holder:\n' +
-            `${Object.keys(this.cardHolder).map((key) => `${key}: ${this.cardHolder[key]}`).join('\n')}\n`
+            `${cardHolderString}\n`
         );
     }
 }

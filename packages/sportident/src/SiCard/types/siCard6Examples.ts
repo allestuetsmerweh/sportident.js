@@ -9,17 +9,30 @@ const getUnknownPage = utils.cached(
     cache,
     () => _.range(128).map(() => undefined),
 );
-const getFullTimesPage = utils.cached(
+const getFullTimesPage1 = utils.cached(
     cache,
     () => utils.unPrettyHex(`
-        20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20
-        20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20
-        20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20
-        20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20
-        20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20
-        20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20
-        20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20
-        20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20
+        20 01 00 01 20 02 00 02 20 03 00 03 20 04 00 04
+        20 05 01 01 20 06 01 02 20 07 01 03 20 08 01 04
+        20 09 02 01 20 0A 02 02 20 0B 02 03 20 0C 02 04
+        20 0D 03 01 20 0E 03 02 20 0F 03 03 20 10 03 04
+        20 11 04 01 20 12 04 02 20 13 04 03 20 14 04 04
+        20 15 05 01 20 16 05 02 20 17 05 03 20 18 05 04
+        20 19 06 01 20 1A 06 02 20 1B 06 03 20 1C 06 04
+        20 1D 07 01 20 1E 07 02 20 1F 07 03 20 20 07 04
+    `),
+);
+const getFullTimesPage2 = utils.cached(
+    cache,
+    () => utils.unPrettyHex(`
+        20 21 08 01 20 22 08 02 20 23 08 03 20 24 08 04
+        20 25 09 01 20 26 09 02 20 27 09 03 20 28 09 04
+        20 29 0A 01 20 2A 0A 02 20 2B 0A 03 20 2C 0A 04
+        20 2D 0B 01 20 2E 0B 02 20 2F 0B 03 20 30 0B 04
+        20 31 0C 01 20 32 0C 02 20 33 0C 03 20 34 0C 04
+        20 35 0D 01 20 36 0D 02 20 37 0D 03 20 38 0D 04
+        20 39 0E 01 20 3A 0E 02 20 3B 0E 03 20 3C 0E 04
+        20 3D 0F 01 20 3E 0F 02 20 3F 0F 03 20 40 0F 04
     `),
 );
 const getNoTimesPage = utils.cached(
@@ -41,31 +54,17 @@ export const getCardWith16Punches = utils.cached(
     () => ({
         cardData: {
             cardNumber: 500029,
-            startTime: 39317,
-            finishTime: 2600,
-            clearTime: 30357,
-            checkTime: 35733,
+            startTime: 38297,
+            finishTime: 10250,
+            clearTime: 38262,
+            checkTime: 38283,
             lastPunchedCode: 46,
             punchCount: 16,
             punchCountPlus1: 17,
-            punches: [
-                {code: 31, time: 7967},
-                {code: 32, time: 8224},
-                {code: 33, time: 8481},
-                {code: 34, time: 8738},
-                {code: 35, time: 8995},
-                {code: 36, time: 9252},
-                {code: 37, time: 9509},
-                {code: 38, time: 9766},
-                {code: 39, time: 10023},
-                {code: 40, time: 10280},
-                {code: 41, time: 10537},
-                {code: 42, time: 10794},
-                {code: 43, time: 11051},
-                {code: 44, time: 11308},
-                {code: 45, time: 11565},
-                {code: 46, time: 11822},
-            ],
+            punches: _.range(16).map((index: number) => ({
+                code: index + 1,
+                time: Math.floor(index / 4) * (256 - 4) + index + 1,
+            })),
             cardHolder: {
                 firstName: 'a',
                 lastName: 'b',
@@ -108,10 +107,10 @@ export const getCardWith16Punches = utils.cached(
             ...getUnknownPage(),
             ...getUnknownPage(),
             ...utils.unPrettyHex(`
-                1F 1F 1F 1F 20 20 20 20 21 21 21 21 22 22 22 22
-                23 23 23 23 24 24 24 24 25 25 25 25 26 26 26 26
-                27 27 27 27 28 28 28 28 29 29 29 29 2A 2A 2A 2A
-                2B 2B 2B 2B 2C 2C 2C 2C 2D 2D 2D 2D 2E 2E 2E 2E
+                20 01 00 01 20 02 00 02 20 03 00 03 20 04 00 04
+                20 05 01 01 20 06 01 02 20 07 01 03 20 08 01 04
+                20 09 02 01 20 0A 02 02 20 0B 02 03 20 0C 02 04
+                20 0D 03 01 20 0E 03 02 20 0F 03 03 20 10 03 04
                 EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE
                 EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE
                 EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE
@@ -127,14 +126,17 @@ export const getFullCard = utils.cached(
     () => ({
         cardData: {
             cardNumber: 500029,
-            startTime: 39317,
-            finishTime: 2600,
-            clearTime: 30357,
-            checkTime: 35733,
+            startTime: 38297,
+            finishTime: 10250,
+            clearTime: 38262,
+            checkTime: 38283,
             lastPunchedCode: 32,
             punchCount: 64,
             punchCountPlus1: 65,
-            punches: _.range(64).map(() => ({code: 32, time: 8224})),
+            punches: _.range(64).map((index: number) => ({
+                code: index + 1,
+                time: Math.floor(index / 4) * (256 - 4) + index + 1,
+            })),
             cardHolder: {
                 firstName: 'aaaaaaaaaaaaaaaaaaaa',
                 lastName: 'bbbbbbbbbbbbbbbbbbbb',
@@ -176,8 +178,8 @@ export const getFullCard = utils.cached(
             ...getUnknownPage(),
             ...getUnknownPage(),
             ...getUnknownPage(),
-            ...getFullTimesPage(),
-            ...getFullTimesPage(),
+            ...getFullTimesPage1(),
+            ...getFullTimesPage2(),
         ],
     }),
 );
@@ -187,14 +189,17 @@ export const getPartialCardHolderCard = utils.cached(
     () => ({
         cardData: {
             cardNumber: 500029,
-            startTime: 39317,
-            finishTime: 2600,
-            clearTime: 30357,
-            checkTime: 35733,
+            startTime: 38297,
+            finishTime: 10250,
+            clearTime: 38262,
+            checkTime: 38283,
             lastPunchedCode: 32,
             punchCount: 64,
             punchCountPlus1: 65,
-            punches: _.range(64).map(() => ({code: 32, time: 8224})),
+            punches: _.range(64).map((index: number) => ({
+                code: index + 1,
+                time: Math.floor(index / 4) * (256 - 4) + index + 1,
+            })),
             cardHolder: {
                 firstName: 'a',
                 lastName: 'b',
@@ -219,8 +224,8 @@ export const getPartialCardHolderCard = utils.cached(
             ...getUnknownPage(),
             ...getUnknownPage(),
             ...getUnknownPage(),
-            ...getFullTimesPage(),
-            ...getFullTimesPage(),
+            ...getFullTimesPage1(),
+            ...getFullTimesPage2(),
         ],
     }),
 );
@@ -230,10 +235,10 @@ export const getEmptyCard = utils.cached(
     () => ({
         cardData: {
             cardNumber: 500029,
-            startTime: 39317,
-            finishTime: 2600,
-            clearTime: 30357,
-            checkTime: 35733,
+            startTime: 38297,
+            finishTime: 10250,
+            clearTime: 38262,
+            checkTime: 38283,
             lastPunchedCode: 32,
             punchCount: 0,
             punchCountPlus1: 1,

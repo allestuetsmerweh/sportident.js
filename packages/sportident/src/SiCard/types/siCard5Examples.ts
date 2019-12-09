@@ -10,8 +10,8 @@ export const getCardWith16Punches = utils.cached(
     () => ({
         cardData: {
             cardNumber: 406402,
-            startTime: 56093,
-            finishTime: 12062,
+            startTime: 7643,
+            finishTime: 7727,
             checkTime: 61166,
             punchCount: 16,
             punches: [
@@ -53,8 +53,8 @@ export const getFullCard = utils.cached(
     () => ({
         cardData: {
             cardNumber: 406402,
-            startTime: 56093,
-            finishTime: 12062,
+            startTime: 7643,
+            finishTime: 7727,
             checkTime: 61166,
             punchCount: 36,
             punches: [

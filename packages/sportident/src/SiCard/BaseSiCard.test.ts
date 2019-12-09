@@ -121,15 +121,15 @@ describe('BaseSiCard', () => {
         expect(siCard500.punchCount).toBe(1);
         expect(siCard500.toDict()).toEqual({
             cardNumber: 500,
-            clearTime: -1,
-            checkTime: -1,
-            startTime: -1,
-            finishTime: -1,
+            clearTime: undefined,
+            checkTime: undefined,
+            startTime: undefined,
+            finishTime: undefined,
             punches: [{code: 31, time: 3}],
             cardHolder: {firstName: 'John'},
         });
         expect(siCard500.toString()).toEqual(
-            'SiCard1 Number: 500\nClear: -1\nCheck: -1\nStart: -1\nFinish: -1\n31: 3\nCard Holder:\nfirstName: John\n',
+            'SiCard1 Number: 500\nClear: ?\nCheck: ?\nStart: ?\nFinish: ?\n31: 3\nCard Holder:\nfirstName: John\n',
         );
         await siCard500.confirm();
         done();

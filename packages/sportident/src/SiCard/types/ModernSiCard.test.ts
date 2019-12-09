@@ -155,10 +155,14 @@ describe('ModernSiCard', () => {
             };
 
             myModernSiCard.typeSpecificRead().then(() => {
-                Object.keys(cardData).forEach((cardDataKey) => {
-                    // @ts-ignore
-                    expect(myModernSiCard[cardDataKey]).toEqual(cardData[cardDataKey]);
-                });
+                expect(myModernSiCard.cardNumber).toEqual(cardData.cardNumber);
+                expect(myModernSiCard.startTime).toEqual(cardData.startTime);
+                expect(myModernSiCard.finishTime).toEqual(cardData.finishTime);
+                expect(myModernSiCard.checkTime).toEqual(cardData.checkTime);
+                expect(myModernSiCard.punchCount).toEqual(cardData.punchCount);
+                expect(myModernSiCard.punches).toEqual(cardData.punches);
+                expect(myModernSiCard.cardHolder).toEqual(cardData.cardHolder);
+
                 const cardSeriesString = myModernSiCard.storage.get('cardSeries')!.toString();
                 expect(cardSeriesString in ModernSiCardSeries).toBe(true);
                 done();

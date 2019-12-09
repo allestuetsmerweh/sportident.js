@@ -44,9 +44,9 @@ export const SiCard9StorageDefinition = storage.defineStorage(0x100, {
         (cardNumberString) => parseInt(cardNumberString, 10),
         (cardNumber) => cardNumber !== undefined && _.isInteger(cardNumber) && cardNumber >= 0,
     ),
-    startTime: new storage.SiInt([[0x0E], [0x0F]]),
-    finishTime: new storage.SiInt([[0x12], [0x13]]),
-    checkTime: new storage.SiInt([[0x0A], [0x0B]]),
+    startTime: new storage.SiInt([[0x0F], [0x0E]]),
+    finishTime: new storage.SiInt([[0x13], [0x12]]),
+    checkTime: new storage.SiInt([[0x0B], [0x0A]]),
     punchCount: new storage.SiInt([[0x16]]),
     punches: new storage.SiModified(
         new storage.SiArray(
@@ -56,8 +56,8 @@ export const SiCard9StorageDefinition = storage.defineStorage(0x100, {
                     [getPunchOffset(i) + 1],
                 ]),
                 time: new storage.SiInt([
-                    [getPunchOffset(i) + 2],
                     [getPunchOffset(i) + 3],
+                    [getPunchOffset(i) + 2],
                 ]),
             }),
         ),
@@ -75,6 +75,8 @@ export const SiCard9StorageDefinition = storage.defineStorage(0x100, {
 export class SiCard9 extends ModernSiCard {
     static maxNumPunches = MAX_NUM_PUNCHES;
     static StorageDefinition = SiCard9StorageDefinition;
+
+    public uid?: number;
 
     typeSpecificRead(): Promise<void> {
         return new Promise((resolve, reject) => {
@@ -98,10 +100,15 @@ export class SiCard9 extends ModernSiCard {
                 })
                 .catch((exc: Error) => {
                     if (exc instanceof ReadFinishedException) {
-                        Object.keys(this.StorageDefinition.definitions).forEach((key) => {
-                            // @ts-ignore
-                            this[key] = this.storage.get(key).value;
-                        });
+                        this.cardNumber = this.storage.get('cardNumber')!.value;
+                        this.cardSeries = this.storage.get('cardSeries')!.value;
+                        this.startTime = this.storage.get('startTime')!.value;
+                        this.finishTime = this.storage.get('finishTime')!.value;
+                        this.checkTime = this.storage.get('checkTime')!.value;
+                        this.punchCount = this.storage.get('punchCount')!.value;
+                        this.punches = this.storage.get('punches')!.value;
+                        this.cardHolder = this.storage.get('cardHolder')!.value;
+                        this.uid = this.storage.get('uid')!.value;
                         resolve();
                     } else {
                         reject(exc);
