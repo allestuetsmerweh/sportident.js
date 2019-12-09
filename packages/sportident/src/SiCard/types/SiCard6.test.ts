@@ -8,7 +8,6 @@ import * as testUtils from '../../testUtils';
 import {BaseSiCard} from '../BaseSiCard';
 import {cropPunches, getPunchOffset, SiCard6} from './SiCard6';
 import {getSiCard6Examples} from './siCard6Examples';
-// @ts-ignore
 import {SiCard6Simulator} from '../../simulation/SiCardSimulator/types/SiCard6Simulator';
 
 describe('SiCard6', () => {

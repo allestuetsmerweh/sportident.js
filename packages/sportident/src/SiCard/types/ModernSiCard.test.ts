@@ -8,7 +8,6 @@ import * as siProtocol from '../../siProtocol';
 import * as testUtils from '../../testUtils';
 import {cropPunches, getCroppedString, getPunchOffset, ModernSiCard, ModernSiCardSeries, parseCardHolder, parseCardHolderString} from './ModernSiCard';
 import {getModernSiCardExamples} from './modernSiCardExamples';
-// @ts-ignore
 import {ModernSiCardSimulator} from '../../simulation/SiCardSimulator/types/ModernSiCardSimulator';
 
 describe('ModernSiCard', () => {

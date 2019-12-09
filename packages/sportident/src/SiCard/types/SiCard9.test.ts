@@ -6,7 +6,6 @@ import {BaseSiCard} from '../BaseSiCard';
 import {ModernSiCardSeries} from './ModernSiCard';
 import {getPunchOffset, SiCard9} from './SiCard9';
 import {getSiCard9Examples} from './siCard9Examples';
-// @ts-ignore
 import {SiCard9Simulator} from '../../simulation/SiCardSimulator/types/SiCard9Simulator';
 
 describe('SiCard9', () => {
