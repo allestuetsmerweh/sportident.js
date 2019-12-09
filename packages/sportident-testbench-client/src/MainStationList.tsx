@@ -1,7 +1,13 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import {ISiDevice} from 'sportident/lib/SiDevice/ISiDevice';
 
-export const MainStationList = (props) => (
+export const MainStationList = (
+    props: {
+        devices: ISiDevice<any>[],
+        selectedDevice: ISiDevice<any>|undefined,
+        addNewDevice: () => void,
+    },
+) => (
     <div>
         <div id='si-device-list'>
             {props.devices.map((device) => {
@@ -27,8 +33,3 @@ export const MainStationList = (props) => (
         </button>
     </div>
 );
-MainStationList.propTypes = {
-    devices: PropTypes.array,
-    selectedDevice: PropTypes.object,
-    addNewDevice: PropTypes.func,
-};

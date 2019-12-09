@@ -3,13 +3,12 @@ import Immutable from 'immutable';
 import {SiDeviceAddEvent, ISiDeviceDriverWithAutodetection, SiDeviceRemoveEvent} from 'sportident/lib/SiDevice/ISiDeviceDriver';
 import {ISiDevice, ISiDeviceDriverData} from 'sportident/lib/SiDevice/ISiDevice';
 
-export const useSiDevices = (
-    siDeviceDriver: ISiDeviceDriverWithAutodetection<ISiDeviceDriverData<any>>,
-    useReact = React,
-): Immutable.Map<string, ISiDevice<any>> => {
-    const [siDevices, setSiDevices] = useReact.useState(Immutable.Map({}));
-    useReact.useEffect(() => {
-        const onDeviceAdd = (event: SiDeviceAddEvent<ISiDeviceDriverData<any>>) => {
+export const useSiDevices = <T extends ISiDeviceDriverData<any>>(
+    siDeviceDriver: ISiDeviceDriverWithAutodetection<T>,
+): Immutable.Map<string, ISiDevice<T>> => {
+    const [siDevices, setSiDevices] = React.useState(Immutable.Map({}));
+    React.useEffect(() => {
+        const onDeviceAdd = (event: SiDeviceAddEvent<T>) => {
             const device = event.siDevice;
             setSiDevices((currentSiDevices) => {
                 if (!currentSiDevices.has(device.ident)) {
@@ -19,7 +18,7 @@ export const useSiDevices = (
                 return currentSiDevices;
             });
         };
-        const onDeviceRemove = (event: SiDeviceRemoveEvent<ISiDeviceDriverData<any>>) => {
+        const onDeviceRemove = (event: SiDeviceRemoveEvent<T>) => {
             const device = event.siDevice;
             setSiDevices((currentSiDevices) => {
                 if (currentSiDevices.has(device.ident)) {
@@ -50,5 +49,5 @@ export const useSiDevices = (
             siDeviceDriver.removeEventListener('remove', onDeviceRemove);
         };
     }, []);
-    return siDevices as Immutable.Map<string, ISiDevice<any>>;
+    return siDevices as Immutable.Map<string, ISiDevice<T>>;
 };

@@ -210,7 +210,7 @@ class WebUsbSiDeviceDriver implements
 
     open(
         device: IWebUsbSiDevice,
-    ): Promise<any> {
+    ): Promise<void> {
         console.debug('Opening...');
         const navigatorDevice = device.data.device;
         return navigatorDevice.open()
@@ -250,7 +250,7 @@ class WebUsbSiDeviceDriver implements
                     index: siInterface,
                 }, new Uint8Array([0x00, 0x96, 0x00, 0x00]).buffer);
             })
-            .then(() => true);
+            .then(() => {});
     }
 
     close(

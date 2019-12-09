@@ -1,12 +1,12 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
+// @ts-ignore
 import indexHtml from './index.html';
+// @ts-ignore
 import stylesCss from './styles.css';
 import {MainStationList} from './MainStationList';
 import {Terminal} from './Terminal';
-import {WebUsbSiDevicesContext} from './WebUsbSiDevicesContext';
-import si from 'sportident/lib';
+import {SiDevicesContext, SiDevicesContextPayload} from './SiDevicesContext';
 import {useSiDevices} from 'sportident-react/lib';
 import {getWebUsbSiDeviceDriver} from 'sportident-webusb/lib';
 
@@ -16,13 +16,14 @@ export default () => indexHtml.replace(
 );
 
 const Testbench = () => {
-    const getIdentFromWindowHash = (windowHash) => {
+    const getIdentFromWindowHash = (windowHash: string) => {
         const res = /^#?(\S+)$/.exec(windowHash);
         return res && res[1];
     };
     const [windowHash, setWindowHash] = React.useState(window.location.hash);
-    const {webUsbSiDevices, addNewDevice} = React.useContext(WebUsbSiDevicesContext);
-    const selectedDevice = webUsbSiDevices.get(getIdentFromWindowHash(windowHash));
+    const {webUsbSiDevices, addNewDevice} = React.useContext(SiDevicesContext);
+    const ident = getIdentFromWindowHash(windowHash);
+    const selectedDevice = ident ? webUsbSiDevices.get(ident) : undefined;
     React.useEffect(() => {
         const onHashChange = () => {
             setWindowHash(window.location.hash);
@@ -47,24 +48,25 @@ const Testbench = () => {
     );
 };
 
-const WebUsbSiDeviceProvider = (props) => {
+const WebUsbSiDeviceProvider = (
+    props: {
+        children: any,
+    },
+) => {
     const webUsbSiDeviceDriver = React.useMemo(
-        () => getWebUsbSiDeviceDriver(window.navigator.usb),
+        () => getWebUsbSiDeviceDriver((window.navigator as any).usb),
         [],
     );
-    const webUsbSiDevices = useSiDevices(webUsbSiDeviceDriver, React);
+    const webUsbSiDevices = useSiDevices(webUsbSiDeviceDriver);
     const providedValue = {
         addNewDevice: () => webUsbSiDeviceDriver.detect(),
         webUsbSiDevices: webUsbSiDevices,
-    };
+    } as unknown as SiDevicesContextPayload;
     return (
-        <WebUsbSiDevicesContext.Provider value={providedValue}>
+        <SiDevicesContext.Provider value={providedValue}>
             {props.children}
-        </WebUsbSiDevicesContext.Provider>
+        </SiDevicesContext.Provider>
     );
-};
-WebUsbSiDeviceProvider.propTypes = {
-    children: PropTypes.node,
 };
 
 if (window.addEventListener) {

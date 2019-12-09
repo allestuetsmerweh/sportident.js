@@ -1,9 +1,9 @@
 import _ from 'lodash';
 import React from 'react';
-import PropTypes from 'prop-types';
 import {getSiShellCommands, Shell} from 'sportident-testbench-shell/lib';
+import {ISiDevice} from 'sportident/lib/SiDevice/ISiDevice';
 
-const keyCodeFromDomEventKey = (domKey) => {
+const keyCodeFromDomEventKey = (domKey: string) => {
     switch (domKey) {
         case 'Backspace': return 8;
         case 'Enter': return 13;
@@ -30,21 +30,29 @@ const TerminalCursor = () => {
             clearInterval(interval);
         }
     }, []);
-    return shown ? '\u2588' : '\u00A0'; // \u2588=box, \u00A0=space
+    return <span>{shown ? '\u2588' : '\u00A0'}</span>; // \u2588=box, \u00A0=space
 };
 
-export const Terminal = (props) => {
-    const [shellContent, setShellContent] = React.useState('');
-    const [inputQueue, setInputQueue] = React.useState([]);
-    const [outputQueue, setOutputQueue] = React.useState([]);
-    const terminalElem = React.useRef();
+export const Terminal = (
+    props: {
+        selectedDevice: ISiDevice<any>|undefined,
+    },
+) => {
+    const [shellContent, setShellContent] = React.useState<string>('');
+    const [inputQueue, setInputQueue] = React.useState<number[]>([]);
+    const [outputQueue, setOutputQueue] = React.useState<number[]>([]);
+    const terminalElem = React.useRef<HTMLDivElement>(null);
 
     React.useEffect(() => {
-        terminalElem.current.scrollTop = terminalElem.current.scrollHeight;
+        if (terminalElem && terminalElem.current) {
+            terminalElem.current.scrollTop = terminalElem.current.scrollHeight;
+        }
     }, [shellContent]);
 
     React.useEffect(() => {
-        terminalElem.current.focus();
+        if (terminalElem && terminalElem.current) {
+            terminalElem.current.focus();
+        }
     }, []);
 
     const onKeyDown = React.useCallback((event) => {
@@ -65,7 +73,7 @@ export const Terminal = (props) => {
         setInputQueue([...inputQueue, ...charCodes]);
     }, [inputQueue]);
 
-    const appendToShellContent = (charCode) => {
+    const appendToShellContent = (charCode: number) => {
         switch (charCode) {
             case 8: {
                 const contentLength = shellContent.length;
@@ -90,7 +98,7 @@ export const Terminal = (props) => {
         appendToShellContent(charCode);
     }
 
-    const pushToOutputQueue = (charCode) => {
+    const pushToOutputQueue = (charCode: number) => {
         setOutputQueue((outputQueue) => [...outputQueue, charCode]);
     };
 
@@ -139,12 +147,9 @@ export const Terminal = (props) => {
         >
             {shellLines.map((line, index) => {
                 const cursor = index === shellLines.length - 1
-                    && <TerminalCursor />;
+                    && (<TerminalCursor />);
                 return <div key={`line-${index}`}>{line}{cursor}</div>;
             })}
         </div>
     );
-};
-Terminal.propTypes = {
-    selectedDevice: PropTypes.object,
 };
