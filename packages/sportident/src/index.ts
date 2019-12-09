@@ -1,12 +1,9 @@
 /* global si */
 /* exported si */
 
-// @ts-ignore
 import * as siCardExports from './SiCard';
 import * as siDeviceExports from './SiDevice';
-// @ts-ignore
 import * as simulationExports from './simulation';
-// @ts-ignore
 import * as siStationExports from './SiStation';
 import * as storageExports from './storage';
 import * as constants from './constants';
