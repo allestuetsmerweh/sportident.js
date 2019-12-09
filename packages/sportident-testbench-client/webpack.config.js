@@ -6,7 +6,7 @@ const StaticSiteGeneratorPlugin = require('static-site-generator-webpack-plugin'
 
 module.exports = [
     {
-        entry: './src/index.jsx',
+        entry: './src/index.tsx',
         output: {
             path: path.resolve(__dirname, 'build'),
             filename: 'sportident-testbench-client.min.js',
@@ -50,6 +50,9 @@ module.exports = [
         },
         resolve: {
             extensions: ['.js', '.jsx', '.ts', '.tsx'],
+            alias: {
+                react: path.resolve('./node_modules/react'),
+            },
         },
         plugins: [
             new StaticSiteGeneratorPlugin({
