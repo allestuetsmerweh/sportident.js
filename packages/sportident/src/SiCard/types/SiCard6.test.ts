@@ -63,6 +63,13 @@ describe('SiCard6', () => {
             {code: 33, time: 3},
         ]);
     });
+    it('typeSpecificRead fails without mainStation', (done) => {
+        const mySiCard6 = new SiCard6(1);
+        mySiCard6.typeSpecificRead().then(
+            () => done(new Error('expect reject')),
+            () => done(),
+        );
+    });
     const examples = getSiCard6Examples();
     Object.keys(examples).forEach((exampleName) => {
         const {storageData, cardData} = examples[exampleName];

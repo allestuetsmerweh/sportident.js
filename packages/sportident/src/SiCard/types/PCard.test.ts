@@ -8,4 +8,11 @@ describe('PCard', () => {
         expect(BaseSiCard.getTypeByCardNumber(4000000)).toEqual(PCard);
         expect(BaseSiCard.getTypeByCardNumber(4999999)).toEqual(PCard);
     });
+    it('is not implemented', (done) => {
+        const pCard = new PCard(4000000);
+        pCard.read().then(
+            () => done(new Error('expect reject')),
+            () => done(),
+        );
+    });
 });

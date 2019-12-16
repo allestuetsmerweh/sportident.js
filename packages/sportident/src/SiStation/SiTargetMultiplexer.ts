@@ -81,9 +81,9 @@ export class SiTargetMultiplexer implements ISiTargetMultiplexer {
     public stations: {[target: string]: ISiStation} = {};
     public target: SiTargetMultiplexerTarget = SiTargetMultiplexerTarget.Unknown;
     // the target of the latest command scheduled
-    private latestTarget: SiTargetMultiplexerTarget = SiTargetMultiplexerTarget.Unknown;
-    private _receiveBuffer: number[] = [];
-    private _sendQueue: SendTask[] = [];
+    public latestTarget: SiTargetMultiplexerTarget = SiTargetMultiplexerTarget.Unknown;
+    private receiveBuffer: number[] = [];
+    private sendQueue: SendTask[] = [];
 
 
     // eslint-disable-next-line no-useless-constructor
@@ -96,7 +96,7 @@ export class SiTargetMultiplexer implements ISiTargetMultiplexer {
     get _test() {
         return {
             latestTarget: this.latestTarget,
-            sendQueue: this._sendQueue,
+            sendQueue: this.sendQueue,
         };
     }
 
@@ -118,16 +118,15 @@ export class SiTargetMultiplexer implements ISiTargetMultiplexer {
     }
 
     abortProcessingSendQueue() {
-        this._sendQueue.forEach((sendTask) => {
+        this.sendQueue.forEach((sendTask) => {
             sendTask.fail();
         });
-        this._sendQueue = [];
     }
 
     handleReceive(uint8Data: number[]) {
-        this._receiveBuffer.push(...uint8Data);
-        const {messages, remainder} = siProtocol.parseAll(this._receiveBuffer);
-        this._receiveBuffer = remainder;
+        this.receiveBuffer.push(...uint8Data);
+        const {messages, remainder} = siProtocol.parseAll(this.receiveBuffer);
+        this.receiveBuffer = remainder;
         messages.forEach((message) => {
             this.dispatchEvent(
                 'message',
@@ -150,17 +149,27 @@ export class SiTargetMultiplexer implements ISiTargetMultiplexer {
     }
 
     updateSendQueueWithReceivedMessage(message: siProtocol.SiMessage) {
-        if (this._sendQueue.length === 0 || this._sendQueue[0].state !== SendTaskState.Sent) {
+        if (this.sendQueue.length === 0) {
+            return;
+        }
+        const shouldAcceptResponseInState: {[state in SendTaskState]: boolean} = {
+            [SendTaskState.Queued]: false,
+            [SendTaskState.Sending]: true, // This is mostly for testing purposes
+            [SendTaskState.Sent]: true,
+            [SendTaskState.Succeeded]: false,
+            [SendTaskState.Failed]: false,
+        };
+        if (!shouldAcceptResponseInState[this.sendQueue[0].state]) {
             return;
         }
         if (message.mode === proto.NAK) {
-            this._sendQueue[0].fail();
+            this.sendQueue[0].fail();
             return;
         }
         if (message.mode !== undefined) {
             return;
         }
-        const expectedMessage = this._sendQueue[0].message;
+        const expectedMessage = this.sendQueue[0].message;
         if (expectedMessage.mode !== undefined) {
             return;
         }
@@ -168,7 +177,7 @@ export class SiTargetMultiplexer implements ISiTargetMultiplexer {
             console.warn(`Strange Response: expected ${utils.prettyHex([expectedMessage.command])}, but got ${utils.prettyHex([message.command])}...`);
             return;
         }
-        this._sendQueue[0].addResponse(message.parameters);
+        this.sendQueue[0].addResponse(message.parameters);
     }
 
     sendMessage(
@@ -177,38 +186,42 @@ export class SiTargetMultiplexer implements ISiTargetMultiplexer {
         numResponses?: number,
         timeoutInMiliseconds?: number,
     ): Promise<number[][]> {
+        return this.setTarget(target)
+            .then(() => this.sendMessageToLatestTarget(message, numResponses, timeoutInMiliseconds));
+    }
+
+    setTarget(
+        target: SiTargetMultiplexerTarget,
+    ): Promise<void> {
+        if (target === this.latestTarget) {
+            return Promise.resolve();
+        }
         const setMsParameterByTarget: {[target in SiTargetMultiplexerTarget]: number|undefined} = {
             [SiTargetMultiplexerTarget.Direct]: proto.P_MS_DIRECT,
             [SiTargetMultiplexerTarget.Remote]: proto.P_MS_REMOTE,
             [SiTargetMultiplexerTarget.Unknown]: undefined,
             [SiTargetMultiplexerTarget.Switching]: undefined,
         };
-        const setTarget = () => {
-            if (target === this.latestTarget) {
-                return Promise.resolve();
-            }
-            const setMsParameter = setMsParameterByTarget[target];
-            if (setMsParameter === undefined) {
-                return Promise.reject(new Error(`No such target: ${target}`));
-            }
-            this.latestTarget = target;
-            return this.sendMessageToLatestTarget({
-                command: proto.cmd.SET_MS,
-                parameters: [setMsParameter],
-            }, 1)
-                .then((responses: number[][]) => {
-                    if (responses[0][2] !== setMsParameter) {
-                        this.abortProcessingSendQueue();
-                        return;
-                    }
-                    this.target = target;
-                })
-                .catch(() => {
-                    this.abortProcessingSendQueue();
-                });
-        };
-        return setTarget()
-            .then(() => this.sendMessageToLatestTarget(message, numResponses, timeoutInMiliseconds));
+        const setMsParameter = setMsParameterByTarget[target];
+        if (setMsParameter === undefined) {
+            return Promise.reject(new Error(`No such target: ${target}`));
+        }
+        this.latestTarget = target;
+        return this.sendMessageToLatestTarget({
+            command: proto.cmd.SET_MS,
+            parameters: [setMsParameter],
+        }, 1)
+            .then((responses: number[][]) => {
+                if (responses[0][2] !== setMsParameter) {
+                    throw new Error('contradicting SET_MS response');
+                }
+                this.target = target;
+            })
+            .catch((err) => {
+                this.abortProcessingSendQueue();
+                this.target = SiTargetMultiplexerTarget.Unknown;
+                throw err;
+            });
     }
 
     sendMessageToLatestTarget(
@@ -222,7 +235,7 @@ export class SiTargetMultiplexer implements ISiTargetMultiplexer {
                 numResponses,
                 timeoutInMiliseconds,
                 (resolvedTask) => {
-                    const shifted = this._sendQueue.shift();
+                    const shifted = this.sendQueue.shift();
                     if (resolvedTask !== shifted) {
                         throw new Error('Resolved unexecuting SendTask');
                     }
@@ -230,7 +243,7 @@ export class SiTargetMultiplexer implements ISiTargetMultiplexer {
                     resolve(resolvedTask.responses);
                 },
                 (rejectedTask) => {
-                    const shifted = this._sendQueue.shift();
+                    const shifted = this.sendQueue.shift();
                     if (rejectedTask !== shifted) {
                         throw new Error('Rejected unexecuting SendTask');
                     }
@@ -238,22 +251,22 @@ export class SiTargetMultiplexer implements ISiTargetMultiplexer {
                     reject(new Error('Rejection'));
                 },
             );
-            this._sendQueue.push(sendTask);
+            this.sendQueue.push(sendTask);
             this._processSendQueue();
         });
     }
 
     _processSendQueue() {
         if (
-            this._sendQueue.length === 0
-            || this._sendQueue[0].state === SendTaskState.Sending
-            || this._sendQueue[0].state === SendTaskState.Sent
+            this.sendQueue.length === 0
+            || this.sendQueue[0].state === SendTaskState.Sending
+            || this.sendQueue[0].state === SendTaskState.Sent
             || this.siDevice.state !== SiDeviceState.Opened
         ) {
             return;
         }
 
-        const sendTask = this._sendQueue[0];
+        const sendTask = this.sendQueue[0];
         sendTask.state = SendTaskState.Sending;
         const uint8Data = [
             proto.WAKEUP,

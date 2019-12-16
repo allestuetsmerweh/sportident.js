@@ -134,6 +134,26 @@ describe('SiMainStation', () => {
         expect(observedCardNumbers).toEqual([testData.cardData.cardNumber]);
         done();
     });
+    it('card observation with mode', async (done) => {
+        const myTargetMultiplexer = new SiTargetMultiplexer({} as ISiDevice<any>);
+        const myMainStation = SiMainStation.fromSiTargetMultiplexer(myTargetMultiplexer);
+        const observedCardNumbers: number[] = [];
+        const handleCardObserved = (e: SiMainStationSiCardObservedEvent) => {
+            observedCardNumbers.push(e.siCard.cardNumber);
+        };
+        myMainStation.addEventListener('siCardObserved', handleCardObserved);
+        myTargetMultiplexer.dispatchEvent(
+            'message',
+            new SiTargetMultiplexerMessageEvent(
+                myTargetMultiplexer,
+                {mode: proto.NAK},
+            ),
+        );
+
+        await testUtils.nTimesAsync(2, () => testUtils.advanceTimersByTime(0));
+        expect(observedCardNumbers).toEqual([]);
+        done();
+    });
     it('other message', () => {
         const fakeSiTargetMultiplexer = {
             addEventListener: () => undefined,

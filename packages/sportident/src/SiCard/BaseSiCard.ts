@@ -116,7 +116,7 @@ export abstract class BaseSiCard {
 
     confirm() {
         if (!this.mainStation) {
-            throw new Error('No main station');
+            return Promise.reject(new Error('No main station'));
         }
         return this.mainStation.sendMessage({
             mode: proto.ACK,
@@ -140,7 +140,7 @@ export abstract class BaseSiCard {
             ? this.punches.map(
                 (punch) => `${punch.code}: ${punch.time}`,
             ).join('\n')
-            : '?'
+            : 'No punches'
         );
         const cardHolderString = (this.cardHolder
             ? Object.keys(this.cardHolder).map(
