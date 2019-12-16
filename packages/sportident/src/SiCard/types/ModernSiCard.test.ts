@@ -134,6 +134,13 @@ describe('ModernSiCard', () => {
         expect(parseCardHolder([0x41, 0x3B, 0xEE])).toEqual({...emptyCardHolderDict, firstName: 'A'});
         expect(parseCardHolder(cardHolderCharCodes1)).toEqual(cardHolderDict1);
     });
+    it('typeSpecificRead fails without mainStation', (done) => {
+        const myModernSiCard = new ModernSiCard(1);
+        myModernSiCard.typeSpecificRead().then(
+            () => done(new Error('expect reject')),
+            () => done(),
+        );
+    });
     const examples = getModernSiCardExamples();
     Object.keys(examples).forEach((exampleName) => {
         it(`typeSpecificRead works with ${exampleName} example`, (done) => {

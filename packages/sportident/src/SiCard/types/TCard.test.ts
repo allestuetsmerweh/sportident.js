@@ -8,4 +8,11 @@ describe('TCard', () => {
         expect(BaseSiCard.getTypeByCardNumber(6000000)).toEqual(TCard);
         expect(BaseSiCard.getTypeByCardNumber(6999999)).toEqual(TCard);
     });
+    it('is not implemented', (done) => {
+        const tCard = new TCard(6000000);
+        tCard.read().then(
+            () => done(new Error('expect reject')),
+            () => done(),
+        );
+    });
 });

@@ -77,10 +77,10 @@ export const ModernSiCardStorageDefinition = storage.defineStorage(0x400, {
             (i) => new storage.SiInt([[0x19 + (2 - i)]]),
         ),
         (extractedValue) => siProtocol.arr2cardNumber(extractedValue),
-        (cardNumber) => siProtocol.cardNumber2arr(cardNumber),
-        (cardNumber) => `${cardNumber}`,
-        (cardNumberString) => parseInt(cardNumberString, 10),
-        (cardNumber) => cardNumber !== undefined && _.isInteger(cardNumber) && cardNumber >= 0,
+        // (cardNumber) => siProtocol.cardNumber2arr(cardNumber),
+        // (cardNumber) => `${cardNumber}`,
+        // (cardNumberString) => parseInt(cardNumberString, 10),
+        // (cardNumber) => cardNumber !== undefined && _.isInteger(cardNumber) && cardNumber >= 0,
     ),
     startTime: new storage.SiInt([[0x0F], [0x0E]]),
     finishTime: new storage.SiInt([[0x13], [0x12]]),
@@ -122,7 +122,7 @@ export class ModernSiCard extends BaseSiCard {
 
     typeSpecificGetPage(pageNumber: number) {
         if (!this.mainStation) {
-            throw new Error('No main station');
+            return Promise.reject(new Error('No main station'));
         }
         return this.mainStation.sendMessage({
             command: proto.cmd.GET_SI8,

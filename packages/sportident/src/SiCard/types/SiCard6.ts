@@ -42,10 +42,10 @@ export const SiCard6StorageDefinition = storage.defineStorage(0x400, {
             (i) => new storage.SiInt([[0x0B + (2 - i)]]),
         ),
         (extractedValue) => siProtocol.arr2cardNumber(extractedValue),
-        (cardNumber) => siProtocol.cardNumber2arr(cardNumber),
-        (cardNumber) => `${cardNumber}`,
-        (cardNumberString) => parseInt(cardNumberString, 10),
-        (cardNumber) => cardNumber !== undefined && _.isInteger(cardNumber) && cardNumber >= 0,
+        // (cardNumber) => siProtocol.cardNumber2arr(cardNumber),
+        // (cardNumber) => `${cardNumber}`,
+        // (cardNumberString) => parseInt(cardNumberString, 10),
+        // (cardNumber) => cardNumber !== undefined && _.isInteger(cardNumber) && cardNumber >= 0,
     ),
     startTime: new storage.SiInt([[0x1B], [0x1A]]),
     finishTime: new storage.SiInt([[0x17], [0x16]]),
@@ -140,7 +140,7 @@ export class SiCard6 extends BaseSiCard {
 
     typeSpecificGetPage(pageNumber: number) {
         if (!this.mainStation) {
-            throw new Error('No main station');
+            return Promise.reject(new Error('No main station'));
         }
         return this.mainStation.sendMessage({
             command: proto.cmd.GET_SI6,

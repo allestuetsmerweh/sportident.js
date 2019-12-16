@@ -546,4 +546,104 @@ describe('SiTargetMultiplexer', () => {
         expect(timeState).toEqual({timedOut: true});
         done();
     });
+
+    it('cannot send to unknown target', async (done) => {
+        const siDevice = new SiDevice('undefinedTarget', {driver: {}});
+        siDevice.setState(SiDeviceState.Opened);
+        const muxer = SiTargetMultiplexer.fromSiDevice(siDevice);
+        muxer.latestTarget = SiTargetMultiplexerTarget.Direct;
+        const randomMessage = testUtils.getRandomMessage(0);
+        const timeState = {setToUnknownFailed: false};
+        muxer.sendMessage(
+            SiTargetMultiplexerTarget.Unknown,
+            randomMessage,
+            1,
+            1,
+        )
+            .catch(() => {
+                expect(muxer._test.sendQueue.length).toBe(0);
+                timeState.setToUnknownFailed = true;
+            });
+        await testUtils.advanceTimersByTime(0);
+        expect(timeState).toEqual({setToUnknownFailed: true});
+        done();
+    });
+    it('cannot send to switching target', async (done) => {
+        const siDevice = new SiDevice('switchingTarget', {driver: {}});
+        siDevice.setState(SiDeviceState.Opened);
+        const muxer = SiTargetMultiplexer.fromSiDevice(siDevice);
+        muxer.latestTarget = SiTargetMultiplexerTarget.Direct;
+        const randomMessage = testUtils.getRandomMessage(0);
+        const timeState = {setToSwitchingFailed: false};
+        muxer.sendMessage(
+            SiTargetMultiplexerTarget.Switching,
+            randomMessage,
+            1,
+            1,
+        )
+            .catch(() => {
+                expect(muxer._test.sendQueue.length).toBe(0);
+                timeState.setToSwitchingFailed = true;
+            });
+        await testUtils.advanceTimersByTime(0);
+        expect(timeState).toEqual({setToSwitchingFailed: true});
+        done();
+    });
+    it('handles error switching target', async (done) => {
+        const siDevice = new SiDevice('errorSwitchingTarget', {driver: {
+            send: () => Promise.reject(new Error('test')),
+        }});
+        siDevice.setState(SiDeviceState.Opened);
+        const muxer = SiTargetMultiplexer.fromSiDevice(siDevice);
+        muxer.latestTarget = SiTargetMultiplexerTarget.Direct;
+        const randomMessage = testUtils.getRandomMessage(0);
+        const timeState = {setTargetFailed: false};
+        muxer.sendMessage(
+            SiTargetMultiplexerTarget.Remote,
+            randomMessage,
+            1,
+            1,
+        )
+            .catch(() => {
+                timeState.setTargetFailed = true;
+            });
+        await testUtils.nTimesAsync(2, () => testUtils.advanceTimersByTime(0));
+        expect(muxer.target).toEqual(SiTargetMultiplexerTarget.Unknown);
+        expect(timeState).toEqual({setTargetFailed: true});
+        done();
+    });
+    it('handles unclear target switch response', async (done) => {
+        const siDevice = new SiDevice('errorSwitchingTarget', {driver: {
+            send: () => {
+                setTimeout(() => {
+                    siDevice.dispatchEvent(
+                        'receive',
+                        new SiDeviceReceiveEvent(siDevice, siProtocol.render({
+                            command: proto.cmd.SET_MS,
+                            parameters: [SiTargetMultiplexerTarget.Direct],
+                        })),
+                    );
+                }, 0);
+                return Promise.resolve();
+            },
+        }});
+        siDevice.setState(SiDeviceState.Opened);
+        const muxer = SiTargetMultiplexer.fromSiDevice(siDevice);
+        muxer.latestTarget = SiTargetMultiplexerTarget.Direct;
+        const randomMessage = testUtils.getRandomMessage(0);
+        const timeState = {setTargetFailed: false};
+        muxer.sendMessage(
+            SiTargetMultiplexerTarget.Remote,
+            randomMessage,
+            1,
+            1,
+        )
+            .catch(() => {
+                timeState.setTargetFailed = true;
+            });
+        await testUtils.nTimesAsync(2, () => testUtils.advanceTimersByTime(0));
+        expect(muxer.target).toEqual(SiTargetMultiplexerTarget.Unknown);
+        expect(timeState).toEqual({setTargetFailed: true});
+        done();
+    });
 });
