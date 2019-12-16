@@ -1,0 +1,534 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for sportident/lib/SiCard/types/SiCard6.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../../prettify.css" />
+    <link rel="stylesheet" href="../../../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../../../index.html">All files</a> / <a href="index.html">sportident/lib/SiCard/types</a> SiCard6.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">17.54% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>20/114</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">18.18% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>6/33</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">1.79% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>1/56</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">20.88% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>19/91</span>
+      </div>
+    </div>
+    <p class="quiet">
+      Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
+    </p>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
+<a name='L2'></a><a href='#L2'>2</a>
+<a name='L3'></a><a href='#L3'>3</a>
+<a name='L4'></a><a href='#L4'>4</a>
+<a name='L5'></a><a href='#L5'>5</a>
+<a name='L6'></a><a href='#L6'>6</a>
+<a name='L7'></a><a href='#L7'>7</a>
+<a name='L8'></a><a href='#L8'>8</a>
+<a name='L9'></a><a href='#L9'>9</a>
+<a name='L10'></a><a href='#L10'>10</a>
+<a name='L11'></a><a href='#L11'>11</a>
+<a name='L12'></a><a href='#L12'>12</a>
+<a name='L13'></a><a href='#L13'>13</a>
+<a name='L14'></a><a href='#L14'>14</a>
+<a name='L15'></a><a href='#L15'>15</a>
+<a name='L16'></a><a href='#L16'>16</a>
+<a name='L17'></a><a href='#L17'>17</a>
+<a name='L18'></a><a href='#L18'>18</a>
+<a name='L19'></a><a href='#L19'>19</a>
+<a name='L20'></a><a href='#L20'>20</a>
+<a name='L21'></a><a href='#L21'>21</a>
+<a name='L22'></a><a href='#L22'>22</a>
+<a name='L23'></a><a href='#L23'>23</a>
+<a name='L24'></a><a href='#L24'>24</a>
+<a name='L25'></a><a href='#L25'>25</a>
+<a name='L26'></a><a href='#L26'>26</a>
+<a name='L27'></a><a href='#L27'>27</a>
+<a name='L28'></a><a href='#L28'>28</a>
+<a name='L29'></a><a href='#L29'>29</a>
+<a name='L30'></a><a href='#L30'>30</a>
+<a name='L31'></a><a href='#L31'>31</a>
+<a name='L32'></a><a href='#L32'>32</a>
+<a name='L33'></a><a href='#L33'>33</a>
+<a name='L34'></a><a href='#L34'>34</a>
+<a name='L35'></a><a href='#L35'>35</a>
+<a name='L36'></a><a href='#L36'>36</a>
+<a name='L37'></a><a href='#L37'>37</a>
+<a name='L38'></a><a href='#L38'>38</a>
+<a name='L39'></a><a href='#L39'>39</a>
+<a name='L40'></a><a href='#L40'>40</a>
+<a name='L41'></a><a href='#L41'>41</a>
+<a name='L42'></a><a href='#L42'>42</a>
+<a name='L43'></a><a href='#L43'>43</a>
+<a name='L44'></a><a href='#L44'>44</a>
+<a name='L45'></a><a href='#L45'>45</a>
+<a name='L46'></a><a href='#L46'>46</a>
+<a name='L47'></a><a href='#L47'>47</a>
+<a name='L48'></a><a href='#L48'>48</a>
+<a name='L49'></a><a href='#L49'>49</a>
+<a name='L50'></a><a href='#L50'>50</a>
+<a name='L51'></a><a href='#L51'>51</a>
+<a name='L52'></a><a href='#L52'>52</a>
+<a name='L53'></a><a href='#L53'>53</a>
+<a name='L54'></a><a href='#L54'>54</a>
+<a name='L55'></a><a href='#L55'>55</a>
+<a name='L56'></a><a href='#L56'>56</a>
+<a name='L57'></a><a href='#L57'>57</a>
+<a name='L58'></a><a href='#L58'>58</a>
+<a name='L59'></a><a href='#L59'>59</a>
+<a name='L60'></a><a href='#L60'>60</a>
+<a name='L61'></a><a href='#L61'>61</a>
+<a name='L62'></a><a href='#L62'>62</a>
+<a name='L63'></a><a href='#L63'>63</a>
+<a name='L64'></a><a href='#L64'>64</a>
+<a name='L65'></a><a href='#L65'>65</a>
+<a name='L66'></a><a href='#L66'>66</a>
+<a name='L67'></a><a href='#L67'>67</a>
+<a name='L68'></a><a href='#L68'>68</a>
+<a name='L69'></a><a href='#L69'>69</a>
+<a name='L70'></a><a href='#L70'>70</a>
+<a name='L71'></a><a href='#L71'>71</a>
+<a name='L72'></a><a href='#L72'>72</a>
+<a name='L73'></a><a href='#L73'>73</a>
+<a name='L74'></a><a href='#L74'>74</a>
+<a name='L75'></a><a href='#L75'>75</a>
+<a name='L76'></a><a href='#L76'>76</a>
+<a name='L77'></a><a href='#L77'>77</a>
+<a name='L78'></a><a href='#L78'>78</a>
+<a name='L79'></a><a href='#L79'>79</a>
+<a name='L80'></a><a href='#L80'>80</a>
+<a name='L81'></a><a href='#L81'>81</a>
+<a name='L82'></a><a href='#L82'>82</a>
+<a name='L83'></a><a href='#L83'>83</a>
+<a name='L84'></a><a href='#L84'>84</a>
+<a name='L85'></a><a href='#L85'>85</a>
+<a name='L86'></a><a href='#L86'>86</a>
+<a name='L87'></a><a href='#L87'>87</a>
+<a name='L88'></a><a href='#L88'>88</a>
+<a name='L89'></a><a href='#L89'>89</a>
+<a name='L90'></a><a href='#L90'>90</a>
+<a name='L91'></a><a href='#L91'>91</a>
+<a name='L92'></a><a href='#L92'>92</a>
+<a name='L93'></a><a href='#L93'>93</a>
+<a name='L94'></a><a href='#L94'>94</a>
+<a name='L95'></a><a href='#L95'>95</a>
+<a name='L96'></a><a href='#L96'>96</a>
+<a name='L97'></a><a href='#L97'>97</a>
+<a name='L98'></a><a href='#L98'>98</a>
+<a name='L99'></a><a href='#L99'>99</a>
+<a name='L100'></a><a href='#L100'>100</a>
+<a name='L101'></a><a href='#L101'>101</a>
+<a name='L102'></a><a href='#L102'>102</a>
+<a name='L103'></a><a href='#L103'>103</a>
+<a name='L104'></a><a href='#L104'>104</a>
+<a name='L105'></a><a href='#L105'>105</a>
+<a name='L106'></a><a href='#L106'>106</a>
+<a name='L107'></a><a href='#L107'>107</a>
+<a name='L108'></a><a href='#L108'>108</a>
+<a name='L109'></a><a href='#L109'>109</a>
+<a name='L110'></a><a href='#L110'>110</a>
+<a name='L111'></a><a href='#L111'>111</a>
+<a name='L112'></a><a href='#L112'>112</a>
+<a name='L113'></a><a href='#L113'>113</a>
+<a name='L114'></a><a href='#L114'>114</a>
+<a name='L115'></a><a href='#L115'>115</a>
+<a name='L116'></a><a href='#L116'>116</a>
+<a name='L117'></a><a href='#L117'>117</a>
+<a name='L118'></a><a href='#L118'>118</a>
+<a name='L119'></a><a href='#L119'>119</a>
+<a name='L120'></a><a href='#L120'>120</a>
+<a name='L121'></a><a href='#L121'>121</a>
+<a name='L122'></a><a href='#L122'>122</a>
+<a name='L123'></a><a href='#L123'>123</a>
+<a name='L124'></a><a href='#L124'>124</a>
+<a name='L125'></a><a href='#L125'>125</a>
+<a name='L126'></a><a href='#L126'>126</a>
+<a name='L127'></a><a href='#L127'>127</a>
+<a name='L128'></a><a href='#L128'>128</a>
+<a name='L129'></a><a href='#L129'>129</a>
+<a name='L130'></a><a href='#L130'>130</a>
+<a name='L131'></a><a href='#L131'>131</a>
+<a name='L132'></a><a href='#L132'>132</a>
+<a name='L133'></a><a href='#L133'>133</a>
+<a name='L134'></a><a href='#L134'>134</a>
+<a name='L135'></a><a href='#L135'>135</a>
+<a name='L136'></a><a href='#L136'>136</a>
+<a name='L137'></a><a href='#L137'>137</a>
+<a name='L138'></a><a href='#L138'>138</a>
+<a name='L139'></a><a href='#L139'>139</a>
+<a name='L140'></a><a href='#L140'>140</a>
+<a name='L141'></a><a href='#L141'>141</a>
+<a name='L142'></a><a href='#L142'>142</a>
+<a name='L143'></a><a href='#L143'>143</a>
+<a name='L144'></a><a href='#L144'>144</a>
+<a name='L145'></a><a href='#L145'>145</a>
+<a name='L146'></a><a href='#L146'>146</a>
+<a name='L147'></a><a href='#L147'>147</a>
+<a name='L148'></a><a href='#L148'>148</a>
+<a name='L149'></a><a href='#L149'>149</a>
+<a name='L150'></a><a href='#L150'>150</a>
+<a name='L151'></a><a href='#L151'>151</a>
+<a name='L152'></a><a href='#L152'>152</a>
+<a name='L153'></a><a href='#L153'>153</a>
+<a name='L154'></a><a href='#L154'>154</a>
+<a name='L155'></a><a href='#L155'>155</a>
+<a name='L156'></a><a href='#L156'>156</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">"use strict";
+var __importStar = (this &amp;&amp; this.__importStar) || function (mod) {
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (mod &amp;&amp; mod.__esModule) return mod;
+    var result = <span class="cstat-no" title="statement not covered" >{};</span>
+<span class="cstat-no" title="statement not covered" >    if (mod != null) <span class="cstat-no" title="statement not covered" >for (var k in mod) <span class="cstat-no" title="statement not covered" >if (Object.hasOwnProperty.call(mod, k)) <span class="cstat-no" title="statement not covered" >result[k] = mod[k];</span></span></span></span>
+<span class="cstat-no" title="statement not covered" >    result["default"] = mod;</span>
+<span class="cstat-no" title="statement not covered" >    return result;</span>
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const storage = __importStar(require("../../storage"));
+const siProtocol = __importStar(require("../../siProtocol"));
+const constants_1 = require("../../constants");
+const BaseSiCard_1 = require("../BaseSiCard");
+class ReadFinishedException {
+}
+const punchesPerPage = 32;
+const bytesPerPage = 128;
+const MAX_NUM_PUNCHES = 64;
+exports.getPunchOffset = <span class="fstat-no" title="function not covered" >(i</span>) =&gt; (<span class="cstat-no" title="statement not covered" >bytesPerPage * 6 + i * 4)</span>;
+exports.cropPunches = <span class="fstat-no" title="function not covered" >(a</span>llPunches) =&gt; {
+    const isPunchEntryInvalid = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(p</span>unch) =&gt; <span class="cstat-no" title="statement not covered" >punch.time === undefined || punch.time === 0xEEEE;</span></span>
+    const firstInvalidIndex = <span class="cstat-no" title="statement not covered" >allPunches.findIndex(isPunchEntryInvalid);</span>
+<span class="cstat-no" title="statement not covered" >    return firstInvalidIndex === -1 ? allPunches : allPunches.slice(0, firstInvalidIndex);</span>
+};
+const getCroppedString = <span class="fstat-no" title="function not covered" >(m</span>aybeCharCodes) =&gt; {
+<span class="cstat-no" title="statement not covered" >    if (maybeCharCodes.some(<span class="fstat-no" title="function not covered" >(m</span>aybeCharCode) =&gt; <span class="cstat-no" title="statement not covered" >maybeCharCode === undefined)</span>) {</span>
+<span class="cstat-no" title="statement not covered" >        return undefined;</span>
+    }
+    const charCodes = <span class="cstat-no" title="statement not covered" >maybeCharCodes;</span>
+    const isCharacterInvalid = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(c</span>harCode) =&gt; <span class="cstat-no" title="statement not covered" >charCode === 0x20;</span></span>
+    const firstInvalidIndex = <span class="cstat-no" title="statement not covered" >charCodes.findIndex(isCharacterInvalid);</span>
+    const croppedCharCodes = <span class="cstat-no" title="statement not covered" >firstInvalidIndex === -1 ? charCodes : charCodes.slice(0, firstInvalidIndex);</span>
+<span class="cstat-no" title="statement not covered" >    return croppedCharCodes.map(<span class="fstat-no" title="function not covered" >(c</span>harCode) =&gt; <span class="cstat-no" title="statement not covered" >String.fromCharCode(charCode))</span>.join('');</span>
+};
+exports.SiCard6StorageDefinition = storage.defineStorage(0x400, {
+    cardNumber: new storage.SiModified(new storage.SiArray(3, <span class="fstat-no" title="function not covered" >(i</span>) =&gt; <span class="cstat-no" title="statement not covered" >new storage.SiInt([[0x0B + (2 - i)]]))</span>, <span class="fstat-no" title="function not covered" >(e</span>xtractedValue) =&gt; <span class="cstat-no" title="statement not covered" >siProtocol.arr2cardNumber(extractedValue))</span>,
+    startTime: new storage.SiInt([[0x1B], [0x1A]]),
+    finishTime: new storage.SiInt([[0x17], [0x16]]),
+    checkTime: new storage.SiInt([[0x1F], [0x1E]]),
+    clearTime: new storage.SiInt([[0x23], [0x22]]),
+    lastPunchedCode: new storage.SiInt([[0x11], [0x10]]),
+    punchCount: new storage.SiInt([[0x12]]),
+    punchCountPlus1: new storage.SiInt([[0x13]]),
+    punches: new storage.SiModified(new storage.SiArray(MAX_NUM_PUNCHES, <span class="fstat-no" title="function not covered" >(i</span>) =&gt; <span class="cstat-no" title="statement not covered" >new storage.SiDict({</span>
+        code: new storage.SiInt([
+            [exports.getPunchOffset(i) + 1],
+        ]),
+        time: new storage.SiInt([
+            [exports.getPunchOffset(i) + 3],
+            [exports.getPunchOffset(i) + 2],
+        ]),
+    })), 
+    // TODO: a punch in allPunches can't actually be undefined
+<span class="fstat-no" title="function not covered" >    (a</span>llPunches) =&gt; <span class="cstat-no" title="statement not covered" >exports.cropPunches(allPunches))</span>,
+    cardHolder: new storage.SiDict({
+        lastName: new storage.SiModified(new storage.SiArray(20, <span class="fstat-no" title="function not covered" >(i</span>) =&gt; <span class="cstat-no" title="statement not covered" >new storage.SiInt([[0x30 + i]]))</span>, <span class="fstat-no" title="function not covered" >(c</span>harCodes) =&gt; <span class="cstat-no" title="statement not covered" >getCroppedString(charCodes))</span>,
+        firstName: new storage.SiModified(new storage.SiArray(20, <span class="fstat-no" title="function not covered" >(i</span>) =&gt; <span class="cstat-no" title="statement not covered" >new storage.SiInt([[0x44 + i]]))</span>, <span class="fstat-no" title="function not covered" >(c</span>harCodes) =&gt; <span class="cstat-no" title="statement not covered" >getCroppedString(charCodes))</span>,
+        country: new storage.SiModified(new storage.SiArray(4, <span class="fstat-no" title="function not covered" >(i</span>) =&gt; <span class="cstat-no" title="statement not covered" >new storage.SiInt([[0x58 + i]]))</span>, <span class="fstat-no" title="function not covered" >(c</span>harCodes) =&gt; <span class="cstat-no" title="statement not covered" >getCroppedString(charCodes))</span>,
+        club: new storage.SiModified(new storage.SiArray(36, <span class="fstat-no" title="function not covered" >(i</span>) =&gt; <span class="cstat-no" title="statement not covered" >new storage.SiInt([[0x5C + i]]))</span>, <span class="fstat-no" title="function not covered" >(c</span>harCodes) =&gt; <span class="cstat-no" title="statement not covered" >getCroppedString(charCodes))</span>,
+        userId: new storage.SiModified(new storage.SiArray(16, <span class="fstat-no" title="function not covered" >(i</span>) =&gt; <span class="cstat-no" title="statement not covered" >new storage.SiInt([[0x80 + i]]))</span>, <span class="fstat-no" title="function not covered" >(c</span>harCodes) =&gt; <span class="cstat-no" title="statement not covered" >getCroppedString(charCodes))</span>,
+        phone: new storage.SiModified(new storage.SiArray(16, <span class="fstat-no" title="function not covered" >(i</span>) =&gt; <span class="cstat-no" title="statement not covered" >new storage.SiInt([[0x90 + i]]))</span>, <span class="fstat-no" title="function not covered" >(c</span>harCodes) =&gt; <span class="cstat-no" title="statement not covered" >getCroppedString(charCodes))</span>,
+        email: new storage.SiModified(new storage.SiArray(36, <span class="fstat-no" title="function not covered" >(i</span>) =&gt; <span class="cstat-no" title="statement not covered" >new storage.SiInt([[0xA0 + i]]))</span>, <span class="fstat-no" title="function not covered" >(c</span>harCodes) =&gt; <span class="cstat-no" title="statement not covered" >getCroppedString(charCodes))</span>,
+        street: new storage.SiModified(new storage.SiArray(20, <span class="fstat-no" title="function not covered" >(i</span>) =&gt; <span class="cstat-no" title="statement not covered" >new storage.SiInt([[0xC4 + i]]))</span>, <span class="fstat-no" title="function not covered" >(c</span>harCodes) =&gt; <span class="cstat-no" title="statement not covered" >getCroppedString(charCodes))</span>,
+        city: new storage.SiModified(new storage.SiArray(16, <span class="fstat-no" title="function not covered" >(i</span>) =&gt; <span class="cstat-no" title="statement not covered" >new storage.SiInt([[0xD8 + i]]))</span>, <span class="fstat-no" title="function not covered" >(c</span>harCodes) =&gt; <span class="cstat-no" title="statement not covered" >getCroppedString(charCodes))</span>,
+        zip: new storage.SiModified(new storage.SiArray(8, <span class="fstat-no" title="function not covered" >(i</span>) =&gt; <span class="cstat-no" title="statement not covered" >new storage.SiInt([[0xE8 + i]]))</span>, <span class="fstat-no" title="function not covered" >(c</span>harCodes) =&gt; <span class="cstat-no" title="statement not covered" >getCroppedString(charCodes))</span>,
+        gender: new storage.SiModified(new storage.SiArray(4, <span class="fstat-no" title="function not covered" >(i</span>) =&gt; <span class="cstat-no" title="statement not covered" >new storage.SiInt([[0xF0 + i]]))</span>, <span class="fstat-no" title="function not covered" >(c</span>harCodes) =&gt; <span class="cstat-no" title="statement not covered" >getCroppedString(charCodes))</span>,
+        birthday: new storage.SiModified(new storage.SiArray(8, <span class="fstat-no" title="function not covered" >(i</span>) =&gt; <span class="cstat-no" title="statement not covered" >new storage.SiInt([[0xF4 + i]]))</span>, <span class="fstat-no" title="function not covered" >(c</span>harCodes) =&gt; <span class="cstat-no" title="statement not covered" >getCroppedString(charCodes))</span>,
+        isComplete: new storage.SiModified(new storage.SiArray(0xD0, <span class="fstat-no" title="function not covered" >(i</span>) =&gt; <span class="cstat-no" title="statement not covered" >new storage.SiInt([[0x30 + i]]))</span>, 
+        // TODO: 'non-falsy' =&gt; relieve type constraints on SiDict
+<span class="fstat-no" title="function not covered" >        (c</span>harCodes) =&gt; (<span class="cstat-no" title="statement not covered" >charCodes.every(<span class="fstat-no" title="function not covered" >(c</span>harCode) =&gt; <span class="cstat-no" title="statement not covered" >charCode !== undefined)</span> ? 'non-falsy' : '')</span>),
+    }),
+});
+class SiCard6 extends BaseSiCard_1.BaseSiCard {
+<span class="fstat-no" title="function not covered" >    st</span>atic typeSpecificShouldDetectFromMessage(message) {
+<span class="cstat-no" title="statement not covered" >        return message.mode === undefined &amp;&amp; message.command === constants_1.proto.cmd.SI6_DET;</span>
+    }
+<span class="fstat-no" title="function not covered" >    ty</span>peSpecificGetPage(pageNumber) {
+<span class="cstat-no" title="statement not covered" >        if (!this.mainStation) {</span>
+<span class="cstat-no" title="statement not covered" >            return Promise.reject(new Error('No main station'));</span>
+        }
+<span class="cstat-no" title="statement not covered" >        return this.mainStation.sendMessage({</span>
+            command: constants_1.proto.cmd.GET_SI6,
+            parameters: [pageNumber],
+        }, 1)
+            .then(<span class="fstat-no" title="function not covered" >(d</span>ata) =&gt; {
+<span class="cstat-no" title="statement not covered" >            console.assert(data[0][2] === pageNumber, `Page number ${data[0][2]} retrieved (expected ${pageNumber})`);</span>
+<span class="cstat-no" title="statement not covered" >            return data[0].slice(3);</span>
+        });
+    }
+<span class="fstat-no" title="function not covered" >    ty</span>peSpecificRead() {
+<span class="cstat-no" title="statement not covered" >        return new Promise(<span class="fstat-no" title="function not covered" >(r</span>esolve, reject) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >            this.typeSpecificReadBasic()</span>
+                .then(<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >this.typeSpecificReadCardHolder())</span>
+                .then(<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >this.typeSpecificReadPunches())</span>
+                .then(<span class="fstat-no" title="function not covered" >()</span> =&gt; {
+<span class="cstat-no" title="statement not covered" >                this.cardNumber = this.storage.get('cardNumber').value;</span>
+<span class="cstat-no" title="statement not covered" >                this.startTime = this.storage.get('startTime').value;</span>
+<span class="cstat-no" title="statement not covered" >                this.finishTime = this.storage.get('finishTime').value;</span>
+<span class="cstat-no" title="statement not covered" >                this.clearTime = this.storage.get('clearTime').value;</span>
+<span class="cstat-no" title="statement not covered" >                this.checkTime = this.storage.get('checkTime').value;</span>
+<span class="cstat-no" title="statement not covered" >                this.punchCount = this.storage.get('punchCount').value;</span>
+<span class="cstat-no" title="statement not covered" >                this.punchCountPlus1 = this.storage.get('punchCountPlus1').value;</span>
+<span class="cstat-no" title="statement not covered" >                this.punches = this.storage.get('punches').value;</span>
+<span class="cstat-no" title="statement not covered" >                this.cardHolder = this.storage.get('cardHolder').value;</span>
+<span class="cstat-no" title="statement not covered" >                this.lastPunchedCode = this.storage.get('lastPunchedCode').value;</span>
+<span class="cstat-no" title="statement not covered" >                resolve();</span>
+            })
+                .catch(<span class="fstat-no" title="function not covered" >(e</span>xc) =&gt; <span class="cstat-no" title="statement not covered" >reject(exc))</span>;
+        });
+    }
+<span class="fstat-no" title="function not covered" >    ty</span>peSpecificReadBasic() {
+<span class="cstat-no" title="statement not covered" >        return this.typeSpecificGetPage(0)</span>
+            .then(<span class="fstat-no" title="function not covered" >(p</span>age0) =&gt; {
+<span class="cstat-no" title="statement not covered" >            this.storage.splice(bytesPerPage * 0, bytesPerPage, ...page0);</span>
+            const readCardNumber = <span class="cstat-no" title="statement not covered" >this.storage.get('cardNumber').value;</span>
+<span class="cstat-no" title="statement not covered" >            if (this.cardNumber !== readCardNumber) {</span>
+<span class="cstat-no" title="statement not covered" >                console.warn(`SICard6 Number ${readCardNumber} (expected ${this.cardNumber})`);</span>
+            }
+        });
+    }
+<span class="fstat-no" title="function not covered" >    ty</span>peSpecificReadCardHolder() {
+<span class="cstat-no" title="statement not covered" >        return this.typeSpecificGetPage(1)</span>
+            .then(<span class="fstat-no" title="function not covered" >(p</span>age1) =&gt; {
+<span class="cstat-no" title="statement not covered" >            this.storage.splice(bytesPerPage * 1, bytesPerPage, ...page1);</span>
+        });
+    }
+<span class="fstat-no" title="function not covered" >    ty</span>peSpecificReadPunches() {
+<span class="cstat-no" title="statement not covered" >        if (this.storage.get('punchCount').value &lt;= punchesPerPage * 0) {</span>
+<span class="cstat-no" title="statement not covered" >            return Promise.resolve();</span>
+        }
+<span class="cstat-no" title="statement not covered" >        return this.typeSpecificGetPage(6)</span>
+            .then(<span class="fstat-no" title="function not covered" >(p</span>age6) =&gt; {
+<span class="cstat-no" title="statement not covered" >            this.storage.splice(bytesPerPage * 6, bytesPerPage, ...page6);</span>
+<span class="cstat-no" title="statement not covered" >            if (this.storage.get('punchCount').value &lt;= punchesPerPage * 1) {</span>
+<span class="cstat-no" title="statement not covered" >                throw new ReadFinishedException();</span>
+            }
+<span class="cstat-no" title="statement not covered" >            return this.typeSpecificGetPage(7);</span>
+        })
+            .then(<span class="fstat-no" title="function not covered" >(p</span>age7) =&gt; {
+<span class="cstat-no" title="statement not covered" >            this.storage.splice(bytesPerPage * 7, bytesPerPage, ...page7);</span>
+<span class="cstat-no" title="statement not covered" >            throw new ReadFinishedException();</span>
+        })
+            .catch(<span class="fstat-no" title="function not covered" >(e</span>xc) =&gt; {
+<span class="cstat-no" title="statement not covered" >            if (exc instanceof ReadFinishedException) {</span>
+<span class="cstat-no" title="statement not covered" >                return;</span>
+            }
+<span class="cstat-no" title="statement not covered" >            throw exc;</span>
+        });
+    }
+}
+exports.SiCard6 = SiCard6;
+SiCard6.maxNumPunches = MAX_NUM_PUNCHES;
+SiCard6.StorageDefinition = exports.SiCard6StorageDefinition;
+BaseSiCard_1.BaseSiCard.registerNumberRange(500000, 1000000, SiCard6);
+BaseSiCard_1.BaseSiCard.registerNumberRange(2003000, 2004000, SiCard6);
+//# sourceMappingURL=SiCard6.js.map</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Mon Dec 16 2019 20:48:15 GMT+0000 (Coordinated Universal Time)
+</div>
+</div>
+<script src="../../../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../../../sorter.js"></script>
+<script src="../../../../block-navigation.js"></script>
+</body>
+</html>
