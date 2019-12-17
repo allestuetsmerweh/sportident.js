@@ -3,6 +3,8 @@ import {proto} from '../constants';
 import * as utils from '../utils';
 import * as siProtocol from '../siProtocol';
 import * as storage from '../storage';
+import {IRaceResultData} from './IRaceResultData';
+import {makeStartZeroTime, monotonizeRaceResult, prettyRaceResult} from './raceResultTools';
 
 // TODO: SiCard interface
 type SiCardType = any; // {new(): BaseSiCard};
@@ -14,11 +16,6 @@ export interface ISiMainStation {
         numResponses?: number,
         timeoutInMiliseconds?: number,
     ) => Promise<number[][]>;
-}
-
-export interface SiCardPunch {
-    code: number;
-    time: number|undefined;
 }
 
 const EmptyStorage = storage.defineStorage(0, {});
@@ -84,22 +81,19 @@ export abstract class BaseSiCard {
     }
 
     public mainStation?: ISiMainStation|undefined;
-    public cardNumber: number;
-    public punchCount?: number;
-    public clearTime?: number;
-    public checkTime?: number;
-    public startTime?: number;
-    public finishTime?: number;
-    public punches?: SiCardPunch[];
-    public cardHolder?: {[property: string]: any};
+    public raceResult: IRaceResultData;
     public storage: storage.SiStorage;
 
     constructor(cardNumber: number) {
-        this.cardNumber = cardNumber;
+        this.raceResult = {cardNumber: cardNumber};
         this.storage = (this.StorageDefinition
             ? new this.StorageDefinition()
             : new EmptyStorage() // TODO: find better solution
         );
+    }
+
+    get cardNumber() {
+        return this.raceResult.cardNumber;
     }
 
     get StorageDefinition(): typeof storage.SiStorage {
@@ -110,6 +104,10 @@ export abstract class BaseSiCard {
     read() {
         return this.typeSpecificRead()
             .then(() => this);
+    }
+
+    getNormalizedRaceResult() {
+        return makeStartZeroTime(monotonizeRaceResult(this.raceResult));
     }
 
     abstract typeSpecificRead(): Promise<void>;
@@ -124,39 +122,10 @@ export abstract class BaseSiCard {
     }
 
     toDict() {
-        return {
-            cardNumber: this.cardNumber,
-            clearTime: this.clearTime,
-            checkTime: this.checkTime,
-            startTime: this.startTime,
-            finishTime: this.finishTime,
-            punches: this.punches,
-            cardHolder: this.cardHolder,
-        };
+        return this.raceResult;
     }
 
     toString() {
-        const punchesString = (this.punches
-            ? this.punches.map(
-                (punch) => `${punch.code}: ${punch.time}`,
-            ).join('\n')
-            : 'No punches'
-        );
-        const cardHolderString = (this.cardHolder
-            ? Object.keys(this.cardHolder).map(
-                (key) => `${key}: ${this.cardHolder![key]}`,
-            ).join('\n')
-            : '?'
-        );
-        return (
-            `${this.constructor.name} Number: ${this.cardNumber}\n` +
-            `Clear: ${this.clearTime !== undefined ? this.clearTime : '?'}\n` +
-            `Check: ${this.checkTime !== undefined ? this.checkTime : '?'}\n` +
-            `Start: ${this.startTime !== undefined ? this.startTime : '?'}\n` +
-            `Finish: ${this.finishTime !== undefined ? this.finishTime : '?'}\n` +
-            `${punchesString}\n` +
-            'Card Holder:\n' +
-            `${cardHolderString}\n`
-        );
+        return `${this.constructor.name}\n${prettyRaceResult(this.raceResult)}`;
     }
 }

@@ -135,6 +135,7 @@ export class SiCard6 extends BaseSiCard {
         return message.mode === undefined && message.command === proto.cmd.SI6_DET;
     }
 
+    public punchCount?: number;
     public punchCountPlus1?: number;
     public lastPunchedCode?: number;
 
@@ -161,15 +162,17 @@ export class SiCard6 extends BaseSiCard {
                 .then(() => this.typeSpecificReadCardHolder())
                 .then(() => this.typeSpecificReadPunches())
                 .then(() => {
-                    this.cardNumber = this.storage.get('cardNumber')!.value;
-                    this.startTime = this.storage.get('startTime')!.value;
-                    this.finishTime = this.storage.get('finishTime')!.value;
-                    this.clearTime = this.storage.get('clearTime')!.value;
-                    this.checkTime = this.storage.get('checkTime')!.value;
+                    this.raceResult = {
+                        cardNumber: this.storage.get('cardNumber')!.value,
+                        startTime: this.storage.get('startTime')!.value,
+                        finishTime: this.storage.get('finishTime')!.value,
+                        clearTime: this.storage.get('clearTime')!.value,
+                        checkTime: this.storage.get('checkTime')!.value,
+                        punches: this.storage.get('punches')!.value,
+                        cardHolder: this.storage.get('cardHolder')!.value,
+                    };
                     this.punchCount = this.storage.get('punchCount')!.value;
                     this.punchCountPlus1 = this.storage.get('punchCountPlus1')!.value;
-                    this.punches = this.storage.get('punches')!.value;
-                    this.cardHolder = this.storage.get('cardHolder')!.value;
                     this.lastPunchedCode = this.storage.get('lastPunchedCode')!.value;
                     resolve();
                 })

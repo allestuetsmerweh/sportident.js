@@ -123,7 +123,7 @@ describe('BaseSiCard', () => {
             static StorageDefinition = SiCard1StorageDefinition;
 
             typeSpecificRead() {
-                this.startTime = 1;
+                this.raceResult.startTime = 1;
                 return Promise.resolve();
             }
         }
@@ -142,20 +142,23 @@ describe('BaseSiCard', () => {
         };
         const result = await siCard500.read();
         expect(result).toBe(siCard500);
-        expect(siCard500.startTime).toBe(1);
+        expect(siCard500.raceResult.startTime).toBe(1);
         await siCard500.confirm();
         done();
     });
     const emptySiCard = new FakeSiCard1(501);
     const nonemptySiCard = new FakeSiCard1(502);
-    nonemptySiCard.clearTime = 1;
-    nonemptySiCard.checkTime = 2;
-    nonemptySiCard.startTime = 3;
-    nonemptySiCard.punches = [
-        {code: 31, time: 4},
-    ];
-    nonemptySiCard.finishTime = 5;
-    nonemptySiCard.cardHolder = {firstName: 'John'};
+    nonemptySiCard.raceResult = {
+        cardNumber: 502,
+        clearTime: 1,
+        checkTime: 2,
+        startTime: 3,
+        punches: [
+            {code: 31, time: 4},
+        ],
+        finishTime: 5,
+        cardHolder: {firstName: 'John'},
+    };
     it('Empty SiCard toDict', async () => {
         expect(emptySiCard.toDict()).toEqual({
             cardNumber: 501,
@@ -180,12 +183,26 @@ describe('BaseSiCard', () => {
     });
     it('Empty SiCard toString', async () => {
         expect(emptySiCard.toString()).toEqual(
-            'FakeSiCard1 Number: 501\nClear: ?\nCheck: ?\nStart: ?\nFinish: ?\nNo punches\nCard Holder:\n?\n',
+            'FakeSiCard1\nCard Number: 501\nClear: ?\nCheck: ?\nStart: ?\nFinish: ?\n? Punches\nCard Holder:\n?\n',
         );
     });
     it('Non-empty SiCard toString', async () => {
         expect(nonemptySiCard.toString()).toEqual(
-            'FakeSiCard1 Number: 502\nClear: 1\nCheck: 2\nStart: 3\nFinish: 5\n31: 4\nCard Holder:\nfirstName: John\n',
+            'FakeSiCard1\nCard Number: 502\nClear: 1\nCheck: 2\nStart: 3\nFinish: 5\n31: 4\nCard Holder:\nfirstName: John\n',
         );
+    });
+    it('Empty SiCard normalizedRaceResult', async () => {
+        expect(() => emptySiCard.getNormalizedRaceResult()).toThrow();
+    });
+    it('Non-empty SiCard normalizedRaceResult', async () => {
+        expect(nonemptySiCard.getNormalizedRaceResult()).toEqual({
+            cardNumber: 502,
+            clearTime: -2,
+            checkTime: -1,
+            startTime: 0,
+            finishTime: 2,
+            punches: [{code: 31, time: 1}],
+            cardHolder: {firstName: 'John'},
+        });
     });
 });

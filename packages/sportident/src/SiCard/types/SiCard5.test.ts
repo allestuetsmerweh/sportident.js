@@ -112,12 +112,12 @@ describe('SiCard5', () => {
             const mySiCard5 = new SiCard5(cardData.cardNumber);
             mySiCard5.mainStation = mainStationSimulation;
             mySiCard5.typeSpecificRead().then(() => {
-                expect(mySiCard5.cardNumber).toEqual(cardData.cardNumber);
-                expect(mySiCard5.startTime).toEqual(cardData.startTime);
-                expect(mySiCard5.finishTime).toEqual(cardData.finishTime);
-                expect(mySiCard5.checkTime).toEqual(cardData.checkTime);
+                expect(mySiCard5.raceResult.cardNumber).toEqual(cardData.cardNumber);
+                expect(mySiCard5.raceResult.startTime).toEqual(cardData.startTime);
+                expect(mySiCard5.raceResult.finishTime).toEqual(cardData.finishTime);
+                expect(mySiCard5.raceResult.checkTime).toEqual(cardData.checkTime);
+                expect(mySiCard5.raceResult.punches).toEqual(cardData.punches);
                 expect(mySiCard5.punchCount).toEqual(cardData.punchCount);
-                expect(mySiCard5.punches).toEqual(cardData.punches);
                 done();
             });
         });
@@ -126,12 +126,12 @@ describe('SiCard5', () => {
             const mySiCard5 = new SiCard5(cardData.cardNumber + 1);
             mySiCard5.mainStation = mainStationSimulation;
             mySiCard5.typeSpecificRead().then(() => {
-                expect(mySiCard5.cardNumber).toEqual(cardData.cardNumber);
-                expect(mySiCard5.startTime).toEqual(cardData.startTime);
-                expect(mySiCard5.finishTime).toEqual(cardData.finishTime);
-                expect(mySiCard5.checkTime).toEqual(cardData.checkTime);
+                expect(mySiCard5.raceResult.cardNumber).toEqual(cardData.cardNumber);
+                expect(mySiCard5.raceResult.startTime).toEqual(cardData.startTime);
+                expect(mySiCard5.raceResult.finishTime).toEqual(cardData.finishTime);
+                expect(mySiCard5.raceResult.checkTime).toEqual(cardData.checkTime);
+                expect(mySiCard5.raceResult.punches).toEqual(cardData.punches);
                 expect(mySiCard5.punchCount).toEqual(cardData.punchCount);
-                expect(mySiCard5.punches).toEqual(cardData.punches);
                 done();
             });
         });

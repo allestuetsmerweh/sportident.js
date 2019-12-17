@@ -76,6 +76,7 @@ export class SiCard5 extends BaseSiCard {
         return message.mode === undefined && message.command === proto.cmd.SI5_DET;
     }
 
+    public punchCount?: number;
     public softwareVersion?: number;
 
     typeSpecificRead() {
@@ -93,13 +94,15 @@ export class SiCard5 extends BaseSiCard {
                 if (this.cardNumber !== readCardNumber) {
                     console.warn(`SICard5 Number ${readCardNumber} (expected ${this.cardNumber})`);
                 }
-                this.cardNumber = this.storage.get('cardNumber')!.value;
-                this.startTime = this.storage.get('startTime')!.value;
-                this.finishTime = this.storage.get('finishTime')!.value;
-                this.checkTime = this.storage.get('checkTime')!.value;
+                this.raceResult = {
+                    cardNumber: this.storage.get('cardNumber')!.value,
+                    startTime: this.storage.get('startTime')!.value,
+                    finishTime: this.storage.get('finishTime')!.value,
+                    checkTime: this.storage.get('checkTime')!.value,
+                    punches: this.storage.get('punches')!.value,
+                    cardHolder: this.storage.get('cardHolder')!.value,
+                };
                 this.punchCount = this.storage.get('punchCount')!.value;
-                this.punches = this.storage.get('punches')!.value;
-                this.cardHolder = this.storage.get('cardHolder')!.value;
                 this.softwareVersion = this.storage.get('softwareVersion')!.value;
             });
     }
