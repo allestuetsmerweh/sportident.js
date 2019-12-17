@@ -13,8 +13,8 @@ describe('SiCard11', () => {
         expect(BaseSiCard.getTypeByCardNumber(9999999)).toEqual(SiCard11);
     });
     it('is modern', (done) => {
-        const mySIAC = new SiCard11(8500000);
-        mySIAC.mainStation = {
+        const mySiCard11 = new SiCard11(8500000);
+        mySiCard11.mainStation = {
             sendMessage: (message: siProtocol.SiMessage, numResponses?: number) => {
                 if (message.mode !== undefined) {
                     return Promise.reject(new Error('message mode is not undefined'));
@@ -30,13 +30,13 @@ describe('SiCard11', () => {
                 return Promise.resolve([getPage(pageNumberToGet)]);
             },
         };
-        mySIAC.typeSpecificRead()
+        mySiCard11.typeSpecificRead()
             .then(() => {
-                expect(mySIAC.cardNumber).toBe(0);
-                expect(mySIAC.startTime).toBe(0);
-                expect(mySIAC.finishTime).toBe(0);
-                expect(mySIAC.punchCount).toBe(0);
-                expect(mySIAC.punches).toEqual([]);
+                expect(mySiCard11.raceResult.cardNumber).toBe(0);
+                expect(mySiCard11.raceResult.startTime).toBe(0);
+                expect(mySiCard11.raceResult.finishTime).toBe(0);
+                expect(mySiCard11.raceResult.punches).toEqual([]);
+                expect(mySiCard11.punchCount).toBe(0);
                 done();
             });
     });

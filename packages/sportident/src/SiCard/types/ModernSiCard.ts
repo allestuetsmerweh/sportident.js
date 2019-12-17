@@ -118,6 +118,7 @@ export class ModernSiCard extends BaseSiCard {
         return message.mode === undefined && message.command === proto.cmd.SI8_DET;
     }
 
+    public punchCount?: number;
     public cardSeries?: ModernSiCardSeries;
 
     typeSpecificGetPage(pageNumber: number) {
@@ -143,14 +144,16 @@ export class ModernSiCard extends BaseSiCard {
                 .then(() => this.typeSpecificReadCardHolder())
                 .then(() => this.typeSpecificReadPunches())
                 .then(() => {
-                    this.cardNumber = this.storage.get('cardNumber')!.value;
-                    this.cardSeries = this.storage.get('cardSeries')!.value;
-                    this.startTime = this.storage.get('startTime')!.value;
-                    this.finishTime = this.storage.get('finishTime')!.value;
-                    this.checkTime = this.storage.get('checkTime')!.value;
+                    this.raceResult = {
+                        cardNumber: this.storage.get('cardNumber')!.value,
+                        startTime: this.storage.get('startTime')!.value,
+                        finishTime: this.storage.get('finishTime')!.value,
+                        checkTime: this.storage.get('checkTime')!.value,
+                        punches: this.storage.get('punches')!.value,
+                        cardHolder: this.storage.get('cardHolder')!.value,
+                    };
                     this.punchCount = this.storage.get('punchCount')!.value;
-                    this.punches = this.storage.get('punches')!.value;
-                    this.cardHolder = this.storage.get('cardHolder')!.value;
+                    this.cardSeries = this.storage.get('cardSeries')!.value;
                     resolve();
                 })
                 .catch((exc: Error) => reject(exc));

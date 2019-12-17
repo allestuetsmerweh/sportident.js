@@ -32,11 +32,11 @@ describe('SIAC', () => {
         };
         mySIAC.typeSpecificRead()
             .then(() => {
-                expect(mySIAC.cardNumber).toBe(0);
-                expect(mySIAC.startTime).toBe(0);
-                expect(mySIAC.finishTime).toBe(0);
+                expect(mySIAC.raceResult.cardNumber).toBe(0);
+                expect(mySIAC.raceResult.startTime).toBe(0);
+                expect(mySIAC.raceResult.finishTime).toBe(0);
+                expect(mySIAC.raceResult.punches).toEqual([]);
                 expect(mySIAC.punchCount).toBe(0);
-                expect(mySIAC.punches).toEqual([]);
                 done();
             });
     });
