@@ -1,6 +1,8 @@
 /* eslint-env jasmine */
 
+// eslint-disable-next-line no-unused-vars
 import {IRaceResultData} from './IRaceResultData';
+// eslint-disable-next-line no-unused-vars
 import {getOrderedRaceResult, getRaceResultFromOrdered, IOrderedRaceResult, makeStartZeroTime, monotonizeOrderedRaceResult, monotonizeRaceResult, prettyRaceResult} from './raceResultTools';
 
 const EMPTY_RACE_RESULT: IRaceResultData = {};

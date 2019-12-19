@@ -1,6 +1,8 @@
 import React from 'react';
 import Immutable from 'immutable';
+// eslint-disable-next-line no-unused-vars
 import {SiDeviceAddEvent, ISiDeviceDriverWithAutodetection, SiDeviceRemoveEvent} from 'sportident/lib/SiDevice/ISiDeviceDriver';
+// eslint-disable-next-line no-unused-vars
 import {ISiDevice, ISiDeviceDriverData} from 'sportident/lib/SiDevice/ISiDevice';
 
 export const useSiDevices = <T extends ISiDeviceDriverData<any>>(

@@ -27,7 +27,8 @@ jobs:
 
       - run: npm run lerna bootstrap
 
-      # - run: npm run lint
+      - run: npm run lint
+      - run: npm run lerna run tsc
       - run: npm run build
       - run: npm run dependency-check
       - run: npm run test:ci

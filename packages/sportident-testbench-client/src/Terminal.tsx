@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import React from 'react';
 import {getSiShellCommands, Shell} from 'sportident-testbench-shell/lib';
+// eslint-disable-next-line no-unused-vars
 import {ISiDevice} from 'sportident/lib/SiDevice/ISiDevice';
 
 const keyCodeFromDomEventKey = (domKey: string) => {
@@ -17,8 +18,8 @@ const keyCodeFromDomEventKey = (domKey: string) => {
             console.warn(`Undefined Special Key: ${domKey}`);
             return undefined;
         }
-    };
-}
+    }
+};
 
 const TerminalCursor = () => {
     const [shown, setIsShown] = React.useState(true);
@@ -28,7 +29,7 @@ const TerminalCursor = () => {
         }, 500);
         return () => {
             clearInterval(interval);
-        }
+        };
     }, []);
     return <span>{shown ? '\u2588' : '\u00A0'}</span>; // \u2588=box, \u00A0=space
 };
@@ -82,12 +83,14 @@ export const Terminal = (
                     return;
                 }
                 const newContent = shellContent.substr(0, contentLength - 1);
-                return setShellContent(newContent);
+                setShellContent(newContent);
+                break;
             }
             default: {
                 const newChar = String.fromCharCode(charCode);
                 const newContent = `${shellContent}${newChar}`;
-                return setShellContent(newContent);
+                setShellContent(newContent);
+                break;
             }
         }
     };
@@ -99,7 +102,7 @@ export const Terminal = (
     }
 
     const pushToOutputQueue = (charCode: number) => {
-        setOutputQueue((outputQueue) => [...outputQueue, charCode]);
+        setOutputQueue((outputQueue_) => [...outputQueue_, charCode]);
     };
 
     const popFromInputQueue = React.useCallback(() => {
@@ -119,7 +122,7 @@ export const Terminal = (
         getSiShellCommands(),
         {
             initialEnv: {device: props.selectedDevice},
-        }
+        },
     ), []);
 
     siShell.ui = {
