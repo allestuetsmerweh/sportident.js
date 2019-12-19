@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import {IRaceResultData, IPunch} from './IRaceResultData';
 
 const SI_TIME_CUTOFF = 43200; // Half a day in seconds
@@ -48,12 +49,6 @@ export const prettyRaceResult = (result: IRaceResultData): string => {
         `${cardHolderString}\n`
     );
 };
-
-export const monotonizeRaceResult = (result: IRaceResultData) => {
-    const orderedResult = getOrderedRaceResult(result);
-    const monotonizedOrderedResult = monotonizeOrderedRaceResult(orderedResult);
-    return getRaceResultFromOrdered(monotonizedOrderedResult);
-}
 
 export const getOrderedRaceResult = (
     result: IRaceResultData,
@@ -139,6 +134,12 @@ export const monotonizeOrderedRaceResult = (orderedData: IOrderedRaceResult) => 
         ...orderedData,
         orderedTimes: newOrderedTimes,
     };
+};
+
+export const monotonizeRaceResult = (result: IRaceResultData) => {
+    const orderedResult = getOrderedRaceResult(result);
+    const monotonizedOrderedResult = monotonizeOrderedRaceResult(orderedResult);
+    return getRaceResultFromOrdered(monotonizedOrderedResult);
 };
 
 export const makeStartZeroTime = (

@@ -52,7 +52,7 @@ const compatibleRules = {
     'no-continue': 'error',
     'no-duplicate-imports': 'error',
     'no-else-return': 'error',
-    'no-empty-function': 'error',
+    'no-empty-function': 'off',
     'no-eval': 'error',
     'no-extend-native': 'error',
     'no-floating-decimal': 'error',
@@ -115,6 +115,7 @@ const compatibleRules = {
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/interface-name-prefix': 'off',
     '@typescript-eslint/member-delimiter-style': 'off',
+    '@typescript-eslint/no-empty-function': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/no-non-null-assertion': 'off',
     '@typescript-eslint/no-unused-vars': 'off', // handled by 'no-unused-vars'

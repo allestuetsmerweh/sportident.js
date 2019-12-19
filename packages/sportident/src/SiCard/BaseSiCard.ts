@@ -3,6 +3,7 @@ import {proto} from '../constants';
 import * as utils from '../utils';
 import * as siProtocol from '../siProtocol';
 import * as storage from '../storage';
+// eslint-disable-next-line no-unused-vars
 import {IRaceResultData} from './IRaceResultData';
 import {makeStartZeroTime, monotonizeRaceResult, prettyRaceResult} from './raceResultTools';
 

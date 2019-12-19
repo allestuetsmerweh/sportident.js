@@ -1,4 +1,5 @@
 import React from 'react';
+// eslint-disable-next-line no-unused-vars
 import {ISiDevice} from 'sportident/lib/SiDevice/ISiDevice';
 
 export const MainStationList = (

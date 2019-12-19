@@ -8,6 +8,15 @@ import {ISiTargetMultiplexer, SendTaskState, SiTargetMultiplexerDirectMessageEve
 // eslint-disable-next-line no-unused-vars
 import {ISiDevice, SiDeviceState} from '../SiDevice/ISiDevice';
 
+const DEVICE_INITIATED_COMMANDS: {[command: number]: boolean} = {
+    [proto.cmd.SRR_PING]: true,
+    [proto.cmd.TRANS_REC]: true,
+    [proto.cmd.SI5_DET]: true,
+    [proto.cmd.SI6_DET]: true,
+    [proto.cmd.SI8_DET]: true,
+    [proto.cmd.SI_REM]: true,
+};
+
 class SendTask {
     public state: SendTaskState = SendTaskState.Queued;
     public responses: number[][] = [];
@@ -173,7 +182,10 @@ export class SiTargetMultiplexer implements ISiTargetMultiplexer {
         if (expectedMessage.mode !== undefined) {
             return;
         }
-        if (message.command !== expectedMessage.command) {
+        if (
+            message.command !== expectedMessage.command
+            && !DEVICE_INITIATED_COMMANDS[message.command]
+        ) {
             console.warn(`Strange Response: expected ${utils.prettyHex([expectedMessage.command])}, but got ${utils.prettyHex([message.command])}...`);
             return;
         }
