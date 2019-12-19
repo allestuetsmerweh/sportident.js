@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">7.91% </span>
+        <span class="strong">8.57% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>11/139</span>
+        <span class='fraction'>12/140</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">10.91% </span>
+        <span class="strong">10.53% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>6/55</span>
+        <span class='fraction'>6/57</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">2.7% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>1/37</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">7.58% </span>
+        <span class="strong">8.27% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>10/132</span>
+        <span class='fraction'>11/133</span>
       </div>
     </div>
     <p class="quiet">
@@ -298,7 +298,16 @@
 <a name='L250'></a><a href='#L250'>250</a>
 <a name='L251'></a><a href='#L251'>251</a>
 <a name='L252'></a><a href='#L252'>252</a>
-<a name='L253'></a><a href='#L253'>253</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L253'></a><a href='#L253'>253</a>
+<a name='L254'></a><a href='#L254'>254</a>
+<a name='L255'></a><a href='#L255'>255</a>
+<a name='L256'></a><a href='#L256'>256</a>
+<a name='L257'></a><a href='#L257'>257</a>
+<a name='L258'></a><a href='#L258'>258</a>
+<a name='L259'></a><a href='#L259'>259</a>
+<a name='L260'></a><a href='#L260'>260</a>
+<a name='L261'></a><a href='#L261'>261</a>
+<a name='L262'></a><a href='#L262'>262</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -314,6 +323,7 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -326,6 +336,13 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -460,6 +477,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -566,6 +584,14 @@ const siProtocol = __importStar(require("../siProtocol"));
 const ISiTargetMultiplexer_1 = require("./ISiTargetMultiplexer");
 // eslint-disable-next-line no-unused-vars
 const ISiDevice_1 = require("../SiDevice/ISiDevice");
+const DEVICE_INITIATED_COMMANDS = {
+    [constants_1.proto.cmd.SRR_PING]: true,
+    [constants_1.proto.cmd.TRANS_REC]: true,
+    [constants_1.proto.cmd.SI5_DET]: true,
+    [constants_1.proto.cmd.SI6_DET]: true,
+    [constants_1.proto.cmd.SI8_DET]: true,
+    [constants_1.proto.cmd.SI_REM]: true,
+};
 class SendTask {
 <span class="fstat-no" title="function not covered" >    co</span>nstructor(
     // eslint-disable-next-line no-unused-vars
@@ -711,7 +737,8 @@ class SiTargetMultiplexer {
 <span class="cstat-no" title="statement not covered" >        if (expectedMessage.mode !== undefined) {</span>
 <span class="cstat-no" title="statement not covered" >            return;</span>
         }
-<span class="cstat-no" title="statement not covered" >        if (message.command !== expectedMessage.command) {</span>
+<span class="cstat-no" title="statement not covered" >        if (message.command !== expectedMessage.command</span>
+            &amp;&amp; !DEVICE_INITIATED_COMMANDS[message.command]) {
 <span class="cstat-no" title="statement not covered" >            console.warn(`Strange Response: expected ${utils.prettyHex([expectedMessage.command])}, but got ${utils.prettyHex([message.command])}...`);</span>
 <span class="cstat-no" title="statement not covered" >            return;</span>
         }
@@ -808,7 +835,7 @@ utils.applyMixins(SiTargetMultiplexer, [utils.EventTarget]);
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Thu Dec 19 2019 08:06:30 GMT+0000 (Coordinated Universal Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Thu Dec 19 2019 18:54:25 GMT+0000 (Coordinated Universal Time)
 </div>
 </div>
 <script src="../../../prettify.js"></script>
