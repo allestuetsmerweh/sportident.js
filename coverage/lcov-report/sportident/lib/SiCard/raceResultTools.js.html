@@ -1,0 +1,399 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for sportident/lib/SiCard/raceResultTools.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../prettify.css" />
+    <link rel="stylesheet" href="../../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../../index.html">All files</a> / <a href="index.html">sportident/lib/SiCard</a> raceResultTools.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">14.04% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>8/57</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/42</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>0/14</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">14.55% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>8/55</span>
+      </div>
+    </div>
+    <p class="quiet">
+      Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
+    </p>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
+<a name='L2'></a><a href='#L2'>2</a>
+<a name='L3'></a><a href='#L3'>3</a>
+<a name='L4'></a><a href='#L4'>4</a>
+<a name='L5'></a><a href='#L5'>5</a>
+<a name='L6'></a><a href='#L6'>6</a>
+<a name='L7'></a><a href='#L7'>7</a>
+<a name='L8'></a><a href='#L8'>8</a>
+<a name='L9'></a><a href='#L9'>9</a>
+<a name='L10'></a><a href='#L10'>10</a>
+<a name='L11'></a><a href='#L11'>11</a>
+<a name='L12'></a><a href='#L12'>12</a>
+<a name='L13'></a><a href='#L13'>13</a>
+<a name='L14'></a><a href='#L14'>14</a>
+<a name='L15'></a><a href='#L15'>15</a>
+<a name='L16'></a><a href='#L16'>16</a>
+<a name='L17'></a><a href='#L17'>17</a>
+<a name='L18'></a><a href='#L18'>18</a>
+<a name='L19'></a><a href='#L19'>19</a>
+<a name='L20'></a><a href='#L20'>20</a>
+<a name='L21'></a><a href='#L21'>21</a>
+<a name='L22'></a><a href='#L22'>22</a>
+<a name='L23'></a><a href='#L23'>23</a>
+<a name='L24'></a><a href='#L24'>24</a>
+<a name='L25'></a><a href='#L25'>25</a>
+<a name='L26'></a><a href='#L26'>26</a>
+<a name='L27'></a><a href='#L27'>27</a>
+<a name='L28'></a><a href='#L28'>28</a>
+<a name='L29'></a><a href='#L29'>29</a>
+<a name='L30'></a><a href='#L30'>30</a>
+<a name='L31'></a><a href='#L31'>31</a>
+<a name='L32'></a><a href='#L32'>32</a>
+<a name='L33'></a><a href='#L33'>33</a>
+<a name='L34'></a><a href='#L34'>34</a>
+<a name='L35'></a><a href='#L35'>35</a>
+<a name='L36'></a><a href='#L36'>36</a>
+<a name='L37'></a><a href='#L37'>37</a>
+<a name='L38'></a><a href='#L38'>38</a>
+<a name='L39'></a><a href='#L39'>39</a>
+<a name='L40'></a><a href='#L40'>40</a>
+<a name='L41'></a><a href='#L41'>41</a>
+<a name='L42'></a><a href='#L42'>42</a>
+<a name='L43'></a><a href='#L43'>43</a>
+<a name='L44'></a><a href='#L44'>44</a>
+<a name='L45'></a><a href='#L45'>45</a>
+<a name='L46'></a><a href='#L46'>46</a>
+<a name='L47'></a><a href='#L47'>47</a>
+<a name='L48'></a><a href='#L48'>48</a>
+<a name='L49'></a><a href='#L49'>49</a>
+<a name='L50'></a><a href='#L50'>50</a>
+<a name='L51'></a><a href='#L51'>51</a>
+<a name='L52'></a><a href='#L52'>52</a>
+<a name='L53'></a><a href='#L53'>53</a>
+<a name='L54'></a><a href='#L54'>54</a>
+<a name='L55'></a><a href='#L55'>55</a>
+<a name='L56'></a><a href='#L56'>56</a>
+<a name='L57'></a><a href='#L57'>57</a>
+<a name='L58'></a><a href='#L58'>58</a>
+<a name='L59'></a><a href='#L59'>59</a>
+<a name='L60'></a><a href='#L60'>60</a>
+<a name='L61'></a><a href='#L61'>61</a>
+<a name='L62'></a><a href='#L62'>62</a>
+<a name='L63'></a><a href='#L63'>63</a>
+<a name='L64'></a><a href='#L64'>64</a>
+<a name='L65'></a><a href='#L65'>65</a>
+<a name='L66'></a><a href='#L66'>66</a>
+<a name='L67'></a><a href='#L67'>67</a>
+<a name='L68'></a><a href='#L68'>68</a>
+<a name='L69'></a><a href='#L69'>69</a>
+<a name='L70'></a><a href='#L70'>70</a>
+<a name='L71'></a><a href='#L71'>71</a>
+<a name='L72'></a><a href='#L72'>72</a>
+<a name='L73'></a><a href='#L73'>73</a>
+<a name='L74'></a><a href='#L74'>74</a>
+<a name='L75'></a><a href='#L75'>75</a>
+<a name='L76'></a><a href='#L76'>76</a>
+<a name='L77'></a><a href='#L77'>77</a>
+<a name='L78'></a><a href='#L78'>78</a>
+<a name='L79'></a><a href='#L79'>79</a>
+<a name='L80'></a><a href='#L80'>80</a>
+<a name='L81'></a><a href='#L81'>81</a>
+<a name='L82'></a><a href='#L82'>82</a>
+<a name='L83'></a><a href='#L83'>83</a>
+<a name='L84'></a><a href='#L84'>84</a>
+<a name='L85'></a><a href='#L85'>85</a>
+<a name='L86'></a><a href='#L86'>86</a>
+<a name='L87'></a><a href='#L87'>87</a>
+<a name='L88'></a><a href='#L88'>88</a>
+<a name='L89'></a><a href='#L89'>89</a>
+<a name='L90'></a><a href='#L90'>90</a>
+<a name='L91'></a><a href='#L91'>91</a>
+<a name='L92'></a><a href='#L92'>92</a>
+<a name='L93'></a><a href='#L93'>93</a>
+<a name='L94'></a><a href='#L94'>94</a>
+<a name='L95'></a><a href='#L95'>95</a>
+<a name='L96'></a><a href='#L96'>96</a>
+<a name='L97'></a><a href='#L97'>97</a>
+<a name='L98'></a><a href='#L98'>98</a>
+<a name='L99'></a><a href='#L99'>99</a>
+<a name='L100'></a><a href='#L100'>100</a>
+<a name='L101'></a><a href='#L101'>101</a>
+<a name='L102'></a><a href='#L102'>102</a>
+<a name='L103'></a><a href='#L103'>103</a>
+<a name='L104'></a><a href='#L104'>104</a>
+<a name='L105'></a><a href='#L105'>105</a>
+<a name='L106'></a><a href='#L106'>106</a>
+<a name='L107'></a><a href='#L107'>107</a>
+<a name='L108'></a><a href='#L108'>108</a>
+<a name='L109'></a><a href='#L109'>109</a>
+<a name='L110'></a><a href='#L110'>110</a>
+<a name='L111'></a><a href='#L111'>111</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const SI_TIME_CUTOFF = 43200; // Half a day in seconds
+exports.prettyRaceResult = <span class="fstat-no" title="function not covered" >(r</span>esult) =&gt; {
+    const punchesString = (<span class="cstat-no" title="statement not covered" >result.punches</span>
+        ? (result.punches.length &gt; 0
+            ? result.punches.map(<span class="fstat-no" title="function not covered" >(p</span>unch) =&gt; <span class="cstat-no" title="statement not covered" >`${punch.code}: ${punch.time}`)</span>.join('\n')
+            : 'No Punches')
+        : '? Punches');
+    const cardHolderString = (<span class="cstat-no" title="statement not covered" >result.cardHolder</span>
+        ? (Object.keys(result.cardHolder).length &gt; 0
+            ? Object.keys(result.cardHolder).map(<span class="fstat-no" title="function not covered" >(k</span>ey) =&gt; <span class="cstat-no" title="statement not covered" >`${key}: ${result.cardHolder[key]}`)</span>.join('\n')
+            : 'Empty Card Holder')
+        : '?');
+<span class="cstat-no" title="statement not covered" >    return (`Card Number: ${result.cardNumber !== undefined ? result.cardNumber : '?'}\n` +</span>
+        `Clear: ${result.clearTime !== undefined ? result.clearTime : '?'}\n` +
+        `Check: ${result.checkTime !== undefined ? result.checkTime : '?'}\n` +
+        `Start: ${result.startTime !== undefined ? result.startTime : '?'}\n` +
+        `Finish: ${result.finishTime !== undefined ? result.finishTime : '?'}\n` +
+        `${punchesString}\n` +
+        'Card Holder:\n' +
+        `${cardHolderString}\n`);
+};
+exports.monotonizeRaceResult = <span class="fstat-no" title="function not covered" >(r</span>esult) =&gt; {
+    const orderedResult = <span class="cstat-no" title="statement not covered" >exports.getOrderedRaceResult(result);</span>
+    const monotonizedOrderedResult = <span class="cstat-no" title="statement not covered" >exports.monotonizeOrderedRaceResult(orderedResult);</span>
+<span class="cstat-no" title="statement not covered" >    return exports.getRaceResultFromOrdered(monotonizedOrderedResult);</span>
+};
+exports.getOrderedRaceResult = <span class="fstat-no" title="function not covered" >(r</span>esult) =&gt; {
+    const orderedResult = <span class="cstat-no" title="statement not covered" >{</span>
+        cardNumber: result.cardNumber,
+        cardHolder: result.cardHolder,
+        orderedTimes: [],
+    };
+<span class="cstat-no" title="statement not covered" >    if (result.clearTime !== undefined) {</span>
+<span class="cstat-no" title="statement not covered" >        orderedResult.clearTimeIndex = orderedResult.orderedTimes.length;</span>
+<span class="cstat-no" title="statement not covered" >        orderedResult.orderedTimes.push(result.clearTime);</span>
+    }
+<span class="cstat-no" title="statement not covered" >    if (result.checkTime !== undefined) {</span>
+<span class="cstat-no" title="statement not covered" >        orderedResult.checkTimeIndex = orderedResult.orderedTimes.length;</span>
+<span class="cstat-no" title="statement not covered" >        orderedResult.orderedTimes.push(result.checkTime);</span>
+    }
+<span class="cstat-no" title="statement not covered" >    if (result.startTime !== undefined) {</span>
+<span class="cstat-no" title="statement not covered" >        orderedResult.startTimeIndex = orderedResult.orderedTimes.length;</span>
+<span class="cstat-no" title="statement not covered" >        orderedResult.orderedTimes.push(result.startTime);</span>
+    }
+<span class="cstat-no" title="statement not covered" >    if (result.punches !== undefined) {</span>
+        const newPunches = <span class="cstat-no" title="statement not covered" >[];</span>
+<span class="cstat-no" title="statement not covered" >        result.punches.forEach(<span class="fstat-no" title="function not covered" >(p</span>unch) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >            if (punch.time !== undefined) {</span>
+<span class="cstat-no" title="statement not covered" >                newPunches.push({</span>
+                    code: punch.code,
+                    timeIndex: orderedResult.orderedTimes.length,
+                });
+<span class="cstat-no" title="statement not covered" >                orderedResult.orderedTimes.push(punch.time);</span>
+            }
+            else {
+<span class="cstat-no" title="statement not covered" >                newPunches.push({</span>
+                    code: punch.code,
+                    timeIndex: undefined,
+                });
+            }
+        });
+<span class="cstat-no" title="statement not covered" >        orderedResult.punches = newPunches;</span>
+    }
+<span class="cstat-no" title="statement not covered" >    if (result.finishTime !== undefined) {</span>
+<span class="cstat-no" title="statement not covered" >        orderedResult.finishTimeIndex = orderedResult.orderedTimes.length;</span>
+<span class="cstat-no" title="statement not covered" >        orderedResult.orderedTimes.push(result.finishTime);</span>
+    }
+<span class="cstat-no" title="statement not covered" >    return orderedResult;</span>
+};
+exports.getRaceResultFromOrdered = <span class="fstat-no" title="function not covered" >(o</span>rderedResult) =&gt; {
+    const getOrderedTimeIndexIfDefined = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(i</span>ndex) =&gt; (<span class="cstat-no" title="statement not covered" >index === undefined ? undefined : orderedResult.orderedTimes[index])</span>;</span>
+<span class="cstat-no" title="statement not covered" >    return {</span>
+        cardNumber: orderedResult.cardNumber,
+        cardHolder: orderedResult.cardHolder,
+        clearTime: getOrderedTimeIndexIfDefined(orderedResult.clearTimeIndex),
+        checkTime: getOrderedTimeIndexIfDefined(orderedResult.checkTimeIndex),
+        startTime: getOrderedTimeIndexIfDefined(orderedResult.startTimeIndex),
+        finishTime: getOrderedTimeIndexIfDefined(orderedResult.finishTimeIndex),
+        punches: (orderedResult.punches === undefined
+            ? undefined
+            : orderedResult.punches.map(<span class="fstat-no" title="function not covered" >(p</span>unch) =&gt; (<span class="cstat-no" title="statement not covered" >{</span>
+                code: punch.code,
+                time: getOrderedTimeIndexIfDefined(punch.timeIndex),
+            }))),
+    };
+};
+exports.monotonizeOrderedRaceResult = <span class="fstat-no" title="function not covered" >(o</span>rderedData) =&gt; {
+    let currentCarry = <span class="cstat-no" title="statement not covered" >0;</span>
+    let lastTime = <span class="cstat-no" title="statement not covered" >0;</span>
+    const newOrderedTimes = <span class="cstat-no" title="statement not covered" >orderedData.orderedTimes.map(<span class="fstat-no" title="function not covered" >(t</span>ime) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        if (time &lt; lastTime) {</span>
+<span class="cstat-no" title="statement not covered" >            currentCarry += SI_TIME_CUTOFF;</span>
+        }
+<span class="cstat-no" title="statement not covered" >        lastTime = time;</span>
+<span class="cstat-no" title="statement not covered" >        return time + currentCarry;</span>
+    });
+<span class="cstat-no" title="statement not covered" >    return Object.assign(Object.assign({}, orderedData), { orderedTimes: newOrderedTimes });</span>
+};
+exports.makeStartZeroTime = <span class="fstat-no" title="function not covered" >(r</span>esult) =&gt; {
+<span class="cstat-no" title="statement not covered" >    if (result.startTime === undefined) {</span>
+<span class="cstat-no" title="statement not covered" >        throw new Error('start time must be known');</span>
+    }
+    const zeroTime = <span class="cstat-no" title="statement not covered" >result.startTime;</span>
+    const deductZeroTimeIfDefined = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(t</span>ime) =&gt; (<span class="cstat-no" title="statement not covered" >time === undefined ? undefined : time - zeroTime)</span>;</span>
+<span class="cstat-no" title="statement not covered" >    return Object.assign(Object.assign({}, result), { clearTime: deductZeroTimeIfDefined(result.clearTime), checkTime: deductZeroTimeIfDefined(result.checkTime), startTime: deductZeroTimeIfDefined(result.startTime), finishTime: deductZeroTimeIfDefined(result.finishTime), punches: (result.punches === undefined</span>
+            ? undefined
+            : result.punches.map(<span class="fstat-no" title="function not covered" >(p</span>unch) =&gt; (<span class="cstat-no" title="statement not covered" >Object.assign(Object.assign({}, punch), { time: deductZeroTimeIfDefined(punch.time) }))</span>)) });
+};
+//# sourceMappingURL=raceResultTools.js.map</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Thu Dec 19 2019 08:06:30 GMT+0000 (Coordinated Universal Time)
+</div>
+</div>
+<script src="../../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../../sorter.js"></script>
+<script src="../../../block-navigation.js"></script>
+</body>
+</html>

@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">25% </span>
+        <span class="strong">26.26% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>26/104</span>
+        <span class='fraction'>26/99</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">12.31% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>2/35</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">26.6% </span>
+        <span class="strong">28.09% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>25/94</span>
+        <span class='fraction'>25/89</span>
       </div>
     </div>
     <p class="quiet">
@@ -222,7 +222,9 @@
 <a name='L174'></a><a href='#L174'>174</a>
 <a name='L175'></a><a href='#L175'>175</a>
 <a name='L176'></a><a href='#L176'>176</a>
-<a name='L177'></a><a href='#L177'>177</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L177'></a><a href='#L177'>177</a>
+<a name='L178'></a><a href='#L178'>178</a>
+<a name='L179'></a><a href='#L179'>179</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -325,11 +327,13 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -500,14 +504,16 @@ class ModernSiCard extends BaseSiCard_1.BaseSiCard {
                 .then(<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >this.typeSpecificReadCardHolder())</span>
                 .then(<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >this.typeSpecificReadPunches())</span>
                 .then(<span class="fstat-no" title="function not covered" >()</span> =&gt; {
-<span class="cstat-no" title="statement not covered" >                this.cardNumber = this.storage.get('cardNumber').value;</span>
-<span class="cstat-no" title="statement not covered" >                this.cardSeries = this.storage.get('cardSeries').value;</span>
-<span class="cstat-no" title="statement not covered" >                this.startTime = this.storage.get('startTime').value;</span>
-<span class="cstat-no" title="statement not covered" >                this.finishTime = this.storage.get('finishTime').value;</span>
-<span class="cstat-no" title="statement not covered" >                this.checkTime = this.storage.get('checkTime').value;</span>
+<span class="cstat-no" title="statement not covered" >                this.raceResult = {</span>
+                    cardNumber: this.storage.get('cardNumber').value,
+                    startTime: this.storage.get('startTime').value,
+                    finishTime: this.storage.get('finishTime').value,
+                    checkTime: this.storage.get('checkTime').value,
+                    punches: this.storage.get('punches').value,
+                    cardHolder: this.storage.get('cardHolder').value,
+                };
 <span class="cstat-no" title="statement not covered" >                this.punchCount = this.storage.get('punchCount').value;</span>
-<span class="cstat-no" title="statement not covered" >                this.punches = this.storage.get('punches').value;</span>
-<span class="cstat-no" title="statement not covered" >                this.cardHolder = this.storage.get('cardHolder').value;</span>
+<span class="cstat-no" title="statement not covered" >                this.cardSeries = this.storage.get('cardSeries').value;</span>
 <span class="cstat-no" title="statement not covered" >                resolve();</span>
             })
                 .catch(<span class="fstat-no" title="function not covered" >(e</span>xc) =&gt; <span class="cstat-no" title="statement not covered" >reject(exc))</span>;
@@ -580,7 +586,7 @@ ModernSiCard.StorageDefinition = exports.ModernSiCardStorageDefinition;
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Mon Dec 16 2019 21:02:08 GMT+0000 (Coordinated Universal Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Thu Dec 19 2019 08:06:30 GMT+0000 (Coordinated Universal Time)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
