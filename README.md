@@ -18,3 +18,14 @@ There are [generated docs](https://allestuetsmerweh.github.io/sportident.js/).
 - Tests: `npm run test`
 - Linter: `npm run lint`
 - Build: `npm run build` (this compiles TypeScript for the libraries and builds the webpack file for `sportident-testbench-client`)
+
+## Development
+We use `lerna` to manage multiple packages in the same repository:
+- [sportident](../sportident/)
+- [sportident-node-usb](../sportident-node-usb/)
+- [sportident-react](../sportident-react/)
+- [sportident-testbench-client](../sportident-testbench-client/)
+- [sportident-testbench-node](../sportident-testbench-node/)
+- [sportident-testbench-server](../sportident-testbench-server/)
+- [sportident-testbench-shell](../sportident-testbench-shell/)
+- [sportident-webusb](../sportident-webusb/)
