@@ -184,6 +184,8 @@ export const parse = (inputData: number[]): SiMessageParseResult => {
     }
     if (inputData[0] === proto.WAKEUP) {
         return specialModeAndProceed(proto.WAKEUP, 1);
+    } else if (inputData[0] === proto.ACK) {
+        return specialModeAndProceed(proto.ACK, 1);
     } else if (inputData[0] === proto.NAK) {
         return specialModeAndProceed(proto.NAK, 1);
     } else if (inputData[0] !== proto.STX) {

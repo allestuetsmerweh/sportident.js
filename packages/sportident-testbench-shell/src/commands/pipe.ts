@@ -2,7 +2,6 @@ import si from 'sportident/lib';
 // eslint-disable-next-line no-unused-vars
 import {ShellCommandContext} from '../Shell';
 import {BaseCommand} from './BaseCommand';
-import {SiExternalApplication} from '../SiExternalApplication';
 
 export class PipeCommand extends BaseCommand {
     getArgTypes() {
@@ -23,6 +22,7 @@ export class PipeCommand extends BaseCommand {
     run(context: ShellCommandContext): Promise<void> {
         const url = context.args[1];
         const device = context.env.device;
+        const SiExternalApplication = context.env.externalApplication;
         return new Promise((resolve, _reject) => {
             const externalApplication = new SiExternalApplication(url);
 
