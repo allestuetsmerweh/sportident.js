@@ -13,6 +13,7 @@
   "dependencies": {
     "immutable": "^4.0.0-rc.12",
     "lodash": "^4.17.15",
+    "sportident": "^2.0.0-alpha.2",
     "sportident-node-usb": "^2.0.0-alpha.2",
     "sportident-testbench-shell": "^2.0.0-alpha.2"
   },

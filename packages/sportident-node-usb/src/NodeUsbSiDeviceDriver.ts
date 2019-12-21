@@ -83,9 +83,12 @@ class NodeUsbSiDeviceDriver implements
                 siDeviceFilters[0].productId,
             ),
         )
-            .then((nodeUsbDevice: iNodeUsb.NodeUsbDevice) => (
-                this.autodetectSiDevice(nodeUsbDevice)
-            ));
+            .then((nodeUsbDevice: iNodeUsb.NodeUsbDevice|undefined) => {
+                if (!nodeUsbDevice) {
+                    throw new Error('no device found');
+                }
+                return this.autodetectSiDevice(nodeUsbDevice);
+            });
     }
 
     getSiDevice(
@@ -312,7 +315,6 @@ class NodeUsbSiDeviceDriver implements
                 .transfer(siPacketSize, callback),
         )
             .then((data: any) => {
-                console.log('succ', data);
                 const uint8Data = new Uint8Array(
                     data.buffer,
                     data.byteOffset,

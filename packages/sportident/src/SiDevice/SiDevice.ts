@@ -126,6 +126,7 @@ export class SiDevice<T extends ISiDeviceDriverData<any>> implements ISiDevice<T
     }
 
     send(buffer: number[]): Promise<void> {
+        console.debug(`=> (${this.name})\n${utils.prettyHex(buffer, 16)}`);
         return this.data.driver.send(this, buffer);
     }
 }

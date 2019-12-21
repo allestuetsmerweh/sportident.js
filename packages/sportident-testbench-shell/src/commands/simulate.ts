@@ -4,7 +4,6 @@ import * as siProtocol from 'sportident/lib/siProtocol';
 // eslint-disable-next-line no-unused-vars
 import {ShellCommandContext} from '../Shell';
 import {BaseCommand} from './BaseCommand';
-import {SiExternalApplication} from '../SiExternalApplication';
 
 const isSubclassOf = (subclass: any, superclass: any) => subclass.prototype instanceof superclass;
 
@@ -42,6 +41,7 @@ export class SimulateCommand extends BaseCommand {
         }
 
         const url = context.args[2];
+        const SiExternalApplication = context.env.externalApplication;
         return new Promise((resolve, _reject) => {
             const externalApplication = new SiExternalApplication(url);
             const siMainStationSimulator = new si.SiMainStationSimulator(testCase.storageData);

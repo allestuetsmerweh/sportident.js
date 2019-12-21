@@ -249,6 +249,19 @@ describe('siProtocol', () => {
                 remainder: [randomByte],
             });
     });
+    it('parse ACK', () => {
+        expect(siProtocol.parse([proto.ACK]))
+            .toEqual({
+                message: {mode: proto.ACK},
+                remainder: [],
+            });
+        const randomByte = testUtils.getRandomByte();
+        expect(siProtocol.parse([proto.ACK, randomByte]))
+            .toEqual({
+                message: {mode: proto.ACK},
+                remainder: [randomByte],
+            });
+    });
     it('parse NAK', () => {
         expect(siProtocol.parse([proto.NAK]))
             .toEqual({

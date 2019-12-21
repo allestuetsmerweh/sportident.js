@@ -3,6 +3,7 @@ import React from 'react';
 import {getSiShellCommands, Shell} from 'sportident-testbench-shell/lib';
 // eslint-disable-next-line no-unused-vars
 import {ISiDevice} from 'sportident/lib/SiDevice/ISiDevice';
+import {SiExternalApplication} from './SiExternalApplication';
 
 const keyCodeFromDomEventKey = (domKey: string) => {
     switch (domKey) {
@@ -121,7 +122,10 @@ export const Terminal = (
         },
         getSiShellCommands(),
         {
-            initialEnv: {device: props.selectedDevice},
+            initialEnv: {
+                device: props.selectedDevice,
+                externalApplication: SiExternalApplication,
+            },
         },
     ), []);
 

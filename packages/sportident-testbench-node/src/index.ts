@@ -1,5 +1,6 @@
 import {getNodeUsbSiDeviceDriver} from 'sportident-node-usb/lib';
 import {Shell, getSiShellCommands} from 'sportident-testbench-shell/lib';
+import {SiExternalApplication} from './SiExternalApplication';
 
 const nodeUsbDriver = getNodeUsbSiDeviceDriver();
 
@@ -34,11 +35,17 @@ nodeUsbDriver.detect()
             },
             getSiShellCommands(),
             {
-                initialEnv: {device: device},
+                initialEnv: {
+                    device: device,
+                    externalApplication: SiExternalApplication,
+                },
             },
         );
 
         siShell.run().then(() => {
             process.exit();
         });
+    })
+    .catch((err) => {
+        console.log(`Error: ${err}`);
     });
