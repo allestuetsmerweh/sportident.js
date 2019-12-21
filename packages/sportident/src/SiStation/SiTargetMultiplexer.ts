@@ -72,10 +72,10 @@ class SendTask {
 
 export class SiTargetMultiplexer implements ISiTargetMultiplexer {
     static fromSiDevice(siDevice: ISiDevice<any>): SiTargetMultiplexer {
-        const instance = new this(siDevice);
         if (siDevice.siTargetMultiplexer) {
             return siDevice.siTargetMultiplexer;
         }
+        const instance = new this(siDevice);
         siDevice.siTargetMultiplexer = instance;
         siDevice.addEventListener('stateChange', (e) => {
             instance.handleDeviceStateChange(e.state);
