@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">97.73% </span>
+        <span class="strong">97.87% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>43/44</span>
+        <span class='fraction'>46/47</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">92.31% </span>
@@ -32,12 +32,12 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>6/6</span>
+        <span class='fraction'>8/8</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">97.73% </span>
+        <span class="strong">97.87% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>43/44</span>
+        <span class='fraction'>46/47</span>
       </div>
     </div>
     <p class="quiet">
@@ -142,20 +142,47 @@
 <a name='L94'></a><a href='#L94'>94</a>
 <a name='L95'></a><a href='#L95'>95</a>
 <a name='L96'></a><a href='#L96'>96</a>
-<a name='L97'></a><a href='#L97'>97</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L97'></a><a href='#L97'>97</a>
+<a name='L98'></a><a href='#L98'>98</a>
+<a name='L99'></a><a href='#L99'>99</a>
+<a name='L100'></a><a href='#L100'>100</a>
+<a name='L101'></a><a href='#L101'>101</a>
+<a name='L102'></a><a href='#L102'>102</a>
+<a name='L103'></a><a href='#L103'>103</a>
+<a name='L104'></a><a href='#L104'>104</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -224,42 +251,49 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import * as utils from '../utils';
 import * as siProtocol from '../siProtocol';
 import {proto} from '../constants';
 import {BaseSiCard} from '../SiCard';
 // eslint-disable-next-line no-unused-vars
+import {ISiDevice} from '../SiDevice/ISiDevice';
+// eslint-disable-next-line no-unused-vars
+import {ISiStation} from './ISiStation';
+// eslint-disable-next-line no-unused-vars
 import {ISiCard, SiMainStationEvents, SiMainStationSiCardInsertedEvent, SiMainStationSiCardObservedEvent, SiMainStationSiCardRemovedEvent} from './ISiMainStation';
 // eslint-disable-next-line no-unused-vars
 import {ISiTargetMultiplexer, SiTargetMultiplexerMessageEvent, SiTargetMultiplexerTarget} from './ISiTargetMultiplexer';
 import {BaseSiStation} from './BaseSiStation';
+import {SiTargetMultiplexer} from './SiTargetMultiplexer';
 &nbsp;
-export class SiMainStation extends BaseSiStation {
+export class SiMainStation
+        extends BaseSiStation&lt;SiTargetMultiplexerTarget.Direct&gt;
+        implements ISiStation&lt;SiTargetMultiplexerTarget.Direct&gt; {
+    static fromSiDevice(siDevice: ISiDevice&lt;any&gt;): SiMainStation {
+        const multiplexer = SiTargetMultiplexer.fromSiDevice(siDevice);
+        return this.fromSiTargetMultiplexer(multiplexer);
+    }
+&nbsp;
+    static fromSiTargetMultiplexer&lt;U extends SiTargetMultiplexerTarget.Direct&gt;(
+        multiplexer: ISiTargetMultiplexer,
+    ): SiMainStation {
+        return this.fromSiTargetMultiplexerWithGivenTarget(
+            multiplexer,
+            SiTargetMultiplexerTarget.Direct,
+            () =&gt; new this(multiplexer, SiTargetMultiplexerTarget.Direct),
+        ) as SiMainStation;
+    }
+&nbsp;
     public siCard: ISiCard|null = null;
-&nbsp;
-    static multiplexerTarget = SiTargetMultiplexerTarget.Direct;
 &nbsp;
     constructor(
         siTargetMultiplexer: ISiTargetMultiplexer,
-        multiplexerTarget: SiTargetMultiplexerTarget = SiTargetMultiplexerTarget.Direct,
+        multiplexerTarget: SiTargetMultiplexerTarget.Direct = SiTargetMultiplexerTarget.Direct,
     ) {
         super(siTargetMultiplexer, multiplexerTarget);
         siTargetMultiplexer.addEventListener(
-            'message',
+            'message', // not directMessage, as the target might still be unknown, but we still need the message
             (e: SiTargetMultiplexerMessageEvent) =&gt; {
                 const message = e.message;
                 this.handleMessage(message);
@@ -317,19 +351,6 @@ export class SiMainStation extends BaseSiStation {
         }
         handler();
     }
-&nbsp;
-    sendMessage(
-        message: siProtocol.SiMessage,
-        numResponses?: number,
-        timeoutInMiliseconds?: number,
-    ) {
-        return this.siTargetMultiplexer.sendMessage(
-            SiTargetMultiplexerTarget.Direct,
-            message,
-            numResponses,
-            timeoutInMiliseconds,
-        );
-    }
 }
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface SiMainStation extends utils.EventTarget&lt;SiMainStationEvents&gt; {}
@@ -340,7 +361,7 @@ utils.applyMixins(SiMainStation, [utils.EventTarget]);
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sat Dec 21 2019 17:12:24 GMT+0000 (Coordinated Universal Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sat Dec 21 2019 17:20:57 GMT+0000 (Coordinated Universal Time)
 </div>
 </div>
 <script src="../../../prettify.js"></script>

@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">15.12% </span>
+        <span class="strong">13.41% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>13/86</span>
+        <span class='fraction'>11/82</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">20.69% </span>
@@ -30,14 +30,14 @@
         <span class='fraction'>6/29</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">3.33% </span>
+        <span class="strong">3.45% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>1/30</span>
+        <span class='fraction'>1/29</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">14.81% </span>
+        <span class="strong">12.99% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>12/81</span>
+        <span class='fraction'>10/77</span>
       </div>
     </div>
     <p class="quiet">
@@ -253,12 +253,7 @@
 <a name='L205'></a><a href='#L205'>205</a>
 <a name='L206'></a><a href='#L206'>206</a>
 <a name='L207'></a><a href='#L207'>207</a>
-<a name='L208'></a><a href='#L208'>208</a>
-<a name='L209'></a><a href='#L209'>209</a>
-<a name='L210'></a><a href='#L210'>210</a>
-<a name='L211'></a><a href='#L211'>211</a>
-<a name='L212'></a><a href='#L212'>212</a>
-<a name='L213'></a><a href='#L213'>213</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L208'></a><a href='#L208'>208</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -270,9 +265,9 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -333,14 +328,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -468,7 +459,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">"use strict";
 var __importStar = (this &amp;&amp; this.__importStar) || function (mod) {
@@ -482,10 +472,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const constants_1 = require("../constants");
 const storage = __importStar(require("../storage"));
 const siProtocol = __importStar(require("../siProtocol"));
+// eslint-disable-next-line no-unused-vars
 const ISiStation_1 = require("./ISiStation");
 // eslint-disable-next-line no-unused-vars
 const ISiTargetMultiplexer_1 = require("./ISiTargetMultiplexer");
-const SiTargetMultiplexer_1 = require("./SiTargetMultiplexer");
 exports.SiStationStorageDefinition = storage.defineStorage(0x80, {
     code: new storage.SiInt([[0x72], [0x73, 6, 8]]),
     mode: new storage.SiEnum([[0x71]], ISiStation_1.SiStationMode),
@@ -542,18 +532,14 @@ class BaseSiStation {
 <span class="cstat-no" title="statement not covered" >        this.multiplexerTarget = multiplexerTarget;</span>
 <span class="cstat-no" title="statement not covered" >        this.storage = new exports.SiStationStorageDefinition();</span>
     }
-<span class="fstat-no" title="function not covered" >    st</span>atic fromSiDevice(siDevice) {
-        const multiplexer = <span class="cstat-no" title="statement not covered" >SiTargetMultiplexer_1.SiTargetMultiplexer.fromSiDevice(siDevice);</span>
-<span class="cstat-no" title="statement not covered" >        return this.fromSiTargetMultiplexer(multiplexer);</span>
-    }
-<span class="fstat-no" title="function not covered" >    st</span>atic fromSiTargetMultiplexer(multiplexer) {
-        const prettyMultiplexerTarget = <span class="cstat-no" title="statement not covered" >ISiTargetMultiplexer_1.SiTargetMultiplexerTarget[this.multiplexerTarget];</span>
-<span class="cstat-no" title="statement not covered" >        if (multiplexer.stations[prettyMultiplexerTarget]) {</span>
-<span class="cstat-no" title="statement not covered" >            return multiplexer.stations[prettyMultiplexerTarget];</span>
+<span class="fstat-no" title="function not covered" >    st</span>atic fromSiTargetMultiplexerWithGivenTarget(multiplexer, multiplexerTarget, createNewInstance) {
+        const existingStationObject = <span class="cstat-no" title="statement not covered" >multiplexer.stations[multiplexerTarget];</span>
+<span class="cstat-no" title="statement not covered" >        if (existingStationObject) {</span>
+<span class="cstat-no" title="statement not covered" >            return existingStationObject;</span>
         }
+        const instance = <span class="cstat-no" title="statement not covered" >createNewInstance();</span>
         // @ts-ignore
-        const instance = <span class="cstat-no" title="statement not covered" >new this(multiplexer, this.multiplexerTarget);</span>
-<span class="cstat-no" title="statement not covered" >        multiplexer.stations[prettyMultiplexerTarget] = instance;</span>
+<span class="cstat-no" title="statement not covered" >        multiplexer.stations[multiplexerTarget] = instance;</span>
         // TODO: deregister/close
 <span class="cstat-no" title="statement not covered" >        return instance;</span>
     }
@@ -681,14 +667,13 @@ class BaseSiStation {
     }
 }
 exports.BaseSiStation = BaseSiStation;
-BaseSiStation.multiplexerTarget = ISiTargetMultiplexer_1.SiTargetMultiplexerTarget.Unknown;
 //# sourceMappingURL=BaseSiStation.js.map</pre></td></tr>
 </table></pre>
 <div class='push'></div><!-- for sticky footer -->
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sat Dec 21 2019 17:12:24 GMT+0000 (Coordinated Universal Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sat Dec 21 2019 17:20:57 GMT+0000 (Coordinated Universal Time)
 </div>
 </div>
 <script src="../../../prettify.js"></script>
