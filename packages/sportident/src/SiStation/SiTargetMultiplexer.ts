@@ -87,7 +87,7 @@ export class SiTargetMultiplexer implements ISiTargetMultiplexer {
         return instance;
     }
 
-    public stations: {[target: string]: ISiStation} = {};
+    public stations: {[Target in SiTargetMultiplexerTarget]?: ISiStation<Target>} = {};
     public target: SiTargetMultiplexerTarget = SiTargetMultiplexerTarget.Unknown;
     // the target of the latest command scheduled
     public latestTarget: SiTargetMultiplexerTarget = SiTargetMultiplexerTarget.Unknown;

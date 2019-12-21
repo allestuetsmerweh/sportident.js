@@ -21,25 +21,27 @@ import {SiCard6Simulator} from '../simulation/SiCardSimulator/types/SiCard6Simul
 testUtils.useFakeTimers();
 
 describe('SiMainStation', () => {
-    it('exists', () => {
-        expect(SiMainStation).not.toBe(undefined);
-        expect(SiMainStation.multiplexerTarget).toBe(SiTargetMultiplexerTarget.Direct);
-    });
     it('fromSiDevice', () => {
         const fakeSiDevice = new SiDevice('fromSiDevice', {driver: {name: 'FakeSiDevice'}});
         const myMainStation1 = SiMainStation.fromSiDevice(fakeSiDevice);
         expect(myMainStation1 instanceof SiMainStation).toBe(true);
         expect(myMainStation1.ident).toBe('Direct-FakeSiDevice-fromSiDevice');
+        expect(myMainStation1.multiplexerTarget).toBe(SiTargetMultiplexerTarget.Direct);
         const myMainStation2 = SiMainStation.fromSiDevice(fakeSiDevice);
         expect(myMainStation2).toBe(myMainStation1);
         expect(myMainStation2.ident).toBe('Direct-FakeSiDevice-fromSiDevice');
+        expect(myMainStation2.multiplexerTarget).toBe(SiTargetMultiplexerTarget.Direct);
     });
     it('fromSiTargetMultiplexer', () => {
-        const myTargetMultiplexer = new SiTargetMultiplexer({} as ISiDevice<any>);
+        const myTargetMultiplexer = new SiTargetMultiplexer({ident: 'fake-ident'} as ISiDevice<any>);
         const myMainStation1 = SiMainStation.fromSiTargetMultiplexer(myTargetMultiplexer);
         expect(myMainStation1 instanceof SiMainStation).toBe(true);
+        expect(myMainStation1.ident).toBe('Direct-fake-ident');
+        expect(myMainStation1.multiplexerTarget).toBe(SiTargetMultiplexerTarget.Direct);
         const myMainStation2 = SiMainStation.fromSiTargetMultiplexer(myTargetMultiplexer);
         expect(myMainStation2).toBe(myMainStation1);
+        expect(myMainStation2.ident).toBe('Direct-fake-ident');
+        expect(myMainStation2.multiplexerTarget).toBe(SiTargetMultiplexerTarget.Direct);
     });
     it('card detection & removal', async (done) => {
         const myTargetMultiplexer = new SiTargetMultiplexer({} as ISiDevice<any>);

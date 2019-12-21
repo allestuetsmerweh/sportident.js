@@ -3,23 +3,43 @@ import * as siProtocol from '../siProtocol';
 import {proto} from '../constants';
 import {BaseSiCard} from '../SiCard';
 // eslint-disable-next-line no-unused-vars
+import {ISiDevice} from '../SiDevice/ISiDevice';
+// eslint-disable-next-line no-unused-vars
+import {ISiStation} from './ISiStation';
+// eslint-disable-next-line no-unused-vars
 import {ISiCard, SiMainStationEvents, SiMainStationSiCardInsertedEvent, SiMainStationSiCardObservedEvent, SiMainStationSiCardRemovedEvent} from './ISiMainStation';
 // eslint-disable-next-line no-unused-vars
 import {ISiTargetMultiplexer, SiTargetMultiplexerMessageEvent, SiTargetMultiplexerTarget} from './ISiTargetMultiplexer';
 import {BaseSiStation} from './BaseSiStation';
+import {SiTargetMultiplexer} from './SiTargetMultiplexer';
 
-export class SiMainStation extends BaseSiStation {
+export class SiMainStation
+        extends BaseSiStation<SiTargetMultiplexerTarget.Direct>
+        implements ISiStation<SiTargetMultiplexerTarget.Direct> {
+    static fromSiDevice(siDevice: ISiDevice<any>): SiMainStation {
+        const multiplexer = SiTargetMultiplexer.fromSiDevice(siDevice);
+        return this.fromSiTargetMultiplexer(multiplexer);
+    }
+
+    static fromSiTargetMultiplexer<U extends SiTargetMultiplexerTarget.Direct>(
+        multiplexer: ISiTargetMultiplexer,
+    ): SiMainStation {
+        return this.fromSiTargetMultiplexerWithGivenTarget(
+            multiplexer,
+            SiTargetMultiplexerTarget.Direct,
+            () => new this(multiplexer, SiTargetMultiplexerTarget.Direct),
+        ) as SiMainStation;
+    }
+
     public siCard: ISiCard|null = null;
-
-    static multiplexerTarget = SiTargetMultiplexerTarget.Direct;
 
     constructor(
         siTargetMultiplexer: ISiTargetMultiplexer,
-        multiplexerTarget: SiTargetMultiplexerTarget = SiTargetMultiplexerTarget.Direct,
+        multiplexerTarget: SiTargetMultiplexerTarget.Direct = SiTargetMultiplexerTarget.Direct,
     ) {
         super(siTargetMultiplexer, multiplexerTarget);
         siTargetMultiplexer.addEventListener(
-            'message',
+            'message', // not directMessage, as the target might still be unknown, but we still need the message
             (e: SiTargetMultiplexerMessageEvent) => {
                 const message = e.message;
                 this.handleMessage(message);
@@ -76,19 +96,6 @@ export class SiMainStation extends BaseSiStation {
             return;
         }
         handler();
-    }
-
-    sendMessage(
-        message: siProtocol.SiMessage,
-        numResponses?: number,
-        timeoutInMiliseconds?: number,
-    ) {
-        return this.siTargetMultiplexer.sendMessage(
-            SiTargetMultiplexerTarget.Direct,
-            message,
-            numResponses,
-            timeoutInMiliseconds,
-        );
     }
 }
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
