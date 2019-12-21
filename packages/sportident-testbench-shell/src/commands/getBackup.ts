@@ -34,7 +34,7 @@ export class GetBackupCommand extends BaseCommand {
             }, 1)
         );
         const allBlocks: number[][] = [];
-        const readAllBlocks = (blockIndex: number) => {
+        const readAllBlocks = (blockIndex: number): Promise<void> => {
             if (blockIndex > 26) {
                 console.warn(allBlocks.length);
                 console.warn(allBlocks.map((block) => utils.prettyHex(block, 16)).join('\n\n'));

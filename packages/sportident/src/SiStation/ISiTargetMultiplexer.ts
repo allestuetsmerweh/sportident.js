@@ -7,7 +7,7 @@ import {ISiDevice} from '../SiDevice/ISiDevice';
 import {ISiStation} from './ISiStation';
 
 export interface ISiTargetMultiplexer extends utils.IEventTarget<SiTargetMultiplexerEvents> {
-    stations: {[target: string]: ISiStation};
+    stations: {[Target in SiTargetMultiplexerTarget]?: ISiStation<Target>};
     siDevice: ISiDevice<any>;
     sendMessage: (
         target: SiTargetMultiplexerTarget,

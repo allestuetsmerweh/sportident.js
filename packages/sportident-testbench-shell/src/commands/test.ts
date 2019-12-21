@@ -11,7 +11,7 @@ const tests: {[name: string]: (context: ShellCommandContext) => Promise<void>} =
         const samples: {[key: string]: any} = {};
 
         const resetCardCallbacks = () => {
-            mainStation.eventRegistry = undefined;
+            mainStation.removeAllEventListeners();
         };
         let currentReject: (() => void)|undefined = undefined;
         context.waitChar().then((char: number) => {

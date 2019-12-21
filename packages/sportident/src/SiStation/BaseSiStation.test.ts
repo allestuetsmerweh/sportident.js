@@ -7,35 +7,15 @@ import * as testUtils from '../testUtils';
 import {proto} from '../constants';
 import {SiDataType} from '../storage';
 // eslint-disable-next-line no-unused-vars
-import {ISiDevice} from '../SiDevice/ISiDevice';
-import {SiDevice} from '../SiDevice/SiDevice';
-// eslint-disable-next-line no-unused-vars
 import {ISiTargetMultiplexer, SiTargetMultiplexerTarget} from './ISiTargetMultiplexer';
-import {SiTargetMultiplexer} from './SiTargetMultiplexer';
 import {BaseSiStation} from './BaseSiStation';
 import {getSiStationExamples} from './siStationExamples';
 
 testUtils.useFakeTimers();
 
 describe('SiStation', () => {
-    it('fromSiDevice', () => {
-        const fakeSiDevice = new SiDevice('fromSiDevice', {driver: {name: 'FakeSiDevice'}});
-        const myMainStation1 = BaseSiStation.fromSiDevice(fakeSiDevice);
-        expect(myMainStation1 instanceof BaseSiStation).toBe(true);
-        expect(myMainStation1.ident).toBe('Unknown-FakeSiDevice-fromSiDevice');
-        const myMainStation2 = BaseSiStation.fromSiDevice(fakeSiDevice);
-        expect(myMainStation2).toBe(myMainStation1);
-        expect(myMainStation2.ident).toBe('Unknown-FakeSiDevice-fromSiDevice');
-    });
-    it('fromSiTargetMultiplexer', () => {
-        const myTargetMultiplexer = new SiTargetMultiplexer({} as ISiDevice<any>);
-        const myMainStation1 = BaseSiStation.fromSiTargetMultiplexer(myTargetMultiplexer);
-        expect(myMainStation1 instanceof BaseSiStation).toBe(true);
-        const myMainStation2 = BaseSiStation.fromSiTargetMultiplexer(myTargetMultiplexer);
-        expect(myMainStation2).toBe(myMainStation1);
-    });
 
-    class MySiStation extends BaseSiStation {}
+    class MySiStation extends BaseSiStation<SiTargetMultiplexerTarget.Direct> {}
 
     it('SiStation info', async (done) => {
         const mySiStation = new MySiStation(

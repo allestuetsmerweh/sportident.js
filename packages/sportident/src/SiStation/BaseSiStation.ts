@@ -2,11 +2,9 @@ import {proto} from '../constants';
 import * as storage from '../storage';
 import * as siProtocol from '../siProtocol';
 // eslint-disable-next-line no-unused-vars
-import {ISiDevice} from '../SiDevice/ISiDevice';
-import {SiStationMode, SiStationModel} from './ISiStation';
+import {ISiStation, SiStationMode, SiStationModel} from './ISiStation';
 // eslint-disable-next-line no-unused-vars
 import {ISiTargetMultiplexer, SiTargetMultiplexerTarget} from './ISiTargetMultiplexer';
-import {SiTargetMultiplexer} from './SiTargetMultiplexer';
 
 export const SiStationStorageDefinition = storage.defineStorage(0x80, {
     code: new storage.SiInt([[0x72], [0x73, 6, 8]]),
@@ -55,24 +53,22 @@ export const SiStationStorageDefinition = storage.defineStorage(0x80, {
     workingMinutes: new storage.SiInt([[0x7F], [0x7E]]),
 });
 
-export abstract class BaseSiStation {
-    static multiplexerTarget: SiTargetMultiplexerTarget = SiTargetMultiplexerTarget.Unknown;
-
+export abstract class BaseSiStation<T extends SiTargetMultiplexerTarget> {
     public storage: storage.SiStorage;
 
-    static fromSiDevice(siDevice: ISiDevice<any>) {
-        const multiplexer = SiTargetMultiplexer.fromSiDevice(siDevice);
-        return this.fromSiTargetMultiplexer(multiplexer);
-    }
-
-    static fromSiTargetMultiplexer(multiplexer: ISiTargetMultiplexer) {
-        const prettyMultiplexerTarget = SiTargetMultiplexerTarget[this.multiplexerTarget];
-        if (multiplexer.stations[prettyMultiplexerTarget]) {
-            return multiplexer.stations[prettyMultiplexerTarget];
+    protected static fromSiTargetMultiplexerWithGivenTarget<U extends SiTargetMultiplexerTarget>(
+        multiplexer: ISiTargetMultiplexer,
+        multiplexerTarget: U,
+        createNewInstance: () => ISiStation<U>,
+    ): ISiStation<U> {
+        const existingStationObject =
+            multiplexer.stations[multiplexerTarget] as ISiStation<U>|undefined;
+        if (existingStationObject) {
+            return existingStationObject;
         }
+        const instance = createNewInstance();
         // @ts-ignore
-        const instance = new this(multiplexer, this.multiplexerTarget);
-        multiplexer.stations[prettyMultiplexerTarget] = instance;
+        multiplexer.stations[multiplexerTarget] = instance;
         // TODO: deregister/close
         return instance;
     }
@@ -81,7 +77,7 @@ export abstract class BaseSiStation {
         // eslint-disable-next-line no-unused-vars
         public siTargetMultiplexer: ISiTargetMultiplexer,
         // eslint-disable-next-line no-unused-vars
-        public readonly multiplexerTarget: SiTargetMultiplexerTarget,
+        public readonly multiplexerTarget: T,
     ) {
         this.storage = new SiStationStorageDefinition();
     }

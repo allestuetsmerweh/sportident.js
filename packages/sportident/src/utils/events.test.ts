@@ -45,11 +45,52 @@ describe('event utils', () => {
 
         myEventTarget.dispatchEvent('myEvent', new MyEvent(eventObject));
         expect(callsToCallback.length).toBe(1);
+    });
+    it('works even if some listeners fail', () => {
+        const myEventTarget = new MyEventTarget();
+        const timeState = {
+            listener1Run: false,
+            listener2Run: false,
+            listener3Run: false,
+        };
+        myEventTarget.addEventListener('myEvent', () => {
+            timeState.listener1Run = true;
+        });
+        myEventTarget.addEventListener('myEvent', () => {
+            timeState.listener2Run = true;
+            throw new Error('test');
+        });
+        myEventTarget.addEventListener('myEvent', () => {
+            timeState.listener3Run = true;
+        });
 
-        myEventTarget.addEventListener('myEvent', () => { throw new Error('test'); });
-        expect(
-            () => myEventTarget.dispatchEvent('myEvent', new MyEvent(eventObject)),
-        ).not.toThrow();
+        myEventTarget.dispatchEvent('myEvent', new MyEvent({}));
+        expect(timeState).toEqual({
+            listener1Run: true,
+            listener2Run: true,
+            listener3Run: true,
+        });
+    });
+    it('can remove all listeners', () => {
+        const myEventTarget = new MyEventTarget();
+        const timeState = {
+            listener1Run: false,
+            listener2Run: false,
+        };
+        myEventTarget.addEventListener('myEvent', () => {
+            timeState.listener1Run = true;
+        });
+        myEventTarget.addEventListener('myEvent', () => {
+            timeState.listener2Run = true;
+        });
+
+        myEventTarget.removeAllEventListeners();
+
+        myEventTarget.dispatchEvent('myEvent', new MyEvent({}));
+        expect(timeState).toEqual({
+            listener1Run: false,
+            listener2Run: false,
+        });
     });
     it('remove inexistent event listener', () => {
         const myEventTarget = new MyEventTarget();

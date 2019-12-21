@@ -31,6 +31,7 @@ export interface IEventTarget<T extends EventTypeDict> {
         type: K,
         callback: EventCallback<T[K]>,
     ) => void;
+    removeAllEventListeners: () => void;
     dispatchEvent: <K extends keyof T>(
         type: K,
         event: T[K],
@@ -63,6 +64,10 @@ export class EventTarget<T extends EventTypeDict> implements IEventTarget<T> {
             (listener: EventCallback<T[K]>) => listener !== callback,
         );
         this.eventRegistry = eventRegistry;
+    }
+
+    removeAllEventListeners() {
+        this.eventRegistry = {};
     }
 
     dispatchEvent<K extends keyof T>(

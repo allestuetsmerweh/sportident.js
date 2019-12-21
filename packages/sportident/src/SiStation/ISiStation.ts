@@ -1,5 +1,11 @@
+// eslint-disable-next-line no-unused-vars
+import {SiTargetMultiplexerTarget} from './ISiTargetMultiplexer';
+
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface ISiStation {}
+export interface ISiStation<T extends SiTargetMultiplexerTarget> {
+    multiplexerTarget: T;
+    ident: string;
+}
 
 /* eslint-disable no-unused-vars */
 export enum SiStationMode {
