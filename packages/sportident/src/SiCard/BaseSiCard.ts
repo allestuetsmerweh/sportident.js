@@ -108,7 +108,11 @@ export abstract class BaseSiCard {
     }
 
     getNormalizedRaceResult() {
-        return makeStartZeroTime(monotonizeRaceResult(this.raceResult));
+        return makeStartZeroTime(this.getMonotonizedRaceResult());
+    }
+
+    getMonotonizedRaceResult() {
+        return monotonizeRaceResult(this.raceResult);
     }
 
     abstract typeSpecificRead(): Promise<void>;
