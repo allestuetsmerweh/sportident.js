@@ -2,7 +2,6 @@
 
 import {proto} from '../constants';
 import * as siProtocol from '../siProtocol';
-import * as storage from '../storage';
 import * as testUtils from '../testUtils';
 import {BaseSiCard} from './BaseSiCard';
 
@@ -118,10 +117,7 @@ describe('BaseSiCard', () => {
         });
     });
     it('read', async (done) => {
-        const SiCard1StorageDefinition = storage.defineStorage(0x00, {});
         class SiCard1 extends BaseSiCard {
-            static StorageDefinition = SiCard1StorageDefinition;
-
             typeSpecificRead() {
                 this.raceResult.startTime = 1;
                 return Promise.resolve();

@@ -2,7 +2,7 @@ import _ from 'lodash';
 import * as storage from '../../storage';
 import * as siProtocol from '../../siProtocol';
 // eslint-disable-next-line no-unused-vars
-import {cropPunches, getCroppedString, ModernSiCard, ModernSiCardSeries, PotentialModernSiCardPunch} from './ModernSiCard';
+import {cropPunches, getCroppedString, ModernSiCard, ModernSiCardSeries} from './ModernSiCard';
 import {BaseSiCard} from '../BaseSiCard';
 
 class ReadFinishedException {}
@@ -30,7 +30,7 @@ const parseCardHolder = (maybeCharCodes: (number|undefined)[]) => {
     return parseCardHolderString(semicolonSeparatedString || '');
 };
 
-export const SiCard9StorageDefinition = storage.defineStorage(0x100, {
+export const siCard9StorageLocations = {
     uid: new storage.SiInt([[0x03], [0x02], [0x01], [0x00]]),
     cardSeries: new storage.SiEnum([[0x18]], ModernSiCardSeries),
     cardNumber: new storage.SiModified(
@@ -61,7 +61,7 @@ export const SiCard9StorageDefinition = storage.defineStorage(0x100, {
                 ]),
             }),
         ),
-        (allPunches) => cropPunches(allPunches as unknown as PotentialModernSiCardPunch[]),
+        (allPunches) => cropPunches(allPunches),
     ),
     cardHolder: new storage.SiModified(
         new storage.SiArray(
@@ -70,13 +70,24 @@ export const SiCard9StorageDefinition = storage.defineStorage(0x100, {
         ),
         (charCodes) => parseCardHolder(charCodes),
     ),
-});
+};
+export const siCard9StorageDefinition = storage.defineStorage(
+    0x100,
+    siCard9StorageLocations,
+);
+export type ISiCard9StorageFields = storage.FieldsFromStorageDefinition<typeof siCard9StorageDefinition>;
 
 export class SiCard9 extends ModernSiCard {
     static maxNumPunches = MAX_NUM_PUNCHES;
-    static StorageDefinition = SiCard9StorageDefinition;
+
+    public storage: storage.ISiStorage<ISiCard9StorageFields>;
 
     public uid?: number;
+
+    constructor(cardNumber: number) {
+        super(cardNumber);
+        this.storage = siCard9StorageDefinition();
+    }
 
     typeSpecificRead(): Promise<void> {
         return new Promise((resolve, reject) => {

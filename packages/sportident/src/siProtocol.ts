@@ -322,7 +322,7 @@ export class SiDate extends storage.SiDataType<Date> implements storage.ISiDataT
         );
     }
 
-    typeSpecificExtractFromData(data: storage.SiStorageData): Date|undefined {
+    typeSpecificExtractFromData(data: storage.ISiStorageData): Date|undefined {
         const dateArray = this.arrayField.typeSpecificExtractFromData(data);
         if (
             dateArray === undefined
@@ -333,7 +333,7 @@ export class SiDate extends storage.SiDataType<Date> implements storage.ISiDataT
         return arr2date(dateArray as number[]);
     }
 
-    typeSpecificUpdateData(data: storage.SiStorageData, newValue: Date): storage.SiStorageData {
+    typeSpecificUpdateData(data: storage.ISiStorageData, newValue: Date): storage.ISiStorageData {
         const newArrayValue = date2arr(newValue).slice(0, this.arrayField.length);
         return this.arrayField.typeSpecificUpdateData(data, newArrayValue);
     }

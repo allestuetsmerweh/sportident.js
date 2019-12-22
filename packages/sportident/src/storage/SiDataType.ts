@@ -1,6 +1,6 @@
 import _ from 'lodash';
 // eslint-disable-next-line no-unused-vars
-import {SiStorageData, ValueToStringError, ValueFromStringError} from './interfaces';
+import {ISiStorageData, ValueToStringError, ValueFromStringError} from './interfaces';
 import {SiFieldValue} from './SiFieldValue';
 
 export class ModifyUndefinedException {
@@ -41,7 +41,7 @@ export abstract class SiDataType<T> {
 
     abstract typeSpecificValueFromString(_string: string): T|ValueFromStringError|never;
 
-    extractFromData(data: SiStorageData): SiFieldValue<T>|undefined {
+    extractFromData(data: ISiStorageData): SiFieldValue<T>|undefined {
         const extractedValue = this.typeSpecificExtractFromData(data);
         if (extractedValue === undefined) {
             return undefined;
@@ -49,9 +49,9 @@ export abstract class SiDataType<T> {
         return new SiFieldValue(this, extractedValue);
     }
 
-    abstract typeSpecificExtractFromData(_data: SiStorageData): T|undefined|never;
+    abstract typeSpecificExtractFromData(_data: ISiStorageData): T|undefined|never;
 
-    updateData(data: SiStorageData, newValue: T|SiFieldValue<T>): SiStorageData {
+    updateData(data: ISiStorageData, newValue: T|SiFieldValue<T>): ISiStorageData {
         const valueForUpdate = (newValue instanceof SiFieldValue) ? newValue.value : newValue;
         if (!this.typeSpecificIsValueValid(valueForUpdate as T)) {
             throw new TypeError();
@@ -59,5 +59,5 @@ export abstract class SiDataType<T> {
         return this.typeSpecificUpdateData(data, valueForUpdate as T);
     }
 
-    abstract typeSpecificUpdateData(data: SiStorageData, _newValue: T): SiStorageData|never;
+    abstract typeSpecificUpdateData(data: ISiStorageData, _newValue: T): ISiStorageData|never;
 }

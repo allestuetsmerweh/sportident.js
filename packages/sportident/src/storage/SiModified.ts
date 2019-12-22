@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-unused-vars
-import {ISiDataType, SiStorageData, ValueToStringError, ValueFromStringError} from './interfaces';
+import {ISiDataType, ISiStorageData, ValueToStringError, ValueFromStringError} from './interfaces';
 import {SiDataType} from './SiDataType';
 
 export class SiModified<T, U> extends SiDataType<U> implements ISiDataType<U> {
@@ -41,7 +41,7 @@ export class SiModified<T, U> extends SiDataType<U> implements ISiDataType<U> {
         return this.modifiedFromString(string);
     }
 
-    typeSpecificExtractFromData(data: SiStorageData): U|undefined {
+    typeSpecificExtractFromData(data: ISiStorageData): U|undefined {
         if (!this.modifyExtracted) {
             return undefined;
         }
@@ -52,7 +52,7 @@ export class SiModified<T, U> extends SiDataType<U> implements ISiDataType<U> {
         return this.modifyExtracted(internalData);
     }
 
-    typeSpecificUpdateData(data: SiStorageData, newValue: U): SiStorageData {
+    typeSpecificUpdateData(data: ISiStorageData, newValue: U): ISiStorageData {
         if (!this.modifyForUpdate) {
             return data;
         }

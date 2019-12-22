@@ -1,8 +1,12 @@
-import {SiStationStorageDefinition} from 'sportident/lib/SiStation/BaseSiStation';
+import {siStationStorageLocations} from 'sportident/lib/SiStation/BaseSiStation';
 // eslint-disable-next-line no-unused-vars
 import {ShellCommandContext} from '../Shell';
 import {BaseCommand} from './BaseCommand';
 import {getDirectOrRemoteStation} from './getDirectOrRemoteStation';
+
+const allInfoNames = (
+    Object.keys(siStationStorageLocations) as (keyof typeof siStationStorageLocations)[]
+);
 
 export class GetInfoCommand extends BaseCommand {
     getArgTypes() {
@@ -13,7 +17,7 @@ export class GetInfoCommand extends BaseCommand {
             },
             {
                 name: 'information name',
-                choices: Object.keys(SiStationStorageDefinition.definitions),
+                choices: Object.keys(siStationStorageLocations),
                 isOptional: true,
             },
         ];
@@ -32,10 +36,10 @@ export class GetInfoCommand extends BaseCommand {
             context.putString('No such station\n');
             return Promise.resolve();
         }
-        const infoNames = (context.args[2]
-            ? [context.args[2]]
-            : Object.keys(SiStationStorageDefinition.definitions)
-        );
+        const infoNames = allInfoNames.filter((infoName) => (context.args[2]
+            ? infoName === context.args[2]
+            : true
+        ));
         return station.readInfo()
             .then(() => {
                 infoNames.sort();

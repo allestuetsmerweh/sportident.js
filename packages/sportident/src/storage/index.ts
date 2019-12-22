@@ -1,4 +1,4 @@
-export {ISiDataType, SiStorageData, ValueToStringError, ValueFromStringError} from './interfaces';
+export {ISiDataType, ISiStorage, ISiStorageData, ISiStorageLocations, FieldsFromStorageDefinition, ValueToStringError, ValueFromStringError} from './interfaces';
 export {defineStorage, SiStorage} from './SiStorage';
 export {SiFieldValue} from './SiFieldValue';
 export {ModifyUndefinedException, SiDataType} from './SiDataType';

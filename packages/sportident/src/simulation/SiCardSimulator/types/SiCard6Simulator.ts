@@ -1,17 +1,22 @@
 import _ from 'lodash';
 import {proto} from '../../../constants';
 import * as siProtocol from '../../../siProtocol';
+// eslint-disable-next-line no-unused-vars
+import * as storage from '../../../storage';
 import {BaseSiCardSimulator} from '../BaseSiCardSimulator';
-import {SiCard6, SiCard6StorageDefinition} from '../../../SiCard/types/SiCard6';
+// eslint-disable-next-line no-unused-vars
+import {ISiCard6StorageFields, SiCard6, siCard6StorageDefinition} from '../../../SiCard/types/SiCard6';
 import {getSiCard6Examples} from '../../../SiCard/types/siCard6Examples';
 
 export class SiCard6Simulator extends BaseSiCardSimulator {
     static siCardClass = SiCard6;
     static getAllExamples = getSiCard6Examples;
 
-    constructor(storage: (number|undefined)[]|undefined) {
+    public storage: storage.ISiStorage<ISiCard6StorageFields>;
+
+    constructor(storageData: (number|undefined)[]|undefined) {
         super();
-        this.storage = new SiCard6StorageDefinition(storage);
+        this.storage = siCard6StorageDefinition(storageData);
     }
 
     handleDetect() {

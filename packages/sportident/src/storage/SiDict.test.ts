@@ -3,7 +3,7 @@
 import _ from 'lodash';
 import Immutable from 'immutable';
 // eslint-disable-next-line no-unused-vars
-import {SiStorageData, ValueToStringError, ValueFromStringError} from './interfaces';
+import {ISiStorageData, ValueToStringError, ValueFromStringError} from './interfaces';
 import {ModifyUndefinedException, SiDataType} from './SiDataType';
 import {SiFieldValue} from './SiFieldValue';
 // eslint-disable-next-line no-unused-vars
@@ -32,7 +32,7 @@ describe('SiDict', () => {
             return `->${value}<-`;
         }
 
-        typeSpecificExtractFromData(data: SiStorageData): string|undefined {
+        typeSpecificExtractFromData(data: ISiStorageData): string|undefined {
             const byte = data.get(this.index);
             if (byte === undefined) {
                 return undefined;
@@ -40,7 +40,7 @@ describe('SiDict', () => {
             return String.fromCharCode(byte);
         }
 
-        typeSpecificUpdateData(data: SiStorageData, newValue: string): SiStorageData {
+        typeSpecificUpdateData(data: ISiStorageData, newValue: string): ISiStorageData {
             const byte = data.get(this.index);
             if (byte === undefined) {
                 throw new ModifyUndefinedException();
@@ -52,19 +52,16 @@ describe('SiDict', () => {
         One: new FakeDataType(0x00),
         Other: new FakeDataType(0x01),
     });
-    const fieldValueOf = (value: SiDictValue<string>): SiFieldValue<SiDictValue<string>> =>
+    type MySiDictType = {One: string, Other: string};
+    const fieldValueOf = (value: SiDictValue<MySiDictType>): SiFieldValue<SiDictValue<MySiDictType>> =>
         new SiFieldValue(mySiDict, value);
     it('typeCheckValue', () => {
         expect(mySiDict.isValueValid({One: 'A', Other: 'B'})).toBe(true);
-        expect(mySiDict.isValueValid({One: 'A'})).toBe(false);
-        expect(mySiDict.isValueValid({})).toBe(false);
         expect(mySiDict.isValueValid({One: 'A', Other: undefined})).toBe(false);
     });
     it('valueToString', () => {
         expect(mySiDict.valueToString({One: 'A', Other: 'B'})).toBe('One: ->A<-, Other: ->B<-');
         expect(mySiDict.valueToString({One: 'Y', Other: 'Z'})).toBe('One: ->Y<-, Other: ->Z<-');
-        expect(mySiDict.valueToString({}) instanceof ValueToStringError).toBe(true);
-        expect(mySiDict.valueToString({One: 'A'}) instanceof ValueToStringError).toBe(true);
         expect(mySiDict.valueToString({One: 'Y', Other: undefined}) instanceof ValueToStringError).toBe(true);
     });
     it('typeSpecificValueToString handles edge case', () => {

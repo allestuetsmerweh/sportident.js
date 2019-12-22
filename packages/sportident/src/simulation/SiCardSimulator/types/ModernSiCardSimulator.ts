@@ -2,16 +2,16 @@ import _ from 'lodash';
 import {proto} from '../../../constants';
 import * as siProtocol from '../../../siProtocol';
 import {BaseSiCardSimulator} from '../BaseSiCardSimulator';
-import {ModernSiCard, ModernSiCardStorageDefinition} from '../../../SiCard/types/ModernSiCard';
+import {ModernSiCard, modernSiCardStorageDefinition} from '../../../SiCard/types/ModernSiCard';
 import {getModernSiCardExamples} from '../../../SiCard/types/modernSiCardExamples';
 
 export class ModernSiCardSimulator extends BaseSiCardSimulator {
     static siCardClass = ModernSiCard;
     static getAllExamples = getModernSiCardExamples;
 
-    constructor(storage: (number|undefined)[]|undefined) {
+    constructor(storage?: (number|undefined)[]) {
         super();
-        this.storage = new ModernSiCardStorageDefinition(storage);
+        this.storage = modernSiCardStorageDefinition(storage);
     }
 
     handleDetect() {

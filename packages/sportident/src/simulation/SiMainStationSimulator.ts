@@ -3,20 +3,21 @@ import * as utils from '../utils';
 // eslint-disable-next-line no-unused-vars
 import * as storage from '../storage';
 import * as siProtocol from '../siProtocol';
-import {SiStationStorageDefinition} from '../SiStation/BaseSiStation';
+// eslint-disable-next-line no-unused-vars
+import {ISiStationStorageFields, siStationStorageDefinition} from '../SiStation/BaseSiStation';
 // eslint-disable-next-line no-unused-vars
 import {SiMainStationSimulatorEvents, SiMainStationSimulatorMessageEvent} from './ISiMainStationSimulator';
 // eslint-disable-next-line no-unused-vars
 import {ISiCardSimulator} from './SiCardSimulator/ISiCardSimulator';
 
 export class SiMainStationSimulator {
-    public storage: storage.SiStorage;
+    public storage: storage.ISiStorage<ISiStationStorageFields>;
     public isMaster = true;
     public dateOffset = 0;
     public cardSimulator?: ISiCardSimulator;
 
     constructor(storageArg: (number|undefined)[]|undefined) {
-        this.storage = new SiStationStorageDefinition(storageArg);
+        this.storage = siStationStorageDefinition(storageArg);
     }
 
     dispatchCardMessage(cardMessage: siProtocol.SiMessage) {
@@ -105,7 +106,7 @@ export class SiMainStationSimulator {
             newContent.forEach((newByte: number, index: number) => {
                 data = data.set(offset + index, newByte);
             });
-            this.storage = new SiStationStorageDefinition(data);
+            this.storage = siStationStorageDefinition(data);
             this.dispatchMessage({
                 command: proto.cmd.SET_SYS_VAL,
                 parameters: [...this.getCode(), offset],

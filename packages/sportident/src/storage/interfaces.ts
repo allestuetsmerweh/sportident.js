@@ -11,7 +11,7 @@ export interface ISiFieldValue<T> {
     toString: () => string;
 }
 
-export type SiStorageData = Immutable.List<number|undefined>;
+export type ISiStorageData = Immutable.List<number|undefined>;
 
 export interface ISiDataType<T> {
     isValueValid: (value: T) => boolean;
@@ -20,8 +20,36 @@ export interface ISiDataType<T> {
     typeSpecificValueToString: (value: T) => string|ValueToStringError;
     valueFromString: (string: string) => T|ValueFromStringError;
     typeSpecificValueFromString: (string: string) => T|ValueFromStringError;
-    extractFromData: (data: SiStorageData) => ISiFieldValue<T>|undefined;
-    typeSpecificExtractFromData: (data: SiStorageData) => T|undefined;
-    updateData: (data: SiStorageData, newValue: T|ISiFieldValue<T>) => SiStorageData;
-    typeSpecificUpdateData: (data: SiStorageData, newValue: T) => SiStorageData;
+    extractFromData: (data: ISiStorageData) => ISiFieldValue<T>|undefined;
+    typeSpecificExtractFromData: (data: ISiStorageData) => T|undefined;
+    updateData: (data: ISiStorageData, newValue: T|ISiFieldValue<T>) => ISiStorageData;
+    typeSpecificUpdateData: (data: ISiStorageData, newValue: T) => ISiStorageData;
+}
+
+export type ISiStorageLocations<Fields> = {
+    [id in keyof Fields]: ISiDataType<Fields[id]>
+};
+/** Consists of locations and size */
+export type ISiStorageDefinition<Fields> = (
+    initArg?: Immutable.List<number|undefined>|Array<number|undefined>
+) => ISiStorage<Fields>;
+export type FieldsFromStorageDefinition<Definition extends ISiStorageDefinition<any>> =
+    Definition extends ISiStorageDefinition<infer Fields> ? Fields : never;
+
+export interface ISiStorage<T> {
+    size: number;
+    locations: ISiStorageLocations<T>;
+    data: ISiStorageData;
+    get: <U extends keyof T>(
+        fieldName: U,
+    ) => ISiFieldValue<T[U]>|undefined;
+    set: <U extends keyof T>(
+        fieldName: U,
+        newValue: T[U],
+    ) => void;
+    splice: (
+        index: number,
+        removeNum: number,
+        ...values: number[]
+    ) => void;
 }

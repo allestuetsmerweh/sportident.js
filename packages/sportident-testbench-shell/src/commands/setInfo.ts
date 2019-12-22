@@ -1,4 +1,4 @@
-import {SiStationStorageDefinition} from 'sportident/lib/SiStation/BaseSiStation';
+import {siStationStorageLocations} from 'sportident/lib/SiStation/BaseSiStation';
 import {SiFieldValue} from 'sportident/lib/storage/SiFieldValue';
 // eslint-disable-next-line no-unused-vars
 import {ShellCommandContext} from '../Shell';
@@ -14,7 +14,7 @@ export class SetInfoCommand extends BaseCommand {
             },
             {
                 name: 'information name',
-                choices: Object.keys(SiStationStorageDefinition.definitions),
+                choices: Object.keys(siStationStorageLocations),
             },
             {
                 name: 'new value',
@@ -38,15 +38,19 @@ export class SetInfoCommand extends BaseCommand {
         }
         const infoName = context.args[2];
         const newValue = context.args[3];
-        const field = station.getField(infoName);
+        if (!(infoName in siStationStorageLocations)) {
+            context.putString(`No such info: ${infoName}.\n`);
+        }
+        const validInfoName = infoName as keyof typeof siStationStorageLocations;
+        const field = station.getField(validInfoName);
         const fieldValue = SiFieldValue.fromString(field, newValue);
         return station.atomically(() => {
-            station.setInfo(infoName, fieldValue);
+            station.setInfo(validInfoName, fieldValue);
         })
             .then(() => station.readInfo())
             .then(() => {
-                const infoValue = station.getInfo(infoName);
-                context.putString(`${infoName}: ${infoValue}\n`);
+                const infoValue = station.getInfo(validInfoName);
+                context.putString(`${validInfoName}: ${infoValue}\n`);
             });
     }
 }

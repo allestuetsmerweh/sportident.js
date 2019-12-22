@@ -3,6 +3,8 @@ import * as storage from '../../storage';
 import * as siProtocol from '../../siProtocol';
 import {proto} from '../../constants';
 import {BaseSiCard} from '../BaseSiCard';
+// eslint-disable-next-line no-unused-vars
+import {IPunch} from '../IRaceResultData';
 
 const bytesPerPage = 128;
 const MAX_NUM_PUNCHES = 36;
@@ -17,13 +19,25 @@ export const getPunchOffset = (i: number): number => (i >= 30
     : 0x20 + Math.floor(i / 5) + 1 + i * 3
 );
 
-export const cropPunches = (allPunches: PotentialSiCard5Punch[]) => {
-    const isPunchEntryInvalid = (punch: PotentialSiCard5Punch) => punch.code === undefined || punch.code === 0x00;
-    const firstInvalidIndex = allPunches.findIndex(isPunchEntryInvalid);
-    return firstInvalidIndex === -1 ? allPunches : allPunches.slice(0, firstInvalidIndex);
+export const cropPunches = (
+    allPunches: (PotentialSiCard5Punch|undefined)[],
+): IPunch[] => {
+    const isPunchEntryValid = (
+        punch: PotentialSiCard5Punch|undefined,
+    ): punch is IPunch => (
+        punch !== undefined
+        && punch.code !== undefined
+        && punch.code !== 0x00
+    );
+    const firstInvalidIndex = allPunches.findIndex((punch) => !isPunchEntryValid(punch));
+    const punchesUntilInvalid = (firstInvalidIndex === -1
+        ? allPunches
+        : allPunches.slice(0, firstInvalidIndex)
+    );
+    return punchesUntilInvalid.filter<IPunch>(isPunchEntryValid);
 };
 
-export const SiCard5StorageDefinition = storage.defineStorage(0x80, {
+export const siCard5StorageLocations = {
     cardNumber: new storage.SiModified(
         new storage.SiArray(
             3,
@@ -58,26 +72,36 @@ export const SiCard5StorageDefinition = storage.defineStorage(0x80, {
                 )),
             }),
         ),
-        // TODO: a punch in allPunches can't actually be undefined
-        (allPunches) => cropPunches(allPunches as unknown as PotentialSiCard5Punch[]),
+        (allPunches) => cropPunches(allPunches),
     ),
     cardHolder: new storage.SiDict({
         countryCode: new storage.SiInt([[0x01]]),
         clubCode: new storage.SiInt([[0x03], [0x02]]),
     }),
     softwareVersion: new storage.SiInt([[0x1B]]),
-});
+};
+export const siCard5StorageDefinition = storage.defineStorage(
+    0x80,
+    siCard5StorageLocations,
+);
+export type ISiCard5StorageFields = storage.FieldsFromStorageDefinition<typeof siCard5StorageDefinition>;
 
 export class SiCard5 extends BaseSiCard {
     static maxNumPunches = MAX_NUM_PUNCHES;
-    static StorageDefinition = SiCard5StorageDefinition;
 
     static typeSpecificShouldDetectFromMessage(message: siProtocol.SiMessage) {
         return message.mode === undefined && message.command === proto.cmd.SI5_DET;
     }
 
+    public storage: storage.ISiStorage<ISiCard5StorageFields>;
+
     public punchCount?: number;
     public softwareVersion?: number;
+
+    constructor(cardNumber: number) {
+        super(cardNumber);
+        this.storage = siCard5StorageDefinition();
+    }
 
     typeSpecificRead() {
         if (!this.mainStation) {

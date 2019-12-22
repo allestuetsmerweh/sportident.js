@@ -2,7 +2,7 @@
 
 import _ from 'lodash';
 // eslint-disable-next-line no-unused-vars
-import {ISiDataType, SiStorageData, ValueToStringError, ValueFromStringError} from './interfaces';
+import {ISiDataType, ISiStorageData, ValueToStringError, ValueFromStringError} from './interfaces';
 import {SiDataType} from './SiDataType';
 import {SiFieldValue} from './SiFieldValue';
 
@@ -24,11 +24,11 @@ describe('SiFieldValue', () => {
             return _.isInteger(value) ? value : new ValueFromStringError();
         }
 
-        typeSpecificExtractFromData(_data: SiStorageData): number {
+        typeSpecificExtractFromData(_data: ISiStorageData): number {
             return 1;
         }
 
-        typeSpecificUpdateData(data: SiStorageData, _newValue: number): SiStorageData {
+        typeSpecificUpdateData(data: ISiStorageData, _newValue: number): ISiStorageData {
             return data;
         }
     }

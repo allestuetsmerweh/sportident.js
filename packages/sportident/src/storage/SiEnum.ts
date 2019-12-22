@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import * as utils from '../utils';
 // eslint-disable-next-line no-unused-vars
-import {ISiDataType, SiStorageData, ValueFromStringError} from './interfaces';
+import {ISiDataType, ISiStorageData, ValueFromStringError} from './interfaces';
 import {SiDataType} from './SiDataType';
 // eslint-disable-next-line no-unused-vars
 import {SiInt, SiIntegerPartDefinition} from './SiInt';
@@ -58,11 +58,11 @@ export class SiEnum extends SiDataType<any> implements ISiDataType<any> {
         return intValue;
     }
 
-    typeSpecificExtractFromData(data: SiStorageData): number|undefined {
+    typeSpecificExtractFromData(data: ISiStorageData): number|undefined {
         return this.intField.typeSpecificExtractFromData(data);
     }
 
-    typeSpecificUpdateData(data: SiStorageData, newValue: number|any): SiStorageData {
+    typeSpecificUpdateData(data: ISiStorageData, newValue: number|any): ISiStorageData {
         const newIntValue = _.isInteger(newValue) ? newValue : this.getIntValue(newValue);
         return this.intField.typeSpecificUpdateData(data, newIntValue);
     }
