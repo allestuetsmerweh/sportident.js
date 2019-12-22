@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">98.59% </span>
+        <span class="strong">98.61% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>70/71</span>
+        <span class='fraction'>71/72</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">88.89% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>28/28</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">98.59% </span>
+        <span class="strong">98.61% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>70/71</span>
+        <span class='fraction'>71/72</span>
       </div>
     </div>
     <p class="quiet">
@@ -287,7 +287,19 @@
 <a name='L239'></a><a href='#L239'>239</a>
 <a name='L240'></a><a href='#L240'>240</a>
 <a name='L241'></a><a href='#L241'>241</a>
-<a name='L242'></a><a href='#L242'>242</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">4x</span>
+<a name='L242'></a><a href='#L242'>242</a>
+<a name='L243'></a><a href='#L243'>243</a>
+<a name='L244'></a><a href='#L244'>244</a>
+<a name='L245'></a><a href='#L245'>245</a>
+<a name='L246'></a><a href='#L246'>246</a>
+<a name='L247'></a><a href='#L247'>247</a>
+<a name='L248'></a><a href='#L248'>248</a>
+<a name='L249'></a><a href='#L249'>249</a>
+<a name='L250'></a><a href='#L250'>250</a>
+<a name='L251'></a><a href='#L251'>251</a>
+<a name='L252'></a><a href='#L252'>252</a>
+<a name='L253'></a><a href='#L253'>253</a>
+<a name='L254'></a><a href='#L254'>254</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -337,6 +349,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -401,11 +418,18 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">60x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -536,7 +560,7 @@ import {ISiStation, SiStationMode, SiStationModel} from './ISiStation';
 // eslint-disable-next-line no-unused-vars
 import {ISiTargetMultiplexer, SiTargetMultiplexerTarget} from './ISiTargetMultiplexer';
 &nbsp;
-export const SiStationStorageDefinition = storage.defineStorage(0x80, {
+export const siStationStorageLocations = {
     code: new storage.SiInt([[0x72], [0x73, 6, 8]]),
     mode: new storage.SiEnum([[0x71]], SiStationMode),
     beeps: new storage.SiBool(0x73, 2),
@@ -581,10 +605,15 @@ export const SiStationStorageDefinition = storage.defineStorage(0x80, {
     //   xx00xxxxb - week counter 0..3, relative to programming date
     sleepSeconds: new storage.SiInt([[0x7D], [0x7C]]),
     workingMinutes: new storage.SiInt([[0x7F], [0x7E]]),
-});
+};
+export const siStationStorageDefinition = storage.defineStorage(
+    0x80,
+    siStationStorageLocations,
+);
+export type ISiStationStorageFields = storage.FieldsFromStorageDefinition&lt;typeof siStationStorageDefinition&gt;;
 &nbsp;
 export abstract class BaseSiStation&lt;T extends SiTargetMultiplexerTarget&gt; {
-    public storage: storage.SiStorage;
+    public storage: storage.ISiStorage&lt;ISiStationStorageFields&gt;;
 &nbsp;
     protected static fromSiTargetMultiplexerWithGivenTarget&lt;U extends SiTargetMultiplexerTarget&gt;(
         multiplexer: ISiTargetMultiplexer,
@@ -609,7 +638,7 @@ export abstract class BaseSiStation&lt;T extends SiTargetMultiplexerTarget&gt; {
         // eslint-disable-next-line no-unused-vars
         public readonly multiplexerTarget: T,
     ) {
-        this.storage = new SiStationStorageDefinition();
+        this.storage = siStationStorageDefinition();
     }
 &nbsp;
     get ident() {
@@ -641,15 +670,22 @@ export abstract class BaseSiStation&lt;T extends SiTargetMultiplexerTarget&gt; {
             });
     }
 &nbsp;
-    getField(infoName: string) {
-        return this.storage.definitions[infoName];
+    getField&lt;T extends keyof ISiStationStorageFields&gt;(
+        infoName: T,
+    ) {
+        return this.storage.locations[infoName];
     }
 &nbsp;
-    getInfo(infoName: string) {
+    getInfo&lt;T extends keyof ISiStationStorageFields&gt;(
+        infoName: T,
+    ) {
         return this.storage.get(infoName);
     }
 &nbsp;
-    setInfo(infoName: string, newValue: any) {
+    setInfo&lt;T extends keyof ISiStationStorageFields&gt;(
+        infoName: T,
+        newValue: ISiStationStorageFields[T],
+    ) {
         this.storage.set(infoName, newValue);
     }
 &nbsp;
@@ -673,8 +709,8 @@ export abstract class BaseSiStation&lt;T extends SiTargetMultiplexerTarget&gt; {
     }
 &nbsp;
     writeDiff(
-        oldStorage: storage.SiStorageData,
-        newStorage: storage.SiStorageData,
+        oldStorage: storage.ISiStorageData,
+        newStorage: storage.ISiStorageData,
     ): Promise&lt;void&gt; {
         const zippedStorageBytes = oldStorage.zip(newStorage);
         const isByteDirty = zippedStorageBytes.map(
@@ -775,7 +811,7 @@ export abstract class BaseSiStation&lt;T extends SiTargetMultiplexerTarget&gt; {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sun Dec 22 2019 22:15:30 GMT+0000 (Coordinated Universal Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sun Dec 22 2019 22:20:39 GMT+0000 (Coordinated Universal Time)
 </div>
 </div>
 <script src="../../../prettify.js"></script>

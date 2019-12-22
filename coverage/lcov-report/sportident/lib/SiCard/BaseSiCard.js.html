@@ -20,24 +20,24 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">27.59% </span>
+        <span class="strong">25.93% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>16/58</span>
+        <span class='fraction'>14/54</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">22.22% </span>
+        <span class="strong">24% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>6/27</span>
+        <span class='fraction'>6/25</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">11.76% </span>
+        <span class="strong">12.5% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>2/17</span>
+        <span class='fraction'>2/16</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">27.78% </span>
+        <span class="strong">26% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>15/54</span>
+        <span class='fraction'>13/50</span>
       </div>
     </div>
     <p class="quiet">
@@ -140,19 +140,9 @@
 <a name='L92'></a><a href='#L92'>92</a>
 <a name='L93'></a><a href='#L93'>93</a>
 <a name='L94'></a><a href='#L94'>94</a>
-<a name='L95'></a><a href='#L95'>95</a>
-<a name='L96'></a><a href='#L96'>96</a>
-<a name='L97'></a><a href='#L97'>97</a>
-<a name='L98'></a><a href='#L98'>98</a>
-<a name='L99'></a><a href='#L99'>99</a>
-<a name='L100'></a><a href='#L100'>100</a>
-<a name='L101'></a><a href='#L101'>101</a>
-<a name='L102'></a><a href='#L102'>102</a>
-<a name='L103'></a><a href='#L103'>103</a>
-<a name='L104'></a><a href='#L104'>104</a>
-<a name='L105'></a><a href='#L105'>105</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L95'></a><a href='#L95'>95</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -164,15 +154,10 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -226,10 +211,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -250,7 +231,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -266,17 +246,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const constants_1 = require("../constants");
 const utils = __importStar(require("../utils"));
 const siProtocol = __importStar(require("../siProtocol"));
-const storage = __importStar(require("../storage"));
 const raceResultTools_1 = require("./raceResultTools");
 const initialRegistry = new utils.NumberRangeRegistry();
-const EmptyStorage = storage.defineStorage(0, {});
 class BaseSiCard {
 <span class="fstat-no" title="function not covered" >    co</span>nstructor(cardNumber) {
+<span class="cstat-no" title="statement not covered" >        this.storage = {};</span>
 <span class="cstat-no" title="statement not covered" >        this.raceResult = { cardNumber: cardNumber };</span>
-<span class="cstat-no" title="statement not covered" >        this.storage = (this.StorageDefinition</span>
-            ? new this.StorageDefinition()
-            : new EmptyStorage() // TODO: find better solution
-        );
     }
 <span class="fstat-no" title="function not covered" >    st</span>atic resetNumberRangeRegistry() {
 <span class="cstat-no" title="statement not covered" >        this.cardNumberRangeRegistry = new utils.NumberRangeRegistry();</span>
@@ -324,10 +299,6 @@ class BaseSiCard {
 <span class="fstat-no" title="function not covered" >    ge</span>t cardNumber() {
 <span class="cstat-no" title="statement not covered" >        return this.raceResult.cardNumber;</span>
     }
-<span class="fstat-no" title="function not covered" >    ge</span>t StorageDefinition() {
-        const thisConstructor = <span class="cstat-no" title="statement not covered" >this.constructor;</span>
-<span class="cstat-no" title="statement not covered" >        return thisConstructor.StorageDefinition;</span>
-    }
 <span class="fstat-no" title="function not covered" >    re</span>ad() {
 <span class="cstat-no" title="statement not covered" >        return this.typeSpecificRead()</span>
             .then(<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >this)</span>;
@@ -355,7 +326,6 @@ class BaseSiCard {
 }
 exports.BaseSiCard = BaseSiCard;
 // abstract static maxNumPunches: number;
-// abstract static StorageDefinition?: typeof storage.SiStorage;
 BaseSiCard.NumberRange = utils.NumberRange;
 BaseSiCard.cardNumberRangeRegistry = initialRegistry;
 //# sourceMappingURL=BaseSiCard.js.map</pre></td></tr>
@@ -364,7 +334,7 @@ BaseSiCard.cardNumberRangeRegistry = initialRegistry;
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sun Dec 22 2019 22:15:30 GMT+0000 (Coordinated Universal Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sun Dec 22 2019 22:20:39 GMT+0000 (Coordinated Universal Time)
 </div>
 </div>
 <script src="../../../prettify.js"></script>

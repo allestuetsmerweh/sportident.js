@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">27.59% </span>
+        <span class="strong">26.67% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>8/29</span>
+        <span class='fraction'>8/30</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">36.84% </span>
@@ -30,9 +30,9 @@
         <span class='fraction'>7/19</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">20% </span>
+        <span class="strong">22.22% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>2/10</span>
+        <span class='fraction'>2/9</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">25% </span>
@@ -102,10 +102,7 @@
 <a name='L54'></a><a href='#L54'>54</a>
 <a name='L55'></a><a href='#L55'>55</a>
 <a name='L56'></a><a href='#L56'>56</a>
-<a name='L57'></a><a href='#L57'>57</a>
-<a name='L58'></a><a href='#L58'>58</a>
-<a name='L59'></a><a href='#L59'>59</a>
-<a name='L60'></a><a href='#L60'>60</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L57'></a><a href='#L57'>57</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -114,19 +111,20 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -159,11 +157,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">"use strict";
 var __importDefault = (this &amp;&amp; this.__importDefault) || function (mod) {
     return (mod &amp;&amp; mod.__esModule) ? mod : { "default": mod };
@@ -172,37 +166,38 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const lodash_1 = __importDefault(require("lodash"));
 const immutable_1 = __importDefault(require("immutable"));
 class SiStorage {
-<span class="fstat-no" title="function not covered" >    co</span>nstructor(initArg) {
+    // eslint-disable-next-line no-useless-constructor
+<span class="fstat-no" title="function not covered" >    co</span>nstructor(
+    // eslint-disable-next-line no-unused-vars
+    size, 
+    // eslint-disable-next-line no-unused-vars
+    locations, initArg) {
+<span class="cstat-no" title="statement not covered" >        this.size = size;</span>
+<span class="cstat-no" title="statement not covered" >        this.locations = locations;</span>
         const initArrayOrList = (<span class="cstat-no" title="statement not covered" >initArg === undefined</span>
-            ? lodash_1.default.range(this.size).map(<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >undefined)</span>
+            ? lodash_1.default.range(size).map(<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >undefined)</span>
             : initArg);
         const initList = (<span class="cstat-no" title="statement not covered" >initArrayOrList instanceof immutable_1.default.List</span>
             ? initArrayOrList
             : immutable_1.default.List(initArrayOrList));
-<span class="cstat-no" title="statement not covered" >        if (initList.size !== this.size) {</span>
+<span class="cstat-no" title="statement not covered" >        if (initList.size !== size) {</span>
 <span class="cstat-no" title="statement not covered" >            throw new Error(`SiStorage constructor list "${initArg}" =&gt; "${initList}" ` +</span>
-                `must have size ${this.size} (but is ${initList.size})`);
+                `must have size ${size} (but is ${initList.size})`);
         }
 <span class="cstat-no" title="statement not covered" >        this.internalData = initList;</span>
-    }
-<span class="fstat-no" title="function not covered" >    ge</span>t size() {
-<span class="cstat-no" title="statement not covered" >        return this.constructor.size;</span>
-    }
-<span class="fstat-no" title="function not covered" >    ge</span>t definitions() {
-<span class="cstat-no" title="statement not covered" >        return this.constructor.definitions;</span>
     }
 <span class="fstat-no" title="function not covered" >    ge</span>t data() {
 <span class="cstat-no" title="statement not covered" >        return this.internalData;</span>
     }
 <span class="fstat-no" title="function not covered" >    ge</span>t(fieldName) {
-        const fieldDefinition = <span class="cstat-no" title="statement not covered" >this.definitions[fieldName];</span>
+        const fieldDefinition = <span class="cstat-no" title="statement not covered" >this.locations[fieldName];</span>
 <span class="cstat-no" title="statement not covered" >        if (!fieldDefinition) {</span>
 <span class="cstat-no" title="statement not covered" >            return undefined;</span>
         }
 <span class="cstat-no" title="statement not covered" >        return fieldDefinition.extractFromData(this.internalData);</span>
     }
 <span class="fstat-no" title="function not covered" >    se</span>t(fieldName, newValue) {
-        const fieldDefinition = <span class="cstat-no" title="statement not covered" >this.definitions[fieldName];</span>
+        const fieldDefinition = <span class="cstat-no" title="statement not covered" >this.locations[fieldName];</span>
 <span class="cstat-no" title="statement not covered" >        if (!fieldDefinition) {</span>
 <span class="cstat-no" title="statement not covered" >            return;</span>
         }
@@ -218,18 +213,14 @@ class SiStorage {
     }
 }
 exports.SiStorage = SiStorage;
-exports.defineStorage = (size, definitions) =&gt; { var _a; return _a = class MySiStorage extends SiStorage {
-    },
-    _a.size = size,
-    _a.definitions = definitions,
-    _a; };
+exports.defineStorage = (size, locations) =&gt; <span class="fstat-no" title="function not covered" >(i</span>nitArg) =&gt; (<span class="cstat-no" title="statement not covered" >new SiStorage(size, locations, initArg))</span>;
 //# sourceMappingURL=SiStorage.js.map</pre></td></tr>
 </table></pre>
 <div class='push'></div><!-- for sticky footer -->
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sun Dec 22 2019 22:15:30 GMT+0000 (Coordinated Universal Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sun Dec 22 2019 22:20:39 GMT+0000 (Coordinated Universal Time)
 </div>
 </div>
 <script src="../../../prettify.js"></script>

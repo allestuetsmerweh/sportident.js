@@ -22,7 +22,7 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>28/28</span>
+        <span class='fraction'>29/29</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
@@ -32,12 +32,12 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>10/10</span>
+        <span class='fraction'>11/11</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>28/28</span>
+        <span class='fraction'>29/29</span>
       </div>
     </div>
     <p class="quiet">
@@ -106,23 +106,30 @@
 <a name='L58'></a><a href='#L58'>58</a>
 <a name='L59'></a><a href='#L59'>59</a>
 <a name='L60'></a><a href='#L60'>60</a>
-<a name='L61'></a><a href='#L61'>61</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">26x</span>
-<span class="cline-any cline-yes">26x</span>
+<a name='L61'></a><a href='#L61'>61</a>
+<a name='L62'></a><a href='#L62'>62</a>
+<a name='L63'></a><a href='#L63'>63</a>
+<a name='L64'></a><a href='#L64'>64</a>
+<a name='L65'></a><a href='#L65'>65</a>
+<a name='L66'></a><a href='#L66'>66</a>
+<a name='L67'></a><a href='#L67'>67</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">25x</span>
+<span class="cline-any cline-yes">25x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">26x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2307x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2307x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">25x</span>
-<span class="cline-any cline-yes">49x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2307x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2307x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">21x</span>
+<span class="cline-any cline-yes">43x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -132,6 +139,7 @@
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
@@ -166,33 +174,39 @@
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2353x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// eslint-disable-next-line no-unused-vars
-import {ISiDataType, SiStorageData, ValueFromStringError} from './interfaces';
+import {ISiDataType, ISiStorageData, ValueFromStringError} from './interfaces';
 import {SiDataType} from './SiDataType';
 &nbsp;
-export type SiDictValue&lt;T&gt; = {[key: string]: T|undefined};
+export type SiDictValue&lt;T&gt; = {[key in keyof T]: T[key]|undefined};
+export type SiPartialDictValue&lt;T&gt; = {[key in keyof T]?: T[key]};
 &nbsp;
 export class SiDict&lt;T&gt; extends SiDataType&lt;SiDictValue&lt;T&gt;&gt; implements ISiDataType&lt;SiDictValue&lt;T&gt;&gt; {
     constructor(
         // eslint-disable-next-line no-unused-vars
-        public readonly definitionDict: {[key: string]: ISiDataType&lt;T&gt;},
+        public readonly definitionDict: {[key in keyof T]: ISiDataType&lt;T[key]&gt;},
     ) {
         super();
     }
 &nbsp;
     typeSpecificIsValueValid(value: SiDictValue&lt;T&gt;): boolean {
-        return Object.keys(this.definitionDict).every((key) =&gt; (
+        return this.keysOfT.every((key) =&gt; (
             value[key] !== undefined
         ));
     }
 &nbsp;
     typeSpecificValueToString(value: SiDictValue&lt;T&gt;): string {
-        return Object.keys(this.definitionDict).map((key) =&gt; {
+        return this.keysOfT.map((key) =&gt; {
             const definition = this.definitionDict[key];
             const itemValue = value[key];
             if (itemValue === undefined) {
                 return `${key}: ?`;
             }
+            // @ts-ignore
             const itemValueString = definition.valueToString(itemValue);
             return `${key}: ${itemValueString}`;
         }).join(', ');
@@ -204,9 +218,9 @@ export class SiDict&lt;T&gt; extends SiDataType&lt;SiDictValue&lt;T&gt;&gt; impl
         );
     }
 &nbsp;
-    typeSpecificExtractFromData(data: SiStorageData): SiDictValue&lt;T&gt; {
-        const dictValue: SiDictValue&lt;T&gt; = {};
-        Object.keys(this.definitionDict).forEach((key) =&gt; {
+    typeSpecificExtractFromData(data: ISiStorageData): SiDictValue&lt;T&gt; {
+        const dictValue: SiPartialDictValue&lt;T&gt; = {};
+        this.keysOfT.forEach((key) =&gt; {
             const definition = this.definitionDict[key];
             const itemFieldValue = definition.extractFromData(data);
             if (itemFieldValue === undefined) {
@@ -214,16 +228,20 @@ export class SiDict&lt;T&gt; extends SiDataType&lt;SiDictValue&lt;T&gt;&gt; impl
             }
             dictValue[key] = itemFieldValue.value;
         });
-        return dictValue;
+        return dictValue as SiDictValue&lt;T&gt;;
     }
 &nbsp;
-    typeSpecificUpdateData(data: SiStorageData, newValue: SiDictValue&lt;T&gt;): SiStorageData {
+    typeSpecificUpdateData(data: ISiStorageData, newValue: SiDictValue&lt;T&gt;): ISiStorageData {
         let tempData = data;
-        Object.keys(this.definitionDict).forEach((key) =&gt; {
+        this.keysOfT.forEach((key) =&gt; {
             const definition = this.definitionDict[key];
-            tempData = definition.updateData(tempData, (newValue as {[key: string]: any})[key]!);
+            tempData = definition.updateData(tempData, newValue[key]!);
         });
         return tempData;
+    }
+&nbsp;
+    get keysOfT() {
+        return Object.keys(this.definitionDict) as (keyof T)[];
     }
 }
 &nbsp;</pre></td></tr>
@@ -232,7 +250,7 @@ export class SiDict&lt;T&gt; extends SiDataType&lt;SiDictValue&lt;T&gt;&gt; impl
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sun Dec 22 2019 22:15:30 GMT+0000 (Coordinated Universal Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sun Dec 22 2019 22:20:39 GMT+0000 (Coordinated Universal Time)
 </div>
 </div>
 <script src="../../../prettify.js"></script>

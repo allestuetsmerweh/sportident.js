@@ -22,7 +22,7 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>45/45</span>
+        <span class='fraction'>47/47</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
@@ -32,12 +32,12 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>14/14</span>
+        <span class='fraction'>15/15</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>45/45</span>
+        <span class='fraction'>47/47</span>
       </div>
     </div>
     <p class="quiet">
@@ -169,7 +169,18 @@
 <a name='L121'></a><a href='#L121'>121</a>
 <a name='L122'></a><a href='#L122'>122</a>
 <a name='L123'></a><a href='#L123'>123</a>
-<a name='L124'></a><a href='#L124'>124</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L124'></a><a href='#L124'>124</a>
+<a name='L125'></a><a href='#L125'>125</a>
+<a name='L126'></a><a href='#L126'>126</a>
+<a name='L127'></a><a href='#L127'>127</a>
+<a name='L128'></a><a href='#L128'>128</a>
+<a name='L129'></a><a href='#L129'>129</a>
+<a name='L130'></a><a href='#L130'>130</a>
+<a name='L131'></a><a href='#L131'>131</a>
+<a name='L132'></a><a href='#L132'>132</a>
+<a name='L133'></a><a href='#L133'>133</a>
+<a name='L134'></a><a href='#L134'>134</a>
+<a name='L135'></a><a href='#L135'>135</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -242,11 +253,22 @@
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -296,7 +318,7 @@
 import * as storage from '../../storage';
 import * as siProtocol from '../../siProtocol';
 // eslint-disable-next-line no-unused-vars
-import {cropPunches, getCroppedString, ModernSiCard, ModernSiCardSeries, PotentialModernSiCardPunch} from './ModernSiCard';
+import {cropPunches, getCroppedString, ModernSiCard, ModernSiCardSeries} from './ModernSiCard';
 import {BaseSiCard} from '../BaseSiCard';
 &nbsp;
 class ReadFinishedException {}
@@ -324,7 +346,7 @@ const parseCardHolder = (maybeCharCodes: (number|undefined)[]) =&gt; {
     return parseCardHolderString(semicolonSeparatedString || '');
 };
 &nbsp;
-export const SiCard8StorageDefinition = storage.defineStorage(0x100, {
+export const siCard8StorageLocations = {
     uid: new storage.SiInt([[0x03], [0x02], [0x01], [0x00]]),
     cardSeries: new storage.SiEnum([[0x18]], ModernSiCardSeries),
     cardNumber: new storage.SiModified(
@@ -355,7 +377,7 @@ export const SiCard8StorageDefinition = storage.defineStorage(0x100, {
                 ]),
             }),
         ),
-        (allPunches) =&gt; cropPunches(allPunches as unknown as PotentialModernSiCardPunch[]),
+        (allPunches) =&gt; cropPunches(allPunches),
     ),
     cardHolder: new storage.SiModified(
         new storage.SiArray(
@@ -364,13 +386,24 @@ export const SiCard8StorageDefinition = storage.defineStorage(0x100, {
         ),
         (charCodes) =&gt; parseCardHolder(charCodes),
     ),
-});
+};
+export const siCard8StorageDefinition = storage.defineStorage(
+    0x100,
+    siCard8StorageLocations,
+);
+export type ISiCard8StorageFields = storage.FieldsFromStorageDefinition&lt;typeof siCard8StorageDefinition&gt;;
 &nbsp;
 export class SiCard8 extends ModernSiCard {
     static maxNumPunches = MAX_NUM_PUNCHES;
-    static StorageDefinition = SiCard8StorageDefinition;
+&nbsp;
+    public storage: storage.ISiStorage&lt;ISiCard8StorageFields&gt;;
 &nbsp;
     public uid?: number;
+&nbsp;
+    constructor(cardNumber: number) {
+        super(cardNumber);
+        this.storage = siCard8StorageDefinition();
+    }
 &nbsp;
     typeSpecificRead(): Promise&lt;void&gt; {
         return new Promise((resolve, reject) =&gt; {
@@ -421,7 +454,7 @@ BaseSiCard.registerNumberRange(2004000, 3000000, SiCard8);
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sun Dec 22 2019 22:15:30 GMT+0000 (Coordinated Universal Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sun Dec 22 2019 22:20:39 GMT+0000 (Coordinated Universal Time)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>

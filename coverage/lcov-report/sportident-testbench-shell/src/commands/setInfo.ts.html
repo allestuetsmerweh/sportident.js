@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">21.74% </span>
+        <span class="strong">19.23% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>5/23</span>
+        <span class='fraction'>5/26</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/2</span>
+        <span class='fraction'>0/4</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>0/6</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">21.74% </span>
+        <span class="strong">19.23% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>5/23</span>
+        <span class='fraction'>5/26</span>
       </div>
     </div>
     <p class="quiet">
@@ -98,7 +98,11 @@
 <a name='L50'></a><a href='#L50'>50</a>
 <a name='L51'></a><a href='#L51'>51</a>
 <a name='L52'></a><a href='#L52'>52</a>
-<a name='L53'></a><a href='#L53'>53</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L53'></a><a href='#L53'>53</a>
+<a name='L54'></a><a href='#L54'>54</a>
+<a name='L55'></a><a href='#L55'>55</a>
+<a name='L56'></a><a href='#L56'>56</a>
+<a name='L57'></a><a href='#L57'>57</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -140,6 +144,10 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -150,7 +158,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import {SiStationStorageDefinition} from 'sportident/lib/SiStation/BaseSiStation';
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import {siStationStorageLocations} from 'sportident/lib/SiStation/BaseSiStation';
 import {SiFieldValue} from 'sportident/lib/storage/SiFieldValue';
 // eslint-disable-next-line no-unused-vars
 import {ShellCommandContext} from '../Shell';
@@ -166,7 +174,7 @@ export class SetInfoCommand extends BaseCommand {
             },
             {
                 name: 'information name',
-                choices: Object.keys(SiStationStorageDefinition.definitions),
+                choices: Object.keys(siStationStorageLocations),
             },
             {
                 name: 'new value',
@@ -190,15 +198,19 @@ export class SetInfoCommand extends BaseCommand {
         }
         const infoName = <span class="cstat-no" title="statement not covered" >context.args[2];</span>
         const newValue = <span class="cstat-no" title="statement not covered" >context.args[3];</span>
-        const field = <span class="cstat-no" title="statement not covered" >station.getField(infoName);</span>
+<span class="cstat-no" title="statement not covered" >        if (!(infoName in siStationStorageLocations)) {</span>
+<span class="cstat-no" title="statement not covered" >            context.putString(`No such info: ${infoName}.\n`);</span>
+        }
+        const validInfoName = <span class="cstat-no" title="statement not covered" >infoName as keyof typeof siStationStorageLocations;</span>
+        const field = <span class="cstat-no" title="statement not covered" >station.getField(validInfoName);</span>
         const fieldValue = <span class="cstat-no" title="statement not covered" >SiFieldValue.fromString(field, newValue);</span>
 <span class="cstat-no" title="statement not covered" >        return station.atomically(<span class="fstat-no" title="function not covered" >() =</span>&gt; {</span>
-<span class="cstat-no" title="statement not covered" >            station.setInfo(infoName, fieldValue);</span>
+<span class="cstat-no" title="statement not covered" >            station.setInfo(validInfoName, fieldValue);</span>
         })
             .then(<span class="fstat-no" title="function not covered" >() =</span>&gt; <span class="cstat-no" title="statement not covered" >station.readInfo())</span>
             .then(<span class="fstat-no" title="function not covered" >() =</span>&gt; {
-                const infoValue = <span class="cstat-no" title="statement not covered" >station.getInfo(infoName);</span>
-<span class="cstat-no" title="statement not covered" >                context.putString(`${infoName}: ${infoValue}\n`);</span>
+                const infoValue = <span class="cstat-no" title="statement not covered" >station.getInfo(validInfoName);</span>
+<span class="cstat-no" title="statement not covered" >                context.putString(`${validInfoName}: ${infoValue}\n`);</span>
             });
     }
 }
@@ -208,7 +220,7 @@ export class SetInfoCommand extends BaseCommand {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sun Dec 22 2019 22:15:30 GMT+0000 (Coordinated Universal Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sun Dec 22 2019 22:20:39 GMT+0000 (Coordinated Universal Time)
 </div>
 </div>
 <script src="../../../prettify.js"></script>

@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">20.69% </span>
+        <span class="strong">20% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>6/29</span>
+        <span class='fraction'>6/30</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -30,14 +30,14 @@
         <span class='fraction'>0/4</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">10% </span>
+        <span class="strong">9.09% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>1/10</span>
+        <span class='fraction'>1/11</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">21.43% </span>
+        <span class="strong">20.69% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>6/28</span>
+        <span class='fraction'>6/29</span>
       </div>
     </div>
     <p class="quiet">
@@ -97,7 +97,11 @@
 <a name='L49'></a><a href='#L49'>49</a>
 <a name='L50'></a><a href='#L50'>50</a>
 <a name='L51'></a><a href='#L51'>51</a>
-<a name='L52'></a><a href='#L52'>52</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L52'></a><a href='#L52'>52</a>
+<a name='L53'></a><a href='#L53'>53</a>
+<a name='L54'></a><a href='#L54'>54</a>
+<a name='L55'></a><a href='#L55'>55</a>
+<a name='L56'></a><a href='#L56'>56</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -119,6 +123,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -143,6 +148,9 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -161,15 +169,16 @@ class SiDict extends SiDataType_1.SiDataType {
         this.definitionDict = definitionDict;
     }
 <span class="fstat-no" title="function not covered" >    ty</span>peSpecificIsValueValid(value) {
-<span class="cstat-no" title="statement not covered" >        return Object.keys(this.definitionDict).every(<span class="fstat-no" title="function not covered" >(k</span>ey) =&gt; (<span class="cstat-no" title="statement not covered" >value[key] !== undefined)</span>);</span>
+<span class="cstat-no" title="statement not covered" >        return this.keysOfT.every(<span class="fstat-no" title="function not covered" >(k</span>ey) =&gt; (<span class="cstat-no" title="statement not covered" >value[key] !== undefined)</span>);</span>
     }
 <span class="fstat-no" title="function not covered" >    ty</span>peSpecificValueToString(value) {
-<span class="cstat-no" title="statement not covered" >        return Object.keys(this.definitionDict).map(<span class="fstat-no" title="function not covered" >(k</span>ey) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        return this.keysOfT.map(<span class="fstat-no" title="function not covered" >(k</span>ey) =&gt; {</span>
             const definition = <span class="cstat-no" title="statement not covered" >this.definitionDict[key];</span>
             const itemValue = <span class="cstat-no" title="statement not covered" >value[key];</span>
 <span class="cstat-no" title="statement not covered" >            if (itemValue === undefined) {</span>
 <span class="cstat-no" title="statement not covered" >                return `${key}: ?`;</span>
             }
+            // @ts-ignore
             const itemValueString = <span class="cstat-no" title="statement not covered" >definition.valueToString(itemValue);</span>
 <span class="cstat-no" title="statement not covered" >            return `${key}: ${itemValueString}`;</span>
         }).join(', ');
@@ -179,7 +188,7 @@ class SiDict extends SiDataType_1.SiDataType {
     }
 <span class="fstat-no" title="function not covered" >    ty</span>peSpecificExtractFromData(data) {
         const dictValue = <span class="cstat-no" title="statement not covered" >{};</span>
-<span class="cstat-no" title="statement not covered" >        Object.keys(this.definitionDict).forEach(<span class="fstat-no" title="function not covered" >(k</span>ey) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        this.keysOfT.forEach(<span class="fstat-no" title="function not covered" >(k</span>ey) =&gt; {</span>
             const definition = <span class="cstat-no" title="statement not covered" >this.definitionDict[key];</span>
             const itemFieldValue = <span class="cstat-no" title="statement not covered" >definition.extractFromData(data);</span>
 <span class="cstat-no" title="statement not covered" >            if (itemFieldValue === undefined) {</span>
@@ -191,11 +200,14 @@ class SiDict extends SiDataType_1.SiDataType {
     }
 <span class="fstat-no" title="function not covered" >    ty</span>peSpecificUpdateData(data, newValue) {
         let tempData = <span class="cstat-no" title="statement not covered" >data;</span>
-<span class="cstat-no" title="statement not covered" >        Object.keys(this.definitionDict).forEach(<span class="fstat-no" title="function not covered" >(k</span>ey) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        this.keysOfT.forEach(<span class="fstat-no" title="function not covered" >(k</span>ey) =&gt; {</span>
             const definition = <span class="cstat-no" title="statement not covered" >this.definitionDict[key];</span>
 <span class="cstat-no" title="statement not covered" >            tempData = definition.updateData(tempData, newValue[key]);</span>
         });
 <span class="cstat-no" title="statement not covered" >        return tempData;</span>
+    }
+<span class="fstat-no" title="function not covered" >    ge</span>t keysOfT() {
+<span class="cstat-no" title="statement not covered" >        return Object.keys(this.definitionDict);</span>
     }
 }
 exports.SiDict = SiDict;
@@ -205,7 +217,7 @@ exports.SiDict = SiDict;
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sun Dec 22 2019 22:15:30 GMT+0000 (Coordinated Universal Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sun Dec 22 2019 22:20:39 GMT+0000 (Coordinated Universal Time)
 </div>
 </div>
 <script src="../../../prettify.js"></script>
