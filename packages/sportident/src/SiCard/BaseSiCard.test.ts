@@ -152,11 +152,11 @@ describe('BaseSiCard', () => {
         cardNumber: 502,
         clearTime: 1,
         checkTime: 2,
-        startTime: 3,
+        startTime: 1,
         punches: [
-            {code: 31, time: 4},
+            {code: 31, time: 2},
         ],
-        finishTime: 5,
+        finishTime: 1,
         cardHolder: {firstName: 'John'},
     };
     it('Empty SiCard toDict', async () => {
@@ -175,9 +175,9 @@ describe('BaseSiCard', () => {
             cardNumber: 502,
             clearTime: 1,
             checkTime: 2,
-            startTime: 3,
-            finishTime: 5,
-            punches: [{code: 31, time: 4}],
+            startTime: 1,
+            finishTime: 1,
+            punches: [{code: 31, time: 2}],
             cardHolder: {firstName: 'John'},
         });
     });
@@ -188,19 +188,41 @@ describe('BaseSiCard', () => {
     });
     it('Non-empty SiCard toString', async () => {
         expect(nonemptySiCard.toString()).toEqual(
-            'FakeSiCard1\nCard Number: 502\nClear: 1\nCheck: 2\nStart: 3\nFinish: 5\n31: 4\nCard Holder:\nfirstName: John\n',
+            'FakeSiCard1\nCard Number: 502\nClear: 1\nCheck: 2\nStart: 1\nFinish: 1\n31: 2\nCard Holder:\nfirstName: John\n',
         );
     });
-    it('Empty SiCard normalizedRaceResult', async () => {
+    it('Empty SiCard getMonotonizedRaceResult', async () => {
+        expect(emptySiCard.getMonotonizedRaceResult()).toEqual({
+            cardNumber: 501,
+            clearTime: undefined,
+            checkTime: undefined,
+            startTime: undefined,
+            finishTime: undefined,
+            punches: undefined,
+            cardHolder: undefined,
+        });
+    });
+    it('Non-empty SiCard getMonotonizedRaceResult', async () => {
+        expect(nonemptySiCard.getMonotonizedRaceResult()).toEqual({
+            cardNumber: 502,
+            clearTime: 1,
+            checkTime: 2,
+            startTime: 43201,
+            finishTime: 86401,
+            punches: [{code: 31, time: 43202}],
+            cardHolder: {firstName: 'John'},
+        });
+    });
+    it('Empty SiCard getNormalizedRaceResult', async () => {
         expect(() => emptySiCard.getNormalizedRaceResult()).toThrow();
     });
-    it('Non-empty SiCard normalizedRaceResult', async () => {
+    it('Non-empty SiCard getNormalizedRaceResult', async () => {
         expect(nonemptySiCard.getNormalizedRaceResult()).toEqual({
             cardNumber: 502,
-            clearTime: -2,
-            checkTime: -1,
+            clearTime: -43200,
+            checkTime: -43199,
             startTime: 0,
-            finishTime: 2,
+            finishTime: 43200,
             punches: [{code: 31, time: 1}],
             cardHolder: {firstName: 'John'},
         });
