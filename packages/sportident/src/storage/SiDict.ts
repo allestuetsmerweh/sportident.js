@@ -1,30 +1,32 @@
 // eslint-disable-next-line no-unused-vars
-import {ISiDataType, SiStorageData, ValueFromStringError} from './interfaces';
+import {ISiDataType, ISiStorageData, ValueFromStringError} from './interfaces';
 import {SiDataType} from './SiDataType';
 
-export type SiDictValue<T> = {[key: string]: T|undefined};
+export type SiDictValue<T> = {[key in keyof T]: T[key]|undefined};
+export type SiPartialDictValue<T> = {[key in keyof T]?: T[key]};
 
 export class SiDict<T> extends SiDataType<SiDictValue<T>> implements ISiDataType<SiDictValue<T>> {
     constructor(
         // eslint-disable-next-line no-unused-vars
-        public readonly definitionDict: {[key: string]: ISiDataType<T>},
+        public readonly definitionDict: {[key in keyof T]: ISiDataType<T[key]>},
     ) {
         super();
     }
 
     typeSpecificIsValueValid(value: SiDictValue<T>): boolean {
-        return Object.keys(this.definitionDict).every((key) => (
+        return this.keysOfT.every((key) => (
             value[key] !== undefined
         ));
     }
 
     typeSpecificValueToString(value: SiDictValue<T>): string {
-        return Object.keys(this.definitionDict).map((key) => {
+        return this.keysOfT.map((key) => {
             const definition = this.definitionDict[key];
             const itemValue = value[key];
             if (itemValue === undefined) {
                 return `${key}: ?`;
             }
+            // @ts-ignore
             const itemValueString = definition.valueToString(itemValue);
             return `${key}: ${itemValueString}`;
         }).join(', ');
@@ -36,9 +38,9 @@ export class SiDict<T> extends SiDataType<SiDictValue<T>> implements ISiDataType
         );
     }
 
-    typeSpecificExtractFromData(data: SiStorageData): SiDictValue<T> {
-        const dictValue: SiDictValue<T> = {};
-        Object.keys(this.definitionDict).forEach((key) => {
+    typeSpecificExtractFromData(data: ISiStorageData): SiDictValue<T> {
+        const dictValue: SiPartialDictValue<T> = {};
+        this.keysOfT.forEach((key) => {
             const definition = this.definitionDict[key];
             const itemFieldValue = definition.extractFromData(data);
             if (itemFieldValue === undefined) {
@@ -46,15 +48,19 @@ export class SiDict<T> extends SiDataType<SiDictValue<T>> implements ISiDataType
             }
             dictValue[key] = itemFieldValue.value;
         });
-        return dictValue;
+        return dictValue as SiDictValue<T>;
     }
 
-    typeSpecificUpdateData(data: SiStorageData, newValue: SiDictValue<T>): SiStorageData {
+    typeSpecificUpdateData(data: ISiStorageData, newValue: SiDictValue<T>): ISiStorageData {
         let tempData = data;
-        Object.keys(this.definitionDict).forEach((key) => {
+        this.keysOfT.forEach((key) => {
             const definition = this.definitionDict[key];
-            tempData = definition.updateData(tempData, (newValue as {[key: string]: any})[key]!);
+            tempData = definition.updateData(tempData, newValue[key]!);
         });
         return tempData;
+    }
+
+    get keysOfT() {
+        return Object.keys(this.definitionDict) as (keyof T)[];
     }
 }

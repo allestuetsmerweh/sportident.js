@@ -1,6 +1,6 @@
 import _ from 'lodash';
 // eslint-disable-next-line no-unused-vars
-import {ISiDataType, SiStorageData, ValueFromStringError} from './interfaces';
+import {ISiDataType, ISiStorageData, ValueFromStringError} from './interfaces';
 import {SiDataType} from './SiDataType';
 
 export type SiArrayValue<T> = (T|undefined)[];
@@ -35,7 +35,7 @@ export class SiArray<T> extends SiDataType<SiArrayValue<T>> implements ISiDataTy
         );
     }
 
-    typeSpecificExtractFromData(data: SiStorageData): SiArrayValue<T>|undefined {
+    typeSpecificExtractFromData(data: ISiStorageData): SiArrayValue<T>|undefined {
         const arrayValue = _.range(this.length).map((index) => {
             const definition = this.getDefinitionAtIndex(index);
             const itemFieldValue = definition.extractFromData(data);
@@ -47,7 +47,7 @@ export class SiArray<T> extends SiDataType<SiArrayValue<T>> implements ISiDataTy
         return arrayValue;
     }
 
-    typeSpecificUpdateData(data: SiStorageData, newValue: SiArrayValue<T>): SiStorageData {
+    typeSpecificUpdateData(data: ISiStorageData, newValue: SiArrayValue<T>): ISiStorageData {
         const updateLength = Math.min(newValue.length, this.length);
         let tempData = data;
         _.range(updateLength).forEach((index) => {

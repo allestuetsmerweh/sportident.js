@@ -1,57 +1,57 @@
 import _ from 'lodash';
 import Immutable from 'immutable';
 // eslint-disable-next-line no-unused-vars
-import {ISiDataType, ISiFieldValue, SiStorageData} from './interfaces';
+import {ISiFieldValue, ISiStorage, ISiStorageData, ISiStorageDefinition, ISiStorageLocations} from './interfaces';
 
-type SiStorageDefinitions = {[id: string]: ISiDataType<any>};
-
-export class SiStorage {
-    public static readonly size: number;
-    public static readonly definitions: SiStorageDefinitions;
+export class SiStorage<T> implements ISiStorage<T> {
     // TODO: should be private, but this is not currently supported
     // see https://github.com/Microsoft/TypeScript/issues/30355
-    public internalData: SiStorageData;
+    public internalData: ISiStorageData;
 
-    constructor(initArg?: Immutable.List<number|undefined>|Array<number|undefined>) {
+    // eslint-disable-next-line no-useless-constructor
+    constructor(
+        // eslint-disable-next-line no-unused-vars
+        public readonly size: number,
+        // eslint-disable-next-line no-unused-vars
+        public readonly locations: ISiStorageLocations<T>,
+        initArg?: Immutable.List<number|undefined>|Array<number|undefined>,
+    ) {
         const initArrayOrList = (initArg === undefined
-            ? _.range(this.size).map(() => undefined)
+            ? _.range(size).map(() => undefined)
             : initArg
         ) as Immutable.List<number|undefined>|Array<number|undefined>;
         const initList = (initArrayOrList instanceof Immutable.List
             ? initArrayOrList
             : Immutable.List(initArrayOrList)
         ) as Immutable.List<number|undefined>;
-        if (initList.size !== this.size) {
+        if (initList.size !== size) {
             throw new Error(
                 `SiStorage constructor list "${initArg}" => "${initList}" ` +
-                `must have size ${this.size} (but is ${initList.size})`,
+                `must have size ${size} (but is ${initList.size})`,
             );
         }
         this.internalData = initList;
     }
 
-    get size(): number {
-        return (this.constructor as typeof SiStorage).size;
-    }
-
-    get definitions(): SiStorageDefinitions {
-        return (this.constructor as typeof SiStorage).definitions;
-    }
-
-    get data(): SiStorageData {
+    get data(): ISiStorageData {
         return this.internalData;
     }
 
-    get(fieldName: string): ISiFieldValue<any>|undefined {
-        const fieldDefinition = this.definitions[fieldName];
+    get<U extends keyof T>(
+        fieldName: U,
+    ): ISiFieldValue<T[U]>|undefined {
+        const fieldDefinition = this.locations[fieldName];
         if (!fieldDefinition) {
             return undefined;
         }
         return fieldDefinition.extractFromData(this.internalData);
     }
 
-    set(fieldName: string, newValue: any): void {
-        const fieldDefinition = this.definitions[fieldName];
+    set<U extends keyof T>(
+        fieldName: U,
+        newValue: T[U],
+    ): void {
+        const fieldDefinition = this.locations[fieldName];
         if (!fieldDefinition) {
             return;
         }
@@ -70,10 +70,11 @@ export class SiStorage {
     }
 }
 
-export const defineStorage = (
+export const defineStorage = <T>(
     size: number,
-    definitions: SiStorageDefinitions,
-) => class MySiStorage extends SiStorage {
-    public static size = size;
-    public static definitions = definitions;
-};
+    locations: ISiStorageLocations<T>,
+): ISiStorageDefinition<T> => (
+    initArg?: Immutable.List<number|undefined>|Array<number|undefined>,
+): ISiStorage<T> => (
+    new SiStorage<T>(size, locations, initArg)
+);

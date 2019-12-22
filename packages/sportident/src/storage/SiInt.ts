@@ -1,6 +1,6 @@
 import _ from 'lodash';
 // eslint-disable-next-line no-unused-vars
-import {ISiDataType, SiStorageData, ValueFromStringError} from './interfaces';
+import {ISiDataType, ISiStorageData, ValueFromStringError} from './interfaces';
 import {ModifyUndefinedException, SiDataType} from './SiDataType';
 
 export type SiIntegerPartDefinition = [number, number, number]|[number];
@@ -41,11 +41,11 @@ export class SiInt extends SiDataType<number> implements ISiDataType<number> {
         return intValue;
     }
 
-    isUndefined(data: SiStorageData): boolean {
+    isUndefined(data: ISiStorageData): boolean {
         return this.parts.some((part) => data.get(part.byteOffset) === undefined);
     }
 
-    typeSpecificExtractFromData(data: SiStorageData): number|undefined {
+    typeSpecificExtractFromData(data: ISiStorageData): number|undefined {
         if (this.isUndefined(data)) {
             return undefined;
         }
@@ -63,7 +63,7 @@ export class SiInt extends SiDataType<number> implements ISiDataType<number> {
         return intValue;
     }
 
-    typeSpecificUpdateData(data: SiStorageData, newValue: number): SiStorageData {
+    typeSpecificUpdateData(data: ISiStorageData, newValue: number): ISiStorageData {
         if (this.isUndefined(data)) {
             throw new ModifyUndefinedException();
         }

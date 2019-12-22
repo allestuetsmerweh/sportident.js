@@ -1,6 +1,6 @@
 import _ from 'lodash';
 // eslint-disable-next-line no-unused-vars
-import {ISiDataType, SiStorageData, ValueFromStringError} from './interfaces';
+import {ISiDataType, ISiStorageData, ValueFromStringError} from './interfaces';
 import {ModifyUndefinedException, SiDataType} from './SiDataType';
 
 export class SiBool extends SiDataType<boolean> implements ISiDataType<boolean> {
@@ -34,7 +34,7 @@ export class SiBool extends SiDataType<boolean> implements ISiDataType<boolean> 
         return valueByString[string];
     }
 
-    typeSpecificExtractFromData(data: SiStorageData): boolean|undefined {
+    typeSpecificExtractFromData(data: ISiStorageData): boolean|undefined {
         const existingByte = data.get(this.byteOffset);
         if (existingByte === undefined) {
             return undefined;
@@ -42,7 +42,7 @@ export class SiBool extends SiDataType<boolean> implements ISiDataType<boolean> 
         return ((existingByte >> this.bitOffset) & 0x01) === 0x01;
     }
 
-    typeSpecificUpdateData(data: SiStorageData, newValue: boolean): SiStorageData {
+    typeSpecificUpdateData(data: ISiStorageData, newValue: boolean): ISiStorageData {
         const boolAsInt = newValue ? 0x01 : 0x00;
         const preservationMask = (0x01 << this.bitOffset) ^ 0xFF;
         const existingByte = data.get(this.byteOffset);

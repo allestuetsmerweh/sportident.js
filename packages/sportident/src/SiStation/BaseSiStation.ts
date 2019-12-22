@@ -6,7 +6,7 @@ import {ISiStation, SiStationMode, SiStationModel} from './ISiStation';
 // eslint-disable-next-line no-unused-vars
 import {ISiTargetMultiplexer, SiTargetMultiplexerTarget} from './ISiTargetMultiplexer';
 
-export const SiStationStorageDefinition = storage.defineStorage(0x80, {
+export const siStationStorageLocations = {
     code: new storage.SiInt([[0x72], [0x73, 6, 8]]),
     mode: new storage.SiEnum([[0x71]], SiStationMode),
     beeps: new storage.SiBool(0x73, 2),
@@ -51,10 +51,15 @@ export const SiStationStorageDefinition = storage.defineStorage(0x80, {
     //   xx00xxxxb - week counter 0..3, relative to programming date
     sleepSeconds: new storage.SiInt([[0x7D], [0x7C]]),
     workingMinutes: new storage.SiInt([[0x7F], [0x7E]]),
-});
+};
+export const siStationStorageDefinition = storage.defineStorage(
+    0x80,
+    siStationStorageLocations,
+);
+export type ISiStationStorageFields = storage.FieldsFromStorageDefinition<typeof siStationStorageDefinition>;
 
 export abstract class BaseSiStation<T extends SiTargetMultiplexerTarget> {
-    public storage: storage.SiStorage;
+    public storage: storage.ISiStorage<ISiStationStorageFields>;
 
     protected static fromSiTargetMultiplexerWithGivenTarget<U extends SiTargetMultiplexerTarget>(
         multiplexer: ISiTargetMultiplexer,
@@ -79,7 +84,7 @@ export abstract class BaseSiStation<T extends SiTargetMultiplexerTarget> {
         // eslint-disable-next-line no-unused-vars
         public readonly multiplexerTarget: T,
     ) {
-        this.storage = new SiStationStorageDefinition();
+        this.storage = siStationStorageDefinition();
     }
 
     get ident() {
@@ -111,15 +116,22 @@ export abstract class BaseSiStation<T extends SiTargetMultiplexerTarget> {
             });
     }
 
-    getField(infoName: string) {
-        return this.storage.definitions[infoName];
+    getField<T extends keyof ISiStationStorageFields>(
+        infoName: T,
+    ) {
+        return this.storage.locations[infoName];
     }
 
-    getInfo(infoName: string) {
+    getInfo<T extends keyof ISiStationStorageFields>(
+        infoName: T,
+    ) {
         return this.storage.get(infoName);
     }
 
-    setInfo(infoName: string, newValue: any) {
+    setInfo<T extends keyof ISiStationStorageFields>(
+        infoName: T,
+        newValue: ISiStationStorageFields[T],
+    ) {
         this.storage.set(infoName, newValue);
     }
 
@@ -143,8 +155,8 @@ export abstract class BaseSiStation<T extends SiTargetMultiplexerTarget> {
     }
 
     writeDiff(
-        oldStorage: storage.SiStorageData,
-        newStorage: storage.SiStorageData,
+        oldStorage: storage.ISiStorageData,
+        newStorage: storage.ISiStorageData,
     ): Promise<void> {
         const zippedStorageBytes = oldStorage.zip(newStorage);
         const isByteDirty = zippedStorageBytes.map(

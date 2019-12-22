@@ -129,6 +129,7 @@ describe('SiStation', () => {
             );
             mySiStation.readInfo().then(() => {
                 Object.keys(stationData).forEach((stationDataKey) => {
+                    // @ts-ignore
                     expect(mySiStation.getInfo(stationDataKey)!.value).toEqual(stationData[stationDataKey]);
                 });
                 done();

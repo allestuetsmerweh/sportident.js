@@ -441,15 +441,12 @@ describe('siProtocol', () => {
     });
 
     it('SiDate SiStorage integration', () => {
-        class WeirdStorage extends storage.SiStorage {
-            public static size = 0x09;
-            public static definitions = {
-                weirdDate: new siProtocol.SiDate(3, (i) => i),
-                crazyDate: new siProtocol.SiDate(6, (i) => 0x03 + i),
-            };
-        }
+        const weirdStorage = storage.defineStorage(0x09, {
+            weirdDate: new siProtocol.SiDate(3, (i) => i),
+            crazyDate: new siProtocol.SiDate(6, (i) => 0x03 + i),
+        });
 
-        const myWeirdStorage = new WeirdStorage(
+        const myWeirdStorage = weirdStorage(
             utils.unPrettyHex('0F 03 07 00 00 00 00 00 00'),
         );
 
@@ -463,7 +460,7 @@ describe('siProtocol', () => {
         expect(myWeirdStorage.data.toJS()).toEqual(utils.unPrettyHex('12 01 1E 03 03 02 00 2B D9'));
         expect(myWeirdStorage.get('crazyDate')!.value).toEqual(new Date(2003, 1, 30, 3, 7, 5));
 
-        const unknownWeirdStorage = new WeirdStorage();
+        const unknownWeirdStorage = weirdStorage();
         const ModifyUndefinedException = storage.ModifyUndefinedException;
 
         expect(unknownWeirdStorage.get('weirdDate')).toBe(undefined);

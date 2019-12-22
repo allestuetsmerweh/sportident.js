@@ -2,6 +2,7 @@ import _ from 'lodash';
 import {proto} from '../constants';
 import * as utils from '../utils';
 import * as siProtocol from '../siProtocol';
+// eslint-disable-next-line no-unused-vars
 import * as storage from '../storage';
 // eslint-disable-next-line no-unused-vars
 import {IRaceResultData} from './IRaceResultData';
@@ -19,11 +20,8 @@ export interface ISiMainStation {
     ) => Promise<number[][]>;
 }
 
-const EmptyStorage = storage.defineStorage(0, {});
-
 export abstract class BaseSiCard {
     // abstract static maxNumPunches: number;
-    // abstract static StorageDefinition?: typeof storage.SiStorage;
     static NumberRange: typeof utils.NumberRange = utils.NumberRange;
     static cardNumberRangeRegistry: utils.NumberRangeRegistry<SiCardType> = initialRegistry;
 
@@ -83,23 +81,14 @@ export abstract class BaseSiCard {
 
     public mainStation?: ISiMainStation|undefined;
     public raceResult: IRaceResultData;
-    public storage: storage.SiStorage;
+    public storage: storage.ISiStorage<any> = {} as storage.ISiStorage<{}>;
 
     constructor(cardNumber: number) {
         this.raceResult = {cardNumber: cardNumber};
-        this.storage = (this.StorageDefinition
-            ? new this.StorageDefinition()
-            : new EmptyStorage() // TODO: find better solution
-        );
     }
 
     get cardNumber() {
         return this.raceResult.cardNumber;
-    }
-
-    get StorageDefinition(): typeof storage.SiStorage {
-        const thisConstructor = this.constructor as unknown as {StorageDefinition: typeof storage.SiStorage};
-        return thisConstructor.StorageDefinition;
     }
 
     read() {

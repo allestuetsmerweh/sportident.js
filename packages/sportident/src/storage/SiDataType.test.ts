@@ -3,7 +3,7 @@
 import _ from 'lodash';
 import Immutable from 'immutable';
 // eslint-disable-next-line no-unused-vars
-import {SiStorageData, ValueFromStringError} from './interfaces';
+import {ISiStorageData, ValueFromStringError} from './interfaces';
 import {SiFieldValue} from './SiFieldValue';
 import {SiDataType} from './SiDataType';
 
@@ -25,7 +25,7 @@ describe('SiDataType', () => {
             return parseInt(res[1], 10);
         }
 
-        typeSpecificExtractFromData(data: SiStorageData): number|undefined {
+        typeSpecificExtractFromData(data: ISiStorageData): number|undefined {
             const byte = data.get(0);
             if (byte === undefined) {
                 return undefined;
@@ -33,7 +33,7 @@ describe('SiDataType', () => {
             return byte;
         }
 
-        typeSpecificUpdateData(data: SiStorageData, newValue: number): SiStorageData {
+        typeSpecificUpdateData(data: ISiStorageData, newValue: number): ISiStorageData {
             return data.set(0, newValue);
         }
     }

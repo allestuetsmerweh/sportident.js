@@ -3,6 +3,8 @@ import {proto} from '../../constants';
 import * as storage from '../../storage';
 import * as siProtocol from '../../siProtocol';
 import {BaseSiCard} from '../BaseSiCard';
+// eslint-disable-next-line no-unused-vars
+import {IPunch} from '../IRaceResultData';
 
 class ReadFinishedException {}
 const punchesPerPage = 32;
@@ -25,15 +27,27 @@ export interface PotentialModernSiCardPunch {
     time: number|undefined;
 }
 
-
 export const getPunchOffset = (i: number): number => (
     bytesPerPage * 4 + i * 4
 );
 
-export const cropPunches = (allPunches: PotentialModernSiCardPunch[]) => {
-    const isPunchEntryInvalid = (punch: PotentialModernSiCardPunch) => punch.time === undefined || punch.time === 0xEEEE;
-    const firstInvalidIndex = allPunches.findIndex(isPunchEntryInvalid);
-    return firstInvalidIndex === -1 ? allPunches : allPunches.slice(0, firstInvalidIndex);
+export const cropPunches = (
+    allPunches: (PotentialModernSiCardPunch|undefined)[],
+): IPunch[] => {
+    const isPunchEntryValid = (
+        punch: PotentialModernSiCardPunch|undefined,
+    ): punch is IPunch => (
+        punch !== undefined
+        && punch.code !== undefined
+        && punch.time !== undefined
+        && punch.time !== 0xEEEE
+    );
+    const firstInvalidIndex = allPunches.findIndex((punch) => !isPunchEntryValid(punch));
+    const punchesUntilInvalid = (firstInvalidIndex === -1
+        ? allPunches
+        : allPunches.slice(0, firstInvalidIndex)
+    );
+    return punchesUntilInvalid.filter<IPunch>(isPunchEntryValid);
 };
 
 export const getCroppedString = (charCodes: (number|undefined)[]) => {
@@ -68,7 +82,7 @@ export const parseCardHolder = (maybeCharCodes: (number|undefined)[]) => {
     return parseCardHolderString(semicolonSeparatedString || '');
 };
 
-export const ModernSiCardStorageDefinition = storage.defineStorage(0x400, {
+export const modernSiCardStorageLocations = {
     uid: new storage.SiInt([[0x03], [0x02], [0x01], [0x00]]),
     cardSeries: new storage.SiEnum([[0x18]], ModernSiCardSeries),
     cardNumber: new storage.SiModified(
@@ -99,7 +113,7 @@ export const ModernSiCardStorageDefinition = storage.defineStorage(0x400, {
                 ]),
             }),
         ),
-        (allPunches) => cropPunches(allPunches as unknown as PotentialModernSiCardPunch[]),
+        (allPunches) => cropPunches(allPunches),
     ),
     cardHolder: new storage.SiModified(
         new storage.SiArray(
@@ -108,18 +122,29 @@ export const ModernSiCardStorageDefinition = storage.defineStorage(0x400, {
         ),
         (charCodes) => parseCardHolder(charCodes),
     ),
-});
+};
+export const modernSiCardStorageDefinition = storage.defineStorage(
+    0x400,
+    modernSiCardStorageLocations,
+);
+export type IModernSiCardStorageFields = storage.FieldsFromStorageDefinition<typeof modernSiCardStorageDefinition>;
 
 export class ModernSiCard extends BaseSiCard {
     static maxNumPunches = MAX_NUM_PUNCHES;
-    static StorageDefinition = ModernSiCardStorageDefinition;
 
     static typeSpecificShouldDetectFromMessage(message: siProtocol.SiMessage) {
         return message.mode === undefined && message.command === proto.cmd.SI8_DET;
     }
 
+    public storage: storage.ISiStorage<IModernSiCardStorageFields>;
+
     public punchCount?: number;
     public cardSeries?: ModernSiCardSeries;
+
+    constructor(cardNumber: number) {
+        super(cardNumber);
+        this.storage = modernSiCardStorageDefinition();
+    }
 
     typeSpecificGetPage(pageNumber: number) {
         if (!this.mainStation) {
