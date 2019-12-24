@@ -135,8 +135,7 @@ export const siCard6StorageLocations = {
         ),
         isComplete: new storage.SiModified(
             new storage.SiArray(0xD0, (i) => new storage.SiInt([[0x30 + i]])),
-            // TODO: 'non-falsy' => relieve type constraints on SiDict
-            (charCodes) => (charCodes.every((charCode) => charCode !== undefined) ? 'non-falsy' : '') as (string|undefined),
+            (charCodes) => charCodes.every((charCode) => charCode !== undefined),
         ),
     }),
 };

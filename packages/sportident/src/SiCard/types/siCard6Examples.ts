@@ -78,7 +78,7 @@ export const getCardWith16Punches = utils.cached(
                 zip: 'j',
                 country: 'k',
                 userId: 'l',
-                isComplete: 'non-falsy',
+                isComplete: true,
             },
         },
         storageData: [
@@ -150,7 +150,7 @@ export const getFullCard = utils.cached(
                 zip: 'jjjjjjjj',
                 country: 'kkkk',
                 userId: 'llllllllllllllll',
-                isComplete: 'non-falsy',
+                isComplete: true,
             },
         },
         storageData: [
@@ -205,7 +205,7 @@ export const getPartialCardHolderCard = utils.cached(
                 lastName: 'b',
                 club: 'e',
                 country: 'k',
-                isComplete: '',
+                isComplete: false,
             },
         },
         storageData: [
@@ -248,7 +248,7 @@ export const getEmptyCard = utils.cached(
                 lastName: 'b',
                 club: 'e',
                 country: 'k',
-                isComplete: '',
+                isComplete: false,
             },
         },
         storageData: [

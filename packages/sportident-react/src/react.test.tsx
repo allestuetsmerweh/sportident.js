@@ -1,9 +1,11 @@
 /* eslint-env jasmine */
 
-// import _ from 'lodash';
-// import React from 'react';
-// import renderer from 'react-test-renderer';
-// import {SiDevice} from './SiDevice/SiDevice';
+import _ from 'lodash';
+import React from 'react';
+import renderer from 'react-test-renderer';
+import {SiDevice} from 'sportident/lib/SiDevice/SiDevice';
+// eslint-disable-next-line no-unused-vars
+import {ISiDeviceDriverWithAutodetection} from 'sportident/lib/SiDevice/ISiDeviceDriver';
 import * as react from './react';
 
 describe('react', () => {
@@ -11,38 +13,62 @@ describe('react', () => {
         expect(react).not.toBe(undefined);
     });
     it('works', () => {
-        // // TODO(ts_migration): un-comment and fix
-        // const SiDevicesList = () => {
-        //     const fakeSiDeviceDriver = {
-        //         startAutoDetection: () => Promise.resolve([new SiDevice('auto-1')]),
-        //         stopAutoDetection: () => Promise.resolve(),
-        //     };
-        //     const fakeReact = _.clone(React);
-        //     fakeReact.useEffect = React.useLayoutEffect;
-        //     const fakeSiDevices = react.useSiDevices(fakeSiDeviceDriver, fakeReact);
-        //
-        //     const deviceList = [...fakeSiDevices.values()].map((device) => (
-        //         <div key={`device-${device.ident}`}>
-        //             {device.name}
-        //         </div>
-        //     ));
-        //
-        //     return (
-        //         <div>
-        //             {deviceList}
-        //         </div>
-        //     );
-        // };
-        // const component = renderer.create(
-        //     <SiDevicesList/>,
-        // );
-        // expect(FakeSiDevice.counts.startAutoDetection).toBe(1);
-        // const auto2Device = new FakeSiDevice('auto-2');
+        const timeState = {
+            startAutoDetectionCalled: false,
+            stopAutoDetectionCalled: false,
+        };
+        const fakeSiDeviceDriver = {
+            addEventListener: () => undefined,
+            removeEventListener: () => undefined,
+            startAutoDetection: () => {
+                timeState.startAutoDetectionCalled = true;
+                return Promise.resolve([
+                    new SiDevice('auto-1', {driver: {fake: true}}),
+                ]);
+            },
+            stopAutoDetection: () => {
+                timeState.stopAutoDetectionCalled = true;
+                return Promise.resolve();
+            },
+        } as unknown as ISiDeviceDriverWithAutodetection<any>;
+        const SiDevicesList = () => {
+            // const fakeReact = _.clone(React);
+            // fakeReact.useEffect = React.useLayoutEffect;
+            const fakeSiDevices = react.useSiDevices(fakeSiDeviceDriver);
+
+            const deviceList = [...fakeSiDevices.values()].map((device) => (
+                <div key={`device-${device.ident}`}>
+                    {device.name}
+                </div>
+            ));
+
+            return (
+                <div>
+                    {deviceList}
+                </div>
+            );
+        };
+        let component: any;
+        renderer.act(() => {
+            component = renderer.create(
+                <SiDevicesList/>,
+            );
+        });
+        expect(timeState).toEqual({
+            startAutoDetectionCalled: true,
+            stopAutoDetectionCalled: false,
+        });
+        // TODO: re-enable this test
+        // const auto2Device = new SiDevice('auto-2', {driver: {fake: true}});
         // FakeSiDevice.dispatchEvent('add', {siDevice: auto2Device});
         // component.update();
         // FakeSiDevice.dispatchEvent('remove', {siDevice: auto2Device});
-        // component.unmount();
-        // expect(FakeSiDevice.counts.startAutoDetection).toBe(1);
-        // expect(FakeSiDevice.counts.stopAutoDetection).toBe(1);
+        renderer.act(() => {
+            component.unmount();
+        });
+        expect(timeState).toEqual({
+            startAutoDetectionCalled: true,
+            stopAutoDetectionCalled: true,
+        });
     });
 });
