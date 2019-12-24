@@ -1,6 +1,8 @@
 /* globals jest */
 
 import _ from 'lodash';
+// eslint-disable-next-line no-unused-vars
+import * as siProtocol from './siProtocol';
 
 export const useFakeTimers = (): void => {
     jest.useFakeTimers();
@@ -39,7 +41,9 @@ export const getRandomByteExcept = (except: number[]): number => {
     return randomValue;
 };
 
-export const getRandomMessage = (numParameters: number): any => { // TODO: any => SiProtoMessage
+export const getRandomMessage = (
+    numParameters: number,
+): siProtocol.SiMessageWithoutMode => {
     const command = getRandomByte();
     const parameters = _.range(numParameters).map(() => getRandomByte());
     return {command: command, parameters: parameters};

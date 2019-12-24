@@ -4,9 +4,7 @@ import Immutable from 'immutable';
 import {ISiFieldValue, ISiStorage, ISiStorageData, ISiStorageDefinition, ISiStorageLocations} from './interfaces';
 
 export class SiStorage<T> implements ISiStorage<T> {
-    // TODO: should be private, but this is not currently supported
-    // see https://github.com/Microsoft/TypeScript/issues/30355
-    public internalData: ISiStorageData;
+    private internalData: ISiStorageData;
 
     // eslint-disable-next-line no-useless-constructor
     constructor(

@@ -54,5 +54,5 @@ export interface ISiDeviceDriverWithAutodetection<
         utils.IEventTarget<SiDeviceDriverWithAutodetectionEvents<T>>
 {
     startAutoDetection: () => Promise<ISiDevice<T>[]>;
-    stopAutoDetection: () => Promise<ISiDevice<T>[]>;
+    stopAutoDetection: () => Promise<void>;
 }

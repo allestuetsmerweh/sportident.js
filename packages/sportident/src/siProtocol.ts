@@ -110,11 +110,11 @@ export const cardNumber2arr = (cardNumber: number|undefined): (number|undefined)
     ];
 };
 
-interface SiMessageWithMode {
+export interface SiMessageWithMode {
     mode: number;
 }
 
-interface SiMessageWithoutMode {
+export interface SiMessageWithoutMode {
     mode?: undefined;
     command: number;
     parameters: number[];
