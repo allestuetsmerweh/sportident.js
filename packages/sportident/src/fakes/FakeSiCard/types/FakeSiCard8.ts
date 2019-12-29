@@ -1,11 +1,11 @@
 // eslint-disable-next-line no-unused-vars
 import * as storage from '../../../storage';
-import {ModernSiCardSimulator} from './ModernSiCardSimulator';
+import {FakeModernSiCard} from './FakeModernSiCard';
 // eslint-disable-next-line no-unused-vars
 import {ISiCard8StorageFields, SiCard8, siCard8StorageDefinition} from '../../../SiCard/types/SiCard8';
 import {getSiCard8Examples} from '../../../SiCard/types/siCard8Examples';
 
-export class SiCard8Simulator extends ModernSiCardSimulator {
+export class FakeSiCard8 extends FakeModernSiCard {
     static siCardClass = SiCard8;
     static getAllExamples = getSiCard8Examples;
 

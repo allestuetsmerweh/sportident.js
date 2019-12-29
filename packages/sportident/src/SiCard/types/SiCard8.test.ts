@@ -7,7 +7,7 @@ import {BaseSiCard} from '../BaseSiCard';
 import {ModernSiCardSeries} from './ModernSiCard';
 import {getPunchOffset, SiCard8} from './SiCard8';
 import {getSiCard8Examples} from './siCard8Examples';
-import {SiCard8Simulator} from '../../simulation/SiCardSimulator/types/SiCard8Simulator';
+import {FakeSiCard8} from '../../fakes/FakeSiCard/types/FakeSiCard8';
 
 describe('SiCard8', () => {
     it('is registered', () => {
@@ -24,10 +24,10 @@ describe('SiCard8', () => {
     const examples = getSiCard8Examples();
     Object.keys(examples).forEach((exampleName) => {
         const {storageData, cardData} = examples[exampleName];
-        const myModernSiCardSimulator = new SiCard8Simulator(storageData);
+        const myFakeSiCard8 = new FakeSiCard8(storageData);
         const mainStationSimulation = {
             sendMessage: (message: siProtocol.SiMessage, numResponses?: number) => {
-                const responses: siProtocol.SiMessage[] = myModernSiCardSimulator.handleRequest(message);
+                const responses: siProtocol.SiMessage[] = myFakeSiCard8.handleRequest(message);
                 if (responses.length !== numResponses) {
                     throw new Error('Invalid numResponses');
                 }

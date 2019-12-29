@@ -8,7 +8,7 @@ import * as siProtocol from '../../siProtocol';
 import * as testUtils from '../../testUtils';
 import {cropPunches, getCroppedString, getPunchOffset, ModernSiCard, ModernSiCardSeries, parseCardHolder, parseCardHolderString} from './ModernSiCard';
 import {getModernSiCardExamples} from './modernSiCardExamples';
-import {ModernSiCardSimulator} from '../../simulation/SiCardSimulator/types/ModernSiCardSimulator';
+import {FakeModernSiCard} from '../../fakes/FakeSiCard/types/FakeModernSiCard';
 
 describe('ModernSiCard', () => {
     it('exists', () => {
@@ -146,10 +146,10 @@ describe('ModernSiCard', () => {
         it(`typeSpecificRead works with ${exampleName} example`, (done) => {
             const {storageData, cardData} = examples[exampleName];
             const myModernSiCard = new ModernSiCard(cardData.cardNumber);
-            const myModernSiCardSimulator = new ModernSiCardSimulator(storageData);
+            const myFakeModernSiCard = new FakeModernSiCard(storageData);
             myModernSiCard.mainStation = {
                 sendMessage: (message: siProtocol.SiMessage, numResponses?: number) => {
-                    const responses: siProtocol.SiMessage[] = myModernSiCardSimulator.handleRequest(message);
+                    const responses: siProtocol.SiMessage[] = myFakeModernSiCard.handleRequest(message);
                     if (responses.length !== numResponses) {
                         throw new Error('Invalid numResponses');
                     }

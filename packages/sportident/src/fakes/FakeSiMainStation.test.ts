@@ -6,28 +6,28 @@ import * as siProtocol from '../siProtocol';
 import * as testUtils from '../testUtils';
 import {getBSM8Station} from '../SiStation/siStationExamples';
 // eslint-disable-next-line no-unused-vars
-import {ISiCardSimulator} from './SiCardSimulator/ISiCardSimulator';
+import {IFakeSiCard} from './FakeSiCard/IFakeSiCard';
 // eslint-disable-next-line no-unused-vars
-import {SiMainStationSimulatorMessageEvent} from './ISiMainStationSimulator';
-import {SiMainStationSimulator} from './SiMainStationSimulator';
+import {FakeSiMainStationMessageEvent} from './IFakeSiMainStation';
+import {FakeSiMainStation} from './FakeSiMainStation';
 
 testUtils.useFakeTimers();
 
-describe('SiMainStationSimulator', () => {
+describe('FakeSiMainStation', () => {
     it('exists', () => {
-        expect(SiMainStationSimulator).not.toBe(undefined);
+        expect(FakeSiMainStation).not.toBe(undefined);
     });
-    const mySiMainStationSimulator = new SiMainStationSimulator(
+    const myFakeSiMainStation = new FakeSiMainStation(
         getBSM8Station().storageData,
     );
     it('getCode', () => {
-        expect(mySiMainStationSimulator.getCode()).toEqual([0, 31]);
+        expect(myFakeSiMainStation.getCode()).toEqual([0, 31]);
     });
     it('getDateTime', () => {
-        const dateTime1 = mySiMainStationSimulator.getDateTime();
+        const dateTime1 = myFakeSiMainStation.getDateTime();
         expect(dateTime1 instanceof Date).toBe(true);
-        mySiMainStationSimulator.dateOffset = 3600;
-        const dateTime2 = mySiMainStationSimulator.getDateTime();
+        myFakeSiMainStation.dateOffset = 3600;
+        const dateTime2 = myFakeSiMainStation.getDateTime();
         expect(dateTime1 instanceof Date).toBe(true);
         const timeDiff = dateTime2.getTime() - dateTime1.getTime();
         expect(timeDiff).toBeLessThan(3600 + 10);
@@ -35,65 +35,65 @@ describe('SiMainStationSimulator', () => {
     });
     it('dispatching messages', () => {
         const dispatchedMessages: siProtocol.SiMessage[] = [];
-        const handleMessage = (e: SiMainStationSimulatorMessageEvent) => {
+        const handleMessage = (e: FakeSiMainStationMessageEvent) => {
             dispatchedMessages.push(e.message);
         };
-        mySiMainStationSimulator.addEventListener('message', handleMessage);
+        myFakeSiMainStation.addEventListener('message', handleMessage);
 
         const randomMessage1 = testUtils.getRandomMessage(1);
-        mySiMainStationSimulator.dispatchMessage(randomMessage1);
+        myFakeSiMainStation.dispatchMessage(randomMessage1);
         expect(dispatchedMessages).toEqual([randomMessage1]);
 
         const randomMessage2 = testUtils.getRandomMessage(1);
-        mySiMainStationSimulator.dispatchCardMessage(randomMessage2);
+        myFakeSiMainStation.dispatchCardMessage(randomMessage2);
         expect(dispatchedMessages.length).toBe(2);
         if (dispatchedMessages[1].mode !== undefined) {
             throw new Error('message mode must be undefined');
         }
         expect(dispatchedMessages[1].command).toBe(randomMessage2.command);
         expect(dispatchedMessages[1].parameters).toEqual([
-            ...mySiMainStationSimulator.getCode(),
+            ...myFakeSiMainStation.getCode(),
             ...randomMessage2.parameters,
         ]);
 
-        mySiMainStationSimulator.removeEventListener('message', handleMessage);
+        myFakeSiMainStation.removeEventListener('message', handleMessage);
     });
     it('insertCard', () => {
         let dispatchedMessage: siProtocol.SiMessage|undefined;
-        const handleMessage = (e: SiMainStationSimulatorMessageEvent) => {
+        const handleMessage = (e: FakeSiMainStationMessageEvent) => {
             dispatchedMessage = e.message;
         };
-        mySiMainStationSimulator.addEventListener('message', handleMessage);
+        myFakeSiMainStation.addEventListener('message', handleMessage);
 
         const cardInsertionMessage = testUtils.getRandomMessage(1);
-        const fakeCardSimulator = {
+        const fakeSiCard = {
             handleDetect: () => cardInsertionMessage,
-        } as ISiCardSimulator;
-        mySiMainStationSimulator.insertCard(fakeCardSimulator);
+        } as IFakeSiCard;
+        myFakeSiMainStation.insertCard(fakeSiCard);
         if (dispatchedMessage === undefined || dispatchedMessage.mode !== undefined) {
             throw new Error('message mode must be undefined');
         }
         expect(dispatchedMessage.command).toBe(cardInsertionMessage.command);
         expect(dispatchedMessage.parameters).toEqual([
-            ...mySiMainStationSimulator.getCode(),
+            ...myFakeSiMainStation.getCode(),
             ...cardInsertionMessage.parameters,
         ]);
 
-        mySiMainStationSimulator.removeEventListener('message', handleMessage);
+        myFakeSiMainStation.removeEventListener('message', handleMessage);
     });
     it('sendMessage', () => {
-        const code = mySiMainStationSimulator.getCode();
+        const code = myFakeSiMainStation.getCode();
 
         const getResponsesFor = (message: siProtocol.SiMessage) => {
             const dispatchedMessages: siProtocol.SiMessage[] = [];
-            const handleMessage = (e: SiMainStationSimulatorMessageEvent) => {
+            const handleMessage = (e: FakeSiMainStationMessageEvent) => {
                 dispatchedMessages.push(e.message);
             };
-            mySiMainStationSimulator.addEventListener('message', handleMessage);
+            myFakeSiMainStation.addEventListener('message', handleMessage);
 
-            mySiMainStationSimulator.sendMessage(message);
+            myFakeSiMainStation.sendMessage(message);
 
-            mySiMainStationSimulator.removeEventListener('message', handleMessage);
+            myFakeSiMainStation.removeEventListener('message', handleMessage);
             return dispatchedMessages;
         };
 
@@ -167,7 +167,7 @@ describe('SiMainStationSimulator', () => {
 
         const cardInsertionMessage = testUtils.getRandomMessage(1);
         const cardRetrievalParameters = [testUtils.getRandomByte()];
-        const fakeCardSimulator: ISiCardSimulator = {
+        const fakeSiCard: IFakeSiCard = {
             handleDetect: () => cardInsertionMessage,
             handleRequest: (message: siProtocol.SiMessage) => (
                 message.mode === undefined
@@ -175,7 +175,7 @@ describe('SiMainStationSimulator', () => {
                     : []
             ),
         };
-        mySiMainStationSimulator.insertCard(fakeCardSimulator);
+        myFakeSiMainStation.insertCard(fakeSiCard);
 
         expect(getResponsesFor(
             {command: proto.cmd.GET_SI5, parameters: []},
