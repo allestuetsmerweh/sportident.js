@@ -3,7 +3,8 @@ import * as storage from '../../storage';
 import * as siProtocol from '../../siProtocol';
 // eslint-disable-next-line no-unused-vars
 import {cropPunches, getCroppedString, ModernSiCard, ModernSiCardSeries} from './ModernSiCard';
-import {BaseSiCard} from '../BaseSiCard';
+// eslint-disable-next-line no-unused-vars
+import {BaseSiCard, IBaseSiCardStorageFields} from '../BaseSiCard';
 
 class ReadFinishedException {}
 const punchesPerPage = 32;
@@ -30,7 +31,12 @@ const parseCardHolder = (maybeCharCodes: (number|undefined)[]) => {
     return parseCardHolderString(semicolonSeparatedString || '');
 };
 
-export const siCard8StorageLocations = {
+export interface ISiCard8StorageFields extends IBaseSiCardStorageFields {
+    uid: number;
+    cardSeries: ModernSiCardSeries;
+}
+
+export const siCard8StorageLocations: storage.ISiStorageLocations<ISiCard8StorageFields> = {
     uid: new storage.SiInt([[0x03], [0x02], [0x01], [0x00]]),
     cardSeries: new storage.SiEnum([[0x18]], ModernSiCardSeries),
     cardNumber: new storage.SiModified(
@@ -75,7 +81,6 @@ export const siCard8StorageDefinition = storage.defineStorage(
     0x100,
     siCard8StorageLocations,
 );
-export type ISiCard8StorageFields = storage.FieldsFromStorageDefinition<typeof siCard8StorageDefinition>;
 
 export class SiCard8 extends ModernSiCard {
     static maxNumPunches = MAX_NUM_PUNCHES;

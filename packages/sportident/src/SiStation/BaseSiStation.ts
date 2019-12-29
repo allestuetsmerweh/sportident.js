@@ -6,7 +6,41 @@ import {ISiStation, SiStationMode, SiStationModel} from './ISiStation';
 // eslint-disable-next-line no-unused-vars
 import {ISiTargetMultiplexer, SiTargetMultiplexerTarget} from './ISiTargetMultiplexer';
 
-export const siStationStorageLocations = {
+export interface ISiStationStorageFields {
+    code: number;
+    mode: SiStationMode,
+    beeps: boolean;
+    flashes: boolean;
+    autoSend: boolean;
+    extendedProtocol: boolean;
+    serialNumber: number;
+    firmwareVersion: number;
+    buildDate: Date;
+    deviceModel: SiStationModel;
+    memorySize: number;
+    batteryDate: Date;
+    batteryCapacity: number;
+    batteryState: number;
+    backupPointer: number;
+    siCard6Mode: number;
+    memoryOverflow: number;
+    lastWriteDate: Date;
+    autoOffTimeout: number;
+    refreshRate: number;
+    powerMode: number;
+    interval: number;
+    wtf: number;
+    program: number;
+    handshake: boolean;
+    sprint4ms: boolean;
+    passwordOnly: boolean;
+    stopOnFullBackup: boolean;
+    autoReadout: boolean;
+    sleepDay: number;
+    sleepSeconds: number;
+    workingMinutes: number;
+}
+export const siStationStorageLocations: storage.ISiStorageLocations<ISiStationStorageFields> = {
     code: new storage.SiInt([[0x72], [0x73, 6, 8]]),
     mode: new storage.SiEnum([[0x71]], SiStationMode),
     beeps: new storage.SiBool(0x73, 2),
@@ -56,7 +90,8 @@ export const siStationStorageDefinition = storage.defineStorage(
     0x80,
     siStationStorageLocations,
 );
-export type ISiStationStorageFields = storage.FieldsFromStorageDefinition<typeof siStationStorageDefinition>;
+// export type ISiStationStorageFields = storage.FieldsFromStorageDefinition<typeof siStationStorageDefinition>;
+// export type ISiStationStorageFields = storage.FieldsFromStorageLocations<typeof siStationStorageLocations>;
 
 export abstract class BaseSiStation<T extends SiTargetMultiplexerTarget> {
     public storage: storage.ISiStorage<ISiStationStorageFields>;
@@ -130,7 +165,7 @@ export abstract class BaseSiStation<T extends SiTargetMultiplexerTarget> {
 
     setInfo<T extends keyof ISiStationStorageFields>(
         infoName: T,
-        newValue: ISiStationStorageFields[T],
+        newValue: storage.ISiFieldValue<ISiStationStorageFields[T]>|ISiStationStorageFields[T],
     ) {
         this.storage.set(infoName, newValue);
     }

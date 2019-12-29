@@ -47,7 +47,7 @@ export class SiStorage<T> implements ISiStorage<T> {
 
     set<U extends keyof T>(
         fieldName: U,
-        newValue: T[U],
+        newValue: ISiFieldValue<T[U]>|T[U],
     ): void {
         const fieldDefinition = this.locations[fieldName];
         if (!fieldDefinition) {

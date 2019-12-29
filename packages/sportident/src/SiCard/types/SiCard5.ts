@@ -2,7 +2,8 @@ import _ from 'lodash';
 import * as storage from '../../storage';
 import * as siProtocol from '../../siProtocol';
 import {proto} from '../../constants';
-import {BaseSiCard} from '../BaseSiCard';
+// eslint-disable-next-line no-unused-vars
+import {BaseSiCard, IBaseSiCardStorageFields} from '../BaseSiCard';
 // eslint-disable-next-line no-unused-vars
 import {IPunch} from '../IRaceResultData';
 
@@ -37,7 +38,15 @@ export const cropPunches = (
     return punchesUntilInvalid.filter<IPunch>(isPunchEntryValid);
 };
 
-export const siCard5StorageLocations = {
+export interface ISiCard5StorageFields extends IBaseSiCardStorageFields {
+    softwareVersion: number;
+    cardHolder: {
+        countryCode: number|undefined,
+        clubCode: number|undefined,
+    };
+}
+
+export const siCard5StorageLocations: storage.ISiStorageLocations<ISiCard5StorageFields> = {
     cardNumber: new storage.SiModified(
         new storage.SiArray(
             3,
@@ -84,7 +93,6 @@ export const siCard5StorageDefinition = storage.defineStorage(
     0x80,
     siCard5StorageLocations,
 );
-export type ISiCard5StorageFields = storage.FieldsFromStorageDefinition<typeof siCard5StorageDefinition>;
 
 export class SiCard5 extends BaseSiCard {
     static maxNumPunches = MAX_NUM_PUNCHES;
