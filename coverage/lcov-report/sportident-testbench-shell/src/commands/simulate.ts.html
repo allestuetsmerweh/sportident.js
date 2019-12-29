@@ -346,24 +346,24 @@ export class SimulateCommand extends BaseCommand {
         const SiExternalApplication = <span class="cstat-no" title="statement not covered" >context.env.externalApplication;</span>
 <span class="cstat-no" title="statement not covered" >        return new Promise(<span class="fstat-no" title="function not covered" >(r</span>esolve, _reject) =&gt; {</span>
             const externalApplication = <span class="cstat-no" title="statement not covered" >new SiExternalApplication(url);</span>
-            const siMainStationSimulator = <span class="cstat-no" title="statement not covered" >new si.SiMainStationSimulator(testCase.storageData);</span>
+            const fakeSiMainStation = <span class="cstat-no" title="statement not covered" >new si.FakeSiMainStation(testCase.storageData);</span>
 &nbsp;
             let applicationToSimulatorBuffer: number[] = <span class="cstat-no" title="statement not covered" >[];</span>
 &nbsp;
             const onSimulatorMessage = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; {</span>
                 const message = <span class="cstat-no" title="statement not covered" >e.message;</span>
-<span class="cstat-no" title="statement not covered" >                console.log('SiMainStationSimulator:', message);</span>
+<span class="cstat-no" title="statement not covered" >                console.log('FakeSiMainStation:', message);</span>
                 const uint8Data = <span class="cstat-no" title="statement not covered" >si.protocol.render(message);</span>
 <span class="cstat-no" title="statement not covered" >                externalApplication.send(uint8Data);</span>
             };
-<span class="cstat-no" title="statement not covered" >            siMainStationSimulator.addEventListener('message', onSimulatorMessage);</span>
+<span class="cstat-no" title="statement not covered" >            fakeSiMainStation.addEventListener('message', onSimulatorMessage);</span>
             const onApplicationReceive = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; {</span>
                 const uint8Data = <span class="cstat-no" title="statement not covered" >e.uint8Data;</span>
 <span class="cstat-no" title="statement not covered" >                applicationToSimulatorBuffer.push(...uint8Data);</span>
                 const {messages, remainder} = <span class="cstat-no" title="statement not covered" >si.protocol.parseAll(applicationToSimulatorBuffer);</span>
 <span class="cstat-no" title="statement not covered" >                messages.forEach(<span class="fstat-no" title="function not covered" >(m</span>essage: siProtocol.SiMessage) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >                    console.log('SiExternalApplication:', si.protocol.prettyMessage(message));</span>
-<span class="cstat-no" title="statement not covered" >                    siMainStationSimulator.sendMessage(message);</span>
+<span class="cstat-no" title="statement not covered" >                    fakeSiMainStation.sendMessage(message);</span>
                 });
 <span class="cstat-no" title="statement not covered" >                applicationToSimulatorBuffer = remainder;</span>
             };
@@ -376,14 +376,14 @@ export class SimulateCommand extends BaseCommand {
 <span class="cstat-no" title="statement not covered" >                if (subResIn) {</span>
                     const simulatorName = <span class="cstat-no" title="statement not covered" >subResIn[1];</span>
                     // @ts-ignore
-                    const simulatorType = <span class="cstat-no" title="statement not covered" >si[`${simulatorName}Simulator`];</span>
-<span class="cstat-no" title="statement not covered" >                    if (!simulatorType || !isSubclassOf(simulatorType, si.BaseSiCardSimulator)) {</span>
+                    const simulatorType = <span class="cstat-no" title="statement not covered" >si[`Fake${simulatorName}`];</span>
+<span class="cstat-no" title="statement not covered" >                    if (!simulatorType || !isSubclassOf(simulatorType, si.BaseFakeSiCard)) {</span>
                         const availableSimulatorNames = <span class="cstat-no" title="statement not covered" >Object.keys(si)</span>
-                            .filter(<span class="fstat-no" title="function not covered" >(k</span>ey) =&gt; <span class="cstat-no" title="statement not covered" >/Simulator$/.exec(key))</span>
+                            .filter(<span class="fstat-no" title="function not covered" >(k</span>ey) =&gt; <span class="cstat-no" title="statement not covered" >/^Fake/.exec(key))</span>
                             // @ts-ignore
-                            .filter(<span class="fstat-no" title="function not covered" >(k</span>ey) =&gt; <span class="cstat-no" title="statement not covered" >isSubclassOf(si[key], si.BaseSiCardSimulator))</span>
+                            .filter(<span class="fstat-no" title="function not covered" >(k</span>ey) =&gt; <span class="cstat-no" title="statement not covered" >isSubclassOf(si[key], si.BaseFakeSiCard))</span>
                             .join(', ');
-<span class="cstat-no" title="statement not covered" >                        context.putString(`No such SiCardSimulator: ${simulatorName}\n`);</span>
+<span class="cstat-no" title="statement not covered" >                        context.putString(`No such FakeSiCard: ${simulatorName}\n`);</span>
 <span class="cstat-no" title="statement not covered" >                        context.putString(`Available simulator names: ${availableSimulatorNames}\n`);</span>
 <span class="cstat-no" title="statement not covered" >                        return;</span>
                     }
@@ -393,12 +393,12 @@ export class SimulateCommand extends BaseCommand {
                     const simulatorData = <span class="cstat-no" title="statement not covered" >availableSimulatorData[simulatorDataName];</span>
 <span class="cstat-no" title="statement not covered" >                    if (!simulatorData) {</span>
                         const availableSimulatorDataNames = <span class="cstat-no" title="statement not covered" >Object.keys(availableSimulatorData);</span>
-<span class="cstat-no" title="statement not covered" >                        context.putString(`No such SiCardSimulator data: ${simulatorDataName}\n`);</span>
+<span class="cstat-no" title="statement not covered" >                        context.putString(`No such FakeSiCard data: ${simulatorDataName}\n`);</span>
 <span class="cstat-no" title="statement not covered" >                        context.putString(`Available simulator data: ${availableSimulatorDataNames}\n`);</span>
                     }
                     const simulator = <span class="cstat-no" title="statement not covered" >new simulatorType(simulatorData.storageData);</span>
 <span class="cstat-no" title="statement not covered" >                    context.putString('Insert Card\n');</span>
-<span class="cstat-no" title="statement not covered" >                    siMainStationSimulator.insertCard(simulator);</span>
+<span class="cstat-no" title="statement not covered" >                    fakeSiMainStation.insertCard(simulator);</span>
                 } else <span class="cstat-no" title="statement not covered" >if (subResOut) {</span>
 <span class="cstat-no" title="statement not covered" >                    context.putString('out\n');</span>
                 } else {
@@ -413,7 +413,7 @@ export class SimulateCommand extends BaseCommand {
 <span class="cstat-no" title="statement not covered" >                context.getLine().then(<span class="fstat-no" title="function not covered" >(l</span>ine: string) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >                    if (line === 'exit') { // Escape || Ctrl-C</span>
 <span class="cstat-no" title="statement not covered" >                        externalApplication.close();</span>
-<span class="cstat-no" title="statement not covered" >                        siMainStationSimulator.removeEventListener('message', onSimulatorMessage);</span>
+<span class="cstat-no" title="statement not covered" >                        fakeSiMainStation.removeEventListener('message', onSimulatorMessage);</span>
 <span class="cstat-no" title="statement not covered" >                        externalApplication.removeEventListener('receive', onApplicationReceive);</span>
 <span class="cstat-no" title="statement not covered" >                        context.putString('Simulation finished.\n');</span>
 <span class="cstat-no" title="statement not covered" >                        resolve();</span>
@@ -433,7 +433,7 @@ export class SimulateCommand extends BaseCommand {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sun Dec 29 2019 13:21:56 GMT+0000 (Coordinated Universal Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sun Dec 29 2019 15:16:38 GMT+0000 (Coordinated Universal Time)
 </div>
 </div>
 <script src="../../../prettify.js"></script>

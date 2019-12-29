@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1577625717004" clover="3.2.0">
-  <project timestamp="1577625717004" name="All files">
+<coverage generated="1577632598881" clover="3.2.0">
+  <project timestamp="1577632598881" name="All files">
     <metrics statements="4612" coveredstatements="3000" conditionals="1899" coveredconditionals="1026" methods="1310" coveredmethods="756" elements="7821" coveredelements="4782" complexity="0" loc="4612" ncloc="4612" packages="25" files="147" classes="147"/>
     <package name="sportident-react.src">
       <metrics statements="36" coveredstatements="23" conditionals="6" coveredconditionals="1" methods="11" coveredmethods="7"/>
@@ -2311,24 +2311,9 @@
         <line num="101" count="1" type="stmt"/>
       </file>
     </package>
-    <package name="sportident.lib.simulation">
+    <package name="sportident.lib.fakes">
       <metrics statements="80" coveredstatements="20" conditionals="55" coveredconditionals="13" methods="13" coveredmethods="3"/>
-      <file name="ISiMainStationSimulator.js" path="/home/circleci/repo/packages/sportident/lib/simulation/ISiMainStationSimulator.js">
-        <metrics statements="12" coveredstatements="5" conditionals="11" coveredconditionals="6" methods="2" coveredmethods="1"/>
-        <line num="2" count="1" type="cond" truecount="3" falsecount="0"/>
-        <line num="3" count="1" type="cond" truecount="3" falsecount="1"/>
-        <line num="4" count="0" type="stmt"/>
-        <line num="5" count="0" type="cond" truecount="0" falsecount="4"/>
-        <line num="6" count="0" type="stmt"/>
-        <line num="7" count="0" type="stmt"/>
-        <line num="9" count="1" type="stmt"/>
-        <line num="10" count="1" type="stmt"/>
-        <line num="17" count="0" type="stmt"/>
-        <line num="18" count="0" type="stmt"/>
-        <line num="19" count="0" type="stmt"/>
-        <line num="22" count="1" type="stmt"/>
-      </file>
-      <file name="SiMainStationSimulator.js" path="/home/circleci/repo/packages/sportident/lib/simulation/SiMainStationSimulator.js">
+      <file name="FakeSiMainStation.js" path="/home/circleci/repo/packages/sportident/lib/fakes/FakeSiMainStation.js">
         <metrics statements="63" coveredstatements="10" conditionals="42" coveredconditionals="6" methods="10" coveredmethods="1"/>
         <line num="2" count="1" type="cond" truecount="3" falsecount="0"/>
         <line num="3" count="2" type="cond" truecount="3" falsecount="1"/>
@@ -2394,7 +2379,22 @@
         <line num="132" count="1" type="stmt"/>
         <line num="133" count="1" type="stmt"/>
       </file>
-      <file name="index.js" path="/home/circleci/repo/packages/sportident/lib/simulation/index.js">
+      <file name="IFakeSiMainStation.js" path="/home/circleci/repo/packages/sportident/lib/fakes/IFakeSiMainStation.js">
+        <metrics statements="12" coveredstatements="5" conditionals="11" coveredconditionals="6" methods="2" coveredmethods="1"/>
+        <line num="2" count="1" type="cond" truecount="3" falsecount="0"/>
+        <line num="3" count="1" type="cond" truecount="3" falsecount="1"/>
+        <line num="4" count="0" type="stmt"/>
+        <line num="5" count="0" type="cond" truecount="0" falsecount="4"/>
+        <line num="6" count="0" type="stmt"/>
+        <line num="7" count="0" type="stmt"/>
+        <line num="9" count="1" type="stmt"/>
+        <line num="10" count="1" type="stmt"/>
+        <line num="17" count="0" type="stmt"/>
+        <line num="18" count="0" type="stmt"/>
+        <line num="19" count="0" type="stmt"/>
+        <line num="22" count="1" type="stmt"/>
+      </file>
+      <file name="index.js" path="/home/circleci/repo/packages/sportident/lib/fakes/index.js">
         <metrics statements="5" coveredstatements="5" conditionals="2" coveredconditionals="1" methods="1" coveredmethods="1"/>
         <line num="3" count="8" type="cond" truecount="1" falsecount="1"/>
         <line num="5" count="1" type="stmt"/>
@@ -2403,15 +2403,15 @@
         <line num="8" count="1" type="stmt"/>
       </file>
     </package>
-    <package name="sportident.lib.simulation.SiCardSimulator">
+    <package name="sportident.lib.fakes.FakeSiCard">
       <metrics statements="8" coveredstatements="7" conditionals="2" coveredconditionals="1" methods="2" coveredmethods="1"/>
-      <file name="BaseSiCardSimulator.js" path="/home/circleci/repo/packages/sportident/lib/simulation/SiCardSimulator/BaseSiCardSimulator.js">
+      <file name="BaseFakeSiCard.js" path="/home/circleci/repo/packages/sportident/lib/fakes/FakeSiCard/BaseFakeSiCard.js">
         <metrics statements="3" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
         <line num="2" count="1" type="stmt"/>
         <line num="5" count="0" type="stmt"/>
         <line num="8" count="1" type="stmt"/>
       </file>
-      <file name="index.js" path="/home/circleci/repo/packages/sportident/lib/simulation/SiCardSimulator/index.js">
+      <file name="index.js" path="/home/circleci/repo/packages/sportident/lib/fakes/FakeSiCard/index.js">
         <metrics statements="5" coveredstatements="5" conditionals="2" coveredconditionals="1" methods="1" coveredmethods="1"/>
         <line num="3" count="7" type="cond" truecount="1" falsecount="1"/>
         <line num="5" count="1" type="stmt"/>
@@ -2420,9 +2420,9 @@
         <line num="8" count="1" type="stmt"/>
       </file>
     </package>
-    <package name="sportident.lib.simulation.SiCardSimulator.types">
+    <package name="sportident.lib.fakes.FakeSiCard.types">
       <metrics statements="140" coveredstatements="86" conditionals="52" coveredconditionals="18" methods="19" coveredmethods="3"/>
-      <file name="ModernSiCardSimulator.js" path="/home/circleci/repo/packages/sportident/lib/simulation/SiCardSimulator/types/ModernSiCardSimulator.js">
+      <file name="FakeModernSiCard.js" path="/home/circleci/repo/packages/sportident/lib/fakes/FakeSiCard/types/FakeModernSiCard.js">
         <metrics statements="27" coveredstatements="11" conditionals="18" coveredconditionals="6" methods="5" coveredmethods="1"/>
         <line num="2" count="1" type="cond" truecount="3" falsecount="0"/>
         <line num="3" count="1" type="cond" truecount="3" falsecount="1"/>
@@ -2452,7 +2452,7 @@
         <line num="49" count="1" type="stmt"/>
         <line num="50" count="1" type="stmt"/>
       </file>
-      <file name="SIACSimulator.js" path="/home/circleci/repo/packages/sportident/lib/simulation/SiCardSimulator/types/SIACSimulator.js">
+      <file name="FakeSIAC.js" path="/home/circleci/repo/packages/sportident/lib/fakes/FakeSiCard/types/FakeSIAC.js">
         <metrics statements="10" coveredstatements="8" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
         <line num="2" count="1" type="stmt"/>
         <line num="4" count="1" type="stmt"/>
@@ -2465,7 +2465,7 @@
         <line num="15" count="1" type="stmt"/>
         <line num="16" count="1" type="stmt"/>
       </file>
-      <file name="SiCard10Simulator.js" path="/home/circleci/repo/packages/sportident/lib/simulation/SiCardSimulator/types/SiCard10Simulator.js">
+      <file name="FakeSiCard10.js" path="/home/circleci/repo/packages/sportident/lib/fakes/FakeSiCard/types/FakeSiCard10.js">
         <metrics statements="10" coveredstatements="8" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
         <line num="2" count="1" type="stmt"/>
         <line num="4" count="1" type="stmt"/>
@@ -2478,7 +2478,7 @@
         <line num="15" count="1" type="stmt"/>
         <line num="16" count="1" type="stmt"/>
       </file>
-      <file name="SiCard11Simulator.js" path="/home/circleci/repo/packages/sportident/lib/simulation/SiCardSimulator/types/SiCard11Simulator.js">
+      <file name="FakeSiCard11.js" path="/home/circleci/repo/packages/sportident/lib/fakes/FakeSiCard/types/FakeSiCard11.js">
         <metrics statements="10" coveredstatements="8" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
         <line num="2" count="1" type="stmt"/>
         <line num="4" count="1" type="stmt"/>
@@ -2491,7 +2491,7 @@
         <line num="15" count="1" type="stmt"/>
         <line num="16" count="1" type="stmt"/>
       </file>
-      <file name="SiCard5Simulator.js" path="/home/circleci/repo/packages/sportident/lib/simulation/SiCardSimulator/types/SiCard5Simulator.js">
+      <file name="FakeSiCard5.js" path="/home/circleci/repo/packages/sportident/lib/fakes/FakeSiCard/types/FakeSiCard5.js">
         <metrics statements="23" coveredstatements="11" conditionals="16" coveredconditionals="6" methods="4" coveredmethods="1"/>
         <line num="2" count="1" type="cond" truecount="3" falsecount="0"/>
         <line num="3" count="1" type="cond" truecount="3" falsecount="1"/>
@@ -2517,7 +2517,7 @@
         <line num="44" count="1" type="stmt"/>
         <line num="45" count="1" type="stmt"/>
       </file>
-      <file name="SiCard6Simulator.js" path="/home/circleci/repo/packages/sportident/lib/simulation/SiCardSimulator/types/SiCard6Simulator.js">
+      <file name="FakeSiCard6.js" path="/home/circleci/repo/packages/sportident/lib/fakes/FakeSiCard/types/FakeSiCard6.js">
         <metrics statements="27" coveredstatements="11" conditionals="18" coveredconditionals="6" methods="5" coveredmethods="1"/>
         <line num="2" count="1" type="cond" truecount="3" falsecount="0"/>
         <line num="3" count="1" type="cond" truecount="3" falsecount="1"/>
@@ -2547,7 +2547,7 @@
         <line num="50" count="1" type="stmt"/>
         <line num="51" count="1" type="stmt"/>
       </file>
-      <file name="SiCard8Simulator.js" path="/home/circleci/repo/packages/sportident/lib/simulation/SiCardSimulator/types/SiCard8Simulator.js">
+      <file name="FakeSiCard8.js" path="/home/circleci/repo/packages/sportident/lib/fakes/FakeSiCard/types/FakeSiCard8.js">
         <metrics statements="9" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
@@ -2559,7 +2559,7 @@
         <line num="14" count="1" type="stmt"/>
         <line num="15" count="1" type="stmt"/>
       </file>
-      <file name="SiCard9Simulator.js" path="/home/circleci/repo/packages/sportident/lib/simulation/SiCardSimulator/types/SiCard9Simulator.js">
+      <file name="FakeSiCard9.js" path="/home/circleci/repo/packages/sportident/lib/fakes/FakeSiCard/types/FakeSiCard9.js">
         <metrics statements="9" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
@@ -2571,7 +2571,7 @@
         <line num="14" count="1" type="stmt"/>
         <line num="15" count="1" type="stmt"/>
       </file>
-      <file name="index.js" path="/home/circleci/repo/packages/sportident/lib/simulation/SiCardSimulator/types/index.js">
+      <file name="index.js" path="/home/circleci/repo/packages/sportident/lib/fakes/FakeSiCard/types/index.js">
         <metrics statements="15" coveredstatements="15" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
@@ -3237,13 +3237,13 @@
         <line num="145" count="78" type="stmt"/>
         <line num="146" count="78" type="stmt"/>
         <line num="147" count="1248" type="cond" truecount="2" falsecount="0"/>
-        <line num="148" count="387" type="stmt"/>
-        <line num="149" count="387" type="cond" truecount="2" falsecount="0"/>
-        <line num="150" count="228" type="stmt"/>
-        <line num="152" count="387" type="stmt"/>
-        <line num="154" count="861" type="stmt"/>
-        <line num="155" count="861" type="cond" truecount="2" falsecount="0"/>
-        <line num="156" count="157" type="stmt"/>
+        <line num="148" count="403" type="stmt"/>
+        <line num="149" count="403" type="cond" truecount="2" falsecount="0"/>
+        <line num="150" count="238" type="stmt"/>
+        <line num="152" count="403" type="stmt"/>
+        <line num="154" count="845" type="stmt"/>
+        <line num="155" count="845" type="cond" truecount="2" falsecount="0"/>
+        <line num="156" count="154" type="stmt"/>
         <line num="159" count="1248" type="stmt"/>
         <line num="161" count="78" type="stmt"/>
         <line num="163" count="70" type="stmt"/>
@@ -3359,7 +3359,7 @@
         <line num="35" count="28" type="stmt"/>
         <line num="36" count="28" type="stmt"/>
         <line num="37" count="2572" type="cond" truecount="2" falsecount="0"/>
-        <line num="38" count="2565" type="stmt"/>
+        <line num="38" count="2562" type="stmt"/>
         <line num="41" count="28" type="stmt"/>
         <line num="44" count="19" type="stmt"/>
         <line num="47" count="51" type="stmt"/>
@@ -4465,17 +4465,9 @@
         <line num="108" count="2" type="stmt"/>
       </file>
     </package>
-    <package name="sportident.src.simulation">
+    <package name="sportident.src.fakes">
       <metrics statements="61" coveredstatements="58" conditionals="31" coveredconditionals="28" methods="10" coveredmethods="10"/>
-      <file name="ISiMainStationSimulator.ts" path="/home/circleci/repo/packages/sportident/src/simulation/ISiMainStationSimulator.ts">
-        <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
-        <line num="1" count="1" type="stmt"/>
-        <line num="8" count="1" type="stmt"/>
-        <line num="11" count="15" type="stmt"/>
-        <line num="13" count="15" type="stmt"/>
-        <line num="15" count="15" type="stmt"/>
-      </file>
-      <file name="SiMainStationSimulator.ts" path="/home/circleci/repo/packages/sportident/src/simulation/SiMainStationSimulator.ts">
+      <file name="FakeSiMainStation.ts" path="/home/circleci/repo/packages/sportident/src/fakes/FakeSiMainStation.ts">
         <metrics statements="56" coveredstatements="53" conditionals="31" coveredconditionals="28" methods="9" coveredmethods="9"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -4534,18 +4526,26 @@
         <line num="127" count="1" type="stmt"/>
         <line num="136" count="1" type="stmt"/>
       </file>
+      <file name="IFakeSiMainStation.ts" path="/home/circleci/repo/packages/sportident/src/fakes/IFakeSiMainStation.ts">
+        <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="11" count="15" type="stmt"/>
+        <line num="13" count="15" type="stmt"/>
+        <line num="15" count="15" type="stmt"/>
+      </file>
     </package>
-    <package name="sportident.src.simulation.SiCardSimulator">
+    <package name="sportident.src.fakes.FakeSiCard">
       <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
-      <file name="BaseSiCardSimulator.ts" path="/home/circleci/repo/packages/sportident/src/simulation/SiCardSimulator/BaseSiCardSimulator.ts">
+      <file name="BaseFakeSiCard.ts" path="/home/circleci/repo/packages/sportident/src/fakes/FakeSiCard/BaseFakeSiCard.ts">
         <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
         <line num="6" count="10" type="stmt"/>
         <line num="7" count="23" type="stmt"/>
       </file>
     </package>
-    <package name="sportident.src.simulation.SiCardSimulator.types">
+    <package name="sportident.src.fakes.FakeSiCard.types">
       <metrics statements="72" coveredstatements="72" conditionals="19" coveredconditionals="19" methods="13" coveredmethods="13"/>
-      <file name="ModernSiCardSimulator.ts" path="/home/circleci/repo/packages/sportident/src/simulation/SiCardSimulator/types/ModernSiCardSimulator.ts">
+      <file name="FakeModernSiCard.ts" path="/home/circleci/repo/packages/sportident/src/fakes/FakeSiCard/types/FakeModernSiCard.ts">
         <metrics statements="20" coveredstatements="20" conditionals="7" coveredconditionals="7" methods="4" coveredmethods="4"/>
         <line num="2" count="4" type="stmt"/>
         <line num="3" count="4" type="stmt"/>
@@ -4568,7 +4568,7 @@
         <line num="43" count="1" type="stmt"/>
         <line num="45" count="44" type="stmt"/>
       </file>
-      <file name="SiCard5Simulator.ts" path="/home/circleci/repo/packages/sportident/src/simulation/SiCardSimulator/types/SiCard5Simulator.ts">
+      <file name="FakeSiCard5.ts" path="/home/circleci/repo/packages/sportident/src/fakes/FakeSiCard/types/FakeSiCard5.ts">
         <metrics statements="16" coveredstatements="16" conditionals="5" coveredconditionals="5" methods="3" coveredmethods="3"/>
         <line num="2" count="3" type="stmt"/>
         <line num="3" count="3" type="stmt"/>
@@ -4587,7 +4587,7 @@
         <line num="37" count="1" type="stmt"/>
         <line num="39" count="5" type="stmt"/>
       </file>
-      <file name="SiCard6Simulator.ts" path="/home/circleci/repo/packages/sportident/src/simulation/SiCardSimulator/types/SiCard6Simulator.ts">
+      <file name="FakeSiCard6.ts" path="/home/circleci/repo/packages/sportident/src/fakes/FakeSiCard/types/FakeSiCard6.ts">
         <metrics statements="20" coveredstatements="20" conditionals="7" coveredconditionals="7" methods="4" coveredmethods="4"/>
         <line num="2" count="3" type="stmt"/>
         <line num="3" count="3" type="stmt"/>
@@ -4610,7 +4610,7 @@
         <line num="48" count="1" type="stmt"/>
         <line num="50" count="27" type="stmt"/>
       </file>
-      <file name="SiCard8Simulator.ts" path="/home/circleci/repo/packages/sportident/src/simulation/SiCardSimulator/types/SiCard8Simulator.ts">
+      <file name="FakeSiCard8.ts" path="/home/circleci/repo/packages/sportident/src/fakes/FakeSiCard/types/FakeSiCard8.ts">
         <metrics statements="8" coveredstatements="8" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
         <line num="3" count="1" type="stmt"/>
         <line num="5" count="1" type="stmt"/>
@@ -4621,7 +4621,7 @@
         <line num="15" count="3" type="stmt"/>
         <line num="16" count="3" type="stmt"/>
       </file>
-      <file name="SiCard9Simulator.ts" path="/home/circleci/repo/packages/sportident/src/simulation/SiCardSimulator/types/SiCard9Simulator.ts">
+      <file name="FakeSiCard9.ts" path="/home/circleci/repo/packages/sportident/src/fakes/FakeSiCard/types/FakeSiCard9.ts">
         <metrics statements="8" coveredstatements="8" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
         <line num="3" count="1" type="stmt"/>
         <line num="5" count="1" type="stmt"/>
