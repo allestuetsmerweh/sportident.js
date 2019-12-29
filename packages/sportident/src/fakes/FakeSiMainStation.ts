@@ -6,15 +6,15 @@ import * as siProtocol from '../siProtocol';
 // eslint-disable-next-line no-unused-vars
 import {ISiStationStorageFields, siStationStorageDefinition} from '../SiStation/BaseSiStation';
 // eslint-disable-next-line no-unused-vars
-import {SiMainStationSimulatorEvents, SiMainStationSimulatorMessageEvent} from './ISiMainStationSimulator';
+import {FakeSiMainStationEvents, FakeSiMainStationMessageEvent} from './IFakeSiMainStation';
 // eslint-disable-next-line no-unused-vars
-import {ISiCardSimulator} from './SiCardSimulator/ISiCardSimulator';
+import {IFakeSiCard} from './FakeSiCard/IFakeSiCard';
 
-export class SiMainStationSimulator {
+export class FakeSiMainStation {
     public storage: storage.ISiStorage<ISiStationStorageFields>;
     public isMaster = true;
     public dateOffset = 0;
-    public cardSimulator?: ISiCardSimulator;
+    public fakeSiCard?: IFakeSiCard;
 
     constructor(storageArg: (number|undefined)[]|undefined) {
         this.storage = siStationStorageDefinition(storageArg);
@@ -34,7 +34,7 @@ export class SiMainStationSimulator {
     dispatchMessage(message: siProtocol.SiMessage) {
         this.dispatchEvent(
             'message',
-            new SiMainStationSimulatorMessageEvent(this, message),
+            new FakeSiMainStationMessageEvent(this, message),
         );
     }
 
@@ -49,9 +49,9 @@ export class SiMainStationSimulator {
         return new Date(Date.now() + this.dateOffset);
     }
 
-    insertCard(cardSimulator: ISiCardSimulator) {
-        this.cardSimulator = cardSimulator;
-        const cardMessage = this.cardSimulator.handleDetect();
+    insertCard(fakeSiCard: IFakeSiCard) {
+        this.fakeSiCard = fakeSiCard;
+        const cardMessage = this.fakeSiCard.handleDetect();
         this.dispatchCardMessage(cardMessage);
     }
 
@@ -116,10 +116,10 @@ export class SiMainStationSimulator {
             || message.command === proto.cmd.GET_SI6
             || message.command === proto.cmd.GET_SI8
         ) {
-            if (this.cardSimulator === undefined) {
+            if (this.fakeSiCard === undefined) {
                 return;
             }
-            const cardMessages = this.cardSimulator.handleRequest(message);
+            const cardMessages = this.fakeSiCard.handleRequest(message);
             cardMessages.forEach((cardMessage: siProtocol.SiMessage) => {
                 this.dispatchCardMessage(cardMessage);
             });
@@ -132,5 +132,5 @@ export class SiMainStationSimulator {
     }
 }
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface SiMainStationSimulator extends utils.EventTarget<SiMainStationSimulatorEvents> {}
-utils.applyMixins(SiMainStationSimulator, [utils.EventTarget]);
+export interface FakeSiMainStation extends utils.EventTarget<FakeSiMainStationEvents> {}
+utils.applyMixins(FakeSiMainStation, [utils.EventTarget]);

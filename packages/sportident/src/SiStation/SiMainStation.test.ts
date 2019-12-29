@@ -16,8 +16,8 @@ import {SiTargetMultiplexer} from './SiTargetMultiplexer';
 import {SiMainStation} from './SiMainStation';
 import {getSiCard5Examples} from '../SiCard/types/siCard5Examples';
 import {getSiCard6Examples} from '../SiCard/types/siCard6Examples';
-import {SiCard5Simulator} from '../simulation/SiCardSimulator/types/SiCard5Simulator';
-import {SiCard6Simulator} from '../simulation/SiCardSimulator/types/SiCard6Simulator';
+import {FakeSiCard5} from '../fakes/FakeSiCard/types/FakeSiCard5';
+import {FakeSiCard6} from '../fakes/FakeSiCard/types/FakeSiCard6';
 
 testUtils.useFakeTimers();
 
@@ -111,7 +111,7 @@ describe('SiMainStation', () => {
         const myTargetMultiplexer = new SiTargetMultiplexer({} as ISiDevice<any>);
         const myMainStation = SiMainStation.fromSiTargetMultiplexer(myTargetMultiplexer);
         const testData = getSiCard5Examples().fullCard;
-        const mySiCard5Simulator = new SiCard5Simulator(testData.storageData);
+        const myFakeSiCard5 = new FakeSiCard5(testData.storageData);
 
         const insertedCardNumbers: number[] = [];
         const handleCardInserted = (e: SiMainStationSiCardInsertedEvent) => {
@@ -123,10 +123,10 @@ describe('SiMainStation', () => {
             new SiTargetMultiplexerMessageEvent(
                 myTargetMultiplexer,
                 {
-                    command: mySiCard5Simulator.handleDetect().command,
+                    command: myFakeSiCard5.handleDetect().command,
                     parameters: [
                         ...[0x00, 0x00],
-                        ...mySiCard5Simulator.handleDetect().parameters,
+                        ...myFakeSiCard5.handleDetect().parameters,
                     ] as number[],
                 },
             ),
@@ -147,7 +147,7 @@ describe('SiMainStation', () => {
                     command: proto.cmd.SI_REM,
                     parameters: [
                         ...[0x00, 0x00],
-                        ...mySiCard5Simulator.handleDetect().parameters,
+                        ...myFakeSiCard5.handleDetect().parameters,
                     ] as number[],
                 },
             ),
@@ -176,7 +176,7 @@ describe('SiMainStation', () => {
         const myTargetMultiplexer = new SiTargetMultiplexer({} as ISiDevice<any>);
         const myMainStation = SiMainStation.fromSiTargetMultiplexer(myTargetMultiplexer);
         const testData = getSiCard6Examples().fullCard;
-        const mySiCard6Simulator = new SiCard6Simulator(testData.storageData);
+        const myFakeSiCard6 = new FakeSiCard6(testData.storageData);
         const observedCardNumbers: number[] = [];
         const handleCardObserved = (e: SiMainStationSiCardObservedEvent) => {
             observedCardNumbers.push(e.siCard.cardNumber);
@@ -190,7 +190,7 @@ describe('SiMainStation', () => {
                     command: proto.cmd.TRANS_REC,
                     parameters: [
                         ...[0x00, 0x00],
-                        ...mySiCard6Simulator.handleDetect().parameters,
+                        ...myFakeSiCard6.handleDetect().parameters,
                     ] as number[],
                 },
             ),

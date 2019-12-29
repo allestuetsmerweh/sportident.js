@@ -1,11 +1,11 @@
 import _ from 'lodash';
 import {proto} from '../../../constants';
 import * as siProtocol from '../../../siProtocol';
-import {BaseSiCardSimulator} from '../BaseSiCardSimulator';
+import {BaseFakeSiCard} from '../BaseFakeSiCard';
 import {ModernSiCard, modernSiCardStorageDefinition} from '../../../SiCard/types/ModernSiCard';
 import {getModernSiCardExamples} from '../../../SiCard/types/modernSiCardExamples';
 
-export class ModernSiCardSimulator extends BaseSiCardSimulator {
+export class FakeModernSiCard extends BaseFakeSiCard {
     static siCardClass = ModernSiCard;
     static getAllExamples = getModernSiCardExamples;
 

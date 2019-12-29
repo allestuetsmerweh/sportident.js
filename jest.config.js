@@ -36,7 +36,7 @@ const jestConfig = {
             statements: 99,
         },
         './packages/sportident/src/SiDevice': percentCoverage(85),
-        './packages/sportident/src/simulation': {
+        './packages/sportident/src/fakes': {
             branches: 94,
             functions: 100,
             lines: 97,

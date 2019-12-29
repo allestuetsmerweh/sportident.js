@@ -3,37 +3,37 @@
 import {proto} from '../../../constants';
 import * as utils from '../../../utils';
 import * as testUtils from '../../../testUtils';
-import {ModernSiCardSimulator} from './ModernSiCardSimulator';
-import {getEmptyCard} from '../../../SiCard/types/modernSiCardExamples';
+import {FakeSiCard6} from './FakeSiCard6';
+import {getCardWith16Punches} from '../../../SiCard/types/siCard6Examples';
 
 testUtils.useFakeTimers();
 
-describe('ModernSiCardSimulator', () => {
+describe('FakeSiCard6', () => {
     it('exists', () => {
-        expect(ModernSiCardSimulator).not.toBe(undefined);
+        expect(FakeSiCard6).not.toBe(undefined);
     });
-    const testData = getEmptyCard();
-    const myModernSiCardSimulator = new ModernSiCardSimulator(
+    const testData = getCardWith16Punches();
+    const myFakeSiCard6 = new FakeSiCard6(
         testData.storageData,
     );
     it('handleDetect works', () => {
-        expect(myModernSiCardSimulator.handleDetect()).toEqual({
-            command: proto.cmd.SI8_DET,
-            parameters: utils.unPrettyHex('00 6B 96 8C'),
+        expect(myFakeSiCard6.handleDetect()).toEqual({
+            command: proto.cmd.SI6_DET,
+            parameters: utils.unPrettyHex('00 07 A1 3D'),
         });
     });
     it('handleRequest works', () => {
-        expect(() => myModernSiCardSimulator.handleRequest({
+        expect(() => myFakeSiCard6.handleRequest({
             command: proto.cmd.GET_SI5,
             parameters: [0x06],
         })).toThrow();
 
-        expect(myModernSiCardSimulator.handleRequest({
-            command: proto.cmd.GET_SI8,
+        expect(myFakeSiCard6.handleRequest({
+            command: proto.cmd.GET_SI6,
             parameters: [0x06],
         })).toEqual([
             {
-                command: proto.cmd.GET_SI8,
+                command: proto.cmd.GET_SI6,
                 parameters: [
                     6,
                     ...testData.storageData.slice(6 * 128, 7 * 128),
@@ -41,26 +41,26 @@ describe('ModernSiCardSimulator', () => {
             },
         ]);
 
-        expect(myModernSiCardSimulator.handleRequest({
-            command: proto.cmd.GET_SI8,
+        expect(myFakeSiCard6.handleRequest({
+            command: proto.cmd.GET_SI6,
             parameters: [0x08],
         })).toEqual([
             {
-                command: proto.cmd.GET_SI8,
+                command: proto.cmd.GET_SI6,
                 parameters: [
                     0,
                     ...testData.storageData.slice(0, 128),
                 ],
             },
             {
-                command: proto.cmd.GET_SI8,
+                command: proto.cmd.GET_SI6,
                 parameters: [
                     6,
                     ...testData.storageData.slice(6 * 128, 7 * 128),
                 ],
             },
             {
-                command: proto.cmd.GET_SI8,
+                command: proto.cmd.GET_SI6,
                 parameters: [
                     7,
                     ...testData.storageData.slice(7 * 128, 8 * 128),

@@ -3,12 +3,12 @@ import * as utils from '../utils';
 import * as siProtocol from '../siProtocol';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface ISiMainStationSimulator {}
+interface IFakeSiMainStation {}
 
-export class SiMainStationSimulatorMessageEvent extends utils.Event<'message'> {
+export class FakeSiMainStationMessageEvent extends utils.Event<'message'> {
     constructor(
         // eslint-disable-next-line no-unused-vars
-        public siMainStationSimulator: ISiMainStationSimulator,
+        public fakeSiMainStation: IFakeSiMainStation,
         // eslint-disable-next-line no-unused-vars
         public message: siProtocol.SiMessage,
     ) {
@@ -16,6 +16,6 @@ export class SiMainStationSimulatorMessageEvent extends utils.Event<'message'> {
     }
 }
 
-export type SiMainStationSimulatorEvents = {
-    'message': SiMainStationSimulatorMessageEvent,
+export type FakeSiMainStationEvents = {
+    'message': FakeSiMainStationMessageEvent,
 };
