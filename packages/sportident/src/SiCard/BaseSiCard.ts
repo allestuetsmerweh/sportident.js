@@ -5,7 +5,7 @@ import * as siProtocol from '../siProtocol';
 // eslint-disable-next-line no-unused-vars
 import * as storage from '../storage';
 // eslint-disable-next-line no-unused-vars
-import {IRaceResultData} from './IRaceResultData';
+import {IPunch, IRaceResultData} from './IRaceResultData';
 import {makeStartZeroTime, monotonizeRaceResult, prettyRaceResult} from './raceResultTools';
 
 // TODO: SiCard interface
@@ -18,6 +18,17 @@ export interface ISiMainStation {
         numResponses?: number,
         timeoutInMiliseconds?: number,
     ) => Promise<number[][]>;
+}
+
+export interface IBaseSiCardStorageFields {
+    cardNumber: number;
+    clearTime?: number;
+    checkTime: number;
+    startTime: number;
+    finishTime: number;
+    punchCount: number;
+    punches: IPunch[],
+    cardHolder: {[key: string]: any},
 }
 
 export abstract class BaseSiCard {

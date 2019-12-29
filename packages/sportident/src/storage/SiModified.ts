@@ -7,9 +7,9 @@ export class SiModified<T, U> extends SiDataType<U> implements ISiDataType<U> {
         // eslint-disable-next-line no-unused-vars
         public readonly dataType: ISiDataType<T>,
         // eslint-disable-next-line no-unused-vars
-        public readonly modifyExtracted?: (value: T) => U,
+        public readonly modifyExtracted?: (value: T) => U|undefined,
         // eslint-disable-next-line no-unused-vars
-        public readonly modifyForUpdate?: (value: U) => T,
+        public readonly modifyForUpdate?: (value: U) => T|undefined,
         // eslint-disable-next-line no-unused-vars
         public readonly modifiedToString?: (value: U) => string|ValueToStringError,
         // eslint-disable-next-line no-unused-vars
@@ -57,6 +57,9 @@ export class SiModified<T, U> extends SiDataType<U> implements ISiDataType<U> {
             return data;
         }
         const internalData = this.modifyForUpdate(newValue);
+        if (internalData === undefined) {
+            return data;
+        }
         return this.dataType.typeSpecificUpdateData(data, internalData);
     }
 }

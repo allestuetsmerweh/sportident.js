@@ -2,7 +2,8 @@ import _ from 'lodash';
 import * as storage from '../../storage';
 import * as siProtocol from '../../siProtocol';
 import {proto} from '../../constants';
-import {BaseSiCard} from '../BaseSiCard';
+// eslint-disable-next-line no-unused-vars
+import {BaseSiCard, IBaseSiCardStorageFields} from '../BaseSiCard';
 // eslint-disable-next-line no-unused-vars
 import {IPunch} from '../IRaceResultData';
 
@@ -50,7 +51,28 @@ const getCroppedString = (maybeCharCodes: (number|undefined)[]) => {
     return croppedCharCodes.map((charCode: number) => String.fromCharCode(charCode)).join('');
 };
 
-export const siCard6StorageLocations = {
+export interface ISiCard6StorageFields extends IBaseSiCardStorageFields {
+    clearTime: number;
+    lastPunchedCode: number;
+    punchCountPlus1: number;
+    cardHolder: {
+        lastName: string|undefined,
+        firstName: string|undefined,
+        country: string|undefined,
+        club: string|undefined,
+        userId: string|undefined,
+        phone: string|undefined,
+        email: string|undefined,
+        street: string|undefined,
+        city: string|undefined,
+        zip: string|undefined,
+        gender: string|undefined,
+        birthday: string|undefined,
+        isComplete: boolean|undefined,
+    };
+}
+
+export const siCard6StorageLocations: storage.ISiStorageLocations<ISiCard6StorageFields> = {
     cardNumber: new storage.SiModified(
         new storage.SiArray(
             3,
@@ -143,7 +165,6 @@ export const siCard6StorageDefinition = storage.defineStorage(
     0x400,
     siCard6StorageLocations,
 );
-export type ISiCard6StorageFields = storage.FieldsFromStorageDefinition<typeof siCard6StorageDefinition>;
 
 export class SiCard6 extends BaseSiCard {
     static maxNumPunches = MAX_NUM_PUNCHES;

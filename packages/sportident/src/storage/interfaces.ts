@@ -33,8 +33,6 @@ export type ISiStorageLocations<Fields> = {
 export type ISiStorageDefinition<Fields> = (
     initArg?: Immutable.List<number|undefined>|Array<number|undefined>
 ) => ISiStorage<Fields>;
-export type FieldsFromStorageDefinition<Definition extends ISiStorageDefinition<any>> =
-    Definition extends ISiStorageDefinition<infer Fields> ? Fields : never;
 
 export interface ISiStorage<T> {
     size: number;
@@ -45,7 +43,7 @@ export interface ISiStorage<T> {
     ) => ISiFieldValue<T[U]>|undefined;
     set: <U extends keyof T>(
         fieldName: U,
-        newValue: T[U],
+        newValue: ISiFieldValue<T[U]>|T[U],
     ) => void;
     splice: (
         index: number,

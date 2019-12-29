@@ -51,7 +51,7 @@ describe('SiModified', () => {
     const mySiModified = new SiModified(
         new FakeDataType(1),
         (char: string) => char.charCodeAt(0),
-        (charCode: number) => String.fromCharCode(charCode),
+        (charCode: number) => (charCode < 32 ? undefined : String.fromCharCode(charCode)),
         (charCode: number) => charCode.toString(16),
         (hexString: string) => {
             const num = parseInt(hexString, 16);
@@ -119,7 +119,8 @@ describe('SiModified', () => {
         );
 
         expect(updateInitialData(0x000)).toEqual([0x00, 0x00]);
-        expect(updateInitialData(0x00F)).toEqual([0x00, 0x0F]);
+        expect(updateInitialData(0x00F)).toEqual([0x00, 0x00]);
+        expect(updateInitialData(0x020)).toEqual([0x00, 0x20]);
         expect(updateInitialData(0x0FF)).toEqual([0x00, 0xFF]);
         expect(updateInitialData(0xFFF)).toEqual([0x00, 0xFF]);
         expect(updateInitialData(0xF00)).toEqual([0x00, 0x00]);
@@ -134,7 +135,9 @@ describe('SiModified', () => {
             mySiModified.updateData(Immutable.List(data), newValue).toJS()
         );
 
-        expect(() => updateData([], 0x000)).toThrow(ModifyUndefinedException);
+        expect(() => updateData([], 0x000)).not.toThrow(ModifyUndefinedException);
+        expect(() => updateData([], 0x01F)).not.toThrow(ModifyUndefinedException);
+        expect(() => updateData([], 0x020)).toThrow(ModifyUndefinedException);
         expect(() => updateData([], 0xCAB)).toThrow(ModifyUndefinedException);
         expect(() => updateData([], fieldValueOf(0x7357))).toThrow(ModifyUndefinedException);
         expect(() => updateData([0x00, undefined], 0xCAB)).toThrow(ModifyUndefinedException);

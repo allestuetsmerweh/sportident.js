@@ -1,5 +1,6 @@
 /* eslint-env jasmine */
 
+import _ from 'lodash';
 import {proto} from '../constants';
 // eslint-disable-next-line no-unused-vars
 import * as siProtocol from '../siProtocol';
@@ -8,7 +9,7 @@ import * as testUtils from '../testUtils';
 import {ISiDevice} from '../SiDevice/ISiDevice';
 import {SiDevice} from '../SiDevice/SiDevice';
 // eslint-disable-next-line no-unused-vars
-import {SiMainStationSiCardInsertedEvent, SiMainStationSiCardObservedEvent, SiMainStationSiCardRemovedEvent} from './ISiMainStation';
+import {ISiCard, SiMainStationSiCardInsertedEvent, SiMainStationSiCardObservedEvent, SiMainStationSiCardRemovedEvent} from './ISiMainStation';
 // eslint-disable-next-line no-unused-vars
 import {ISiTargetMultiplexer, SiTargetMultiplexerMessageEvent, SiTargetMultiplexerTarget} from './ISiTargetMultiplexer';
 import {SiTargetMultiplexer} from './SiTargetMultiplexer';
@@ -43,6 +44,69 @@ describe('SiMainStation', () => {
         expect(myMainStation2.ident).toBe('Direct-fake-ident');
         expect(myMainStation2.multiplexerTarget).toBe(SiTargetMultiplexerTarget.Direct);
     });
+
+    it('can readCards', async (done) => {
+        const fakeSiTargetMultiplexer = {
+            addEventListener: () => undefined,
+            sendMessage: (
+                _target: SiTargetMultiplexerTarget,
+                message: siProtocol.SiMessage,
+                _numResponses: number,
+            ) => {
+                if (message.mode !== undefined) {
+                    throw new Error();
+                }
+                if (message.command === proto.cmd.GET_SYS_VAL) {
+                    return Promise.resolve([
+                        [0x00, 0x00, 0x00, ..._.range(128).map(() => 0x02)],
+                    ]);
+                }
+                if (message.command === proto.cmd.SET_SYS_VAL) {
+                    return Promise.resolve([
+                        [0x00, 0x00, 0x72],
+                    ]);
+                }
+                throw new Error();
+            },
+        } as unknown as ISiTargetMultiplexer;
+        const mySiStation = new SiMainStation(fakeSiTargetMultiplexer);
+        let cleanUpFunction: (() => Promise<void>)|undefined = undefined;
+        const cardsRead: ISiCard[] = [];
+        mySiStation.readCards((card) => {
+            cardsRead.push(card);
+        })
+            .then((cleanUp) => {
+                cleanUpFunction = cleanUp;
+            });
+        await testUtils.nTimesAsync(3, () => testUtils.advanceTimersByTime(0));
+        if (cleanUpFunction === undefined) {
+            throw new Error('expect cleanUp function');
+        }
+
+        const fakeSiCard: ISiCard = {
+            cardNumber: 1234,
+            read: () => Promise.resolve({cardNumber: 4321} as ISiCard),
+        };
+        mySiStation.dispatchEvent(
+            'siCardInserted',
+            new SiMainStationSiCardInsertedEvent(mySiStation, fakeSiCard),
+        );
+        await testUtils.nTimesAsync(1, () => testUtils.advanceTimersByTime(0));
+        expect(cardsRead).toEqual([{cardNumber: 4321} as ISiCard]);
+
+        const actualCleanUpFunction: () => Promise<void> = cleanUpFunction;
+        await actualCleanUpFunction();
+
+        mySiStation.dispatchEvent(
+            'siCardInserted',
+            new SiMainStationSiCardInsertedEvent(mySiStation, fakeSiCard),
+        );
+        await testUtils.nTimesAsync(1, () => testUtils.advanceTimersByTime(0));
+        // No additional entry
+        expect(cardsRead).toEqual([{cardNumber: 4321} as ISiCard]);
+        done();
+    });
+
     it('card detection & removal', async (done) => {
         const myTargetMultiplexer = new SiTargetMultiplexer({} as ISiDevice<any>);
         const myMainStation = SiMainStation.fromSiTargetMultiplexer(myTargetMultiplexer);
