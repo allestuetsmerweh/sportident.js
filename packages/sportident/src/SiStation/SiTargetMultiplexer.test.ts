@@ -646,4 +646,23 @@ describe('SiTargetMultiplexer', () => {
         expect(timeState).toEqual({setTargetFailed: true});
         done();
     });
+    it('handles direct device-initiated command', async (done) => {
+        const siDevice = new SiDevice('errorSwitchingTarget', {driver: {
+            send: () => Promise.reject(new Error('test')),
+        }});
+        siDevice.setState(SiDeviceState.Opened);
+        const muxer = SiTargetMultiplexer.fromSiDevice(siDevice);
+        const deviceInitiatedMessage = siProtocol.render({
+            command: proto.cmd.SI5_DET,
+            parameters: [0x00, 0x0A, 0x00, 0x04, 0x19, 0x02],
+        });
+        siDevice.dispatchEvent(
+            'receive',
+            new SiDeviceReceiveEvent(siDevice, deviceInitiatedMessage),
+        );
+        await testUtils.nTimesAsync(10, () => testUtils.advanceTimersByTime(1));
+        expect(muxer.target).toEqual(SiTargetMultiplexerTarget.Direct);
+        expect(muxer.latestTarget).toEqual(SiTargetMultiplexerTarget.Direct);
+        done();
+    });
 });

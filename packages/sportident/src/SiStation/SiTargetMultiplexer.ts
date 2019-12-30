@@ -8,13 +8,19 @@ import {ISiTargetMultiplexer, SendTaskState, SiTargetMultiplexerDirectMessageEve
 // eslint-disable-next-line no-unused-vars
 import {ISiDevice, SiDeviceState} from '../SiDevice/ISiDevice';
 
-const DEVICE_INITIATED_COMMANDS: {[command: number]: boolean} = {
-    [proto.cmd.SRR_PING]: true,
+/** Commands that can only be sent from a direct station. */
+const DIRECT_DEVICE_INITIATED_COMMANDS: {[command: number]: boolean} = {
     [proto.cmd.TRANS_REC]: true,
     [proto.cmd.SI5_DET]: true,
     [proto.cmd.SI6_DET]: true,
     [proto.cmd.SI8_DET]: true,
     [proto.cmd.SI_REM]: true,
+};
+
+/** Commands that are sent from a station without prior request. */
+const DEVICE_INITIATED_COMMANDS: {[command: number]: boolean} = {
+    ...DIRECT_DEVICE_INITIATED_COMMANDS,
+    [proto.cmd.SRR_PING]: true,
 };
 
 class SendTask {
@@ -137,11 +143,11 @@ export class SiTargetMultiplexer implements ISiTargetMultiplexer {
         const {messages, remainder} = siProtocol.parseAll(this.receiveBuffer);
         this.receiveBuffer = remainder;
         messages.forEach((message) => {
+            this.updateSendQueueWithReceivedMessage(message);
             this.dispatchEvent(
                 'message',
                 new SiTargetMultiplexerMessageEvent(this, message),
             );
-            this.updateSendQueueWithReceivedMessage(message);
             if (this.target === SiTargetMultiplexerTarget.Direct) {
                 this.dispatchEvent(
                     'directMessage',
@@ -158,6 +164,14 @@ export class SiTargetMultiplexer implements ISiTargetMultiplexer {
     }
 
     updateSendQueueWithReceivedMessage(message: siProtocol.SiMessage) {
+        if (
+            message.mode === undefined
+            && DIRECT_DEVICE_INITIATED_COMMANDS[message.command]
+        ) {
+            console.debug('Received direct device-initiated command. Assuming target Direct...');
+            this.target = SiTargetMultiplexerTarget.Direct;
+            this.latestTarget = SiTargetMultiplexerTarget.Direct;
+        }
         if (this.sendQueue.length === 0) {
             return;
         }
@@ -287,7 +301,6 @@ export class SiTargetMultiplexer implements ISiTargetMultiplexer {
         this.siDevice.send(uint8Data)
             .then(() => {
                 sendTask.state = SendTaskState.Sent;
-                console.debug(`=> (${this.siDevice.name})\n${utils.prettyHex([...uint8Data], 16)}`);
                 if (sendTask.numResponses <= 0) {
                     sendTask.succeed();
                 }
