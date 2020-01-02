@@ -14,7 +14,7 @@ const MAX_NUM_PUNCHES = 64;
 
 interface PotentialSiCard6Punch {
     code: number|undefined;
-    time: number|undefined;
+    time: siProtocol.SiTimestamp|undefined;
 }
 
 export const getPunchOffset = (i: number): number => (
@@ -30,7 +30,7 @@ export const cropPunches = (
         punch !== undefined
         && punch.code !== undefined
         && punch.time !== undefined
-        && punch.time !== 0xEEEE
+        && punch.time !== null
     );
     const firstInvalidIndex = allPunches.findIndex((punch) => !isPunchEntryValid(punch));
     const punchesUntilInvalid = (firstInvalidIndex === -1
@@ -52,7 +52,7 @@ const getCroppedString = (maybeCharCodes: (number|undefined)[]) => {
 };
 
 export interface ISiCard6StorageFields extends IBaseSiCardStorageFields {
-    clearTime: number;
+    clearTime: siProtocol.SiTimestamp;
     lastPunchedCode: number;
     punchCountPlus1: number;
     cardHolder: {
@@ -84,10 +84,10 @@ export const siCard6StorageLocations: storage.ISiStorageLocations<ISiCard6Storag
         // (cardNumberString) => parseInt(cardNumberString, 10),
         // (cardNumber) => cardNumber !== undefined && _.isInteger(cardNumber) && cardNumber >= 0,
     ),
-    startTime: new storage.SiInt([[0x1B], [0x1A]]),
-    finishTime: new storage.SiInt([[0x17], [0x16]]),
-    checkTime: new storage.SiInt([[0x1F], [0x1E]]),
-    clearTime: new storage.SiInt([[0x23], [0x22]]),
+    startTime: new siProtocol.SiTime([[0x1B], [0x1A]]),
+    finishTime: new siProtocol.SiTime([[0x17], [0x16]]),
+    checkTime: new siProtocol.SiTime([[0x1F], [0x1E]]),
+    clearTime: new siProtocol.SiTime([[0x23], [0x22]]),
     lastPunchedCode: new storage.SiInt([[0x11], [0x10]]),
     punchCount: new storage.SiInt([[0x12]]),
     punchCountPlus1: new storage.SiInt([[0x13]]),
@@ -98,7 +98,7 @@ export const siCard6StorageLocations: storage.ISiStorageLocations<ISiCard6Storag
                 code: new storage.SiInt([
                     [getPunchOffset(i) + 1],
                 ]),
-                time: new storage.SiInt([
+                time: new siProtocol.SiTime([
                     [getPunchOffset(i) + 3],
                     [getPunchOffset(i) + 2],
                 ]),

@@ -54,26 +54,6 @@ export const getValidButIncompleteMessageBytes = (): number[][] => {
 };
 
 describe('siProtocol', () => {
-    it('arr2time works', () => {
-        expect(siProtocol.arr2time([0x00, 0x00])).toBe(0x0000);
-        expect(siProtocol.arr2time([0x00, 0x001])).toBe(0x0001);
-        expect(siProtocol.arr2time([0x12, 0x34])).toBe(0x1234);
-        expect(siProtocol.arr2time([0xFF, 0xFF])).toBe(0xFFFF);
-        expect(siProtocol.arr2time([0xEE, 0xEE])).toBe(undefined);
-    });
-    it('arr2time sanitizes', () => {
-        expect(() => siProtocol.arr2time([0x10, 0x100])).toThrow();
-        expect(() => siProtocol.arr2time([0x100, 0x10])).toThrow();
-        expect(() => siProtocol.arr2time([0x123, 0x123])).toThrow();
-        expect(() => siProtocol.arr2time([0x123456, 0x123456])).toThrow();
-        expect(() => siProtocol.arr2time([0xFF, 0x100])).toThrow();
-        expect(() => siProtocol.arr2time([0xFF, 0x100])).toThrow();
-        expect(() => siProtocol.arr2time([2.5, 2.5])).toThrow();
-        expect(() => siProtocol.arr2time([])).toThrow();
-        expect(() => siProtocol.arr2time([0x12])).toThrow();
-        expect(() => siProtocol.arr2time([0x12, 0x34, 0x56])).toThrow();
-        expect(() => siProtocol.arr2time([0x00, 0x00, 0x00, 0x00])).toThrow();
-    });
     const asOf = new Date('2020-01-01T00:00:00.000Z');
     it('arr2date works', () => {
         expect(date2json(siProtocol.arr2date([0x00, 0x01, 0x01], asOf))).toBe('2000-01-01T00:00:00.000Z');
@@ -529,6 +509,93 @@ describe('siProtocol', () => {
             expect(() => updateData([0x00, 0x00, undefined], json2date('2000-01-01T00:00:00.000Z')!)).toThrow(storage.ModifyUndefinedException);
             expect(() => updateData([0x00, undefined, 0x00], json2date('2000-01-01T00:00:00.000Z')!)).toThrow(storage.ModifyUndefinedException);
             expect(() => updateData([undefined, 0x00, 0x00], json2date('2000-01-01T00:00:00.000Z')!)).toThrow(storage.ModifyUndefinedException);
+        });
+    });
+
+    describe('SiTime', () => {
+        const mySiTime = new siProtocol.SiTime([[0x01], [0x00]]);
+        const myInexistentSiTime = new siProtocol.SiTime(undefined);
+        const fieldValueOf = (value: siProtocol.SiTimestamp) => (
+            new storage.SiFieldValue(mySiTime, value)
+        );
+        it('typeSpecificIsValueValid', () => {
+            expect(mySiTime.typeSpecificIsValueValid(0)).toBe(true);
+            expect(mySiTime.typeSpecificIsValueValid(43199)).toBe(true);
+            expect(mySiTime.typeSpecificIsValueValid(43200)).toBe(false);
+            expect(mySiTime.typeSpecificIsValueValid(null)).toBe(true);
+        });
+        it('valueToString', () => {
+            expect(mySiTime.valueToString(0)).toBe('00:00:00');
+            expect(mySiTime.valueToString(43199)).toBe('11:59:59');
+            expect(mySiTime.valueToString(null)).toBe('NO_TIME');
+        });
+        it('valueFromString', () => {
+            expect(mySiTime.valueFromString('00:00:00')).toEqual(0);
+            expect(mySiTime.valueFromString('11:59:59')).toEqual(43199);
+            expect(mySiTime.valueFromString('NO_TIME')).toBe(null);
+            expect(mySiTime.valueFromString('06:12') instanceof storage.ValueFromStringError).toBe(true);
+            expect(mySiTime.valueFromString('test') instanceof storage.ValueFromStringError).toBe(true);
+        });
+        it('extractFromData gives field value', () => {
+            const data = Immutable.List([0x01, 0x01]);
+            const fieldValue = mySiTime.extractFromData(data);
+            expect(fieldValue instanceof storage.SiFieldValue).toBe(true);
+            expect(fieldValue!.field).toBe(mySiTime);
+            expect(fieldValue!.value).toBe(257);
+        });
+        it('extractFromData', () => {
+            const getExtractedFieldValue = (bytes: (number|undefined)[]) => (
+                mySiTime.extractFromData(Immutable.List(bytes))
+            );
+            expect(getExtractedFieldValue([0x00, 0x01])!.value).toBe(1);
+            expect(getExtractedFieldValue([0xEE, 0xEE])!.value).toBe(null);
+            expect(getExtractedFieldValue([0x00, undefined])).toBe(undefined);
+            expect(getExtractedFieldValue([undefined, 0x01])).toBe(undefined);
+            expect(getExtractedFieldValue([0x00])).toBe(undefined);
+            expect(getExtractedFieldValue([])).toBe(undefined);
+        });
+        it('extractFromData for inexistent', () => {
+            const getExtractedFieldValue = (bytes: (number|undefined)[]) => (
+                myInexistentSiTime.extractFromData(Immutable.List(bytes))
+            );
+            expect(getExtractedFieldValue([0x00, 0x01])!.value).toBe(null);
+        });
+        it('updateData', () => {
+            const initialData = Immutable.List([0x00, 0x00]);
+            const updateInitialData = (
+                newValue: siProtocol.SiTimestamp|storage.SiFieldValue<siProtocol.SiTimestamp>,
+            ) => (
+                mySiTime.updateData(initialData, newValue).toJS()
+            );
+
+            expect(updateInitialData(257)).toEqual([0x01, 0x01]);
+            expect(updateInitialData(fieldValueOf(257))).toEqual([0x01, 0x01]);
+            expect(updateInitialData(null)).toEqual([0xEE, 0xEE]);
+            expect(updateInitialData(fieldValueOf(null))).toEqual([0xEE, 0xEE]);
+        });
+        it('updateData for inexistent', () => {
+            const initialData = Immutable.List([0x00, 0x00]);
+            const updateInitialData = (
+                newValue: siProtocol.SiTimestamp|storage.SiFieldValue<siProtocol.SiTimestamp>,
+            ) => (
+                myInexistentSiTime.updateData(initialData, newValue).toJS()
+            );
+
+            expect(updateInitialData(257)).toEqual([0x00, 0x00]);
+            expect(updateInitialData(fieldValueOf(257))).toEqual([0x00, 0x00]);
+        });
+        it('updateData modify undefined', () => {
+            const updateData = (
+                data: (number|undefined)[],
+                newValue: siProtocol.SiTimestamp|storage.SiFieldValue<siProtocol.SiTimestamp>,
+            ) => (
+                mySiTime.updateData(Immutable.List(data), newValue).toJS()
+            );
+
+            expect(() => updateData([], 257)).toThrow(storage.ModifyUndefinedException);
+            expect(() => updateData([], fieldValueOf(257))).toThrow(storage.ModifyUndefinedException);
+            expect(() => updateData([0x00, undefined], 257)).toThrow(storage.ModifyUndefinedException);
+            expect(() => updateData([undefined, 0x01], 257)).toThrow(storage.ModifyUndefinedException);
         });
     });
 });

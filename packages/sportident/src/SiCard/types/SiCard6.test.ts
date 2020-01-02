@@ -40,7 +40,7 @@ describe('SiCard6', () => {
             {code: 31, time: 1},
         ]);
         expect(cropPunches([
-            {code: 32, time: 0xEEEE},
+            {code: 32, time: null},
         ])).toEqual([
         ]);
         expect(cropPunches([
@@ -55,7 +55,7 @@ describe('SiCard6', () => {
             {code: 31, time: 1},
             {code: 32, time: 2},
             {code: 33, time: 3},
-            {code: 0xEE, time: 0xEEEE},
+            {code: 0xEE, time: null},
             {code: undefined, time: undefined},
         ])).toEqual([
             {code: 31, time: 1},

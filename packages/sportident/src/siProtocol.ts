@@ -3,14 +3,7 @@ import {proto} from './constants';
 import * as utils from './utils';
 import * as storage from './storage';
 
-export const arr2time = (arr: number[]): number|undefined => {
-    utils.assertIsByteArr(arr);
-    utils.assertArrIsOfLengths(arr, [2]);
-    if (arr[0] === 0xEE && arr[1] === 0xEE) {
-        return undefined;
-    }
-    return utils.arr2big(arr);
-};
+export const SI_TIME_CUTOFF = 43200; // Half a day in seconds
 
 export const arr2date = (arr: number[], asOf?: Date): Date|undefined => {
     utils.assertIsByteArr(arr);
@@ -336,5 +329,71 @@ export class SiDate extends storage.SiDataType<Date> implements storage.ISiDataT
     typeSpecificUpdateData(data: storage.ISiStorageData, newValue: Date): storage.ISiStorageData {
         const newArrayValue = date2arr(newValue).slice(0, this.arrayField.length);
         return this.arrayField.typeSpecificUpdateData(data, newArrayValue);
+    }
+}
+
+export type SiTimestamp = number|null;
+
+export class SiTime extends storage.SiDataType<SiTimestamp> implements storage.ISiDataType<SiTimestamp> {
+    private readonly intField: storage.SiInt|undefined;
+
+    constructor(
+        public intParts: [[number], [number]]|undefined,
+    ) {
+        super();
+        this.intField = (intParts === undefined
+            ? undefined
+            : new storage.SiInt(intParts)
+        );
+    }
+
+    typeSpecificIsValueValid(value: SiTimestamp) {
+        return value === null || value < SI_TIME_CUTOFF;
+    }
+
+    typeSpecificValueToString(value: SiTimestamp): string {
+        if (value === null) {
+            return 'NO_TIME';
+        }
+        const hours = Math.floor(value / 3600);
+        const minutes = Math.floor((value - hours * 3600) / 60);
+        const seconds = value - hours * 3600 - minutes * 60;
+        const hoursStr = `${hours}`.padStart(2, '0');
+        const minutesStr = `${minutes}`.padStart(2, '0');
+        const secondsStr = `${seconds}`.padStart(2, '0');
+        return `${hoursStr}:${minutesStr}:${secondsStr}`;
+    }
+
+    typeSpecificValueFromString(string: string): SiTimestamp|storage.ValueFromStringError {
+        if (string === 'NO_TIME') {
+            return null;
+        }
+        const res = /^([0-9]{2}):([0-9]{2}):([0-9]{2})$/.exec(string);
+        if (!res) {
+            return new storage.ValueFromStringError(`Not a correctly formatted date: ${string}`);
+        }
+        return Number(res[1]) * 3600 + Number(res[2]) * 60 + Number(res[3]);
+    }
+
+    typeSpecificExtractFromData(data: storage.ISiStorageData): SiTimestamp|undefined {
+        if (this.intField === undefined) {
+            return null;
+        }
+        const timeInt = this.intField.typeSpecificExtractFromData(data);
+        if (timeInt === proto.NO_TIME) {
+            return null;
+        }
+        if (timeInt === undefined || timeInt > SI_TIME_CUTOFF) {
+            return undefined;
+        }
+        return timeInt;
+    }
+
+    typeSpecificUpdateData(data: storage.ISiStorageData, newValue: SiTimestamp): storage.ISiStorageData {
+        if (this.intField === undefined) {
+            return data;
+        }
+        const newIntValue = (newValue === null) ? proto.NO_TIME : newValue;
+        return this.intField.typeSpecificUpdateData(data, newIntValue);
     }
 }

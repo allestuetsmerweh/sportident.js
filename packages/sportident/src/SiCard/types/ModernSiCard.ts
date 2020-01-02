@@ -25,7 +25,7 @@ export enum ModernSiCardSeries {
 
 export interface PotentialModernSiCardPunch {
     code: number|undefined;
-    time: number|undefined;
+    time: siProtocol.SiTimestamp|undefined;
 }
 
 export const getPunchOffset = (i: number): number => (
@@ -41,7 +41,7 @@ export const cropPunches = (
         punch !== undefined
         && punch.code !== undefined
         && punch.time !== undefined
-        && punch.time !== 0xEEEE
+        && punch.time !== null
     );
     const firstInvalidIndex = allPunches.findIndex((punch) => !isPunchEntryValid(punch));
     const punchesUntilInvalid = (firstInvalidIndex === -1
@@ -102,9 +102,9 @@ export const modernSiCardStorageLocations: storage.ISiStorageLocations<IModernSi
         // (cardNumberString) => parseInt(cardNumberString, 10),
         // (cardNumber) => cardNumber !== undefined && _.isInteger(cardNumber) && cardNumber >= 0,
     ),
-    startTime: new storage.SiInt([[0x0F], [0x0E]]),
-    finishTime: new storage.SiInt([[0x13], [0x12]]),
-    checkTime: new storage.SiInt([[0x0B], [0x0A]]),
+    startTime: new siProtocol.SiTime([[0x0F], [0x0E]]),
+    finishTime: new siProtocol.SiTime([[0x13], [0x12]]),
+    checkTime: new siProtocol.SiTime([[0x0B], [0x0A]]),
     punchCount: new storage.SiInt([[0x16]]),
     punches: new storage.SiModified(
         new storage.SiArray(
@@ -113,7 +113,7 @@ export const modernSiCardStorageLocations: storage.ISiStorageLocations<IModernSi
                 code: new storage.SiInt([
                     [getPunchOffset(i) + 1],
                 ]),
-                time: new storage.SiInt([
+                time: new siProtocol.SiTime([
                     [getPunchOffset(i) + 3],
                     [getPunchOffset(i) + 2],
                 ]),

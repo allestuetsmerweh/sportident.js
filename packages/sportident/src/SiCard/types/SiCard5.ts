@@ -12,7 +12,7 @@ const MAX_NUM_PUNCHES = 36;
 
 interface PotentialSiCard5Punch {
     code: number|undefined;
-    time: number|undefined;
+    time: siProtocol.SiTimestamp|undefined;
 }
 
 export const getPunchOffset = (i: number): number => (i >= 30
@@ -58,9 +58,9 @@ export const siCard5StorageLocations: storage.ISiStorageLocations<ISiCard5Storag
         // (cardNumberString) => parseInt(cardNumberString, 10),
         // (cardNumber) => cardNumber !== undefined && _.isInteger(cardNumber) && cardNumber >= 0,
     ),
-    startTime: new storage.SiInt([[0x14], [0x13]]),
-    finishTime: new storage.SiInt([[0x16], [0x15]]),
-    checkTime: new storage.SiInt([[0x1A], [0x19]]),
+    startTime: new siProtocol.SiTime([[0x14], [0x13]]),
+    finishTime: new siProtocol.SiTime([[0x16], [0x15]]),
+    checkTime: new siProtocol.SiTime([[0x1A], [0x19]]),
     punchCount: new storage.SiModified(
         new storage.SiInt([[0x17]]),
         (extractedValue) => extractedValue - 1,
@@ -72,8 +72,8 @@ export const siCard5StorageLocations: storage.ISiStorageLocations<ISiCard5Storag
                 code: new storage.SiInt([
                     [getPunchOffset(i) + 0],
                 ]),
-                time: new storage.SiInt((i >= 30
-                    ? []
+                time: new siProtocol.SiTime((i >= 30
+                    ? undefined
                     : [
                         [getPunchOffset(i) + 2],
                         [getPunchOffset(i) + 1],
