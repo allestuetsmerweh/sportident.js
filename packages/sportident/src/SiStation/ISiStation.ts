@@ -9,20 +9,26 @@ export interface ISiStation<T extends SiTargetMultiplexerTarget> {
 
 /* eslint-disable no-unused-vars */
 export enum SiStationMode {
-    SIACSpecialFunction1 = 0x01,
-    Control = 0x02,
-    Start = 0x03,
-    Finish = 0x04,
-    Readout = 0x05,
-    Clear = 0x07,
-    Check = 0x0A,
-    Print = 0x0B,
-    StartWithTimeTrigger = 0x0C,
-    FinishWithTimeTrigger = 0x0D,
-    BCControl = 0x12,
-    BCStart = 0x13,
-    BCFinish = 0x14,
-    BCSlave = 0x1F,
+    SIACSpecialFunction1 = 0x01, // Source: SI Config+
+    // 7B=battery test, 7C=on, 7D=off, 7F=radio readout
+    Control = 0x02, // Source: SI Config+
+    Start = 0x03, // Source: SI Config+
+    Finish = 0x04, // Source: SI Config+
+    Readout = 0x05, // Source: SI Config+
+    Clear = 0x07, // Source: SI Config+
+    Check = 0x0A, // Source: SI Config+
+    Print = 0x0B, // Source: old SI Config
+    StartWithTimeTrigger = 0x0C, // Source: old SI Config
+    FinishWithTimeTrigger = 0x0D, // Source: old SI Config
+    SIACSpecialFunction2 = 0x11, // Source: SI Config+
+    // 7C=test
+    BCControl = 0x12, // Source: old SI Config
+    BCStart = 0x13, // Source: old SI Config
+    BCFinish = 0x14, // Source: old SI Config
+    BCSlave = 0x1F, // Source: old SI Config
+    BeaconControl = 0x32, // Source: SI Config+
+    BeaconStart = 0x33, // Source: SI Config+
+    BeaconFinish = 0x34, // Source: SI Config+
 }
 /* eslint-enable no-unused-vars */
 
