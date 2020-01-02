@@ -21,10 +21,10 @@
     "sportident": "^2.0.0-alpha.3"
   },
   "devDependencies": {
-    "@types/react": "^16.9.11",
+    "@types/react": "^16.9.17",
     "@types/react-test-renderer": "^16.9.1",
-    "react": "^16.11.0",
-    "react-test-renderer": "^16.11.0"
+    "react": "^16.12.0",
+    "react-test-renderer": "^16.12.0"
   },
   "peerDependencies": {
     "react": "^16.8.6"

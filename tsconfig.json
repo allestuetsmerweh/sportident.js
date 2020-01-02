@@ -3,6 +3,7 @@
   "files": [],
   "references": [
     {"path": "packages/sportident"},
+    {"path": "packages/sportident-example-app"},
     {"path": "packages/sportident-node-usb"},
     {"path": "packages/sportident-react"},
     {"path": "packages/sportident-testbench-client"},

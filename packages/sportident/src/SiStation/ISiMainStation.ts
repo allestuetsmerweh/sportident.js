@@ -6,6 +6,7 @@ export interface ISiMainStation extends utils.IEventTarget<SiMainStationEvents> 
 export interface ISiCard {
     cardNumber: number;
     read: () => Promise<ISiCard>;
+    confirm: () => Promise<void>;
 }
 
 export class SiMainStationSiCardInsertedEvent extends utils.Event<'siCardInserted'> {
