@@ -22,22 +22,22 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>56/56</span>
+        <span class='fraction'>60/60</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>42/42</span>
+        <span class='fraction'>60/60</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>14/14</span>
+        <span class='fraction'>16/16</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>56/56</span>
+        <span class='fraction'>60/60</span>
       </div>
     </div>
     <p class="quiet">
@@ -215,10 +215,16 @@
 <a name='L167'></a><a href='#L167'>167</a>
 <a name='L168'></a><a href='#L168'>168</a>
 <a name='L169'></a><a href='#L169'>169</a>
-<a name='L170'></a><a href='#L170'>170</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L170'></a><a href='#L170'>170</a>
+<a name='L171'></a><a href='#L171'>171</a>
+<a name='L172'></a><a href='#L172'>172</a>
+<a name='L173'></a><a href='#L173'>173</a>
+<a name='L174'></a><a href='#L174'>174</a>
+<a name='L175'></a><a href='#L175'>175</a>
+<a name='L176'></a><a href='#L176'>176</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -316,7 +322,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">10x</span>
-<span class="cline-any cline-yes">49x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">40x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -363,11 +372,14 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">21x</span>
+<span class="cline-any cline-yes">16x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -385,24 +397,24 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// eslint-disable-next-line no-unused-vars
+import * as siProtocol from '../siProtocol';
+// eslint-disable-next-line no-unused-vars
 import {IRaceResultData, IPunch} from './IRaceResultData';
-&nbsp;
-const SI_TIME_CUTOFF = 43200; // Half a day in seconds
 &nbsp;
 export interface IOrderedRaceResult {
     cardNumber?: number;
     cardHolder?: {[property: string]: any};
     orderedTimes: number[];
-    clearTimeIndex?: number;
-    checkTimeIndex?: number;
-    startTimeIndex?: number;
+    clearTimeIndex?: number|null;
+    checkTimeIndex?: number|null;
+    startTimeIndex?: number|null;
     punches?: IOrderedPunch[];
-    finishTimeIndex?: number;
+    finishTimeIndex?: number|null;
 }
 &nbsp;
 export interface IOrderedPunch {
     code: number;
-    timeIndex: number|undefined;
+    timeIndex: number|null;
 }
 &nbsp;
 export const prettyRaceResult = (result: IRaceResultData): string =&gt; {
@@ -444,22 +456,22 @@ export const getOrderedRaceResult = (
         cardHolder: result.cardHolder,
         orderedTimes: [],
     };
-    if (result.clearTime !== undefined) {
+    if (result.clearTime !== undefined &amp;&amp; result.clearTime !== null) {
         orderedResult.clearTimeIndex = orderedResult.orderedTimes.length;
         orderedResult.orderedTimes.push(result.clearTime);
     }
-    if (result.checkTime !== undefined) {
+    if (result.checkTime !== undefined &amp;&amp; result.checkTime !== null) {
         orderedResult.checkTimeIndex = orderedResult.orderedTimes.length;
         orderedResult.orderedTimes.push(result.checkTime);
     }
-    if (result.startTime !== undefined) {
+    if (result.startTime !== undefined &amp;&amp; result.startTime !== null) {
         orderedResult.startTimeIndex = orderedResult.orderedTimes.length;
         orderedResult.orderedTimes.push(result.startTime);
     }
     if (result.punches !== undefined) {
         const newPunches: IOrderedPunch[] = [];
         result.punches.forEach((punch: IPunch) =&gt; {
-            if (punch.time !== undefined) {
+            if (punch.time !== null) {
                 newPunches.push({
                     code: punch.code,
                     timeIndex: orderedResult.orderedTimes.length,
@@ -468,13 +480,13 @@ export const getOrderedRaceResult = (
             } else {
                 newPunches.push({
                     code: punch.code,
-                    timeIndex: undefined,
+                    timeIndex: null,
                 });
             }
         });
         orderedResult.punches = newPunches;
     }
-    if (result.finishTime !== undefined) {
+    if (result.finishTime !== undefined &amp;&amp; result.finishTime !== null) {
         orderedResult.finishTimeIndex = orderedResult.orderedTimes.length;
         orderedResult.orderedTimes.push(result.finishTime);
     }
@@ -484,21 +496,24 @@ export const getOrderedRaceResult = (
 export const getRaceResultFromOrdered = (
     orderedResult: IOrderedRaceResult,
 ): IRaceResultData =&gt; {
-    const getOrderedTimeIndexIfDefined = (index: number|undefined) =&gt; (
-        index === undefined ? undefined : orderedResult.orderedTimes[index]
+    const getOrderedTimeIndexIfSet = (index: number|null) =&gt; (
+        index === null ? null : orderedResult.orderedTimes[index]
+    );
+    const getOrderedTimeIndexIfSetAndDefined = (index: number|null|undefined) =&gt; (
+        index === undefined || index === null ? index : orderedResult.orderedTimes[index]
     );
     return {
         cardNumber: orderedResult.cardNumber,
         cardHolder: orderedResult.cardHolder,
-        clearTime: getOrderedTimeIndexIfDefined(orderedResult.clearTimeIndex),
-        checkTime: getOrderedTimeIndexIfDefined(orderedResult.checkTimeIndex),
-        startTime: getOrderedTimeIndexIfDefined(orderedResult.startTimeIndex),
-        finishTime: getOrderedTimeIndexIfDefined(orderedResult.finishTimeIndex),
+        clearTime: getOrderedTimeIndexIfSetAndDefined(orderedResult.clearTimeIndex),
+        checkTime: getOrderedTimeIndexIfSetAndDefined(orderedResult.checkTimeIndex),
+        startTime: getOrderedTimeIndexIfSetAndDefined(orderedResult.startTimeIndex),
+        finishTime: getOrderedTimeIndexIfSetAndDefined(orderedResult.finishTimeIndex),
         punches: (orderedResult.punches === undefined
             ? undefined
             : orderedResult.punches.map((punch: IOrderedPunch) =&gt; ({
                 code: punch.code,
-                time: getOrderedTimeIndexIfDefined(punch.timeIndex),
+                time: getOrderedTimeIndexIfSet(punch.timeIndex),
             }))
         ),
     };
@@ -510,7 +525,7 @@ export const monotonizeOrderedRaceResult = (orderedData: IOrderedRaceResult) =&g
     const newOrderedTimes = orderedData.orderedTimes.map(
         (time: number) =&gt; {
             if (time &lt; lastTime) {
-                currentCarry += SI_TIME_CUTOFF;
+                currentCarry += siProtocol.SI_TIME_CUTOFF;
             }
             lastTime = time;
             return time + currentCarry;
@@ -531,24 +546,27 @@ export const monotonizeRaceResult = (result: IRaceResultData) =&gt; {
 export const makeStartZeroTime = (
     result: IRaceResultData,
 ): IRaceResultData =&gt; {
-    if (result.startTime === undefined) {
+    const zeroTime = result.startTime;
+    if (zeroTime === undefined || zeroTime === null) {
         throw new Error('start time must be known');
     }
-    const zeroTime = result.startTime;
-    const deductZeroTimeIfDefined = (time: number|undefined) =&gt; (
-        time === undefined ? undefined : time - zeroTime
+    const deductZeroTimeIfSet = (time: siProtocol.SiTimestamp) =&gt; (
+        time === null ? null : time - zeroTime
+    );
+    const deductZeroTimeIfSetAndDefined = (time: siProtocol.SiTimestamp|undefined) =&gt; (
+        time === null || time === undefined ? time : time - zeroTime
     );
     return {
         ...result,
-        clearTime: deductZeroTimeIfDefined(result.clearTime),
-        checkTime: deductZeroTimeIfDefined(result.checkTime),
-        startTime: deductZeroTimeIfDefined(result.startTime),
-        finishTime: deductZeroTimeIfDefined(result.finishTime),
+        clearTime: deductZeroTimeIfSetAndDefined(result.clearTime),
+        checkTime: deductZeroTimeIfSetAndDefined(result.checkTime),
+        startTime: deductZeroTimeIfSetAndDefined(result.startTime),
+        finishTime: deductZeroTimeIfSetAndDefined(result.finishTime),
         punches: (result.punches === undefined
             ? undefined
             : result.punches.map((punch: IPunch) =&gt; ({
                 ...punch,
-                time: deductZeroTimeIfDefined(punch.time),
+                time: deductZeroTimeIfSet(punch.time),
             }))
         ),
     };
@@ -559,7 +577,7 @@ export const makeStartZeroTime = (
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Thu Jan 02 2020 12:02:52 GMT+0000 (Coordinated Universal Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Thu Jan 02 2020 15:15:21 GMT+0000 (Coordinated Universal Time)
 </div>
 </div>
 <script src="../../../prettify.js"></script>
