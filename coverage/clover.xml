@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1577978121686" clover="3.2.0">
-  <project timestamp="1577978121686" name="All files">
+<coverage generated="1577978274639" clover="3.2.0">
+  <project timestamp="1577978274639" name="All files">
     <metrics statements="4686" coveredstatements="3042" conditionals="1990" coveredconditionals="1073" methods="1325" coveredmethods="765" elements="8001" coveredelements="4880" complexity="0" loc="4686" ncloc="4686" packages="25" files="147" classes="147"/>
     <package name="sportident-react.src">
       <metrics statements="36" coveredstatements="23" conditionals="6" coveredconditionals="1" methods="11" coveredmethods="7"/>
@@ -3271,13 +3271,13 @@
         <line num="138" count="86" type="stmt"/>
         <line num="139" count="86" type="stmt"/>
         <line num="140" count="1376" type="cond" truecount="2" falsecount="0"/>
-        <line num="141" count="450" type="stmt"/>
-        <line num="142" count="450" type="cond" truecount="2" falsecount="0"/>
-        <line num="143" count="239" type="stmt"/>
-        <line num="145" count="450" type="stmt"/>
-        <line num="147" count="926" type="stmt"/>
-        <line num="148" count="926" type="cond" truecount="2" falsecount="0"/>
-        <line num="149" count="163" type="stmt"/>
+        <line num="141" count="446" type="stmt"/>
+        <line num="142" count="446" type="cond" truecount="2" falsecount="0"/>
+        <line num="143" count="234" type="stmt"/>
+        <line num="145" count="446" type="stmt"/>
+        <line num="147" count="930" type="stmt"/>
+        <line num="148" count="930" type="cond" truecount="2" falsecount="0"/>
+        <line num="149" count="170" type="stmt"/>
         <line num="152" count="1376" type="stmt"/>
         <line num="154" count="86" type="stmt"/>
         <line num="156" count="72" type="stmt"/>
@@ -3425,7 +3425,7 @@
         <line num="35" count="28" type="stmt"/>
         <line num="36" count="28" type="stmt"/>
         <line num="37" count="2572" type="cond" truecount="2" falsecount="0"/>
-        <line num="38" count="2565" type="stmt"/>
+        <line num="38" count="2566" type="stmt"/>
         <line num="41" count="28" type="stmt"/>
         <line num="44" count="19" type="stmt"/>
         <line num="47" count="51" type="stmt"/>
