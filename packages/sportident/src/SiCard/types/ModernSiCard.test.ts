@@ -1,11 +1,9 @@
 /* eslint-env jasmine */
 
 import _ from 'lodash';
-import {proto} from '../../constants';
 import * as utils from '../../utils';
 // eslint-disable-next-line no-unused-vars
 import * as siProtocol from '../../siProtocol';
-import * as testUtils from '../../testUtils';
 import {cropPunches, getCroppedString, getPunchOffset, ModernSiCard, ModernSiCardSeries, parseCardHolder, parseCardHolderString} from './ModernSiCard';
 import {getModernSiCardExamples} from './modernSiCardExamples';
 import {FakeModernSiCard} from '../../fakes/FakeSiCard/types/FakeModernSiCard';
@@ -21,16 +19,6 @@ describe('ModernSiCard', () => {
         expect(myModernSiCard.storage.data.get(1023)).toBe(undefined);
         expect(myModernSiCard.storage.data.has(1024)).toBe(false);
         expect(myModernSiCard.storage.data.get(1024)).toBe(undefined);
-    });
-    it('typeSpecificShouldDetectFromMessage works', () => {
-        expect(ModernSiCard.typeSpecificShouldDetectFromMessage({
-            command: proto.cmd.SI8_DET,
-            parameters: [],
-        })).toBe(true);
-        expect(ModernSiCard.typeSpecificShouldDetectFromMessage({
-            command: testUtils.getRandomByteExcept([proto.cmd.SI8_DET]),
-            parameters: [],
-        })).toBe(false);
     });
     it('getPunchOffset', () => {
         expect(getPunchOffset(0)).toEqual(0x200);

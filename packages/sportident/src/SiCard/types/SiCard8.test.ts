@@ -1,8 +1,10 @@
 /* eslint-env jasmine */
 
 import _ from 'lodash';
+import {proto} from '../../constants';
 // eslint-disable-next-line no-unused-vars
 import * as siProtocol from '../../siProtocol';
+import * as testUtils from '../../testUtils';
 import {BaseSiCard} from '../BaseSiCard';
 import {ModernSiCardSeries} from './ModernSiCard';
 import {getPunchOffset, SiCard8} from './SiCard8';
@@ -11,10 +13,50 @@ import {FakeSiCard8} from '../../fakes/FakeSiCard/types/FakeSiCard8';
 
 describe('SiCard8', () => {
     it('is registered', () => {
+        expect(BaseSiCard.getTypeByCardNumber(1999999)).not.toEqual(SiCard8);
         expect(BaseSiCard.getTypeByCardNumber(2000000)).toEqual(SiCard8);
         expect(BaseSiCard.getTypeByCardNumber(2002999)).toEqual(SiCard8);
+        expect(BaseSiCard.getTypeByCardNumber(2003000)).not.toEqual(SiCard8);
+        expect(BaseSiCard.getTypeByCardNumber(2003999)).not.toEqual(SiCard8);
         expect(BaseSiCard.getTypeByCardNumber(2004000)).toEqual(SiCard8);
         expect(BaseSiCard.getTypeByCardNumber(2999999)).toEqual(SiCard8);
+        expect(BaseSiCard.getTypeByCardNumber(3000000)).not.toEqual(SiCard8);
+    });
+    describe('typeSpecificInstanceFromMessage', () => {
+        it('works for valid message', () => {
+            const instance = SiCard8.typeSpecificInstanceFromMessage({
+                command: proto.cmd.SI8_DET,
+                parameters: [0x00, 0x00, ModernSiCardSeries.SiCard8, 0x22, 0x22, 0x22],
+            });
+            if (instance === undefined) {
+                throw new Error('expect instance');
+            }
+            expect(instance instanceof SiCard8).toBe(true);
+            expect(instance.cardNumber).toBe(2236962);
+        });
+        it('returns undefined when message has mode', () => {
+            expect(SiCard8.typeSpecificInstanceFromMessage({
+                mode: proto.NAK,
+            })).toBe(undefined);
+        });
+        it('returns undefined when message has wrong command', () => {
+            expect(SiCard8.typeSpecificInstanceFromMessage({
+                command: testUtils.getRandomByteExcept([proto.cmd.SI8_DET]),
+                parameters: [],
+            })).toBe(undefined);
+        });
+        it('returns undefined when there are too few parameters', () => {
+            expect(SiCard8.typeSpecificInstanceFromMessage({
+                command: proto.cmd.SI8_DET,
+                parameters: [],
+            })).toBe(undefined);
+        });
+        it('returns undefined when the series does not match', () => {
+            expect(SiCard8.typeSpecificInstanceFromMessage({
+                command: proto.cmd.SI8_DET,
+                parameters: [0x00, 0x00, testUtils.getRandomByteExcept([ModernSiCardSeries.SiCard8]), 0x22, 0x22, 0x22],
+            })).toBe(undefined);
+        });
     });
     it('getPunchOffset', () => {
         expect(getPunchOffset(0)).toEqual(0x88);

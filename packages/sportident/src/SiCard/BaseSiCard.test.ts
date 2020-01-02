@@ -1,8 +1,8 @@
 /* eslint-env jasmine */
 
 import {proto} from '../constants';
+// eslint-disable-next-line no-unused-vars
 import * as siProtocol from '../siProtocol';
-import * as testUtils from '../testUtils';
 import {BaseSiCard} from './BaseSiCard';
 
 beforeEach(() => {
@@ -43,11 +43,14 @@ describe('BaseSiCard', () => {
         expect(siCard5000).toBe(undefined);
     });
     describe('detectFromMessage', () => {
-        let commandChecked = false;
+        let triedToGetInstance = false;
         class SiCard1 extends BaseSiCard {
-            static typeSpecificShouldDetectFromMessage(message: siProtocol.SiMessage) {
-                commandChecked = true;
-                return message.mode === undefined && message.command === proto.cmd.SI5_DET;
+            static typeSpecificInstanceFromMessage(message: siProtocol.SiMessage) {
+                triedToGetInstance = true;
+                if (message.mode !== undefined) {
+                    return undefined;
+                }
+                return new SiCard1(1);
             }
 
             typeSpecificRead() {
@@ -55,26 +58,20 @@ describe('BaseSiCard', () => {
             }
         }
 
-        const getParametersForCardNumber = (cardNumber: number) => {
-            const cardNumberArr = siProtocol.cardNumber2arr(cardNumber) as number[];
-            cardNumberArr.reverse();
-            return [0x00, 0x00, ...cardNumberArr];
-        };
-
         beforeEach(() => {
             BaseSiCard.registerNumberRange(1000, 10000, SiCard1);
             BaseSiCard.registerNumberRange(10000, 20000, FakeSiCard2);
         });
 
         it('detects card from valid message', () => {
-            expect(commandChecked).toBe(false);
+            expect(triedToGetInstance).toBe(false);
             const siCard500 = BaseSiCard.detectFromMessage({
                 command: proto.cmd.SI5_DET,
-                parameters: getParametersForCardNumber(5000),
+                parameters: [],
             });
-            expect(commandChecked).toBe(true);
-            expect(siCard500 instanceof BaseSiCard).toBe(true);
+            expect(triedToGetInstance).toBe(true);
             expect(siCard500 instanceof SiCard1).toBe(true);
+            expect(siCard500.cardNumber).toBe(1);
         });
 
         it('does not detect from NAK message', () => {
@@ -82,38 +79,6 @@ describe('BaseSiCard', () => {
                 mode: proto.NAK,
             });
             expect(nakMessage).toBe(undefined);
-        });
-
-        it('does not detect when there are too few parameters', () => {
-            const tooShortParametersResult = BaseSiCard.detectFromMessage({
-                command: proto.cmd.SI5_DET,
-                parameters: [0x00],
-            });
-            expect(tooShortParametersResult).toBe(undefined);
-        });
-
-        it('does not detect when there is no such registered card type', () => {
-            const unregisteredCardNumberResult = BaseSiCard.detectFromMessage({
-                command: proto.cmd.SI5_DET,
-                parameters: getParametersForCardNumber(20001),
-            });
-            expect(unregisteredCardNumberResult).toBe(undefined);
-        });
-
-        it('does not detect when the card type is misconfigured', () => {
-            const misconfiguredCardTypeResult = BaseSiCard.detectFromMessage({
-                command: proto.cmd.SI5_DET,
-                parameters: getParametersForCardNumber(10001),
-            });
-            expect(misconfiguredCardTypeResult).toBe(undefined);
-        });
-
-        it('does not detect when the command is incorrect', () => {
-            const wrongCommandResult = BaseSiCard.detectFromMessage({
-                command: testUtils.getRandomByteExcept([proto.cmd.SI5_DET]),
-                parameters: getParametersForCardNumber(5000),
-            });
-            expect(wrongCommandResult).toBe(undefined);
         });
     });
     it('read', async (done) => {

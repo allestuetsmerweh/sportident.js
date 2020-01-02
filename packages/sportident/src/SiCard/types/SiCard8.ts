@@ -85,6 +85,17 @@ export const siCard8StorageDefinition = storage.defineStorage(
 export class SiCard8 extends ModernSiCard {
     static maxNumPunches = MAX_NUM_PUNCHES;
 
+    static typeSpecificInstanceFromMessage(message: siProtocol.SiMessage) {
+        const info = this.parseModernSiCardDetectionMessage(message);
+        if (info === undefined) {
+            return undefined;
+        }
+        if (info.cardSeries !== ModernSiCardSeries.SiCard8) {
+            return undefined;
+        }
+        return new this(info.cardNumber);
+    }
+
     public storage: storage.ISiStorage<ISiCard8StorageFields>;
 
     public uid?: number;

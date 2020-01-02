@@ -11,22 +11,44 @@ import {FakeSiCard5} from '../../fakes/FakeSiCard/types/FakeSiCard5';
 
 describe('SiCard5', () => {
     it('is registered', () => {
+        expect(BaseSiCard.getTypeByCardNumber(999)).not.toEqual(SiCard5);
         expect(BaseSiCard.getTypeByCardNumber(1000)).toEqual(SiCard5);
         expect(BaseSiCard.getTypeByCardNumber(9999)).toEqual(SiCard5);
         expect(BaseSiCard.getTypeByCardNumber(10000)).toEqual(SiCard5);
         expect(BaseSiCard.getTypeByCardNumber(99999)).toEqual(SiCard5);
         expect(BaseSiCard.getTypeByCardNumber(100000)).toEqual(SiCard5);
         expect(BaseSiCard.getTypeByCardNumber(499999)).toEqual(SiCard5);
+        expect(BaseSiCard.getTypeByCardNumber(500000)).not.toEqual(SiCard5);
     });
-    it('typeSpecificShouldDetectFromMessage works', () => {
-        expect(SiCard5.typeSpecificShouldDetectFromMessage({
-            command: proto.cmd.SI5_DET,
-            parameters: [],
-        })).toBe(true);
-        expect(SiCard5.typeSpecificShouldDetectFromMessage({
-            command: testUtils.getRandomByteExcept([proto.cmd.SI5_DET]),
-            parameters: [],
-        })).toBe(false);
+    describe('typeSpecificInstanceFromMessage', () => {
+        it('works for valid message', () => {
+            const instance = SiCard5.typeSpecificInstanceFromMessage({
+                command: proto.cmd.SI5_DET,
+                parameters: [0x00, 0x00, 0x00, 0x01, 0x23, 0x45],
+            });
+            if (instance === undefined) {
+                throw new Error('expect instance');
+            }
+            expect(instance instanceof SiCard5).toBe(true);
+            expect(instance.cardNumber).toBe(109029);
+        });
+        it('returns undefined when message has mode', () => {
+            expect(SiCard5.typeSpecificInstanceFromMessage({
+                mode: proto.NAK,
+            })).toBe(undefined);
+        });
+        it('returns undefined when message has wrong command', () => {
+            expect(SiCard5.typeSpecificInstanceFromMessage({
+                command: testUtils.getRandomByteExcept([proto.cmd.SI5_DET]),
+                parameters: [],
+            })).toBe(undefined);
+        });
+        it('returns undefined when there are too few parameters', () => {
+            expect(SiCard5.typeSpecificInstanceFromMessage({
+                command: proto.cmd.SI5_DET,
+                parameters: [],
+            })).toBe(undefined);
+        });
     });
     it('getPunchOffset', () => {
         expect(getPunchOffset(0)).toEqual(0x21);

@@ -12,20 +12,44 @@ import {FakeSiCard6} from '../../fakes/FakeSiCard/types/FakeSiCard6';
 
 describe('SiCard6', () => {
     it('is registered', () => {
+        expect(BaseSiCard.getTypeByCardNumber(499999)).not.toEqual(SiCard6);
         expect(BaseSiCard.getTypeByCardNumber(500000)).toEqual(SiCard6);
         expect(BaseSiCard.getTypeByCardNumber(999999)).toEqual(SiCard6);
+        expect(BaseSiCard.getTypeByCardNumber(1000000)).not.toEqual(SiCard6);
+        expect(BaseSiCard.getTypeByCardNumber(2002999)).not.toEqual(SiCard6);
         expect(BaseSiCard.getTypeByCardNumber(2003000)).toEqual(SiCard6);
         expect(BaseSiCard.getTypeByCardNumber(2003999)).toEqual(SiCard6);
+        expect(BaseSiCard.getTypeByCardNumber(2004000)).not.toEqual(SiCard6);
     });
-    it('typeSpecificShouldDetectFromMessage works', () => {
-        expect(SiCard6.typeSpecificShouldDetectFromMessage({
-            command: proto.cmd.SI6_DET,
-            parameters: [],
-        })).toBe(true);
-        expect(SiCard6.typeSpecificShouldDetectFromMessage({
-            command: testUtils.getRandomByteExcept([proto.cmd.SI6_DET]),
-            parameters: [],
-        })).toBe(false);
+    describe('typeSpecificInstanceFromMessage', () => {
+        it('works for valid message', () => {
+            const instance = SiCard6.typeSpecificInstanceFromMessage({
+                command: proto.cmd.SI6_DET,
+                parameters: [0x00, 0x00, 0x00, 0x08, 0x88, 0x88],
+            });
+            if (instance === undefined) {
+                throw new Error('expect instance');
+            }
+            expect(instance instanceof SiCard6).toBe(true);
+            expect(instance.cardNumber).toBe(559240);
+        });
+        it('returns undefined when message has mode', () => {
+            expect(SiCard6.typeSpecificInstanceFromMessage({
+                mode: proto.NAK,
+            })).toBe(undefined);
+        });
+        it('returns undefined when message has wrong command', () => {
+            expect(SiCard6.typeSpecificInstanceFromMessage({
+                command: testUtils.getRandomByteExcept([proto.cmd.SI6_DET]),
+                parameters: [],
+            })).toBe(undefined);
+        });
+        it('returns undefined when there are too few parameters', () => {
+            expect(SiCard6.typeSpecificInstanceFromMessage({
+                command: proto.cmd.SI6_DET,
+                parameters: [],
+            })).toBe(undefined);
+        });
     });
     it('getPunchOffset', () => {
         expect(getPunchOffset(0)).toEqual(0x300);
