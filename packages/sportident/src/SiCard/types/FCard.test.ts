@@ -5,8 +5,10 @@ import {FCard} from './FCard';
 
 describe('FCard', () => {
     it('is registered', () => {
+        expect(BaseSiCard.getTypeByCardNumber(13999999)).not.toEqual(FCard);
         expect(BaseSiCard.getTypeByCardNumber(14000000)).toEqual(FCard);
         expect(BaseSiCard.getTypeByCardNumber(14999999)).toEqual(FCard);
+        expect(BaseSiCard.getTypeByCardNumber(15000000)).not.toEqual(FCard);
     });
     it('is not implemented', (done) => {
         const fCard = new FCard(14000000);

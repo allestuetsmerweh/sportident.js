@@ -97,8 +97,26 @@ export const siCard5StorageDefinition = storage.defineStorage(
 export class SiCard5 extends BaseSiCard {
     static maxNumPunches = MAX_NUM_PUNCHES;
 
-    static typeSpecificShouldDetectFromMessage(message: siProtocol.SiMessage) {
-        return message.mode === undefined && message.command === proto.cmd.SI5_DET;
+    static typeSpecificInstanceFromMessage(message: siProtocol.SiMessage) {
+        if (message.mode !== undefined) {
+            return undefined;
+        }
+        if (message.command !== proto.cmd.SI5_DET) {
+            return undefined;
+        }
+        if (message.parameters.length < 6) {
+            return undefined;
+        }
+        const cardNumber = siProtocol.arr2cardNumber([
+            message.parameters[5],
+            message.parameters[4],
+            message.parameters[3],
+        ]);
+        /* istanbul ignore next */
+        if (cardNumber === undefined) {
+            throw new Error('card number cannot be undefined');
+        }
+        return new this(cardNumber);
     }
 
     public storage: storage.ISiStorage<ISiCard5StorageFields>;

@@ -20,6 +20,10 @@ export enum ModernSiCardSeries {
     SiCard10 = 0x0F,
     PCard = 0x04,
     TCard = 0x06,
+    // TODO: Find out these values
+    // SiCard11 = ?,
+    // SIAC = ?,
+    // FCard = ?,
 }
 /* eslint-enable no-unused-vars */
 
@@ -137,8 +141,30 @@ export const modernSiCardStorageDefinition = storage.defineStorage(
 export class ModernSiCard extends BaseSiCard {
     static maxNumPunches = MAX_NUM_PUNCHES;
 
-    static typeSpecificShouldDetectFromMessage(message: siProtocol.SiMessage) {
-        return message.mode === undefined && message.command === proto.cmd.SI8_DET;
+    static parseModernSiCardDetectionMessage(message: siProtocol.SiMessage) {
+        if (message.mode !== undefined) {
+            return undefined;
+        }
+        if (message.command !== proto.cmd.SI8_DET) {
+            return undefined;
+        }
+        if (message.parameters.length < 6) {
+            return undefined;
+        }
+        const cardNumber = siProtocol.arr2cardNumber([
+            message.parameters[5],
+            message.parameters[4],
+            message.parameters[3],
+        ]);
+        /* istanbul ignore next */
+        if (cardNumber === undefined) {
+            throw new Error('card number cannot be undefined');
+        }
+        const cardSeries = message.parameters[2];
+        return {
+            cardNumber: cardNumber,
+            cardSeries: cardSeries,
+        };
     }
 
     public storage: storage.ISiStorage<IModernSiCardStorageFields>;

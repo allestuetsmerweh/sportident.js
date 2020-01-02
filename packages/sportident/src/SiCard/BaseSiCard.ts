@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import {proto} from '../constants';
 import * as utils from '../utils';
+// eslint-disable-next-line no-unused-vars
 import * as siProtocol from '../siProtocol';
 // eslint-disable-next-line no-unused-vars
 import * as storage from '../storage';
@@ -64,30 +65,17 @@ export abstract class BaseSiCard {
     }
 
     static detectFromMessage(message: siProtocol.SiMessage) {
-        if (message.mode !== undefined) {
-            return undefined;
-        }
-        const {parameters} = message;
-        if (parameters.length < 6) {
-            return undefined;
-        }
-        const cardNumber = siProtocol.arr2cardNumber([parameters[5], parameters[4], parameters[3]]); // TODO: also [2]?
-        if (cardNumber === undefined) {
-            return undefined;
-        }
-        const cardType = this.getTypeByCardNumber(cardNumber);
-        if (!cardType) {
-            return undefined;
-        }
-        if (!cardType.typeSpecificShouldDetectFromMessage(message)) {
-            return undefined;
-        }
-        return new cardType(cardNumber);
+        const possibleCards = this.cardNumberRangeRegistry.values
+            .map((cardType) => cardType.typeSpecificInstanceFromMessage(message))
+            .filter((cardInstance) => cardInstance !== undefined);
+        return possibleCards.get(0);
     }
 
     // abstract
-    static typeSpecificShouldDetectFromMessage(_message: siProtocol.SiMessage): boolean {
-        return false;
+    static typeSpecificInstanceFromMessage(
+        _message: siProtocol.SiMessage,
+    ): BaseSiCard|undefined {
+        return undefined;
     }
 
     public mainStation?: ISiMainStation|undefined;
