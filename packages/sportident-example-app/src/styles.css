@@ -1,0 +1,36 @@
+/*
+COLORS:
+rgb(76,25,0)
+rgb(165,140,127)
+rgb(235,225,200)
+*/
+
+@font-face {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Open Sans'), local('OpenSans');
+}
+@font-face {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 700;
+    src: local('Open Sans Bold'), local('OpenSans-Bold');
+}
+
+body {
+    background-color: rgb(235,225,200);
+    width: 100%;
+    height: 100%;
+    margin:0px;
+    padding:0px;
+    color:rgb(76,25,0);
+    font-family: 'Open Sans', sans-serif;
+    font-size:14px;
+    cursor:default;
+    -webkit-text-size-adjust:100%;
+}
+
+div {
+    font-size:14px;
+}
