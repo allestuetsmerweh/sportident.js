@@ -58,7 +58,7 @@ export const getCardWith16Punches = utils.cached(
             cardSeries: ModernSiCardSeries.SiCard10,
             cardNumber: 7050892,
             startTime: 8721,
-            finishTime: 61166,
+            finishTime: null,
             checkTime: 8735,
             punchCount: 16,
             punches: [
@@ -133,7 +133,7 @@ export const getCardWith64Punches = utils.cached(
             cardSeries: ModernSiCardSeries.SiCard10,
             cardNumber: 7050892,
             startTime: 8721,
-            finishTime: 61166,
+            finishTime: null,
             checkTime: 8735,
             punchCount: 64,
             punches: _.range(64).map(() => ({code: 32, time: 8224})),
@@ -182,7 +182,7 @@ export const getCardWith96Punches = utils.cached(
             cardSeries: ModernSiCardSeries.SiCard10,
             cardNumber: 7050892,
             startTime: 8721,
-            finishTime: 61166,
+            finishTime: null,
             checkTime: 8735,
             punchCount: 96,
             punches: _.range(96).map(() => ({code: 32, time: 8224})),
@@ -231,7 +231,7 @@ export const getFullCard = utils.cached(
             cardSeries: ModernSiCardSeries.SiCard10,
             cardNumber: 7050892,
             startTime: 8721,
-            finishTime: 61166,
+            finishTime: 8481,
             checkTime: 8735,
             punchCount: 128,
             punches: _.range(128).map(() => ({code: 32, time: 8224})),
@@ -253,7 +253,7 @@ export const getFullCard = utils.cached(
         storageData: [
             ...utils.unPrettyHex(`
                 77 2A 42 99 EA EA EA EA 37 02 22 1F 07 03 22 11
-                EE EE EE EE 0F 7F 80 09 0F 6B 96 8C 06 0F 61 53
+                07 04 21 21 0F 7F 80 09 0F 6B 96 8C 06 0F 61 53
                 61 61 61 61 61 61 61 61 61 61 61 61 61 61 61 3B
                 62 62 62 62 62 62 62 62 62 62 62 62 62 62 62 3B
                 63 63 63 63 63 63 63 63 63 63 63 63 63 63 63 3B
@@ -289,7 +289,7 @@ export const getPartialCardHolderCard = utils.cached(
             cardSeries: ModernSiCardSeries.SiCard10,
             cardNumber: 7050892,
             startTime: 8721,
-            finishTime: 61166,
+            finishTime: null,
             checkTime: 8735,
             punchCount: 128,
             punches: _.range(128).map(() => ({code: 32, time: 8224})),
@@ -338,7 +338,7 @@ export const getEmptyCard = utils.cached(
             cardSeries: ModernSiCardSeries.SiCard10,
             cardNumber: 7050892,
             startTime: 8721,
-            finishTime: 61166,
+            finishTime: null,
             checkTime: 8735,
             punchCount: 0,
             punches: [],

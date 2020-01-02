@@ -70,6 +70,9 @@ export const proto = {
         return getLookup(proto.cmd);
     },
 
+    // If a punch has explicitly no time (e.g. if the start hasn't been punched)
+    NO_TIME: 0xEEEE,
+
     // Protocol Parameters
     P_MS_DIRECT: 0x4D, // "M"aster
     P_MS_REMOTE: 0x53, // "S"lave

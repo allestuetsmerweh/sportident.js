@@ -11,11 +11,11 @@ const EMPTY_ORDERED_RACE_RESULT: IOrderedRaceResult = {
 };
 
 const UNKNOWN_PUNCH_TIME_RACE_RESULT: IRaceResultData = {
-    punches: [{code: 31, time: undefined}],
+    punches: [{code: 31, time: null}],
 };
 const UNKNOWN_PUNCH_TIME_ORDERED_RACE_RESULT: IOrderedRaceResult = {
     orderedTimes: [],
-    punches: [{code: 31, timeIndex: undefined}],
+    punches: [{code: 31, timeIndex: null}],
 };
 
 const WITHOUT_PUNCHES_RACE_RESULT: IRaceResultData = {
@@ -60,13 +60,13 @@ const UNKNOWN_TIMES_RACE_RESULT: IRaceResultData = {
     checkTime: 2,
     startTime: 3,
     finishTime: 6,
-    punches: [{code: 31, time: undefined}, {code: 32, time: 5}],
+    punches: [{code: 31, time: null}, {code: 32, time: 5}],
 };
 const UNKNOWN_TIMES_ORDERED_RACE_RESULT: IOrderedRaceResult = {
     orderedTimes: [2, 3, 5, 6],
     checkTimeIndex: 0,
     startTimeIndex: 1,
-    punches: [{code: 31, timeIndex: undefined}, {code: 32, timeIndex: 2}],
+    punches: [{code: 31, timeIndex: null}, {code: 32, timeIndex: 2}],
     finishTimeIndex: 3,
 };
 
@@ -124,7 +124,7 @@ const UNKNOWN_TIMES_START_ZEROED_RACE_RESULT: IRaceResultData = {
     checkTime: -1,
     startTime: 0,
     finishTime: 3,
-    punches: [{code: 31, time: undefined}, {code: 32, time: 2}],
+    punches: [{code: 31, time: null}, {code: 32, time: 2}],
 };
 
 const WITHOUT_PUNCHES_START_ZEROED_RACE_RESULT: IRaceResultData = {

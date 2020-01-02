@@ -1,22 +1,22 @@
 // eslint-disable-next-line no-unused-vars
+import * as siProtocol from '../siProtocol';
+// eslint-disable-next-line no-unused-vars
 import {IRaceResultData, IPunch} from './IRaceResultData';
-
-const SI_TIME_CUTOFF = 43200; // Half a day in seconds
 
 export interface IOrderedRaceResult {
     cardNumber?: number;
     cardHolder?: {[property: string]: any};
     orderedTimes: number[];
-    clearTimeIndex?: number;
-    checkTimeIndex?: number;
-    startTimeIndex?: number;
+    clearTimeIndex?: number|null;
+    checkTimeIndex?: number|null;
+    startTimeIndex?: number|null;
     punches?: IOrderedPunch[];
-    finishTimeIndex?: number;
+    finishTimeIndex?: number|null;
 }
 
 export interface IOrderedPunch {
     code: number;
-    timeIndex: number|undefined;
+    timeIndex: number|null;
 }
 
 export const prettyRaceResult = (result: IRaceResultData): string => {
@@ -58,22 +58,22 @@ export const getOrderedRaceResult = (
         cardHolder: result.cardHolder,
         orderedTimes: [],
     };
-    if (result.clearTime !== undefined) {
+    if (result.clearTime !== undefined && result.clearTime !== null) {
         orderedResult.clearTimeIndex = orderedResult.orderedTimes.length;
         orderedResult.orderedTimes.push(result.clearTime);
     }
-    if (result.checkTime !== undefined) {
+    if (result.checkTime !== undefined && result.checkTime !== null) {
         orderedResult.checkTimeIndex = orderedResult.orderedTimes.length;
         orderedResult.orderedTimes.push(result.checkTime);
     }
-    if (result.startTime !== undefined) {
+    if (result.startTime !== undefined && result.startTime !== null) {
         orderedResult.startTimeIndex = orderedResult.orderedTimes.length;
         orderedResult.orderedTimes.push(result.startTime);
     }
     if (result.punches !== undefined) {
         const newPunches: IOrderedPunch[] = [];
         result.punches.forEach((punch: IPunch) => {
-            if (punch.time !== undefined) {
+            if (punch.time !== null) {
                 newPunches.push({
                     code: punch.code,
                     timeIndex: orderedResult.orderedTimes.length,
@@ -82,13 +82,13 @@ export const getOrderedRaceResult = (
             } else {
                 newPunches.push({
                     code: punch.code,
-                    timeIndex: undefined,
+                    timeIndex: null,
                 });
             }
         });
         orderedResult.punches = newPunches;
     }
-    if (result.finishTime !== undefined) {
+    if (result.finishTime !== undefined && result.finishTime !== null) {
         orderedResult.finishTimeIndex = orderedResult.orderedTimes.length;
         orderedResult.orderedTimes.push(result.finishTime);
     }
@@ -98,21 +98,24 @@ export const getOrderedRaceResult = (
 export const getRaceResultFromOrdered = (
     orderedResult: IOrderedRaceResult,
 ): IRaceResultData => {
-    const getOrderedTimeIndexIfDefined = (index: number|undefined) => (
-        index === undefined ? undefined : orderedResult.orderedTimes[index]
+    const getOrderedTimeIndexIfSet = (index: number|null) => (
+        index === null ? null : orderedResult.orderedTimes[index]
+    );
+    const getOrderedTimeIndexIfSetAndDefined = (index: number|null|undefined) => (
+        index === undefined || index === null ? index : orderedResult.orderedTimes[index]
     );
     return {
         cardNumber: orderedResult.cardNumber,
         cardHolder: orderedResult.cardHolder,
-        clearTime: getOrderedTimeIndexIfDefined(orderedResult.clearTimeIndex),
-        checkTime: getOrderedTimeIndexIfDefined(orderedResult.checkTimeIndex),
-        startTime: getOrderedTimeIndexIfDefined(orderedResult.startTimeIndex),
-        finishTime: getOrderedTimeIndexIfDefined(orderedResult.finishTimeIndex),
+        clearTime: getOrderedTimeIndexIfSetAndDefined(orderedResult.clearTimeIndex),
+        checkTime: getOrderedTimeIndexIfSetAndDefined(orderedResult.checkTimeIndex),
+        startTime: getOrderedTimeIndexIfSetAndDefined(orderedResult.startTimeIndex),
+        finishTime: getOrderedTimeIndexIfSetAndDefined(orderedResult.finishTimeIndex),
         punches: (orderedResult.punches === undefined
             ? undefined
             : orderedResult.punches.map((punch: IOrderedPunch) => ({
                 code: punch.code,
-                time: getOrderedTimeIndexIfDefined(punch.timeIndex),
+                time: getOrderedTimeIndexIfSet(punch.timeIndex),
             }))
         ),
     };
@@ -124,7 +127,7 @@ export const monotonizeOrderedRaceResult = (orderedData: IOrderedRaceResult) => 
     const newOrderedTimes = orderedData.orderedTimes.map(
         (time: number) => {
             if (time < lastTime) {
-                currentCarry += SI_TIME_CUTOFF;
+                currentCarry += siProtocol.SI_TIME_CUTOFF;
             }
             lastTime = time;
             return time + currentCarry;
@@ -145,24 +148,27 @@ export const monotonizeRaceResult = (result: IRaceResultData) => {
 export const makeStartZeroTime = (
     result: IRaceResultData,
 ): IRaceResultData => {
-    if (result.startTime === undefined) {
+    const zeroTime = result.startTime;
+    if (zeroTime === undefined || zeroTime === null) {
         throw new Error('start time must be known');
     }
-    const zeroTime = result.startTime;
-    const deductZeroTimeIfDefined = (time: number|undefined) => (
-        time === undefined ? undefined : time - zeroTime
+    const deductZeroTimeIfSet = (time: siProtocol.SiTimestamp) => (
+        time === null ? null : time - zeroTime
+    );
+    const deductZeroTimeIfSetAndDefined = (time: siProtocol.SiTimestamp|undefined) => (
+        time === null || time === undefined ? time : time - zeroTime
     );
     return {
         ...result,
-        clearTime: deductZeroTimeIfDefined(result.clearTime),
-        checkTime: deductZeroTimeIfDefined(result.checkTime),
-        startTime: deductZeroTimeIfDefined(result.startTime),
-        finishTime: deductZeroTimeIfDefined(result.finishTime),
+        clearTime: deductZeroTimeIfSetAndDefined(result.clearTime),
+        checkTime: deductZeroTimeIfSetAndDefined(result.checkTime),
+        startTime: deductZeroTimeIfSetAndDefined(result.startTime),
+        finishTime: deductZeroTimeIfSetAndDefined(result.finishTime),
         punches: (result.punches === undefined
             ? undefined
             : result.punches.map((punch: IPunch) => ({
                 ...punch,
-                time: deductZeroTimeIfDefined(punch.time),
+                time: deductZeroTimeIfSet(punch.time),
             }))
         ),
     };
