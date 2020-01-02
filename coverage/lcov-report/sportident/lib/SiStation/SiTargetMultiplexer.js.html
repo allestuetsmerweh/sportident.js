@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">8.57% </span>
+        <span class="strong">9.03% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>12/140</span>
+        <span class='fraction'>13/144</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">10.53% </span>
+        <span class="strong">9.84% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>6/57</span>
+        <span class='fraction'>6/61</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">2.7% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>1/37</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">8.27% </span>
+        <span class="strong">8.76% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>11/133</span>
+        <span class='fraction'>12/137</span>
       </div>
     </div>
     <p class="quiet">
@@ -307,7 +307,14 @@
 <a name='L259'></a><a href='#L259'>259</a>
 <a name='L260'></a><a href='#L260'>260</a>
 <a name='L261'></a><a href='#L261'>261</a>
-<a name='L262'></a><a href='#L262'>262</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L262'></a><a href='#L262'>262</a>
+<a name='L263'></a><a href='#L263'>263</a>
+<a name='L264'></a><a href='#L264'>264</a>
+<a name='L265'></a><a href='#L265'>265</a>
+<a name='L266'></a><a href='#L266'>266</a>
+<a name='L267'></a><a href='#L267'>267</a>
+<a name='L268'></a><a href='#L268'>268</a>
+<a name='L269'></a><a href='#L269'>269</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -323,6 +330,15 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -336,13 +352,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -453,9 +462,15 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -554,7 +569,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -584,14 +598,16 @@ const siProtocol = __importStar(require("../siProtocol"));
 const ISiTargetMultiplexer_1 = require("./ISiTargetMultiplexer");
 // eslint-disable-next-line no-unused-vars
 const ISiDevice_1 = require("../SiDevice/ISiDevice");
-const DEVICE_INITIATED_COMMANDS = {
-    [constants_1.proto.cmd.SRR_PING]: true,
+/** Commands that can only be sent from a direct station. */
+const DIRECT_DEVICE_INITIATED_COMMANDS = {
     [constants_1.proto.cmd.TRANS_REC]: true,
     [constants_1.proto.cmd.SI5_DET]: true,
     [constants_1.proto.cmd.SI6_DET]: true,
     [constants_1.proto.cmd.SI8_DET]: true,
     [constants_1.proto.cmd.SI_REM]: true,
 };
+/** Commands that are sent from a station without prior request. */
+const DEVICE_INITIATED_COMMANDS = Object.assign(Object.assign({}, DIRECT_DEVICE_INITIATED_COMMANDS), { [constants_1.proto.cmd.SRR_PING]: true });
 class SendTask {
 <span class="fstat-no" title="function not covered" >    co</span>nstructor(
     // eslint-disable-next-line no-unused-vars
@@ -702,8 +718,8 @@ class SiTargetMultiplexer {
         const { messages, remainder } = <span class="cstat-no" title="statement not covered" >siProtocol.parseAll(this.receiveBuffer);</span>
 <span class="cstat-no" title="statement not covered" >        this.receiveBuffer = remainder;</span>
 <span class="cstat-no" title="statement not covered" >        messages.forEach(<span class="fstat-no" title="function not covered" >(m</span>essage) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >            this.dispatchEvent('message', new ISiTargetMultiplexer_1.SiTargetMultiplexerMessageEvent(this, message));</span>
 <span class="cstat-no" title="statement not covered" >            this.updateSendQueueWithReceivedMessage(message);</span>
+<span class="cstat-no" title="statement not covered" >            this.dispatchEvent('message', new ISiTargetMultiplexer_1.SiTargetMultiplexerMessageEvent(this, message));</span>
 <span class="cstat-no" title="statement not covered" >            if (this.target === ISiTargetMultiplexer_1.SiTargetMultiplexerTarget.Direct) {</span>
 <span class="cstat-no" title="statement not covered" >                this.dispatchEvent('directMessage', new ISiTargetMultiplexer_1.SiTargetMultiplexerDirectMessageEvent(this, message));</span>
             }
@@ -713,6 +729,12 @@ class SiTargetMultiplexer {
         });
     }
 <span class="fstat-no" title="function not covered" >    up</span>dateSendQueueWithReceivedMessage(message) {
+<span class="cstat-no" title="statement not covered" >        if (message.mode === undefined</span>
+            &amp;&amp; DIRECT_DEVICE_INITIATED_COMMANDS[message.command]) {
+<span class="cstat-no" title="statement not covered" >            console.debug('Received direct device-initiated command. Assuming target Direct...');</span>
+<span class="cstat-no" title="statement not covered" >            this.target = ISiTargetMultiplexer_1.SiTargetMultiplexerTarget.Direct;</span>
+<span class="cstat-no" title="statement not covered" >            this.latestTarget = ISiTargetMultiplexer_1.SiTargetMultiplexerTarget.Direct;</span>
+        }
 <span class="cstat-no" title="statement not covered" >        if (this.sendQueue.length === 0) {</span>
 <span class="cstat-no" title="statement not covered" >            return;</span>
         }
@@ -816,7 +838,6 @@ class SiTargetMultiplexer {
 <span class="cstat-no" title="statement not covered" >        this.siDevice.send(uint8Data)</span>
             .then(<span class="fstat-no" title="function not covered" >()</span> =&gt; {
 <span class="cstat-no" title="statement not covered" >            sendTask.state = ISiTargetMultiplexer_1.SendTaskState.Sent;</span>
-<span class="cstat-no" title="statement not covered" >            console.debug(`=&gt; (${this.siDevice.name})\n${utils.prettyHex([...uint8Data], 16)}`);</span>
 <span class="cstat-no" title="statement not covered" >            if (sendTask.numResponses &lt;= 0) {</span>
 <span class="cstat-no" title="statement not covered" >                sendTask.succeed();</span>
             }
@@ -835,7 +856,7 @@ utils.applyMixins(SiTargetMultiplexer, [utils.EventTarget]);
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sun Dec 29 2019 15:16:38 GMT+0000 (Coordinated Universal Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Thu Jan 02 2020 12:02:52 GMT+0000 (Coordinated Universal Time)
 </div>
 </div>
 <script src="../../../prettify.js"></script>
