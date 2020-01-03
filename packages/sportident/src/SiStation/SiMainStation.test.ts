@@ -13,6 +13,9 @@ import {ISiCard, SiMainStationSiCardInsertedEvent, SiMainStationSiCardObservedEv
 // eslint-disable-next-line no-unused-vars
 import {ISiTargetMultiplexer, SiTargetMultiplexerMessageEvent, SiTargetMultiplexerTarget} from './ISiTargetMultiplexer';
 import {SiTargetMultiplexer} from './SiTargetMultiplexer';
+import {SiStationMode} from './ISiStation';
+import {siStationStorageDefinition} from './BaseSiStation';
+import {getBSM8Station} from './siStationExamples';
 import {SiMainStation} from './SiMainStation';
 import {getSiCard5Examples} from '../SiCard/types/siCard5Examples';
 import {getSiCard6Examples} from '../SiCard/types/siCard6Examples';
@@ -46,6 +49,13 @@ describe('SiMainStation', () => {
     });
 
     it('can readCards', async (done) => {
+        const storage = siStationStorageDefinition(getBSM8Station().storageData);
+        storage.set('mode', SiStationMode.Control);
+        storage.set('code', 31);
+        storage.set('autoSend', true);
+        storage.set('handshake', false);
+        storage.set('beeps', false);
+        storage.set('flashes', false);
         const fakeSiTargetMultiplexer = {
             addEventListener: () => undefined,
             sendMessage: (
@@ -58,44 +68,54 @@ describe('SiMainStation', () => {
                 }
                 if (message.command === proto.cmd.GET_SYS_VAL) {
                     return Promise.resolve([
-                        [0x00, 0x00, 0x00, ..._.range(128).map(() => 0x02)],
+                        [0x00, 0x00, 0x00, ...storage.data],
                     ]);
                 }
                 if (message.command === proto.cmd.SET_SYS_VAL) {
+                    storage.splice(message.parameters[0], message.parameters.length - 1, ...message.parameters.slice(1));
                     return Promise.resolve([
-                        [0x00, 0x00, 0x72],
+                        [0x00, 0x00, message.parameters[0]],
                     ]);
                 }
                 throw new Error();
             },
         } as unknown as ISiTargetMultiplexer;
         const mySiStation = new SiMainStation(fakeSiTargetMultiplexer);
-        let cleanUpFunction: (() => Promise<void>)|undefined = undefined;
         const cardsRead: ISiCard[] = [];
-        mySiStation.readCards((card) => {
-            cardsRead.push(card);
-        })
-            .then((cleanUp) => {
-                cleanUpFunction = cleanUp;
-            });
+        const cleanUpFunction = await mySiStation.readCards(
+            (card) => {
+                cardsRead.push(card);
+            },
+        );
         await testUtils.nTimesAsync(3, () => testUtils.advanceTimersByTime(0));
         if (cleanUpFunction === undefined) {
             throw new Error('expect cleanUp function');
         }
+        expect(storage.get('mode')!.value).toBe(SiStationMode.Readout);
+        expect(storage.get('code')!.value).toBe(10);
+        expect(storage.get('autoSend')!.value).toBe(false);
+        expect(storage.get('handshake')!.value).toBe(true);
+        expect(storage.get('beeps')!.value).toBe(true);
+        expect(storage.get('flashes')!.value).toBe(true);
 
-        const fakeSiCard: ISiCard = {
+        const fakeSiCard = {
             cardNumber: 1234,
-            read: () => Promise.resolve({cardNumber: 4321} as ISiCard),
-        };
+        } as ISiCard;
         mySiStation.dispatchEvent(
             'siCardInserted',
             new SiMainStationSiCardInsertedEvent(mySiStation, fakeSiCard),
         );
         await testUtils.nTimesAsync(1, () => testUtils.advanceTimersByTime(0));
-        expect(cardsRead).toEqual([{cardNumber: 4321} as ISiCard]);
+        expect(cardsRead).toEqual([{cardNumber: 1234} as ISiCard]);
 
         const actualCleanUpFunction: () => Promise<void> = cleanUpFunction;
         await actualCleanUpFunction();
+        expect(storage.get('mode')!.value).toBe(SiStationMode.Control);
+        expect(storage.get('code')!.value).toBe(31);
+        expect(storage.get('autoSend')!.value).toBe(true);
+        expect(storage.get('handshake')!.value).toBe(false);
+        expect(storage.get('beeps')!.value).toBe(false);
+        expect(storage.get('flashes')!.value).toBe(false);
 
         mySiStation.dispatchEvent(
             'siCardInserted',
@@ -103,7 +123,7 @@ describe('SiMainStation', () => {
         );
         await testUtils.nTimesAsync(1, () => testUtils.advanceTimersByTime(0));
         // No additional entry
-        expect(cardsRead).toEqual([{cardNumber: 4321} as ISiCard]);
+        expect(cardsRead).toEqual([{cardNumber: 1234} as ISiCard]);
         done();
     });
 
