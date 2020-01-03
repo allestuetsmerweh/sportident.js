@@ -1,7 +1,5 @@
 import * as utils from '../utils';
 import * as siProtocol from '../siProtocol';
-// eslint-disable-next-line no-unused-vars
-import * as storage from '../storage';
 import {proto} from '../constants';
 import {BaseSiCard} from '../SiCard';
 // eslint-disable-next-line no-unused-vars
@@ -12,8 +10,13 @@ import {ISiStation, SiStationMode} from './ISiStation';
 import {ISiCard, SiMainStationEvents, SiMainStationSiCardInsertedEvent, SiMainStationSiCardObservedEvent, SiMainStationSiCardRemovedEvent} from './ISiMainStation';
 // eslint-disable-next-line no-unused-vars
 import {ISiTargetMultiplexer, SiTargetMultiplexerMessageEvent, SiTargetMultiplexerTarget} from './ISiTargetMultiplexer';
-import {BaseSiStation} from './BaseSiStation';
+// eslint-disable-next-line no-unused-vars
+import {BaseSiStation, ISiStationStorageFields} from './BaseSiStation';
 import {SiTargetMultiplexer} from './SiTargetMultiplexer';
+
+type SiStationSetup = {
+    [key in keyof ISiStationStorageFields]?: ISiStationStorageFields[key]
+};
 
 export class SiMainStation
         extends BaseSiStation<SiTargetMultiplexerTarget.Direct>
@@ -50,37 +53,55 @@ export class SiMainStation
         );
     }
 
-    readCards(onCardRead: (card: ISiCard) => void) {
-        let oldMode: storage.ISiFieldValue<SiStationMode>|undefined = undefined;
-        let oldBeeps: storage.ISiFieldValue<boolean>|undefined = undefined;
-        let oldFlashes: storage.ISiFieldValue<boolean>|undefined = undefined;
+    readCards(
+        onCardInserted: (card: ISiCard) => void,
+        siStationSetupModification: SiStationSetup = {},
+    ) {
+        const siStationSetup: SiStationSetup = {
+            code: 10,
+            mode: SiStationMode.Readout,
+            autoSend: false,
+            handshake: true,
+            beeps: true,
+            flashes: true,
+            ...siStationSetupModification,
+        };
+        const siStationSetupKeys = Object.keys(siStationSetup) as (keyof ISiStationStorageFields)[];
+        const oldState: SiStationSetup = {};
+
+        const handleCardInserted = (e: SiMainStationSiCardInsertedEvent) => {
+            onCardInserted(e.siCard);
+        };
+
+        const cleanUp = () => {
+            this.removeEventListener('siCardInserted', handleCardInserted);
+            return this.atomically(() => {
+                siStationSetupKeys.forEach(
+                    (infoName) => {
+                        const oldInfoValue = oldState[infoName];
+                        if (oldInfoValue !== undefined) {
+                            this.setInfo(infoName, oldInfoValue);
+                        }
+                    },
+                );
+            });
+        };
+
         return this.atomically(() => {
-            oldMode = this.getInfo('mode');
-            oldBeeps = this.getInfo('beeps');
-            oldFlashes = this.getInfo('flashes');
-            this.setInfo('mode', SiStationMode.Readout);
-            this.setInfo('beeps', true);
-            this.setInfo('flashes', true);
+            siStationSetupKeys.forEach(
+                (infoName: keyof ISiStationStorageFields) => {
+                    const oldFieldValue = this.getInfo(infoName);
+                    // @ts-ignore
+                    oldState[infoName] = oldFieldValue ? oldFieldValue.value : undefined;
+                    const newValue = siStationSetup[infoName];
+                    if (newValue !== undefined) {
+                        this.setInfo(infoName, newValue);
+                    }
+                },
+            );
         })
             .then(() => {
-                const handleCardInserted = (e: SiMainStationSiCardInsertedEvent) => {
-                    e.siCard.read().then(onCardRead);
-                };
                 this.addEventListener('siCardInserted', handleCardInserted);
-                const cleanUp = () => {
-                    this.removeEventListener('siCardInserted', handleCardInserted);
-                    return this.atomically(() => {
-                        if (oldMode !== undefined) {
-                            this.setInfo('mode', oldMode);
-                        }
-                        if (oldBeeps !== undefined) {
-                            this.setInfo('beeps', oldBeeps);
-                        }
-                        if (oldFlashes !== undefined) {
-                            this.setInfo('flashes', oldFlashes);
-                        }
-                    });
-                };
                 return cleanUp;
             });
     }
