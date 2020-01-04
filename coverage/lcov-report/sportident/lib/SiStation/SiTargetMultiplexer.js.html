@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">9.03% </span>
+        <span class="strong">8.97% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>13/144</span>
+        <span class='fraction'>13/145</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">9.84% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>1/37</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">8.76% </span>
+        <span class="strong">8.7% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>12/137</span>
+        <span class='fraction'>12/138</span>
       </div>
     </div>
     <p class="quiet">
@@ -314,7 +314,8 @@
 <a name='L266'></a><a href='#L266'>266</a>
 <a name='L267'></a><a href='#L267'>267</a>
 <a name='L268'></a><a href='#L268'>268</a>
-<a name='L269'></a><a href='#L269'>269</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L269'></a><a href='#L269'>269</a>
+<a name='L270'></a><a href='#L270'>270</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -492,8 +493,9 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -599,7 +601,7 @@ const ISiTargetMultiplexer_1 = require("./ISiTargetMultiplexer");
 // eslint-disable-next-line no-unused-vars
 const ISiDevice_1 = require("../SiDevice/ISiDevice");
 /** Commands that can only be sent from a direct station. */
-const DIRECT_DEVICE_INITIATED_COMMANDS = {
+exports.DIRECT_DEVICE_INITIATED_COMMANDS = {
     [constants_1.proto.cmd.TRANS_REC]: true,
     [constants_1.proto.cmd.SI5_DET]: true,
     [constants_1.proto.cmd.SI6_DET]: true,
@@ -607,7 +609,7 @@ const DIRECT_DEVICE_INITIATED_COMMANDS = {
     [constants_1.proto.cmd.SI_REM]: true,
 };
 /** Commands that are sent from a station without prior request. */
-const DEVICE_INITIATED_COMMANDS = Object.assign(Object.assign({}, DIRECT_DEVICE_INITIATED_COMMANDS), { [constants_1.proto.cmd.SRR_PING]: true });
+const DEVICE_INITIATED_COMMANDS = Object.assign(Object.assign({}, exports.DIRECT_DEVICE_INITIATED_COMMANDS), { [constants_1.proto.cmd.SRR_PING]: true });
 class SendTask {
 <span class="fstat-no" title="function not covered" >    co</span>nstructor(
     // eslint-disable-next-line no-unused-vars
@@ -730,7 +732,7 @@ class SiTargetMultiplexer {
     }
 <span class="fstat-no" title="function not covered" >    up</span>dateSendQueueWithReceivedMessage(message) {
 <span class="cstat-no" title="statement not covered" >        if (message.mode === undefined</span>
-            &amp;&amp; DIRECT_DEVICE_INITIATED_COMMANDS[message.command]) {
+            &amp;&amp; exports.DIRECT_DEVICE_INITIATED_COMMANDS[message.command]) {
 <span class="cstat-no" title="statement not covered" >            console.debug('Received direct device-initiated command. Assuming target Direct...');</span>
 <span class="cstat-no" title="statement not covered" >            this.target = ISiTargetMultiplexer_1.SiTargetMultiplexerTarget.Direct;</span>
 <span class="cstat-no" title="statement not covered" >            this.latestTarget = ISiTargetMultiplexer_1.SiTargetMultiplexerTarget.Direct;</span>
@@ -759,9 +761,10 @@ class SiTargetMultiplexer {
 <span class="cstat-no" title="statement not covered" >        if (expectedMessage.mode !== undefined) {</span>
 <span class="cstat-no" title="statement not covered" >            return;</span>
         }
-<span class="cstat-no" title="statement not covered" >        if (message.command !== expectedMessage.command</span>
-            &amp;&amp; !DEVICE_INITIATED_COMMANDS[message.command]) {
-<span class="cstat-no" title="statement not covered" >            console.warn(`Strange Response: expected ${utils.prettyHex([expectedMessage.command])}, but got ${utils.prettyHex([message.command])}...`);</span>
+<span class="cstat-no" title="statement not covered" >        if (message.command !== expectedMessage.command) {</span>
+<span class="cstat-no" title="statement not covered" >            if (DEVICE_INITIATED_COMMANDS[message.command] !== true) {</span>
+<span class="cstat-no" title="statement not covered" >                console.warn(`Strange Response: expected ${utils.prettyHex([expectedMessage.command])}, but got ${utils.prettyHex([message.command])}...`);</span>
+            }
 <span class="cstat-no" title="statement not covered" >            return;</span>
         }
 <span class="cstat-no" title="statement not covered" >        this.sendQueue[0].addResponse(message.parameters);</span>
@@ -856,7 +859,7 @@ utils.applyMixins(SiTargetMultiplexer, [utils.EventTarget]);
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sat Jan 04 2020 11:53:55 GMT+0000 (Coordinated Universal Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sat Jan 04 2020 15:28:38 GMT+0000 (Coordinated Universal Time)
 </div>
 </div>
 <script src="../../../prettify.js"></script>

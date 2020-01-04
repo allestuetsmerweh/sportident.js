@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">52.73% </span>
+        <span class="strong">47.54% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>29/55</span>
+        <span class='fraction'>29/61</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">69.23% </span>
+        <span class="strong">56.25% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>18/26</span>
+        <span class='fraction'>18/32</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">47.83% </span>
@@ -35,16 +35,16 @@
         <span class='fraction'>11/23</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">60.47% </span>
+        <span class="strong">53.06% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>26/43</span>
+        <span class='fraction'>26/49</span>
       </div>
     </div>
     <p class="quiet">
       Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
     </p>
   </div>
-  <div class='status-line medium'></div>
+  <div class='status-line low'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -104,7 +104,16 @@
 <a name='L56'></a><a href='#L56'>56</a>
 <a name='L57'></a><a href='#L57'>57</a>
 <a name='L58'></a><a href='#L58'>58</a>
-<a name='L59'></a><a href='#L59'>59</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L59'></a><a href='#L59'>59</a>
+<a name='L60'></a><a href='#L60'>60</a>
+<a name='L61'></a><a href='#L61'>61</a>
+<a name='L62'></a><a href='#L62'>62</a>
+<a name='L63'></a><a href='#L63'>63</a>
+<a name='L64'></a><a href='#L64'>64</a>
+<a name='L65'></a><a href='#L65'>65</a>
+<a name='L66'></a><a href='#L66'>66</a>
+<a name='L67'></a><a href='#L67'>67</a>
+<a name='L68'></a><a href='#L68'>68</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">1797x</span>
@@ -153,6 +162,15 @@
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
@@ -208,9 +226,18 @@ exports.getRandomByteExcept = <span class="fstat-no" title="function not covered
     });
 <span class="cstat-no" title="statement not covered" >    return randomValue;</span>
 };
-exports.getRandomMessage = <span class="fstat-no" title="function not covered" >(n</span>umParameters) =&gt; {
-    const command = <span class="cstat-no" title="statement not covered" >exports.getRandomByte();</span>
-    const parameters = <span class="cstat-no" title="statement not covered" >lodash_1.default.range(numParameters).map(<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >exports.getRandomByte())</span>;</span>
+exports.getRandomMessage = <span class="fstat-no" title="function not covered" >(o</span>ptions) =&gt; {
+    let command = <span class="cstat-no" title="statement not covered" >exports.getRandomByte();</span>
+<span class="cstat-no" title="statement not covered" >    if (options.command !== undefined) {</span>
+<span class="cstat-no" title="statement not covered" >        command = options.command;</span>
+    }
+    let parameters = <span class="cstat-no" title="statement not covered" >[];</span>
+<span class="cstat-no" title="statement not covered" >    if (options.parameters !== undefined) {</span>
+<span class="cstat-no" title="statement not covered" >        parameters = options.parameters;</span>
+    }
+    else <span class="cstat-no" title="statement not covered" >if (options.numParameters !== undefined) {</span>
+<span class="cstat-no" title="statement not covered" >        parameters = lodash_1.default.range(options.numParameters).map(<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >exports.getRandomByte())</span>;</span>
+    }
 <span class="cstat-no" title="statement not covered" >    return { command: command, parameters: parameters };</span>
 };
 exports.runMock = <span class="fstat-no" title="function not covered" >(t</span>hat, key, getDefaultResult) =&gt; {
@@ -226,7 +253,7 @@ exports.runMock = <span class="fstat-no" title="function not covered" >(t</span>
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sat Jan 04 2020 11:53:55 GMT+0000 (Coordinated Universal Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sat Jan 04 2020 15:28:38 GMT+0000 (Coordinated Universal Time)
 </div>
 </div>
 <script src="../../prettify.js"></script>
