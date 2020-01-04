@@ -9,7 +9,7 @@ import {ISiTargetMultiplexer, SendTaskState, SiTargetMultiplexerDirectMessageEve
 import {ISiDevice, SiDeviceState} from '../SiDevice/ISiDevice';
 
 /** Commands that can only be sent from a direct station. */
-const DIRECT_DEVICE_INITIATED_COMMANDS: {[command: number]: boolean} = {
+export const DIRECT_DEVICE_INITIATED_COMMANDS: {[command: number]: boolean} = {
     [proto.cmd.TRANS_REC]: true,
     [proto.cmd.SI5_DET]: true,
     [proto.cmd.SI6_DET]: true,
@@ -196,11 +196,10 @@ export class SiTargetMultiplexer implements ISiTargetMultiplexer {
         if (expectedMessage.mode !== undefined) {
             return;
         }
-        if (
-            message.command !== expectedMessage.command
-            && !DEVICE_INITIATED_COMMANDS[message.command]
-        ) {
-            console.warn(`Strange Response: expected ${utils.prettyHex([expectedMessage.command])}, but got ${utils.prettyHex([message.command])}...`);
+        if (message.command !== expectedMessage.command) {
+            if (DEVICE_INITIATED_COMMANDS[message.command] !== true) {
+                console.warn(`Strange Response: expected ${utils.prettyHex([expectedMessage.command])}, but got ${utils.prettyHex([message.command])}...`);
+            }
             return;
         }
         this.sendQueue[0].addResponse(message.parameters);

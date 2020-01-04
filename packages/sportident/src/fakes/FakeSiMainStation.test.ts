@@ -40,11 +40,11 @@ describe('FakeSiMainStation', () => {
         };
         myFakeSiMainStation.addEventListener('message', handleMessage);
 
-        const randomMessage1 = testUtils.getRandomMessage(1);
+        const randomMessage1 = testUtils.getRandomMessage({numParameters: 1});
         myFakeSiMainStation.dispatchMessage(randomMessage1);
         expect(dispatchedMessages).toEqual([randomMessage1]);
 
-        const randomMessage2 = testUtils.getRandomMessage(1);
+        const randomMessage2 = testUtils.getRandomMessage({numParameters: 1});
         myFakeSiMainStation.dispatchCardMessage(randomMessage2);
         expect(dispatchedMessages.length).toBe(2);
         if (dispatchedMessages[1].mode !== undefined) {
@@ -65,7 +65,7 @@ describe('FakeSiMainStation', () => {
         };
         myFakeSiMainStation.addEventListener('message', handleMessage);
 
-        const cardInsertionMessage = testUtils.getRandomMessage(1);
+        const cardInsertionMessage = testUtils.getRandomMessage({numParameters: 1});
         const fakeSiCard = {
             handleDetect: () => cardInsertionMessage,
         } as IFakeSiCard;
@@ -165,7 +165,7 @@ describe('FakeSiMainStation', () => {
         //     {command: proto.cmd.GET_SYS_VAL, parameters: [...code, 0, 0x01, 0x23, 0x45, 0x67]},
         // ]);
 
-        const cardInsertionMessage = testUtils.getRandomMessage(1);
+        const cardInsertionMessage = testUtils.getRandomMessage({numParameters: 1});
         const cardRetrievalParameters = [testUtils.getRandomByte()];
         const fakeSiCard: IFakeSiCard = {
             handleDetect: () => cardInsertionMessage,
