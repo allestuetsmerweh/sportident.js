@@ -7,7 +7,7 @@ import {SiDeviceState, SiDeviceReceiveEvent} from '../SiDevice/ISiDevice';
 import {SiDevice} from '../SiDevice/SiDevice';
 // eslint-disable-next-line no-unused-vars
 import {SendTaskState, SiTargetMultiplexerDirectMessageEvent, SiTargetMultiplexerMessageEvent, SiTargetMultiplexerRemoteMessageEvent, SiTargetMultiplexerTarget} from './ISiTargetMultiplexer';
-import {SiTargetMultiplexer} from './SiTargetMultiplexer';
+import {DIRECT_DEVICE_INITIATED_COMMANDS, SiTargetMultiplexer} from './SiTargetMultiplexer';
 
 testUtils.useFakeTimers();
 
@@ -47,7 +47,10 @@ describe('SiTargetMultiplexer', () => {
         };
         muxer.addEventListener('remoteMessage', recordRemoteMessage);
 
-        const randomMessage1 = testUtils.getRandomMessage(0);
+        const directOnlyCommands = Object.keys(DIRECT_DEVICE_INITIATED_COMMANDS).map(Number);
+        const randomMessage1 = testUtils.getRandomMessage({
+            command: testUtils.getRandomByteExcept(directOnlyCommands),
+        });
         siDevice.dispatchEvent(
             'receive',
             new SiDeviceReceiveEvent(siDevice, siProtocol.render(randomMessage1)),
@@ -56,7 +59,9 @@ describe('SiTargetMultiplexer', () => {
         expect(receivedDirectMessages).toEqual([]);
         expect(receivedRemoteMessages).toEqual([]);
 
-        const randomMessage2 = testUtils.getRandomMessage(0);
+        const randomMessage2 = testUtils.getRandomMessage({
+            command: testUtils.getRandomByteExcept(directOnlyCommands),
+        });
         muxer.target = SiTargetMultiplexerTarget.Direct;
         siDevice.dispatchEvent(
             'receive',
@@ -66,7 +71,9 @@ describe('SiTargetMultiplexer', () => {
         expect(receivedDirectMessages).toEqual([randomMessage2]);
         expect(receivedRemoteMessages).toEqual([]);
 
-        const randomMessage3 = testUtils.getRandomMessage(0);
+        const randomMessage3 = testUtils.getRandomMessage({
+            command: testUtils.getRandomByteExcept(directOnlyCommands),
+        });
         muxer.target = SiTargetMultiplexerTarget.Remote;
         siDevice.dispatchEvent(
             'receive',
@@ -91,7 +98,7 @@ describe('SiTargetMultiplexer', () => {
         const muxer = SiTargetMultiplexer.fromSiDevice(siDevice);
         expect(muxer instanceof SiTargetMultiplexer).toBe(true);
 
-        const randomMessage = testUtils.getRandomMessage(0);
+        const randomMessage = testUtils.getRandomMessage({});
         const timeState = {sendingFinished: false};
         muxer.sendMessageToLatestTarget(
             randomMessage,
@@ -118,7 +125,7 @@ describe('SiTargetMultiplexer', () => {
         const muxer = SiTargetMultiplexer.fromSiDevice(siDevice);
         expect(muxer instanceof SiTargetMultiplexer).toBe(true);
 
-        const randomMessage = testUtils.getRandomMessage(0);
+        const randomMessage = testUtils.getRandomMessage({});
         const timeState = {sendingFinished: false};
         muxer.sendMessageToLatestTarget(
             randomMessage,
@@ -153,7 +160,7 @@ describe('SiTargetMultiplexer', () => {
         const muxer = SiTargetMultiplexer.fromSiDevice(siDevice);
         expect(muxer instanceof SiTargetMultiplexer).toBe(true);
 
-        const randomMessage = testUtils.getRandomMessage(0);
+        const randomMessage = testUtils.getRandomMessage({});
         const timeState = {sendingFailed: false};
         muxer.sendMessageToLatestTarget(
             randomMessage,
@@ -187,7 +194,7 @@ describe('SiTargetMultiplexer', () => {
         const muxer = SiTargetMultiplexer.fromSiDevice(siDevice);
         expect(muxer instanceof SiTargetMultiplexer).toBe(true);
 
-        const randomMessage = testUtils.getRandomMessage(0);
+        const randomMessage = testUtils.getRandomMessage({});
         const timeState = {receive1: false, receive2: false, sendingFinished: false};
         muxer.sendMessageToLatestTarget(
             randomMessage,
@@ -232,7 +239,7 @@ describe('SiTargetMultiplexer', () => {
         const muxer = SiTargetMultiplexer.fromSiDevice(siDevice);
         expect(muxer instanceof SiTargetMultiplexer).toBe(true);
 
-        const randomMessage = testUtils.getRandomMessage(0);
+        const randomMessage = testUtils.getRandomMessage({});
         const timeState = {timedOut: false};
         muxer.sendMessageToLatestTarget(
             randomMessage,
@@ -260,7 +267,7 @@ describe('SiTargetMultiplexer', () => {
         const muxer = SiTargetMultiplexer.fromSiDevice(siDevice);
         expect(muxer instanceof SiTargetMultiplexer).toBe(true);
 
-        const randomMessage = testUtils.getRandomMessage(0);
+        const randomMessage = testUtils.getRandomMessage({});
         const timeState = {receive1: false, timedOut: false};
         muxer.sendMessageToLatestTarget(
             randomMessage,
@@ -300,7 +307,7 @@ describe('SiTargetMultiplexer', () => {
         const muxer = SiTargetMultiplexer.fromSiDevice(siDevice);
         expect(muxer instanceof SiTargetMultiplexer).toBe(true);
 
-        const randomMessage = testUtils.getRandomMessage(0);
+        const randomMessage = testUtils.getRandomMessage({});
         const timeoutInMiliseconds = 2;
         const timeState = {madeSuccessful: false, timeoutPassed: false, timedOut: false, succeeded: false};
         muxer.sendMessageToLatestTarget(
@@ -340,7 +347,7 @@ describe('SiTargetMultiplexer', () => {
         const muxer = SiTargetMultiplexer.fromSiDevice(siDevice);
         expect(muxer instanceof SiTargetMultiplexer).toBe(true);
 
-        const randomMessage = testUtils.getRandomMessage(0);
+        const randomMessage = testUtils.getRandomMessage({});
         const timeState = {receive1: false, timedOut: false, succeeded: false};
         muxer.sendMessageToLatestTarget(
             randomMessage,
@@ -382,7 +389,7 @@ describe('SiTargetMultiplexer', () => {
         const muxer = SiTargetMultiplexer.fromSiDevice(siDevice);
         expect(muxer instanceof SiTargetMultiplexer).toBe(true);
 
-        const randomMessage = testUtils.getRandomMessage(0);
+        const randomMessage = testUtils.getRandomMessage({});
         const timeState = {timedOut: false};
         muxer.sendMessageToLatestTarget(
             randomMessage,
@@ -409,7 +416,7 @@ describe('SiTargetMultiplexer', () => {
         const muxer = SiTargetMultiplexer.fromSiDevice(siDevice);
         expect(muxer instanceof SiTargetMultiplexer).toBe(true);
 
-        const randomMessage = testUtils.getRandomMessage(0);
+        const randomMessage = testUtils.getRandomMessage({});
         const timeState = {deviceOpened: false, sendingFinished: false};
         muxer.sendMessageToLatestTarget(
             randomMessage,
@@ -442,7 +449,7 @@ describe('SiTargetMultiplexer', () => {
         const muxer = SiTargetMultiplexer.fromSiDevice(siDevice);
         expect(muxer instanceof SiTargetMultiplexer).toBe(true);
 
-        const randomMessage = testUtils.getRandomMessage(0);
+        const randomMessage = testUtils.getRandomMessage({});
         const timeState = {deviceOpened: false, numSuccess: 0, allSendingFinished: false};
         const getMuxerPromise = () => (
             muxer.sendMessageToLatestTarget(
@@ -486,7 +493,7 @@ describe('SiTargetMultiplexer', () => {
         const muxer = SiTargetMultiplexer.fromSiDevice(siDevice);
         expect(muxer instanceof SiTargetMultiplexer).toBe(true);
 
-        const randomMessage = testUtils.getRandomMessage(0);
+        const randomMessage = testUtils.getRandomMessage({});
         const timeState = {numSuccess: 0, numAbort: 0, deviceClosed: false, allSendingFinished: false};
         const getMuxerPromise = () => (
             muxer.sendMessageToLatestTarget(
@@ -529,7 +536,7 @@ describe('SiTargetMultiplexer', () => {
         const muxer = SiTargetMultiplexer.fromSiDevice(siDevice);
         expect(muxer instanceof SiTargetMultiplexer).toBe(true);
 
-        const randomMessage = testUtils.getRandomMessage(0);
+        const randomMessage = testUtils.getRandomMessage({});
         const timeState = {timedOut: false};
         muxer.sendMessageToLatestTarget(
             randomMessage,
@@ -552,7 +559,7 @@ describe('SiTargetMultiplexer', () => {
         siDevice.setState(SiDeviceState.Opened);
         const muxer = SiTargetMultiplexer.fromSiDevice(siDevice);
         muxer.latestTarget = SiTargetMultiplexerTarget.Direct;
-        const randomMessage = testUtils.getRandomMessage(0);
+        const randomMessage = testUtils.getRandomMessage({});
         const timeState = {setToUnknownFailed: false};
         muxer.sendMessage(
             SiTargetMultiplexerTarget.Unknown,
@@ -573,7 +580,7 @@ describe('SiTargetMultiplexer', () => {
         siDevice.setState(SiDeviceState.Opened);
         const muxer = SiTargetMultiplexer.fromSiDevice(siDevice);
         muxer.latestTarget = SiTargetMultiplexerTarget.Direct;
-        const randomMessage = testUtils.getRandomMessage(0);
+        const randomMessage = testUtils.getRandomMessage({});
         const timeState = {setToSwitchingFailed: false};
         muxer.sendMessage(
             SiTargetMultiplexerTarget.Switching,
@@ -596,7 +603,7 @@ describe('SiTargetMultiplexer', () => {
         siDevice.setState(SiDeviceState.Opened);
         const muxer = SiTargetMultiplexer.fromSiDevice(siDevice);
         muxer.latestTarget = SiTargetMultiplexerTarget.Direct;
-        const randomMessage = testUtils.getRandomMessage(0);
+        const randomMessage = testUtils.getRandomMessage({});
         const timeState = {setTargetFailed: false};
         muxer.sendMessage(
             SiTargetMultiplexerTarget.Remote,
@@ -630,7 +637,7 @@ describe('SiTargetMultiplexer', () => {
         siDevice.setState(SiDeviceState.Opened);
         const muxer = SiTargetMultiplexer.fromSiDevice(siDevice);
         muxer.latestTarget = SiTargetMultiplexerTarget.Direct;
-        const randomMessage = testUtils.getRandomMessage(0);
+        const randomMessage = testUtils.getRandomMessage({});
         const timeState = {setTargetFailed: false};
         muxer.sendMessage(
             SiTargetMultiplexerTarget.Remote,

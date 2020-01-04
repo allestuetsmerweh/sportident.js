@@ -46,7 +46,7 @@ export const getValidButIncompleteMessageBytes = (): number[][] => {
         });
     };
     const getRandomMessageBytes = (numParameters: number): number[] =>
-        siProtocol.render(testUtils.getRandomMessage(numParameters));
+        siProtocol.render(testUtils.getRandomMessage({numParameters: numParameters}));
     appendCutOffCommands(getRandomMessageBytes(0));
     appendCutOffCommands(getRandomMessageBytes(1));
     appendCutOffCommands(getRandomMessageBytes(2));

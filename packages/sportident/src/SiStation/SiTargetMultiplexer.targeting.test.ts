@@ -21,7 +21,7 @@ describe('SiTargetMultiplexer', () => {
         const muxer = SiTargetMultiplexer.fromSiDevice(siDevice);
         expect(muxer instanceof SiTargetMultiplexer).toBe(true);
 
-        const randomMessage = testUtils.getRandomMessage(0);
+        const randomMessage = testUtils.getRandomMessage({});
         const timeState = {
             sendingFinished: false,
             resendingFinished: false,

@@ -41,11 +41,25 @@ export const getRandomByteExcept = (except: number[]): number => {
     return randomValue;
 };
 
+type GetRandomMessageOptions = {
+    command?: number;
+    parameters?: number[];
+    numParameters?: number;
+};
+
 export const getRandomMessage = (
-    numParameters: number,
+    options: GetRandomMessageOptions,
 ): siProtocol.SiMessageWithoutMode => {
-    const command = getRandomByte();
-    const parameters = _.range(numParameters).map(() => getRandomByte());
+    let command = getRandomByte();
+    if (options.command !== undefined) {
+        command = options.command;
+    }
+    let parameters: number[] = [];
+    if (options.parameters !== undefined) {
+        parameters = options.parameters;
+    } else if (options.numParameters !== undefined) {
+        parameters = _.range(options.numParameters).map(() => getRandomByte());
+    }
     return {command: command, parameters: parameters};
 };
 

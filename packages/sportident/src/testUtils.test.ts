@@ -150,22 +150,41 @@ describe('testUtils', () => {
             expect(randomByte).toBe(0xFF);
         });
     });
-    it('getRandomMessage with 0 parameters', () => {
+    it('getRandomMessage', () => {
         _.range(10).forEach(() => {
-            const randomMessage = testUtils.getRandomMessage(0);
+            const randomMessage = testUtils.getRandomMessage({});
             expect(randomMessage.command).not.toBeLessThan(0x00);
             expect(randomMessage.command).not.toBeGreaterThan(0xFF);
             expect(randomMessage.parameters).toEqual([]);
         });
     });
-    it('getRandomMessage with 1 parameter', () => {
+    it('getRandomMessage with numParameters', () => {
         _.range(10).forEach(() => {
-            const randomMessage = testUtils.getRandomMessage(1);
+            const numParameters = Math.floor(Math.random() * 3 + 1);
+            const randomMessage = testUtils.getRandomMessage({numParameters: numParameters});
             expect(randomMessage.command).not.toBeLessThan(0x00);
             expect(randomMessage.command).not.toBeGreaterThan(0xFF);
-            expect(randomMessage.parameters.length).toBe(1);
+            expect(randomMessage.parameters.length).toBe(numParameters);
             expect(randomMessage.parameters[0]).not.toBeLessThan(0x00);
             expect(randomMessage.parameters[0]).not.toBeGreaterThan(0xFF);
+        });
+    });
+    it('getRandomMessage with command', () => {
+        _.range(10).forEach(() => {
+            const command = testUtils.getRandomByte();
+            const randomMessage = testUtils.getRandomMessage({command: command});
+            expect(randomMessage.command).toBe(command);
+            expect(randomMessage.parameters).toEqual([]);
+        });
+    });
+    it('getRandomMessage with parameters', () => {
+        _.range(10).forEach(() => {
+            const numParameters = Math.floor(Math.random() * 3 + 1);
+            const parameters = _.range(numParameters).map(() => testUtils.getRandomByte());
+            const randomMessage = testUtils.getRandomMessage({parameters: parameters});
+            expect(randomMessage.command).not.toBeLessThan(0x00);
+            expect(randomMessage.command).not.toBeGreaterThan(0xFF);
+            expect(randomMessage.parameters).toEqual(parameters);
         });
     });
     it('runMock', () => {

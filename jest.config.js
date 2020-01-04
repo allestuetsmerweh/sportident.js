@@ -43,7 +43,7 @@ const jestConfig = {
             statements: 97,
         },
         './packages/sportident/src/SiStation': {
-            branches: 86,
+            branches: 85,
             functions: 97,
             lines: 97,
             statements: 97,
