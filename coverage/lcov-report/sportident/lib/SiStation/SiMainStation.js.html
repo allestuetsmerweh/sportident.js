@@ -20,24 +20,24 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">18.29% </span>
+        <span class="strong">18.75% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>15/82</span>
+        <span class='fraction'>15/80</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">20% </span>
+        <span class="strong">19.35% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>6/30</span>
+        <span class='fraction'>6/31</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">6.67% </span>
+        <span class="strong">5.88% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>1/15</span>
+        <span class='fraction'>1/17</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">18.18% </span>
+        <span class="strong">18.67% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>14/77</span>
+        <span class='fraction'>14/75</span>
       </div>
     </div>
     <p class="quiet">
@@ -163,7 +163,8 @@
 <a name='L115'></a><a href='#L115'>115</a>
 <a name='L116'></a><a href='#L116'>116</a>
 <a name='L117'></a><a href='#L117'>117</a>
-<a name='L118'></a><a href='#L118'>118</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L118'></a><a href='#L118'>118</a>
+<a name='L119'></a><a href='#L119'>119</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -182,6 +183,7 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -208,15 +210,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -224,15 +217,24 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -299,6 +301,7 @@ const ISiStation_1 = require("./ISiStation");
 const ISiMainStation_1 = require("./ISiMainStation");
 // eslint-disable-next-line no-unused-vars
 const ISiTargetMultiplexer_1 = require("./ISiTargetMultiplexer");
+// eslint-disable-next-line no-unused-vars
 const BaseSiStation_1 = require("./BaseSiStation");
 const SiTargetMultiplexer_1 = require("./SiTargetMultiplexer");
 class SiMainStation extends BaseSiStation_1.BaseSiStation {
@@ -319,37 +322,37 @@ class SiMainStation extends BaseSiStation_1.BaseSiStation {
 <span class="fstat-no" title="function not covered" >    st</span>atic fromSiTargetMultiplexer(multiplexer) {
 <span class="cstat-no" title="statement not covered" >        return this.fromSiTargetMultiplexerWithGivenTarget(multiplexer, ISiTargetMultiplexer_1.SiTargetMultiplexerTarget.Direct, <span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >new this(multiplexer, ISiTargetMultiplexer_1.SiTargetMultiplexerTarget.Direct))</span>;</span>
     }
-<span class="fstat-no" title="function not covered" >    re</span>adCards(onCardRead) {
-        let oldMode = <span class="cstat-no" title="statement not covered" >undefined;</span>
-        let oldBeeps = <span class="cstat-no" title="statement not covered" >undefined;</span>
-        let oldFlashes = <span class="cstat-no" title="statement not covered" >undefined;</span>
-<span class="cstat-no" title="statement not covered" >        return this.atomically(<span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >            oldMode = this.getInfo('mode');</span>
-<span class="cstat-no" title="statement not covered" >            oldBeeps = this.getInfo('beeps');</span>
-<span class="cstat-no" title="statement not covered" >            oldFlashes = this.getInfo('flashes');</span>
-<span class="cstat-no" title="statement not covered" >            this.setInfo('mode', ISiStation_1.SiStationMode.Readout);</span>
-<span class="cstat-no" title="statement not covered" >            this.setInfo('beeps', true);</span>
-<span class="cstat-no" title="statement not covered" >            this.setInfo('flashes', true);</span>
-        })
-            .then(<span class="fstat-no" title="function not covered" >()</span> =&gt; {
-            const handleCardInserted = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(e</span>) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >                e.siCard.read().then(onCardRead);</span>
-            };
-<span class="cstat-no" title="statement not covered" >            this.addEventListener('siCardInserted', handleCardInserted);</span>
-            const cleanUp = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >                this.removeEventListener('siCardInserted', handleCardInserted);</span>
-<span class="cstat-no" title="statement not covered" >                return this.atomically(<span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >                    if (oldMode !== undefined) {</span>
-<span class="cstat-no" title="statement not covered" >                        this.setInfo('mode', oldMode);</span>
-                    }
-<span class="cstat-no" title="statement not covered" >                    if (oldBeeps !== undefined) {</span>
-<span class="cstat-no" title="statement not covered" >                        this.setInfo('beeps', oldBeeps);</span>
-                    }
-<span class="cstat-no" title="statement not covered" >                    if (oldFlashes !== undefined) {</span>
-<span class="cstat-no" title="statement not covered" >                        this.setInfo('flashes', oldFlashes);</span>
+<span class="fstat-no" title="function not covered" >    re</span>adCards(onCardInserted, siStationSetupModification = <span class="branch-0 cbranch-no" title="branch not covered" >{})</span> {
+        const siStationSetup = <span class="cstat-no" title="statement not covered" >Object.assign({ code: 10, mode: ISiStation_1.SiStationMode.Readout, autoSend: false, handshake: true, beeps: true, flashes: true }, siStationSetupModification);</span>
+        const siStationSetupKeys = <span class="cstat-no" title="statement not covered" >Object.keys(siStationSetup);</span>
+        const oldState = <span class="cstat-no" title="statement not covered" >{};</span>
+        const handleCardInserted = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(e</span>) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >            onCardInserted(e.siCard);</span>
+        };
+        const cleanUp = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >            this.removeEventListener('siCardInserted', handleCardInserted);</span>
+<span class="cstat-no" title="statement not covered" >            return this.atomically(<span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >                siStationSetupKeys.forEach(<span class="fstat-no" title="function not covered" >(i</span>nfoName) =&gt; {</span>
+                    const oldInfoValue = <span class="cstat-no" title="statement not covered" >oldState[infoName];</span>
+<span class="cstat-no" title="statement not covered" >                    if (oldInfoValue !== undefined) {</span>
+<span class="cstat-no" title="statement not covered" >                        this.setInfo(infoName, oldInfoValue);</span>
                     }
                 });
-            };
+            });
+        };
+<span class="cstat-no" title="statement not covered" >        return this.atomically(<span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >            siStationSetupKeys.forEach(<span class="fstat-no" title="function not covered" >(i</span>nfoName) =&gt; {</span>
+                const oldFieldValue = <span class="cstat-no" title="statement not covered" >this.getInfo(infoName);</span>
+                // @ts-ignore
+<span class="cstat-no" title="statement not covered" >                oldState[infoName] = oldFieldValue ? oldFieldValue.value : undefined;</span>
+                const newValue = <span class="cstat-no" title="statement not covered" >siStationSetup[infoName];</span>
+<span class="cstat-no" title="statement not covered" >                if (newValue !== undefined) {</span>
+<span class="cstat-no" title="statement not covered" >                    this.setInfo(infoName, newValue);</span>
+                }
+            });
+        })
+            .then(<span class="fstat-no" title="function not covered" >()</span> =&gt; {
+<span class="cstat-no" title="statement not covered" >            this.addEventListener('siCardInserted', handleCardInserted);</span>
 <span class="cstat-no" title="statement not covered" >            return cleanUp;</span>
         });
     }
@@ -403,7 +406,7 @@ utils.applyMixins(SiMainStation, [utils.EventTarget]);
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Fri Jan 03 2020 17:24:39 GMT+0000 (Coordinated Universal Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sat Jan 04 2020 11:53:55 GMT+0000 (Coordinated Universal Time)
 </div>
 </div>
 <script src="../../../prettify.js"></script>
