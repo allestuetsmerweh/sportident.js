@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1578151719127" clover="3.2.0">
-  <project timestamp="1578151719127" name="All files">
+<coverage generated="1578385650033" clover="3.2.0">
+  <project timestamp="1578385650034" name="All files">
     <metrics statements="4786" coveredstatements="3095" conditionals="2056" coveredconditionals="1105" methods="1343" coveredmethods="774" elements="8185" coveredelements="4974" complexity="0" loc="4786" ncloc="4786" packages="25" files="147" classes="147"/>
     <package name="sportident-react.src">
       <metrics statements="36" coveredstatements="23" conditionals="6" coveredconditionals="1" methods="11" coveredmethods="7"/>
@@ -3321,13 +3321,13 @@
         <line num="138" count="86" type="stmt"/>
         <line num="139" count="86" type="stmt"/>
         <line num="140" count="1376" type="cond" truecount="2" falsecount="0"/>
-        <line num="141" count="479" type="stmt"/>
-        <line num="142" count="479" type="cond" truecount="2" falsecount="0"/>
-        <line num="143" count="249" type="stmt"/>
-        <line num="145" count="479" type="stmt"/>
-        <line num="147" count="897" type="stmt"/>
-        <line num="148" count="897" type="cond" truecount="2" falsecount="0"/>
-        <line num="149" count="162" type="stmt"/>
+        <line num="141" count="448" type="stmt"/>
+        <line num="142" count="448" type="cond" truecount="2" falsecount="0"/>
+        <line num="143" count="235" type="stmt"/>
+        <line num="145" count="448" type="stmt"/>
+        <line num="147" count="928" type="stmt"/>
+        <line num="148" count="928" type="cond" truecount="2" falsecount="0"/>
+        <line num="149" count="178" type="stmt"/>
         <line num="152" count="1376" type="stmt"/>
         <line num="154" count="86" type="stmt"/>
         <line num="156" count="72" type="stmt"/>
@@ -3467,8 +3467,8 @@
         <line num="22" count="34" type="stmt"/>
         <line num="24" count="72" type="stmt"/>
         <line num="25" count="72" type="stmt"/>
-        <line num="28" count="212" type="stmt"/>
-        <line num="30" count="145" type="stmt"/>
+        <line num="28" count="216" type="stmt"/>
+        <line num="30" count="149" type="stmt"/>
         <line num="32" count="22" type="stmt"/>
         <line num="33" count="2558" type="stmt"/>
         <line num="34" count="37" type="stmt"/>
@@ -3485,7 +3485,7 @@
         <line num="58" count="71" type="cond" truecount="2" falsecount="0"/>
         <line num="59" count="10" type="stmt"/>
         <line num="60" count="61" type="cond" truecount="2" falsecount="0"/>
-        <line num="61" count="27" type="stmt"/>
+        <line num="61" count="30" type="stmt"/>
         <line num="63" count="71" type="stmt"/>
         <line num="71" count="22" type="stmt"/>
         <line num="72" count="5" type="cond" truecount="2" falsecount="0"/>
@@ -4333,18 +4333,18 @@
       <file name="ISiMainStation.ts" path="/home/circleci/repo/packages/sportident/src/SiStation/ISiMainStation.ts">
         <metrics statements="13" coveredstatements="13" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="3"/>
         <line num="1" count="1" type="stmt"/>
-        <line num="11" count="1" type="stmt"/>
-        <line num="14" count="3" type="stmt"/>
-        <line num="16" count="3" type="stmt"/>
-        <line num="18" count="3" type="stmt"/>
-        <line num="22" count="1" type="stmt"/>
-        <line num="25" count="1" type="stmt"/>
-        <line num="27" count="1" type="stmt"/>
-        <line num="29" count="1" type="stmt"/>
-        <line num="33" count="1" type="stmt"/>
-        <line num="36" count="1" type="stmt"/>
-        <line num="38" count="1" type="stmt"/>
-        <line num="40" count="1" type="stmt"/>
+        <line num="12" count="1" type="stmt"/>
+        <line num="15" count="3" type="stmt"/>
+        <line num="17" count="3" type="stmt"/>
+        <line num="19" count="3" type="stmt"/>
+        <line num="23" count="1" type="stmt"/>
+        <line num="26" count="1" type="stmt"/>
+        <line num="28" count="1" type="stmt"/>
+        <line num="30" count="1" type="stmt"/>
+        <line num="34" count="1" type="stmt"/>
+        <line num="37" count="1" type="stmt"/>
+        <line num="39" count="1" type="stmt"/>
+        <line num="41" count="1" type="stmt"/>
       </file>
       <file name="ISiStation.ts" path="/home/circleci/repo/packages/sportident/src/SiStation/ISiStation.ts">
         <metrics statements="45" coveredstatements="45" conditionals="6" coveredconditionals="6" methods="3" coveredmethods="3"/>
