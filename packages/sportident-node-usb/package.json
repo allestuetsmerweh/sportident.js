@@ -11,7 +11,8 @@
   "scripts": {
     "build": "tsc",
     "eslint": "eslint ./src/ --ext .ts,.tsx",
-    "tsc": "tsc"
+    "tsc": "tsc",
+    "typedoc": "typedoc --mode modules --out ../../docs/typedoc/sportident-node-usb/ ./src/"
   },
   "author": "Simon Hatt",
   "license": "MIT",
