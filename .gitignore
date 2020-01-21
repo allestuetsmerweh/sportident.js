@@ -4,6 +4,8 @@ coverage/
 docs/.circleci/
 docs/generated/
 docs/testbench/
+docs/typedoc/*
+!docs/typedoc/index.md
 node_modules/
 packages/*/lib
 packages/*/tsconfig.tsbuildinfo
