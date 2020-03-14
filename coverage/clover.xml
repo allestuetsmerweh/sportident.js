@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1579646012556" clover="3.2.0">
-  <project timestamp="1579646012556" name="All files">
+<coverage generated="1584180489967" clover="3.2.0">
+  <project timestamp="1584180489967" name="All files">
     <metrics statements="4786" coveredstatements="3095" conditionals="2056" coveredconditionals="1105" methods="1343" coveredmethods="774" elements="8185" coveredelements="4974" complexity="0" loc="4786" ncloc="4786" packages="25" files="147" classes="147"/>
     <package name="sportident-react.src">
       <metrics statements="36" coveredstatements="23" conditionals="6" coveredconditionals="1" methods="11" coveredmethods="7"/>
@@ -3321,13 +3321,13 @@
         <line num="138" count="86" type="stmt"/>
         <line num="139" count="86" type="stmt"/>
         <line num="140" count="1376" type="cond" truecount="2" falsecount="0"/>
-        <line num="141" count="459" type="stmt"/>
-        <line num="142" count="459" type="cond" truecount="2" falsecount="0"/>
-        <line num="143" count="239" type="stmt"/>
-        <line num="145" count="459" type="stmt"/>
-        <line num="147" count="917" type="stmt"/>
-        <line num="148" count="917" type="cond" truecount="2" falsecount="0"/>
-        <line num="149" count="172" type="stmt"/>
+        <line num="141" count="472" type="stmt"/>
+        <line num="142" count="472" type="cond" truecount="2" falsecount="0"/>
+        <line num="143" count="243" type="stmt"/>
+        <line num="145" count="472" type="stmt"/>
+        <line num="147" count="904" type="stmt"/>
+        <line num="148" count="904" type="cond" truecount="2" falsecount="0"/>
+        <line num="149" count="165" type="stmt"/>
         <line num="152" count="1376" type="stmt"/>
         <line num="154" count="86" type="stmt"/>
         <line num="156" count="72" type="stmt"/>
@@ -3467,8 +3467,8 @@
         <line num="22" count="34" type="stmt"/>
         <line num="24" count="72" type="stmt"/>
         <line num="25" count="72" type="stmt"/>
-        <line num="28" count="210" type="stmt"/>
-        <line num="30" count="143" type="stmt"/>
+        <line num="28" count="216" type="stmt"/>
+        <line num="30" count="149" type="stmt"/>
         <line num="32" count="22" type="stmt"/>
         <line num="33" count="2558" type="stmt"/>
         <line num="34" count="37" type="stmt"/>
@@ -3485,7 +3485,7 @@
         <line num="58" count="71" type="cond" truecount="2" falsecount="0"/>
         <line num="59" count="10" type="stmt"/>
         <line num="60" count="61" type="cond" truecount="2" falsecount="0"/>
-        <line num="61" count="30" type="stmt"/>
+        <line num="61" count="32" type="stmt"/>
         <line num="63" count="71" type="stmt"/>
         <line num="71" count="22" type="stmt"/>
         <line num="72" count="5" type="cond" truecount="2" falsecount="0"/>
@@ -4413,9 +4413,9 @@
         <line num="44" count="18" type="stmt"/>
         <line num="46" count="18" type="stmt"/>
         <line num="49" count="6" type="stmt"/>
-        <line num="52" count="4" type="stmt"/>
-        <line num="54" count="4" type="stmt"/>
-        <line num="56" count="4" type="stmt"/>
+        <line num="52" count="3" type="stmt"/>
+        <line num="54" count="3" type="stmt"/>
+        <line num="56" count="3" type="stmt"/>
         <line num="59" count="6" type="stmt"/>
         <line num="62" count="1" type="stmt"/>
         <line num="64" count="1" type="stmt"/>
@@ -4559,13 +4559,13 @@
         <line num="146" count="13" type="stmt"/>
         <line num="147" count="13" type="stmt"/>
         <line num="151" count="13" type="cond" truecount="2" falsecount="0"/>
-        <line num="152" count="4" type="stmt"/>
+        <line num="152" count="3" type="stmt"/>
         <line num="157" count="13" type="cond" truecount="2" falsecount="0"/>
         <line num="158" count="1" type="stmt"/>
         <line num="167" count="13" type="cond" truecount="2" falsecount="0"/>
-        <line num="171" count="2" type="stmt"/>
-        <line num="172" count="2" type="stmt"/>
-        <line num="173" count="2" type="stmt"/>
+        <line num="171" count="1" type="stmt"/>
+        <line num="172" count="1" type="stmt"/>
+        <line num="173" count="1" type="stmt"/>
         <line num="175" count="13" type="cond" truecount="2" falsecount="0"/>
         <line num="176" count="4" type="stmt"/>
         <line num="178" count="9" type="stmt"/>
@@ -5218,8 +5218,8 @@
       <file name="events.ts" path="/home/circleci/repo/packages/sportident/src/utils/events.ts">
         <metrics statements="23" coveredstatements="23" conditionals="12" coveredconditionals="12" methods="7" coveredmethods="7"/>
         <line num="7" count="37" type="stmt"/>
-        <line num="9" count="111" type="stmt"/>
-        <line num="14" count="111" type="stmt"/>
+        <line num="9" count="110" type="stmt"/>
+        <line num="14" count="110" type="stmt"/>
         <line num="41" count="37" type="stmt"/>
         <line num="48" count="84" type="cond" truecount="2" falsecount="0"/>
         <line num="49" count="84" type="cond" truecount="2" falsecount="0"/>
@@ -5231,15 +5231,15 @@
         <line num="64" count="22" type="stmt"/>
         <line num="66" count="23" type="stmt"/>
         <line num="70" count="1" type="stmt"/>
-        <line num="77" count="111" type="stmt"/>
-        <line num="78" count="111" type="cond" truecount="2" falsecount="0"/>
-        <line num="79" count="111" type="cond" truecount="2" falsecount="0"/>
-        <line num="80" count="111" type="stmt"/>
+        <line num="77" count="110" type="stmt"/>
+        <line num="78" count="110" type="cond" truecount="2" falsecount="0"/>
+        <line num="79" count="110" type="cond" truecount="2" falsecount="0"/>
+        <line num="80" count="110" type="stmt"/>
         <line num="81" count="53" type="stmt"/>
         <line num="82" count="53" type="stmt"/>
         <line num="84" count="1" type="stmt"/>
         <line num="85" count="1" type="stmt"/>
-        <line num="88" count="111" type="stmt"/>
+        <line num="88" count="110" type="stmt"/>
       </file>
       <file name="general.ts" path="/home/circleci/repo/packages/sportident/src/utils/general.ts">
         <metrics statements="42" coveredstatements="42" conditionals="17" coveredconditionals="17" methods="12" coveredmethods="12"/>
