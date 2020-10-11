@@ -227,10 +227,10 @@ export class SiCard6 extends BaseSiCard {
                 .then(() => {
                     this.raceResult = {
                         cardNumber: this.storage.get('cardNumber')!.value,
-                        startTime: this.storage.get('startTime')!.value,
-                        finishTime: this.storage.get('finishTime')!.value,
-                        clearTime: this.storage.get('clearTime')!.value,
-                        checkTime: this.storage.get('checkTime')!.value,
+                        startTime: this.storage.get('startTime')?.value,
+                        finishTime: this.storage.get('finishTime')?.value,
+                        clearTime: this.storage.get('clearTime')?.value,
+                        checkTime: this.storage.get('checkTime')?.value,
                         punches: this.storage.get('punches')!.value,
                         cardHolder: this.storage.get('cardHolder')!.value,
                     };

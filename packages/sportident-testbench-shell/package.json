@@ -1,6 +1,6 @@
 {
   "name": "sportident-testbench-shell",
-  "version": "2.0.0-alpha.4",
+  "version": "2.0.0-alpha.5",
   "description": "",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -13,6 +13,6 @@
   "author": "Simon Hatt",
   "license": "MIT",
   "dependencies": {
-    "sportident": "^2.0.0-alpha.4"
+    "sportident": "^2.0.0-alpha.5"
   }
 }

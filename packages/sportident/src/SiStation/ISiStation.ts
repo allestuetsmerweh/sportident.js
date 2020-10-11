@@ -7,7 +7,7 @@ export interface ISiStation<T extends SiTargetMultiplexerTarget> {
     ident: string;
 }
 
-/* eslint-disable no-unused-vars */
+/* eslint-disable no-unused-vars,no-shadow */
 export enum SiStationMode {
     SIACSpecialFunction1 = 0x01, // Source: SI Config+
     // 7B=battery test, 7C=on, 7D=off, 7F=radio readout
@@ -30,9 +30,9 @@ export enum SiStationMode {
     BeaconStart = 0x33, // Source: SI Config+
     BeaconFinish = 0x34, // Source: SI Config+
 }
-/* eslint-enable no-unused-vars */
+/* eslint-enable no-unused-vars,no-shadow */
 
-/* eslint-disable no-unused-vars */
+/* eslint-disable no-unused-vars,no-shadow */
 export enum SiStationType {
     Main = 0x00,
     Sprint = 0x01,
@@ -40,9 +40,9 @@ export enum SiStationType {
     Field = 0x03,
     Master = 0x04,
 }
-/* eslint-enable no-unused-vars */
+/* eslint-enable no-unused-vars,no-shadow */
 
-/* eslint-disable no-unused-vars */
+/* eslint-disable no-unused-vars,no-shadow */
 export enum SiStationModel {
     BSF3 = 0x8003,
     BSF4 = 0x8004,
@@ -63,7 +63,7 @@ export enum SiStationModel {
     BS7GSM = 0xB897,
     BS8P = 0xB198,
 }
-/* eslint-enable no-unused-vars */
+/* eslint-enable no-unused-vars,no-shadow */
 
 interface SiStationModelInfo {
     description: string;

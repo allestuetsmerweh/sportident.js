@@ -18,14 +18,6 @@ export class NumberRange extends Immutable.Record({
         return `NumberRange(${this.start}, ${this.end})`;
     }
 
-    get start(): number {
-        return super.get('start');
-    }
-
-    get end(): number {
-        return super.get('end');
-    }
-
     contains(number: number): boolean {
         return number >= this.start && number < this.end;
     }

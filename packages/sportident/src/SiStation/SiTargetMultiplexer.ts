@@ -221,7 +221,7 @@ export class SiTargetMultiplexer implements ISiTargetMultiplexer {
         if (target === this.latestTarget) {
             return Promise.resolve();
         }
-        const setMsParameterByTarget: {[target in SiTargetMultiplexerTarget]: number|undefined} = {
+        const setMsParameterByTarget: {[Target in SiTargetMultiplexerTarget]: number|undefined} = {
             [SiTargetMultiplexerTarget.Direct]: proto.P_MS_DIRECT,
             [SiTargetMultiplexerTarget.Remote]: proto.P_MS_REMOTE,
             [SiTargetMultiplexerTarget.Unknown]: undefined,

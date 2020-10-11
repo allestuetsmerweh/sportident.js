@@ -26,7 +26,7 @@ export class SiMainStation
         return this.fromSiTargetMultiplexer(multiplexer);
     }
 
-    static fromSiTargetMultiplexer<U extends SiTargetMultiplexerTarget.Direct>(
+    static fromSiTargetMultiplexer(
         multiplexer: ISiTargetMultiplexer,
     ): SiMainStation {
         return this.fromSiTargetMultiplexerWithGivenTarget(

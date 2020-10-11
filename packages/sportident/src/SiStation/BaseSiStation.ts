@@ -151,21 +151,21 @@ export abstract class BaseSiStation<T extends SiTargetMultiplexerTarget> {
             });
     }
 
-    getField<T extends keyof ISiStationStorageFields>(
-        infoName: T,
+    getField<Field extends keyof ISiStationStorageFields>(
+        infoName: Field,
     ) {
         return this.storage.locations[infoName];
     }
 
-    getInfo<T extends keyof ISiStationStorageFields>(
-        infoName: T,
+    getInfo<Field extends keyof ISiStationStorageFields>(
+        infoName: Field,
     ) {
         return this.storage.get(infoName);
     }
 
-    setInfo<T extends keyof ISiStationStorageFields>(
-        infoName: T,
-        newValue: storage.ISiFieldValue<ISiStationStorageFields[T]>|ISiStationStorageFields[T],
+    setInfo<Field extends keyof ISiStationStorageFields>(
+        infoName: Field,
+        newValue: storage.ISiFieldValue<ISiStationStorageFields[Field]>|ISiStationStorageFields[Field],
     ) {
         this.storage.set(infoName, newValue);
     }
