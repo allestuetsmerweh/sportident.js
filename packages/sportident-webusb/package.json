@@ -1,6 +1,6 @@
 {
   "name": "sportident-webusb",
-  "version": "2.0.0-alpha.5",
+  "version": "2.0.0-alpha.6",
   "description": "",
   "files": [
     "lib/**/*",
@@ -17,7 +17,7 @@
   "author": "Simon Hatt",
   "license": "MIT",
   "devDependencies": {
-    "sportident": "^2.0.0-alpha.5"
+    "sportident": "^2.0.0-alpha.6"
   },
   "peerDependencies": {
     "sportident": "^1.0.0"
