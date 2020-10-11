@@ -1,51 +1,62 @@
+
 <!doctype html>
 <html lang="en">
+
 <head>
     <title>Code coverage report for sportident/lib/storage/index.js</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../../prettify.css" />
     <link rel="stylesheet" href="../../../base.css" />
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/x-icon" href="../../../favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style type='text/css'>
         .coverage-summary .sorter {
             background-image: url(../../../sort-arrow-sprite.png);
         }
     </style>
 </head>
+    
 <body>
 <div class='wrapper'>
-  <div class='pad1'>
-    <h1>
-      <a href="../../../index.html">All files</a> / <a href="index.html">sportident/lib/storage</a> index.js
-    </h1>
-    <div class='clearfix'>
-      <div class='fl pad1y space-right2'>
-        <span class="strong">100% </span>
-        <span class="quiet">Statements</span>
-        <span class='fraction'>24/24</span>
-      </div>
-      <div class='fl pad1y space-right2'>
-        <span class="strong">100% </span>
-        <span class="quiet">Branches</span>
-        <span class='fraction'>0/0</span>
-      </div>
-      <div class='fl pad1y space-right2'>
-        <span class="strong">100% </span>
-        <span class="quiet">Functions</span>
-        <span class='fraction'>0/0</span>
-      </div>
-      <div class='fl pad1y space-right2'>
-        <span class="strong">100% </span>
-        <span class="quiet">Lines</span>
-        <span class='fraction'>24/24</span>
-      </div>
+    <div class='pad1'>
+        <h1><a href="../../../index.html">All files</a> / <a href="index.html">sportident/lib/storage</a> index.js</h1>
+        <div class='clearfix'>
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">100% </span>
+                <span class="quiet">Statements</span>
+                <span class='fraction'>37/37</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">100% </span>
+                <span class="quiet">Branches</span>
+                <span class='fraction'>0/0</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">100% </span>
+                <span class="quiet">Functions</span>
+                <span class='fraction'>13/13</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">100% </span>
+                <span class="quiet">Lines</span>
+                <span class='fraction'>24/24</span>
+            </div>
+        
+            
+        </div>
+        <p class="quiet">
+            Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
+        </p>
     </div>
-    <p class="quiet">
-      Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
-    </p>
-  </div>
-  <div class='status-line high'></div>
-<pre><table class="coverage">
+    <div class='status-line high'></div>
+    <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
 <a name='L3'></a><a href='#L3'>3</a>
@@ -77,68 +88,68 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">30x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">48x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">28x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">"use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var interfaces_1 = require("./interfaces");
-exports.ValueToStringError = interfaces_1.ValueToStringError;
-exports.ValueFromStringError = interfaces_1.ValueFromStringError;
+Object.defineProperty(exports, "ValueToStringError", { enumerable: true, get: function () { return interfaces_1.ValueToStringError; } });
+Object.defineProperty(exports, "ValueFromStringError", { enumerable: true, get: function () { return interfaces_1.ValueFromStringError; } });
 var SiStorage_1 = require("./SiStorage");
-exports.defineStorage = SiStorage_1.defineStorage;
-exports.SiStorage = SiStorage_1.SiStorage;
+Object.defineProperty(exports, "defineStorage", { enumerable: true, get: function () { return SiStorage_1.defineStorage; } });
+Object.defineProperty(exports, "SiStorage", { enumerable: true, get: function () { return SiStorage_1.SiStorage; } });
 var SiFieldValue_1 = require("./SiFieldValue");
-exports.SiFieldValue = SiFieldValue_1.SiFieldValue;
+Object.defineProperty(exports, "SiFieldValue", { enumerable: true, get: function () { return SiFieldValue_1.SiFieldValue; } });
 var SiDataType_1 = require("./SiDataType");
-exports.ModifyUndefinedException = SiDataType_1.ModifyUndefinedException;
-exports.SiDataType = SiDataType_1.SiDataType;
+Object.defineProperty(exports, "ModifyUndefinedException", { enumerable: true, get: function () { return SiDataType_1.ModifyUndefinedException; } });
+Object.defineProperty(exports, "SiDataType", { enumerable: true, get: function () { return SiDataType_1.SiDataType; } });
 var SiArray_1 = require("./SiArray");
-exports.SiArray = SiArray_1.SiArray;
+Object.defineProperty(exports, "SiArray", { enumerable: true, get: function () { return SiArray_1.SiArray; } });
 var SiBool_1 = require("./SiBool");
-exports.SiBool = SiBool_1.SiBool;
+Object.defineProperty(exports, "SiBool", { enumerable: true, get: function () { return SiBool_1.SiBool; } });
 var SiDict_1 = require("./SiDict");
-exports.SiDict = SiDict_1.SiDict;
+Object.defineProperty(exports, "SiDict", { enumerable: true, get: function () { return SiDict_1.SiDict; } });
 var SiEnum_1 = require("./SiEnum");
-exports.SiEnum = SiEnum_1.SiEnum;
+Object.defineProperty(exports, "SiEnum", { enumerable: true, get: function () { return SiEnum_1.SiEnum; } });
 var SiInt_1 = require("./SiInt");
-exports.SiInt = SiInt_1.SiInt;
+Object.defineProperty(exports, "SiInt", { enumerable: true, get: function () { return SiInt_1.SiInt; } });
 var SiModified_1 = require("./SiModified");
-exports.SiModified = SiModified_1.SiModified;
-//# sourceMappingURL=index.js.map</pre></td></tr>
-</table></pre>
-<div class='push'></div><!-- for sticky footer -->
-</div><!-- /wrapper -->
-<div class='footer quiet pad2 space-top1 center small'>
-  Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sun Oct 11 2020 13:50:19 GMT+0000 (Coordinated Universal Time)
-</div>
-</div>
-<script src="../../../prettify.js"></script>
-<script>
-window.onload = function () {
-        if (typeof prettyPrint === 'function') {
-            prettyPrint();
-        }
-};
-</script>
-<script src="../../../sorter.js"></script>
-<script src="../../../block-navigation.js"></script>
-</body>
+Object.defineProperty(exports, "SiModified", { enumerable: true, get: function () { return SiModified_1.SiModified; } });
+//# sourceMappingURL=index.js.map</pre></td></tr></table></pre>
+
+                <div class='push'></div><!-- for sticky footer -->
+            </div><!-- /wrapper -->
+            <div class='footer quiet pad2 space-top1 center small'>
+                Code coverage generated by
+                <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
+                at Sun Oct 11 2020 16:58:58 GMT+0000 (Coordinated Universal Time)
+            </div>
+        </div>
+        <script src="../../../prettify.js"></script>
+        <script>
+            window.onload = function () {
+                prettyPrint();
+            };
+        </script>
+        <script src="../../../sorter.js"></script>
+        <script src="../../../block-navigation.js"></script>
+    </body>
 </html>
+    
