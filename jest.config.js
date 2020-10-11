@@ -24,13 +24,13 @@ const jestConfig = {
     maxConcurrency: 1,
     coverageThreshold: {
         './packages/sportident/src/': {
-            branches: 97,
+            branches: 95,
             functions: 99,
             lines: 99,
             statements: 99,
         },
         './packages/sportident/src/SiCard': {
-            branches: 99,
+            branches: 94,
             functions: 100,
             lines: 99,
             statements: 99,
@@ -50,7 +50,7 @@ const jestConfig = {
         },
         './packages/sportident/src/storage': {
             branches: 97,
-            functions: 100,
+            functions: 97,
             lines: 99,
             statements: 99,
         },

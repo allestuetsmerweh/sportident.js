@@ -2,7 +2,7 @@
 /* exported module */
 
 const path = require('path');
-const StaticSiteGeneratorPlugin = require('static-site-generator-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = [
     {
@@ -28,23 +28,23 @@ module.exports = [
                         path.resolve(__dirname, 'src'),
                         path.resolve(__dirname, 'node_modules/sportident/lib'),
                     ],
-                    loader: 'babel-loader',
-                    query: {
-                        presets: [
-                            ['@babel/preset-env', {useBuiltIns: 'usage', corejs: '2'}],
-                            ['@babel/preset-react', {}],
-                        ],
+                    use: {
+                        loader: 'babel-loader',
+                        options: {
+                            presets: [
+                                ['@babel/preset-env', { useBuiltIns: 'usage', corejs: '2' }],
+                                ['@babel/preset-react', {}],
+                            ],
+                            plugins: [
+                                '@babel/plugin-proposal-object-rest-spread'
+                            ],
+                        },
                     },
-                },
-                {
-                    test: /\.html$/,
-                    exclude: /node_modules/,
-                    loader: 'html-loader',
                 },
                 {
                     test: /\.css$/,
                     exclude: /node_modules/,
-                    loader: 'css-loader',
+                    use: ['style-loader', 'css-loader'],
                 },
             ],
         },
@@ -55,10 +55,8 @@ module.exports = [
             },
         },
         plugins: [
-            new StaticSiteGeneratorPlugin({
-                globals: {
-                    window: {},
-                },
+            new HtmlWebpackPlugin({
+                template: './src/index.html',
             }),
         ],
         devServer: {

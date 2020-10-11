@@ -1,13 +1,13 @@
 import * as utils from '../utils';
 
-/* eslint-disable no-unused-vars */
+/* eslint-disable no-unused-vars,no-shadow */
 export enum SiDeviceState {
     Closed = 0,
     Opening = 1,
     Opened = 2,
     Closing = 3,
 }
-/* eslint-enable no-unused-vars */
+/* eslint-enable no-unused-vars,no-shadow */
 
 export interface ISiDeviceDriverData<T> {
     driver: T;
