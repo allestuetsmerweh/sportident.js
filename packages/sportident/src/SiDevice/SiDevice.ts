@@ -130,6 +130,6 @@ export class SiDevice<T extends ISiDeviceDriverData<any>> implements ISiDevice<T
         return this.data.driver.send(this, buffer);
     }
 }
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
+// eslint-disable-next-line @typescript-eslint/no-empty-interface,@typescript-eslint/no-unused-vars
 export interface SiDevice<T extends ISiDeviceDriverData<any>> extends utils.EventTarget<SiDeviceEvents> {}
 utils.applyMixins(SiDevice, [utils.EventTarget]);

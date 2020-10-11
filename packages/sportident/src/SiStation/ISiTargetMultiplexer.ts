@@ -17,16 +17,16 @@ export interface ISiTargetMultiplexer extends utils.IEventTarget<SiTargetMultipl
     ) => Promise<number[][]>;
 }
 
-/* eslint-disable no-unused-vars */
+/* eslint-disable no-unused-vars,no-shadow */
 export enum SiTargetMultiplexerTarget {
     Unknown = 0,
     Switching = 1,
     Direct = 2,
     Remote = 3,
 }
-/* eslint-enable no-unused-vars */
+/* eslint-enable no-unused-vars,no-shadow */
 
-/* eslint-disable no-unused-vars */
+/* eslint-disable no-unused-vars,no-shadow */
 export enum SendTaskState {
     Queued = 0,
     Sending = 1,
@@ -34,7 +34,7 @@ export enum SendTaskState {
     Succeeded = 3,
     Failed = 4,
 }
-/* eslint-enable no-unused-vars */
+/* eslint-enable no-unused-vars,no-shadow */
 
 export class SiTargetMultiplexerMessageEvent extends utils.Event<'message'> {
     constructor(

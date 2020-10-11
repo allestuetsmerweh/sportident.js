@@ -1,9 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-// @ts-ignore
-import indexHtml from './index.html';
-// @ts-ignore
-import stylesCss from './styles.css';
 import {MainStationList} from './MainStationList';
 import {Terminal} from './Terminal';
 // eslint-disable-next-line no-unused-vars
@@ -11,10 +7,7 @@ import {SiDevicesContext, SiDevicesContextPayload} from './SiDevicesContext';
 import {useSiDevices} from 'sportident-react/lib';
 import {getWebUsbSiDeviceDriver} from 'sportident-webusb/lib';
 
-export default () => indexHtml.replace(
-    '<!--INSERT_CSS_HERE-->',
-    `<style>${stylesCss.toString()}</style>`,
-);
+import './styles.css';
 
 const Testbench = () => {
     const getIdentFromWindowHash = (windowHash: string) => {

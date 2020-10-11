@@ -80,7 +80,7 @@ export abstract class BaseSiCard {
 
     public mainStation?: ISiMainStation|undefined;
     public raceResult: IRaceResultData;
-    public storage: storage.ISiStorage<any> = {} as storage.ISiStorage<{}>;
+    public storage: storage.ISiStorage<any> = {} as storage.ISiStorage<unknown>;
 
     constructor(cardNumber: number) {
         this.raceResult = {cardNumber: cardNumber};

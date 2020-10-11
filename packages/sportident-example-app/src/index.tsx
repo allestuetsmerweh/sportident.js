@@ -1,16 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-// @ts-ignore
-import indexHtml from './index.html';
-// @ts-ignore
-import stylesCss from './styles.css';
 import {getWebUsbSiDeviceDriver} from 'sportident-webusb/lib';
 import {SiMainStation} from 'sportident/lib/SiStation';
 
-export default () => indexHtml.replace(
-    '<!--INSERT_CSS_HERE-->',
-    `<style>${stylesCss.toString()}</style>`,
-);
+import './styles.css';
+
 
 const ExampleApp = () => {
     const webUsbSiDeviceDriver = React.useMemo(

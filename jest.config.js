@@ -50,7 +50,7 @@ const jestConfig = {
         },
         './packages/sportident/src/storage': {
             branches: 97,
-            functions: 100,
+            functions: 97,
             lines: 99,
             statements: 99,
         },
