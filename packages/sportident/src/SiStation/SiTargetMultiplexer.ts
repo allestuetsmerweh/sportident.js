@@ -304,7 +304,7 @@ export class SiTargetMultiplexer implements ISiTargetMultiplexer {
                     sendTask.succeed();
                 }
             })
-            .catch((err: utils.Error) => {
+            .catch((err: utils.SiError) => {
                 console.warn(`Error sending: ${err}`);
                 sendTask.fail();
             });

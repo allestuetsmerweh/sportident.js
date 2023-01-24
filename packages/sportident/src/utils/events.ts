@@ -1,3 +1,5 @@
+import * as errorUtils from './errors';
+
 export interface IEvent<T extends string> {
     type?: T;
     target: any;
@@ -44,7 +46,7 @@ export class EventTarget<T extends EventTypeDict> implements IEventTarget<T> {
     addEventListener<K extends keyof T>(
         type: K,
         callback: EventCallback<T[K]>,
-    ) {
+    ): void {
         const eventRegistry = this.eventRegistry || {};
         const listeners = eventRegistry[type as string] || [];
         eventRegistry[type as string] = [
@@ -57,7 +59,7 @@ export class EventTarget<T extends EventTypeDict> implements IEventTarget<T> {
     removeEventListener<K extends keyof T>(
         type: K,
         callback: EventCallback<T[K]>,
-    ) {
+    ): void {
         const eventRegistry = this.eventRegistry || {};
         const listeners = eventRegistry[type as string] || [];
         eventRegistry[type as string] = listeners.filter(
@@ -66,14 +68,14 @@ export class EventTarget<T extends EventTypeDict> implements IEventTarget<T> {
         this.eventRegistry = eventRegistry;
     }
 
-    removeAllEventListeners() {
+    removeAllEventListeners(): void {
         this.eventRegistry = {};
     }
 
     dispatchEvent<K extends keyof T>(
         type: K,
         event: T[K],
-    ) {
+    ): boolean {
         event.type = type as string;
         const eventRegistry = this.eventRegistry || {};
         const listeners = eventRegistry[type as string] || [];
@@ -81,8 +83,9 @@ export class EventTarget<T extends EventTypeDict> implements IEventTarget<T> {
             try {
                 listener(event);
             } catch (exc) {
-                console.error(`Event Listener failed (${type}): ${exc}`);
-                console.info(exc.stack);
+                const err = errorUtils.getErrorOrThrow(exc);
+                console.error(`Event Listener failed (${String(type)}): ${err}`);
+                console.info(err.stack);
             }
         });
         return !event.defaultPrevented;

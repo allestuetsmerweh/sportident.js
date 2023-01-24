@@ -6,28 +6,27 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/node:latest
+      - image: cimg/node:19.4.0
 
     working_directory: ~/repo
 
     steps:
       - checkout
 
-      - run: sudo apt install graphviz libudev-dev
+      - run: sudo apt update && sudo apt install graphviz libudev-dev
 
       - restore_cache:
           keys:
           - v1-dependencies-{{ checksum "package.json" }}
           - v1-dependencies-
-      - run: npm install
+      - run: npm install && npm install --workspaces
       - save_cache:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package-lock.json" }}
 
-      - run: npm run lerna bootstrap
-
       - run: npm run lint
+      - run: npm run tsc-build
       - run: npm run lerna run tsc
       - run: npm run build
       - run: npm run dependency-check

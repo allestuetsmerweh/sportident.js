@@ -19,7 +19,7 @@ export class FakeSiCard5 extends BaseFakeSiCard {
         this.storage = siCard5StorageDefinition(storageData);
     }
 
-    handleDetect() {
+    handleDetect(): siProtocol.SiMessage {
         const cardNumberArr = siProtocol.cardNumber2arr(this.storage.get('cardNumber')!.value);
         cardNumberArr.reverse();
         return {
@@ -28,7 +28,7 @@ export class FakeSiCard5 extends BaseFakeSiCard {
         };
     }
 
-    handleRequest(message: siProtocol.SiMessage) {
+    handleRequest(message: siProtocol.SiMessage): siProtocol.SiMessage[] {
         if (
             message.mode !== undefined
             || message.command !== proto.cmd.GET_SI5
@@ -41,6 +41,6 @@ export class FakeSiCard5 extends BaseFakeSiCard {
                 command: proto.cmd.GET_SI5,
                 parameters: this.storage.data.toJS(),
             },
-        ];
+        ] as siProtocol.SiMessage[];
     }
 }

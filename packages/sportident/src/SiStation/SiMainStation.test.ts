@@ -138,15 +138,16 @@ describe('SiMainStation', () => {
             insertedCardNumbers.push(e.siCard.cardNumber);
         };
         myMainStation.addEventListener('siCardInserted', handleCardInserted);
+        const message = myFakeSiCard5.handleDetect() as siProtocol.SiMessageWithoutMode;
         myTargetMultiplexer.dispatchEvent(
             'message',
             new SiTargetMultiplexerMessageEvent(
                 myTargetMultiplexer,
                 {
-                    command: myFakeSiCard5.handleDetect().command,
+                    command: message.command,
                     parameters: [
                         ...[0x00, 0x00],
-                        ...myFakeSiCard5.handleDetect().parameters,
+                        ...message.parameters,
                     ] as number[],
                 },
             ),
@@ -167,7 +168,7 @@ describe('SiMainStation', () => {
                     command: proto.cmd.SI_REM,
                     parameters: [
                         ...[0x00, 0x00],
-                        ...myFakeSiCard5.handleDetect().parameters,
+                        ...message.parameters,
                     ] as number[],
                 },
             ),
@@ -202,6 +203,7 @@ describe('SiMainStation', () => {
             observedCardNumbers.push(e.siCard.cardNumber);
         };
         myMainStation.addEventListener('siCardObserved', handleCardObserved);
+        const message = myFakeSiCard6.handleDetect() as siProtocol.SiMessageWithoutMode;
         myTargetMultiplexer.dispatchEvent(
             'message',
             new SiTargetMultiplexerMessageEvent(
@@ -210,7 +212,7 @@ describe('SiMainStation', () => {
                     command: proto.cmd.TRANS_REC,
                     parameters: [
                         ...[0x00, 0x00],
-                        ...myFakeSiCard6.handleDetect().parameters,
+                        ...message.parameters,
                     ] as number[],
                 },
             ),

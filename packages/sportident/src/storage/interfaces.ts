@@ -2,8 +2,8 @@
 import Immutable from 'immutable';
 import * as utils from '../utils';
 
-export class ValueToStringError extends utils.Error {}
-export class ValueFromStringError extends utils.Error {}
+export class ValueToStringError extends utils.SiError {}
+export class ValueFromStringError extends utils.SiError {}
 
 export interface ISiFieldValue<T> {
     field: ISiDataType<T>;

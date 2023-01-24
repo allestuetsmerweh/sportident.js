@@ -3,7 +3,7 @@ export type Cache<T> = {[id: string]: T};
 export const cached = <T>(
     cache: Cache<T>,
     getThing: () => T,
-) => {
+): () => T => {
     const getter = (): T => {
         const getThingIdent = `${getThing.name}-${getThing.toString()}`;
         const cachedThing = cache[getThingIdent];
