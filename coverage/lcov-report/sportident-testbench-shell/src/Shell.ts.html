@@ -30,9 +30,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">51.43% </span>
+                <span class="strong">47.82% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>18/35</span>
+                <span class='fraction'>11/23</span>
             </div>
         
             
@@ -54,6 +54,12 @@
         <p class="quiet">
             Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
         </p>
+        <template id="filterTemplate">
+            <div class="quiet">
+                Filter:
+                <input oninput="onInput()" type="search" id="fileSearch">
+            </div>
+        </template>
     </div>
     <div class='status-line medium'></div>
     <pre><table class="coverage">
@@ -531,7 +537,7 @@ export class Shell {
             }
             const args = commandStr.split(/\s+/);
             const command = this.commands[args[0]];
-            <span class="missing-if-branch" title="else path not taken" >E</span>if (command) {
+            if (command) {
                 const isValid = command.validateArgs(this.getCommandContext(args));
                 if (isValid) {
                     return command.run(this.getCommandContext(args))
@@ -540,7 +546,7 @@ export class Shell {
                         .then(loop);
                 }
                 command.printUsage(this.getCommandContext(args));
-            } else {
+            } else <span class="missing-if-branch" title="else path not taken" >E</span>{
 <span class="cstat-no" title="statement not covered" >                this.putString(`Unknown command: ${args[0]}\n`);</span>
                 const availableCommands = <span class="cstat-no" title="statement not covered" >Object.keys(this.commands).join(', ');</span>
 <span class="cstat-no" title="statement not covered" >                this.putString(`Available commands: ${availableCommands}\n`);</span>
@@ -591,9 +597,9 @@ export class Shell {
 &nbsp;
 <span class="fstat-no" title="function not covered" >    autocompleteCommand(</span>commandStr: string): [boolean, string] {
         const args = <span class="cstat-no" title="statement not covered" >commandStr.split(/\s+/);</span>
-<span class="cstat-no" title="statement not covered" >        if (args.length === 1) {</span>
+<span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (args.length === 1) {</span>
             const options = <span class="cstat-no" title="statement not covered" >this.autocompleteCommandName(args[0]);</span>
-<span class="cstat-no" title="statement not covered" >            if (options.length === 1) {</span>
+<span class="cstat-no" title="statement not covered" >            <span class="missing-if-branch" title="if path not taken" >I</span>if (options.length === 1) {</span>
                 const newContent = <span class="cstat-no" title="statement not covered" >options[0];</span>
                 const rest = <span class="cstat-no" title="statement not covered" >newContent.substr(commandStr.length);</span>
 <span class="cstat-no" title="statement not covered" >                [...rest].forEach(<span class="fstat-no" title="function not covered" >(c</span>har) =&gt; {</span>
@@ -602,11 +608,11 @@ export class Shell {
 <span class="cstat-no" title="statement not covered" >                return [false, newContent];</span>
             }
         }
-<span class="cstat-no" title="statement not covered" >        if (args.length &gt; 1) {</span>
+<span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (args.length &gt; 1) {</span>
             const command = <span class="cstat-no" title="statement not covered" >this.commands[args[0]];</span>
-<span class="cstat-no" title="statement not covered" >            if (command) {</span>
+<span class="cstat-no" title="statement not covered" >            <span class="missing-if-branch" title="if path not taken" >I</span>if (command) {</span>
                 const options = <span class="cstat-no" title="statement not covered" >command.autocomplete(args.slice(1));</span>
-<span class="cstat-no" title="statement not covered" >                if (options.length === 1) {</span>
+<span class="cstat-no" title="statement not covered" >                <span class="missing-if-branch" title="if path not taken" >I</span>if (options.length === 1) {</span>
                     const existingLastArg = <span class="cstat-no" title="statement not covered" >args[args.length - 1];</span>
                     const lengthToPreserve = <span class="cstat-no" title="statement not covered" >commandStr.length - existingLastArg.length;</span>
                     const newContent = <span class="cstat-no" title="statement not covered" >`${commandStr.substr(0, lengthToPreserve)}${options[0]}`;</span>
@@ -669,10 +675,9 @@ export class Shell {
             </div><!-- /wrapper -->
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
-                <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Sat Dec 12 2020 13:24:37 GMT+0000 (Coordinated Universal Time)
+                <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
+                at 2023-01-27T22:19:42.487Z
             </div>
-        </div>
         <script src="../../prettify.js"></script>
         <script>
             window.onload = function () {

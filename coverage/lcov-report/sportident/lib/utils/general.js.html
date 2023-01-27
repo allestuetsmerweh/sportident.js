@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">48.94% </span>
+                <span class="strong">52.94% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>23/47</span>
+                <span class='fraction'>27/51</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">23.53% </span>
+                <span class="strong">23.52% </span>
                 <span class="quiet">Branches</span>
                 <span class='fraction'>4/17</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">41.67% </span>
+                <span class="strong">41.66% </span>
                 <span class="quiet">Functions</span>
                 <span class='fraction'>5/12</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">54.16% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>22/44</span>
+                <span class='fraction'>26/48</span>
             </div>
         
             
@@ -54,8 +54,14 @@
         <p class="quiet">
             Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
         </p>
+        <template id="filterTemplate">
+            <div class="quiet">
+                Filter:
+                <input oninput="onInput()" type="search" id="fileSearch">
+            </div>
+        </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -115,7 +121,11 @@
 <a name='L56'></a><a href='#L56'>56</a>
 <a name='L57'></a><a href='#L57'>57</a>
 <a name='L58'></a><a href='#L58'>58</a>
-<a name='L59'></a><a href='#L59'>59</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L59'></a><a href='#L59'>59</a>
+<a name='L60'></a><a href='#L60'>60</a>
+<a name='L61'></a><a href='#L61'>61</a>
+<a name='L62'></a><a href='#L62'>62</a>
+<a name='L63'></a><a href='#L63'>63</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
@@ -132,6 +142,7 @@
 <span class="cline-any cline-yes">32x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -150,11 +161,13 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">63x</span>
-<span class="cline-any cline-yes">63x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">63x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
@@ -173,10 +186,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">"use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.binarySearch = exports.waitFor = exports.getLookup = exports.cached = void 0;
-exports.cached = (cache, getThing) =&gt; {
+const cached = (cache, getThing) =&gt; {
     const getter = <span class="fstat-no" title="function not covered" >()</span> =&gt; {
         const getThingIdent = <span class="cstat-no" title="statement not covered" >`${getThing.name}-${getThing.toString()}`;</span>
         const cachedThing = <span class="cstat-no" title="statement not covered" >cache[getThingIdent];</span>
@@ -189,7 +203,8 @@ exports.cached = (cache, getThing) =&gt; {
     };
     return getter;
 };
-exports.getLookup = <span class="fstat-no" title="function not covered" >(m</span>apping, getLookupKey) =&gt; {
+exports.cached = cached;
+const getLookup = <span class="fstat-no" title="function not covered" >(m</span>apping, getLookupKey) =&gt; {
 <span class="cstat-no" title="statement not covered" >    if (mapping._lookup) {</span>
 <span class="cstat-no" title="statement not covered" >        return mapping._lookup;</span>
     }
@@ -207,13 +222,15 @@ exports.getLookup = <span class="fstat-no" title="function not covered" >(m</spa
 <span class="cstat-no" title="statement not covered" >    mapping._lookup = lookup;</span>
 <span class="cstat-no" title="statement not covered" >    return lookup;</span>
 };
-exports.waitFor = (milliseconds, value) =&gt; {
+exports.getLookup = getLookup;
+const waitFor = (milliseconds, value) =&gt; {
     const promise = new Promise((resolve) =&gt; {
         setTimeout(() =&gt; resolve(value), milliseconds);
     });
     return promise;
 };
-exports.binarySearch = (list, item, options = <span class="branch-0 cbranch-no" title="branch not covered" >{})</span> =&gt; {
+exports.waitFor = waitFor;
+const binarySearch = (list, item, options = <span class="branch-0 cbranch-no" title="branch not covered" >{})</span> =&gt; {
     const defaultGetLength = <span class="fstat-no" title="function not covered" >(l</span>ist_) =&gt; <span class="cstat-no" title="statement not covered" >list_.length;</span>
     const getLength = options.getLength || <span class="branch-1 cbranch-no" title="branch not covered" >defaultGetLength;</span>
     const defaultGetItemAtIndex = <span class="fstat-no" title="function not covered" >(l</span>ist_, index) =&gt; <span class="cstat-no" title="statement not covered" >list_[index];</span>
@@ -231,16 +248,16 @@ exports.binarySearch = (list, item, options = <span class="branch-0 cbranch-no" 
     }
     return start;
 };
+exports.binarySearch = binarySearch;
 //# sourceMappingURL=general.js.map</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
-                <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Sat Dec 12 2020 13:24:37 GMT+0000 (Coordinated Universal Time)
+                <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
+                at 2023-01-27T22:19:42.487Z
             </div>
-        </div>
         <script src="../../../prettify.js"></script>
         <script>
             window.onload = function () {

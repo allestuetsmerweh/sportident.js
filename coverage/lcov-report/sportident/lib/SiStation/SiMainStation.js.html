@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">19.57% </span>
+                <span class="strong">18.94% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>18/92</span>
+                <span class='fraction'>18/95</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">29.79% </span>
+                <span class="strong">25.45% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>14/47</span>
+                <span class='fraction'>14/55</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">4.55% </span>
+                <span class="strong">4.54% </span>
                 <span class="quiet">Functions</span>
                 <span class='fraction'>1/22</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">20.24% </span>
+                <span class="strong">19.54% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>17/84</span>
+                <span class='fraction'>17/87</span>
             </div>
         
             
@@ -54,6 +54,12 @@
         <p class="quiet">
             Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
         </p>
+        <template id="filterTemplate">
+            <div class="quiet">
+                Filter:
+                <input oninput="onInput()" type="search" id="fileSearch">
+            </div>
+        </template>
     </div>
     <div class='status-line low'></div>
     <pre><table class="coverage">
@@ -188,9 +194,17 @@
 <a name='L129'></a><a href='#L129'>129</a>
 <a name='L130'></a><a href='#L130'>130</a>
 <a name='L131'></a><a href='#L131'>131</a>
-<a name='L132'></a><a href='#L132'>132</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L132'></a><a href='#L132'>132</a>
+<a name='L133'></a><a href='#L133'>133</a>
+<a name='L134'></a><a href='#L134'>134</a>
+<a name='L135'></a><a href='#L135'>135</a>
+<a name='L136'></a><a href='#L136'>136</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -227,19 +241,19 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -322,7 +336,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">"use strict";
 var __createBinding = (this &amp;&amp; this.__createBinding) || (Object.create ? (<span class="fstat-no" title="function not covered" >fu</span>nction(o, m, k, k2) {
 <span class="cstat-no" title="statement not covered" >    if (k2 === undefined) <span class="cstat-no" title="statement not covered" >k2 = k;</span></span>
-<span class="cstat-no" title="statement not covered" >    Object.defineProperty(o, k2, { enumerable: true, get: <span class="fstat-no" title="function not covered" >fu</span>nction() { <span class="cstat-no" title="statement not covered" >return m[k]; </span>} });</span>
+    var desc = <span class="cstat-no" title="statement not covered" >Object.getOwnPropertyDescriptor(m, k);</span>
+<span class="cstat-no" title="statement not covered" >    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {</span>
+<span class="cstat-no" title="statement not covered" >      desc = { enumerable: true, get: <span class="fstat-no" title="function not covered" >fu</span>nction() { <span class="cstat-no" title="statement not covered" >return m[k]; </span>} };</span>
+    }
+<span class="cstat-no" title="statement not covered" >    Object.defineProperty(o, k2, desc);</span>
 }) : (<span class="fstat-no" title="function not covered" ><span class="branch-1 cbranch-no" title="branch not covered" >fu</span>nction(o, m, k, k2) {</span>
 <span class="cstat-no" title="statement not covered" >    if (k2 === undefined) <span class="cstat-no" title="statement not covered" >k2 = k;</span></span>
 <span class="cstat-no" title="statement not covered" >    o[k2] = m[k];</span>
@@ -335,7 +353,7 @@ var __setModuleDefault = (this &amp;&amp; this.__setModuleDefault) || (Object.cr
 var __importStar = (this &amp;&amp; this.__importStar) || function (mod) {
     <span class="missing-if-branch" title="else path not taken" >E</span>if (mod &amp;&amp; mod.__esModule) return mod;
     var result = <span class="cstat-no" title="statement not covered" >{};</span>
-<span class="cstat-no" title="statement not covered" >    if (mod != null) <span class="cstat-no" title="statement not covered" >for (var k in mod) <span class="cstat-no" title="statement not covered" >if (k !== "default" &amp;&amp; Object.hasOwnProperty.call(mod, k)) <span class="cstat-no" title="statement not covered" >__createBinding(result, mod, k);</span></span></span></span>
+<span class="cstat-no" title="statement not covered" >    if (mod != null) <span class="cstat-no" title="statement not covered" >for (var k in mod) <span class="cstat-no" title="statement not covered" >if (k !== "default" &amp;&amp; Object.prototype.hasOwnProperty.call(mod, k)) <span class="cstat-no" title="statement not covered" >__createBinding(result, mod, k);</span></span></span></span>
 <span class="cstat-no" title="statement not covered" >    __setModuleDefault(result, mod);</span>
 <span class="cstat-no" title="statement not covered" >    return result;</span>
 };
@@ -355,6 +373,13 @@ const ISiTargetMultiplexer_1 = require("./ISiTargetMultiplexer");
 const BaseSiStation_1 = require("./BaseSiStation");
 const SiTargetMultiplexer_1 = require("./SiTargetMultiplexer");
 class SiMainStation extends BaseSiStation_1.BaseSiStation {
+<span class="fstat-no" title="function not covered" >    st</span>atic fromSiDevice(siDevice) {
+        const multiplexer = <span class="cstat-no" title="statement not covered" >SiTargetMultiplexer_1.SiTargetMultiplexer.fromSiDevice(siDevice);</span>
+<span class="cstat-no" title="statement not covered" >        return this.fromSiTargetMultiplexer(multiplexer);</span>
+    }
+<span class="fstat-no" title="function not covered" >    st</span>atic fromSiTargetMultiplexer(multiplexer) {
+<span class="cstat-no" title="statement not covered" >        return this.fromSiTargetMultiplexerWithGivenTarget(multiplexer, ISiTargetMultiplexer_1.SiTargetMultiplexerTarget.Direct, <span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >new this(multiplexer, ISiTargetMultiplexer_1.SiTargetMultiplexerTarget.Direct))</span>;</span>
+    }
 <span class="fstat-no" title="function not covered" >    co</span>nstructor(siTargetMultiplexer, multiplexerTarget = <span class="branch-0 cbranch-no" title="branch not covered" >ISiTargetMultiplexer_1.SiTargetMultiplexerTarget.Direct)</span> {
 <span class="cstat-no" title="statement not covered" >        super(siTargetMultiplexer, multiplexerTarget);</span>
 <span class="cstat-no" title="statement not covered" >        this.siCard = null;</span>
@@ -364,13 +389,6 @@ class SiMainStation extends BaseSiStation_1.BaseSiStation {
 <span class="cstat-no" title="statement not covered" >            this.handleMessage(message);</span>
 <span class="cstat-no" title="statement not covered" >            console.log(`There's a SiMainStation listening to this ${message}`);</span>
         });
-    }
-<span class="fstat-no" title="function not covered" >    st</span>atic fromSiDevice(siDevice) {
-        const multiplexer = <span class="cstat-no" title="statement not covered" >SiTargetMultiplexer_1.SiTargetMultiplexer.fromSiDevice(siDevice);</span>
-<span class="cstat-no" title="statement not covered" >        return this.fromSiTargetMultiplexer(multiplexer);</span>
-    }
-<span class="fstat-no" title="function not covered" >    st</span>atic fromSiTargetMultiplexer(multiplexer) {
-<span class="cstat-no" title="statement not covered" >        return this.fromSiTargetMultiplexerWithGivenTarget(multiplexer, ISiTargetMultiplexer_1.SiTargetMultiplexerTarget.Direct, <span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >new this(multiplexer, ISiTargetMultiplexer_1.SiTargetMultiplexerTarget.Direct))</span>;</span>
     }
 <span class="fstat-no" title="function not covered" >    re</span>adCards(onCardInserted, siStationSetupModification = <span class="branch-0 cbranch-no" title="branch not covered" >{})</span> {
         const siStationSetup = <span class="cstat-no" title="statement not covered" >Object.assign({ code: 10, mode: ISiStation_1.SiStationMode.Readout, autoSend: false, handshake: true, beeps: true, flashes: true }, siStationSetupModification);</span>
@@ -456,10 +474,9 @@ utils.applyMixins(SiMainStation, [utils.EventTarget]);
             </div><!-- /wrapper -->
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
-                <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Sat Dec 12 2020 13:24:37 GMT+0000 (Coordinated Universal Time)
+                <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
+                at 2023-01-27T22:19:42.487Z
             </div>
-        </div>
         <script src="../../../prettify.js"></script>
         <script>
             window.onload = function () {

@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">40.63% </span>
+                <span class="strong">38.88% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>13/32</span>
+                <span class='fraction'>14/36</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">51.85% </span>
+                <span class="strong">40% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>14/27</span>
+                <span class='fraction'>14/35</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">54.55% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>12/22</span>
+                <span class='fraction'>13/26</span>
             </div>
         
             
@@ -54,6 +54,12 @@
         <p class="quiet">
             Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
         </p>
+        <template id="filterTemplate">
+            <div class="quiet">
+                Filter:
+                <input oninput="onInput()" type="search" id="fileSearch">
+            </div>
+        </template>
     </div>
     <div class='status-line low'></div>
     <pre><table class="coverage">
@@ -174,26 +180,35 @@
 <a name='L115'></a><a href='#L115'>115</a>
 <a name='L116'></a><a href='#L116'>116</a>
 <a name='L117'></a><a href='#L117'>117</a>
-<a name='L118'></a><a href='#L118'>118</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<a name='L118'></a><a href='#L118'>118</a>
+<a name='L119'></a><a href='#L119'>119</a>
+<a name='L120'></a><a href='#L120'>120</a>
+<a name='L121'></a><a href='#L121'>121</a>
+<a name='L122'></a><a href='#L122'>122</a>
+<a name='L123'></a><a href='#L123'>123</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -291,10 +306,15 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">"use strict";
 var __createBinding = (this &amp;&amp; this.__createBinding) || (Object.create ? (<span class="fstat-no" title="function not covered" >fu</span>nction(o, m, k, k2) {
 <span class="cstat-no" title="statement not covered" >    if (k2 === undefined) <span class="cstat-no" title="statement not covered" >k2 = k;</span></span>
-<span class="cstat-no" title="statement not covered" >    Object.defineProperty(o, k2, { enumerable: true, get: <span class="fstat-no" title="function not covered" >fu</span>nction() { <span class="cstat-no" title="statement not covered" >return m[k]; </span>} });</span>
+    var desc = <span class="cstat-no" title="statement not covered" >Object.getOwnPropertyDescriptor(m, k);</span>
+<span class="cstat-no" title="statement not covered" >    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {</span>
+<span class="cstat-no" title="statement not covered" >      desc = { enumerable: true, get: <span class="fstat-no" title="function not covered" >fu</span>nction() { <span class="cstat-no" title="statement not covered" >return m[k]; </span>} };</span>
+    }
+<span class="cstat-no" title="statement not covered" >    Object.defineProperty(o, k2, desc);</span>
 }) : (<span class="fstat-no" title="function not covered" ><span class="branch-1 cbranch-no" title="branch not covered" >fu</span>nction(o, m, k, k2) {</span>
 <span class="cstat-no" title="statement not covered" >    if (k2 === undefined) <span class="cstat-no" title="statement not covered" >k2 = k;</span></span>
 <span class="cstat-no" title="statement not covered" >    o[k2] = m[k];</span>
@@ -307,7 +327,7 @@ var __setModuleDefault = (this &amp;&amp; this.__setModuleDefault) || (Object.cr
 var __importStar = (this &amp;&amp; this.__importStar) || function (mod) {
     <span class="missing-if-branch" title="else path not taken" >E</span>if (mod &amp;&amp; mod.__esModule) return mod;
     var result = <span class="cstat-no" title="statement not covered" >{};</span>
-<span class="cstat-no" title="statement not covered" >    if (mod != null) <span class="cstat-no" title="statement not covered" >for (var k in mod) <span class="cstat-no" title="statement not covered" >if (k !== "default" &amp;&amp; Object.hasOwnProperty.call(mod, k)) <span class="cstat-no" title="statement not covered" >__createBinding(result, mod, k);</span></span></span></span>
+<span class="cstat-no" title="statement not covered" >    if (mod != null) <span class="cstat-no" title="statement not covered" >for (var k in mod) <span class="cstat-no" title="statement not covered" >if (k !== "default" &amp;&amp; Object.prototype.hasOwnProperty.call(mod, k)) <span class="cstat-no" title="statement not covered" >__createBinding(result, mod, k);</span></span></span></span>
 <span class="cstat-no" title="statement not covered" >    __setModuleDefault(result, mod);</span>
 <span class="cstat-no" title="statement not covered" >    return result;</span>
 };
@@ -404,20 +424,20 @@ exports.getBSM7Station = utils.cached(cache, <span class="fstat-no" title="funct
             `),
     ],
 }));
-exports.getSiStationExamples = <span class="fstat-no" title="function not covered" >()</span> =&gt; (<span class="cstat-no" title="statement not covered" >{</span>
-    BSM8Station: exports.getBSM8Station(),
-    BSM7Station: exports.getBSM7Station(),
+const getSiStationExamples = <span class="fstat-no" title="function not covered" >()</span> =&gt; (<span class="cstat-no" title="statement not covered" >{</span>
+    BSM8Station: (0, exports.getBSM8Station)(),
+    BSM7Station: (0, exports.getBSM7Station)(),
 });
+exports.getSiStationExamples = getSiStationExamples;
 //# sourceMappingURL=siStationExamples.js.map</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
-                <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Sat Dec 12 2020 13:24:37 GMT+0000 (Coordinated Universal Time)
+                <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
+                at 2023-01-27T22:19:42.487Z
             </div>
-        </div>
         <script src="../../../prettify.js"></script>
         <script>
             window.onload = function () {

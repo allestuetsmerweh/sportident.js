@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">46.67% </span>
+                <span class="strong">30.3% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>14/30</span>
+                <span class='fraction'>10/33</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">51.85% </span>
+                <span class="strong">40% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>14/27</span>
+                <span class='fraction'>14/35</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">37.5% </span>
+                <span class="strong">12.5% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>3/8</span>
+                <span class='fraction'>1/8</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">56.52% </span>
+                <span class="strong">34.61% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>13/23</span>
+                <span class='fraction'>9/26</span>
             </div>
         
             
@@ -54,6 +54,12 @@
         <p class="quiet">
             Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
         </p>
+        <template id="filterTemplate">
+            <div class="quiet">
+                Filter:
+                <input oninput="onInput()" type="search" id="fileSearch">
+            </div>
+        </template>
     </div>
     <div class='status-line low'></div>
     <pre><table class="coverage">
@@ -98,26 +104,34 @@
 <a name='L39'></a><a href='#L39'>39</a>
 <a name='L40'></a><a href='#L40'>40</a>
 <a name='L41'></a><a href='#L41'>41</a>
-<a name='L42'></a><a href='#L42'>42</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<a name='L42'></a><a href='#L42'>42</a>
+<a name='L43'></a><a href='#L43'>43</a>
+<a name='L44'></a><a href='#L44'>44</a>
+<a name='L45'></a><a href='#L45'>45</a>
+<a name='L46'></a><a href='#L46'>46</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -125,8 +139,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -134,15 +148,19 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">"use strict";
 var __createBinding = (this &amp;&amp; this.__createBinding) || (Object.create ? (<span class="fstat-no" title="function not covered" >fu</span>nction(o, m, k, k2) {
 <span class="cstat-no" title="statement not covered" >    if (k2 === undefined) <span class="cstat-no" title="statement not covered" >k2 = k;</span></span>
-<span class="cstat-no" title="statement not covered" >    Object.defineProperty(o, k2, { enumerable: true, get: <span class="fstat-no" title="function not covered" >fu</span>nction() { <span class="cstat-no" title="statement not covered" >return m[k]; </span>} });</span>
+    var desc = <span class="cstat-no" title="statement not covered" >Object.getOwnPropertyDescriptor(m, k);</span>
+<span class="cstat-no" title="statement not covered" >    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {</span>
+<span class="cstat-no" title="statement not covered" >      desc = { enumerable: true, get: <span class="fstat-no" title="function not covered" >fu</span>nction() { <span class="cstat-no" title="statement not covered" >return m[k]; </span>} };</span>
+    }
+<span class="cstat-no" title="statement not covered" >    Object.defineProperty(o, k2, desc);</span>
 }) : (<span class="fstat-no" title="function not covered" ><span class="branch-1 cbranch-no" title="branch not covered" >fu</span>nction(o, m, k, k2) {</span>
 <span class="cstat-no" title="statement not covered" >    if (k2 === undefined) <span class="cstat-no" title="statement not covered" >k2 = k;</span></span>
 <span class="cstat-no" title="statement not covered" >    o[k2] = m[k];</span>
@@ -155,7 +173,7 @@ var __setModuleDefault = (this &amp;&amp; this.__setModuleDefault) || (Object.cr
 var __importStar = (this &amp;&amp; this.__importStar) || function (mod) {
     <span class="missing-if-branch" title="else path not taken" >E</span>if (mod &amp;&amp; mod.__esModule) return mod;
     var result = <span class="cstat-no" title="statement not covered" >{};</span>
-<span class="cstat-no" title="statement not covered" >    if (mod != null) <span class="cstat-no" title="statement not covered" >for (var k in mod) <span class="cstat-no" title="statement not covered" >if (k !== "default" &amp;&amp; Object.hasOwnProperty.call(mod, k)) <span class="cstat-no" title="statement not covered" >__createBinding(result, mod, k);</span></span></span></span>
+<span class="cstat-no" title="statement not covered" >    if (mod != null) <span class="cstat-no" title="statement not covered" >for (var k in mod) <span class="cstat-no" title="statement not covered" >if (k !== "default" &amp;&amp; Object.prototype.hasOwnProperty.call(mod, k)) <span class="cstat-no" title="statement not covered" >__createBinding(result, mod, k);</span></span></span></span>
 <span class="cstat-no" title="statement not covered" >    __setModuleDefault(result, mod);</span>
 <span class="cstat-no" title="statement not covered" >    return result;</span>
 };
@@ -163,20 +181,20 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.SiDeviceRemoveEvent = exports.SiDeviceAddEvent = void 0;
 const utils = __importStar(require("../utils"));
 class SiDeviceAddEvent extends utils.Event {
-    constructor(
+<span class="fstat-no" title="function not covered" >    co</span>nstructor(
     // eslint-disable-next-line no-unused-vars
     siDevice) {
-        super();
-        this.siDevice = siDevice;
+<span class="cstat-no" title="statement not covered" >        super();</span>
+<span class="cstat-no" title="statement not covered" >        this.siDevice = siDevice;</span>
     }
 }
 exports.SiDeviceAddEvent = SiDeviceAddEvent;
 class SiDeviceRemoveEvent extends utils.Event {
-    constructor(
+<span class="fstat-no" title="function not covered" >    co</span>nstructor(
     // eslint-disable-next-line no-unused-vars
     siDevice) {
-        super();
-        this.siDevice = siDevice;
+<span class="cstat-no" title="statement not covered" >        super();</span>
+<span class="cstat-no" title="statement not covered" >        this.siDevice = siDevice;</span>
     }
 }
 exports.SiDeviceRemoveEvent = SiDeviceRemoveEvent;
@@ -186,10 +204,9 @@ exports.SiDeviceRemoveEvent = SiDeviceRemoveEvent;
             </div><!-- /wrapper -->
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
-                <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Sat Dec 12 2020 13:24:37 GMT+0000 (Coordinated Universal Time)
+                <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
+                at 2023-01-27T22:19:42.487Z
             </div>
-        </div>
         <script src="../../../prettify.js"></script>
         <script>
             window.onload = function () {

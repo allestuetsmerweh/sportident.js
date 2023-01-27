@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">53.85% </span>
+                <span class="strong">53.84% </span>
                 <span class="quiet">Statements</span>
                 <span class='fraction'>21/39</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">36.36% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>8/22</span>
+                <span class='fraction'>7/14</span>
             </div>
         
             
@@ -44,7 +44,7 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">56.76% </span>
+                <span class="strong">56.75% </span>
                 <span class="quiet">Lines</span>
                 <span class='fraction'>21/37</span>
             </div>
@@ -54,6 +54,12 @@
         <p class="quiet">
             Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
         </p>
+        <template id="filterTemplate">
+            <div class="quiet">
+                Filter:
+                <input oninput="onInput()" type="search" id="fileSearch">
+            </div>
+        </template>
     </div>
     <div class='status-line medium'></div>
     <pre><table class="coverage">
@@ -230,11 +236,11 @@ export abstract class BaseCommand {
 <span class="fstat-no" title="function not covered" >    autocomplete(</span>args: string[]): string[] {
         const argTypes = <span class="cstat-no" title="statement not covered" >this.getArgTypes();</span>
         const lastArgType = <span class="cstat-no" title="statement not covered" >argTypes[args.length - 1];</span>
-<span class="cstat-no" title="statement not covered" >        if (!lastArgType) {</span>
+<span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (!lastArgType) {</span>
 <span class="cstat-no" title="statement not covered" >            return [args.join(' ')];</span>
         }
         const lastArg = <span class="cstat-no" title="statement not covered" >args[args.length - 1];</span>
-<span class="cstat-no" title="statement not covered" >        if (lastArgType.choices) {</span>
+<span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (lastArgType.choices) {</span>
 <span class="cstat-no" title="statement not covered" >            return lastArgType.choices.filter(<span class="fstat-no" title="function not covered" >(s</span>) =&gt; <span class="cstat-no" title="statement not covered" >s.startsWith(lastArg))</span>;</span>
         }
 <span class="cstat-no" title="statement not covered" >        return [];</span>
@@ -247,15 +253,15 @@ export abstract class BaseCommand {
         const argTypes = this.getArgTypes();
         argTypes.forEach((argType: ArgType, argIndex: number) =&gt; {
             const arg = context.args[argIndex + 1];
-            <span class="missing-if-branch" title="else path not taken" >E</span>if (!arg) {
+            if (!arg) {
                 if (!argType.isOptional) {
                     context.putString(`${argType.name} is not optional\n`);
                     isValid = false;
                 }
                 return;
             }
-<span class="cstat-no" title="statement not covered" >            if (argType.regex) {</span>
-<span class="cstat-no" title="statement not covered" >                if (!argType.regex.exec(arg)) {</span>
+<span class="cstat-no" title="statement not covered" >            <span class="missing-if-branch" title="if path not taken" >I</span>if (argType.regex) {</span>
+<span class="cstat-no" title="statement not covered" >                <span class="missing-if-branch" title="if path not taken" >I</span>if (!argType.regex.exec(arg)) {</span>
 <span class="cstat-no" title="statement not covered" >                    context.putString(</span>
                         `For ${argType.name}, "${arg}" is not valid\n` +
                         `Must match: ${argType.regex}\n`,
@@ -263,8 +269,8 @@ export abstract class BaseCommand {
 <span class="cstat-no" title="statement not covered" >                    isValid = false;</span>
                 }
             }
-<span class="cstat-no" title="statement not covered" >            if (argType.choices) {</span>
-<span class="cstat-no" title="statement not covered" >                if (!argType.choices.some(<span class="fstat-no" title="function not covered" >(c</span>hoice) =&gt; <span class="cstat-no" title="statement not covered" >choice === arg)</span>) {</span>
+<span class="cstat-no" title="statement not covered" >            <span class="missing-if-branch" title="if path not taken" >I</span>if (argType.choices) {</span>
+<span class="cstat-no" title="statement not covered" >                <span class="missing-if-branch" title="if path not taken" >I</span>if (!argType.choices.some(<span class="fstat-no" title="function not covered" >(c</span>hoice) =&gt; <span class="cstat-no" title="statement not covered" >choice === arg)</span>) {</span>
 <span class="cstat-no" title="statement not covered" >                    context.putString(</span>
                         `For ${argType.name}, "${arg}" is not a valid choice\n` +
                         `Valid choices: ${argType.choices.join(', ')}\n`,
@@ -297,10 +303,9 @@ export abstract class BaseCommand {
             </div><!-- /wrapper -->
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
-                <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Sat Dec 12 2020 13:24:37 GMT+0000 (Coordinated Universal Time)
+                <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
+                at 2023-01-27T22:19:42.487Z
             </div>
-        </div>
         <script src="../../../prettify.js"></script>
         <script>
             window.onload = function () {
