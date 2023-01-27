@@ -14,8 +14,8 @@
     "ws": "^7.2.1"
   },
   "devDependencies": {
-    "@types/node": "^12.12.24",
+    "@types/node": "^18.11.18",
     "@types/ws": "^6.0.4",
-    "ts-node-dev": "^1.0.0-pre.44"
+    "ts-node-dev": "^2.0.0"
   }
 }

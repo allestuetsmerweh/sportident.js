@@ -12,14 +12,14 @@
     "build": "tsc",
     "eslint": "eslint ./src/ --ext .ts,.tsx",
     "tsc": "tsc",
-    "typedoc": "typedoc --mode modules --out ../../docs/typedoc/sportident-webusb/ ./src/"
+    "typedoc": "typedoc --out ../../docs/typedoc/sportident-webusb/ ./src/"
   },
   "author": "Simon Hatt",
   "license": "MIT",
-  "devDependencies": {
+  "peerDependencies": {
     "sportident": "^2.0.0-alpha.6"
   },
-  "peerDependencies": {
-    "sportident": "^1.0.0"
+  "devDependencies": {
+    "sportident": "^2.0.0-alpha.6"
   }
 }

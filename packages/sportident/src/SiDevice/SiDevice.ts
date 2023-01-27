@@ -103,7 +103,8 @@ export class SiDevice<T extends ISiDeviceDriverData<any>> implements ISiDevice<T
                 })
                 .then(() => this.receiveLoop())
                 .catch(() => undefined);
-        } catch (err) {
+        } catch (exc: unknown) {
+            const err = utils.getErrorOrThrow(exc);
             console.warn(`${this.name}: Error starting receiving: ${err.message}`);
             if (this.shouldStopReceivingBecauseOfError(err)) {
                 console.warn('Receive loop stopped while starting receiving');

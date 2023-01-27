@@ -19,7 +19,7 @@ export class FakeSiCard6 extends BaseFakeSiCard {
         this.storage = siCard6StorageDefinition(storageData);
     }
 
-    handleDetect() {
+    handleDetect(): siProtocol.SiMessage {
         const cardNumberArr = siProtocol.cardNumber2arr(this.storage.get('cardNumber')!.value);
         cardNumberArr.reverse();
         return {
@@ -28,7 +28,7 @@ export class FakeSiCard6 extends BaseFakeSiCard {
         };
     }
 
-    handleRequest(message: siProtocol.SiMessage) {
+    handleRequest(message: siProtocol.SiMessage): siProtocol.SiMessage[] {
         if (
             message.mode !== undefined
             || message.command !== proto.cmd.GET_SI6
@@ -37,13 +37,13 @@ export class FakeSiCard6 extends BaseFakeSiCard {
             throw new Error(`SiCard6 can not handle ${siProtocol.prettyMessage(message)}`);
         }
         const pageIndex = message.parameters[0];
-        const getPageAtIndex = (index: number) => ({
+        const getPageAtIndex = (index: number): siProtocol.SiMessage => ({
             command: proto.cmd.GET_SI6,
             parameters: [
                 index,
                 ...this.storage.data.slice(index * 128, (index + 1) * 128).toJS(),
             ],
-        });
+        }) as siProtocol.SiMessage;
         if (pageIndex === 0x08) {
             return [0, 6, 7].map(getPageAtIndex);
         }

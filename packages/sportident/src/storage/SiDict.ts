@@ -24,11 +24,11 @@ export class SiDict<T> extends SiDataType<SiDictValue<T>> implements ISiDataType
             const definition = this.definitionDict[key];
             const itemValue = value[key];
             if (itemValue === undefined) {
-                return `${key}: ?`;
+                return `${String(key)}: ?`;
             }
             // @ts-ignore
             const itemValueString = definition.valueToString(itemValue);
-            return `${key}: ${itemValueString}`;
+            return `${String(key)}: ${itemValueString}`;
         }).join(', ');
     }
 

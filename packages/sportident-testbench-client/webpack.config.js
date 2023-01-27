@@ -36,7 +36,7 @@ module.exports = [
                                 ['@babel/preset-react', {}],
                             ],
                             plugins: [
-                                '@babel/plugin-proposal-object-rest-spread'
+                                '@babel/plugin-proposal-object-rest-spread',
                             ],
                         },
                     },
@@ -50,9 +50,6 @@ module.exports = [
         },
         resolve: {
             extensions: ['.js', '.jsx', '.ts', '.tsx'],
-            alias: {
-                react: path.resolve('./node_modules/react'),
-            },
         },
         plugins: [
             new HtmlWebpackPlugin({

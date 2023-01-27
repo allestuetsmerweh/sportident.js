@@ -14,7 +14,7 @@ export class FakeModernSiCard extends BaseFakeSiCard {
         this.storage = modernSiCardStorageDefinition(storage);
     }
 
-    handleDetect() {
+    handleDetect(): siProtocol.SiMessage {
         const cardNumberArr = siProtocol.cardNumber2arr(this.storage.get('cardNumber')!.value);
         cardNumberArr.reverse();
         return {
@@ -23,7 +23,7 @@ export class FakeModernSiCard extends BaseFakeSiCard {
         };
     }
 
-    handleRequest(message: siProtocol.SiMessage) {
+    handleRequest(message: siProtocol.SiMessage): siProtocol.SiMessage[] {
         if (
             message.mode !== undefined
             || message.command !== proto.cmd.GET_SI8
@@ -40,8 +40,8 @@ export class FakeModernSiCard extends BaseFakeSiCard {
             ],
         });
         if (pageIndex === 0x08) {
-            return [0, 6, 7].map(getPageAtIndex);
+            return [0, 6, 7].map(getPageAtIndex) as siProtocol.SiMessage[];
         }
-        return [getPageAtIndex(pageIndex)];
+        return [getPageAtIndex(pageIndex)] as siProtocol.SiMessage[];
     }
 }

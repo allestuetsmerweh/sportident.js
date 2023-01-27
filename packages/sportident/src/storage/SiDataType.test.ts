@@ -66,7 +66,7 @@ describe('SiDataType', () => {
             newValue: number|SiFieldValue<number>,
         ): number[] => (
             field.updateData(Immutable.List(data), newValue).toJS()
-        );
+        ) as number[];
 
         expect(updateData(myField, [0x00], 0x61)).toEqual([0x61]);
         expect(updateData(myField, [0x00], fieldValueOf(0x61))).toEqual([0x61]);

@@ -1,0 +1,38 @@
+{
+  "tasksRunnerOptions": {
+    "default": {
+      "runner": "nx/tasks-runners/default",
+      "options": {
+        "cacheableOperations": [
+          "build",
+          "eslint",
+          "tsc",
+          "webpack",
+          "typedoc"
+        ]
+      }
+    }
+  },
+  "targetDefaults": {
+    "build": {
+      "outputs": [
+        "{projectRoot}/lib"
+      ]
+    },
+    "tsc": {
+      "outputs": [
+        "{projectRoot}/lib"
+      ]
+    },
+    "webpack": {
+      "outputs": [
+        "{projectRoot}/build"
+      ]
+    },
+    "typedoc": {
+      "outputs": [
+        "{projectRoot}/docs"
+      ]
+    }
+  }
+}

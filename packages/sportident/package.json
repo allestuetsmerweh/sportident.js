@@ -12,7 +12,7 @@
     "build": "tsc",
     "eslint": "eslint ./src/ --ext .ts,.tsx",
     "tsc": "tsc",
-    "typedoc": "typedoc --mode modules --out ../../docs/typedoc/sportident/ ./src/"
+    "typedoc": "typedoc --out ../../docs/typedoc/sportident/ ./src/"
   },
   "author": "Simon Hatt",
   "license": "MIT",

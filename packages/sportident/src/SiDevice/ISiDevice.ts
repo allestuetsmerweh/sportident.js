@@ -13,7 +13,7 @@ export interface ISiDeviceDriverData<T> {
     driver: T;
 }
 
-export class DeviceClosedError extends utils.Error {}
+export class DeviceClosedError extends utils.SiError {}
 
 export class SiDeviceStateChangeEvent extends utils.Event<'stateChange'> {
     constructor(
