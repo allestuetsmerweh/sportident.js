@@ -57,7 +57,7 @@ export const Terminal = (
         }
     }, []);
 
-    const onKeyDown = React.useCallback((event) => {
+    const onKeyDown: React.KeyboardEventHandler = React.useCallback((event) => {
         if (!event.key || event.ctrlKey) {
             return;
         }
@@ -69,7 +69,7 @@ export const Terminal = (
         setInputQueue([...inputQueue, keyCode]);
     }, [inputQueue]);
 
-    const onPaste = React.useCallback((event) => {
+    const onPaste: React.ClipboardEventHandler = React.useCallback((event) => {
         const pastedText = event.clipboardData.getData('text');
         const charCodes = [...pastedText].map((char) => char.charCodeAt(0));
         setInputQueue([...inputQueue, ...charCodes]);

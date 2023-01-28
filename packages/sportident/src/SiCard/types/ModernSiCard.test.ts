@@ -1,5 +1,4 @@
-/* eslint-env jasmine */
-
+import {describe, expect, test} from '@jest/globals';
 import _ from 'lodash';
 import * as utils from '../../utils';
 // eslint-disable-next-line no-unused-vars
@@ -9,7 +8,7 @@ import {getModernSiCardExamples} from './modernSiCardExamples';
 import {FakeModernSiCard} from '../../fakes/FakeSiCard/types/FakeModernSiCard';
 
 describe('ModernSiCard', () => {
-    it('exists', () => {
+    test('exists', () => {
         expect(ModernSiCard).not.toBe(undefined);
 
         const myModernSiCard = new ModernSiCard(0);
@@ -20,13 +19,13 @@ describe('ModernSiCard', () => {
         expect(myModernSiCard.storage.data.has(1024)).toBe(false);
         expect(myModernSiCard.storage.data.get(1024)).toBe(undefined);
     });
-    it('getPunchOffset', () => {
+    test('getPunchOffset', () => {
         expect(getPunchOffset(0)).toEqual(0x200);
         expect(getPunchOffset(1)).toEqual(0x204);
         expect(getPunchOffset(64)).toEqual(0x300);
         expect(getPunchOffset(127)).toEqual(0x3FC);
     });
-    it('cropPunches', () => {
+    test('cropPunches', () => {
         expect(cropPunches([])).toEqual([]);
         expect(cropPunches([
             {code: 31, time: 1},
@@ -99,21 +98,21 @@ describe('ModernSiCard', () => {
         country: 'EXP',
         isComplete: true,
     };
-    it('getCroppedString', () => {
+    test('getCroppedString', () => {
         expect(getCroppedString([])).toEqual('');
         expect(getCroppedString([0x61])).toEqual('a');
         expect(getCroppedString([0xEE])).toEqual('');
         expect(getCroppedString([0x41, 0xEE])).toEqual('A');
         expect(getCroppedString(cardHolderCharCodes1)).toEqual(cardHolderString1);
     });
-    it('parseCardHolderString', () => {
+    test('parseCardHolderString', () => {
         expect(parseCardHolderString('')).toEqual(emptyCardHolderDict);
         expect(parseCardHolderString('A')).toEqual(emptyCardHolderDict);
         expect(parseCardHolderString('A;')).toEqual({...emptyCardHolderDict, firstName: 'A'});
         expect(parseCardHolderString('A;B')).toEqual({...emptyCardHolderDict, firstName: 'A'});
         expect(parseCardHolderString(cardHolderString1)).toEqual(cardHolderDict1);
     });
-    it('parseCardHolder', () => {
+    test('parseCardHolder', () => {
         expect(parseCardHolder([])).toEqual(emptyCardHolderDict);
         expect(parseCardHolder([0x61])).toEqual(emptyCardHolderDict);
         expect(parseCardHolder([0x61, 0x3B])).toEqual({...emptyCardHolderDict, firstName: 'a'});
@@ -122,7 +121,7 @@ describe('ModernSiCard', () => {
         expect(parseCardHolder([0x41, 0x3B, 0xEE])).toEqual({...emptyCardHolderDict, firstName: 'A'});
         expect(parseCardHolder(cardHolderCharCodes1)).toEqual(cardHolderDict1);
     });
-    it('typeSpecificRead fails without mainStation', (done) => {
+    test('typeSpecificRead fails without mainStation', (done) => {
         const myModernSiCard = new ModernSiCard(1);
         myModernSiCard.typeSpecificRead().then(
             () => done(new Error('expect reject')),
@@ -131,7 +130,7 @@ describe('ModernSiCard', () => {
     });
     const examples = getModernSiCardExamples();
     Object.keys(examples).forEach((exampleName) => {
-        it(`typeSpecificRead works with ${exampleName} example`, (done) => {
+        test(`typeSpecificRead works with ${exampleName} example`, (done) => {
             const {storageData, cardData} = examples[exampleName];
             const myModernSiCard = new ModernSiCard(cardData.cardNumber);
             const myFakeModernSiCard = new FakeModernSiCard(storageData);
@@ -164,7 +163,7 @@ describe('ModernSiCard', () => {
             });
         });
     });
-    it('typeSpecificRead if typeSpecificReadCardHolder fails', (done) => {
+    test('typeSpecificRead if typeSpecificReadCardHolder fails', (done) => {
         const testError = new Error('test');
         let typeSpecificReadCardHolderCalled = false;
         class ModernSiCardWithoutCardHolder extends ModernSiCard {
@@ -185,7 +184,7 @@ describe('ModernSiCard', () => {
                 done();
             });
     });
-    it('typeSpecificRead if typeSpecificReadPunches fails', (done) => {
+    test('typeSpecificRead if typeSpecificReadPunches fails', (done) => {
         const testError = new Error('test');
         let attemptedToGetPage4 = false;
         class ModernSiCardWithoutCardHolder extends ModernSiCard {

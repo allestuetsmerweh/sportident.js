@@ -1,5 +1,4 @@
-/* eslint-env jasmine */
-
+import {describe, expect, test} from '@jest/globals';
 import _ from 'lodash';
 import {proto} from '../../constants';
 // eslint-disable-next-line no-unused-vars
@@ -9,14 +8,14 @@ import {BaseSiCard} from '../BaseSiCard';
 import {SIAC} from './SIAC';
 
 describe('SIAC', () => {
-    it('is registered', () => {
+    test('is registered', () => {
         expect(BaseSiCard.getTypeByCardNumber(7999999)).not.toEqual(SIAC);
         expect(BaseSiCard.getTypeByCardNumber(8000000)).toEqual(SIAC);
         expect(BaseSiCard.getTypeByCardNumber(8999999)).toEqual(SIAC);
         expect(BaseSiCard.getTypeByCardNumber(9000000)).not.toEqual(SIAC);
     });
     describe('typeSpecificInstanceFromMessage', () => {
-        it('works for valid message', () => {
+        test('works for valid message', () => {
             const instance = SIAC.typeSpecificInstanceFromMessage({
                 command: proto.cmd.SI8_DET,
                 parameters: [0x00, 0x00, /* TODO: */0x00, 0x88, 0x88, 0x88],
@@ -27,31 +26,31 @@ describe('SIAC', () => {
             expect(instance instanceof SIAC).toBe(true);
             expect(instance.cardNumber).toBe(8947848);
         });
-        it('returns undefined when message has mode', () => {
+        test('returns undefined when message has mode', () => {
             expect(SIAC.typeSpecificInstanceFromMessage({
                 mode: proto.NAK,
             })).toBe(undefined);
         });
-        it('returns undefined when message has wrong command', () => {
+        test('returns undefined when message has wrong command', () => {
             expect(SIAC.typeSpecificInstanceFromMessage({
                 command: testUtils.getRandomByteExcept([proto.cmd.SI8_DET]),
                 parameters: [],
             })).toBe(undefined);
         });
-        it('returns undefined when there are too few parameters', () => {
+        test('returns undefined when there are too few parameters', () => {
             expect(SIAC.typeSpecificInstanceFromMessage({
                 command: proto.cmd.SI8_DET,
                 parameters: [],
             })).toBe(undefined);
         });
-        it('returns undefined when the card number does not match', () => {
+        test('returns undefined when the card number does not match', () => {
             expect(SIAC.typeSpecificInstanceFromMessage({
                 command: proto.cmd.SI8_DET,
                 parameters: [0x00, 0x00, /* TODO: */0x00, 0x22, 0x22, 0x22],
             })).toBe(undefined);
         });
     });
-    it('is modern', (done) => {
+    test('is modern', (done) => {
         const mySIAC = new SIAC(8500000);
         mySIAC.mainStation = {
             sendMessage: (message: siProtocol.SiMessage, numResponses?: number) => {

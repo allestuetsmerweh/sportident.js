@@ -1,5 +1,4 @@
-/* eslint-env jasmine */
-
+import {describe, expect, test} from '@jest/globals';
 import {proto} from '../constants';
 // eslint-disable-next-line no-unused-vars
 import * as siProtocol from '../siProtocol';
@@ -14,16 +13,16 @@ import {FakeSiMainStation} from './FakeSiMainStation';
 testUtils.useFakeTimers();
 
 describe('FakeSiMainStation', () => {
-    it('exists', () => {
+    test('exists', () => {
         expect(FakeSiMainStation).not.toBe(undefined);
     });
     const myFakeSiMainStation = new FakeSiMainStation(
         getBSM8Station().storageData,
     );
-    it('getCode', () => {
+    test('getCode', () => {
         expect(myFakeSiMainStation.getCode()).toEqual([0, 31]);
     });
-    it('getDateTime', () => {
+    test('getDateTime', () => {
         const dateTime1 = myFakeSiMainStation.getDateTime();
         expect(dateTime1 instanceof Date).toBe(true);
         myFakeSiMainStation.dateOffset = 3600;
@@ -33,7 +32,7 @@ describe('FakeSiMainStation', () => {
         expect(timeDiff).toBeLessThan(3600 + 10);
         expect(timeDiff).toBeGreaterThan(3600 - 10);
     });
-    it('dispatching messages', () => {
+    test('dispatching messages', () => {
         const dispatchedMessages: siProtocol.SiMessage[] = [];
         const handleMessage = (e: FakeSiMainStationMessageEvent) => {
             dispatchedMessages.push(e.message);
@@ -58,7 +57,7 @@ describe('FakeSiMainStation', () => {
 
         myFakeSiMainStation.removeEventListener('message', handleMessage);
     });
-    it('insertCard', () => {
+    test('insertCard', () => {
         let dispatchedMessage: siProtocol.SiMessage|undefined;
         const handleMessage = (e: FakeSiMainStationMessageEvent) => {
             dispatchedMessage = e.message;
@@ -81,7 +80,7 @@ describe('FakeSiMainStation', () => {
 
         myFakeSiMainStation.removeEventListener('message', handleMessage);
     });
-    it('sendMessage', () => {
+    test('sendMessage', () => {
         const code = myFakeSiMainStation.getCode();
 
         const getResponsesFor = (message: siProtocol.SiMessage) => {

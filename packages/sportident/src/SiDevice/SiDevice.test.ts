@@ -1,5 +1,4 @@
-/* eslint-env jasmine */
-
+import {describe, expect, test} from '@jest/globals';
 import * as testUtils from '../testUtils';
 // eslint-disable-next-line no-unused-vars
 import {DeviceClosedError, ISiDeviceDriverData, SiDeviceState, SiDeviceStateChangeEvent} from './ISiDevice';
@@ -8,7 +7,7 @@ import {SiDevice} from './SiDevice';
 testUtils.useFakeTimers();
 
 describe('SiDevice', () => {
-    it('state management', () => {
+    test('state management', () => {
         const siDevice = new SiDevice('stateManagement', {
             driver: {name: 'FakeDriver'},
         } as ISiDeviceDriverData<any>);
@@ -30,7 +29,7 @@ describe('SiDevice', () => {
         expect(siDevice.state).toBe(SiDeviceState.Opened);
         siDevice.removeEventListener('stateChange', onStateChange);
     });
-    it('fails opening while opening', (done) => {
+    test('fails opening while opening', (done) => {
         const data = {
             driver: {},
         } as ISiDeviceDriverData<any>;
@@ -39,7 +38,7 @@ describe('SiDevice', () => {
         siDevice.setState(SiDeviceState.Opening);
         siDevice.open().catch(() => done());
     });
-    it('fails opening while closing', (done) => {
+    test('fails opening while closing', (done) => {
         let count = 0;
         const data = {
             driver: {
@@ -57,7 +56,7 @@ describe('SiDevice', () => {
         siDevice.setState(SiDeviceState.Closing);
         siDevice.open().catch(() => done());
     });
-    it('immediately opens when opened', (done) => {
+    test('immediately opens when opened', (done) => {
         let count = 0;
         const data = {
             driver: {
@@ -79,7 +78,7 @@ describe('SiDevice', () => {
                 done();
             });
     });
-    it('opens when closed', (done) => {
+    test('opens when closed', (done) => {
         let opened = false;
         const data = {
             driver: {
@@ -99,7 +98,7 @@ describe('SiDevice', () => {
                 done();
             });
     });
-    it('opening can fail', (done) => {
+    test('opening can fail', (done) => {
         const data = {
             driver: {
                 open: (_device: any) => {
@@ -116,7 +115,7 @@ describe('SiDevice', () => {
                 done();
             });
     });
-    it('opening can reject', (done) => {
+    test('opening can reject', (done) => {
         const data = {
             driver: {
                 open: (_device: any) => (
@@ -133,7 +132,7 @@ describe('SiDevice', () => {
                 done();
             });
     });
-    it('fails closing while opening', (done) => {
+    test('fails closing while opening', (done) => {
         const data = {
             driver: {},
         } as ISiDeviceDriverData<any>;
@@ -142,7 +141,7 @@ describe('SiDevice', () => {
         siDevice.setState(SiDeviceState.Opening);
         siDevice.close().catch(() => done());
     });
-    it('fails closing while closing', (done) => {
+    test('fails closing while closing', (done) => {
         const data = {
             driver: {},
         } as ISiDeviceDriverData<any>;
@@ -151,7 +150,7 @@ describe('SiDevice', () => {
         siDevice.setState(SiDeviceState.Closing);
         siDevice.close().catch(() => done());
     });
-    it('immediately closes when closed', (done) => {
+    test('immediately closes when closed', (done) => {
         const data = {
             driver: {},
         } as ISiDeviceDriverData<any>;
@@ -164,7 +163,7 @@ describe('SiDevice', () => {
                 done();
             });
     });
-    it('closes when opened', (done) => {
+    test('closes when opened', (done) => {
         let opened = true;
         const data = {
             driver: {
@@ -184,7 +183,7 @@ describe('SiDevice', () => {
                 done();
             });
     });
-    it('closing can fail', (done) => {
+    test('closing can fail', (done) => {
         const data = {
             driver: {
                 close: (_device: any) => {
@@ -201,7 +200,7 @@ describe('SiDevice', () => {
                 done();
             });
     });
-    it('closing can reject', (done) => {
+    test('closing can reject', (done) => {
         const data = {
             driver: {
                 close: (_device: any) => (
@@ -218,7 +217,7 @@ describe('SiDevice', () => {
                 done();
             });
     });
-    it('receiveLoop succeed', async (done) => {
+    test('receiveLoop succeed', async () => {
         let count = 0;
         const data = {
             driver: {
@@ -249,9 +248,8 @@ describe('SiDevice', () => {
         await testUtils.nTimesAsync(1, () => testUtils.advanceTimersByTime(1));
         expect(count).toBe(2);
         expect(received).toEqual([[0x12], [0x12]]);
-        done();
     });
-    it('receiveLoop can fail', async (done) => {
+    test('receiveLoop can fail', async () => {
         let count = 0;
         const data = {
             driver: {
@@ -280,9 +278,8 @@ describe('SiDevice', () => {
         await testUtils.nTimesAsync(1, () => testUtils.advanceTimersByTime(100));
         expect(count).toBe(2);
         expect(received).toEqual([]);
-        done();
     });
-    it('receiveLoop can reject', async (done) => {
+    test('receiveLoop can reject', async () => {
         let count = 0;
         const data = {
             driver: {
@@ -311,9 +308,8 @@ describe('SiDevice', () => {
         await testUtils.nTimesAsync(1, () => testUtils.advanceTimersByTime(100));
         expect(count).toBe(2);
         expect(received).toEqual([]);
-        done();
     });
-    it('receiveLoop can fail if device closed', async (done) => {
+    test('receiveLoop can fail if device closed', async () => {
         let count = 0;
         const data = {
             driver: {
@@ -339,10 +335,9 @@ describe('SiDevice', () => {
         await testUtils.nTimesAsync(1, () => testUtils.advanceTimersByTime(100));
         expect(count).toBe(1);
         expect(received).toEqual([]);
-        done();
     });
 
-    it('can send', async (done) => {
+    test('can send', async () => {
         const sent: number[][] = [];
         const data = {
             driver: {
@@ -363,6 +358,5 @@ describe('SiDevice', () => {
 
         await testUtils.nTimesAsync(1, () => testUtils.advanceTimersByTime(100));
         expect(sent).toEqual([[0x34], [0x56]]);
-        done();
     });
 });

@@ -1,5 +1,4 @@
-/* eslint-env jasmine */
-
+import {describe, expect, test} from '@jest/globals';
 import _ from 'lodash';
 import Immutable from 'immutable';
 import {ValueFromStringError} from './interfaces';
@@ -12,27 +11,27 @@ describe('SiBool', () => {
     const myOtherSiBool = new SiBool(0x00);
     const fieldValueOf = (boolValue: boolean): SiFieldValue<boolean> =>
         new SiFieldValue(mySiBool, boolValue);
-    it('typeCheckValue', () => {
+    test('typeCheckValue', () => {
         expect(mySiBool.isValueValid(false)).toBe(true);
         expect(mySiBool.isValueValid(true)).toBe(true);
     });
-    it('valueToString', () => {
+    test('valueToString', () => {
         expect(mySiBool.valueToString(false)).toBe('false');
         expect(mySiBool.valueToString(true)).toBe('true');
     });
-    it('valueFromString', () => {
+    test('valueFromString', () => {
         expect(mySiBool.valueFromString('false')).toBe(false);
         expect(mySiBool.valueFromString('true')).toBe(true);
         expect(mySiBool.valueFromString('test') instanceof ValueFromStringError).toBe(true);
     });
-    it('extractFromData gives field value', () => {
+    test('extractFromData gives field value', () => {
         const data = Immutable.List([0x00]);
         const fieldValue = mySiBool.extractFromData(data);
         expect(fieldValue instanceof SiFieldValue).toBe(true);
         expect(fieldValue!.field).toBe(mySiBool);
         expect(fieldValue!.value).toBe(false);
     });
-    it('extractFromData', () => {
+    test('extractFromData', () => {
         const getExtractedFieldValue = (bytes: (number|undefined)[]) => (
             mySiBool.extractFromData(Immutable.List(bytes))
         );
@@ -43,7 +42,7 @@ describe('SiBool', () => {
         expect(getExtractedFieldValue([undefined])).toBe(undefined);
         expect(getExtractedFieldValue([])).toBe(undefined);
     });
-    it('extractFromData other', () => {
+    test('extractFromData other', () => {
         const getExtractedFieldValue = (bytes: (number|undefined)[]) => (
             myOtherSiBool.extractFromData(Immutable.List(bytes))
         );
@@ -54,7 +53,7 @@ describe('SiBool', () => {
         expect(getExtractedFieldValue([undefined])).toBe(undefined);
         expect(getExtractedFieldValue([])).toBe(undefined);
     });
-    it('updateData', () => {
+    test('updateData', () => {
         const updateData = (
             data: (number|undefined)[],
             newValue: boolean|SiFieldValue<boolean>,
@@ -69,7 +68,7 @@ describe('SiBool', () => {
         expect(updateData([0x10], fieldValueOf(false))).toEqual([0x00]);
         expect(updateData([0x00], fieldValueOf(true))).toEqual([0x10]);
     });
-    it('updateData other', () => {
+    test('updateData other', () => {
         const updateData = (
             data: (number|undefined)[],
             newValue: boolean|SiFieldValue<boolean>,
@@ -84,7 +83,7 @@ describe('SiBool', () => {
         expect(updateData([0x01], fieldValueOf(false))).toEqual([0x00]);
         expect(updateData([0x00], fieldValueOf(true))).toEqual([0x01]);
     });
-    it('updateData modify undefined', () => {
+    test('updateData modify undefined', () => {
         const updateData = (
             data: (number|undefined)[],
             newValue: boolean|SiFieldValue<boolean>,

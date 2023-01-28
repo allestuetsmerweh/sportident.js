@@ -1,5 +1,4 @@
-/* eslint-env jasmine */
-
+import {describe, expect, test} from '@jest/globals';
 import _ from 'lodash';
 import Immutable from 'immutable';
 import {ValueToStringError, ValueFromStringError} from './interfaces';
@@ -14,7 +13,7 @@ describe('SiInt', () => {
     const fieldValueOf = (intValue: number): SiFieldValue<number> => (
         new SiFieldValue(mySiInt, intValue)
     );
-    it('typeSpecificIsValueValid', () => {
+    test('typeSpecificIsValueValid', () => {
         expect(mySiInt.typeSpecificIsValueValid(0)).toBe(true);
         expect(mySiInt.typeSpecificIsValueValid(1)).toBe(true);
         expect(mySiInt.typeSpecificIsValueValid(0xFF)).toBe(true);
@@ -22,13 +21,13 @@ describe('SiInt', () => {
         expect(mySiInt.typeSpecificIsValueValid(1.5)).toBe(false);
         expect(mySiInt.typeSpecificIsValueValid(-7.5)).toBe(false);
     });
-    it('valueToString', () => {
+    test('valueToString', () => {
         expect(mySiInt.valueToString(0)).toBe('0');
         expect(mySiInt.valueToString(1)).toBe('1');
         expect(mySiInt.valueToString(0xFF)).toBe('255');
         expect(mySiInt.valueToString(-1) instanceof ValueToStringError).toBe(true);
     });
-    it('valueFromString', () => {
+    test('valueFromString', () => {
         expect(mySiInt.valueFromString('0')).toBe(0);
         expect(mySiInt.valueFromString('1')).toBe(1);
         expect(mySiInt.valueFromString('255')).toBe(0xFF);
@@ -36,14 +35,14 @@ describe('SiInt', () => {
         expect(mySiInt.valueFromString('-1') instanceof ValueFromStringError).toBe(true);
         expect(mySiInt.valueFromString('test') instanceof ValueFromStringError).toBe(true);
     });
-    it('extractFromData gives field value', () => {
+    test('extractFromData gives field value', () => {
         const data = Immutable.List([0x00, 0x00]);
         const fieldValue = mySiInt.extractFromData(data);
         expect(fieldValue instanceof SiFieldValue).toBe(true);
         expect(fieldValue!.field).toBe(mySiInt);
         expect(fieldValue!.value).toBe(0);
     });
-    it('extractFromData', () => {
+    test('extractFromData', () => {
         const getExtractedFieldValue = (
             bytes: FakeSiStorageData,
         ) => (
@@ -61,7 +60,7 @@ describe('SiInt', () => {
         expect(getExtractedFieldValue([0x00])).toBe(undefined);
         expect(getExtractedFieldValue([])).toBe(undefined);
     });
-    it('updateData', () => {
+    test('updateData', () => {
         const initialData = Immutable.List([0x00, 0x00]);
         const updateInitialData = (
             newValue: number|SiFieldValue<number>,
@@ -77,7 +76,7 @@ describe('SiInt', () => {
         expect(updateInitialData(0xCAB)).toEqual([0xAB, 0xC0]);
         expect(updateInitialData(fieldValueOf(0x7357))).toEqual([0x57, 0x30]);
     });
-    it('updateData modify undefined', () => {
+    test('updateData modify undefined', () => {
         const updateData = (
             data: FakeSiStorageData,
             newValue: number|SiFieldValue<number>,

@@ -1,5 +1,4 @@
-/* eslint-env jasmine */
-
+import {describe, expect, test} from '@jest/globals';
 import _ from 'lodash';
 // eslint-disable-next-line no-unused-vars
 import {ISiDataType, ISiStorageData, ValueToStringError, ValueFromStringError} from './interfaces';
@@ -34,18 +33,18 @@ describe('SiFieldValue', () => {
     }
     const field = new MyType();
     const myFieldValue = new SiFieldValue(field, 3);
-    it('instance', () => {
+    test('instance', () => {
         expect(myFieldValue.field).toBe(field);
         expect(myFieldValue.value).toBe(3);
     });
-    it('toString', () => {
+    test('toString', () => {
         expect(myFieldValue.toString()).toBe('3');
     });
-    it('toString with error', () => {
+    test('toString with error', () => {
         const invalidFieldValue = new SiFieldValue(field, 42);
         expect(invalidFieldValue.toString()).toBe('');
     });
-    it('fromString with success', () => {
+    test('fromString with success', () => {
         const myFieldValueFromString = SiFieldValue.fromString(field, '5');
         if (myFieldValueFromString instanceof ValueFromStringError) {
             throw new Error('not expecting an error here');
@@ -53,7 +52,7 @@ describe('SiFieldValue', () => {
         expect(myFieldValueFromString.field).toBe(field);
         expect(myFieldValueFromString.value).toBe(5);
     });
-    it('fromString with error', () => {
+    test('fromString with error', () => {
         const myFieldValueFromString = SiFieldValue.fromString(field, 'notanumber');
         expect(myFieldValueFromString instanceof ValueFromStringError).toBe(true);
     });

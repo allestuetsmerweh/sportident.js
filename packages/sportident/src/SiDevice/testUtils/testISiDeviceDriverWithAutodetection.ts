@@ -1,5 +1,4 @@
-/* eslint-env jasmine */
-
+import {expect, test} from '@jest/globals';
 import * as testUtils from '../../testUtils';
 // eslint-disable-next-line no-unused-vars
 import {ISiDeviceDriverData, SiDeviceState} from '../ISiDevice';
@@ -18,11 +17,11 @@ export const testISiDeviceDriverWithAutodetection = <T extends ISiDeviceDriverDa
         numTicks: 50,
         waitFor: 1,
     },
-) => {
+): () => void => {
     const testFunction = () => {
         const advanceTime = () => testUtils.advanceTimersByTime(options.waitFor);
         const waitForDriver = () => testUtils.nTimesAsync(options.numTicks, advanceTime);
-        it('driver can startAutoDetection-connect-disconnect-stopAutodetection', async (done) => {
+        test('driver can startAutoDetection-connect-disconnect-stopAutodetection', async () => {
             const driver = siDeviceDriverData.driver;
 
             let numAddCalled = 0;
@@ -67,7 +66,6 @@ export const testISiDeviceDriverWithAutodetection = <T extends ISiDeviceDriverDa
             expect([numAddCalled, numRemoveCalled]).toEqual([2, 2]);
 
             await driver.stopAutoDetection();
-            done();
         });
     };
     return testFunction;

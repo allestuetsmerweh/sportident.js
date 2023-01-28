@@ -1,5 +1,4 @@
-/* eslint-env jasmine */
-
+import {describe, expect, test} from '@jest/globals';
 import _ from 'lodash';
 import Immutable from 'immutable';
 // eslint-disable-next-line no-unused-vars
@@ -62,7 +61,7 @@ describe('SiModified', () => {
     const fieldValueOf = (modifiedValue: number) => (
         new SiFieldValue(mySiModified, modifiedValue)
     );
-    it('typeSpecificIsValueValid', () => {
+    test('typeSpecificIsValueValid', () => {
         expect(mySiModified.typeSpecificIsValueValid(0)).toBe(true);
         expect(mySiModified.typeSpecificIsValueValid(1)).toBe(true);
         expect(mySiModified.typeSpecificIsValueValid(0xFF)).toBe(true);
@@ -70,14 +69,14 @@ describe('SiModified', () => {
         expect(mySiModified.typeSpecificIsValueValid(1.5)).toBe(false);
         expect(mySiModified.typeSpecificIsValueValid(-7.5)).toBe(false);
     });
-    it('valueToString', () => {
+    test('valueToString', () => {
         expect(mySiModified.valueToString(0)).toBe('0');
         expect(mySiModified.valueToString(1)).toBe('1');
         expect(mySiModified.valueToString(0xFF)).toBe('ff');
         expect(mySiModified.valueToString(-1) instanceof ValueToStringError).toBe(true);
         expect(mySiModified.valueToString(-15) instanceof ValueToStringError).toBe(true);
     });
-    it('valueFromString', () => {
+    test('valueFromString', () => {
         expect(mySiModified.valueFromString('0')).toBe(0);
         expect(mySiModified.valueFromString('1')).toBe(1);
         expect(mySiModified.valueFromString('ff')).toBe(0xFF);
@@ -85,14 +84,14 @@ describe('SiModified', () => {
         expect(mySiModified.valueFromString('g') instanceof ValueFromStringError).toBe(true);
         expect(mySiModified.valueFromString('test') instanceof ValueFromStringError).toBe(true);
     });
-    it('extractFromData gives field value', () => {
+    test('extractFromData gives field value', () => {
         const data = Immutable.List([0x00, 0x00]);
         const fieldValue = mySiModified.extractFromData(data);
         expect(fieldValue instanceof SiFieldValue).toBe(true);
         expect(fieldValue!.field).toBe(mySiModified);
         expect(fieldValue!.value).toBe(0);
     });
-    it('extractFromData', () => {
+    test('extractFromData', () => {
         const getExtractedFieldValue = (
             bytes: FakeSiStorageData,
         ) => (
@@ -110,7 +109,7 @@ describe('SiModified', () => {
         expect(getExtractedFieldValue([0x00])).toBe(undefined);
         expect(getExtractedFieldValue([])).toBe(undefined);
     });
-    it('updateData', () => {
+    test('updateData', () => {
         const initialData = Immutable.List([0x00, 0x00]);
         const updateInitialData = (
             newValue: number|SiFieldValue<number>,
@@ -127,7 +126,7 @@ describe('SiModified', () => {
         expect(updateInitialData(0xCAB)).toEqual([0x00, 0xAB]);
         expect(updateInitialData(fieldValueOf(0x7357))).toEqual([0x00, 0x57]);
     });
-    it('updateData modify undefined', () => {
+    test('updateData modify undefined', () => {
         const updateData = (
             data: FakeSiStorageData,
             newValue: number|SiFieldValue<number>,
@@ -145,7 +144,7 @@ describe('SiModified', () => {
     });
 
     const nullSiModified = new SiModified(new FakeDataType(1));
-    it('defaults if modification functions are undefined', () => {
+    test('defaults if modification functions are undefined', () => {
         expect(nullSiModified.isValueValid(0)).toBe(true);
         expect(nullSiModified.valueToString(5) instanceof ValueToStringError).toBe(true);
         expect(nullSiModified.valueFromString('5') instanceof ValueFromStringError).toBe(true);

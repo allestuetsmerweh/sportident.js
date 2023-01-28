@@ -1,5 +1,4 @@
-/* eslint-env jasmine */
-
+import {describe, expect, test} from '@jest/globals';
 import * as eventUtils from './events';
 import * as mixinUtils from './mixins';
 import * as testUtils from '../testUtils';
@@ -23,7 +22,7 @@ describe('event utils', () => {
     interface MyEventTarget extends eventUtils.EventTarget<MyEvents> {}
     mixinUtils.applyMixins(MyEventTarget, [eventUtils.EventTarget]);
 
-    it('works', () => {
+    test('works', () => {
         const myEventTarget = new MyEventTarget();
         const eventObject = {};
 
@@ -46,7 +45,7 @@ describe('event utils', () => {
         myEventTarget.dispatchEvent('myEvent', new MyEvent(eventObject));
         expect(callsToCallback.length).toBe(1);
     });
-    it('works even if some listeners fail', () => {
+    test('works even if some listeners fail', () => {
         const myEventTarget = new MyEventTarget();
         const timeState = {
             listener1Run: false,
@@ -71,7 +70,7 @@ describe('event utils', () => {
             listener3Run: true,
         });
     });
-    it('can remove all listeners', () => {
+    test('can remove all listeners', () => {
         const myEventTarget = new MyEventTarget();
         const timeState = {
             listener1Run: false,
@@ -92,7 +91,7 @@ describe('event utils', () => {
             listener2Run: false,
         });
     });
-    it('remove inexistent event listener', () => {
+    test('remove inexistent event listener', () => {
         const myEventTarget = new MyEventTarget();
         const eventObject = {};
 
@@ -107,7 +106,7 @@ describe('event utils', () => {
         myEventTarget.dispatchEvent('myEvent', new MyEvent(eventObject));
         expect(callsToCallback.length).toBe(0);
     });
-    it('dispatch inexistent event listener', () => {
+    test('dispatch inexistent event listener', () => {
         const myEventTarget = new MyEventTarget();
         const eventObject = {};
 

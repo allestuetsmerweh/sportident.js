@@ -1,5 +1,4 @@
-/* eslint-env jasmine */
-
+import {describe, expect, test} from '@jest/globals';
 import _ from 'lodash';
 import {proto} from '../../constants';
 // eslint-disable-next-line no-unused-vars
@@ -12,7 +11,7 @@ import {getSiCard8Examples} from './siCard8Examples';
 import {FakeSiCard8} from '../../fakes/FakeSiCard/types/FakeSiCard8';
 
 describe('SiCard8', () => {
-    it('is registered', () => {
+    test('is registered', () => {
         expect(BaseSiCard.getTypeByCardNumber(1999999)).not.toEqual(SiCard8);
         expect(BaseSiCard.getTypeByCardNumber(2000000)).toEqual(SiCard8);
         expect(BaseSiCard.getTypeByCardNumber(2002999)).toEqual(SiCard8);
@@ -23,7 +22,7 @@ describe('SiCard8', () => {
         expect(BaseSiCard.getTypeByCardNumber(3000000)).not.toEqual(SiCard8);
     });
     describe('typeSpecificInstanceFromMessage', () => {
-        it('works for valid message', () => {
+        test('works for valid message', () => {
             const instance = SiCard8.typeSpecificInstanceFromMessage({
                 command: proto.cmd.SI8_DET,
                 parameters: [0x00, 0x00, ModernSiCardSeries.SiCard8, 0x22, 0x22, 0x22],
@@ -34,31 +33,31 @@ describe('SiCard8', () => {
             expect(instance instanceof SiCard8).toBe(true);
             expect(instance.cardNumber).toBe(2236962);
         });
-        it('returns undefined when message has mode', () => {
+        test('returns undefined when message has mode', () => {
             expect(SiCard8.typeSpecificInstanceFromMessage({
                 mode: proto.NAK,
             })).toBe(undefined);
         });
-        it('returns undefined when message has wrong command', () => {
+        test('returns undefined when message has wrong command', () => {
             expect(SiCard8.typeSpecificInstanceFromMessage({
                 command: testUtils.getRandomByteExcept([proto.cmd.SI8_DET]),
                 parameters: [],
             })).toBe(undefined);
         });
-        it('returns undefined when there are too few parameters', () => {
+        test('returns undefined when there are too few parameters', () => {
             expect(SiCard8.typeSpecificInstanceFromMessage({
                 command: proto.cmd.SI8_DET,
                 parameters: [],
             })).toBe(undefined);
         });
-        it('returns undefined when the series does not match', () => {
+        test('returns undefined when the series does not match', () => {
             expect(SiCard8.typeSpecificInstanceFromMessage({
                 command: proto.cmd.SI8_DET,
                 parameters: [0x00, 0x00, testUtils.getRandomByteExcept([ModernSiCardSeries.SiCard8]), 0x22, 0x22, 0x22],
             })).toBe(undefined);
         });
     });
-    it('getPunchOffset', () => {
+    test('getPunchOffset', () => {
         expect(getPunchOffset(0)).toEqual(0x88);
         expect(getPunchOffset(1)).toEqual(0x8C);
         expect(getPunchOffset(29)).toEqual(0xFC);
@@ -79,7 +78,7 @@ describe('SiCard8', () => {
             },
         };
 
-        it(`typeSpecificRead works with ${exampleName} example`, (done) => {
+        test(`typeSpecificRead works with ${exampleName} example`, (done) => {
             const mySiCard8 = new SiCard8(cardData.cardNumber);
             mySiCard8.mainStation = mainStationSimulation;
             mySiCard8.typeSpecificRead().then(() => {
@@ -98,7 +97,7 @@ describe('SiCard8', () => {
             });
         });
 
-        it(`typeSpecificRead works with wrong card number in ${exampleName} example`, (done) => {
+        test(`typeSpecificRead works with wrong card number in ${exampleName} example`, (done) => {
             const mySiCard8 = new SiCard8(cardData.cardNumber + 1);
             mySiCard8.mainStation = mainStationSimulation;
             mySiCard8.typeSpecificRead().then(() => {
@@ -114,7 +113,7 @@ describe('SiCard8', () => {
             });
         });
     });
-    it('typeSpecificRead if typeSpecificGetPage fails', (done) => {
+    test('typeSpecificRead if typeSpecificGetPage fails', (done) => {
         const testError = new Error('test');
         let attemptedToGetPage = false;
         class ModernSiCardWithoutCardHolder extends SiCard8 {

@@ -1,7 +1,6 @@
-/* eslint-env jasmine */
-
+import {describe, expect, test} from '@jest/globals';
 describe('sportident-testbench-server', () => {
-    it('fake test', () => {
+    test('fake test', () => {
         expect(true).not.toBe(false);
     });
 });

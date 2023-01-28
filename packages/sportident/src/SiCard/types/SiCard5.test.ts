@@ -1,5 +1,4 @@
-/* eslint-env jasmine */
-
+import {describe, expect, test} from '@jest/globals';
 import {proto} from '../../constants';
 // eslint-disable-next-line no-unused-vars
 import * as siProtocol from '../../siProtocol';
@@ -10,7 +9,7 @@ import {getSiCard5Examples} from './siCard5Examples';
 import {FakeSiCard5} from '../../fakes/FakeSiCard/types/FakeSiCard5';
 
 describe('SiCard5', () => {
-    it('is registered', () => {
+    test('is registered', () => {
         expect(BaseSiCard.getTypeByCardNumber(999)).not.toEqual(SiCard5);
         expect(BaseSiCard.getTypeByCardNumber(1000)).toEqual(SiCard5);
         expect(BaseSiCard.getTypeByCardNumber(9999)).toEqual(SiCard5);
@@ -21,7 +20,7 @@ describe('SiCard5', () => {
         expect(BaseSiCard.getTypeByCardNumber(500000)).not.toEqual(SiCard5);
     });
     describe('typeSpecificInstanceFromMessage', () => {
-        it('works for valid message', () => {
+        test('works for valid message', () => {
             const instance = SiCard5.typeSpecificInstanceFromMessage({
                 command: proto.cmd.SI5_DET,
                 parameters: [0x00, 0x00, 0x00, 0x01, 0x23, 0x45],
@@ -32,25 +31,25 @@ describe('SiCard5', () => {
             expect(instance instanceof SiCard5).toBe(true);
             expect(instance.cardNumber).toBe(109029);
         });
-        it('returns undefined when message has mode', () => {
+        test('returns undefined when message has mode', () => {
             expect(SiCard5.typeSpecificInstanceFromMessage({
                 mode: proto.NAK,
             })).toBe(undefined);
         });
-        it('returns undefined when message has wrong command', () => {
+        test('returns undefined when message has wrong command', () => {
             expect(SiCard5.typeSpecificInstanceFromMessage({
                 command: testUtils.getRandomByteExcept([proto.cmd.SI5_DET]),
                 parameters: [],
             })).toBe(undefined);
         });
-        it('returns undefined when there are too few parameters', () => {
+        test('returns undefined when there are too few parameters', () => {
             expect(SiCard5.typeSpecificInstanceFromMessage({
                 command: proto.cmd.SI5_DET,
                 parameters: [],
             })).toBe(undefined);
         });
     });
-    it('getPunchOffset', () => {
+    test('getPunchOffset', () => {
         expect(getPunchOffset(0)).toEqual(0x21);
         expect(getPunchOffset(1)).toEqual(0x24);
         expect(getPunchOffset(2)).toEqual(0x27);
@@ -73,7 +72,7 @@ describe('SiCard5', () => {
         expect(getPunchOffset(34)).toEqual(0x60);
         expect(getPunchOffset(35)).toEqual(0x70);
     });
-    it('cropPunches', () => {
+    test('cropPunches', () => {
         expect(cropPunches([])).toEqual([]);
         expect(cropPunches([
             {code: 31, time: 1},
@@ -105,7 +104,7 @@ describe('SiCard5', () => {
             {code: 33, time: 3},
         ]);
     });
-    it('typeSpecificRead fails without mainStation', (done) => {
+    test('typeSpecificRead fails without mainStation', (done) => {
         const mySiCard5 = new SiCard5(1);
         mySiCard5.typeSpecificRead().then(
             () => done(new Error('expect reject')),
@@ -130,7 +129,7 @@ describe('SiCard5', () => {
             },
         };
 
-        it(`typeSpecificRead works with ${exampleName} example`, (done) => {
+        test(`typeSpecificRead works with ${exampleName} example`, (done) => {
             const mySiCard5 = new SiCard5(cardData.cardNumber);
             mySiCard5.mainStation = mainStationSimulation;
             mySiCard5.typeSpecificRead().then(() => {
@@ -144,7 +143,7 @@ describe('SiCard5', () => {
             });
         });
 
-        it(`typeSpecificRead works with wrong card number in ${exampleName} example`, (done) => {
+        test(`typeSpecificRead works with wrong card number in ${exampleName} example`, (done) => {
             const mySiCard5 = new SiCard5(cardData.cardNumber + 1);
             mySiCard5.mainStation = mainStationSimulation;
             mySiCard5.typeSpecificRead().then(() => {

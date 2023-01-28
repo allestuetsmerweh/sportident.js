@@ -1,5 +1,4 @@
-/* eslint-env jasmine */
-
+import {describe, expect, test} from '@jest/globals';
 import {proto} from '../constants';
 // eslint-disable-next-line no-unused-vars
 import * as siProtocol from '../siProtocol';
@@ -21,7 +20,7 @@ describe('BaseSiCard', () => {
         }
     }
 
-    it('registerNumberRange', () => {
+    test('registerNumberRange', () => {
         BaseSiCard.registerNumberRange(100, 1000, FakeSiCard1);
         BaseSiCard.registerNumberRange(0, 100, FakeSiCard2);
         BaseSiCard.registerNumberRange(1000, 2000, FakeSiCard2);
@@ -34,7 +33,7 @@ describe('BaseSiCard', () => {
         expect(BaseSiCard.getTypeByCardNumber(1999)).toEqual(FakeSiCard2);
         expect(BaseSiCard.getTypeByCardNumber(2000)).toEqual(undefined);
     });
-    it('fromCardNumber', () => {
+    test('fromCardNumber', () => {
         BaseSiCard.registerNumberRange(100, 1000, FakeSiCard1);
         const siCard500 = BaseSiCard.fromCardNumber(500);
         expect(siCard500 instanceof BaseSiCard).toBe(true);
@@ -63,7 +62,7 @@ describe('BaseSiCard', () => {
             BaseSiCard.registerNumberRange(10000, 20000, FakeSiCard2);
         });
 
-        it('detects card from valid message', () => {
+        test('detects card from valid message', () => {
             expect(triedToGetInstance).toBe(false);
             const siCard500 = BaseSiCard.detectFromMessage({
                 command: proto.cmd.SI5_DET,
@@ -74,14 +73,14 @@ describe('BaseSiCard', () => {
             expect(siCard500.cardNumber).toBe(1);
         });
 
-        it('does not detect from NAK message', () => {
+        test('does not detect from NAK message', () => {
             const nakMessage = BaseSiCard.detectFromMessage({
                 mode: proto.NAK,
             });
             expect(nakMessage).toBe(undefined);
         });
     });
-    it('read', async (done) => {
+    test('read', async () => {
         class SiCard1 extends BaseSiCard {
             typeSpecificRead() {
                 this.raceResult.startTime = 1;
@@ -105,7 +104,6 @@ describe('BaseSiCard', () => {
         expect(result).toBe(siCard500);
         expect(siCard500.raceResult.startTime).toBe(1);
         await siCard500.confirm();
-        done();
     });
     const emptySiCard = new FakeSiCard1(501);
     const nonemptySiCard = new FakeSiCard1(502);
@@ -120,7 +118,7 @@ describe('BaseSiCard', () => {
         finishTime: 1,
         cardHolder: {firstName: 'John'},
     };
-    it('Empty SiCard toDict', async () => {
+    test('Empty SiCard toDict', async () => {
         expect(emptySiCard.toDict()).toEqual({
             cardNumber: 501,
             clearTime: undefined,
@@ -131,7 +129,7 @@ describe('BaseSiCard', () => {
             cardHolder: undefined,
         });
     });
-    it('Non-empty SiCard toDict', async () => {
+    test('Non-empty SiCard toDict', async () => {
         expect(nonemptySiCard.toDict()).toEqual({
             cardNumber: 502,
             clearTime: 1,
@@ -142,17 +140,17 @@ describe('BaseSiCard', () => {
             cardHolder: {firstName: 'John'},
         });
     });
-    it('Empty SiCard toString', async () => {
+    test('Empty SiCard toString', async () => {
         expect(emptySiCard.toString()).toEqual(
             'FakeSiCard1\nCard Number: 501\nClear: ?\nCheck: ?\nStart: ?\nFinish: ?\n? Punches\nCard Holder:\n?\n',
         );
     });
-    it('Non-empty SiCard toString', async () => {
+    test('Non-empty SiCard toString', async () => {
         expect(nonemptySiCard.toString()).toEqual(
             'FakeSiCard1\nCard Number: 502\nClear: 1\nCheck: 2\nStart: 1\nFinish: 1\n31: 2\nCard Holder:\nfirstName: John\n',
         );
     });
-    it('Empty SiCard getMonotonizedRaceResult', async () => {
+    test('Empty SiCard getMonotonizedRaceResult', async () => {
         expect(emptySiCard.getMonotonizedRaceResult()).toEqual({
             cardNumber: 501,
             clearTime: undefined,
@@ -163,7 +161,7 @@ describe('BaseSiCard', () => {
             cardHolder: undefined,
         });
     });
-    it('Non-empty SiCard getMonotonizedRaceResult', async () => {
+    test('Non-empty SiCard getMonotonizedRaceResult', async () => {
         expect(nonemptySiCard.getMonotonizedRaceResult()).toEqual({
             cardNumber: 502,
             clearTime: 1,
@@ -174,10 +172,10 @@ describe('BaseSiCard', () => {
             cardHolder: {firstName: 'John'},
         });
     });
-    it('Empty SiCard getNormalizedRaceResult', async () => {
+    test('Empty SiCard getNormalizedRaceResult', async () => {
         expect(() => emptySiCard.getNormalizedRaceResult()).toThrow();
     });
-    it('Non-empty SiCard getNormalizedRaceResult', async () => {
+    test('Non-empty SiCard getNormalizedRaceResult', async () => {
         expect(nonemptySiCard.getNormalizedRaceResult()).toEqual({
             cardNumber: 502,
             clearTime: -43200,

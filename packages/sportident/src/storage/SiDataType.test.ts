@@ -1,5 +1,4 @@
-/* eslint-env jasmine */
-
+import {describe, expect, test} from '@jest/globals';
 import _ from 'lodash';
 import Immutable from 'immutable';
 // eslint-disable-next-line no-unused-vars
@@ -40,14 +39,14 @@ describe('SiDataType', () => {
     const myField = new MyType();
     const fieldValueOf = (intValue: number): SiFieldValue<number> =>
         new SiFieldValue(myField, intValue);
-    it('valueToString', () => {
+    test('valueToString', () => {
         expect(myField.valueToString(41)).toBe('->41<-');
     });
-    it('valueFromString', () => {
+    test('valueFromString', () => {
         expect(myField.valueFromString('->41<-')).toBe(41);
         expect(myField.valueFromString('41') instanceof ValueFromStringError).toBe(true);
     });
-    it('extractFromData', () => {
+    test('extractFromData', () => {
         const getExtractedFieldValue = (
             field: SiDataType<number>,
             bytes: (number|undefined)[],
@@ -59,7 +58,7 @@ describe('SiDataType', () => {
         expect(getExtractedFieldValue(myField, [undefined])).toBe(undefined);
         expect(getExtractedFieldValue(myField, [])).toBe(undefined);
     });
-    it('updateData', () => {
+    test('updateData', () => {
         const updateData = (
             field: SiDataType<number>,
             data: number[],
@@ -72,7 +71,7 @@ describe('SiDataType', () => {
         expect(updateData(myField, [0x00], fieldValueOf(0x61))).toEqual([0x61]);
     });
     //
-    // it('SiStorage plain SiDataType', () => {
+    // test('SiStorage plain SiDataType', () => {
     //     class WeirdStorage extends SiStorage {
     //         public static size = 0x01;
     //         public static definitions = {

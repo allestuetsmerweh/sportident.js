@@ -1,5 +1,4 @@
-/* eslint-env jasmine */
-
+import {describe, expect, test} from '@jest/globals';
 // eslint-disable-next-line no-unused-vars
 import {IRaceResultData} from './IRaceResultData';
 // eslint-disable-next-line no-unused-vars
@@ -138,13 +137,13 @@ const WITHOUT_PUNCHES_START_ZEROED_RACE_RESULT: IRaceResultData = {
 
 describe('raceResultTools', () => {
     describe('prettyRaceResult', () => {
-        it('works for empty race result', async () => {
+        test('works for empty race result', async () => {
             const emptyRaceResult: IRaceResultData = {};
             expect(prettyRaceResult(emptyRaceResult)).toEqual(
                 'Card Number: ?\nClear: ?\nCheck: ?\nStart: ?\nFinish: ?\n? Punches\nCard Holder:\n?\n',
             );
         });
-        it('works for race result with zero punches', async () => {
+        test('works for race result with zero punches', async () => {
             const zeroPunchesRaceResult: IRaceResultData = {
                 punches: [],
             };
@@ -152,7 +151,7 @@ describe('raceResultTools', () => {
                 'Card Number: ?\nClear: ?\nCheck: ?\nStart: ?\nFinish: ?\nNo Punches\nCard Holder:\n?\n',
             );
         });
-        it('works for race result with empty card holder', async () => {
+        test('works for race result with empty card holder', async () => {
             const emptyCardHolderRaceResult: IRaceResultData = {
                 cardHolder: {},
             };
@@ -160,7 +159,7 @@ describe('raceResultTools', () => {
                 'Card Number: ?\nClear: ?\nCheck: ?\nStart: ?\nFinish: ?\n? Punches\nCard Holder:\nEmpty Card Holder\n',
             );
         });
-        it('works for complete race result', async () => {
+        test('works for complete race result', async () => {
             const completeRaceResult: IRaceResultData = {
                 cardNumber: 123,
                 cardHolder: {firstName: 'John'},
@@ -177,79 +176,79 @@ describe('raceResultTools', () => {
     });
 
     describe('getOrderedRaceResult', () => {
-        it('works for empty race result', async () => {
+        test('works for empty race result', async () => {
             expect(getOrderedRaceResult(EMPTY_RACE_RESULT))
                 .toEqual(EMPTY_ORDERED_RACE_RESULT);
         });
-        it('works for race result with punches of unknown time', async () => {
+        test('works for race result with punches of unknown time', async () => {
             expect(getOrderedRaceResult(UNKNOWN_PUNCH_TIME_RACE_RESULT))
                 .toEqual(UNKNOWN_PUNCH_TIME_ORDERED_RACE_RESULT);
         });
-        it('works for complete race result', async () => {
+        test('works for complete race result', async () => {
             expect(getOrderedRaceResult(COMPLETE_RACE_RESULT))
                 .toEqual(COMPLETE_ORDERED_RACE_RESULT);
         });
-        it('works for race result without punches', async () => {
+        test('works for race result without punches', async () => {
             expect(getOrderedRaceResult(WITHOUT_PUNCHES_RACE_RESULT))
                 .toEqual(WITHOUT_PUNCHES_ORDERED_RACE_RESULT);
         });
-        it('works for race result without clearTime and startTime', async () => {
+        test('works for race result without clearTime and startTime', async () => {
             expect(getOrderedRaceResult(UNKNOWN_TIMES_RACE_RESULT))
                 .toEqual(UNKNOWN_TIMES_ORDERED_RACE_RESULT);
         });
     });
 
     describe('getRaceResultFromOrdered', () => {
-        it('works for empty race result', async () => {
+        test('works for empty race result', async () => {
             expect(getRaceResultFromOrdered(EMPTY_ORDERED_RACE_RESULT))
                 .toEqual(EMPTY_RACE_RESULT);
         });
-        it('works for race result with punches of unknown time', async () => {
+        test('works for race result with punches of unknown time', async () => {
             expect(getRaceResultFromOrdered(UNKNOWN_PUNCH_TIME_ORDERED_RACE_RESULT))
                 .toEqual(UNKNOWN_PUNCH_TIME_RACE_RESULT);
         });
-        it('works for complete race result', async () => {
+        test('works for complete race result', async () => {
             expect(getRaceResultFromOrdered(COMPLETE_ORDERED_RACE_RESULT))
                 .toEqual(COMPLETE_RACE_RESULT);
         });
-        it('works for race result without punches', async () => {
+        test('works for race result without punches', async () => {
             expect(getRaceResultFromOrdered(WITHOUT_PUNCHES_ORDERED_RACE_RESULT))
                 .toEqual(WITHOUT_PUNCHES_RACE_RESULT);
         });
-        it('works for race result without clearTime and punch[0]', async () => {
+        test('works for race result without clearTime and punch[0]', async () => {
             expect(getRaceResultFromOrdered(UNKNOWN_TIMES_ORDERED_RACE_RESULT))
                 .toEqual(UNKNOWN_TIMES_RACE_RESULT);
         });
     });
 
     describe('monotonizeOrderedRaceResult', () => {
-        it('works for ordered race result', async () => {
+        test('works for ordered race result', async () => {
             expect(monotonizeOrderedRaceResult(IMMONOTONE_ORDERED_RACE_RESULT))
                 .toEqual(MONOTONE_ORDERED_RACE_RESULT);
         });
     });
 
     describe('monotonizeRaceResult', () => {
-        it('works for race result', async () => {
+        test('works for race result', async () => {
             expect(monotonizeRaceResult(IMMONOTONE_RACE_RESULT))
                 .toEqual(MONOTONE_RACE_RESULT);
         });
     });
 
     describe('makeStartZeroTime', () => {
-        it('works for complete race result', async () => {
+        test('works for complete race result', async () => {
             expect(makeStartZeroTime(COMPLETE_RACE_RESULT))
                 .toEqual(COMPLETE_START_ZEROED_RACE_RESULT);
         });
-        it('works for race result with unknown times', async () => {
+        test('works for race result with unknown times', async () => {
             expect(makeStartZeroTime(UNKNOWN_TIMES_RACE_RESULT))
                 .toEqual(UNKNOWN_TIMES_START_ZEROED_RACE_RESULT);
         });
-        it('works for race result without punches', async () => {
+        test('works for race result without punches', async () => {
             expect(makeStartZeroTime(WITHOUT_PUNCHES_RACE_RESULT))
                 .toEqual(WITHOUT_PUNCHES_START_ZEROED_RACE_RESULT);
         });
-        it('fails for race result without start time', async () => {
+        test('fails for race result without start time', async () => {
             expect(() => makeStartZeroTime(EMPTY_RACE_RESULT)).toThrow();
         });
     });

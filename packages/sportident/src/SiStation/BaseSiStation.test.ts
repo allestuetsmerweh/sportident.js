@@ -1,5 +1,4 @@
-/* eslint-env jasmine */
-
+import {describe, expect, test} from '@jest/globals';
 import _ from 'lodash';
 // eslint-disable-next-line no-unused-vars
 import * as siProtocol from '../siProtocol';
@@ -17,7 +16,7 @@ describe('SiStation', () => {
 
     class MySiStation extends BaseSiStation<SiTargetMultiplexerTarget.Direct> {}
 
-    it('SiStation info', async (done) => {
+    test('SiStation info', async () => {
         const mySiStation = new MySiStation(
             {} as unknown as ISiTargetMultiplexer,
             SiTargetMultiplexerTarget.Direct,
@@ -95,12 +94,11 @@ describe('SiStation', () => {
             {target: SiTargetMultiplexerTarget.Direct, command: proto.cmd.SET_SYS_VAL, numResponses: 1, parameters: [0x72, 0x0A, 0x33]},
         ]);
         expect(mySiStation.getInfo('code')!.value).toBe(10);
-        done();
     });
     const examples = getSiStationExamples();
     Object.keys(examples).forEach((exampleName) => {
         const {storageData, stationData} = examples[exampleName];
-        it(`works with ${exampleName} example`, (done) => {
+        test(`works with ${exampleName} example`, (done) => {
             const mySiStation = new MySiStation(
                 {
                     sendMessage: (
@@ -137,7 +135,7 @@ describe('SiStation', () => {
         });
     });
 
-    it('get/set time', async (done) => {
+    test('get/set time', async () => {
         const mySiStation = new MySiStation(
             {
                 sendMessage: () => Promise.resolve([[0x00, 0x00, 0x01, 0x0C, 0x1F, 0x00, 0xA8, 0xBF, 0x40]]),
@@ -161,9 +159,8 @@ describe('SiStation', () => {
             });
         await testUtils.nTimesAsync(1, () => testUtils.advanceTimersByTime(0));
         expect(timeState.setTime instanceof Date).toBe(true);
-        done();
     });
-    it('signal', async (done) => {
+    test('signal', async () => {
         const mySiStation = new MySiStation(
             {
                 sendMessage: () => Promise.resolve([[0x00, 0x00, 0x02]]),
@@ -184,9 +181,8 @@ describe('SiStation', () => {
             });
         await testUtils.nTimesAsync(1, () => testUtils.advanceTimersByTime(0));
         expect(timeState).toEqual({signalTwiceSucceeded: true, signalOnceFailed: true});
-        done();
     });
-    it('powerOff', async (done) => {
+    test('powerOff', async () => {
         const mySiStation = new MySiStation(
             {
                 sendMessage: () => Promise.resolve(),
@@ -200,6 +196,5 @@ describe('SiStation', () => {
             });
         await testUtils.nTimesAsync(1, () => testUtils.advanceTimersByTime(0));
         expect(timeState).toEqual({powerOffSucceeded: true});
-        done();
     });
 });

@@ -1,37 +1,36 @@
-/* eslint-env jasmine */
-
+import {describe, expect, test} from '@jest/globals';
 import {NumberRange} from './NumberRange';
 
 describe('NumberRange utils', () => {
-    it('instance', () => {
+    test('instance', () => {
         const numberRange = new NumberRange(0, 100);
         expect(numberRange.start).toBe(0);
         expect(numberRange.end).toBe(100);
     });
-    it('null range', () => {
+    test('null range', () => {
         expect(() => new NumberRange(0, 0)).toThrow();
         expect(() => new NumberRange(100, 100)).toThrow();
     });
-    it('reverse range', () => {
+    test('reverse range', () => {
         expect(() => new NumberRange(100, 0)).toThrow();
     });
     const numberRange = new NumberRange(-3, 3);
-    it('toString', () => {
+    test('toString', () => {
         expect(numberRange.toString()).toBe('NumberRange(-3, 3)');
     });
-    it('contains', () => {
+    test('contains', () => {
         expect(numberRange.contains(-4)).toBe(false);
         expect(numberRange.contains(-3)).toBe(true);
         expect(numberRange.contains(2)).toBe(true);
         expect(numberRange.contains(3)).toBe(false);
     });
-    it('isEntirelyAfter number', () => {
+    test('isEntirelyAfter number', () => {
         expect(numberRange.isEntirelyAfter(-4)).toBe(true);
         expect(numberRange.isEntirelyAfter(-3)).toBe(false);
         expect(numberRange.isEntirelyAfter(1)).toBe(false);
         expect(numberRange.isEntirelyAfter(3)).toBe(false);
     });
-    it('isEntirelyBefore number', () => {
+    test('isEntirelyBefore number', () => {
         expect(numberRange.isEntirelyBefore(-4)).toBe(false);
         expect(numberRange.isEntirelyBefore(-3)).toBe(false);
         expect(numberRange.isEntirelyBefore(1)).toBe(false);
@@ -40,7 +39,7 @@ describe('NumberRange utils', () => {
     const numberRange1 = new NumberRange(-4, -3);
     const numberRange2 = new NumberRange(-3, 3);
     const numberRange3 = new NumberRange(2, 4);
-    it('intersects', () => {
+    test('intersects', () => {
         expect(numberRange1.intersects(numberRange2)).toBe(false);
         expect(numberRange2.intersects(numberRange1)).toBe(false);
         expect(numberRange2.intersects(numberRange3)).toBe(true);
@@ -48,7 +47,7 @@ describe('NumberRange utils', () => {
         expect(numberRange1.intersects(numberRange3)).toBe(false);
         expect(numberRange3.intersects(numberRange1)).toBe(false);
     });
-    it('isEntirelyAfter range', () => {
+    test('isEntirelyAfter range', () => {
         expect(numberRange1.isEntirelyAfter(numberRange2)).toBe(false);
         expect(numberRange2.isEntirelyAfter(numberRange1)).toBe(true);
         expect(numberRange2.isEntirelyAfter(numberRange3)).toBe(false);
@@ -56,7 +55,7 @@ describe('NumberRange utils', () => {
         expect(numberRange1.isEntirelyAfter(numberRange3)).toBe(false);
         expect(numberRange3.isEntirelyAfter(numberRange1)).toBe(true);
     });
-    it('isEntirelyBefore range', () => {
+    test('isEntirelyBefore range', () => {
         expect(numberRange1.isEntirelyBefore(numberRange2)).toBe(true);
         expect(numberRange2.isEntirelyBefore(numberRange1)).toBe(false);
         expect(numberRange2.isEntirelyBefore(numberRange3)).toBe(false);

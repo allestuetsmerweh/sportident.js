@@ -1,5 +1,4 @@
-/* eslint-env jasmine */
-
+import {describe, expect, test} from '@jest/globals';
 import _ from 'lodash';
 import React from 'react';
 import renderer from 'react-test-renderer';
@@ -9,10 +8,10 @@ import {ISiDeviceDriverWithAutodetection} from 'sportident/lib/SiDevice/ISiDevic
 import * as react from './react';
 
 describe('react', () => {
-    it('exists', () => {
+    test('exists', () => {
         expect(react).not.toBe(undefined);
     });
-    it('works', () => {
+    test('works', () => {
         const timeState = {
             startAutoDetectionCalled: false,
             stopAutoDetectionCalled: false,
