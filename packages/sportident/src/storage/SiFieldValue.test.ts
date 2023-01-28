@@ -1,6 +1,5 @@
 import {describe, expect, test} from '@jest/globals';
 import _ from 'lodash';
-// eslint-disable-next-line no-unused-vars
 import {ISiDataType, ISiStorageData, ValueToStringError, ValueFromStringError} from './interfaces';
 import {SiDataType} from './SiDataType';
 import {SiFieldValue} from './SiFieldValue';

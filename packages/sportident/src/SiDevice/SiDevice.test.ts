@@ -1,6 +1,5 @@
 import {describe, expect, test} from '@jest/globals';
 import * as testUtils from '../testUtils';
-// eslint-disable-next-line no-unused-vars
 import {DeviceClosedError, ISiDeviceDriverData, SiDeviceState, SiDeviceStateChangeEvent} from './ISiDevice';
 import {SiDevice} from './SiDevice';
 

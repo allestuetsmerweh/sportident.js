@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-unused-vars
 import {ISiFieldValue, ISiDataType, ValueToStringError, ValueFromStringError} from './interfaces';
 
 export class SiFieldValue<T> implements ISiFieldValue<T> {
@@ -15,10 +14,8 @@ export class SiFieldValue<T> implements ISiFieldValue<T> {
 
     // eslint-disable-next-line no-useless-constructor
     constructor(
-        // eslint-disable-next-line no-unused-vars
-        public field: ISiDataType<T>,
-        // eslint-disable-next-line no-unused-vars
-        public value: T,
+                public field: ISiDataType<T>,
+                public value: T,
     // eslint-disable-next-line no-empty-function
     ) {}
 

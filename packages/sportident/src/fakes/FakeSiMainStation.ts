@@ -1,13 +1,9 @@
 import {proto} from '../constants';
 import * as utils from '../utils';
-// eslint-disable-next-line no-unused-vars
 import * as storage from '../storage';
 import * as siProtocol from '../siProtocol';
-// eslint-disable-next-line no-unused-vars
 import {ISiStationStorageFields, siStationStorageDefinition} from '../SiStation/BaseSiStation';
-// eslint-disable-next-line no-unused-vars
 import {FakeSiMainStationEvents, FakeSiMainStationMessageEvent} from './IFakeSiMainStation';
-// eslint-disable-next-line no-unused-vars
 import {IFakeSiCard} from './FakeSiCard/IFakeSiCard';
 
 export class FakeSiMainStation {

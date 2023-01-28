@@ -2,15 +2,10 @@ import * as utils from '../utils';
 import * as siProtocol from '../siProtocol';
 import {proto} from '../constants';
 import {BaseSiCard} from '../SiCard';
-// eslint-disable-next-line no-unused-vars
 import {ISiDevice} from '../SiDevice/ISiDevice';
-// eslint-disable-next-line no-unused-vars
 import {ISiStation, SiStationMode} from './ISiStation';
-// eslint-disable-next-line no-unused-vars
 import {ISiCard, SiMainStationEvents, SiMainStationSiCardInsertedEvent, SiMainStationSiCardObservedEvent, SiMainStationSiCardRemovedEvent} from './ISiMainStation';
-// eslint-disable-next-line no-unused-vars
 import {ISiTargetMultiplexer, SiTargetMultiplexerMessageEvent, SiTargetMultiplexerTarget} from './ISiTargetMultiplexer';
-// eslint-disable-next-line no-unused-vars
 import {BaseSiStation, ISiStationStorageFields} from './BaseSiStation';
 import {SiTargetMultiplexer} from './SiTargetMultiplexer';
 
@@ -19,8 +14,8 @@ type SiStationSetup = {
 };
 
 export class SiMainStation
-        extends BaseSiStation<SiTargetMultiplexerTarget.Direct>
-        implements ISiStation<SiTargetMultiplexerTarget.Direct> {
+    extends BaseSiStation<SiTargetMultiplexerTarget.Direct>
+    implements ISiStation<SiTargetMultiplexerTarget.Direct> {
     static fromSiDevice(siDevice: ISiDevice<any>): SiMainStation {
         const multiplexer = SiTargetMultiplexer.fromSiDevice(siDevice);
         return this.fromSiTargetMultiplexer(multiplexer);

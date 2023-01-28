@@ -2,9 +2,7 @@ import _ from 'lodash';
 import * as storage from '../../storage';
 import * as siProtocol from '../../siProtocol';
 import {proto} from '../../constants';
-// eslint-disable-next-line no-unused-vars
 import {BaseSiCard, IBaseSiCardStorageFields} from '../BaseSiCard';
-// eslint-disable-next-line no-unused-vars
 import {IPunch} from '../IRaceResultData';
 
 const bytesPerPage = 128;

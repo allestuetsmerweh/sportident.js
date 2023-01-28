@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {MainStationList} from './MainStationList';
 import {Terminal} from './Terminal';
-// eslint-disable-next-line no-unused-vars
 import {SiDevicesContext, SiDevicesContextPayload} from './SiDevicesContext';
 import {useSiDevices} from 'sportident-react/lib';
 import {getWebUsbSiDeviceDriver} from 'sportident-webusb/lib';

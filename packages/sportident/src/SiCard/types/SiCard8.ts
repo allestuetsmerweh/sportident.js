@@ -1,9 +1,7 @@
 import _ from 'lodash';
 import * as storage from '../../storage';
 import * as siProtocol from '../../siProtocol';
-// eslint-disable-next-line no-unused-vars
 import {cropPunches, getCroppedString, ModernSiCard, ModernSiCardSeries} from './ModernSiCard';
-// eslint-disable-next-line no-unused-vars
 import {BaseSiCard, IBaseSiCardStorageFields} from '../BaseSiCard';
 
 class ReadFinishedException {}

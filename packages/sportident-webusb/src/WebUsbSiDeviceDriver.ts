@@ -1,11 +1,7 @@
-// eslint-disable-next-line no-unused-vars
 import * as utils from 'sportident/lib/utils';
-// eslint-disable-next-line no-unused-vars
 import {DeviceClosedError, ISiDevice, ISiDeviceDriverData, SiDeviceState} from 'sportident/lib/SiDevice/ISiDevice';
-// eslint-disable-next-line no-unused-vars
 import {ISiDeviceDriver, ISiDeviceDriverWithAutodetection, ISiDeviceDriverWithDetection, SiDeviceDriverWithAutodetectionEvents, SiDeviceAddEvent, SiDeviceRemoveEvent} from 'sportident/lib/SiDevice/ISiDeviceDriver';
 import {SiDevice} from 'sportident/lib/SiDevice/SiDevice';
-// eslint-disable-next-line no-unused-vars
 import * as nav from './INavigatorWebUsb';
 
 const siConfiguration = 1;
@@ -57,8 +53,7 @@ class WebUsbSiDeviceDriver implements
 
     // eslint-disable-next-line no-useless-constructor
     constructor(
-        // eslint-disable-next-line no-unused-vars
-        private navigatorUsb: nav.WebUsb,
+                private navigatorUsb: nav.WebUsb,
     // eslint-disable-next-line no-empty-function
     ) {}
 
@@ -164,7 +159,7 @@ class WebUsbSiDeviceDriver implements
             this.autodetectSiDevice(navigatorWebUsbDevice)
                 .then((openedDevice: WebUsbSiDevice) => {
                     this.dispatchEvent('add', new SiDeviceAddEvent(openedDevice));
-                });
+                }, () => {});
         };
         this.navigatorUsb.addEventListener('connect', onConnectCallback);
         const onDisconnectCallback = (event: nav.WebUsbDisconnectEvent) => {

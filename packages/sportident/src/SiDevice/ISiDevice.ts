@@ -17,20 +17,16 @@ export class DeviceClosedError extends utils.SiError {}
 
 export class SiDeviceStateChangeEvent extends utils.Event<'stateChange'> {
     constructor(
-        // eslint-disable-next-line no-unused-vars
-        public siDevice: ISiDevice<ISiDeviceDriverData<any>>,
-        // eslint-disable-next-line no-unused-vars
-        public state: SiDeviceState,
+                public siDevice: ISiDevice<ISiDeviceDriverData<any>>,
+                public state: SiDeviceState,
     ) {
         super();
     }
 }
 export class SiDeviceReceiveEvent extends utils.Event<'receive'> {
     constructor(
-        // eslint-disable-next-line no-unused-vars
-        public siDevice: ISiDevice<ISiDeviceDriverData<any>>,
-        // eslint-disable-next-line no-unused-vars
-        public uint8Data: number[],
+                public siDevice: ISiDevice<ISiDeviceDriverData<any>>,
+                public uint8Data: number[],
     ) {
         super();
     }

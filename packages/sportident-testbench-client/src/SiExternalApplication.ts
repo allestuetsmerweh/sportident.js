@@ -1,5 +1,4 @@
 import * as utils from 'sportident/lib/utils';
-// eslint-disable-next-line no-unused-vars
 import {SiExternalApplicationEvents, SiExternalApplicationReceiveEvent} from './ISiExternalApplication';
 
 export class SiExternalApplication {

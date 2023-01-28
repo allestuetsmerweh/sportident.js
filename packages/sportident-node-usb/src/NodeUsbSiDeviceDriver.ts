@@ -1,8 +1,6 @@
 import usb from 'usb';
 import * as utils from 'sportident/lib/utils';
-// eslint-disable-next-line no-unused-vars
 import {DeviceClosedError, ISiDevice, ISiDeviceDriverData, SiDeviceState} from 'sportident/lib/SiDevice/ISiDevice';
-// eslint-disable-next-line no-unused-vars
 import {ISiDeviceDriver, ISiDeviceDriverWithDetection, SiDeviceDriverWithAutodetectionEvents} from 'sportident/lib/SiDevice/ISiDeviceDriver';
 import {SiDevice} from 'sportident/lib/SiDevice/SiDevice';
 import * as iNodeUsb from './INodeUsb';
@@ -71,8 +69,7 @@ class NodeUsbSiDeviceDriver implements
 
     // eslint-disable-next-line no-useless-constructor
     constructor(
-        // eslint-disable-next-line no-unused-vars
-        private nodeUsb: any,
+                private nodeUsb: any,
     // eslint-disable-next-line no-empty-function
     ) {}
 

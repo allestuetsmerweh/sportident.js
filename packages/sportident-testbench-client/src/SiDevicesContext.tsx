@@ -1,6 +1,5 @@
 import React from 'react';
 import Immutable from 'immutable';
-// eslint-disable-next-line no-unused-vars
 import {ISiDevice} from 'sportident/lib/SiDevice/ISiDevice';
 
 export type SiDevicesContextPayload = {

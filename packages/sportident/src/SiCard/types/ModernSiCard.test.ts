@@ -1,7 +1,6 @@
 import {describe, expect, test} from '@jest/globals';
 import _ from 'lodash';
 import * as utils from '../../utils';
-// eslint-disable-next-line no-unused-vars
 import * as siProtocol from '../../siProtocol';
 import {cropPunches, getCroppedString, getPunchOffset, ModernSiCard, ModernSiCardSeries, parseCardHolder, parseCardHolderString} from './ModernSiCard';
 import {getModernSiCardExamples} from './modernSiCardExamples';

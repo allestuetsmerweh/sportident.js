@@ -1,6 +1,5 @@
 import Immutable from 'immutable';
 import * as generalUtils from './general';
-// eslint-disable-next-line no-unused-vars
 import {NumberRange} from './NumberRange';
 
 export class NumberRangeRegistry<T> {

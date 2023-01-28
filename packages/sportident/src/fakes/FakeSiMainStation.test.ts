@@ -1,12 +1,9 @@
 import {describe, expect, test} from '@jest/globals';
 import {proto} from '../constants';
-// eslint-disable-next-line no-unused-vars
 import * as siProtocol from '../siProtocol';
 import * as testUtils from '../testUtils';
 import {getBSM8Station} from '../SiStation/siStationExamples';
-// eslint-disable-next-line no-unused-vars
 import {IFakeSiCard} from './FakeSiCard/IFakeSiCard';
-// eslint-disable-next-line no-unused-vars
 import {FakeSiMainStationMessageEvent} from './IFakeSiMainStation';
 import {FakeSiMainStation} from './FakeSiMainStation';
 

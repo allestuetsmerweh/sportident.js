@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-unused-vars
 import * as siProtocol from '../../siProtocol';
 import {ModernSiCard, ModernSiCardSeries} from './ModernSiCard';
 import {BaseSiCard} from '../BaseSiCard';

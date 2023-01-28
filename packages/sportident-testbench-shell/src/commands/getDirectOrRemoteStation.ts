@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-unused-vars
 import {SiDevice} from 'sportident/lib/SiDevice';
 import {CoupledSiStation, SiMainStation} from 'sportident/lib/SiStation';
 

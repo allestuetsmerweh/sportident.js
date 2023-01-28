@@ -1,11 +1,8 @@
 import _ from 'lodash';
 import {proto} from '../constants';
 import * as utils from '../utils';
-// eslint-disable-next-line no-unused-vars
 import * as siProtocol from '../siProtocol';
-// eslint-disable-next-line no-unused-vars
 import * as storage from '../storage';
-// eslint-disable-next-line no-unused-vars
 import {IPunch, IRaceResultData} from './IRaceResultData';
 import {makeStartZeroTime, monotonizeRaceResult, prettyRaceResult} from './raceResultTools';
 

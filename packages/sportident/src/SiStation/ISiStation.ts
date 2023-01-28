@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-unused-vars
 import {SiTargetMultiplexerTarget} from './ISiTargetMultiplexer';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface

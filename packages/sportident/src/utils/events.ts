@@ -12,8 +12,7 @@ export class Event<T extends string> implements IEvent<T> {
 
     // eslint-disable-next-line no-useless-constructor
     constructor(
-        // eslint-disable-next-line no-unused-vars
-        public type?: T,
+                public type?: T,
     // eslint-disable-next-line no-empty-function
     ) {}
 }

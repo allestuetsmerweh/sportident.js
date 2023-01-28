@@ -43,10 +43,8 @@ export class Shell {
     private options: AllShellOptions;
 
     constructor(
-        // eslint-disable-next-line no-unused-vars
-        public ui: ShellUserInterface,
-        // eslint-disable-next-line no-unused-vars
-        private commands: {[commandName: string]: ShellCommand},
+                public ui: ShellUserInterface,
+                private commands: {[commandName: string]: ShellCommand},
         options: ShellOptions = {},
     ) {
         this.options = {

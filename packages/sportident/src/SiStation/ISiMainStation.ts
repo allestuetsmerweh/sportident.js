@@ -11,10 +11,8 @@ export interface ISiCard {
 
 export class SiMainStationSiCardInsertedEvent extends utils.Event<'siCardInserted'> {
     constructor(
-        // eslint-disable-next-line no-unused-vars
-        public siMainStation: ISiMainStation,
-        // eslint-disable-next-line no-unused-vars
-        public siCard: ISiCard,
+                public siMainStation: ISiMainStation,
+                public siCard: ISiCard,
     ) {
         super();
     }
@@ -22,10 +20,8 @@ export class SiMainStationSiCardInsertedEvent extends utils.Event<'siCardInserte
 
 export class SiMainStationSiCardRemovedEvent extends utils.Event<'siCardRemoved'> {
     constructor(
-        // eslint-disable-next-line no-unused-vars
-        public siMainStation: ISiMainStation,
-        // eslint-disable-next-line no-unused-vars
-        public siCard: ISiCard,
+                public siMainStation: ISiMainStation,
+                public siCard: ISiCard,
     ) {
         super();
     }
@@ -33,10 +29,8 @@ export class SiMainStationSiCardRemovedEvent extends utils.Event<'siCardRemoved'
 
 export class SiMainStationSiCardObservedEvent extends utils.Event<'siCardObserved'> {
     constructor(
-        // eslint-disable-next-line no-unused-vars
-        public siMainStation: ISiMainStation,
-        // eslint-disable-next-line no-unused-vars
-        public siCard: ISiCard,
+                public siMainStation: ISiMainStation,
+                public siCard: ISiCard,
     ) {
         super();
     }

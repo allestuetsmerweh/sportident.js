@@ -1,6 +1,5 @@
 import {describe, expect, test} from '@jest/globals';
 import {proto} from '../constants';
-// eslint-disable-next-line no-unused-vars
 import * as siProtocol from '../siProtocol';
 import {BaseSiCard} from './BaseSiCard';
 
