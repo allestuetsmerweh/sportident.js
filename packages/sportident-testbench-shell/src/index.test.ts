@@ -1,5 +1,4 @@
-/* eslint-env jasmine */
-
+import {describe, expect, test} from '@jest/globals';
 import * as testUtils from 'sportident/lib/testUtils';
 import {getSiShellCommands} from './index';
 import {ShellControl} from './testUtils';
@@ -10,7 +9,7 @@ const COMMANDS = getSiShellCommands();
 const OPTIONS = {initialEnv: {device: {}}};
 
 describe('SiShell', () => {
-    it('can run getInfo command', async () => {
+    test('can run getInfo command', async () => {
         const shellControl = new ShellControl(COMMANDS, OPTIONS);
         shellControl.run();
         shellControl.putString('getInfo\n');

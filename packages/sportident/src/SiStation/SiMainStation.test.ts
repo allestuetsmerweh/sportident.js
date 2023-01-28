@@ -1,5 +1,4 @@
-/* eslint-env jasmine */
-
+import {describe, expect, test} from '@jest/globals';
 import _ from 'lodash';
 import {proto} from '../constants';
 // eslint-disable-next-line no-unused-vars
@@ -25,7 +24,7 @@ import {FakeSiCard6} from '../fakes/FakeSiCard/types/FakeSiCard6';
 testUtils.useFakeTimers();
 
 describe('SiMainStation', () => {
-    it('fromSiDevice', () => {
+    test('fromSiDevice', () => {
         const fakeSiDevice = new SiDevice('fromSiDevice', {driver: {name: 'FakeSiDevice'}});
         const myMainStation1 = SiMainStation.fromSiDevice(fakeSiDevice);
         expect(myMainStation1 instanceof SiMainStation).toBe(true);
@@ -36,7 +35,7 @@ describe('SiMainStation', () => {
         expect(myMainStation2.ident).toBe('Direct-FakeSiDevice-fromSiDevice');
         expect(myMainStation2.multiplexerTarget).toBe(SiTargetMultiplexerTarget.Direct);
     });
-    it('fromSiTargetMultiplexer', () => {
+    test('fromSiTargetMultiplexer', () => {
         const myTargetMultiplexer = new SiTargetMultiplexer({ident: 'fake-ident'} as ISiDevice<any>);
         const myMainStation1 = SiMainStation.fromSiTargetMultiplexer(myTargetMultiplexer);
         expect(myMainStation1 instanceof SiMainStation).toBe(true);
@@ -48,7 +47,7 @@ describe('SiMainStation', () => {
         expect(myMainStation2.multiplexerTarget).toBe(SiTargetMultiplexerTarget.Direct);
     });
 
-    it('can readCards', async (done) => {
+    test('can readCards', async () => {
         const storage = siStationStorageDefinition(getBSM8Station().storageData);
         storage.set('mode', SiStationMode.Control);
         storage.set('code', 31);
@@ -124,10 +123,9 @@ describe('SiMainStation', () => {
         await testUtils.nTimesAsync(1, () => testUtils.advanceTimersByTime(0));
         // No additional entry
         expect(cardsRead).toEqual([{cardNumber: 1234} as ISiCard]);
-        done();
     });
 
-    it('card detection & removal', async (done) => {
+    test('card detection & removal', async () => {
         const myTargetMultiplexer = new SiTargetMultiplexer({} as ISiDevice<any>);
         const myMainStation = SiMainStation.fromSiTargetMultiplexer(myTargetMultiplexer);
         const testData = getSiCard5Examples().fullCard;
@@ -191,9 +189,8 @@ describe('SiMainStation', () => {
 
         myMainStation.removeEventListener('siCardInserted', handleCardInserted);
         myMainStation.removeEventListener('siCardRemoved', handleCardRemoved);
-        done();
     });
-    it('card observation', async (done) => {
+    test('card observation', async () => {
         const myTargetMultiplexer = new SiTargetMultiplexer({} as ISiDevice<any>);
         const myMainStation = SiMainStation.fromSiTargetMultiplexer(myTargetMultiplexer);
         const testData = getSiCard6Examples().fullCard;
@@ -220,9 +217,8 @@ describe('SiMainStation', () => {
 
         await testUtils.nTimesAsync(2, () => testUtils.advanceTimersByTime(0));
         expect(observedCardNumbers).toEqual([testData.cardData.cardNumber]);
-        done();
     });
-    it('card observation with mode', async (done) => {
+    test('card observation with mode', async () => {
         const myTargetMultiplexer = new SiTargetMultiplexer({} as ISiDevice<any>);
         const myMainStation = SiMainStation.fromSiTargetMultiplexer(myTargetMultiplexer);
         const observedCardNumbers: number[] = [];
@@ -240,9 +236,8 @@ describe('SiMainStation', () => {
 
         await testUtils.nTimesAsync(2, () => testUtils.advanceTimersByTime(0));
         expect(observedCardNumbers).toEqual([]);
-        done();
     });
-    it('other message', () => {
+    test('other message', () => {
         const fakeSiTargetMultiplexer = {
             addEventListener: () => undefined,
             sendMessage: () => Promise.resolve([]),
@@ -251,7 +246,7 @@ describe('SiMainStation', () => {
         mySiStation.handleMessage({command: proto.cmd.SIGNAL, parameters: [0x01]});
     });
 
-    it('sendMessage', async (done) => {
+    test('sendMessage', async () => {
         const fakeSiTargetMultiplexer = {
             addEventListener: () => undefined,
             sendMessage: () => Promise.resolve([]),
@@ -264,6 +259,5 @@ describe('SiMainStation', () => {
             });
         await testUtils.nTimesAsync(1, () => testUtils.advanceTimersByTime(0));
         expect(sendMessageSucceeded).toBe(true);
-        done();
     });
 });

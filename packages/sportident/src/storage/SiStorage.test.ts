@@ -1,5 +1,4 @@
-/* eslint-env jasmine */
-
+import {describe, expect, test} from '@jest/globals';
 import _ from 'lodash';
 import Immutable from 'immutable';
 import * as utils from '../utils';
@@ -15,7 +14,7 @@ describe('storage utils', () => {
         isWeird: isWeirdField,
         weirdness: weirdnessField,
     };
-    it('SiStorage init', () => {
+    test('SiStorage init', () => {
         const weirdStorage = defineStorage(0x02, locations);
         const weirdStorageFromArray = weirdStorage(utils.unPrettyHex('01 23'));
         expect(weirdStorageFromArray.locations).toEqual(locations);
@@ -27,11 +26,11 @@ describe('storage utils', () => {
         expect(weirdStorageFromUndefined.locations).toEqual(locations);
         expect(weirdStorageFromUndefined.data.toJS()).toEqual(utils.unPrettyHex('?? ??'));
     });
-    it('SiStorage init wrong length', () => {
+    test('SiStorage init wrong length', () => {
         const weirdStorage = defineStorage(0x02, {});
         expect(() => weirdStorage([0x00])).toThrow();
     });
-    it('SiStorage splice', () => {
+    test('SiStorage splice', () => {
         const weirdStorage = defineStorage(0x04, {});
         const myWeirdStorage = weirdStorage(utils.unPrettyHex('00 00 00 00'));
 
@@ -41,7 +40,7 @@ describe('storage utils', () => {
         expect(() => myWeirdStorage.splice(1, 2)).toThrow();
         expect(myWeirdStorage.data.toJS()).toEqual(utils.unPrettyHex('00 12 34 00'));
     });
-    it('SiStorage get', () => {
+    test('SiStorage get', () => {
         const weirdStorage = defineStorage(0x02, locations);
         const myWeirdStorage = weirdStorage(utils.unPrettyHex('01 23'));
         const isWeirdFieldValue = myWeirdStorage.get('isWeird')!;

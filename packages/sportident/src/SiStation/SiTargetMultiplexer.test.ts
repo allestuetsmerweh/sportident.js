@@ -1,5 +1,4 @@
-/* eslint-env jasmine */
-
+import {describe, expect, test} from '@jest/globals';
 import {proto} from '../constants';
 import * as siProtocol from '../siProtocol';
 import * as testUtils from '../testUtils';
@@ -12,7 +11,7 @@ import {DIRECT_DEVICE_INITIATED_COMMANDS, SiTargetMultiplexer} from './SiTargetM
 testUtils.useFakeTimers();
 
 describe('SiTargetMultiplexer', () => {
-    it('is unique per device', () => {
+    test('is unique per device', () => {
         const siDevice = new SiDevice('isUniquePerDevice', {driver: {name: 'FakeSiDevice'}});
         siDevice.setState(SiDeviceState.Opened);
         const muxer1 = SiTargetMultiplexer.fromSiDevice(siDevice);
@@ -21,7 +20,7 @@ describe('SiTargetMultiplexer', () => {
         expect(muxer2).toBe(muxer1);
     });
 
-    it('handles receiving', () => {
+    test('handles receiving', () => {
         const siDevice = new SiDevice('handlesReceiving', {
             driver: {},
         });
@@ -88,7 +87,7 @@ describe('SiTargetMultiplexer', () => {
         muxer.removeEventListener('remoteMessage', recordRemoteMessage);
     });
 
-    it('handles simple sending', async (done) => {
+    test('handles simple sending', async () => {
         const siDevice = new SiDevice('handlesSending0', {
             driver: {
                 send: () => Promise.resolve(),
@@ -112,10 +111,9 @@ describe('SiTargetMultiplexer', () => {
             });
         await testUtils.advanceTimersByTime(0);
         expect(timeState).toEqual({sendingFinished: true});
-        done();
     });
 
-    it('handles sending and waiting for 1 response', async (done) => {
+    test('handles sending and waiting for 1 response', async () => {
         const siDevice = new SiDevice('handlesSending1', {
             driver: {
                 send: () => Promise.resolve(),
@@ -147,10 +145,9 @@ describe('SiTargetMultiplexer', () => {
         expect(timeState).toEqual({sendingFinished: false});
         await testUtils.advanceTimersByTime(1);
         expect(timeState).toEqual({sendingFinished: true});
-        done();
     });
 
-    it('handles sending and waiting for 1 NAK', async (done) => {
+    test('handles sending and waiting for 1 NAK', async () => {
         const siDevice = new SiDevice('handlesSending1NAK', {
             driver: {
                 send: () => Promise.resolve(),
@@ -181,10 +178,9 @@ describe('SiTargetMultiplexer', () => {
         expect(timeState).toEqual({sendingFailed: false});
         await testUtils.advanceTimersByTime(1);
         expect(timeState).toEqual({sendingFailed: true});
-        done();
     });
 
-    it('handles sending and waiting for 2 responses', async (done) => {
+    test('handles sending and waiting for 2 responses', async () => {
         const siDevice = new SiDevice('handlesSending2', {
             driver: {
                 send: () => Promise.resolve(),
@@ -226,10 +222,9 @@ describe('SiTargetMultiplexer', () => {
         expect(timeState).toEqual({receive1: true, receive2: false, sendingFinished: false});
         await testUtils.nTimesAsync(10, () => testUtils.advanceTimersByTime(1));
         expect(timeState).toEqual({receive1: true, receive2: true, sendingFinished: true});
-        done();
     });
 
-    it('handles sending and timing out waiting for 1 response', async (done) => {
+    test('handles sending and timing out waiting for 1 response', async () => {
         const siDevice = new SiDevice('handlesSending1Timeout', {
             driver: {
                 send: () => Promise.resolve(),
@@ -254,10 +249,9 @@ describe('SiTargetMultiplexer', () => {
         expect(timeState).toEqual({timedOut: false});
         await testUtils.advanceTimersByTime(1);
         expect(timeState).toEqual({timedOut: true});
-        done();
     });
 
-    it('handles sending and timing out waiting for 2 responses', async (done) => {
+    test('handles sending and timing out waiting for 2 responses', async () => {
         const siDevice = new SiDevice('handlesSending2Timeout', {
             driver: {
                 send: () => Promise.resolve(),
@@ -294,10 +288,9 @@ describe('SiTargetMultiplexer', () => {
         expect(timeState).toEqual({receive1: true, timedOut: false});
         await testUtils.advanceTimersByTime(1);
         expect(timeState).toEqual({receive1: true, timedOut: true});
-        done();
     });
 
-    it('does not time out, if it already succeeded', async (done) => {
+    test('does not time out, if it already succeeded', async () => {
         const siDevice = new SiDevice('noTimeoutIfSucceeded', {
             driver: {
                 send: () => Promise.resolve(),
@@ -334,10 +327,9 @@ describe('SiTargetMultiplexer', () => {
         expect(timeState).toEqual({madeSuccessful: true, timeoutPassed: false, timedOut: false, succeeded: false});
         await testUtils.advanceTimersByTime(1);
         expect(timeState).toEqual({madeSuccessful: true, timeoutPassed: true, timedOut: false, succeeded: false});
-        done();
     });
 
-    it('does not succeed, if response for different command arrives', async (done) => {
+    test('does not succeed, if response for different command arrives', async () => {
         const siDevice = new SiDevice('differentCommand', {
             driver: {
                 send: () => Promise.resolve(),
@@ -377,10 +369,9 @@ describe('SiTargetMultiplexer', () => {
         expect(timeState).toEqual({receive1: true, timedOut: false, succeeded: false});
         await testUtils.advanceTimersByTime(1);
         expect(timeState).toEqual({receive1: true, timedOut: true, succeeded: false});
-        done();
     });
 
-    it('cannot send to unopened SiDevice', async (done) => {
+    test('cannot send to unopened SiDevice', async () => {
         const siDevice = new SiDevice('cannotSendToUnopened', {
             driver: {
 
@@ -404,10 +395,9 @@ describe('SiTargetMultiplexer', () => {
         expect(timeState).toEqual({timedOut: false});
         await testUtils.advanceTimersByTime(1);
         expect(timeState).toEqual({timedOut: true});
-        done();
     });
 
-    it('handles sending as soon as device is openend', async (done) => {
+    test('handles sending as soon as device is openend', async () => {
         const siDevice = new SiDevice('handlesSendingAsSoonAsOpened', {
             driver: {
                 send: () => Promise.resolve(),
@@ -437,10 +427,9 @@ describe('SiTargetMultiplexer', () => {
         expect(timeState).toEqual({deviceOpened: true, sendingFinished: false});
         await testUtils.advanceTimersByTime(1);
         expect(timeState).toEqual({deviceOpened: true, sendingFinished: true});
-        done();
     });
 
-    it('sends all as soon as device is openend', async (done) => {
+    test('sends all as soon as device is openend', async () => {
         const siDevice = new SiDevice('sendsAllAsSoonAsOpened', {
             driver: {
                 send: () => Promise.resolve(),
@@ -480,11 +469,10 @@ describe('SiTargetMultiplexer', () => {
         expect(timeState).toEqual({deviceOpened: true, numSuccess: 2, allSendingFinished: false});
         await testUtils.advanceTimersByTime(0); // for Promise.all
         expect(timeState).toEqual({deviceOpened: true, numSuccess: 2, allSendingFinished: true});
-        done();
     });
 
     // TODO: Re-enable
-    // it('aborts sending as soon as device is closed', async (done) => {
+    // test('aborts sending as soon as device is closed', async (done) => {
     //     const siDevice = new SiDevice('abortsAllAsSoonAsClosed', {
     //         driver: {
     //             send: () => Promise.resolve(),
@@ -527,7 +515,7 @@ describe('SiTargetMultiplexer', () => {
     //     done();
     // });
 
-    it('handles device failing to send', async (done) => {
+    test('handles device failing to send', async () => {
         const siDevice = new SiDevice('handlesDeviceFailingToSend', {
             driver: {
                 send: () => Promise.reject(new Error('test')),
@@ -552,10 +540,9 @@ describe('SiTargetMultiplexer', () => {
         expect(timeState).toEqual({timedOut: false});
         await testUtils.advanceTimersByTime(1);
         expect(timeState).toEqual({timedOut: true});
-        done();
     });
 
-    it('cannot send to unknown target', async (done) => {
+    test('cannot send to unknown target', async () => {
         const siDevice = new SiDevice('undefinedTarget', {driver: {}});
         siDevice.setState(SiDeviceState.Opened);
         const muxer = SiTargetMultiplexer.fromSiDevice(siDevice);
@@ -574,9 +561,8 @@ describe('SiTargetMultiplexer', () => {
             });
         await testUtils.advanceTimersByTime(0);
         expect(timeState).toEqual({setToUnknownFailed: true});
-        done();
     });
-    it('cannot send to switching target', async (done) => {
+    test('cannot send to switching target', async () => {
         const siDevice = new SiDevice('switchingTarget', {driver: {}});
         siDevice.setState(SiDeviceState.Opened);
         const muxer = SiTargetMultiplexer.fromSiDevice(siDevice);
@@ -595,9 +581,8 @@ describe('SiTargetMultiplexer', () => {
             });
         await testUtils.advanceTimersByTime(0);
         expect(timeState).toEqual({setToSwitchingFailed: true});
-        done();
     });
-    it('handles error switching target', async (done) => {
+    test('handles error switching target', async () => {
         const siDevice = new SiDevice('errorSwitchingTarget', {driver: {
             send: () => Promise.reject(new Error('test')),
         }});
@@ -618,9 +603,8 @@ describe('SiTargetMultiplexer', () => {
         await testUtils.nTimesAsync(2, () => testUtils.advanceTimersByTime(0));
         expect(muxer.target).toEqual(SiTargetMultiplexerTarget.Unknown);
         expect(timeState).toEqual({setTargetFailed: true});
-        done();
     });
-    it('handles unclear target switch response', async (done) => {
+    test('handles unclear target switch response', async () => {
         const siDevice = new SiDevice('errorSwitchingTarget', {driver: {
             send: () => {
                 setTimeout(() => {
@@ -652,9 +636,8 @@ describe('SiTargetMultiplexer', () => {
         await testUtils.nTimesAsync(2, () => testUtils.advanceTimersByTime(0));
         expect(muxer.target).toEqual(SiTargetMultiplexerTarget.Unknown);
         expect(timeState).toEqual({setTargetFailed: true});
-        done();
     });
-    it('handles direct device-initiated command', async (done) => {
+    test('handles direct device-initiated command', async () => {
         const siDevice = new SiDevice('errorSwitchingTarget', {driver: {
             send: () => Promise.reject(new Error('test')),
         }});
@@ -671,6 +654,5 @@ describe('SiTargetMultiplexer', () => {
         await testUtils.nTimesAsync(10, () => testUtils.advanceTimersByTime(1));
         expect(muxer.target).toEqual(SiTargetMultiplexerTarget.Direct);
         expect(muxer.latestTarget).toEqual(SiTargetMultiplexerTarget.Direct);
-        done();
     });
 });

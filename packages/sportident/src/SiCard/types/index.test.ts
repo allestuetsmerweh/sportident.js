@@ -1,5 +1,4 @@
-/* eslint-env jasmine */
-
+import {describe, expect} from '@jest/globals';
 import _ from 'lodash';
 import {BaseSiCard} from '../BaseSiCard';
 import * as siCardIndex from './index';
@@ -11,12 +10,12 @@ describe('SiCard index', () => {
         const siCardExport: any = siCardIndex[siCardExportName];
         if (siCardExport.prototype instanceof BaseSiCard) {
             const cardType = siCardExport;
-            it(`card type ${siCardExportName} has been registered`, () => {
+            test(`card type ${siCardExportName} has been registered`, () => {
                 expect(cardTypesInRegistry.includes(cardType)).toBe(true);
             });
         } else if (/^get\S+Examples$/.exec(siCardExportName)) {
             const getExamples = siCardExport;
-            it(`card type examples ${siCardExportName} can be retrieved`, () => {
+            test(`card type examples ${siCardExportName} can be retrieved`, () => {
                 expect(_.isPlainObject(getExamples())).toBe(true);
             });
         } else {

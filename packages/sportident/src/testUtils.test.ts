@@ -1,12 +1,11 @@
-/* eslint-env jasmine */
-
+import {describe, expect, test} from '@jest/globals';
 import _ from 'lodash';
 import * as testUtils from './testUtils';
 
 testUtils.useFakeTimers();
 
 describe('testUtils', () => {
-    it('runPromises resolve with fake timers', async (done) => {
+    test('runPromises resolve with fake timers', async () => {
         const timeState = {
             promiseResolved: false,
         };
@@ -17,9 +16,8 @@ describe('testUtils', () => {
         expect(timeState).toEqual({promiseResolved: false});
         await testUtils.runPromises();
         expect(timeState).toEqual({promiseResolved: true});
-        done();
     });
-    it('runPromises reject with fake timers', async (done) => {
+    test('runPromises reject with fake timers', async () => {
         const timeState = {promiseRejected: false};
         Promise.reject(new Error('test'))
             .catch(() => {
@@ -28,9 +26,8 @@ describe('testUtils', () => {
         expect(timeState).toEqual({promiseRejected: false});
         await testUtils.runPromises();
         expect(timeState).toEqual({promiseRejected: true});
-        done();
     });
-    it('advanceTimersByTime', async (done) => {
+    test('advanceTimersByTime', async () => {
         const timeState = {
             timeout0: false, promise0: false,
             timeout1: false, promise1: false,
@@ -68,9 +65,8 @@ describe('testUtils', () => {
             timeout1: true, promise1: true,
             timeout2: true, promise2: true,
         });
-        done();
     });
-    it('nTimesAsync', async (done) => {
+    test('nTimesAsync', async () => {
         const timeState = {
             timeout0: false, promise0: false,
             timeout1: false, promise1: false,
@@ -108,26 +104,25 @@ describe('testUtils', () => {
             timeout1: true, promise1: true,
             timeout2: true, promise2: true,
         });
-        done();
     });
-    it('getRandomInt with 0 options', () => {
+    test('getRandomInt with 0 options', () => {
         _.range(10).forEach(() => {
             expect(testUtils.getRandomInt(0)).toBe(0);
         });
     });
-    it('getRandomInt with 1 options', () => {
+    test('getRandomInt with 1 options', () => {
         _.range(10).forEach(() => {
             expect(testUtils.getRandomInt(1)).toBe(0);
         });
     });
-    it('getRandomInt with 2 options', () => {
+    test('getRandomInt with 2 options', () => {
         _.range(10).forEach(() => {
             const randomInt = testUtils.getRandomInt(2);
             expect(randomInt).not.toBeLessThan(0);
             expect(randomInt).not.toBeGreaterThan(1);
         });
     });
-    it('getRandomByte', () => {
+    test('getRandomByte', () => {
         _.range(10).forEach(() => {
             const randomByte = testUtils.getRandomByte();
             expect(randomByte).not.toBeLessThan(0x00);
@@ -135,7 +130,7 @@ describe('testUtils', () => {
             expect(Math.floor(randomByte)).toBe(randomByte);
         });
     });
-    it('getRandomByteExcept one', () => {
+    test('getRandomByteExcept one', () => {
         _.range(10).forEach(() => {
             const randomByte = testUtils.getRandomByteExcept([0x42]);
             expect(randomByte).not.toBe(0x42);
@@ -144,13 +139,13 @@ describe('testUtils', () => {
             expect(Math.floor(randomByte)).toBe(randomByte);
         });
     });
-    it('getRandomByteExcept all but one', () => {
+    test('getRandomByteExcept all but one', () => {
         _.range(10).forEach(() => {
             const randomByte = testUtils.getRandomByteExcept(_.range(255));
             expect(randomByte).toBe(0xFF);
         });
     });
-    it('getRandomMessage', () => {
+    test('getRandomMessage', () => {
         _.range(10).forEach(() => {
             const randomMessage = testUtils.getRandomMessage({});
             expect(randomMessage.command).not.toBeLessThan(0x00);
@@ -158,7 +153,7 @@ describe('testUtils', () => {
             expect(randomMessage.parameters).toEqual([]);
         });
     });
-    it('getRandomMessage with numParameters', () => {
+    test('getRandomMessage with numParameters', () => {
         _.range(10).forEach(() => {
             const numParameters = Math.floor(Math.random() * 3 + 1);
             const randomMessage = testUtils.getRandomMessage({numParameters: numParameters});
@@ -169,7 +164,7 @@ describe('testUtils', () => {
             expect(randomMessage.parameters[0]).not.toBeGreaterThan(0xFF);
         });
     });
-    it('getRandomMessage with command', () => {
+    test('getRandomMessage with command', () => {
         _.range(10).forEach(() => {
             const command = testUtils.getRandomByte();
             const randomMessage = testUtils.getRandomMessage({command: command});
@@ -177,7 +172,7 @@ describe('testUtils', () => {
             expect(randomMessage.parameters).toEqual([]);
         });
     });
-    it('getRandomMessage with parameters', () => {
+    test('getRandomMessage with parameters', () => {
         _.range(10).forEach(() => {
             const numParameters = Math.floor(Math.random() * 3 + 1);
             const parameters = _.range(numParameters).map(() => testUtils.getRandomByte());
@@ -187,7 +182,7 @@ describe('testUtils', () => {
             expect(randomMessage.parameters).toEqual(parameters);
         });
     });
-    it('runMock', () => {
+    test('runMock', () => {
         const mockObject: testUtils.Mockable<string> = {
             mocks: {
                 existing: (index) => `existing${index}`,

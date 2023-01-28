@@ -1,5 +1,4 @@
-/* eslint-env jasmine */
-
+import {describe, expect, test} from '@jest/globals';
 import _ from 'lodash';
 import {proto} from '../../constants';
 // eslint-disable-next-line no-unused-vars
@@ -10,14 +9,14 @@ import {ModernSiCardSeries} from './ModernSiCard';
 import {SiCard10} from './SiCard10';
 
 describe('SiCard10', () => {
-    it('is registered', () => {
+    test('is registered', () => {
         expect(BaseSiCard.getTypeByCardNumber(6999999)).not.toEqual(SiCard10);
         expect(BaseSiCard.getTypeByCardNumber(7000000)).toEqual(SiCard10);
         expect(BaseSiCard.getTypeByCardNumber(7999999)).toEqual(SiCard10);
         expect(BaseSiCard.getTypeByCardNumber(8000000)).not.toEqual(SiCard10);
     });
     describe('typeSpecificInstanceFromMessage', () => {
-        it('works for valid message', () => {
+        test('works for valid message', () => {
             const instance = SiCard10.typeSpecificInstanceFromMessage({
                 command: proto.cmd.SI8_DET,
                 parameters: [0x00, 0x00, ModernSiCardSeries.SiCard10, 0x77, 0x77, 0x77],
@@ -28,31 +27,31 @@ describe('SiCard10', () => {
             expect(instance instanceof SiCard10).toBe(true);
             expect(instance.cardNumber).toBe(7829367);
         });
-        it('returns undefined when message has mode', () => {
+        test('returns undefined when message has mode', () => {
             expect(SiCard10.typeSpecificInstanceFromMessage({
                 mode: proto.NAK,
             })).toBe(undefined);
         });
-        it('returns undefined when message has wrong command', () => {
+        test('returns undefined when message has wrong command', () => {
             expect(SiCard10.typeSpecificInstanceFromMessage({
                 command: testUtils.getRandomByteExcept([proto.cmd.SI8_DET]),
                 parameters: [],
             })).toBe(undefined);
         });
-        it('returns undefined when there are too few parameters', () => {
+        test('returns undefined when there are too few parameters', () => {
             expect(SiCard10.typeSpecificInstanceFromMessage({
                 command: proto.cmd.SI8_DET,
                 parameters: [],
             })).toBe(undefined);
         });
-        it('returns undefined when the series does not match', () => {
+        test('returns undefined when the series does not match', () => {
             expect(SiCard10.typeSpecificInstanceFromMessage({
                 command: proto.cmd.SI8_DET,
                 parameters: [0x00, 0x00, testUtils.getRandomByteExcept([ModernSiCardSeries.SiCard10]), 0x22, 0x22, 0x22],
             })).toBe(undefined);
         });
     });
-    it('is modern', (done) => {
+    test('is modern', (done) => {
         const mySiCard10 = new SiCard10(8500000);
         mySiCard10.mainStation = {
             sendMessage: (message: siProtocol.SiMessage, numResponses?: number) => {

@@ -1,5 +1,4 @@
-/* eslint-env jasmine */
-
+import {describe, expect, test} from '@jest/globals';
 import _ from 'lodash';
 import {proto} from '../../constants';
 // eslint-disable-next-line no-unused-vars
@@ -11,7 +10,7 @@ import {getSiCard6Examples} from './siCard6Examples';
 import {FakeSiCard6} from '../../fakes/FakeSiCard/types/FakeSiCard6';
 
 describe('SiCard6', () => {
-    it('is registered', () => {
+    test('is registered', () => {
         expect(BaseSiCard.getTypeByCardNumber(499999)).not.toEqual(SiCard6);
         expect(BaseSiCard.getTypeByCardNumber(500000)).toEqual(SiCard6);
         expect(BaseSiCard.getTypeByCardNumber(999999)).toEqual(SiCard6);
@@ -22,7 +21,7 @@ describe('SiCard6', () => {
         expect(BaseSiCard.getTypeByCardNumber(2004000)).not.toEqual(SiCard6);
     });
     describe('typeSpecificInstanceFromMessage', () => {
-        it('works for valid message', () => {
+        test('works for valid message', () => {
             const instance = SiCard6.typeSpecificInstanceFromMessage({
                 command: proto.cmd.SI6_DET,
                 parameters: [0x00, 0x00, 0x00, 0x08, 0x88, 0x88],
@@ -33,30 +32,30 @@ describe('SiCard6', () => {
             expect(instance instanceof SiCard6).toBe(true);
             expect(instance.cardNumber).toBe(559240);
         });
-        it('returns undefined when message has mode', () => {
+        test('returns undefined when message has mode', () => {
             expect(SiCard6.typeSpecificInstanceFromMessage({
                 mode: proto.NAK,
             })).toBe(undefined);
         });
-        it('returns undefined when message has wrong command', () => {
+        test('returns undefined when message has wrong command', () => {
             expect(SiCard6.typeSpecificInstanceFromMessage({
                 command: testUtils.getRandomByteExcept([proto.cmd.SI6_DET]),
                 parameters: [],
             })).toBe(undefined);
         });
-        it('returns undefined when there are too few parameters', () => {
+        test('returns undefined when there are too few parameters', () => {
             expect(SiCard6.typeSpecificInstanceFromMessage({
                 command: proto.cmd.SI6_DET,
                 parameters: [],
             })).toBe(undefined);
         });
     });
-    it('getPunchOffset', () => {
+    test('getPunchOffset', () => {
         expect(getPunchOffset(0)).toEqual(0x300);
         expect(getPunchOffset(1)).toEqual(0x304);
         expect(getPunchOffset(63)).toEqual(0x3FC);
     });
-    it('cropPunches', () => {
+    test('cropPunches', () => {
         expect(cropPunches([])).toEqual([]);
         expect(cropPunches([
             {code: 31, time: 1},
@@ -87,7 +86,7 @@ describe('SiCard6', () => {
             {code: 33, time: 3},
         ]);
     });
-    it('typeSpecificRead fails without mainStation', (done) => {
+    test('typeSpecificRead fails without mainStation', (done) => {
         const mySiCard6 = new SiCard6(1);
         mySiCard6.typeSpecificRead().then(
             () => done(new Error('expect reject')),
@@ -112,7 +111,7 @@ describe('SiCard6', () => {
             },
         };
 
-        it(`typeSpecificRead works with ${exampleName} example`, (done) => {
+        test(`typeSpecificRead works with ${exampleName} example`, (done) => {
             const mySiCard6 = new SiCard6(cardData.cardNumber);
             mySiCard6.mainStation = mainStationSimulation;
             mySiCard6.typeSpecificRead().then(() => {
@@ -130,7 +129,7 @@ describe('SiCard6', () => {
             });
         });
 
-        it(`typeSpecificRead works with wrong card number in ${exampleName} example`, (done) => {
+        test(`typeSpecificRead works with wrong card number in ${exampleName} example`, (done) => {
             const mySiCard6 = new SiCard6(cardData.cardNumber + 1);
             mySiCard6.mainStation = mainStationSimulation;
             mySiCard6.typeSpecificRead().then(() => {
@@ -148,7 +147,7 @@ describe('SiCard6', () => {
             });
         });
     });
-    it('typeSpecificRead if typeSpecificReadCardHolder fails', (done) => {
+    test('typeSpecificRead if typeSpecificReadCardHolder fails', (done) => {
         const testError = new Error('test');
         let typeSpecificReadCardHolderCalled = false;
         class SiCard6WithoutCardHolder extends SiCard6 {
@@ -169,7 +168,7 @@ describe('SiCard6', () => {
                 done();
             });
     });
-    it('typeSpecificRead if typeSpecificReadPunches fails', (done) => {
+    test('typeSpecificRead if typeSpecificReadPunches fails', (done) => {
         const testError = new Error('test');
         let attemptedToGetPage6 = false;
         class SiCard6WithoutCardHolder extends SiCard6 {

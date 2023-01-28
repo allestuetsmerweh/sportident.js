@@ -1,5 +1,4 @@
-/* eslint-env jasmine */
-
+import {describe, expect, test} from '@jest/globals';
 import _ from 'lodash';
 import Immutable from 'immutable';
 import {proto} from './constants';
@@ -55,7 +54,7 @@ export const getValidButIncompleteMessageBytes = (): number[][] => {
 
 describe('siProtocol', () => {
     const asOf = new Date('2020-01-01T00:00:00.000Z');
-    it('arr2date works', () => {
+    test('arr2date works', () => {
         expect(date2json(siProtocol.arr2date([0x00, 0x01, 0x01], asOf))).toBe('2000-01-01T00:00:00.000Z');
         expect(date2json(siProtocol.arr2date([0x01, 0x02, 0x03], asOf))).toBe('2001-02-03T00:00:00.000Z');
         expect(date2json(siProtocol.arr2date([0x01, 0x0C, 0x1F], asOf))).toBe('2001-12-31T00:00:00.000Z');
@@ -75,7 +74,7 @@ describe('siProtocol', () => {
         expect(date2json(siProtocol.arr2date([0x00, 0x01, 0x01, 0x00, 0xA8, 0xBF, 0x40], asOf))).toBe('2000-01-01T11:59:59.250Z');
         expect(date2json(siProtocol.arr2date([0x63, 0x0C, 0x1F, 0x01, 0xA8, 0xBF, 0xC0], asOf))).toBe('1999-12-31T23:59:59.750Z');
     });
-    it('arr2date sanitizes', () => {
+    test('arr2date sanitizes', () => {
         expect(() => siProtocol.arr2date([], asOf)).toThrow();
         expect(() => siProtocol.arr2date([0x100], asOf)).toThrow();
         expect(() => siProtocol.arr2date([0x123, 0x123], asOf)).toThrow();
@@ -88,10 +87,10 @@ describe('siProtocol', () => {
         expect(siProtocol.arr2date([12, 13, 1], asOf)).toBe(undefined);
         expect(siProtocol.arr2date([12, 0xFF, 1], asOf)).toBe(undefined);
     });
-    it('arr2date without asOf', () => {
+    test('arr2date without asOf', () => {
         expect(date2json(siProtocol.arr2date([0x00, 0x01, 0x01]))).toBe('2000-01-01T00:00:00.000Z');
     });
-    it('date2arr', () => {
+    test('date2arr', () => {
         expect(siProtocol.date2arr(json2date('2000-01-01T00:00:00.000Z')!)).toEqual([0x00, 0x01, 0x01, 0x0C, 0x00, 0x00, 0x00]);
         expect(siProtocol.date2arr(json2date('2000-01-01T12:00:00.000Z')!)).toEqual([0x00, 0x01, 0x01, 0x0D, 0x00, 0x00, 0x00]);
         expect(siProtocol.date2arr(json2date('2000-01-02T00:00:00.000Z')!)).toEqual([0x00, 0x01, 0x02, 0x00, 0x00, 0x00, 0x00]);
@@ -110,7 +109,7 @@ describe('siProtocol', () => {
         expect(siProtocol.date2arr(json2date('2000-01-01T11:59:59.250Z')!)).toEqual([0x00, 0x01, 0x01, 0x0C, 0xA8, 0xBF, 0x40]);
         expect(siProtocol.date2arr(json2date('1999-12-31T23:59:59.750Z')!)).toEqual([0x63, 0x0C, 0x1F, 0x0B, 0xA8, 0xBF, 0xC0]);
     });
-    it('date2arr and arr2date do the reverse', () => {
+    test('date2arr and arr2date do the reverse', () => {
         const forthAndBack = (date: Date) => siProtocol.arr2date(siProtocol.date2arr(date), asOf);
         const forthAndBackAsJson = (str: string) => date2json(forthAndBack(json2date(str)!));
         expect(forthAndBackAsJson('2000-01-01T00:00:00.000Z')).toBe('2000-01-01T00:00:00.000Z');
@@ -132,7 +131,7 @@ describe('siProtocol', () => {
         expect(forthAndBackAsJson('2000-01-01T11:59:59.250Z')).toBe('2000-01-01T11:59:59.250Z');
         expect(forthAndBackAsJson('1999-12-31T23:59:59.750Z')).toBe('1999-12-31T23:59:59.750Z');
     });
-    it('arr2cardNumber works', () => {
+    test('arr2cardNumber works', () => {
         expect(siProtocol.arr2cardNumber([0x00, 0x00, 0x00])).toBe(0x000000);
         expect(siProtocol.arr2cardNumber([0x12, 0x34, 0x00])).toBe(0x003412);
         expect(siProtocol.arr2cardNumber([0x12, 0x34, 0x01])).toBe(0x003412 + 1 * 100000);
@@ -151,14 +150,14 @@ describe('siProtocol', () => {
         expect(siProtocol.arr2cardNumber([0x12, undefined, 0x56, 0x78])).toBe(undefined);
         expect(siProtocol.arr2cardNumber([undefined, 0x34, 0x56, 0x78])).toBe(undefined);
     });
-    it('arr2cardNumber sanitizes', () => {
+    test('arr2cardNumber sanitizes', () => {
         expect(() => siProtocol.arr2cardNumber([])).toThrow();
         expect(() => siProtocol.arr2cardNumber([1])).toThrow();
         expect(() => siProtocol.arr2cardNumber([1, 2])).toThrow();
         expect(() => siProtocol.arr2cardNumber([1, 2, 3, 4, 5])).toThrow();
         expect(() => siProtocol.arr2cardNumber([1, 2, 3, 4, 5, 6, 7, 8])).toThrow();
     });
-    it('cardNumber2arr works', () => {
+    test('cardNumber2arr works', () => {
         expect(siProtocol.cardNumber2arr(0x000000)).toEqual([0x00, 0x00, 0x00, 0x00]);
         expect(siProtocol.cardNumber2arr(0x003412)).toEqual([0x12, 0x34, 0x00, 0x00]);
         expect(siProtocol.cardNumber2arr(0x003412 + 1 * 100000)).toEqual([0x12, 0x34, 0x01, 0x00]);
@@ -172,7 +171,7 @@ describe('siProtocol', () => {
         expect(siProtocol.cardNumber2arr(0x78563412)).toEqual([0x12, 0x34, 0x56, 0x78]);
         expect(siProtocol.cardNumber2arr(undefined)).toEqual([undefined, undefined, undefined, undefined]);
     });
-    it('consistent cardNumber <=> arr conversion', () => {
+    test('consistent cardNumber <=> arr conversion', () => {
         const cardNumbers = [
             1000,
             10000,
@@ -199,11 +198,11 @@ describe('siProtocol', () => {
             expect(restoredCardNumber).toEqual(cardNumber);
         });
     });
-    it('prettyMessage', () => {
+    test('prettyMessage', () => {
         expect(siProtocol.prettyMessage({command: proto.cmd.GET_MS, parameters: []}).length > 3).toBe(true);
         expect(siProtocol.prettyMessage({mode: proto.ACK}).length > 3).toBe(true);
     });
-    it('CRC16', () => {
+    test('CRC16', () => {
         expect(siProtocol.CRC16([])).toEqual([0x00, 0x00]);
         expect(siProtocol.CRC16([0x01])).toEqual([0x01, 0x00]);
         expect(siProtocol.CRC16([0x12])).toEqual([0x12, 0x00]);
@@ -216,7 +215,7 @@ describe('siProtocol', () => {
         expect(siProtocol.CRC16([0x12, 0x32, 0x56, 0x78])).toEqual([0x1E, 0xFB]);
     });
 
-    it('parse WAKEUP', () => {
+    test('parse WAKEUP', () => {
         expect(siProtocol.parse([proto.WAKEUP]))
             .toEqual({
                 message: {mode: proto.WAKEUP},
@@ -229,7 +228,7 @@ describe('siProtocol', () => {
                 remainder: [randomByte],
             });
     });
-    it('parse ACK', () => {
+    test('parse ACK', () => {
         expect(siProtocol.parse([proto.ACK]))
             .toEqual({
                 message: {mode: proto.ACK},
@@ -242,7 +241,7 @@ describe('siProtocol', () => {
                 remainder: [randomByte],
             });
     });
-    it('parse NAK', () => {
+    test('parse NAK', () => {
         expect(siProtocol.parse([proto.NAK]))
             .toEqual({
                 message: {mode: proto.NAK},
@@ -255,7 +254,7 @@ describe('siProtocol', () => {
                 remainder: [randomByte],
             });
     });
-    it('parse with invalid start byte', () => {
+    test('parse with invalid start byte', () => {
         const invalidStartByte = testUtils.getRandomByteExcept([proto.STX, proto.WAKEUP, proto.NAK]);
         console.debug(`Chosen invalid start byte: ${utils.prettyHex([invalidStartByte])}`);
         expect(siProtocol.parse([invalidStartByte]))
@@ -265,7 +264,7 @@ describe('siProtocol', () => {
             .toEqual({message: null, remainder: [randomByte]});
     });
 
-    it('parse command without remainder', () => {
+    test('parse command without remainder', () => {
         const parseForMessage = (message: siProtocol.SiMessage) => (
             siProtocol.parse(siProtocol.render(message)).message
         );
@@ -274,7 +273,7 @@ describe('siProtocol', () => {
         expect(parseForMessage({command: 0xFF, parameters: [0xEE]}))
             .toEqual({command: 0xFF, parameters: [0xEE]});
     });
-    it('parse command with remainder', () => {
+    test('parse command with remainder', () => {
         const parseForMessageWithRemainder = (message: siProtocol.SiMessage) => siProtocol.parse([
             ...siProtocol.render(message),
             0xDD,
@@ -290,13 +289,13 @@ describe('siProtocol', () => {
                 remainder: [0xDD],
             });
     });
-    it('parse incomplete but valid command', () => {
+    test('parse incomplete but valid command', () => {
         getValidButIncompleteMessageBytes().forEach((cutOffCommand) => {
             expect(siProtocol.parse(cutOffCommand))
                 .toEqual({message: null, remainder: cutOffCommand});
         });
     });
-    it('parse command with invalid ETX', () => {
+    test('parse command with invalid ETX', () => {
         const invalidETX = testUtils.getRandomByteExcept([proto.ETX]);
         console.debug(`Chosen invalid ETX: ${utils.prettyHex([invalidETX])}`);
         expect(siProtocol.parse([proto.STX, 0x00, 0x00, 0x00, 0x00, invalidETX]))
@@ -308,7 +307,7 @@ describe('siProtocol', () => {
         expect(siProtocol.parse([proto.STX, 0xFF, 0x01, 0xEE, 0x00, 0x01, invalidETX, 0xDD]))
             .toEqual({message: null, remainder: [0xFF, 0x01, 0xEE, 0x00, 0x01, invalidETX, 0xDD]});
     });
-    it('parse command with invalid CRC', () => {
+    test('parse command with invalid CRC', () => {
         expect(siProtocol.parse([proto.STX, 0x00, 0x00, 0x00, 0x01, proto.ETX]))
             .toEqual({message: null, remainder: []});
         expect(siProtocol.parse([proto.STX, 0xFF, 0x01, 0xEE, 0x00, 0x01, proto.ETX]))
@@ -319,7 +318,7 @@ describe('siProtocol', () => {
             .toEqual({message: null, remainder: [0xDD]});
     });
 
-    it('parseAll without remainder', () => {
+    test('parseAll without remainder', () => {
         const stream0 = [] as number[];
         expect(siProtocol.parseAll(stream0))
             .toEqual({
@@ -351,7 +350,7 @@ describe('siProtocol', () => {
                 remainder: [],
             });
     });
-    it('parseAll with valid remainder', () => {
+    test('parseAll with valid remainder', () => {
         getValidButIncompleteMessageBytes().forEach((cutOffCommand) => {
             const stream0 = [...cutOffCommand];
             expect(siProtocol.parseAll(stream0))
@@ -392,19 +391,19 @@ describe('siProtocol', () => {
         });
     });
 
-    it('render ACK', () => {
+    test('render ACK', () => {
         expect(siProtocol.render({mode: proto.ACK}))
             .toEqual([proto.ACK]);
     });
-    it('render NAK', () => {
+    test('render NAK', () => {
         expect(siProtocol.render({mode: proto.NAK}))
             .toEqual([proto.NAK]);
     });
-    it('render WAKEUP', () => {
+    test('render WAKEUP', () => {
         expect(siProtocol.render({mode: proto.WAKEUP}))
             .toEqual([proto.WAKEUP]);
     });
-    it('render command', () => {
+    test('render command', () => {
         expect(siProtocol.render({command: 0x00, parameters: []}))
             .toEqual([proto.STX, 0x00, 0x00, 0x00, 0x00, proto.ETX]);
         expect(siProtocol.render({command: 0xFF, parameters: [0xEE]}))
@@ -414,13 +413,13 @@ describe('siProtocol', () => {
         expect(siProtocol.render({mode: undefined, command: 0xFF, parameters: [0xEE]}))
             .toEqual([proto.STX, 0xFF, 0x01, 0xEE, 0xEC, 0x0A, proto.ETX]);
     });
-    it('render invalid mode', () => {
+    test('render invalid mode', () => {
         const invalidMode = testUtils.getRandomByteExcept([proto.WAKEUP, proto.NAK, proto.ACK]);
         expect(() => siProtocol.render({mode: invalidMode}))
             .toThrow();
     });
 
-    it('SiDate SiStorage integration', () => {
+    test('SiDate SiStorage integration', () => {
         const weirdStorage = storage.defineStorage(0x09, {
             weirdDate: new siProtocol.SiDate(3, (i) => i),
             crazyDate: new siProtocol.SiDate(6, (i) => 0x03 + i),
@@ -453,14 +452,14 @@ describe('siProtocol', () => {
     describe('SiDate', () => {
         const mySiDate = new siProtocol.SiDate(3, (i) => i);
         const fieldValueOf = (value: Date) => new storage.SiFieldValue(mySiDate, value);
-        it('typeSpecificIsValueValid', () => {
+        test('typeSpecificIsValueValid', () => {
             expect(mySiDate.typeSpecificIsValueValid(new Date())).toBe(true);
         });
-        it('valueToString', () => {
+        test('valueToString', () => {
             expect(mySiDate.valueToString(json2date('2000-01-01T00:00:00.000Z')!)).toBe('2000-01-01T00:00:00.000Z');
             expect(mySiDate.valueToString(json2date('2020-12-31T13:27:30.000Z')!)).toBe('2020-12-31T13:27:30.000Z');
         });
-        it('valueFromString', () => {
+        test('valueFromString', () => {
             expect(mySiDate.valueFromString('2000-01-01T00:00:00.000Z')).toEqual(json2date('2000-01-01T00:00:00.000Z')!);
             expect(mySiDate.valueFromString('2020-12-31T13:27:30.000Z')).toEqual(json2date('2020-12-31T13:27:30.000Z')!);
             expect(mySiDate.valueFromString('2020-12-31T13:27:30.000') instanceof storage.ValueFromStringError).toBe(true);
@@ -469,14 +468,14 @@ describe('siProtocol', () => {
             expect(mySiDate.valueFromString('2020-12-31') instanceof storage.ValueFromStringError).toBe(true);
             expect(mySiDate.valueFromString('test') instanceof storage.ValueFromStringError).toBe(true);
         });
-        it('extractFromData gives field value', () => {
+        test('extractFromData gives field value', () => {
             const data = Immutable.List([0x00, 0x01, 0x01]);
             const fieldValue = mySiDate.extractFromData(data);
             expect(fieldValue instanceof storage.SiFieldValue).toBe(true);
             expect(fieldValue!.field).toBe(mySiDate);
             expect(fieldValue!.value).toEqual(json2date('2000-01-01T00:00:00.000Z')!);
         });
-        it('extractFromData', () => {
+        test('extractFromData', () => {
             const getExtractedFieldValue = (bytes: (number|undefined)[]) => (
                 mySiDate.extractFromData(Immutable.List(bytes))
             );
@@ -487,7 +486,7 @@ describe('siProtocol', () => {
             expect(getExtractedFieldValue([0x00])).toBe(undefined);
             expect(getExtractedFieldValue([])).toBe(undefined);
         });
-        it('updateData', () => {
+        test('updateData', () => {
             const initialData = Immutable.List([0x00, 0x00, 0x00]);
             const updateInitialData = (newValue: Date|storage.SiFieldValue<Date>) => (
                 mySiDate.updateData(initialData, newValue).toJS()
@@ -496,7 +495,7 @@ describe('siProtocol', () => {
             expect(updateInitialData(json2date('2000-01-01T00:00:00.000Z')!)).toEqual([0x00, 0x01, 0x01]);
             expect(updateInitialData(fieldValueOf(json2date('2000-01-01T00:00:00.000Z')!))).toEqual([0x00, 0x01, 0x01]);
         });
-        it('updateData modify undefined', () => {
+        test('updateData modify undefined', () => {
             const updateData = (
                 data: (number|undefined)[],
                 newValue: Date|storage.SiFieldValue<Date>,
@@ -518,32 +517,32 @@ describe('siProtocol', () => {
         const fieldValueOf = (value: siProtocol.SiTimestamp) => (
             new storage.SiFieldValue(mySiTime, value)
         );
-        it('typeSpecificIsValueValid', () => {
+        test('typeSpecificIsValueValid', () => {
             expect(mySiTime.typeSpecificIsValueValid(0)).toBe(true);
             expect(mySiTime.typeSpecificIsValueValid(43199)).toBe(true);
             expect(mySiTime.typeSpecificIsValueValid(43200)).toBe(false);
             expect(mySiTime.typeSpecificIsValueValid(null)).toBe(true);
         });
-        it('valueToString', () => {
+        test('valueToString', () => {
             expect(mySiTime.valueToString(0)).toBe('00:00:00');
             expect(mySiTime.valueToString(43199)).toBe('11:59:59');
             expect(mySiTime.valueToString(null)).toBe('NO_TIME');
         });
-        it('valueFromString', () => {
+        test('valueFromString', () => {
             expect(mySiTime.valueFromString('00:00:00')).toEqual(0);
             expect(mySiTime.valueFromString('11:59:59')).toEqual(43199);
             expect(mySiTime.valueFromString('NO_TIME')).toBe(null);
             expect(mySiTime.valueFromString('06:12') instanceof storage.ValueFromStringError).toBe(true);
             expect(mySiTime.valueFromString('test') instanceof storage.ValueFromStringError).toBe(true);
         });
-        it('extractFromData gives field value', () => {
+        test('extractFromData gives field value', () => {
             const data = Immutable.List([0x01, 0x01]);
             const fieldValue = mySiTime.extractFromData(data);
             expect(fieldValue instanceof storage.SiFieldValue).toBe(true);
             expect(fieldValue!.field).toBe(mySiTime);
             expect(fieldValue!.value).toBe(257);
         });
-        it('extractFromData', () => {
+        test('extractFromData', () => {
             const getExtractedFieldValue = (bytes: (number|undefined)[]) => (
                 mySiTime.extractFromData(Immutable.List(bytes))
             );
@@ -554,13 +553,13 @@ describe('siProtocol', () => {
             expect(getExtractedFieldValue([0x00])).toBe(undefined);
             expect(getExtractedFieldValue([])).toBe(undefined);
         });
-        it('extractFromData for inexistent', () => {
+        test('extractFromData for inexistent', () => {
             const getExtractedFieldValue = (bytes: (number|undefined)[]) => (
                 myInexistentSiTime.extractFromData(Immutable.List(bytes))
             );
             expect(getExtractedFieldValue([0x00, 0x01])!.value).toBe(null);
         });
-        it('updateData', () => {
+        test('updateData', () => {
             const initialData = Immutable.List([0x00, 0x00]);
             const updateInitialData = (
                 newValue: siProtocol.SiTimestamp|storage.SiFieldValue<siProtocol.SiTimestamp>,
@@ -573,7 +572,7 @@ describe('siProtocol', () => {
             expect(updateInitialData(null)).toEqual([0xEE, 0xEE]);
             expect(updateInitialData(fieldValueOf(null))).toEqual([0xEE, 0xEE]);
         });
-        it('updateData for inexistent', () => {
+        test('updateData for inexistent', () => {
             const initialData = Immutable.List([0x00, 0x00]);
             const updateInitialData = (
                 newValue: siProtocol.SiTimestamp|storage.SiFieldValue<siProtocol.SiTimestamp>,
@@ -584,7 +583,7 @@ describe('siProtocol', () => {
             expect(updateInitialData(257)).toEqual([0x00, 0x00]);
             expect(updateInitialData(fieldValueOf(257))).toEqual([0x00, 0x00]);
         });
-        it('updateData modify undefined', () => {
+        test('updateData modify undefined', () => {
             const updateData = (
                 data: (number|undefined)[],
                 newValue: siProtocol.SiTimestamp|storage.SiFieldValue<siProtocol.SiTimestamp>,

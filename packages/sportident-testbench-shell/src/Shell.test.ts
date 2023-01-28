@@ -1,5 +1,4 @@
-/* eslint-env jasmine */
-
+import {describe, expect, test} from '@jest/globals';
 import * as testUtils from 'sportident/lib/testUtils';
 // eslint-disable-next-line no-unused-vars
 import {ShellCommandContext} from './Shell';
@@ -24,17 +23,17 @@ const COMMANDS = {
 };
 
 describe('Shell', () => {
-    it('starts', () => {
+    test('starts', () => {
         const shellControl = new ShellControl(COMMANDS);
         shellControl.run();
         expect(shellControl.stringOutput).toEqual('$ ');
     });
-    it('starts with custom prompt', () => {
+    test('starts with custom prompt', () => {
         const shellControl = new ShellControl(COMMANDS, {prompt: '> '});
         shellControl.run();
         expect(shellControl.stringOutput).toEqual('> ');
     });
-    it('can run test command', async () => {
+    test('can run test command', async () => {
         const shellControl = new ShellControl(COMMANDS);
         shellControl.run();
         shellControl.putString('test\n');
@@ -42,7 +41,7 @@ describe('Shell', () => {
         expect(shellControl.stringOutput).toEqual('$ test\nt1\n$ ');
         expect(shellControl.stringInput).toEqual('');
     });
-    it('can run test command with initial env', async () => {
+    test('can run test command with initial env', async () => {
         const shellControl = new ShellControl(COMMANDS, {initialEnv: {testNumber: 3}});
         shellControl.run();
         shellControl.putString('test\n');
@@ -50,7 +49,7 @@ describe('Shell', () => {
         expect(shellControl.stringOutput).toEqual('$ test\nt4\n$ ');
         expect(shellControl.stringInput).toEqual('');
     });
-    it('can modify env in test command', async () => {
+    test('can modify env in test command', async () => {
         const shellControl = new ShellControl(COMMANDS);
         shellControl.run();
         shellControl.putString('test\ntest\n');

@@ -1,5 +1,4 @@
-/* eslint-env jasmine */
-
+import {describe, expect, test} from '@jest/globals';
 import _ from 'lodash';
 import Immutable from 'immutable';
 import * as testUtils from '../testUtils';
@@ -8,7 +7,7 @@ import * as generalUtils from './general';
 testUtils.useFakeTimers();
 
 describe('general utils', () => {
-    it('cached', () => {
+    test('cached', () => {
         const cache = {};
         const numGettersCalled = {foo: 0, bar: 0};
         const getFoo = generalUtils.cached(cache, () => {
@@ -31,13 +30,13 @@ describe('general utils', () => {
         expect(getFoo()).toBe('foo');
         expect(numGettersCalled).toEqual({foo: 1, bar: 1});
     });
-    it('getLookup', () => {
+    test('getLookup', () => {
         expect(generalUtils.getLookup({})).toEqual({});
         expect(generalUtils.getLookup({'a': '0'})).toEqual({'0': 'a'});
         expect(generalUtils.getLookup({'a': '0', 'b': '1'})).toEqual({'0': 'a', '1': 'b'});
         expect(generalUtils.getLookup({'a': '0', 'b': '1', 'c': '2'})).toEqual({'0': 'a', '1': 'b', '2': 'c'});
     });
-    it('getLookup with function', () => {
+    test('getLookup with function', () => {
         interface ComplexValue {
             val: string;
         }
@@ -59,10 +58,10 @@ describe('general utils', () => {
             getLookupKey,
         )).toEqual({'0': 'a', '1': 'b', '2': 'c'});
     });
-    it('getLookup sanitizes', () => {
+    test('getLookup sanitizes', () => {
         expect(() => generalUtils.getLookup({'a': '0', 'b': '1', 'c': '1'})).toThrow();
     });
-    it('getLookup is cached', () => {
+    test('getLookup is cached', () => {
         const mapping: generalUtils.MappingWithLookup<string[]> = {'a': ['0'], 'b': ['1', '2']};
         const lookup1 = generalUtils.getLookup(mapping, (value) => value[0]);
         expect(mapping._lookup).not.toBe(undefined);
@@ -72,7 +71,7 @@ describe('general utils', () => {
         expect(numCallsToLookupKeyGetter).toBe(0);
         expect(lookup2).toEqual(lookup1);
     });
-    it('waitFor 0', async (done) => {
+    test('waitFor 0', async () => {
         let doneWaiting = false;
         generalUtils.waitFor(0, 'now')
             .then((result) => {
@@ -82,9 +81,8 @@ describe('general utils', () => {
         expect(doneWaiting).toBe(false);
         await testUtils.advanceTimersByTime(0);
         expect(doneWaiting).toBe(true);
-        done();
     });
-    it('waitFor 1', async (done) => {
+    test('waitFor 1', async () => {
         let doneWaiting = false;
         generalUtils.waitFor(1, 'later')
             .then((result) => {
@@ -96,15 +94,14 @@ describe('general utils', () => {
         expect(doneWaiting).toBe(false);
         await testUtils.advanceTimersByTime(1);
         expect(doneWaiting).toBe(true);
-        done();
     });
-    it('binarySearch length 0', () => {
+    test('binarySearch length 0', () => {
         const list: number[] = [];
         expect(generalUtils.binarySearch(list, -1)).toBe(0);
         expect(generalUtils.binarySearch(list, 0)).toBe(0);
         expect(generalUtils.binarySearch(list, 1)).toBe(0);
     });
-    it('binarySearch length 1', () => {
+    test('binarySearch length 1', () => {
         const list = [3];
         expect(generalUtils.binarySearch(list, -1)).toBe(0);
         expect(generalUtils.binarySearch(list, 0)).toBe(0);
@@ -112,7 +109,7 @@ describe('general utils', () => {
         expect(generalUtils.binarySearch(list, 3)).toBe(0);
         expect(generalUtils.binarySearch(list, 4)).toBe(1);
     });
-    it('binarySearch length 3', () => {
+    test('binarySearch length 3', () => {
         const list = [1, 2, 4];
         expect(generalUtils.binarySearch(list, -1)).toBe(0);
         expect(generalUtils.binarySearch(list, 0)).toBe(0);
@@ -122,7 +119,7 @@ describe('general utils', () => {
         expect(generalUtils.binarySearch(list, 4)).toBe(2);
         expect(generalUtils.binarySearch(list, 5)).toBe(3);
     });
-    it('binarySearch duplicates', () => {
+    test('binarySearch duplicates', () => {
         const listOdd = [1, 2, 2];
         expect(generalUtils.binarySearch(listOdd, 1)).toBe(0);
         expect(generalUtils.binarySearch(listOdd, 2)).toBe(1);
@@ -132,7 +129,7 @@ describe('general utils', () => {
         expect(generalUtils.binarySearch(listEven, 2)).toBe(2);
         expect(generalUtils.binarySearch(listEven, 3)).toBe(3);
     });
-    it('binarySearch immutable', () => {
+    test('binarySearch immutable', () => {
         const options: generalUtils.BinarySearchOptions<Immutable.List<number>, number> = {
             getLength: (list) => list.size,
             getItemAtIndex: (list, index) => list.get(index),

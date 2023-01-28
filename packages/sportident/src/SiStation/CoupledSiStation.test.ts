@@ -1,5 +1,4 @@
-/* eslint-env jasmine */
-
+import {describe, expect, test} from '@jest/globals';
 import * as testUtils from '../testUtils';
 // eslint-disable-next-line no-unused-vars
 import {ISiDevice} from '../SiDevice/ISiDevice';
@@ -11,7 +10,7 @@ import {SiTargetMultiplexer} from './SiTargetMultiplexer';
 testUtils.useFakeTimers();
 
 describe('CoupledSiStation', () => {
-    it('fromSiDevice', () => {
+    test('fromSiDevice', () => {
         const fakeSiDevice = new SiDevice('fromSiDevice', {driver: {name: 'FakeSiDevice'}});
         const myCoupledStation1 = CoupledSiStation.fromSiDevice(fakeSiDevice);
         expect(myCoupledStation1 instanceof CoupledSiStation).toBe(true);
@@ -22,7 +21,7 @@ describe('CoupledSiStation', () => {
         expect(myCoupledStation2.ident).toBe('Remote-FakeSiDevice-fromSiDevice');
         expect(myCoupledStation2.multiplexerTarget).toBe(SiTargetMultiplexerTarget.Remote);
     });
-    it('fromSiTargetMultiplexer', () => {
+    test('fromSiTargetMultiplexer', () => {
         const myTargetMultiplexer = new SiTargetMultiplexer({ident: 'fake-ident'} as ISiDevice<any>);
         const myCoupledStation1 = CoupledSiStation.fromSiTargetMultiplexer(myTargetMultiplexer);
         expect(myCoupledStation1 instanceof CoupledSiStation).toBe(true);

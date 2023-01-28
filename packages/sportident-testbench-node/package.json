@@ -18,6 +18,7 @@
     "sportident-testbench-shell": "^2.0.0-alpha.6"
   },
   "devDependencies": {
+    "@jest/globals": "^29.4.1",
     "ts-node": "^8.5.4"
   }
 }

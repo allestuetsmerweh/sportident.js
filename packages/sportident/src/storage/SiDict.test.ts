@@ -1,5 +1,4 @@
-/* eslint-env jasmine */
-
+import {describe, expect, test} from '@jest/globals';
 import _ from 'lodash';
 import Immutable from 'immutable';
 // eslint-disable-next-line no-unused-vars
@@ -55,31 +54,31 @@ describe('SiDict', () => {
     type MySiDictType = {One: string, Other: string};
     const fieldValueOf = (value: SiDictValue<MySiDictType>): SiFieldValue<SiDictValue<MySiDictType>> =>
         new SiFieldValue(mySiDict, value);
-    it('typeCheckValue', () => {
+    test('typeCheckValue', () => {
         expect(mySiDict.isValueValid({One: 'A', Other: 'B'})).toBe(true);
         expect(mySiDict.isValueValid({One: 'A', Other: undefined})).toBe(false);
     });
-    it('valueToString', () => {
+    test('valueToString', () => {
         expect(mySiDict.valueToString({One: 'A', Other: 'B'})).toBe('One: ->A<-, Other: ->B<-');
         expect(mySiDict.valueToString({One: 'Y', Other: 'Z'})).toBe('One: ->Y<-, Other: ->Z<-');
         expect(mySiDict.valueToString({One: 'Y', Other: undefined}) instanceof ValueToStringError).toBe(true);
     });
-    it('typeSpecificValueToString handles edge case', () => {
+    test('typeSpecificValueToString handles edge case', () => {
         expect(mySiDict.typeSpecificValueToString({One: 'Y', Other: undefined})).toBe('One: ->Y<-, Other: ?');
     });
-    it('valueFromString', () => {
+    test('valueFromString', () => {
         expect(mySiDict.valueFromString('One: ->A<-, Other: ->B<-') instanceof ValueFromStringError).toBe(true);
         expect(mySiDict.valueFromString('One: ->Y<-, Other: ->Z<-') instanceof ValueFromStringError).toBe(true);
         expect(mySiDict.valueFromString('test') instanceof ValueFromStringError).toBe(true);
     });
-    it('extractFromData gives field value', () => {
+    test('extractFromData gives field value', () => {
         const data = Immutable.List([0x41, 0x42]);
         const fieldValue = mySiDict.extractFromData(data);
         expect(fieldValue instanceof SiFieldValue).toBe(true);
         expect(fieldValue!.field).toBe(mySiDict);
         expect(fieldValue!.value).toEqual({One: 'A', Other: 'B'});
     });
-    it('extractFromData', () => {
+    test('extractFromData', () => {
         const getExtractedFieldValue = (bytes: (number|undefined)[]) => (
             mySiDict.extractFromData(Immutable.List(bytes))
         );
@@ -90,7 +89,7 @@ describe('SiDict', () => {
         expect(getExtractedFieldValue([0x61])!.value).toEqual({One: 'a', Other: undefined});
         expect(getExtractedFieldValue([])!.value).toEqual({One: undefined, Other: undefined});
     });
-    it('updateData', () => {
+    test('updateData', () => {
         const initialData = Immutable.List([0x00, 0x00]);
         const updateInitialData = (newValue: any): FakeSiStorageData => (
             mySiDict.updateData(initialData, newValue).toJS()
@@ -100,7 +99,7 @@ describe('SiDict', () => {
         expect(updateInitialData({One: 'y', Other: 'z'})).toEqual([0x79, 0x7A]);
         expect(updateInitialData(fieldValueOf({One: 'a', Other: 'b'}))).toEqual([0x61, 0x62]);
     });
-    it('updateData modify undefined', () => {
+    test('updateData modify undefined', () => {
         const updateData = (
             data: FakeSiStorageData,
             newValue: any,
@@ -115,7 +114,7 @@ describe('SiDict', () => {
         expect(() => updateData([0x00, undefined], {One: 'a', Other: 'b'})).toThrow(ModifyUndefinedException);
         expect(() => updateData([0x00], fieldValueOf({One: 'a', Other: 'b'}))).toThrow(ModifyUndefinedException);
     });
-    it('updateData wrong type', () => {
+    test('updateData wrong type', () => {
         const initialData = Immutable.List([0x00, 0x00]);
         const updatingInitialData = (newValue: any) => (
             () => mySiDict.updateData(initialData, newValue)

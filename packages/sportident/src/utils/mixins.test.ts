@@ -1,9 +1,8 @@
-/* eslint-env jasmine */
-
+import {describe, expect, test} from '@jest/globals';
 import * as mixinUtils from './mixins';
 
 describe('mixin utils', () => {
-    it('mixes in', () => {
+    test('mixes in', () => {
         class Disposable {
             public isDisposed = false;
 

@@ -1,5 +1,4 @@
-/* eslint-env jasmine */
-
+import {describe, expect, test} from '@jest/globals';
 import {proto} from '../../../constants';
 import * as utils from '../../../utils';
 import * as testUtils from '../../../testUtils';
@@ -9,20 +8,20 @@ import {getEmptyCard} from '../../../SiCard/types/modernSiCardExamples';
 testUtils.useFakeTimers();
 
 describe('FakeModernSiCard', () => {
-    it('exists', () => {
+    test('exists', () => {
         expect(FakeModernSiCard).not.toBe(undefined);
     });
     const testData = getEmptyCard();
     const myFakeModernSiCard = new FakeModernSiCard(
         testData.storageData,
     );
-    it('handleDetect works', () => {
+    test('handleDetect works', () => {
         expect(myFakeModernSiCard.handleDetect()).toEqual({
             command: proto.cmd.SI8_DET,
             parameters: utils.unPrettyHex('00 6B 96 8C'),
         });
     });
-    it('handleRequest works', () => {
+    test('handleRequest works', () => {
         expect(() => myFakeModernSiCard.handleRequest({
             command: proto.cmd.GET_SI5,
             parameters: [0x06],

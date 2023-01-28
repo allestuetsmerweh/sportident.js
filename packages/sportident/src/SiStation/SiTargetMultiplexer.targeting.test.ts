@@ -1,5 +1,4 @@
-/* eslint-env jasmine */
-
+import {describe, expect, test} from '@jest/globals';
 import {proto} from '../constants';
 import * as siProtocol from '../siProtocol';
 import * as testUtils from '../testUtils';
@@ -11,7 +10,7 @@ import {SiTargetMultiplexer} from './SiTargetMultiplexer';
 testUtils.useFakeTimers();
 
 describe('SiTargetMultiplexer', () => {
-    it('handles targeting', async (done) => {
+    test('handles targeting', async () => {
         const siDevice = new SiDevice('handlesTargeting0', {
             driver: {
                 send: () => Promise.resolve(),
@@ -116,6 +115,5 @@ describe('SiTargetMultiplexer', () => {
             resendingFinished: true,
             remoteSendingFinished: true,
         });
-        done();
     });
 });

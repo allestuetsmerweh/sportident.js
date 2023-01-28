@@ -1,5 +1,4 @@
-/* eslint-env jasmine */
-
+import {describe, expect, test} from '@jest/globals';
 import _ from 'lodash';
 import Immutable from 'immutable';
 import {ValueToStringError, ValueFromStringError} from './interfaces';
@@ -14,7 +13,7 @@ describe('SiEnum', () => {
     const mySiEnum = new SiEnum([[0x00, 4, 6]], options);
     const fieldValueOf = (intValue: number|any): SiFieldValue<number|any> =>
         new SiFieldValue(mySiEnum, intValue);
-    it('typeCheckValue', () => {
+    test('typeCheckValue', () => {
         expect(mySiEnum.isValueValid(options.Zero)).toBe(true);
         expect(mySiEnum.isValueValid(options.One)).toBe(true);
         expect(mySiEnum.isValueValid(options.Two)).toBe(true);
@@ -22,7 +21,7 @@ describe('SiEnum', () => {
         expect(mySiEnum.isValueValid(0xFF)).toBe(false);
         expect(mySiEnum.isValueValid(-1)).toBe(false);
     });
-    it('valueToString', () => {
+    test('valueToString', () => {
         expect(mySiEnum.valueToString(options.Zero)).toBe('Zero');
         expect(mySiEnum.valueToString(options.One)).toBe('One');
         expect(mySiEnum.valueToString(options.Two)).toBe('Two');
@@ -30,7 +29,7 @@ describe('SiEnum', () => {
         expect(mySiEnum.valueToString(-1) instanceof ValueToStringError).toBe(true);
         expect(mySiEnum.valueToString(0xFF) instanceof ValueToStringError).toBe(true);
     });
-    it('valueFromString', () => {
+    test('valueFromString', () => {
         expect(mySiEnum.valueFromString('Zero')).toBe(options.Zero);
         expect(mySiEnum.valueFromString('One')).toBe(options.One);
         expect(mySiEnum.valueFromString('Two')).toBe(options.Two);
@@ -41,14 +40,14 @@ describe('SiEnum', () => {
         expect(mySiEnum.valueFromString('-1') instanceof ValueFromStringError).toBe(true);
         expect(mySiEnum.valueFromString('test') instanceof ValueFromStringError).toBe(true);
     });
-    it('extractFromData gives field value', () => {
+    test('extractFromData gives field value', () => {
         const data = Immutable.List([0x00]);
         const fieldValue = mySiEnum.extractFromData(data);
         expect(fieldValue instanceof SiFieldValue).toBe(true);
         expect(fieldValue!.field).toBe(mySiEnum);
         expect(fieldValue!.value).toBe(options.Zero);
     });
-    it('extractFromData', () => {
+    test('extractFromData', () => {
         const getExtractedFieldValue = (bytes: FakeSiStorageData) => (
             mySiEnum.extractFromData(Immutable.List(bytes))
         );
@@ -60,7 +59,7 @@ describe('SiEnum', () => {
         expect(getExtractedFieldValue([undefined])).toBe(undefined);
         expect(getExtractedFieldValue([])).toBe(undefined);
     });
-    it('updateData', () => {
+    test('updateData', () => {
         const updateData = (
             data: FakeSiStorageData,
             newValue: number|SiFieldValue<number>,
@@ -78,7 +77,7 @@ describe('SiEnum', () => {
         expect(updateData([0x00], options.Three)).toEqual([0x30]);
         expect(updateData([0xFE], fieldValueOf(options.Zero))).toEqual([0xCE]);
     });
-    it('updateData modify undefined', () => {
+    test('updateData modify undefined', () => {
         const updateData = (
             data: FakeSiStorageData,
             newValue: number|SiFieldValue<number>,
@@ -91,7 +90,7 @@ describe('SiEnum', () => {
         expect(() => updateData([], fieldValueOf(options.Two))).toThrow(ModifyUndefinedException);
         expect(() => updateData([undefined], options.One)).toThrow(ModifyUndefinedException);
     });
-    it('updateData wrong type', () => {
+    test('updateData wrong type', () => {
         const initialData = Immutable.List([0x00]);
         const updatingInitialData = (newValue: number) => (
             () => mySiEnum.updateData(initialData, newValue)
@@ -113,7 +112,7 @@ describe('SiEnum', () => {
         optionsWithLookupKey,
         (value) => value.dec,
     );
-    it('typeCheckValue with lookup key', () => {
+    test('typeCheckValue with lookup key', () => {
         expect(mySiEnumWithLookupKey.isValueValid(optionsWithLookupKey.Zero)).toBe(true);
         expect(mySiEnumWithLookupKey.isValueValid(optionsWithLookupKey.One)).toBe(true);
         expect(mySiEnumWithLookupKey.isValueValid(optionsWithLookupKey.Two)).toBe(true);
@@ -122,7 +121,7 @@ describe('SiEnum', () => {
         expect(mySiEnumWithLookupKey.isValueValid(0xFF)).toBe(false);
         expect(mySiEnumWithLookupKey.isValueValid(-1)).toBe(false);
     });
-    it('valueToString with lookup key', () => {
+    test('valueToString with lookup key', () => {
         expect(mySiEnumWithLookupKey.valueToString(optionsWithLookupKey.Zero)).toBe('Zero');
         expect(mySiEnumWithLookupKey.valueToString(optionsWithLookupKey.One)).toBe('One');
         expect(mySiEnumWithLookupKey.valueToString(optionsWithLookupKey.Two)).toBe('Two');
@@ -130,7 +129,7 @@ describe('SiEnum', () => {
         expect(mySiEnumWithLookupKey.valueToString(-1) instanceof ValueToStringError).toBe(true);
         expect(mySiEnumWithLookupKey.valueToString(0xFF) instanceof ValueToStringError).toBe(true);
     });
-    it('valueFromString with lookup key', () => {
+    test('valueFromString with lookup key', () => {
         expect(mySiEnumWithLookupKey.valueFromString('Zero')).toBe(options.Zero);
         expect(mySiEnumWithLookupKey.valueFromString('One')).toBe(options.One);
         expect(mySiEnumWithLookupKey.valueFromString('Two')).toBe(options.Two);
@@ -142,7 +141,7 @@ describe('SiEnum', () => {
         expect(mySiEnumWithLookupKey.valueFromString('-1') instanceof ValueFromStringError).toBe(true);
         expect(mySiEnumWithLookupKey.valueFromString('test') instanceof ValueFromStringError).toBe(true);
     });
-    it('updateData with lookup key', () => {
+    test('updateData with lookup key', () => {
         const updateData = (
             data: FakeSiStorageData,
             newValue: number|any,
@@ -160,7 +159,7 @@ describe('SiEnum', () => {
         expect(updateData([0x00], optionsWithLookupKey.Three)).toEqual([0x30]);
         expect(updateData([0xFE], fieldValueOf(optionsWithLookupKey.Zero))).toEqual([0xCE]);
     });
-    it('updateData modify undefined with lookup key', () => {
+    test('updateData modify undefined with lookup key', () => {
         const updateData = (
             data: FakeSiStorageData,
             newValue: number|any,
@@ -173,7 +172,7 @@ describe('SiEnum', () => {
         expect(() => updateData([], fieldValueOf(optionsWithLookupKey.Two))).toThrow(ModifyUndefinedException);
         expect(() => updateData([undefined], optionsWithLookupKey.One)).toThrow(ModifyUndefinedException);
     });
-    it('updateData wrong type with lookup key', () => {
+    test('updateData wrong type with lookup key', () => {
         const initialData = Immutable.List([0x00]);
         const updatingInitialData = (newValue: number) => (
             () => mySiEnumWithLookupKey.updateData(initialData, newValue)

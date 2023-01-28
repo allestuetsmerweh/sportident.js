@@ -1,11 +1,10 @@
-/* eslint-env jasmine */
-
+import {describe, expect, test} from '@jest/globals';
 import _ from 'lodash';
 import * as utils from '../utils';
 import * as storage from './index';
 
 describe('storage', () => {
-    it('SiBool SiStorage integration', () => {
+    test('SiBool SiStorage integration', () => {
         const weirdStorage = storage.defineStorage(0x02, {
             isWeird: new storage.SiBool(0x00, 7),
             isCrazy: new storage.SiBool(0x01),
@@ -42,7 +41,7 @@ describe('storage', () => {
         expect(unknownWeirdStorage.get('isCrazy')).toBe(undefined);
         expect(() => unknownWeirdStorage.set('isCrazy', true)).toThrow(ModifyUndefinedException);
     });
-    it('SiInt SiStorage integration', () => {
+    test('SiInt SiStorage integration', () => {
         const weirdStorage = storage.defineStorage(0x03, {
             weirdness: new storage.SiInt([[0x00]]),
             crazyness: new storage.SiInt([[0x01, 0, 4]]),
@@ -79,7 +78,7 @@ describe('storage', () => {
         expect(unknownWeirdStorage.get('loconess')).toBe(undefined);
         expect(() => unknownWeirdStorage.set('loconess', 0xABCD)).toThrow(ModifyUndefinedException);
     });
-    it('SiEnum SiStorage integration', () => {
+    test('SiEnum SiStorage integration', () => {
         const weirdStorage = storage.defineStorage(0x03, {
             weirdness: new storage.SiEnum([[0x00]], {NotWeird: 0x00, Weird: 0x55}),
             crazyness: new storage.SiEnum([[0x01, 0, 4]], {NotCrazy: 0x00, Crazy: 0x0A}),
@@ -116,7 +115,7 @@ describe('storage', () => {
         expect(unknownWeirdStorage.get('loconess')).toBe(undefined);
         expect(() => unknownWeirdStorage.set('loconess', 0xBCD)).toThrow(ModifyUndefinedException);
     });
-    it('SiArray SiStorage integration', () => {
+    test('SiArray SiStorage integration', () => {
         const weirdStorage = storage.defineStorage(0x03, {
             areWeird: new storage.SiArray(3, (i) => new storage.SiBool(0x00, i)),
             crazynesses: new storage.SiArray(2, (i) => new storage.SiInt([[0x01 + i]])),
@@ -144,7 +143,7 @@ describe('storage', () => {
         expect(unknownWeirdStorage.get('crazynesses')!.value).toEqual([undefined, undefined]);
         expect(() => unknownWeirdStorage.set('crazynesses', [0x01, 0x23])).toThrow(ModifyUndefinedException);
     });
-    it('SiDict SiStorage integration', () => {
+    test('SiDict SiStorage integration', () => {
         const weirdStorage = storage.defineStorage(0x03, {
             bustWaistHip: new storage.SiDict({
                 bust: new storage.SiInt([[0x00]]),
@@ -167,7 +166,7 @@ describe('storage', () => {
         expect(unknownWeirdStorage.get('bustWaistHip')!.value).toEqual({bust: undefined, waist: undefined, hip: undefined});
         expect(() => unknownWeirdStorage.set('bustWaistHip', {bust: 0x90, waist: 0x60, hip: 0x90})).toThrow(ModifyUndefinedException);
     });
-    it('SiArray SiDict combinations', () => {
+    test('SiArray SiDict combinations', () => {
         const weirdStorage = storage.defineStorage(0x06, {
             measurements: new storage.SiArray(3, (i) => new storage.SiDict({
                 time: new storage.SiInt([[0x00 + i * 2]]),

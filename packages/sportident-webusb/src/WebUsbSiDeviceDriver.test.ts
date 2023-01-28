@@ -1,5 +1,4 @@
-/* eslint-env jasmine */
-
+import {describe, expect, test} from '@jest/globals';
 import {testISiDeviceDriver} from 'sportident/lib/SiDevice/testUtils/testISiDeviceDriver';
 // import {testISiDeviceDriverWithAutodetection} from 'sportident/lib/SiDevice/testUtils/testISiDeviceDriverWithAutodetection';
 import {SiDeviceState} from 'sportident/lib/SiDevice/ISiDevice';
@@ -132,7 +131,7 @@ describe('WebUsbSiDeviceDriver', () => {
     //     ),
     // ));
 
-    it('detect success', async (done) => {
+    test('detect success', async () => {
         const driver = getWebUsbSiDeviceDriver(testUsb);
         let detectedSiDevice: IWebUsbSiDevice|undefined = undefined;
         driver.detect().then((siDevice: IWebUsbSiDevice) => {
@@ -143,9 +142,8 @@ describe('WebUsbSiDeviceDriver', () => {
         expect(detectedSiDevice!.data.device.serialNumber).toBe(siSerialNumber1);
         expect(detectedSiDevice!.data.device.vendorId).toBe(siVendorId);
         expect(detectedSiDevice!.data.device.productId).toBe(siProductId);
-        done();
     });
-    it('detect fail', async (done) => {
+    test('detect fail', async () => {
         const driver = getWebUsbSiDeviceDriver(failingTestUsb);
         let detectionFailure: Error|undefined = undefined;
         driver.detect().catch((err: Error) => {
@@ -153,9 +151,8 @@ describe('WebUsbSiDeviceDriver', () => {
         });
         await testUtils.nTimesAsync(1, () => testUtils.advanceTimersByTime(1));
         expect(detectionFailure).toBe(requestDeviceError);
-        done();
     });
-    it('WebUsbSiDeviceDriver.getSiDevice', () => {
+    test('WebUsbSiDeviceDriver.getSiDevice', () => {
         const driver = getWebUsbSiDeviceDriver(testUsb);
 
         const myWebUsbDevice1 = {serialNumber: '1'} as nav.WebUsbDevice;
