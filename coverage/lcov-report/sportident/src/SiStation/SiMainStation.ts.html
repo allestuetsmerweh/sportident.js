@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">98.55% </span>
+                <span class="strong">98.57% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>68/69</span>
+                <span class='fraction'>69/70</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">85.71% </span>
+                <span class="strong">86.66% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>12/14</span>
+                <span class='fraction'>13/15</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">98.55% </span>
+                <span class="strong">98.57% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>68/69</span>
+                <span class='fraction'>69/70</span>
             </div>
         
             
@@ -219,7 +219,11 @@
 <a name='L154'></a><a href='#L154'>154</a>
 <a name='L155'></a><a href='#L155'>155</a>
 <a name='L156'></a><a href='#L156'>156</a>
-<a name='L157'></a><a href='#L157'>157</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L157'></a><a href='#L157'>157</a>
+<a name='L158'></a><a href='#L158'>158</a>
+<a name='L159'></a><a href='#L159'>159</a>
+<a name='L160'></a><a href='#L160'>160</a>
+<a name='L161'></a><a href='#L161'>161</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -229,6 +233,8 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -357,6 +363,8 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -389,6 +397,8 @@ import {SiTargetMultiplexer} from './SiTargetMultiplexer';
 type SiStationSetup = {
     [key in keyof ISiStationStorageFields]?: ISiStationStorageFields[key]
 };
+&nbsp;
+type CleanUpFunction = () =&gt; Promise&lt;void&gt;;
 &nbsp;
 export class SiMainStation
     extends BaseSiStation&lt;SiTargetMultiplexerTarget.Direct&gt;
@@ -428,7 +438,7 @@ export class SiMainStation
     readCards(
         onCardInserted: (card: ISiCard) =&gt; void,
         siStationSetupModification: SiStationSetup = {},
-    ) {
+    ): Promise&lt;CleanUpFunction&gt; {
         const siStationSetup: SiStationSetup = {
             code: 10,
             mode: SiStationMode.Readout,
@@ -445,7 +455,7 @@ export class SiMainStation
             onCardInserted(e.siCard);
         };
 &nbsp;
-        const cleanUp = () =&gt; {
+        const cleanUp: CleanUpFunction = () =&gt; {
             this.removeEventListener('siCardInserted', handleCardInserted);
             return this.atomically(() =&gt; {
                 siStationSetupKeys.forEach(
@@ -478,7 +488,7 @@ export class SiMainStation
             });
     }
 &nbsp;
-    handleMessage(message: siProtocol.SiMessage) {
+    handleMessage(message: siProtocol.SiMessage): void {
         if (message.mode !== undefined) {
             return;
         }
@@ -511,11 +521,13 @@ export class SiMainStation
 <span class="cstat-no" title="statement not covered" >                return;</span>
             }
             const transRecordCard = BaseSiCard.fromCardNumber(observedCardNumber);
-            transRecordCard.mainStation = this;
-            this.dispatchEvent(
-                'siCardObserved',
-                new SiMainStationSiCardObservedEvent(this, transRecordCard),
-            );
+            if (transRecordCard !== undefined) {
+                transRecordCard.mainStation = this;
+                this.dispatchEvent(
+                    'siCardObserved',
+                    new SiMainStationSiCardObservedEvent(this, transRecordCard),
+                );
+            }
         };
         const handlerByCommand: {[command: number]: () =&gt; void} = {
             [proto.cmd.SI_REM]: handleSiCardRemoved,
@@ -538,7 +550,7 @@ utils.applyMixins(SiMainStation, [utils.EventTarget]);
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-01-30T12:24:22.486Z
+                at 2023-01-30T13:57:13.696Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>
