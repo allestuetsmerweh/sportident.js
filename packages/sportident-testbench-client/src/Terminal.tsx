@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import React from 'react';
 import {getSiShellCommands, Shell} from 'sportident-testbench-shell/lib';
-import {ISiDevice} from 'sportident/lib/SiDevice/ISiDevice';
+import {ISiDevice, ISiDeviceDriverData} from 'sportident/lib/SiDevice/ISiDevice';
 import {SiExternalApplication} from './SiExternalApplication';
 
 const keyCodeFromDomEventKey = (domKey: string) => {
@@ -36,7 +36,7 @@ const TerminalCursor = () => {
 
 export const Terminal = (
     props: {
-        selectedDevice: ISiDevice<any>|undefined,
+        selectedDevice: ISiDevice<ISiDeviceDriverData<unknown>>|undefined,
     },
 ): React.ReactElement => {
     const [shellContent, setShellContent] = React.useState<string>('');

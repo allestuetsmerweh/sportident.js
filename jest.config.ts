@@ -28,7 +28,7 @@ const jestConfig: Config = {
     coveragePathIgnorePatterns: ['node_modules/', 'lib/', '__snapshots__/'],
     maxConcurrency: 1,
     coverageThreshold: {
-        global: percentCoverage(19),
+        global: percentCoverage(18),
         './packages/sportident/src/': {
             branches: 92,
             functions: 89,

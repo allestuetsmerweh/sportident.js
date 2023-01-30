@@ -1,9 +1,9 @@
 import * as utils from 'sportident/lib/utils';
-import {SiExternalApplicationEvents, SiExternalApplicationReceiveEvent} from './ISiExternalApplication';
+import {ISiExternalApplication, SiExternalApplicationEvents, SiExternalApplicationReceiveEvent} from 'sportident-testbench-shell/lib/ISiExternalApplication';
 
-export class SiExternalApplication {
+export class SiExternalApplication implements ISiExternalApplication {
     private ws: WebSocket;
-    private pollInterval: any;
+    private pollInterval: unknown;
 
     constructor(url: string) {
         this.ws = new WebSocket('ws://127.0.0.1:41271/si-external-application');
@@ -11,10 +11,10 @@ export class SiExternalApplication {
             console.log('Websocket openend');
             this.ws.send(url);
         };
-        this.ws.onerror = (error: any) => {
-            console.log('WebSocket Error ', error);
+        this.ws.onerror = (err) => {
+            console.log('WebSocket Error ', err);
         };
-        this.ws.onmessage = (e: any) => {
+        this.ws.onmessage = (e) => {
             if (e.data.length > 0) {
                 this.handleSocketReceive(e.data);
             }
@@ -38,7 +38,7 @@ export class SiExternalApplication {
     }
 
     close(): void {
-        clearInterval(this.pollInterval);
+        clearInterval(this.pollInterval as Parameters<typeof clearInterval>[0]);
         this.ws.close();
     }
 }

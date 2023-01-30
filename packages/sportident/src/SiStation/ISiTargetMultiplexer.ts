@@ -1,6 +1,6 @@
 import * as utils from '../utils';
 import * as siProtocol from '../siProtocol';
-import {ISiDevice} from '../SiDevice/ISiDevice';
+import {ISiDevice, ISiDeviceDriverData} from '../SiDevice/ISiDevice';
 import {ISiStation} from './ISiStation';
 import {SiSendTask} from './SiSendTask';
 
@@ -9,7 +9,7 @@ export interface ISiTargetMultiplexer extends utils.IEventTarget<SiTargetMultipl
     stations: {[Target in SiTargetMultiplexerTarget]?: ISiStation<Target>};
     target: SiTargetMultiplexerTarget;
     latestTarget: SiTargetMultiplexerTarget;
-    siDevice: ISiDevice<any>;
+    siDevice: ISiDevice<ISiDeviceDriverData<unknown>>;
     sendMessage: (
         target: SiTargetMultiplexerTarget,
         message: siProtocol.SiMessage,

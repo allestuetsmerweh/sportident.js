@@ -43,7 +43,7 @@ describe('SiArray', () => {
         }
     }
     const mySiArray = new SiArray(3, (i) => new FakeDataType(i));
-    const fieldValueOf = (arrayValue: any[]): SiFieldValue<any[]> =>
+    const fieldValueOf = (arrayValue: string[]): SiFieldValue<(string|undefined)[]> =>
         new SiFieldValue(mySiArray, arrayValue);
     test('typeSpecificIsValueValid', () => {
         expect(mySiArray.isValueValid([])).toBe(true);
@@ -82,7 +82,9 @@ describe('SiArray', () => {
     });
     test('updateData', () => {
         const initialData = Immutable.List([0x00, 0x00, 0x00]);
-        const updateInitialData = (newValue: any[]|SiFieldValue<any[]>) => (
+        const updateInitialData = (
+            newValue: (string|undefined)[]|SiFieldValue<(string|undefined)[]>,
+        ) => (
             mySiArray.updateData(initialData, newValue).toJS()
         );
 
@@ -96,7 +98,7 @@ describe('SiArray', () => {
 
     const updateData = (
         data: (number|undefined)[],
-        newValue: any[]|SiFieldValue<any[]>,
+        newValue: (string|undefined)[]|SiFieldValue<(string|undefined)[]>,
     ) => (
         mySiArray.updateData(Immutable.List(data), newValue).toJS()
     );

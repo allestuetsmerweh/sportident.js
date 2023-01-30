@@ -314,7 +314,7 @@ class NodeUsbSiDeviceDriver implements
                 );
                 return [...uint8Data];
             })
-            .catch((err: any) => {
+            .catch((err) => {
                 // TODO: Act differently based on error.
                 // Here, we just assume the device was disconnected.
                 console.warn('Device has been closed. Stopping receive loop.', err);

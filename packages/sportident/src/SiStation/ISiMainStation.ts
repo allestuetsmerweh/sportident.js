@@ -1,3 +1,4 @@
+import {IRaceResultData} from '../SiCard/IRaceResultData';
 import * as utils from '../utils';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -7,6 +8,8 @@ export interface ISiCard {
     cardNumber: number;
     read: () => Promise<ISiCard>;
     confirm: () => Promise<unknown>;
+    toDict: () => IRaceResultData;
+    toString: () => string;
 }
 
 export class SiMainStationSiCardInsertedEvent extends utils.Event<'siCardInserted'> {

@@ -3,7 +3,7 @@ import Immutable from 'immutable';
 import {SiDeviceAddEvent, ISiDeviceDriverWithAutodetection, SiDeviceRemoveEvent} from 'sportident/lib/SiDevice/ISiDeviceDriver';
 import {ISiDevice, ISiDeviceDriverData} from 'sportident/lib/SiDevice/ISiDevice';
 
-export const useSiDevices = <T extends ISiDeviceDriverData<any>>(
+export const useSiDevices = <T extends ISiDeviceDriverData<unknown>>(
     siDeviceDriver: ISiDeviceDriverWithAutodetection<T>,
 ): Immutable.Map<string, ISiDevice<T>> => {
     const [siDevices, setSiDevices] = React.useState(Immutable.Map({}));

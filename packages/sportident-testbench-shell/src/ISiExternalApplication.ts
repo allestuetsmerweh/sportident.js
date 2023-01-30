@@ -1,7 +1,9 @@
 import * as utils from 'sportident/lib/utils';
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface ISiExternalApplication {}
+export interface ISiExternalApplication extends utils.IEventTarget<SiExternalApplicationEvents> {
+    send: (uint8Data: number[]) => void,
+    close: () => void,
+}
 
 export class SiExternalApplicationReceiveEvent extends utils.Event<'receive'> {
     constructor(

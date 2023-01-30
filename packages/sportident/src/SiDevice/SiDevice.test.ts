@@ -1,15 +1,20 @@
 import {describe, expect, test} from '@jest/globals';
 import * as testUtils from '../testUtils';
+import {ISiDeviceDriver} from './ISiDeviceDriver';
 import {DeviceClosedError, ISiDeviceDriverData, SiDeviceState, SiDeviceStateChangeEvent} from './ISiDevice';
 import {SiDevice} from './SiDevice';
 
 testUtils.useFakeTimers();
 
+function mockDriver(driver: Partial<ISiDeviceDriver<ISiDeviceDriverData<unknown>>>) {
+    return driver as unknown as ISiDeviceDriver<ISiDeviceDriverData<unknown>>;
+}
+
 describe('SiDevice', () => {
     test('state management', () => {
         const siDevice = new SiDevice('stateManagement', {
-            driver: {name: 'FakeDriver'},
-        } as ISiDeviceDriverData<any>);
+            driver: mockDriver({name: 'FakeDriver'}),
+        });
         const stateChanges: SiDeviceState[] = [];
         const onStateChange = (e: SiDeviceStateChangeEvent) => {
             stateChanges.push(e.state);
@@ -30,8 +35,8 @@ describe('SiDevice', () => {
     });
     test('fails opening while opening', (done) => {
         const data = {
-            driver: {},
-        } as ISiDeviceDriverData<any>;
+            driver: mockDriver({}),
+        };
         const siDevice = new SiDevice('receiveLoopFail', data);
 
         siDevice.setState(SiDeviceState.Opening);
@@ -39,18 +44,17 @@ describe('SiDevice', () => {
     });
     test('fails opening while closing', (done) => {
         let count = 0;
-        const data = {
-            driver: {
-                receive: (_device: any, _buffer: number[]) => {
+        const siDevice = new SiDevice('receiveLoopFail', {
+            driver: mockDriver({
+                receive: (_device: unknown) => {
                     if (count > 2) {
                         throw new DeviceClosedError('test');
                     }
                     count += 1;
                     throw new Error('test');
                 },
-            },
-        } as ISiDeviceDriverData<any>;
-        const siDevice = new SiDevice('receiveLoopFail', data);
+            }),
+        });
 
         siDevice.setState(SiDeviceState.Closing);
         siDevice.open().catch(() => done());
@@ -58,16 +62,16 @@ describe('SiDevice', () => {
     test('immediately opens when opened', (done) => {
         let count = 0;
         const data = {
-            driver: {
-                receive: (_device: any, _buffer: number[]) => {
+            driver: mockDriver({
+                receive: (_device: unknown) => {
                     if (count > 2) {
                         throw new DeviceClosedError('test');
                     }
                     count += 1;
                     throw new Error('test');
                 },
-            },
-        } as ISiDeviceDriverData<any>;
+            }),
+        };
         const siDevice = new SiDevice('receiveLoopFail', data);
 
         siDevice.setState(SiDeviceState.Opened);
@@ -80,13 +84,13 @@ describe('SiDevice', () => {
     test('opens when closed', (done) => {
         let opened = false;
         const data = {
-            driver: {
-                open: (_device: any) => {
+            driver: mockDriver({
+                open: (_device: unknown) => {
                     opened = true;
                     return Promise.resolve();
                 },
-            },
-        } as ISiDeviceDriverData<any>;
+            }),
+        };
         const siDevice = new SiDevice('receiveLoopFail', data);
 
         siDevice.setState(SiDeviceState.Closed);
@@ -99,12 +103,12 @@ describe('SiDevice', () => {
     });
     test('opening can fail', (done) => {
         const data = {
-            driver: {
-                open: (_device: any) => {
+            driver: mockDriver({
+                open: (_device: unknown) => {
                     throw new Error('test');
                 },
-            },
-        } as ISiDeviceDriverData<any>;
+            }),
+        };
         const siDevice = new SiDevice('receiveLoopFail', data);
 
         siDevice.setState(SiDeviceState.Closed);
@@ -116,12 +120,12 @@ describe('SiDevice', () => {
     });
     test('opening can reject', (done) => {
         const data = {
-            driver: {
-                open: (_device: any) => (
+            driver: mockDriver({
+                open: (_device: unknown) => (
                     Promise.reject(new Error('test'))
                 ),
-            },
-        } as ISiDeviceDriverData<any>;
+            }),
+        };
         const siDevice = new SiDevice('receiveLoopFail', data);
 
         siDevice.setState(SiDeviceState.Closed);
@@ -133,8 +137,8 @@ describe('SiDevice', () => {
     });
     test('fails closing while opening', (done) => {
         const data = {
-            driver: {},
-        } as ISiDeviceDriverData<any>;
+            driver: mockDriver({}),
+        };
         const siDevice = new SiDevice('receiveLoopFail', data);
 
         siDevice.setState(SiDeviceState.Opening);
@@ -142,8 +146,8 @@ describe('SiDevice', () => {
     });
     test('fails closing while closing', (done) => {
         const data = {
-            driver: {},
-        } as ISiDeviceDriverData<any>;
+            driver: mockDriver({}),
+        };
         const siDevice = new SiDevice('receiveLoopFail', data);
 
         siDevice.setState(SiDeviceState.Closing);
@@ -151,8 +155,8 @@ describe('SiDevice', () => {
     });
     test('immediately closes when closed', (done) => {
         const data = {
-            driver: {},
-        } as ISiDeviceDriverData<any>;
+            driver: mockDriver({}),
+        };
         const siDevice = new SiDevice('receiveLoopFail', data);
 
         siDevice.setState(SiDeviceState.Closed);
@@ -165,13 +169,13 @@ describe('SiDevice', () => {
     test('closes when opened', (done) => {
         let opened = true;
         const data = {
-            driver: {
-                close: (_device: any) => {
+            driver: mockDriver({
+                close: (_device: unknown) => {
                     opened = false;
                     return Promise.resolve();
                 },
-            },
-        } as ISiDeviceDriverData<any>;
+            }),
+        };
         const siDevice = new SiDevice('receiveLoopFail', data);
 
         siDevice.setState(SiDeviceState.Opened);
@@ -184,12 +188,12 @@ describe('SiDevice', () => {
     });
     test('closing can fail', (done) => {
         const data = {
-            driver: {
-                close: (_device: any) => {
+            driver: mockDriver({
+                close: (_device: unknown) => {
                     throw new Error('test');
                 },
-            },
-        } as ISiDeviceDriverData<any>;
+            }),
+        };
         const siDevice = new SiDevice('receiveLoopFail', data);
 
         siDevice.setState(SiDeviceState.Opened);
@@ -201,12 +205,12 @@ describe('SiDevice', () => {
     });
     test('closing can reject', (done) => {
         const data = {
-            driver: {
-                close: (_device: any) => (
+            driver: mockDriver({
+                close: (_device: unknown) => (
                     Promise.reject(new Error('test'))
                 ),
-            },
-        } as ISiDeviceDriverData<any>;
+            }),
+        };
         const siDevice = new SiDevice('receiveLoopFail', data);
 
         siDevice.setState(SiDeviceState.Opened);
@@ -219,8 +223,8 @@ describe('SiDevice', () => {
     test('receiveLoop succeed', async () => {
         let count = 0;
         const data = {
-            driver: {
-                receive: (_device: any, _buffer: number[]) => new Promise((resolve) => {
+            driver: mockDriver({
+                receive: (_device: unknown) => new Promise((resolve) => {
                     if (count > 2) {
                         throw new DeviceClosedError('test');
                     }
@@ -229,8 +233,8 @@ describe('SiDevice', () => {
                         resolve([0x12]);
                     }, 1);
                 }),
-            },
-        } as ISiDeviceDriverData<any>;
+            }),
+        };
         const siDevice = new SiDevice('receiveLoopSucceed', data);
 
         const received: number[][] = [];
@@ -251,16 +255,16 @@ describe('SiDevice', () => {
     test('receiveLoop can fail', async () => {
         let count = 0;
         const data = {
-            driver: {
-                receive: (_device: any, _buffer: number[]) => {
+            driver: mockDriver({
+                receive: (_device: unknown) => {
                     if (count > 2) {
                         throw new DeviceClosedError('test');
                     }
                     count += 1;
                     throw new Error('test');
                 },
-            },
-        } as ISiDeviceDriverData<any>;
+            }),
+        };
         const siDevice = new SiDevice('receiveLoopFail', data);
 
         const received: number[][] = [];
@@ -281,16 +285,16 @@ describe('SiDevice', () => {
     test('receiveLoop can reject', async () => {
         let count = 0;
         const data = {
-            driver: {
-                receive: (_device: any, _buffer: number[]) => {
+            driver: mockDriver({
+                receive: (_device: unknown) => {
                     if (count > 2) {
                         throw new DeviceClosedError('test');
                     }
                     count += 1;
                     return Promise.reject(new Error('test'));
                 },
-            },
-        } as ISiDeviceDriverData<any>;
+            }),
+        };
         const siDevice = new SiDevice('receiveLoopReject', data);
 
         const received: number[][] = [];
@@ -311,13 +315,13 @@ describe('SiDevice', () => {
     test('receiveLoop can fail if device closed', async () => {
         let count = 0;
         const data = {
-            driver: {
-                receive: (_device: any, _buffer: number[]) => {
+            driver: mockDriver({
+                receive: (_device: unknown) => {
                     count += 1;
                     throw new DeviceClosedError('test');
                 },
-            },
-        } as ISiDeviceDriverData<any>;
+            }),
+        };
         const siDevice = new SiDevice('receiveLoopFailIfClosed', data);
 
         const received: number[][] = [];
@@ -339,13 +343,13 @@ describe('SiDevice', () => {
     test('can send', async () => {
         const sent: number[][] = [];
         const data = {
-            driver: {
-                send: (_device: any, buffer: number[]) => {
+            driver: mockDriver({
+                send: (_device: unknown, buffer: number[]) => {
                     sent.push(buffer);
                     return Promise.resolve();
                 },
-            },
-        } as ISiDeviceDriverData<any>;
+            }),
+        };
         const siDevice = new SiDevice('canSend', data);
 
         siDevice.setState(SiDeviceState.Opened);

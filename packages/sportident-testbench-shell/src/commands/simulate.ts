@@ -1,9 +1,12 @@
 import si from 'sportident/lib';
 import * as siProtocol from 'sportident/lib/siProtocol';
+import {FakeSiMainStationMessageEvent} from 'sportident/lib/fakes/IFakeSiMainStation';
+import * as utils from 'sportident/lib/utils';
 import {ShellCommandContext} from '../Shell';
+import {SiExternalApplicationReceiveEvent} from '../ISiExternalApplication';
 import {BaseCommand, ArgType} from './BaseCommand';
 
-const isSubclassOf = (subclass: any, superclass: any) => subclass.prototype instanceof superclass;
+const isSubclassOf = (subclass: unknown, superclass: unknown) => typeof subclass === 'function' && typeof superclass === 'function' && subclass.prototype instanceof superclass;
 
 export class SimulateCommand extends BaseCommand {
     getArgTypes(): ArgType[] {
@@ -40,29 +43,35 @@ export class SimulateCommand extends BaseCommand {
 
         const url = context.args[2];
         const SiExternalApplication = context.env.externalApplication;
-        return new Promise((resolve, _reject) => {
+        return new Promise((resolve, reject) => {
+            if (!SiExternalApplication) {
+                reject(new Error('No SiExternalApplication.'));
+                return;
+            }
             const externalApplication = new SiExternalApplication(url);
             const fakeSiMainStation = new si.FakeSiMainStation(testCase.storageData);
 
             let applicationToSimulatorBuffer: number[] = [];
 
-            const onSimulatorMessage = (e: any) => {
-                const message = e.message;
-                console.log('FakeSiMainStation:', message);
-                const uint8Data = si.protocol.render(message);
-                externalApplication.send(uint8Data);
-            };
+            const onSimulatorMessage: utils.EventCallback<FakeSiMainStationMessageEvent> =
+                (e) => {
+                    const message = e.message;
+                    console.log('FakeSiMainStation:', message);
+                    const uint8Data = si.protocol.render(message);
+                    externalApplication.send(uint8Data);
+                };
             fakeSiMainStation.addEventListener('message', onSimulatorMessage);
-            const onApplicationReceive = (e: any) => {
-                const uint8Data = e.uint8Data;
-                applicationToSimulatorBuffer.push(...uint8Data);
-                const {messages, remainder} = si.protocol.parseAll(applicationToSimulatorBuffer);
-                messages.forEach((message: siProtocol.SiMessage) => {
-                    console.log('SiExternalApplication:', si.protocol.prettyMessage(message));
-                    fakeSiMainStation.sendMessage(message);
-                });
-                applicationToSimulatorBuffer = remainder;
-            };
+            const onApplicationReceive: utils.EventCallback<SiExternalApplicationReceiveEvent> =
+                (e) => {
+                    const uint8Data = e.uint8Data;
+                    applicationToSimulatorBuffer.push(...uint8Data);
+                    const {messages, remainder} = si.protocol.parseAll(applicationToSimulatorBuffer);
+                    messages.forEach((message: siProtocol.SiMessage) => {
+                        console.log('SiExternalApplication:', si.protocol.prettyMessage(message));
+                        fakeSiMainStation.sendMessage(message);
+                    });
+                    applicationToSimulatorBuffer = remainder;
+                };
             externalApplication.addEventListener('receive', onApplicationReceive);
 
 

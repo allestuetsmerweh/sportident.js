@@ -6,7 +6,7 @@ const nodeUsbDriver = getNodeUsbSiDeviceDriver();
 
 
 nodeUsbDriver.detect()
-    .then((device: any) => {
+    .then((device) => {
         console.log('We have a device:', device);
 
         const getCharBuffer: number[] = [];

@@ -1,4 +1,7 @@
 import si from 'sportident/lib';
+import {SiDeviceReceiveEvent} from 'sportident/lib/SiDevice/ISiDevice';
+import * as utils from 'sportident/lib/utils';
+import {SiExternalApplicationReceiveEvent} from '../ISiExternalApplication';
 import {ShellCommandContext} from '../Shell';
 import {BaseCommand, ArgType} from './BaseCommand';
 
@@ -22,33 +25,43 @@ export class PipeCommand extends BaseCommand {
         const url = context.args[1];
         const device = context.env.device;
         const SiExternalApplication = context.env.externalApplication;
-        return new Promise((resolve, _reject) => {
+        return new Promise((resolve, reject) => {
+            if (!SiExternalApplication) {
+                reject(new Error('No SiExternalApplication.'));
+                return;
+            }
+            if (!device) {
+                reject(new Error('No device.'));
+                return;
+            }
             const externalApplication = new SiExternalApplication(url);
 
             let deviceToApplicationBuffer: number[] = [];
             let applicationToDeviceBuffer: number[] = [];
 
-            const onDeviceReceive = (e: any) => {
-                const uint8Data = e.uint8Data;
-                deviceToApplicationBuffer.push(...uint8Data);
-                const {messages, remainder} = si.protocol.parseAll(deviceToApplicationBuffer);
-                messages.forEach((message: any) => {
-                    console.log('SiDevice:', si.protocol.prettyMessage(message));
-                });
-                deviceToApplicationBuffer = remainder;
-                externalApplication.send(uint8Data);
-            };
+            const onDeviceReceive: utils.EventCallback<SiDeviceReceiveEvent> =
+                (e) => {
+                    const uint8Data = e.uint8Data;
+                    deviceToApplicationBuffer.push(...uint8Data);
+                    const {messages, remainder} = si.protocol.parseAll(deviceToApplicationBuffer);
+                    messages.forEach((message) => {
+                        console.log('SiDevice:', si.protocol.prettyMessage(message));
+                    });
+                    deviceToApplicationBuffer = remainder;
+                    externalApplication.send(uint8Data);
+                };
             device.addEventListener('receive', onDeviceReceive);
-            const onApplicationReceive = (e: any) => {
-                const uint8Data = e.uint8Data;
-                applicationToDeviceBuffer.push(...uint8Data);
-                const {messages, remainder} = si.protocol.parseAll(applicationToDeviceBuffer);
-                messages.forEach((message: any) => {
-                    console.log('SiExternalApplication:', si.protocol.prettyMessage(message));
-                });
-                applicationToDeviceBuffer = remainder;
-                device.send(uint8Data);
-            };
+            const onApplicationReceive: utils.EventCallback<SiExternalApplicationReceiveEvent> =
+                (e) => {
+                    const uint8Data = e.uint8Data;
+                    applicationToDeviceBuffer.push(...uint8Data);
+                    const {messages, remainder} = si.protocol.parseAll(applicationToDeviceBuffer);
+                    messages.forEach((message) => {
+                        console.log('SiExternalApplication:', si.protocol.prettyMessage(message));
+                    });
+                    applicationToDeviceBuffer = remainder;
+                    device.send(uint8Data);
+                };
             externalApplication.addEventListener('receive', onApplicationReceive);
 
             context.waitChar().then((char: number) => {
