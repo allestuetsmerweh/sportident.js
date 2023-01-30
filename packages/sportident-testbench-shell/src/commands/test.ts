@@ -1,6 +1,7 @@
 import si from 'sportident/lib';
 import {SiStationMode} from 'sportident/lib/SiStation/ISiStation';
-import {SiMainStationSiCardInsertedEvent, SiMainStationSiCardRemovedEvent, ISiCard} from 'sportident/lib/SiStation/ISiMainStation';
+import {ISiCard} from 'sportident/lib/SiCard/ISiCard';
+import {SiMainStationSiCardInsertedEvent, SiMainStationSiCardRemovedEvent} from 'sportident/lib/SiStation/ISiMainStation';
 import * as utils from 'sportident/lib/utils';
 import {ShellCommandContext} from '../Shell';
 import {BaseCommand, ArgType} from './BaseCommand';

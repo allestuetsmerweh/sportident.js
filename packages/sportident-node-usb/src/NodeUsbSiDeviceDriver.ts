@@ -1,15 +1,13 @@
-import usb from 'usb';
+import {webusb} from 'usb';
 import * as utils from 'sportident/lib/utils';
 import {DeviceClosedError, ISiDevice, ISiDeviceDriverData, SiDeviceState} from 'sportident/lib/SiDevice/ISiDevice';
 import {ISiDeviceDriver, ISiDeviceDriverWithDetection, SiDeviceDriverWithAutodetectionEvents} from 'sportident/lib/SiDevice/ISiDeviceDriver';
 import {SiDevice} from 'sportident/lib/SiDevice/SiDevice';
-import * as iNodeUsb from './INodeUsb';
 
 const siConfiguration = 1;
 const siInterface = 0;
 const siAlternate = 0;
-const siEndpointIn = 129;
-const siEndpointOut = 1;
+const siEndpoint = 1;
 const siPacketSize = 64;
 const siDeviceFilters = [
     {vendorId: 0x10c4, productId: 0x800a},
@@ -24,17 +22,11 @@ const matchesSiDeviceFilters = (
     ),
 );
 
-const directionIsOut = 0x00;
-const typeIsVendor = 0x40;
-const recipientIsInterface = 0x01;
-const vendorInterfaceOut = directionIsOut | typeIsVendor | recipientIsInterface;
-
-const getIdent = (device: usb.Device) => `${device.deviceDescriptor.iSerialNumber}`;
+const getIdent = (device: USBDevice) => `${device.serialNumber}`;
 
 export interface NodeUsbSiDeviceDriverData extends ISiDeviceDriverData<NodeUsbSiDeviceDriver> {
     driver: NodeUsbSiDeviceDriver;
-    device: usb.Device;
-    interface?: iNodeUsb.NodeUsbDeviceInterface;
+    device: USBDevice;
 }
 
 // interface NodeUsbAutodetectionCallbacks {
@@ -49,13 +41,6 @@ class NodeUsbSiDeviceDriver implements
         ISiDeviceDriver<NodeUsbSiDeviceDriverData>,
         ISiDeviceDriverWithDetection<NodeUsbSiDeviceDriverData, []> {
     /* ISiDeviceDriverWithAutodetection<NodeUsbSiDeviceDriverData> */
-    static singleton?: NodeUsbSiDeviceDriver;
-    static getSingleton(): NodeUsbSiDeviceDriver {
-        if (!this.singleton) {
-            this.singleton = new this(usb);
-        }
-        return this.singleton;
-    }
 
     public name = 'NodeUSB';
 
@@ -67,18 +52,15 @@ class NodeUsbSiDeviceDriver implements
 
     // private autodetectionCallbacks?: NodeUsbAutodetectionCallbacks;
 
-    // eslint-disable-next-line no-useless-constructor
     constructor(
-                private nodeUsb: typeof usb,
-    // eslint-disable-next-line no-empty-function
+        private nodeUsb: typeof webusb,
     ) {}
 
     detect(): Promise<NodeUsbSiDevice> {
         return Promise.resolve(
-            this.nodeUsb.findByIds(
-                siDeviceFilters[0].vendorId,
-                siDeviceFilters[0].productId,
-            ),
+            this.nodeUsb.requestDevice({
+                filters: siDeviceFilters,
+            }),
         )
             .then((nodeUsbDevice) => {
                 if (!nodeUsbDevice) {
@@ -88,7 +70,7 @@ class NodeUsbSiDeviceDriver implements
             });
     }
 
-    getSiDevice(nodeUsbDevice: usb.Device): NodeUsbSiDevice {
+    getSiDevice(nodeUsbDevice: USBDevice): NodeUsbSiDevice {
         const ident = getIdent(nodeUsbDevice);
         if (this.siDeviceByIdent[ident] !== undefined) {
             return this.siDeviceByIdent[ident];
@@ -152,18 +134,18 @@ class NodeUsbSiDeviceDriver implements
     //     });
     // }
 
-    autodetectSiDevice(nodeUsbDevice: usb.Device): Promise<NodeUsbSiDevice> {
+    autodetectSiDevice(nodeWebUsbDevice: USBDevice): Promise<NodeUsbSiDevice> {
         if (!matchesSiDeviceFilters(
-            nodeUsbDevice.deviceDescriptor.idVendor,
-            nodeUsbDevice.deviceDescriptor.idProduct,
+            nodeWebUsbDevice.vendorId,
+            nodeWebUsbDevice.productId,
         )) {
             return Promise.reject(new Error('Not a SI device'));
         }
-        const ident = getIdent(nodeUsbDevice);
+        const ident = getIdent(nodeWebUsbDevice);
         if (this.autodetectedSiDevices[ident] !== undefined) {
             return Promise.reject(new Error('Duplicate SI device'));
         }
-        const siDevice = this.getSiDevice(nodeUsbDevice);
+        const siDevice = this.getSiDevice(nodeWebUsbDevice);
         this.autodetectedSiDevices[ident] = siDevice;
         return siDevice.open();
     }
@@ -222,74 +204,67 @@ class NodeUsbSiDeviceDriver implements
     // }
 
     open(device: INodeUsbSiDevice): Promise<unknown> {
-        let usbInterface: usb.Interface|undefined;
-        return Promise.resolve(device.data.device.open())
-            .then(() => (
-                iNodeUsb.promisify((callback) => (
-                    device.data.device.setConfiguration(siConfiguration, callback)
-                ))
-            ))
-            .then(() => (
-                device.data.device.interface(siInterface)
-            ))
-            .then((usbInterfaceArg) => {
-                usbInterface = usbInterfaceArg;
-                return usbInterface.claim();
+        console.debug('Opening...');
+        const nodeDevice = device.data.device;
+        return nodeDevice.open()
+            .then(() => {
+                console.debug('Resetting...');
+                return nodeDevice.reset();
             })
-            .then(() => (
-                iNodeUsb.promisify((callback) => (
-                    usbInterface!.setAltSetting(siAlternate, callback)
-                ))
-            ))
-            .then(() => (
-                iNodeUsb.promisify((callback) => (
-                    device.data.device.controlTransfer(
-                        vendorInterfaceOut,
-                        0x00, // request
-                        0x01, // value
-                        siInterface, // index
-                        Buffer.from([]), // data
-                        callback,
-                    )
-                ))
-            ))
-            .then(() => (
-                iNodeUsb.promisify((callback) => (
-                    device.data.device.controlTransfer(
-                        vendorInterfaceOut,
-                        0x1E, // request
-                        0x00, // value
-                        siInterface, // index
-                        Buffer.from([0x00, 0x96, 0x00, 0x00]), // data
-                        callback,
-                    )
-                ))
-            ))
+            .then(() => {
+                console.debug('Selecting Configuration...');
+                return nodeDevice.selectConfiguration(siConfiguration);
+            })
+            .then(() => {
+                console.debug('Claiming Interface...');
+                return nodeDevice.claimInterface(siInterface);
+            })
+            .then(() => {
+                console.debug('Selection Alternate Interface...');
+                return nodeDevice.selectAlternateInterface(siInterface, siAlternate);
+            })
+            .then(() => {
+                console.debug('Enabling Serial...');
+                return nodeDevice.controlTransferOut({
+                    requestType: 'vendor',
+                    recipient: 'interface',
+                    request: 0x00,
+                    value: 0x01,
+                    index: siInterface,
+                });
+            })
+            .then(() => {
+                console.debug('Setting Baudrate...');
+                return nodeDevice.controlTransferOut({
+                    requestType: 'vendor',
+                    recipient: 'interface',
+                    request: 0x1E,
+                    value: 0x00,
+                    index: siInterface,
+                }, new Uint8Array([0x00, 0x96, 0x00, 0x00]).buffer);
+            })
             .then(() => true);
     }
 
     close(
         device: INodeUsbSiDevice,
     ): Promise<unknown> {
-        return iNodeUsb.promisify((callback) => (
-            device.data.device.controlTransfer(
-                vendorInterfaceOut,
-                0x00, // request
-                0x00, // value
-                siInterface, // index
-                Buffer.from([]), // data
-                callback,
-            )
-        ))
+        console.debug('Disabling Serial...');
+        const nodeDevice = device.data.device;
+        return nodeDevice.controlTransferOut({
+            requestType: 'vendor',
+            recipient: 'interface',
+            request: 0x00,
+            value: 0x00,
+            index: siInterface,
+        })
             .then(() => {
                 console.debug('Releasing Interface...');
-                return iNodeUsb.promisify((callback) => (
-                    device.data.interface!.release(true, callback)
-                ));
+                return nodeDevice.releaseInterface(siInterface);
             })
             .then(() => {
                 console.debug('Closing Device...');
-                return device.data.device.close();
+                return nodeDevice.close();
             })
             .then(() => true);
     }
@@ -297,41 +272,29 @@ class NodeUsbSiDeviceDriver implements
     receive(
         device: INodeUsbSiDevice,
     ): Promise<number[]> {
-        const usbInterface = device.data.interface;
-        if (!usbInterface) {
+        const nodeDevice = device.data.device;
+        if (nodeDevice.opened !== true) {
+            console.warn('Device has been closed. Stopping receive loop.');
+            device.setState(SiDeviceState.Closed);
             throw new DeviceClosedError();
         }
-        return iNodeUsb.promisify(
-            (callback) => usbInterface
-                .endpoint(siEndpointIn)
-                .transfer(siPacketSize, callback),
-        )
-            .then((data: any) => {
-                const uint8Data = new Uint8Array(
-                    data.buffer,
-                    data.byteOffset,
-                    data.length,
-                );
+        return nodeDevice.transferIn(siEndpoint, siPacketSize)
+            .then((response) => {
+                if (!response.data) {
+                    return [];
+                }
+                const uint8Data = new Uint8Array(response.data.buffer);
                 return [...uint8Data];
-            })
-            .catch((err) => {
-                // TODO: Act differently based on error.
-                // Here, we just assume the device was disconnected.
-                console.warn('Device has been closed. Stopping receive loop.', err);
-                device.setState(SiDeviceState.Closed);
-                throw new DeviceClosedError();
             });
     }
 
     send(
         device: INodeUsbSiDevice,
-        buffer: number[],
+        uint8Data: number[],
     ): Promise<unknown> {
-        return iNodeUsb.promisify(
-            (callback) => device.data.interface!
-                .endpoint(siEndpointOut)
-                .transfer(Buffer.from(buffer), callback),
-        )
+        const nodeDevice = device.data.device;
+        const buffer = new Uint8Array(uint8Data);
+        return nodeDevice.transferOut(siEndpoint, buffer)
             .then(() => true);
     }
 }
@@ -339,6 +302,6 @@ class NodeUsbSiDeviceDriver implements
 interface NodeUsbSiDeviceDriver extends utils.EventTarget<SiDeviceDriverWithAutodetectionEvents<NodeUsbSiDeviceDriverData>> {}
 utils.applyMixins(NodeUsbSiDeviceDriver, [utils.EventTarget]);
 
-export const getNodeUsbSiDeviceDriver = (): NodeUsbSiDeviceDriver => (
-    NodeUsbSiDeviceDriver.getSingleton()
-);
+export const getNodeUsbSiDeviceDriver = (
+    nodeWebUsb: typeof webusb,
+): NodeUsbSiDeviceDriver => new NodeUsbSiDeviceDriver(nodeWebUsb);

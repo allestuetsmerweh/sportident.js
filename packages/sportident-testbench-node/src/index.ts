@@ -1,9 +1,9 @@
+import {webusb} from 'usb';
 import {getNodeUsbSiDeviceDriver} from 'sportident-node-usb/lib';
 import {Shell, getSiShellCommands} from 'sportident-testbench-shell/lib';
 import {SiExternalApplication} from './SiExternalApplication';
 
-const nodeUsbDriver = getNodeUsbSiDeviceDriver();
-
+const nodeUsbDriver = getNodeUsbSiDeviceDriver(webusb);
 
 nodeUsbDriver.detect()
     .then((device) => {

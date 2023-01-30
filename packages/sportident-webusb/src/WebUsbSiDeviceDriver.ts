@@ -51,10 +51,8 @@ class WebUsbSiDeviceDriver implements
 
     private autodetectionCallbacks?: WebUsbAutodetectionCallbacks;
 
-    // eslint-disable-next-line no-useless-constructor
     constructor(
-                private navigatorUsb: nav.WebUsb,
-    // eslint-disable-next-line no-empty-function
+        private navigatorUsb: nav.WebUsb,
     ) {}
 
     detect(): Promise<WebUsbSiDevice> {
@@ -281,7 +279,7 @@ class WebUsbSiDeviceDriver implements
             throw new DeviceClosedError();
         }
         return navigatorDevice.transferIn(siEndpoint, siPacketSize)
-            .then((response: nav.WebUsbTransferInData) => {
+            .then((response) => {
                 if (!response.data) {
                     return [];
                 }

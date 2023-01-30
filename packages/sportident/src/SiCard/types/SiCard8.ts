@@ -2,7 +2,8 @@ import _ from 'lodash';
 import * as storage from '../../storage';
 import * as siProtocol from '../../siProtocol';
 import {cropPunches, getCroppedString, ModernSiCard, ModernSiCardSeries} from './ModernSiCard';
-import {BaseSiCard, IBaseSiCardStorageFields} from '../BaseSiCard';
+import {IBaseSiCardStorageFields} from '../ISiCard';
+import {BaseSiCard} from '../BaseSiCard';
 
 class ReadFinishedException {}
 const punchesPerPage = 32;

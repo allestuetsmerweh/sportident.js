@@ -2,9 +2,10 @@ import * as utils from '../utils';
 import * as siProtocol from '../siProtocol';
 import {proto} from '../constants';
 import {BaseSiCard} from '../SiCard';
+import {ISiCard} from '../SiCard/ISiCard';
 import {ISiDevice, ISiDeviceDriverData} from '../SiDevice/ISiDevice';
 import {ISiStation} from './ISiStation';
-import {ISiCard, SiMainStationEvents, SiMainStationSiCardInsertedEvent, SiMainStationSiCardObservedEvent, SiMainStationSiCardRemovedEvent} from './ISiMainStation';
+import {SiMainStationEvents, SiMainStationSiCardInsertedEvent, SiMainStationSiCardObservedEvent, SiMainStationSiCardRemovedEvent} from './ISiMainStation';
 import {ISiTargetMultiplexer, SiTargetMultiplexerMessageEvent, SiTargetMultiplexerTarget} from './ISiTargetMultiplexer';
 import {BaseSiStation, ISiStationStorageFields} from './BaseSiStation';
 import {SiTargetMultiplexer} from './SiTargetMultiplexer';
@@ -111,10 +112,10 @@ export class SiMainStation
         const detectedSiCard = BaseSiCard.detectFromMessage(message);
         if (detectedSiCard !== undefined) {
             detectedSiCard.mainStation = this;
-            this.siCard = detectedSiCard;
+            this.siCard = detectedSiCard as ISiCard;
             this.dispatchEvent(
                 'siCardInserted',
-                new SiMainStationSiCardInsertedEvent(this, detectedSiCard),
+                new SiMainStationSiCardInsertedEvent(this, detectedSiCard as ISiCard),
             );
             return;
         }
@@ -140,7 +141,7 @@ export class SiMainStation
                 transRecordCard.mainStation = this;
                 this.dispatchEvent(
                     'siCardObserved',
-                    new SiMainStationSiCardObservedEvent(this, transRecordCard),
+                    new SiMainStationSiCardObservedEvent(this, transRecordCard as ISiCard),
                 );
             }
         };

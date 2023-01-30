@@ -1,8 +1,8 @@
 import {describe, expect, test} from '@jest/globals';
 import * as index from './index';
 
-describe('sportident-node-usb', () => {
+describe('sportident-webusb', () => {
     test('fake test', () => {
-        expect(index.getNodeUsbSiDeviceDriver).not.toBe(undefined);
+        expect(index.getWebUsbSiDeviceDriver).not.toBe(undefined);
     });
 });

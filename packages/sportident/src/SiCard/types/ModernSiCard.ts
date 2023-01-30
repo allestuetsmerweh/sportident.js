@@ -3,7 +3,8 @@ import {proto} from '../../constants';
 import * as storage from '../../storage';
 import * as utils from '../../utils';
 import * as siProtocol from '../../siProtocol';
-import {BaseSiCard, IBaseSiCardStorageFields} from '../BaseSiCard';
+import {IBaseSiCardStorageFields} from '../ISiCard';
+import {BaseSiCard} from '../BaseSiCard';
 import {IPunch} from '../IRaceResultData';
 
 class ReadFinishedException {}
