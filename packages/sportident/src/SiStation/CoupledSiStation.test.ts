@@ -28,7 +28,7 @@ describe('CoupledSiStation', () => {
         expect(myCoupledStation2.multiplexerTarget).toBe(SiTargetMultiplexerTarget.Remote);
     });
     test('fromSiTargetMultiplexer', () => {
-        const myTargetMultiplexer = new SiTargetMultiplexer({ident: 'fake-ident'} as ISiDevice<any>);
+        const myTargetMultiplexer = new SiTargetMultiplexer({ident: 'fake-ident'} as ISiDevice<ISiDeviceDriverData<unknown>>);
         const myCoupledStation1 = CoupledSiStation.fromSiTargetMultiplexer(myTargetMultiplexer);
         expect(myCoupledStation1 instanceof CoupledSiStation).toBe(true);
         expect(myCoupledStation1.ident).toBe('Remote-fake-ident');

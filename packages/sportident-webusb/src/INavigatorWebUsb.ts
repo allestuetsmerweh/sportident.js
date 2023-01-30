@@ -2,13 +2,13 @@ import * as utils from 'sportident/lib/utils';
 
 export interface WebUsbConnectEvent extends utils.IEvent<'connect'> {
     device: WebUsbDevice;
-    target: any;
+    target: unknown;
     defaultPrevented: boolean;
 }
 
 export interface WebUsbDisconnectEvent extends utils.IEvent<'disconnect'> {
     device: WebUsbDevice;
-    target: any;
+    target: unknown;
     defaultPrevented: boolean;
 }
 

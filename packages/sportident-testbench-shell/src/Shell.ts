@@ -1,3 +1,6 @@
+import {ISiDevice, ISiDeviceDriverData} from 'sportident/lib/SiDevice/ISiDevice';
+import {ISiExternalApplication} from './ISiExternalApplication';
+
 export interface ShellUserInterface {
     getChar: () => number|undefined;
     putChar: (char: number) => void;
@@ -30,7 +33,10 @@ export interface ShellOptions {
     initialEnv?: ShellEnv;
 }
 
-type ShellEnv = {[varName: string]: any};
+type ShellEnv = {[varName: string]: unknown}&{
+    externalApplication?: {new(url: string): ISiExternalApplication},
+    device?: ISiDevice<ISiDeviceDriverData<unknown>>,
+};
 
 type ShellInputParser<T> = (
     contentSoFar: T,

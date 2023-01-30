@@ -1,10 +1,10 @@
 import React from 'react';
-import {ISiDevice} from 'sportident/lib/SiDevice/ISiDevice';
+import {ISiDevice, ISiDeviceDriverData} from 'sportident/lib/SiDevice/ISiDevice';
 
 export const MainStationList = (
     props: {
-        devices: ISiDevice<any>[],
-        selectedDevice: ISiDevice<any>|undefined,
+        devices: ISiDevice<ISiDeviceDriverData<unknown>>[],
+        selectedDevice: ISiDevice<ISiDeviceDriverData<unknown>>|undefined,
         addNewDevice: () => void,
     },
 ): React.ReactElement => (

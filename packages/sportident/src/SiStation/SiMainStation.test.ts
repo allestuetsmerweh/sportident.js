@@ -38,7 +38,7 @@ describe('SiMainStation', () => {
         expect(myMainStation2.multiplexerTarget).toBe(SiTargetMultiplexerTarget.Direct);
     });
     test('fromSiTargetMultiplexer', () => {
-        const myTargetMultiplexer = new SiTargetMultiplexer({ident: 'fake-ident'} as ISiDevice<any>);
+        const myTargetMultiplexer = new SiTargetMultiplexer({ident: 'fake-ident'} as ISiDevice<ISiDeviceDriverData<unknown>>);
         const myMainStation1 = SiMainStation.fromSiTargetMultiplexer(myTargetMultiplexer);
         expect(myMainStation1 instanceof SiMainStation).toBe(true);
         expect(myMainStation1.ident).toBe('Direct-fake-ident');
@@ -128,7 +128,7 @@ describe('SiMainStation', () => {
     });
 
     test('card detection & removal', async () => {
-        const myTargetMultiplexer = new SiTargetMultiplexer({} as ISiDevice<any>);
+        const myTargetMultiplexer = new SiTargetMultiplexer({} as ISiDevice<ISiDeviceDriverData<unknown>>);
         const myMainStation = SiMainStation.fromSiTargetMultiplexer(myTargetMultiplexer);
         const testData = getSiCard5Examples().fullCard;
         const myFakeSiCard5 = new FakeSiCard5(testData.storageData);
@@ -193,7 +193,7 @@ describe('SiMainStation', () => {
         myMainStation.removeEventListener('siCardRemoved', handleCardRemoved);
     });
     test('card observation', async () => {
-        const myTargetMultiplexer = new SiTargetMultiplexer({} as ISiDevice<any>);
+        const myTargetMultiplexer = new SiTargetMultiplexer({} as ISiDevice<ISiDeviceDriverData<unknown>>);
         const myMainStation = SiMainStation.fromSiTargetMultiplexer(myTargetMultiplexer);
         const testData = getSiCard6Examples().fullCard;
         const myFakeSiCard6 = new FakeSiCard6(testData.storageData);
@@ -221,7 +221,7 @@ describe('SiMainStation', () => {
         expect(observedCardNumbers).toEqual([testData.cardData.cardNumber]);
     });
     test('card observation with mode', async () => {
-        const myTargetMultiplexer = new SiTargetMultiplexer({} as ISiDevice<any>);
+        const myTargetMultiplexer = new SiTargetMultiplexer({} as ISiDevice<ISiDeviceDriverData<unknown>>);
         const myMainStation = SiMainStation.fromSiTargetMultiplexer(myTargetMultiplexer);
         const observedCardNumbers: number[] = [];
         const handleCardObserved = (e: SiMainStationSiCardObservedEvent) => {

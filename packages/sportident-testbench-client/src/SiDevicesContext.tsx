@@ -1,10 +1,10 @@
 import React from 'react';
 import Immutable from 'immutable';
-import {ISiDevice} from 'sportident/lib/SiDevice/ISiDevice';
+import {ISiDevice, ISiDeviceDriverData} from 'sportident/lib/SiDevice/ISiDevice';
 
 export type SiDevicesContextPayload = {
-    addNewDevice: () => Promise<ISiDevice<any>>,
-    webUsbSiDevices: Immutable.Map<string, ISiDevice<any>>,
+    addNewDevice: () => Promise<ISiDevice<ISiDeviceDriverData<unknown>>>,
+    webUsbSiDevices: Immutable.Map<string, ISiDevice<ISiDeviceDriverData<unknown>>>,
 };
 
 export const SiDevicesContext = React.createContext<SiDevicesContextPayload>({

@@ -30,7 +30,11 @@ export class SetInfoCommand extends BaseCommand {
     }
 
     run(context: ShellCommandContext): Promise<void> {
-        const station = getDirectOrRemoteStation(context.args[1], context.env.device);
+        const device = context.env.device;
+        if (!device) {
+            return Promise.reject(new Error('No device.'));
+        }
+        const station = getDirectOrRemoteStation(context.args[1], device);
         if (station === undefined) {
             context.putString('No such station\n');
             return Promise.resolve();

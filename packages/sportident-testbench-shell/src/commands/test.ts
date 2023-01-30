@@ -1,13 +1,19 @@
 import si from 'sportident/lib';
 import {SiStationMode} from 'sportident/lib/SiStation/ISiStation';
+import {SiMainStationSiCardInsertedEvent, SiMainStationSiCardRemovedEvent, ISiCard} from 'sportident/lib/SiStation/ISiMainStation';
+import * as utils from 'sportident/lib/utils';
 import {ShellCommandContext} from '../Shell';
 import {BaseCommand, ArgType} from './BaseCommand';
 
 const tests: {[name: string]: (context: ShellCommandContext) => Promise<void>} = {
     'card': (context: ShellCommandContext) => {
-        const mainStation = si.SiMainStation.fromSiDevice(context.env.device);
+        const device = context.env.device;
+        if (!device) {
+            return Promise.reject(new Error('No device.'));
+        }
+        const mainStation = si.SiMainStation.fromSiDevice(device);
         let fixedSiNumber: number|undefined;
-        const samples: {[key: string]: any} = {};
+        const samples: {[key: string]: unknown} = {};
 
         const resetCardCallbacks = () => {
             mainStation.removeAllEventListeners();
@@ -37,7 +43,7 @@ const tests: {[name: string]: (context: ShellCommandContext) => Promise<void>} =
                 return new Promise((resolve, reject) => {
                     currentReject = reject;
                     resetCardCallbacks();
-                    mainStation.addEventListener('siCardObserved', (cardEvent: any) => {
+                    mainStation.addEventListener('siCardObserved', (cardEvent) => {
                         const card = cardEvent.siCard;
                         if (fixedSiNumber === undefined) {
                             fixedSiNumber = card.cardNumber;
@@ -68,15 +74,16 @@ const tests: {[name: string]: (context: ShellCommandContext) => Promise<void>} =
                 return new Promise((resolve, reject) => {
                     currentReject = reject;
                     resetCardCallbacks();
-                    const handleCardRemoved = (removeEvent: any) => {
-                        const removedCard = removeEvent.siCard;
-                        if (fixedSiNumber === removedCard.cardNumber) {
-                            resetCardCallbacks();
-                            currentReject = undefined;
-                            setTimeout(resolve, 1);
-                        }
-                    };
-                    const handleCardRead = (card: any) => {
+                    const handleCardRemoved: utils.EventCallback<SiMainStationSiCardRemovedEvent> =
+                        (removeEvent) => {
+                            const removedCard = removeEvent.siCard;
+                            if (fixedSiNumber === removedCard.cardNumber) {
+                                resetCardCallbacks();
+                                currentReject = undefined;
+                                setTimeout(resolve, 1);
+                            }
+                        };
+                    const handleCardRead = (card: ISiCard) => {
                         context.putString(`${card.constructor.name} ${card.cardNumber} read.\n`);
                         samples[cardState] = card.toDict();
                         context.putString(`${cardState}\n`);
@@ -87,7 +94,7 @@ const tests: {[name: string]: (context: ShellCommandContext) => Promise<void>} =
                         context.putString('Remove card...\n');
                         mainStation.addEventListener('siCardRemoved', handleCardRemoved);
                     };
-                    const handleCardInserted = (cardEvent: any) => {
+                    const handleCardInserted: utils.EventCallback<SiMainStationSiCardInsertedEvent> = (cardEvent) => {
                         const card = cardEvent.siCard;
                         if (fixedSiNumber === null) {
                             fixedSiNumber = card.cardNumber;

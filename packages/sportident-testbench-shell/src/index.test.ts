@@ -1,12 +1,13 @@
 import {describe, expect, test} from '@jest/globals';
 import * as testUtils from 'sportident/lib/testUtils';
+import {ISiDevice, ISiDeviceDriverData} from 'sportident/lib/SiDevice/ISiDevice';
 import {getSiShellCommands} from './index';
 import {ShellControl} from './testUtils';
 
 testUtils.useFakeTimers();
 
 const COMMANDS = getSiShellCommands();
-const OPTIONS = {initialEnv: {device: {}}};
+const OPTIONS = {initialEnv: {device: {} as ISiDevice<ISiDeviceDriverData<unknown>>}};
 
 describe('SiShell', () => {
     test('can run getInfo command', async () => {

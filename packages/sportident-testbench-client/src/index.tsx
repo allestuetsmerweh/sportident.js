@@ -5,6 +5,7 @@ import {Terminal} from './Terminal';
 import {SiDevicesContext, SiDevicesContextPayload} from './SiDevicesContext';
 import {useSiDevices} from 'sportident-react/lib';
 import {getWebUsbSiDeviceDriver} from 'sportident-webusb/lib';
+import * as nav from 'sportident-webusb/lib/INavigatorWebUsb';
 
 import './styles.css';
 
@@ -43,11 +44,11 @@ const Testbench = () => {
 
 const WebUsbSiDeviceProvider = (
     props: {
-        children: any,
+        children: React.ReactElement,
     },
 ) => {
     const webUsbSiDeviceDriver = React.useMemo(
-        () => getWebUsbSiDeviceDriver((window.navigator as any).usb),
+        () => getWebUsbSiDeviceDriver(window.navigator.usb as unknown as nav.WebUsb),
         [],
     );
     const webUsbSiDevices = useSiDevices(webUsbSiDeviceDriver);

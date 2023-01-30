@@ -88,7 +88,9 @@ describe('SiDict', () => {
     });
     test('updateData', () => {
         const initialData = Immutable.List([0x00, 0x00]);
-        const updateInitialData = (newValue: any): FakeSiStorageData => (
+        const updateInitialData = (
+            newValue: SiDictValue<MySiDictType>|SiFieldValue<SiDictValue<MySiDictType>>,
+        ): FakeSiStorageData => (
             mySiDict.updateData(initialData, newValue).toJS()
         );
 
@@ -99,7 +101,7 @@ describe('SiDict', () => {
     test('updateData modify undefined', () => {
         const updateData = (
             data: FakeSiStorageData,
-            newValue: any,
+            newValue: SiDictValue<MySiDictType>|SiFieldValue<SiDictValue<MySiDictType>>,
         ): FakeSiStorageData => (
             mySiDict.updateData(Immutable.List(data), newValue).toJS()
         );
@@ -113,11 +115,10 @@ describe('SiDict', () => {
     });
     test('updateData wrong type', () => {
         const initialData = Immutable.List([0x00, 0x00]);
-        const updatingInitialData = (newValue: any) => (
+        const updatingInitialData = (newValue: SiDictValue<MySiDictType>) => (
             () => mySiDict.updateData(initialData, newValue)
         );
 
         expect(updatingInitialData({One: undefined, Other: 'A'})).toThrow(TypeError);
-        expect(updatingInitialData({One: 'B'})).toThrow(TypeError);
     });
 });

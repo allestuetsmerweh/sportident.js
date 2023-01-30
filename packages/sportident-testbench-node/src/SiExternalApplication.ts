@@ -1,8 +1,8 @@
 import net from 'net';
 import * as utils from 'sportident/lib/utils';
-import {SiExternalApplicationEvents, SiExternalApplicationReceiveEvent} from './ISiExternalApplication';
+import {ISiExternalApplication, SiExternalApplicationEvents, SiExternalApplicationReceiveEvent} from 'sportident-testbench-shell/lib/ISiExternalApplication';
 
-export class SiExternalApplication {
+export class SiExternalApplication implements ISiExternalApplication {
     private unixSocket: net.Socket;
 
     constructor(pipeUrl: string) {

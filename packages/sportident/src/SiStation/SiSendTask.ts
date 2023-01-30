@@ -38,15 +38,13 @@ export class SiSendTask {
 
     succeed(): void {
         this.state = SiSendTaskState.Succeeded;
-        // @ts-ignore
-        clearTimeout(this.timeoutTimer);
+        clearTimeout(this.timeoutTimer as Parameters<typeof clearTimeout>[0]);
         this.onResolve(this);
     }
 
     fail(): void {
         this.state = SiSendTaskState.Failed;
-        // @ts-ignore
-        clearTimeout(this.timeoutTimer);
+        clearTimeout(this.timeoutTimer as Parameters<typeof clearTimeout>[0]);
         this.onReject(this);
     }
 }
