@@ -13,6 +13,8 @@ type SiStationSetup = {
     [key in keyof ISiStationStorageFields]?: ISiStationStorageFields[key]
 };
 
+type CleanUpFunction = () => Promise<void>;
+
 export class SiMainStation
     extends BaseSiStation<SiTargetMultiplexerTarget.Direct>
     implements ISiStation<SiTargetMultiplexerTarget.Direct> {
@@ -51,7 +53,7 @@ export class SiMainStation
     readCards(
         onCardInserted: (card: ISiCard) => void,
         siStationSetupModification: SiStationSetup = {},
-    ) {
+    ): Promise<CleanUpFunction> {
         const siStationSetup: SiStationSetup = {
             code: 10,
             mode: SiStationMode.Readout,
@@ -68,7 +70,7 @@ export class SiMainStation
             onCardInserted(e.siCard);
         };
 
-        const cleanUp = () => {
+        const cleanUp: CleanUpFunction = () => {
             this.removeEventListener('siCardInserted', handleCardInserted);
             return this.atomically(() => {
                 siStationSetupKeys.forEach(
@@ -101,7 +103,7 @@ export class SiMainStation
             });
     }
 
-    handleMessage(message: siProtocol.SiMessage) {
+    handleMessage(message: siProtocol.SiMessage): void {
         if (message.mode !== undefined) {
             return;
         }
@@ -134,11 +136,13 @@ export class SiMainStation
                 return;
             }
             const transRecordCard = BaseSiCard.fromCardNumber(observedCardNumber);
-            transRecordCard.mainStation = this;
-            this.dispatchEvent(
-                'siCardObserved',
-                new SiMainStationSiCardObservedEvent(this, transRecordCard),
-            );
+            if (transRecordCard !== undefined) {
+                transRecordCard.mainStation = this;
+                this.dispatchEvent(
+                    'siCardObserved',
+                    new SiMainStationSiCardObservedEvent(this, transRecordCard),
+                );
+            }
         };
         const handlerByCommand: {[command: number]: () => void} = {
             [proto.cmd.SI_REM]: handleSiCardRemoved,

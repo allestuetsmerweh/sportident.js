@@ -1,11 +1,11 @@
 import * as utils from 'sportident/lib/utils';
 import {proto} from 'sportident/lib/constants';
 import {ShellCommandContext} from '../Shell';
-import {BaseCommand} from './BaseCommand';
+import {BaseCommand, ArgType} from './BaseCommand';
 import {getDirectOrRemoteStation} from './getDirectOrRemoteStation';
 
 export class GetBackupCommand extends BaseCommand {
-    getArgTypes() {
+    getArgTypes(): ArgType[] {
         return [
             {
                 name: 'target',
@@ -14,7 +14,7 @@ export class GetBackupCommand extends BaseCommand {
         ];
     }
 
-    printUsage(context: ShellCommandContext) {
+    printUsage(context: ShellCommandContext): void {
         super.printUsage(context);
         context.putString('e.g. getBackup direct\n');
         context.putString('e.g. getBackup remote\n');

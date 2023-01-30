@@ -284,7 +284,7 @@ export class SiDate extends storage.SiDataType<Date> implements storage.ISiDataT
         );
     }
 
-    typeSpecificIsValueValid(_value: Date) {
+    typeSpecificIsValueValid(_value: Date): boolean {
         return true;
     }
 
@@ -347,7 +347,7 @@ export class SiTime extends storage.SiDataType<SiTimestamp> implements storage.I
         );
     }
 
-    typeSpecificIsValueValid(value: SiTimestamp) {
+    typeSpecificIsValueValid(value: SiTimestamp): boolean {
         return value === null || value < SI_TIME_CUTOFF;
     }
 

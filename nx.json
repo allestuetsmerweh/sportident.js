@@ -13,26 +13,27 @@
       }
     }
   },
+  "namedInputs": {
+    "src": ["{projectRoot}/src/**/*"],
+    "babelconfig": ["{workspaceRoot}/babel.config.js"],
+    "eslintconfig": ["{workspaceRoot}/eslint.base.js", "{workspaceRoot}/.eslintignore"],
+    "tsconfig": ["{workspaceRoot}/tsconfig.base.json", "{workspaceRoot}/tsconfig.json"]
+  },
   "targetDefaults": {
     "build": {
-      "outputs": [
-        "{projectRoot}/lib"
-      ]
+      "outputs": ["{projectRoot}/lib"]
+    },
+    "eslint": {
+      "inputs": ["src", "eslintconfig", "tsconfig"]
     },
     "tsc": {
-      "outputs": [
-        "{projectRoot}/lib"
-      ]
+      "outputs": ["{projectRoot}/lib"]
     },
     "webpack": {
-      "outputs": [
-        "{projectRoot}/build"
-      ]
+      "outputs": ["{projectRoot}/build"]
     },
     "typedoc": {
-      "outputs": [
-        "{projectRoot}/docs"
-      ]
+      "outputs": ["{projectRoot}/docs"]
     }
   }
 }

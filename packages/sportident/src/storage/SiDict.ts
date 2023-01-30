@@ -58,7 +58,7 @@ export class SiDict<T> extends SiDataType<SiDictValue<T>> implements ISiDataType
         return tempData;
     }
 
-    get keysOfT() {
+    get keysOfT(): (keyof T)[] {
         return Object.keys(this.definitionDict) as (keyof T)[];
     }
 }

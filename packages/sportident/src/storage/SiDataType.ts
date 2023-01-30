@@ -11,7 +11,7 @@ export class ModifyUndefinedException {
 }
 
 export abstract class SiDataType<T> {
-    isValueValid(value: T) {
+    isValueValid(value: T): boolean {
         return this.typeSpecificIsValueValid(value);
     }
 

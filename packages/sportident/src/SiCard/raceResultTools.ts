@@ -50,7 +50,7 @@ export const prettyRaceResult = (result: IRaceResultData): string => {
 
 export const getOrderedRaceResult = (
     result: IRaceResultData,
-) => {
+): IOrderedRaceResult => {
     const orderedResult: IOrderedRaceResult = {
         cardNumber: result.cardNumber,
         cardHolder: result.cardHolder,
@@ -119,7 +119,7 @@ export const getRaceResultFromOrdered = (
     };
 };
 
-export const monotonizeOrderedRaceResult = (orderedData: IOrderedRaceResult) => {
+export const monotonizeOrderedRaceResult = (orderedData: IOrderedRaceResult): IOrderedRaceResult => {
     let currentCarry = 0;
     let lastTime = 0;
     const newOrderedTimes = orderedData.orderedTimes.map(
@@ -137,7 +137,7 @@ export const monotonizeOrderedRaceResult = (orderedData: IOrderedRaceResult) => 
     };
 };
 
-export const monotonizeRaceResult = (result: IRaceResultData) => {
+export const monotonizeRaceResult = (result: IRaceResultData): IRaceResultData => {
     const orderedResult = getOrderedRaceResult(result);
     const monotonizedOrderedResult = monotonizeOrderedRaceResult(orderedResult);
     return getRaceResultFromOrdered(monotonizedOrderedResult);

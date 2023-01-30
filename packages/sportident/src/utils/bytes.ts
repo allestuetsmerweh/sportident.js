@@ -1,27 +1,27 @@
-export const isByte = (byte: any): boolean => (
+export const isByte = (byte: unknown): boolean => (
     Number(byte) === byte &&
     Math.floor(byte) === byte &&
     byte <= 0xFF &&
     byte >= 0x00
 );
 
-export const isByteArr = (arr: any[]): boolean => (
+export const isByteArr = (arr: unknown[]): boolean => (
     Array.isArray(arr) &&
     !arr.some((e) => !isByte(e))
 );
 
-export const assertIsByteArr = (arr: any[]): void => {
+export const assertIsByteArr = (arr: unknown[]): void => {
     if (!isByteArr(arr)) {
         throw new Error(`${arr} is not a byte array`);
     }
 };
 
-export const isArrOfLengths = (arr: any[], lengths: number[]): boolean => {
+export const isArrOfLengths = (arr: unknown[], lengths: number[]): boolean => {
     const actualLength = arr.length;
     return lengths.some((length) => actualLength === length);
 };
 
-export const assertArrIsOfLengths = (arr: any[], lengths: number[]): void => {
+export const assertArrIsOfLengths = (arr: unknown[], lengths: number[]): void => {
     if (!isArrOfLengths(arr, lengths)) {
         throw new Error(`${arr} is not of lengths ${lengths}`);
     }
@@ -37,7 +37,10 @@ export const arr2big = (arr: number[]): number => {
     return outnum;
 };
 
-export const prettyHex = (input: string|(number|undefined)[], lineLength = 0) => {
+export const prettyHex = (
+    input: string|(number|undefined)[],
+    lineLength = 0,
+): string => {
     let iterable = input;
     if (typeof input === 'string') {
         iterable = [];

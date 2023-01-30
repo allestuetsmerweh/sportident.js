@@ -24,22 +24,22 @@ export class ShellControl {
         );
     }
 
-    putString(strToPut: string) {
+    putString(strToPut: string): void {
         [...strToPut].forEach((charString: string) => {
             const char = charString.charCodeAt(0);
             this.putChar(char);
         });
     }
 
-    putChar(char: number) {
+    putChar(char: number): void {
         this.input.push(char);
     }
 
-    addToOutput(char: number) {
+    addToOutput(char: number): void {
         this.output.push(char);
     }
 
-    run() {
+    run(): void {
         this.shell.run();
     }
 
@@ -47,7 +47,7 @@ export class ShellControl {
         return this.output;
     }
 
-    get stringInput() {
+    get stringInput(): string {
         return this.input.map(
             (char: number) => String.fromCharCode(char),
         ).join('');
@@ -57,7 +57,7 @@ export class ShellControl {
         return this.output;
     }
 
-    get stringOutput() {
+    get stringOutput(): string {
         return this.output.map(
             (char: number) => String.fromCharCode(char),
         ).join('');

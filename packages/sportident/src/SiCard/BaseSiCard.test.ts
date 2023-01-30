@@ -69,7 +69,7 @@ describe('BaseSiCard', () => {
             });
             expect(triedToGetInstance).toBe(true);
             expect(siCard500 instanceof SiCard1).toBe(true);
-            expect(siCard500.cardNumber).toBe(1);
+            expect(siCard500?.cardNumber).toBe(1);
         });
 
         test('does not detect from NAK message', () => {

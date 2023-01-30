@@ -3,7 +3,7 @@ import {ModernSiCard} from './ModernSiCard';
 import {BaseSiCard} from '../BaseSiCard';
 
 export class SIAC extends ModernSiCard {
-    static typeSpecificInstanceFromMessage(message: siProtocol.SiMessage) {
+    static typeSpecificInstanceFromMessage(message: siProtocol.SiMessage): SIAC|undefined {
         const info = this.parseModernSiCardDetectionMessage(message);
         if (info === undefined) {
             return undefined;

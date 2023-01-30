@@ -2,7 +2,7 @@ import * as utils from '../../utils';
 import {BaseSiCard} from '../BaseSiCard';
 
 export class TCard extends BaseSiCard {
-    typeSpecificRead() {
+    typeSpecificRead(): Promise<void> {
         return Promise.reject(new utils.NotImplementedError());
     }
 }

@@ -2,3 +2,5 @@ docs/
 coverage/
 node_modules/
 build/
+
+eslint.base.js

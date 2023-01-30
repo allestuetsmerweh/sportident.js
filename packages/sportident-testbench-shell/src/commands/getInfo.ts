@@ -1,6 +1,6 @@
 import {siStationStorageLocations} from 'sportident/lib/SiStation/BaseSiStation';
 import {ShellCommandContext} from '../Shell';
-import {BaseCommand} from './BaseCommand';
+import {BaseCommand, ArgType} from './BaseCommand';
 import {getDirectOrRemoteStation} from './getDirectOrRemoteStation';
 
 const allInfoNames = (
@@ -8,7 +8,7 @@ const allInfoNames = (
 );
 
 export class GetInfoCommand extends BaseCommand {
-    getArgTypes() {
+    getArgTypes(): ArgType[] {
         return [
             {
                 name: 'target',
@@ -22,7 +22,7 @@ export class GetInfoCommand extends BaseCommand {
         ];
     }
 
-    printUsage(context: ShellCommandContext) {
+    printUsage(context: ShellCommandContext): void {
         super.printUsage(context);
         context.putString('e.g. getInfo direct\n');
         context.putString('e.g. getInfo direct code\n');

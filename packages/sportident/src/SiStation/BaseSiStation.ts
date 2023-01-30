@@ -118,7 +118,7 @@ export abstract class BaseSiStation<T extends SiTargetMultiplexerTarget> {
         this.storage = siStationStorageDefinition();
     }
 
-    get ident() {
+    get ident(): string {
         const multiplexerTargetString = SiTargetMultiplexerTarget[this.multiplexerTarget];
         const deviceIdentString = this.siTargetMultiplexer.siDevice.ident;
         return `${multiplexerTargetString}-${deviceIdentString}`;
@@ -128,7 +128,7 @@ export abstract class BaseSiStation<T extends SiTargetMultiplexerTarget> {
         message: siProtocol.SiMessage,
         numResponses = 0,
         timeoutInMiliseconds = 10000,
-    ) {
+    ): Promise<number[][]> {
         return this.siTargetMultiplexer.sendMessage(
             this.multiplexerTarget,
             message,
@@ -137,7 +137,7 @@ export abstract class BaseSiStation<T extends SiTargetMultiplexerTarget> {
         );
     }
 
-    readInfo() {
+    readInfo(): Promise<void> {
         return this.sendMessage({
             command: proto.cmd.GET_SYS_VAL,
             parameters: [0x00, 0x80],
@@ -149,24 +149,24 @@ export abstract class BaseSiStation<T extends SiTargetMultiplexerTarget> {
 
     getField<Field extends keyof ISiStationStorageFields>(
         infoName: Field,
-    ) {
+    ): storage.ISiStorageLocations<ISiStationStorageFields>[Field] {
         return this.storage.locations[infoName];
     }
 
     getInfo<Field extends keyof ISiStationStorageFields>(
         infoName: Field,
-    ) {
+    ): storage.ISiFieldValue<ISiStationStorageFields[Field]>|undefined {
         return this.storage.get(infoName);
     }
 
     setInfo<Field extends keyof ISiStationStorageFields>(
         infoName: Field,
         newValue: storage.ISiFieldValue<ISiStationStorageFields[Field]>|ISiStationStorageFields[Field],
-    ) {
+    ): void {
         this.storage.set(infoName, newValue);
     }
 
-    writeChanges() {
+    writeChanges(): Promise<void> {
         const newStorage = this.storage.data;
         return this.readInfo()
             .then(() => {
@@ -175,7 +175,7 @@ export abstract class BaseSiStation<T extends SiTargetMultiplexerTarget> {
             });
     }
 
-    atomically(doThings: () => void) {
+    atomically(doThings: () => void): Promise<void> {
         return this.readInfo()
             .then(() => {
                 const oldStorage = this.storage.data;
@@ -244,7 +244,7 @@ export abstract class BaseSiStation<T extends SiTargetMultiplexerTarget> {
         return processDirtyRanges();
     }
 
-    getTime() {
+    getTime(): Promise<Date|undefined> {
         return this.sendMessage({
             command: proto.cmd.GET_TIME,
             parameters: [],
@@ -252,7 +252,7 @@ export abstract class BaseSiStation<T extends SiTargetMultiplexerTarget> {
             .then((d) => siProtocol.arr2date(d[0].slice(2)));
     }
 
-    setTime(newTime: Date) {
+    setTime(newTime: Date): Promise<Date|undefined> {
         // TODO: compensate for waiting time
         return this.sendMessage({
             command: proto.cmd.SET_TIME,
@@ -262,7 +262,7 @@ export abstract class BaseSiStation<T extends SiTargetMultiplexerTarget> {
 
     }
 
-    signal(countArg: number) {
+    signal(countArg: number): Promise<void> {
         const count = countArg < 1 ? 1 : countArg;
         return this.sendMessage({
             command: proto.cmd.SIGNAL,
@@ -275,7 +275,8 @@ export abstract class BaseSiStation<T extends SiTargetMultiplexerTarget> {
             });
     }
 
-    powerOff() { // Does not power off BSM8 (USB powered), though
+    powerOff(): Promise<number[][]> {
+        // Does not power off BSM8 (USB powered), though
         return this.sendMessage({
             command: proto.cmd.OFF,
             parameters: [],

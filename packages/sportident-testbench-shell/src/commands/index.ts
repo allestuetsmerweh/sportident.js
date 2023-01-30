@@ -6,7 +6,17 @@ import {SendCommand} from './send';
 import {PipeCommand} from './pipe';
 import {SimulateCommand} from './simulate';
 
-export const getSiShellCommands = () => ({
+type SiShellCommands = {
+    'getInfo': GetInfoCommand,
+    'setInfo': SetInfoCommand,
+    'getBackup': GetBackupCommand,
+    'test': TestCommand,
+    'send': SendCommand,
+    'pipe': PipeCommand,
+    'simulate': SimulateCommand,
+};
+
+export const getSiShellCommands = (): SiShellCommands => ({
     'getInfo': new GetInfoCommand(),
     'setInfo': new SetInfoCommand(),
     'getBackup': new GetBackupCommand(),

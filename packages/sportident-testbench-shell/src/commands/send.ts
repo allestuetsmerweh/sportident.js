@@ -1,10 +1,10 @@
 import * as utils from 'sportident/lib/utils';
 import {ShellCommandContext} from '../Shell';
-import {BaseCommand} from './BaseCommand';
+import {BaseCommand, ArgType} from './BaseCommand';
 import {getDirectOrRemoteStation} from './getDirectOrRemoteStation';
 
 export class SendCommand extends BaseCommand {
-    getArgTypes() {
+    getArgTypes(): ArgType[] {
         return [
             {
                 name: 'target',
@@ -25,7 +25,7 @@ export class SendCommand extends BaseCommand {
         ];
     }
 
-    printUsage(context: ShellCommandContext) {
+    printUsage(context: ShellCommandContext): void {
         super.printUsage(context);
         context.putString('e.g. send direct F9 01 0\n');
         context.putString('e.g. send remote F9 01 1\n');

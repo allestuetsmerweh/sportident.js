@@ -1,8 +1,5 @@
-/* eslint-env es6 */
-
-const compatibleRules = {
+const javaScriptRules = {
     'indent': ['warn', 4, { 'SwitchCase': 1 }],
-    'linebreak-style': ['error', 'unix'],
     'semi': ['error', 'always'],
     'no-console': [0],
     'array-bracket-spacing': ['error', 'never'],
@@ -27,8 +24,8 @@ const compatibleRules = {
     'for-direction': 'warn',
     'func-call-spacing': ['error', 'never'],
     'func-name-matching': 'warn',
-    'func-names': ['warn', 'always'],
-    'func-style': ['error', 'expression'],
+    'func-names': ['error', 'always'],
+    'func-style': ['error', 'declaration', { 'allowArrowFunctions': true }],
     'function-paren-newline': ['error', 'consistent'],
     'generator-star-spacing': ['error', { 'before': false, 'after': true }],
     'getter-return': 'error',
@@ -71,7 +68,6 @@ const compatibleRules = {
     'no-script-url': 'error',
     'no-self-compare': 'error',
     'no-sequences': 'error',
-    'no-shadow': 'error',
     'no-shadow-restricted-names': 'error',
     'no-spaced-func': 'error',
     'no-tabs': 'error',
@@ -80,6 +76,7 @@ const compatibleRules = {
     'no-trailing-spaces': 'error',
     'no-unneeded-ternary': 'error',
     'no-unused-expressions': 'error',
+    'no-unused-vars': ['error', {'args': 'none'}],
     'no-use-before-define': 'off',
     'no-useless-concat': 'error',
     'no-useless-constructor': 'error',
@@ -106,9 +103,14 @@ const compatibleRules = {
     'symbol-description': 'error',
     'template-curly-spacing': 'error',
     'wrap-iife': 'error',
+};
+
+const typeScriptRules = {
+    ...javaScriptRules,
     '@typescript-eslint/ban-ts-comment': 'off',
     '@typescript-eslint/ban-ts-ignore': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
+    '@typescript-eslint/explicit-module-boundary-types': 'error',
     '@typescript-eslint/interface-name-prefix': 'off',
     '@typescript-eslint/member-delimiter-style': 'off',
     '@typescript-eslint/no-empty-function': 'off',
@@ -119,9 +121,14 @@ const compatibleRules = {
         'args': 'all',
         'ignoreRestSiblings': true,
         'argsIgnorePattern': '^_',
-        'varsIgnorePattern': '^_'
+        'varsIgnorePattern': '^_',
     }],
-    '@typescript-eslint/no-use-before-define': ['error', {'classes': false, 'functions': false}], 
+    '@typescript-eslint/no-shadow': ['error'],
+    '@typescript-eslint/no-use-before-define': ['error', {'classes': false, 'functions': false}],
+    '@typescript-eslint/no-useless-constructor': ['error'],
+    'no-shadow': 'off',
+    'no-unused-vars': 'off',
+    'no-useless-constructor': 'off',
 };
 
 module.exports = {
@@ -133,10 +140,7 @@ module.exports = {
         extends: [
             'eslint:recommended',
             'plugin:react/recommended',
-            "plugin:@typescript-eslint/eslint-recommended",
-            "plugin:@typescript-eslint/recommended"
         ],
-        parser: '@typescript-eslint/parser',
         parserOptions: {
             ecmaVersion: 2018,
             ecmaFeatures: {
@@ -146,7 +150,6 @@ module.exports = {
         },
         plugins: [
             'react',
-            '@typescript-eslint',
         ],
         settings: {
             react: {
@@ -165,7 +168,30 @@ module.exports = {
                 { name: 'Link', linkAttribute: 'to' },
             ],
         },
-        rules: compatibleRules,
+        rules: javaScriptRules,
+        overrides: [
+            {
+                files: ['**/*.ts', '**/*.tsx'],
+                env: {
+                    browser: true,
+                    es6: true,
+                },
+                extends: [
+                    'eslint:recommended',
+                    'plugin:react/recommended',
+                    'plugin:@typescript-eslint/eslint-recommended',
+                    'plugin:@typescript-eslint/recommended',
+                ],
+                globals: { 'Atomics': 'readonly', 'SharedArrayBuffer': 'readonly' },
+                parser: '@typescript-eslint/parser',
+                parserOptions: {
+                    'ecmaVersion': 2018,
+                    'sourceType': 'module',
+                },
+                plugins: ['@typescript-eslint'],
+                rules: typeScriptRules,
+            },
+        ],
     },
     nodeConfig: {
         env: {
@@ -174,17 +200,33 @@ module.exports = {
         },
         extends: [
             'eslint:recommended',
-            'plugin:@typescript-eslint/recommended',
         ],
-        parser: '@typescript-eslint/parser',
         parserOptions: {
             ecmaVersion: 2018,
             sourceType: 'module',
         },
-        plugins: [
-            'react',
-            '@typescript-eslint',
+        rules: javaScriptRules,
+        overrides: [
+            {
+                files: ['**/*.ts', '**/*.tsx'],
+                env: {
+                    browser: true,
+                    es6: true,
+                },
+                extends: [
+                    'eslint:recommended',
+                    'plugin:@typescript-eslint/eslint-recommended',
+                    'plugin:@typescript-eslint/recommended',
+                ],
+                globals: { 'Atomics': 'readonly', 'SharedArrayBuffer': 'readonly' },
+                parser: '@typescript-eslint/parser',
+                parserOptions: {
+                    'ecmaVersion': 2018,
+                    'sourceType': 'module',
+                },
+                plugins: ['@typescript-eslint'],
+                rules: typeScriptRules,
+            },
         ],
-        rules: compatibleRules,
     },
 };

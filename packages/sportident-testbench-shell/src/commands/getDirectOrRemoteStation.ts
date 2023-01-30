@@ -1,7 +1,7 @@
 import {SiDevice} from 'sportident/lib/SiDevice';
 import {CoupledSiStation, SiMainStation} from 'sportident/lib/SiStation';
 
-export const getDirectOrRemoteStation = (userChoice: string, device: SiDevice<any>) => {
+export const getDirectOrRemoteStation = (userChoice: string, device: SiDevice<any>): CoupledSiStation|SiMainStation|undefined => {
     const isRemoteByInput: {[ident: string]: boolean} = {
         remote: true,
         direct: false,

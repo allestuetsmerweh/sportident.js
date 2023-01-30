@@ -1,9 +1,9 @@
 import si from 'sportident/lib';
 import {ShellCommandContext} from '../Shell';
-import {BaseCommand} from './BaseCommand';
+import {BaseCommand, ArgType} from './BaseCommand';
 
 export class PipeCommand extends BaseCommand {
-    getArgTypes() {
+    getArgTypes(): ArgType[] {
         return [
             {
                 name: 'path',
@@ -13,7 +13,7 @@ export class PipeCommand extends BaseCommand {
         ];
     }
 
-    printUsage(context: ShellCommandContext) {
+    printUsage(context: ShellCommandContext): void {
         super.printUsage(context);
         context.putString('e.g. pipe /tmp/vwin_com1\n');
     }

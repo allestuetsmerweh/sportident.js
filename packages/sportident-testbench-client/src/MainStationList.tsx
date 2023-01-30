@@ -7,7 +7,7 @@ export const MainStationList = (
         selectedDevice: ISiDevice<any>|undefined,
         addNewDevice: () => void,
     },
-) => (
+): React.ReactElement => (
     <div>
         <div id='si-device-list'>
             {props.devices.map((device) => {
