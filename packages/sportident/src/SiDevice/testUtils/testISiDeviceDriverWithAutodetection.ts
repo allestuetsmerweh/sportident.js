@@ -1,13 +1,14 @@
 import {expect, test} from '@jest/globals';
 import * as testUtils from '../../testUtils';
 import {ISiDeviceDriverData, SiDeviceState} from '../ISiDevice';
+import {ISiDeviceDriver, ISiDeviceDriverWithAutodetection} from '../ISiDeviceDriver';
 
 export interface TestISiDeviceDriverWithAutodetectionOptions {
     numTicks: number;
     waitFor: number;
 }
 
-export const testISiDeviceDriverWithAutodetection = <T extends ISiDeviceDriverData<any>>(
+export const testISiDeviceDriverWithAutodetection = <T extends ISiDeviceDriverData<ISiDeviceDriver<T>&ISiDeviceDriverWithAutodetection<T>>>(
     siDeviceDriverData: T,
     nonSiDeviceDriverData: T,
     simulateConnect: (data: T) => void,

@@ -3,12 +3,12 @@ import _ from 'lodash';
 import {proto} from '../constants';
 import * as siProtocol from '../siProtocol';
 import * as testUtils from '../testUtils';
-import {ISiDevice} from '../SiDevice/ISiDevice';
+import {ISiDevice, ISiDeviceDriverData} from '../SiDevice/ISiDevice';
+import {ISiDeviceDriver} from '../SiDevice/ISiDeviceDriver';
 import {SiDevice} from '../SiDevice/SiDevice';
 import {ISiCard, SiMainStationSiCardInsertedEvent, SiMainStationSiCardObservedEvent, SiMainStationSiCardRemovedEvent} from './ISiMainStation';
 import {ISiTargetMultiplexer, SiTargetMultiplexerMessageEvent, SiTargetMultiplexerTarget} from './ISiTargetMultiplexer';
 import {SiTargetMultiplexer} from './SiTargetMultiplexer';
-import {SiStationMode} from './ISiStation';
 import {siStationStorageDefinition} from './BaseSiStation';
 import {getBSM8Station} from './siStationExamples';
 import {SiMainStation} from './SiMainStation';
@@ -19,9 +19,15 @@ import {FakeSiCard6} from '../fakes/FakeSiCard/types/FakeSiCard6';
 
 testUtils.useFakeTimers();
 
+function mockDriver(driver: Partial<ISiDeviceDriver<ISiDeviceDriverData<unknown>>>) {
+    return driver as unknown as ISiDeviceDriver<ISiDeviceDriverData<unknown>>;
+}
+
 describe('SiMainStation', () => {
     test('fromSiDevice', () => {
-        const fakeSiDevice = new SiDevice('fromSiDevice', {driver: {name: 'FakeSiDevice'}});
+        const fakeSiDevice = new SiDevice('fromSiDevice', {
+            driver: mockDriver({name: 'FakeSiDevice'}),
+        });
         const myMainStation1 = SiMainStation.fromSiDevice(fakeSiDevice);
         expect(myMainStation1 instanceof SiMainStation).toBe(true);
         expect(myMainStation1.ident).toBe('Direct-FakeSiDevice-fromSiDevice');
@@ -45,7 +51,7 @@ describe('SiMainStation', () => {
 
     test('can readCards', async () => {
         const storage = siStationStorageDefinition(getBSM8Station().storageData);
-        storage.set('mode', SiStationMode.Control);
+        storage.set('mode', 'Control');
         storage.set('code', 31);
         storage.set('autoSend', true);
         storage.set('handshake', false);
@@ -86,7 +92,7 @@ describe('SiMainStation', () => {
         if (cleanUpFunction === undefined) {
             throw new Error('expect cleanUp function');
         }
-        expect(storage.get('mode')!.value).toBe(SiStationMode.Readout);
+        expect(storage.get('mode')!.value).toBe('Readout');
         expect(storage.get('code')!.value).toBe(10);
         expect(storage.get('autoSend')!.value).toBe(false);
         expect(storage.get('handshake')!.value).toBe(true);
@@ -105,7 +111,7 @@ describe('SiMainStation', () => {
 
         const actualCleanUpFunction: () => Promise<void> = cleanUpFunction;
         await actualCleanUpFunction();
-        expect(storage.get('mode')!.value).toBe(SiStationMode.Control);
+        expect(storage.get('mode')!.value).toBe('Control');
         expect(storage.get('code')!.value).toBe(31);
         expect(storage.get('autoSend')!.value).toBe(true);
         expect(storage.get('handshake')!.value).toBe(false);

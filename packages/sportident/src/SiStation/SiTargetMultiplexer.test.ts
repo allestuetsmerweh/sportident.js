@@ -2,16 +2,24 @@ import {describe, expect, test} from '@jest/globals';
 import {proto} from '../constants';
 import * as siProtocol from '../siProtocol';
 import * as testUtils from '../testUtils';
-import {SiDeviceState, SiDeviceReceiveEvent} from '../SiDevice/ISiDevice';
+import {SiDeviceState, SiDeviceReceiveEvent, ISiDeviceDriverData} from '../SiDevice/ISiDevice';
+import {ISiDeviceDriver} from '../SiDevice/ISiDeviceDriver';
 import {SiDevice} from '../SiDevice/SiDevice';
-import {SendTaskState, SiTargetMultiplexerDirectMessageEvent, SiTargetMultiplexerMessageEvent, SiTargetMultiplexerRemoteMessageEvent, SiTargetMultiplexerTarget} from './ISiTargetMultiplexer';
+import {SiTargetMultiplexerDirectMessageEvent, SiTargetMultiplexerMessageEvent, SiTargetMultiplexerRemoteMessageEvent, SiTargetMultiplexerTarget} from './ISiTargetMultiplexer';
+import {SiSendTaskState} from './ISiSendTask';
 import {DIRECT_DEVICE_INITIATED_COMMANDS, SiTargetMultiplexer} from './SiTargetMultiplexer';
 
 testUtils.useFakeTimers();
 
+function mockDriver(driver: Partial<ISiDeviceDriver<ISiDeviceDriverData<unknown>>>) {
+    return driver as unknown as ISiDeviceDriver<ISiDeviceDriverData<unknown>>;
+}
+
 describe('SiTargetMultiplexer', () => {
     test('is unique per device', () => {
-        const siDevice = new SiDevice('isUniquePerDevice', {driver: {name: 'FakeSiDevice'}});
+        const siDevice = new SiDevice('isUniquePerDevice', {
+            driver: mockDriver({name: 'FakeSiDevice'}),
+        });
         siDevice.setState(SiDeviceState.Opened);
         const muxer1 = SiTargetMultiplexer.fromSiDevice(siDevice);
         expect(muxer1 instanceof SiTargetMultiplexer).toBe(true);
@@ -21,7 +29,7 @@ describe('SiTargetMultiplexer', () => {
 
     test('handles receiving', () => {
         const siDevice = new SiDevice('handlesReceiving', {
-            driver: {},
+            driver: mockDriver({}),
         });
         siDevice.setState(SiDeviceState.Opened);
         const muxer = SiTargetMultiplexer.fromSiDevice(siDevice);
@@ -88,9 +96,9 @@ describe('SiTargetMultiplexer', () => {
 
     test('handles simple sending', async () => {
         const siDevice = new SiDevice('handlesSending0', {
-            driver: {
+            driver: mockDriver({
                 send: () => Promise.resolve(),
-            },
+            }),
         });
         siDevice.setState(SiDeviceState.Opened);
         const muxer = SiTargetMultiplexer.fromSiDevice(siDevice);
@@ -114,9 +122,9 @@ describe('SiTargetMultiplexer', () => {
 
     test('handles sending and waiting for 1 response', async () => {
         const siDevice = new SiDevice('handlesSending1', {
-            driver: {
+            driver: mockDriver({
                 send: () => Promise.resolve(),
-            },
+            }),
         });
         siDevice.setState(SiDeviceState.Opened);
         const muxer = SiTargetMultiplexer.fromSiDevice(siDevice);
@@ -148,9 +156,9 @@ describe('SiTargetMultiplexer', () => {
 
     test('handles sending and waiting for 1 NAK', async () => {
         const siDevice = new SiDevice('handlesSending1NAK', {
-            driver: {
+            driver: mockDriver({
                 send: () => Promise.resolve(),
-            },
+            }),
         });
         siDevice.setState(SiDeviceState.Opened);
         const muxer = SiTargetMultiplexer.fromSiDevice(siDevice);
@@ -181,9 +189,9 @@ describe('SiTargetMultiplexer', () => {
 
     test('handles sending and waiting for 2 responses', async () => {
         const siDevice = new SiDevice('handlesSending2', {
-            driver: {
+            driver: mockDriver({
                 send: () => Promise.resolve(),
-            },
+            }),
         });
         siDevice.setState(SiDeviceState.Opened);
         const muxer = SiTargetMultiplexer.fromSiDevice(siDevice);
@@ -225,9 +233,9 @@ describe('SiTargetMultiplexer', () => {
 
     test('handles sending and timing out waiting for 1 response', async () => {
         const siDevice = new SiDevice('handlesSending1Timeout', {
-            driver: {
+            driver: mockDriver({
                 send: () => Promise.resolve(),
-            },
+            }),
         });
         siDevice.setState(SiDeviceState.Opened);
         const muxer = SiTargetMultiplexer.fromSiDevice(siDevice);
@@ -252,9 +260,9 @@ describe('SiTargetMultiplexer', () => {
 
     test('handles sending and timing out waiting for 2 responses', async () => {
         const siDevice = new SiDevice('handlesSending2Timeout', {
-            driver: {
+            driver: mockDriver({
                 send: () => Promise.resolve(),
-            },
+            }),
         });
         siDevice.setState(SiDeviceState.Opened);
         const muxer = SiTargetMultiplexer.fromSiDevice(siDevice);
@@ -291,9 +299,9 @@ describe('SiTargetMultiplexer', () => {
 
     test('does not time out, if it already succeeded', async () => {
         const siDevice = new SiDevice('noTimeoutIfSucceeded', {
-            driver: {
+            driver: mockDriver({
                 send: () => Promise.resolve(),
-            },
+            }),
         });
         siDevice.setState(SiDeviceState.Opened);
         const muxer = SiTargetMultiplexer.fromSiDevice(siDevice);
@@ -314,7 +322,7 @@ describe('SiTargetMultiplexer', () => {
                 timeState.timedOut = true;
             });
         setTimeout(() => {
-            muxer._test.sendQueue[0].state = SendTaskState.Succeeded;
+            muxer._test.sendQueue[0].state = SiSendTaskState.Succeeded;
             timeState.madeSuccessful = true;
         }, 1);
         setTimeout(() => {
@@ -330,9 +338,9 @@ describe('SiTargetMultiplexer', () => {
 
     test('does not succeed, if response for different command arrives', async () => {
         const siDevice = new SiDevice('differentCommand', {
-            driver: {
+            driver: mockDriver({
                 send: () => Promise.resolve(),
-            },
+            }),
         });
         siDevice.setState(SiDeviceState.Opened);
         const muxer = SiTargetMultiplexer.fromSiDevice(siDevice);
@@ -372,9 +380,7 @@ describe('SiTargetMultiplexer', () => {
 
     test('cannot send to unopened SiDevice', async () => {
         const siDevice = new SiDevice('cannotSendToUnopened', {
-            driver: {
-
-            },
+            driver: mockDriver({}),
         });
         const muxer = SiTargetMultiplexer.fromSiDevice(siDevice);
         expect(muxer instanceof SiTargetMultiplexer).toBe(true);
@@ -398,9 +404,9 @@ describe('SiTargetMultiplexer', () => {
 
     test('handles sending as soon as device is openend', async () => {
         const siDevice = new SiDevice('handlesSendingAsSoonAsOpened', {
-            driver: {
+            driver: mockDriver({
                 send: () => Promise.resolve(),
-            },
+            }),
         });
         const muxer = SiTargetMultiplexer.fromSiDevice(siDevice);
         expect(muxer instanceof SiTargetMultiplexer).toBe(true);
@@ -430,9 +436,9 @@ describe('SiTargetMultiplexer', () => {
 
     test('sends all as soon as device is openend', async () => {
         const siDevice = new SiDevice('sendsAllAsSoonAsOpened', {
-            driver: {
+            driver: mockDriver({
                 send: () => Promise.resolve(),
-            },
+            }),
         });
         const muxer = SiTargetMultiplexer.fromSiDevice(siDevice);
         expect(muxer instanceof SiTargetMultiplexer).toBe(true);
@@ -472,9 +478,9 @@ describe('SiTargetMultiplexer', () => {
 
     test('aborts sending as soon as device is closed', async () => {
         const siDevice = new SiDevice('abortsAllAsSoonAsClosed', {
-            driver: {
+            driver: mockDriver({
                 send: () => Promise.resolve(),
-            },
+            }),
         });
         siDevice.setState(SiDeviceState.Opened);
         const muxer = SiTargetMultiplexer.fromSiDevice(siDevice);
@@ -514,9 +520,9 @@ describe('SiTargetMultiplexer', () => {
 
     test('handles device failing to send', async () => {
         const siDevice = new SiDevice('handlesDeviceFailingToSend', {
-            driver: {
+            driver: mockDriver({
                 send: () => Promise.reject(new Error('test')),
-            },
+            }),
         });
         siDevice.setState(SiDeviceState.Opened);
         const muxer = SiTargetMultiplexer.fromSiDevice(siDevice);
@@ -540,7 +546,7 @@ describe('SiTargetMultiplexer', () => {
     });
 
     test('cannot send to unknown target', async () => {
-        const siDevice = new SiDevice('undefinedTarget', {driver: {}});
+        const siDevice = new SiDevice('undefinedTarget', {driver: mockDriver({})});
         siDevice.setState(SiDeviceState.Opened);
         const muxer = SiTargetMultiplexer.fromSiDevice(siDevice);
         muxer.latestTarget = SiTargetMultiplexerTarget.Direct;
@@ -560,7 +566,7 @@ describe('SiTargetMultiplexer', () => {
         expect(timeState).toEqual({setToUnknownFailed: true});
     });
     test('cannot send to switching target', async () => {
-        const siDevice = new SiDevice('switchingTarget', {driver: {}});
+        const siDevice = new SiDevice('switchingTarget', {driver: mockDriver({})});
         siDevice.setState(SiDeviceState.Opened);
         const muxer = SiTargetMultiplexer.fromSiDevice(siDevice);
         muxer.latestTarget = SiTargetMultiplexerTarget.Direct;
@@ -580,9 +586,11 @@ describe('SiTargetMultiplexer', () => {
         expect(timeState).toEqual({setToSwitchingFailed: true});
     });
     test('handles error switching target', async () => {
-        const siDevice = new SiDevice('errorSwitchingTarget', {driver: {
-            send: () => Promise.reject(new Error('test')),
-        }});
+        const siDevice = new SiDevice('errorSwitchingTarget', {
+            driver: mockDriver({
+                send: () => Promise.reject(new Error('test')),
+            }),
+        });
         siDevice.setState(SiDeviceState.Opened);
         const muxer = SiTargetMultiplexer.fromSiDevice(siDevice);
         muxer.latestTarget = SiTargetMultiplexerTarget.Direct;
@@ -602,20 +610,22 @@ describe('SiTargetMultiplexer', () => {
         expect(timeState).toEqual({setTargetFailed: true});
     });
     test('handles unclear target switch response', async () => {
-        const siDevice = new SiDevice('errorSwitchingTarget', {driver: {
-            send: () => {
-                setTimeout(() => {
-                    siDevice.dispatchEvent(
-                        'receive',
-                        new SiDeviceReceiveEvent(siDevice, siProtocol.render({
-                            command: proto.cmd.SET_MS,
-                            parameters: [SiTargetMultiplexerTarget.Direct],
-                        })),
-                    );
-                }, 0);
-                return Promise.resolve();
-            },
-        }});
+        const siDevice = new SiDevice('errorSwitchingTarget', {
+            driver: mockDriver({
+                send: () => {
+                    setTimeout(() => {
+                        siDevice.dispatchEvent(
+                            'receive',
+                            new SiDeviceReceiveEvent(siDevice, siProtocol.render({
+                                command: proto.cmd.SET_MS,
+                                parameters: [SiTargetMultiplexerTarget.Direct],
+                            })),
+                        );
+                    }, 0);
+                    return Promise.resolve();
+                },
+            }),
+        });
         siDevice.setState(SiDeviceState.Opened);
         const muxer = SiTargetMultiplexer.fromSiDevice(siDevice);
         muxer.latestTarget = SiTargetMultiplexerTarget.Direct;
@@ -635,9 +645,11 @@ describe('SiTargetMultiplexer', () => {
         expect(timeState).toEqual({setTargetFailed: true});
     });
     test('handles direct device-initiated command', async () => {
-        const siDevice = new SiDevice('errorSwitchingTarget', {driver: {
-            send: () => Promise.reject(new Error('test')),
-        }});
+        const siDevice = new SiDevice('errorSwitchingTarget', {
+            driver: mockDriver({
+                send: () => Promise.reject(new Error('test')),
+            }),
+        });
         siDevice.setState(SiDeviceState.Opened);
         const muxer = SiTargetMultiplexer.fromSiDevice(siDevice);
         const deviceInitiatedMessage = siProtocol.render({

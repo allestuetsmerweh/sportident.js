@@ -10,8 +10,8 @@ export interface NodeUsbDevice {
         bRequest: number,
         wValue: number,
         wIndex: number,
-        dataOrLength: any,
-        callback: (error?: Error, data?: any) => void,
+        dataOrLength: unknown,
+        callback: (error?: Error, data?: unknown) => void,
     ) => void;
 }
 
@@ -29,11 +29,11 @@ export interface NodeUsbDeviceInterface {
 }
 
 interface NodeUsbDeviceEndpoint {
-    transfer: (lengthOrData: number|any, callback: (error?: any, data?: any) => void) => void;
+    transfer: (lengthOrData: number|unknown, callback: (error?: unknown, data?: unknown) => void) => void;
 }
 
-export const promisify = <T>(fn: (check: (error?: Error, data?: T) => void) => void): Promise<T> => new Promise((resolve, reject) => {
-    const check = (error?: Error, data?: T) => {
+export const promisify = <ErrorType, DataType>(fn: (check: (error?: ErrorType, data?: DataType) => void) => void): Promise<DataType> => new Promise((resolve, reject) => {
+    const check = (error?: ErrorType, data?: DataType) => {
         if (error) {
             reject(error);
         } else if (data === undefined) {

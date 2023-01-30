@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import {proto} from '../../constants';
 import * as storage from '../../storage';
+import * as utils from '../../utils';
 import * as siProtocol from '../../siProtocol';
 import {BaseSiCard, IBaseSiCardStorageFields} from '../BaseSiCard';
 import {IPunch} from '../IRaceResultData';
@@ -11,19 +12,17 @@ const bytesPerPage = 128;
 
 const MAX_NUM_PUNCHES = 128;
 
-/* eslint-disable no-unused-vars,no-shadow */
-export enum ModernSiCardSeries {
-    SiCard8 = 0x02,
-    SiCard9 = 0x01,
-    SiCard10 = 0x0F,
-    PCard = 0x04,
-    TCard = 0x06,
+export const ModernSiCardSeries = {
+    SiCard8: 0x02,
+    SiCard9: 0x01,
+    SiCard10: 0x0F,
+    PCard: 0x04,
+    TCard: 0x06,
     // TODO: Find out these values
-    // SiCard11 = ?,
-    // SIAC = ?,
-    // FCard = ?,
-}
-/* eslint-enable no-unused-vars,no-shadow */
+    // SiCard11: ?,
+    // SIAC: ?,
+    // FCard: ?,
+};
 
 export interface PotentialModernSiCardPunch {
     code: number|undefined;
@@ -62,7 +61,7 @@ export const getCroppedString = (charCodes: (number|undefined)[]): string => {
 
 export const parseCardHolderString = (
     semicolonSeparatedString: string,
-): {[property: string]: any} => {
+): {[property: string]: unknown} => {
     const informationComponents = semicolonSeparatedString.split(';');
     return {
         firstName: informationComponents.length > 1 ? informationComponents[0] : undefined,
@@ -80,14 +79,14 @@ export const parseCardHolderString = (
     };
 };
 
-export const parseCardHolder = (maybeCharCodes: (number|undefined)[]): Record<string, string> => {
+export const parseCardHolder = (maybeCharCodes: (number|undefined)[]): {[property: string]: unknown} => {
     const semicolonSeparatedString = getCroppedString(maybeCharCodes);
     return parseCardHolderString(semicolonSeparatedString || '');
 };
 
 export interface IModernSiCardStorageFields extends IBaseSiCardStorageFields {
     uid: number;
-    cardSeries: ModernSiCardSeries;
+    cardSeries: keyof typeof ModernSiCardSeries;
 }
 
 export const modernSiCardStorageLocations: storage.ISiStorageLocations<IModernSiCardStorageFields> = {
@@ -139,7 +138,7 @@ export const modernSiCardStorageDefinition = storage.defineStorage(
 export class ModernSiCard extends BaseSiCard {
     static maxNumPunches = MAX_NUM_PUNCHES;
 
-    static parseModernSiCardDetectionMessage(message: siProtocol.SiMessage): {cardNumber: number, cardSeries: number}|undefined {
+    static parseModernSiCardDetectionMessage(message: siProtocol.SiMessage): {cardNumber: number, cardSeries: keyof typeof ModernSiCardSeries}|undefined {
         if (message.mode !== undefined) {
             return undefined;
         }
@@ -159,16 +158,17 @@ export class ModernSiCard extends BaseSiCard {
             throw new Error('card number cannot be undefined');
         }
         const cardSeries = message.parameters[2];
+        const lookup = utils.getLookup(ModernSiCardSeries);
         return {
             cardNumber: cardNumber,
-            cardSeries: cardSeries,
+            cardSeries: lookup[cardSeries] as keyof typeof ModernSiCardSeries,
         };
     }
 
     public storage: storage.ISiStorage<IModernSiCardStorageFields>;
 
     public punchCount?: number;
-    public cardSeries?: ModernSiCardSeries;
+    public cardSeries?: keyof typeof ModernSiCardSeries;
 
     constructor(cardNumber: number) {
         super(cardNumber);
@@ -199,15 +199,15 @@ export class ModernSiCard extends BaseSiCard {
                 .then(() => this.typeSpecificReadPunches())
                 .then(() => {
                     this.raceResult = {
-                        cardNumber: this.storage.get('cardNumber')!.value,
+                        cardNumber: this.storage.get('cardNumber')?.value || 0,
                         startTime: this.storage.get('startTime')?.value,
                         finishTime: this.storage.get('finishTime')?.value,
                         checkTime: this.storage.get('checkTime')?.value,
-                        punches: this.storage.get('punches')!.value,
-                        cardHolder: this.storage.get('cardHolder')!.value,
+                        punches: this.storage.get('punches')?.value,
+                        cardHolder: this.storage.get('cardHolder')?.value,
                     };
-                    this.punchCount = this.storage.get('punchCount')!.value;
-                    this.cardSeries = this.storage.get('cardSeries')!.value;
+                    this.punchCount = this.storage.get('punchCount')?.value;
+                    this.cardSeries = this.storage.get('cardSeries')?.value;
                     resolve();
                 })
                 .catch((exc: Error) => reject(exc));

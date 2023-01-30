@@ -2,10 +2,10 @@ import {proto} from '../constants';
 import * as utils from '../utils';
 import * as siProtocol from '../siProtocol';
 import {ISiStation} from './ISiStation';
-import {ISiTargetMultiplexer, SendTaskState, SiTargetMultiplexerDirectMessageEvent, SiTargetMultiplexerEvents, SiTargetMultiplexerMessageEvent, SiTargetMultiplexerRemoteMessageEvent, SiTargetMultiplexerTarget} from './ISiTargetMultiplexer';
-import {ISiDevice, SiDeviceState} from '../SiDevice/ISiDevice';
-
-type _Test = {latestTarget: SiTargetMultiplexerTarget, sendQueue: SendTask[]};
+import {_ISiTargetMultiplexerTestData, ISiTargetMultiplexer, SiTargetMultiplexerDirectMessageEvent, SiTargetMultiplexerEvents, SiTargetMultiplexerMessageEvent, SiTargetMultiplexerRemoteMessageEvent, SiTargetMultiplexerTarget} from './ISiTargetMultiplexer';
+import {ISiDevice, ISiDeviceDriverData, SiDeviceState} from '../SiDevice/ISiDevice';
+import {SiSendTaskState} from './ISiSendTask';
+import {SiSendTask} from './SiSendTask';
 
 /** Commands that can only be sent from a direct station. */
 export const DIRECT_DEVICE_INITIATED_COMMANDS: {[command: number]: boolean} = {
@@ -22,56 +22,8 @@ const DEVICE_INITIATED_COMMANDS: {[command: number]: boolean} = {
     [proto.cmd.SRR_PING]: true,
 };
 
-class SendTask {
-    public state: SendTaskState = SendTaskState.Queued;
-    public responses: number[][] = [];
-    private timeoutTimer: any;
-
-    constructor(
-                public message: siProtocol.SiMessage,
-                public numResponses: number,
-                public timeoutInMiliseconds: number,
-                public onResolve: (task: SendTask) => void,
-                public onReject: (task: SendTask) => void,
-    ) {
-        this.timeoutTimer = setTimeout(() => {
-            const shouldAbortInState: {[state in SendTaskState]: boolean} = {
-                [SendTaskState.Queued]: true,
-                [SendTaskState.Sending]: true,
-                [SendTaskState.Sent]: true,
-                [SendTaskState.Succeeded]: false,
-                [SendTaskState.Failed]: false,
-            };
-            if (!shouldAbortInState[this.state]) {
-                return;
-            }
-            console.debug(`Timeout: ${siProtocol.prettyMessage(this.message)} (expected ${this.numResponses} responses)`, this.responses);
-            this.fail();
-        }, timeoutInMiliseconds);
-    }
-
-    addResponse(response: number[]) {
-        this.responses.push(response);
-        if (this.responses.length === this.numResponses) {
-            this.succeed();
-        }
-    }
-
-    succeed() {
-        this.state = SendTaskState.Succeeded;
-        clearTimeout(this.timeoutTimer);
-        this.onResolve(this);
-    }
-
-    fail() {
-        this.state = SendTaskState.Failed;
-        clearTimeout(this.timeoutTimer);
-        this.onReject(this);
-    }
-}
-
 export class SiTargetMultiplexer implements ISiTargetMultiplexer {
-    static fromSiDevice(siDevice: ISiDevice<any>): SiTargetMultiplexer {
+    static fromSiDevice(siDevice: ISiDevice<ISiDeviceDriverData<unknown>>): ISiTargetMultiplexer {
         if (siDevice.siTargetMultiplexer) {
             return siDevice.siTargetMultiplexer;
         }
@@ -92,16 +44,16 @@ export class SiTargetMultiplexer implements ISiTargetMultiplexer {
     // the target of the latest command scheduled
     public latestTarget: SiTargetMultiplexerTarget = SiTargetMultiplexerTarget.Unknown;
     private receiveBuffer: number[] = [];
-    private sendQueue: SendTask[] = [];
+    private sendQueue: SiSendTask[] = [];
 
 
     // eslint-disable-next-line no-useless-constructor
     constructor(
-                public siDevice: ISiDevice<any>,
+                public siDevice: ISiDevice<ISiDeviceDriverData<unknown>>,
     // eslint-disable-next-line no-empty-function
     ) {}
 
-    get _test(): _Test {
+    get _test(): _ISiTargetMultiplexerTestData {
         return {
             latestTarget: this.latestTarget,
             sendQueue: this.sendQueue,
@@ -168,12 +120,12 @@ export class SiTargetMultiplexer implements ISiTargetMultiplexer {
         if (this.sendQueue.length === 0) {
             return;
         }
-        const shouldAcceptResponseInState: {[state in SendTaskState]: boolean} = {
-            [SendTaskState.Queued]: false,
-            [SendTaskState.Sending]: true, // This is mostly for testing purposes
-            [SendTaskState.Sent]: true,
-            [SendTaskState.Succeeded]: false,
-            [SendTaskState.Failed]: false,
+        const shouldAcceptResponseInState: {[state in SiSendTaskState]: boolean} = {
+            [SiSendTaskState.Queued]: false,
+            [SiSendTaskState.Sending]: true, // This is mostly for testing purposes
+            [SiSendTaskState.Sent]: true,
+            [SiSendTaskState.Succeeded]: false,
+            [SiSendTaskState.Failed]: false,
         };
         if (!shouldAcceptResponseInState[this.sendQueue[0].state]) {
             return;
@@ -248,7 +200,7 @@ export class SiTargetMultiplexer implements ISiTargetMultiplexer {
         timeoutInMiliseconds = 10000,
     ): Promise<number[][]> {
         return new Promise((resolve, reject) => {
-            const sendTask = new SendTask(
+            const sendTask = new SiSendTask(
                 message,
                 numResponses,
                 timeoutInMiliseconds,
@@ -277,22 +229,22 @@ export class SiTargetMultiplexer implements ISiTargetMultiplexer {
     _processSendQueue(): void {
         if (
             this.sendQueue.length === 0
-            || this.sendQueue[0].state === SendTaskState.Sending
-            || this.sendQueue[0].state === SendTaskState.Sent
+            || this.sendQueue[0].state === SiSendTaskState.Sending
+            || this.sendQueue[0].state === SiSendTaskState.Sent
             || this.siDevice.state !== SiDeviceState.Opened
         ) {
             return;
         }
 
         const sendTask = this.sendQueue[0];
-        sendTask.state = SendTaskState.Sending;
+        sendTask.state = SiSendTaskState.Sending;
         const uint8Data = [
             proto.WAKEUP,
             ...siProtocol.render(sendTask.message),
         ];
         this.siDevice.send(uint8Data)
             .then(() => {
-                sendTask.state = SendTaskState.Sent;
+                sendTask.state = SiSendTaskState.Sent;
                 if (sendTask.numResponses <= 0) {
                     sendTask.succeed();
                 }

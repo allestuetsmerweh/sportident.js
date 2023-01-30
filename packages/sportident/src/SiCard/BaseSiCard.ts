@@ -6,7 +6,7 @@ import * as storage from '../storage';
 import {IPunch, IRaceResultData} from './IRaceResultData';
 import {makeStartZeroTime, monotonizeRaceResult, prettyRaceResult} from './raceResultTools';
 
-type SiCardType<T extends BaseSiCard> = {
+export type SiCardType<T extends BaseSiCard> = {
     new(cardNumber: number): T,
     typeSpecificInstanceFromMessage: (message: siProtocol.SiMessage) => T|undefined,
 };
@@ -28,7 +28,7 @@ export interface IBaseSiCardStorageFields {
     finishTime: siProtocol.SiTimestamp;
     punchCount: number;
     punches: IPunch[],
-    cardHolder: {[key: string]: any},
+    cardHolder: {[key: string]: unknown},
 }
 
 export abstract class BaseSiCard {
@@ -79,7 +79,7 @@ export abstract class BaseSiCard {
 
     public mainStation?: ISiMainStation|undefined;
     public raceResult: IRaceResultData&{cardNumber: number};
-    public storage: storage.ISiStorage<any> = {} as storage.ISiStorage<unknown>;
+    public storage: storage.ISiStorage<unknown> = {} as storage.ISiStorage<unknown>;
 
     constructor(cardNumber: number) {
         this.raceResult = {cardNumber: cardNumber};

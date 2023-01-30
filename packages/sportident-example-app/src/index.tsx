@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {getWebUsbSiDeviceDriver} from 'sportident-webusb/lib';
+import * as nav from 'sportident-webusb/lib/INavigatorWebUsb';
 import {SiMainStation} from 'sportident/lib/SiStation';
 
 import './styles.css';
@@ -8,7 +9,7 @@ import './styles.css';
 
 const ExampleApp = () => {
     const webUsbSiDeviceDriver = React.useMemo(
-        () => getWebUsbSiDeviceDriver((window.navigator as any).usb),
+        () => getWebUsbSiDeviceDriver(window.navigator.usb as unknown as nav.WebUsb),
         [],
     );
     const [cardContent, setCardContent] = React.useState(['No card']);

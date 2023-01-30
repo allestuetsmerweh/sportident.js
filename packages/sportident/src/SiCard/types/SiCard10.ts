@@ -1,5 +1,5 @@
 import * as siProtocol from '../../siProtocol';
-import {ModernSiCard, ModernSiCardSeries} from './ModernSiCard';
+import {ModernSiCard} from './ModernSiCard';
 import {BaseSiCard} from '../BaseSiCard';
 
 export class SiCard10 extends ModernSiCard {
@@ -8,7 +8,7 @@ export class SiCard10 extends ModernSiCard {
         if (info === undefined) {
             return undefined;
         }
-        if (info.cardSeries !== ModernSiCardSeries.SiCard10) {
+        if (info.cardSeries !== 'SiCard10') {
             return undefined;
         }
         return new this(info.cardNumber);

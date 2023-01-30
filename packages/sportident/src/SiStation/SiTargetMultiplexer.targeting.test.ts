@@ -3,18 +3,23 @@ import {proto} from '../constants';
 import * as siProtocol from '../siProtocol';
 import * as testUtils from '../testUtils';
 import {SiDevice} from '../SiDevice/SiDevice';
-import {SiDeviceReceiveEvent, SiDeviceState} from '../SiDevice/ISiDevice';
+import {SiDeviceState, SiDeviceReceiveEvent, ISiDeviceDriverData} from '../SiDevice/ISiDevice';
+import {ISiDeviceDriver} from '../SiDevice/ISiDeviceDriver';
 import {SiTargetMultiplexerTarget} from './ISiTargetMultiplexer';
 import {SiTargetMultiplexer} from './SiTargetMultiplexer';
 
 testUtils.useFakeTimers();
 
+function mockDriver(driver: Partial<ISiDeviceDriver<ISiDeviceDriverData<unknown>>>) {
+    return driver as unknown as ISiDeviceDriver<ISiDeviceDriverData<unknown>>;
+}
+
 describe('SiTargetMultiplexer', () => {
     test('handles targeting', async () => {
         const siDevice = new SiDevice('handlesTargeting0', {
-            driver: {
+            driver: mockDriver({
                 send: () => Promise.resolve(),
-            },
+            }),
         });
         siDevice.setState(SiDeviceState.Opened);
         const muxer = SiTargetMultiplexer.fromSiDevice(siDevice);

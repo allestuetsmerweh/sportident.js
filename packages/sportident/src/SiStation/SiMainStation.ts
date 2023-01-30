@@ -2,8 +2,8 @@ import * as utils from '../utils';
 import * as siProtocol from '../siProtocol';
 import {proto} from '../constants';
 import {BaseSiCard} from '../SiCard';
-import {ISiDevice} from '../SiDevice/ISiDevice';
-import {ISiStation, SiStationMode} from './ISiStation';
+import {ISiDevice, ISiDeviceDriverData} from '../SiDevice/ISiDevice';
+import {ISiStation} from './ISiStation';
 import {ISiCard, SiMainStationEvents, SiMainStationSiCardInsertedEvent, SiMainStationSiCardObservedEvent, SiMainStationSiCardRemovedEvent} from './ISiMainStation';
 import {ISiTargetMultiplexer, SiTargetMultiplexerMessageEvent, SiTargetMultiplexerTarget} from './ISiTargetMultiplexer';
 import {BaseSiStation, ISiStationStorageFields} from './BaseSiStation';
@@ -18,7 +18,7 @@ type CleanUpFunction = () => Promise<void>;
 export class SiMainStation
     extends BaseSiStation<SiTargetMultiplexerTarget.Direct>
     implements ISiStation<SiTargetMultiplexerTarget.Direct> {
-    static fromSiDevice(siDevice: ISiDevice<any>): SiMainStation {
+    static fromSiDevice(siDevice: ISiDevice<ISiDeviceDriverData<unknown>>): SiMainStation {
         const multiplexer = SiTargetMultiplexer.fromSiDevice(siDevice);
         return this.fromSiTargetMultiplexer(multiplexer);
     }
@@ -56,7 +56,7 @@ export class SiMainStation
     ): Promise<CleanUpFunction> {
         const siStationSetup: SiStationSetup = {
             code: 10,
-            mode: SiStationMode.Readout,
+            mode: 'Readout',
             autoSend: false,
             handshake: true,
             beeps: true,

@@ -29,11 +29,11 @@ const typeIsVendor = 0x40;
 const recipientIsInterface = 0x01;
 const vendorInterfaceOut = directionIsOut | typeIsVendor | recipientIsInterface;
 
-const getIdent = (device: iNodeUsb.NodeUsbDevice) => `${device.deviceDescriptor.iSerialNumber}`;
+const getIdent = (device: usb.Device) => `${device.deviceDescriptor.iSerialNumber}`;
 
 export interface NodeUsbSiDeviceDriverData extends ISiDeviceDriverData<NodeUsbSiDeviceDriver> {
     driver: NodeUsbSiDeviceDriver;
-    device: iNodeUsb.NodeUsbDevice;
+    device: usb.Device;
     interface?: iNodeUsb.NodeUsbDeviceInterface;
 }
 
@@ -69,7 +69,7 @@ class NodeUsbSiDeviceDriver implements
 
     // eslint-disable-next-line no-useless-constructor
     constructor(
-                private nodeUsb: any,
+                private nodeUsb: typeof usb,
     // eslint-disable-next-line no-empty-function
     ) {}
 
@@ -80,7 +80,7 @@ class NodeUsbSiDeviceDriver implements
                 siDeviceFilters[0].productId,
             ),
         )
-            .then((nodeUsbDevice: iNodeUsb.NodeUsbDevice|undefined) => {
+            .then((nodeUsbDevice) => {
                 if (!nodeUsbDevice) {
                     throw new Error('no device found');
                 }
@@ -88,9 +88,7 @@ class NodeUsbSiDeviceDriver implements
             });
     }
 
-    getSiDevice(
-        nodeUsbDevice: iNodeUsb.NodeUsbDevice,
-    ): NodeUsbSiDevice {
+    getSiDevice(nodeUsbDevice: usb.Device): NodeUsbSiDevice {
         const ident = getIdent(nodeUsbDevice);
         if (this.siDeviceByIdent[ident] !== undefined) {
             return this.siDeviceByIdent[ident];
@@ -154,9 +152,7 @@ class NodeUsbSiDeviceDriver implements
     //     });
     // }
 
-    autodetectSiDevice(
-        nodeUsbDevice: iNodeUsb.NodeUsbDevice,
-    ): Promise<NodeUsbSiDevice> {
+    autodetectSiDevice(nodeUsbDevice: usb.Device): Promise<NodeUsbSiDevice> {
         if (!matchesSiDeviceFilters(
             nodeUsbDevice.deviceDescriptor.idVendor,
             nodeUsbDevice.deviceDescriptor.idProduct,
@@ -200,7 +196,7 @@ class NodeUsbSiDeviceDriver implements
     //     };
     // }
     //
-    // stopAutoDetection(): Promise<any> {
+    // stopAutoDetection(): Promise<unknown> {
     //     this.deregisterAutodetectionCallbacks();
     //     return this.closeAutoOpened();
     // }
@@ -214,7 +210,7 @@ class NodeUsbSiDeviceDriver implements
     //     this.autodetectionCallbacks = undefined;
     // }
     //
-    // closeAutoOpened(): Promise<any> {
+    // closeAutoOpened(): Promise<unknown> {
     //     return Promise.all(
     //         Object.values(this.autodetectedSiDevices).map(
     //             (autoOpenedDevice) => autoOpenedDevice.close(),
@@ -225,9 +221,8 @@ class NodeUsbSiDeviceDriver implements
     //         });
     // }
 
-    open(
-        device: INodeUsbSiDevice,
-    ): Promise<any> {
+    open(device: INodeUsbSiDevice): Promise<unknown> {
+        let usbInterface: usb.Interface|undefined;
         return Promise.resolve(device.data.device.open())
             .then(() => (
                 iNodeUsb.promisify((callback) => (
@@ -237,13 +232,13 @@ class NodeUsbSiDeviceDriver implements
             .then(() => (
                 device.data.device.interface(siInterface)
             ))
-            .then((usbInterface: iNodeUsb.NodeUsbDeviceInterface) => {
-                device.data.interface = usbInterface;
-                return device.data.interface.claim();
+            .then((usbInterfaceArg) => {
+                usbInterface = usbInterfaceArg;
+                return usbInterface.claim();
             })
             .then(() => (
                 iNodeUsb.promisify((callback) => (
-                    device.data.interface!.setAltSetting(siAlternate, callback)
+                    usbInterface!.setAltSetting(siAlternate, callback)
                 ))
             ))
             .then(() => (
@@ -275,7 +270,7 @@ class NodeUsbSiDeviceDriver implements
 
     close(
         device: INodeUsbSiDevice,
-    ): Promise<any> {
+    ): Promise<unknown> {
         return iNodeUsb.promisify((callback) => (
             device.data.device.controlTransfer(
                 vendorInterfaceOut,
@@ -331,7 +326,7 @@ class NodeUsbSiDeviceDriver implements
     send(
         device: INodeUsbSiDevice,
         buffer: number[],
-    ): Promise<any> {
+    ): Promise<unknown> {
         return iNodeUsb.promisify(
             (callback) => device.data.interface!
                 .endpoint(siEndpointOut)

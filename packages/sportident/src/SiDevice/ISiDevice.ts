@@ -1,3 +1,4 @@
+import type {ISiTargetMultiplexer} from '../SiStation/ISiTargetMultiplexer';
 import * as utils from '../utils';
 
 /* eslint-disable no-unused-vars,no-shadow */
@@ -17,7 +18,7 @@ export class DeviceClosedError extends utils.SiError {}
 
 export class SiDeviceStateChangeEvent extends utils.Event<'stateChange'> {
     constructor(
-                public siDevice: ISiDevice<ISiDeviceDriverData<any>>,
+                public siDevice: ISiDevice<ISiDeviceDriverData<unknown>>,
                 public state: SiDeviceState,
     ) {
         super();
@@ -25,7 +26,7 @@ export class SiDeviceStateChangeEvent extends utils.Event<'stateChange'> {
 }
 export class SiDeviceReceiveEvent extends utils.Event<'receive'> {
     constructor(
-                public siDevice: ISiDevice<ISiDeviceDriverData<any>>,
+                public siDevice: ISiDevice<ISiDeviceDriverData<unknown>>,
                 public uint8Data: number[],
     ) {
         super();
@@ -37,7 +38,7 @@ export type SiDeviceEvents = {
     'receive': SiDeviceReceiveEvent,
 };
 
-export interface ISiDevice<T extends ISiDeviceDriverData<any>>
+export interface ISiDevice<T extends ISiDeviceDriverData<unknown>>
         extends utils.IEventTarget<SiDeviceEvents>
 {
     name: string;
@@ -45,11 +46,11 @@ export interface ISiDevice<T extends ISiDeviceDriverData<any>>
     state: SiDeviceState;
     setState: (newState: SiDeviceState) => void;
     data: T;
-    siTargetMultiplexer?: any;
+    siTargetMultiplexer?: ISiTargetMultiplexer;
     open: () => Promise<ISiDevice<T>>;
     close: () => Promise<ISiDevice<T>>;
     receiveLoop: () => void;
-    shouldStopReceivingBecauseOfError: (error: any) => boolean;
+    shouldStopReceivingBecauseOfError: (error: unknown) => boolean;
     receive: () => Promise<number[]>;
-    send: (buffer: number[]) => Promise<void>;
+    send: (buffer: number[]) => Promise<unknown>;
 }

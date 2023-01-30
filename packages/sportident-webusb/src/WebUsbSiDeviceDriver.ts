@@ -178,7 +178,7 @@ class WebUsbSiDeviceDriver implements
         };
     }
 
-    stopAutoDetection(): Promise<any> {
+    stopAutoDetection(): Promise<unknown> {
         this.deregisterAutodetectionCallbacks();
         return this.closeAutoOpened();
     }
@@ -192,7 +192,7 @@ class WebUsbSiDeviceDriver implements
         this.autodetectionCallbacks = undefined;
     }
 
-    closeAutoOpened(): Promise<any> {
+    closeAutoOpened(): Promise<unknown> {
         return Promise.all(
             Object.values(this.autodetectedSiDevices).map(
                 (autoOpenedDevice) => autoOpenedDevice.close(),
@@ -250,7 +250,7 @@ class WebUsbSiDeviceDriver implements
 
     close(
         device: IWebUsbSiDevice,
-    ): Promise<any> {
+    ): Promise<unknown> {
         console.debug('Disabling Serial...');
         const navigatorDevice = device.data.device;
         return navigatorDevice.controlTransferOut({
@@ -293,7 +293,7 @@ class WebUsbSiDeviceDriver implements
     send(
         device: IWebUsbSiDevice,
         uint8Data: number[],
-    ): Promise<any> {
+    ): Promise<unknown> {
         const navigatorDevice = device.data.device;
         const buffer = new Uint8Array(uint8Data);
         return navigatorDevice.transferOut(siEndpoint, buffer)

@@ -2,9 +2,13 @@ import * as utils from '../utils';
 import * as siProtocol from '../siProtocol';
 import {ISiDevice} from '../SiDevice/ISiDevice';
 import {ISiStation} from './ISiStation';
+import {SiSendTask} from './SiSendTask';
 
 export interface ISiTargetMultiplexer extends utils.IEventTarget<SiTargetMultiplexerEvents> {
+    _test: _ISiTargetMultiplexerTestData;
     stations: {[Target in SiTargetMultiplexerTarget]?: ISiStation<Target>};
+    target: SiTargetMultiplexerTarget;
+    latestTarget: SiTargetMultiplexerTarget;
     siDevice: ISiDevice<any>;
     sendMessage: (
         target: SiTargetMultiplexerTarget,
@@ -12,6 +16,16 @@ export interface ISiTargetMultiplexer extends utils.IEventTarget<SiTargetMultipl
         numResponses?: number,
         timeoutInMiliseconds?: number,
     ) => Promise<number[][]>;
+    sendMessageToLatestTarget: (
+        message: siProtocol.SiMessage,
+        numResponses: number|undefined,
+        timeoutInMiliseconds: number|undefined,
+    ) => Promise<number[][]>;
+}
+
+export interface _ISiTargetMultiplexerTestData {
+    latestTarget: SiTargetMultiplexerTarget;
+    sendQueue: SiSendTask[];
 }
 
 /* eslint-disable no-unused-vars,no-shadow */
@@ -20,16 +34,6 @@ export enum SiTargetMultiplexerTarget {
     Switching = 1,
     Direct = 2,
     Remote = 3,
-}
-/* eslint-enable no-unused-vars,no-shadow */
-
-/* eslint-disable no-unused-vars,no-shadow */
-export enum SendTaskState {
-    Queued = 0,
-    Sending = 1,
-    Sent = 2,
-    Succeeded = 3,
-    Failed = 4,
 }
 /* eslint-enable no-unused-vars,no-shadow */
 
