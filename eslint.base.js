@@ -1,3 +1,5 @@
+/* eslint-env es6 */
+
 const compatibleRules = {
     'indent': ['warn', 4, { 'SwitchCase': 1 }],
     'linebreak-style': ['error', 'unix'],

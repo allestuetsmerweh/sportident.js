@@ -14,6 +14,9 @@
     "packages/sportident-testbench-shell",
     "packages/sportident-webusb"
   ],
+  "config": {
+    "pwd": "${PWD}"
+  },
   "scripts": {
     "build": "tsc -b --verbose && lerna run build",
     "build-docs": "sh build-docs.sh",
@@ -21,7 +24,7 @@
     "lerna": "lerna",
     "lint": "lerna run eslint",
     "publish": "tsc -b --verbose && lerna publish",
-    "test": "jest",
+    "test": "jest; echo \"\n\n  Coverage: file://${PWD}/coverage/lcov-report/index.html\n\n\"",
     "test:ci": "jest --runInBand",
     "testbench-client": "cd packages/sportident-testbench-client; npm run testbench-client",
     "testbench-node": "cd packages/sportident-testbench-node; npm run testbench-node",

@@ -1,5 +1,6 @@
 /* eslint-env node */
 
-const eslintTools = require('../../eslint');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const eslintTools = require('../../eslint.base');
 
 module.exports = eslintTools.frontendConfig;

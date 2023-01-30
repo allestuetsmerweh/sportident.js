@@ -1,4 +1,4 @@
-/* eslint-env node */
+import type {Config} from 'jest';
 
 const totalCoverage = {
     branches: 100,
@@ -7,14 +7,14 @@ const totalCoverage = {
     statements: 100,
 };
 
-const percentCoverage = (percent) => ({
+const percentCoverage = (percent: number) => ({
     branches: percent,
     functions: percent,
     lines: percent,
     statements: percent,
 })
 
-const jestConfig = {
+const jestConfig: Config = {
     transform: {
         '^.+\\.tsx?$': 'ts-jest',
     },
@@ -28,6 +28,7 @@ const jestConfig = {
     coveragePathIgnorePatterns: ['node_modules/', 'lib/', '__snapshots__/'],
     maxConcurrency: 1,
     coverageThreshold: {
+        global: percentCoverage(19),
         './packages/sportident/src/': {
             branches: 93,
             functions: 89,
@@ -50,4 +51,4 @@ const jestConfig = {
         './packages/sportident/src/testUtils.ts': totalCoverage,
     },
 };
-module.exports = jestConfig;
+export default jestConfig;
