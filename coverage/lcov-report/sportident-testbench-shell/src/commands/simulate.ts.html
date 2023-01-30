@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">5.12% </span>
+                <span class="strong">4.93% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>4/78</span>
+                <span class='fraction'>4/81</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/11</span>
+                <span class='fraction'>0/15</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">5.19% </span>
+                <span class="strong">5% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>4/77</span>
+                <span class='fraction'>4/80</span>
             </div>
         
             
@@ -188,7 +188,19 @@
 <a name='L123'></a><a href='#L123'>123</a>
 <a name='L124'></a><a href='#L124'>124</a>
 <a name='L125'></a><a href='#L125'>125</a>
-<a name='L126'></a><a href='#L126'>126</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L126'></a><a href='#L126'>126</a>
+<a name='L127'></a><a href='#L127'>127</a>
+<a name='L128'></a><a href='#L128'>128</a>
+<a name='L129'></a><a href='#L129'>129</a>
+<a name='L130'></a><a href='#L130'>130</a>
+<a name='L131'></a><a href='#L131'>131</a>
+<a name='L132'></a><a href='#L132'>132</a>
+<a name='L133'></a><a href='#L133'>133</a>
+<a name='L134'></a><a href='#L134'>134</a>
+<a name='L135'></a><a href='#L135'>135</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -233,16 +245,22 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -315,10 +333,13 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import si from 'sportident/lib';
 import * as siProtocol from 'sportident/lib/siProtocol';
+import {FakeSiMainStationMessageEvent} from 'sportident/lib/fakes/IFakeSiMainStation';
+import * as utils from 'sportident/lib/utils';
 import {ShellCommandContext} from '../Shell';
+import {SiExternalApplicationReceiveEvent} from '../ISiExternalApplication';
 import {BaseCommand, ArgType} from './BaseCommand';
 &nbsp;
-const isSubclassOf = <span class="fstat-no" title="function not covered" >(s</span>ubclass: any, superclass: any) =&gt; <span class="cstat-no" title="statement not covered" >subclass.prototype instanceof superclass;</span>
+const isSubclassOf = <span class="fstat-no" title="function not covered" >(s</span>ubclass: unknown, superclass: unknown) =&gt; <span class="cstat-no" title="statement not covered" >typeof subclass === 'function' &amp;&amp; typeof superclass === 'function' &amp;&amp; subclass.prototype instanceof superclass;</span>
 &nbsp;
 export class SimulateCommand extends BaseCommand {
 <span class="fstat-no" title="function not covered" >    getArgTypes(</span>): ArgType[] {
@@ -355,29 +376,35 @@ export class SimulateCommand extends BaseCommand {
 &nbsp;
         const url = <span class="cstat-no" title="statement not covered" >context.args[2];</span>
         const SiExternalApplication = <span class="cstat-no" title="statement not covered" >context.env.externalApplication;</span>
-<span class="cstat-no" title="statement not covered" >        return new Promise(<span class="fstat-no" title="function not covered" >(r</span>esolve, _reject) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        return new Promise(<span class="fstat-no" title="function not covered" >(r</span>esolve, reject) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >            <span class="missing-if-branch" title="if path not taken" >I</span>if (!SiExternalApplication) {</span>
+<span class="cstat-no" title="statement not covered" >                reject(new Error('No SiExternalApplication.'));</span>
+<span class="cstat-no" title="statement not covered" >                return;</span>
+            }
             const externalApplication = <span class="cstat-no" title="statement not covered" >new SiExternalApplication(url);</span>
             const fakeSiMainStation = <span class="cstat-no" title="statement not covered" >new si.FakeSiMainStation(testCase.storageData);</span>
 &nbsp;
             let applicationToSimulatorBuffer: number[] = <span class="cstat-no" title="statement not covered" >[];</span>
 &nbsp;
-            const onSimulatorMessage = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; {</span>
-                const message = <span class="cstat-no" title="statement not covered" >e.message;</span>
-<span class="cstat-no" title="statement not covered" >                console.log('FakeSiMainStation:', message);</span>
-                const uint8Data = <span class="cstat-no" title="statement not covered" >si.protocol.render(message);</span>
-<span class="cstat-no" title="statement not covered" >                externalApplication.send(uint8Data);</span>
-            };
+            const onSimulatorMessage: utils.EventCallback&lt;FakeSiMainStationMessageEvent&gt; =
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >                (e</span>) =&gt; {</span>
+                    const message = <span class="cstat-no" title="statement not covered" >e.message;</span>
+<span class="cstat-no" title="statement not covered" >                    console.log('FakeSiMainStation:', message);</span>
+                    const uint8Data = <span class="cstat-no" title="statement not covered" >si.protocol.render(message);</span>
+<span class="cstat-no" title="statement not covered" >                    externalApplication.send(uint8Data);</span>
+                };
 <span class="cstat-no" title="statement not covered" >            fakeSiMainStation.addEventListener('message', onSimulatorMessage);</span>
-            const onApplicationReceive = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; {</span>
-                const uint8Data = <span class="cstat-no" title="statement not covered" >e.uint8Data;</span>
-<span class="cstat-no" title="statement not covered" >                applicationToSimulatorBuffer.push(...uint8Data);</span>
-                const {messages, remainder} = <span class="cstat-no" title="statement not covered" >si.protocol.parseAll(applicationToSimulatorBuffer);</span>
-<span class="cstat-no" title="statement not covered" >                messages.forEach(<span class="fstat-no" title="function not covered" >(m</span>essage: siProtocol.SiMessage) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >                    console.log('SiExternalApplication:', si.protocol.prettyMessage(message));</span>
-<span class="cstat-no" title="statement not covered" >                    fakeSiMainStation.sendMessage(message);</span>
-                });
-<span class="cstat-no" title="statement not covered" >                applicationToSimulatorBuffer = remainder;</span>
-            };
+            const onApplicationReceive: utils.EventCallback&lt;SiExternalApplicationReceiveEvent&gt; =
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >                (e</span>) =&gt; {</span>
+                    const uint8Data = <span class="cstat-no" title="statement not covered" >e.uint8Data;</span>
+<span class="cstat-no" title="statement not covered" >                    applicationToSimulatorBuffer.push(...uint8Data);</span>
+                    const {messages, remainder} = <span class="cstat-no" title="statement not covered" >si.protocol.parseAll(applicationToSimulatorBuffer);</span>
+<span class="cstat-no" title="statement not covered" >                    messages.forEach(<span class="fstat-no" title="function not covered" >(m</span>essage: siProtocol.SiMessage) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >                        console.log('SiExternalApplication:', si.protocol.prettyMessage(message));</span>
+<span class="cstat-no" title="statement not covered" >                        fakeSiMainStation.sendMessage(message);</span>
+                    });
+<span class="cstat-no" title="statement not covered" >                    applicationToSimulatorBuffer = remainder;</span>
+                };
 <span class="cstat-no" title="statement not covered" >            externalApplication.addEventListener('receive', onApplicationReceive);</span>
 &nbsp;
 &nbsp;
@@ -445,7 +472,7 @@ export class SimulateCommand extends BaseCommand {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-01-30T17:54:37.493Z
+                at 2023-01-30T20:03:57.324Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

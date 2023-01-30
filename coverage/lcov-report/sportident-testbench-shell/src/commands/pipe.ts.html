@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">7.89% </span>
+                <span class="strong">6.81% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>3/38</span>
+                <span class='fraction'>3/44</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/3</span>
+                <span class='fraction'>0/5</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">7.89% </span>
+                <span class="strong">6.81% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>3/38</span>
+                <span class='fraction'>3/44</span>
             </div>
         
             
@@ -128,7 +128,23 @@
 <a name='L63'></a><a href='#L63'>63</a>
 <a name='L64'></a><a href='#L64'>64</a>
 <a name='L65'></a><a href='#L65'>65</a>
-<a name='L66'></a><a href='#L66'>66</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L66'></a><a href='#L66'>66</a>
+<a name='L67'></a><a href='#L67'>67</a>
+<a name='L68'></a><a href='#L68'>68</a>
+<a name='L69'></a><a href='#L69'>69</a>
+<a name='L70'></a><a href='#L70'>70</a>
+<a name='L71'></a><a href='#L71'>71</a>
+<a name='L72'></a><a href='#L72'>72</a>
+<a name='L73'></a><a href='#L73'>73</a>
+<a name='L74'></a><a href='#L74'>74</a>
+<a name='L75'></a><a href='#L75'>75</a>
+<a name='L76'></a><a href='#L76'>76</a>
+<a name='L77'></a><a href='#L77'>77</a>
+<a name='L78'></a><a href='#L78'>78</a>
+<a name='L79'></a><a href='#L79'>79</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -154,13 +170,22 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -169,6 +194,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -194,6 +220,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import si from 'sportident/lib';
+import {SiDeviceReceiveEvent} from 'sportident/lib/SiDevice/ISiDevice';
+import * as utils from 'sportident/lib/utils';
+import {SiExternalApplicationReceiveEvent} from '../ISiExternalApplication';
 import {ShellCommandContext} from '../Shell';
 import {BaseCommand, ArgType} from './BaseCommand';
 &nbsp;
@@ -217,33 +246,43 @@ export class PipeCommand extends BaseCommand {
         const url = <span class="cstat-no" title="statement not covered" >context.args[1];</span>
         const device = <span class="cstat-no" title="statement not covered" >context.env.device;</span>
         const SiExternalApplication = <span class="cstat-no" title="statement not covered" >context.env.externalApplication;</span>
-<span class="cstat-no" title="statement not covered" >        return new Promise(<span class="fstat-no" title="function not covered" >(r</span>esolve, _reject) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        return new Promise(<span class="fstat-no" title="function not covered" >(r</span>esolve, reject) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >            <span class="missing-if-branch" title="if path not taken" >I</span>if (!SiExternalApplication) {</span>
+<span class="cstat-no" title="statement not covered" >                reject(new Error('No SiExternalApplication.'));</span>
+<span class="cstat-no" title="statement not covered" >                return;</span>
+            }
+<span class="cstat-no" title="statement not covered" >            <span class="missing-if-branch" title="if path not taken" >I</span>if (!device) {</span>
+<span class="cstat-no" title="statement not covered" >                reject(new Error('No device.'));</span>
+<span class="cstat-no" title="statement not covered" >                return;</span>
+            }
             const externalApplication = <span class="cstat-no" title="statement not covered" >new SiExternalApplication(url);</span>
 &nbsp;
             let deviceToApplicationBuffer: number[] = <span class="cstat-no" title="statement not covered" >[];</span>
             let applicationToDeviceBuffer: number[] = <span class="cstat-no" title="statement not covered" >[];</span>
 &nbsp;
-            const onDeviceReceive = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; {</span>
-                const uint8Data = <span class="cstat-no" title="statement not covered" >e.uint8Data;</span>
-<span class="cstat-no" title="statement not covered" >                deviceToApplicationBuffer.push(...uint8Data);</span>
-                const {messages, remainder} = <span class="cstat-no" title="statement not covered" >si.protocol.parseAll(deviceToApplicationBuffer);</span>
-<span class="cstat-no" title="statement not covered" >                messages.forEach(<span class="fstat-no" title="function not covered" >(m</span>essage: any) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >                    console.log('SiDevice:', si.protocol.prettyMessage(message));</span>
-                });
-<span class="cstat-no" title="statement not covered" >                deviceToApplicationBuffer = remainder;</span>
-<span class="cstat-no" title="statement not covered" >                externalApplication.send(uint8Data);</span>
-            };
+            const onDeviceReceive: utils.EventCallback&lt;SiDeviceReceiveEvent&gt; =
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >                (e</span>) =&gt; {</span>
+                    const uint8Data = <span class="cstat-no" title="statement not covered" >e.uint8Data;</span>
+<span class="cstat-no" title="statement not covered" >                    deviceToApplicationBuffer.push(...uint8Data);</span>
+                    const {messages, remainder} = <span class="cstat-no" title="statement not covered" >si.protocol.parseAll(deviceToApplicationBuffer);</span>
+<span class="cstat-no" title="statement not covered" >                    messages.forEach(<span class="fstat-no" title="function not covered" >(m</span>essage) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >                        console.log('SiDevice:', si.protocol.prettyMessage(message));</span>
+                    });
+<span class="cstat-no" title="statement not covered" >                    deviceToApplicationBuffer = remainder;</span>
+<span class="cstat-no" title="statement not covered" >                    externalApplication.send(uint8Data);</span>
+                };
 <span class="cstat-no" title="statement not covered" >            device.addEventListener('receive', onDeviceReceive);</span>
-            const onApplicationReceive = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; {</span>
-                const uint8Data = <span class="cstat-no" title="statement not covered" >e.uint8Data;</span>
-<span class="cstat-no" title="statement not covered" >                applicationToDeviceBuffer.push(...uint8Data);</span>
-                const {messages, remainder} = <span class="cstat-no" title="statement not covered" >si.protocol.parseAll(applicationToDeviceBuffer);</span>
-<span class="cstat-no" title="statement not covered" >                messages.forEach(<span class="fstat-no" title="function not covered" >(m</span>essage: any) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >                    console.log('SiExternalApplication:', si.protocol.prettyMessage(message));</span>
-                });
-<span class="cstat-no" title="statement not covered" >                applicationToDeviceBuffer = remainder;</span>
-<span class="cstat-no" title="statement not covered" >                device.send(uint8Data);</span>
-            };
+            const onApplicationReceive: utils.EventCallback&lt;SiExternalApplicationReceiveEvent&gt; =
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >                (e</span>) =&gt; {</span>
+                    const uint8Data = <span class="cstat-no" title="statement not covered" >e.uint8Data;</span>
+<span class="cstat-no" title="statement not covered" >                    applicationToDeviceBuffer.push(...uint8Data);</span>
+                    const {messages, remainder} = <span class="cstat-no" title="statement not covered" >si.protocol.parseAll(applicationToDeviceBuffer);</span>
+<span class="cstat-no" title="statement not covered" >                    messages.forEach(<span class="fstat-no" title="function not covered" >(m</span>essage) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >                        console.log('SiExternalApplication:', si.protocol.prettyMessage(message));</span>
+                    });
+<span class="cstat-no" title="statement not covered" >                    applicationToDeviceBuffer = remainder;</span>
+<span class="cstat-no" title="statement not covered" >                    device.send(uint8Data);</span>
+                };
 <span class="cstat-no" title="statement not covered" >            externalApplication.addEventListener('receive', onApplicationReceive);</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >            context.waitChar().then(<span class="fstat-no" title="function not covered" >(c</span>har: number) =&gt; {</span>
@@ -265,7 +304,7 @@ export class PipeCommand extends BaseCommand {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-01-30T17:54:37.493Z
+                at 2023-01-30T20:03:57.324Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>
