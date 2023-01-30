@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">66.66% </span>
+                <span class="strong">92.3% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>26/39</span>
+                <span class='fraction'>36/39</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">33.33% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/3</span>
+                <span class='fraction'>3/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">63.63% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>7/11</span>
+                <span class='fraction'>11/11</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">63.88% </span>
+                <span class="strong">91.66% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>23/36</span>
+                <span class='fraction'>33/36</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -116,36 +116,32 @@
 <a name='L51'></a><a href='#L51'>51</a>
 <a name='L52'></a><a href='#L52'>52</a>
 <a name='L53'></a><a href='#L53'>53</a>
-<a name='L54'></a><a href='#L54'>54</a>
-<a name='L55'></a><a href='#L55'>55</a>
-<a name='L56'></a><a href='#L56'>56</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L54'></a><a href='#L54'>54</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -171,13 +167,11 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import React from 'react';
 import Immutable from 'immutable';
-// eslint-disable-next-line no-unused-vars
 import {SiDeviceAddEvent, ISiDeviceDriverWithAutodetection, SiDeviceRemoveEvent} from 'sportident/lib/SiDevice/ISiDeviceDriver';
-// eslint-disable-next-line no-unused-vars
 import {ISiDevice, ISiDeviceDriverData} from 'sportident/lib/SiDevice/ISiDevice';
 &nbsp;
 export const useSiDevices = &lt;T extends ISiDeviceDriverData&lt;any&gt;&gt;(
@@ -185,22 +179,22 @@ export const useSiDevices = &lt;T extends ISiDeviceDriverData&lt;any&gt;&gt;(
 ): Immutable.Map&lt;string, ISiDevice&lt;T&gt;&gt; =&gt; {
     const [siDevices, setSiDevices] = React.useState(Immutable.Map({}));
     React.useEffect(() =&gt; {
-        const onDeviceAdd = <span class="fstat-no" title="function not covered" >(e</span>vent: SiDeviceAddEvent&lt;T&gt;) =&gt; {
-            const device = <span class="cstat-no" title="statement not covered" >event.siDevice;</span>
-<span class="cstat-no" title="statement not covered" >            setSiDevices(<span class="fstat-no" title="function not covered" >(c</span>urrentSiDevices) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >                <span class="missing-if-branch" title="if path not taken" >I</span>if (!currentSiDevices.has(device.ident)) {</span>
-<span class="cstat-no" title="statement not covered" >                    console.log('useSiDevices: add');</span>
-<span class="cstat-no" title="statement not covered" >                    return currentSiDevices.set(device.ident, device);</span>
+        const onDeviceAdd = (event: SiDeviceAddEvent&lt;T&gt;) =&gt; {
+            const device = event.siDevice;
+            setSiDevices((currentSiDevices) =&gt; {
+                if (!currentSiDevices.has(device.ident)) {
+                    console.log('useSiDevices: add');
+                    return currentSiDevices.set(device.ident, device);
                 }
 <span class="cstat-no" title="statement not covered" >                return currentSiDevices;</span>
             });
         };
-        const onDeviceRemove = <span class="fstat-no" title="function not covered" >(e</span>vent: SiDeviceRemoveEvent&lt;T&gt;) =&gt; {
-            const device = <span class="cstat-no" title="statement not covered" >event.siDevice;</span>
-<span class="cstat-no" title="statement not covered" >            setSiDevices(<span class="fstat-no" title="function not covered" >(c</span>urrentSiDevices) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >                <span class="missing-if-branch" title="if path not taken" >I</span>if (currentSiDevices.has(device.ident)) {</span>
-<span class="cstat-no" title="statement not covered" >                    console.log('useSiDevices: remove');</span>
-<span class="cstat-no" title="statement not covered" >                    return currentSiDevices.delete(device.ident);</span>
+        const onDeviceRemove = (event: SiDeviceRemoveEvent&lt;T&gt;) =&gt; {
+            const device = event.siDevice;
+            setSiDevices((currentSiDevices) =&gt; {
+                if (currentSiDevices.has(device.ident)) {
+                    console.log('useSiDevices: remove');
+                    return currentSiDevices.delete(device.ident);
                 }
 <span class="cstat-no" title="statement not covered" >                return currentSiDevices;</span>
             });
@@ -235,7 +229,7 @@ export const useSiDevices = &lt;T extends ISiDeviceDriverData&lt;any&gt;&gt;(
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-01-27T22:19:42.487Z
+                at 2023-01-30T12:24:22.486Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
