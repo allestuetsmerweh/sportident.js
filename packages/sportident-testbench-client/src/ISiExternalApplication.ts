@@ -5,10 +5,8 @@ interface ISiExternalApplication {}
 
 export class SiExternalApplicationReceiveEvent extends utils.Event<'receive'> {
     constructor(
-        // eslint-disable-next-line no-unused-vars
-        public siExternalApplication: ISiExternalApplication,
-        // eslint-disable-next-line no-unused-vars
-        public uint8Data: number[],
+                public siExternalApplication: ISiExternalApplication,
+                public uint8Data: number[],
     ) {
         super();
     }

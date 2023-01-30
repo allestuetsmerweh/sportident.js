@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import React from 'react';
 import {getSiShellCommands, Shell} from 'sportident-testbench-shell/lib';
-// eslint-disable-next-line no-unused-vars
 import {ISiDevice} from 'sportident/lib/SiDevice/ISiDevice';
 import {SiExternalApplication} from './SiExternalApplication';
 

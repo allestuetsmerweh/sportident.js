@@ -1,7 +1,6 @@
 import {describe, expect, test} from '@jest/globals';
 import _ from 'lodash';
 import Immutable from 'immutable';
-// eslint-disable-next-line no-unused-vars
 import {ISiStorageData, ValueFromStringError} from './interfaces';
 import {ModifyUndefinedException, SiDataType} from './SiDataType';
 import {SiFieldValue} from './SiFieldValue';
@@ -10,8 +9,7 @@ import {SiArray} from './SiArray';
 describe('SiArray', () => {
     class FakeDataType extends SiDataType<string> {
         constructor(
-            // eslint-disable-next-line no-unused-vars
-            public index: number,
+                        public index: number,
         ) {
             super();
         }

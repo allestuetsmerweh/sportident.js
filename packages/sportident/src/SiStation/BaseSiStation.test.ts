@@ -1,11 +1,9 @@
 import {describe, expect, test} from '@jest/globals';
 import _ from 'lodash';
-// eslint-disable-next-line no-unused-vars
 import * as siProtocol from '../siProtocol';
 import * as testUtils from '../testUtils';
 import {proto} from '../constants';
 import {SiDataType} from '../storage';
-// eslint-disable-next-line no-unused-vars
 import {ISiTargetMultiplexer, SiTargetMultiplexerTarget} from './ISiTargetMultiplexer';
 import {BaseSiStation} from './BaseSiStation';
 import {getSiStationExamples} from './siStationExamples';

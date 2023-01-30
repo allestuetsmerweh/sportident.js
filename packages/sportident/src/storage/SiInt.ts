@@ -1,5 +1,4 @@
 import _ from 'lodash';
-// eslint-disable-next-line no-unused-vars
 import {ISiDataType, ISiStorageData, ValueFromStringError} from './interfaces';
 import {ModifyUndefinedException, SiDataType} from './SiDataType';
 

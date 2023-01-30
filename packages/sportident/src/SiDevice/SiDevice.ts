@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-unused-vars
 import {DeviceClosedError, ISiDevice, ISiDeviceDriverData, SiDeviceEvents, SiDeviceReceiveEvent, SiDeviceState, SiDeviceStateChangeEvent} from './ISiDevice';
 import * as utils from '../utils';
 

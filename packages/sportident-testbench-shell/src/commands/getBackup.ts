@@ -1,6 +1,5 @@
 import * as utils from 'sportident/lib/utils';
 import {proto} from 'sportident/lib/constants';
-// eslint-disable-next-line no-unused-vars
 import {ShellCommandContext} from '../Shell';
 import {BaseCommand} from './BaseCommand';
 import {getDirectOrRemoteStation} from './getDirectOrRemoteStation';

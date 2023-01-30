@@ -1,6 +1,4 @@
-// eslint-disable-next-line no-unused-vars
 import * as storage from '../../../storage';
-// eslint-disable-next-line no-unused-vars
 import {IModernSiCardStorageFields, modernSiCardStorageDefinition} from '../../../SiCard/types/ModernSiCard';
 import {FakeModernSiCard} from './FakeModernSiCard';
 import {SiCard10} from '../../../SiCard/types/SiCard10';

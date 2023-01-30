@@ -8,8 +8,7 @@ testUtils.useFakeTimers();
 describe('event utils', () => {
     class MyEvent extends eventUtils.Event<'myEvent'> {
         constructor(
-            // eslint-disable-next-line no-unused-vars
-            public eventObject: Record<string, unknown>,
+                        public eventObject: Record<string, unknown>,
         ) {
             super();
         }

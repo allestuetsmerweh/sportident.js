@@ -1,5 +1,4 @@
 import si from 'sportident/lib';
-// eslint-disable-next-line no-unused-vars
 import {ShellCommandContext} from '../Shell';
 import {BaseCommand} from './BaseCommand';
 

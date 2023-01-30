@@ -1,7 +1,6 @@
 /* globals jest */
 
 import _ from 'lodash';
-// eslint-disable-next-line no-unused-vars
 import * as siProtocol from './siProtocol';
 
 export const useFakeTimers = (): void => {

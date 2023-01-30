@@ -1,9 +1,7 @@
 import {proto} from '../constants';
 import * as storage from '../storage';
 import * as siProtocol from '../siProtocol';
-// eslint-disable-next-line no-unused-vars
 import {ISiStation, SiStationMode, SiStationModel} from './ISiStation';
-// eslint-disable-next-line no-unused-vars
 import {ISiTargetMultiplexer, SiTargetMultiplexerTarget} from './ISiTargetMultiplexer';
 
 export interface ISiStationStorageFields {
@@ -114,10 +112,8 @@ export abstract class BaseSiStation<T extends SiTargetMultiplexerTarget> {
     }
 
     constructor(
-        // eslint-disable-next-line no-unused-vars
-        public siTargetMultiplexer: ISiTargetMultiplexer,
-        // eslint-disable-next-line no-unused-vars
-        public readonly multiplexerTarget: T,
+                public siTargetMultiplexer: ISiTargetMultiplexer,
+                public readonly multiplexerTarget: T,
     ) {
         this.storage = siStationStorageDefinition();
     }

@@ -1,11 +1,9 @@
 import {describe, expect, test} from '@jest/globals';
 import _ from 'lodash';
 import Immutable from 'immutable';
-// eslint-disable-next-line no-unused-vars
 import {ISiStorageData, ValueToStringError, ValueFromStringError} from './interfaces';
 import {ModifyUndefinedException, SiDataType} from './SiDataType';
 import {SiFieldValue} from './SiFieldValue';
-// eslint-disable-next-line no-unused-vars
 import {SiDict, SiDictValue} from './SiDict';
 
 type FakeSiStorageData = (number|undefined)[];
@@ -13,8 +11,7 @@ type FakeSiStorageData = (number|undefined)[];
 describe('SiDict', () => {
     class FakeDataType extends SiDataType<string> {
         constructor(
-            // eslint-disable-next-line no-unused-vars
-            public index: number,
+                        public index: number,
         ) {
             super();
         }

@@ -1,15 +1,11 @@
 import {describe, expect, test} from '@jest/globals';
 import _ from 'lodash';
 import {proto} from '../constants';
-// eslint-disable-next-line no-unused-vars
 import * as siProtocol from '../siProtocol';
 import * as testUtils from '../testUtils';
-// eslint-disable-next-line no-unused-vars
 import {ISiDevice} from '../SiDevice/ISiDevice';
 import {SiDevice} from '../SiDevice/SiDevice';
-// eslint-disable-next-line no-unused-vars
 import {ISiCard, SiMainStationSiCardInsertedEvent, SiMainStationSiCardObservedEvent, SiMainStationSiCardRemovedEvent} from './ISiMainStation';
-// eslint-disable-next-line no-unused-vars
 import {ISiTargetMultiplexer, SiTargetMultiplexerMessageEvent, SiTargetMultiplexerTarget} from './ISiTargetMultiplexer';
 import {SiTargetMultiplexer} from './SiTargetMultiplexer';
 import {SiStationMode} from './ISiStation';

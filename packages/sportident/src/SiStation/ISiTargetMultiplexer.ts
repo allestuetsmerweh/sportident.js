@@ -1,9 +1,6 @@
 import * as utils from '../utils';
-// eslint-disable-next-line no-unused-vars
 import * as siProtocol from '../siProtocol';
-// eslint-disable-next-line no-unused-vars
 import {ISiDevice} from '../SiDevice/ISiDevice';
-// eslint-disable-next-line no-unused-vars
 import {ISiStation} from './ISiStation';
 
 export interface ISiTargetMultiplexer extends utils.IEventTarget<SiTargetMultiplexerEvents> {
@@ -38,30 +35,24 @@ export enum SendTaskState {
 
 export class SiTargetMultiplexerMessageEvent extends utils.Event<'message'> {
     constructor(
-        // eslint-disable-next-line no-unused-vars
-        public siTargetMultiplexer: ISiTargetMultiplexer,
-        // eslint-disable-next-line no-unused-vars
-        public message: siProtocol.SiMessage,
+                public siTargetMultiplexer: ISiTargetMultiplexer,
+                public message: siProtocol.SiMessage,
     ) {
         super();
     }
 }
 export class SiTargetMultiplexerDirectMessageEvent extends utils.Event<'directMessage'> {
     constructor(
-        // eslint-disable-next-line no-unused-vars
-        public siTargetMultiplexer: ISiTargetMultiplexer,
-        // eslint-disable-next-line no-unused-vars
-        public message: siProtocol.SiMessage,
+                public siTargetMultiplexer: ISiTargetMultiplexer,
+                public message: siProtocol.SiMessage,
     ) {
         super();
     }
 }
 export class SiTargetMultiplexerRemoteMessageEvent extends utils.Event<'remoteMessage'> {
     constructor(
-        // eslint-disable-next-line no-unused-vars
-        public siTargetMultiplexer: ISiTargetMultiplexer,
-        // eslint-disable-next-line no-unused-vars
-        public message: siProtocol.SiMessage,
+                public siTargetMultiplexer: ISiTargetMultiplexer,
+                public message: siProtocol.SiMessage,
     ) {
         super();
     }

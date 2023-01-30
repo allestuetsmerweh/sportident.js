@@ -1,13 +1,11 @@
 import _ from 'lodash';
-// eslint-disable-next-line no-unused-vars
 import {ISiStorageData, ValueToStringError, ValueFromStringError} from './interfaces';
 import {SiFieldValue} from './SiFieldValue';
 
 export class ModifyUndefinedException {
     // eslint-disable-next-line no-useless-constructor
     constructor(
-        // eslint-disable-next-line no-unused-vars
-        public message: string = '',
+                public message: string = '',
     // eslint-disable-next-line no-empty-function
     ) {}
 }

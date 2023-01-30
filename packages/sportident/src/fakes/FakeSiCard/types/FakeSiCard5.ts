@@ -1,10 +1,8 @@
 import _ from 'lodash';
 import {proto} from '../../../constants';
 import * as siProtocol from '../../../siProtocol';
-// eslint-disable-next-line no-unused-vars
 import * as storage from '../../../storage';
 import {BaseFakeSiCard} from '../BaseFakeSiCard';
-// eslint-disable-next-line no-unused-vars
 import {ISiCard5StorageFields, SiCard5, siCard5StorageDefinition} from '../../../SiCard/types/SiCard5';
 import {getSiCard5Examples} from '../../../SiCard/types/siCard5Examples';
 

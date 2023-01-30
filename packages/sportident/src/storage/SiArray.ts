@@ -1,5 +1,4 @@
 import _ from 'lodash';
-// eslint-disable-next-line no-unused-vars
 import {ISiDataType, ISiStorageData, ValueFromStringError} from './interfaces';
 import {SiDataType} from './SiDataType';
 
@@ -7,10 +6,8 @@ export type SiArrayValue<T> = (T|undefined)[];
 
 export class SiArray<T> extends SiDataType<SiArrayValue<T>> implements ISiDataType<SiArrayValue<T>> {
     constructor(
-        // eslint-disable-next-line no-unused-vars
-        public length: number,
-        // eslint-disable-next-line no-unused-vars
-        public getDefinitionAtIndex: (index: number) => ISiDataType<T>,
+                public length: number,
+                public getDefinitionAtIndex: (index: number) => ISiDataType<T>,
     ) {
         super();
     }

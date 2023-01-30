@@ -1,0 +1,54 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`react works 1`] = `
+<div>
+  <div />
+</div>
+`;
+
+exports[`react works 2`] = `
+<div>
+  <div>
+    <div>
+      Fake(auto-1)
+       (
+      Fake-auto-1
+      )
+    </div>
+  </div>
+</div>
+`;
+
+exports[`react works 3`] = `
+<div>
+  <div>
+    <div>
+      Fake(auto-1)
+       (
+      Fake-auto-1
+      )
+    </div>
+    <div>
+      Fake(auto-2)
+       (
+      Fake-auto-2
+      )
+    </div>
+  </div>
+</div>
+`;
+
+exports[`react works 4`] = `
+<div>
+  <div>
+    <div>
+      Fake(auto-1)
+       (
+      Fake-auto-1
+      )
+    </div>
+  </div>
+</div>
+`;
+
+exports[`react works 5`] = `<div />`;

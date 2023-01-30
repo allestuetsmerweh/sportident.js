@@ -1,11 +1,8 @@
 import {proto} from '../constants';
 import * as utils from '../utils';
 import * as siProtocol from '../siProtocol';
-// eslint-disable-next-line no-unused-vars
 import {ISiStation} from './ISiStation';
-// eslint-disable-next-line no-unused-vars
 import {ISiTargetMultiplexer, SendTaskState, SiTargetMultiplexerDirectMessageEvent, SiTargetMultiplexerEvents, SiTargetMultiplexerMessageEvent, SiTargetMultiplexerRemoteMessageEvent, SiTargetMultiplexerTarget} from './ISiTargetMultiplexer';
-// eslint-disable-next-line no-unused-vars
 import {ISiDevice, SiDeviceState} from '../SiDevice/ISiDevice';
 
 /** Commands that can only be sent from a direct station. */
@@ -29,16 +26,11 @@ class SendTask {
     private timeoutTimer: any;
 
     constructor(
-        // eslint-disable-next-line no-unused-vars
-        public message: siProtocol.SiMessage,
-        // eslint-disable-next-line no-unused-vars
-        public numResponses: number,
-        // eslint-disable-next-line no-unused-vars
-        public timeoutInMiliseconds: number,
-        // eslint-disable-next-line no-unused-vars
-        public onResolve: (task: SendTask) => void,
-        // eslint-disable-next-line no-unused-vars
-        public onReject: (task: SendTask) => void,
+                public message: siProtocol.SiMessage,
+                public numResponses: number,
+                public timeoutInMiliseconds: number,
+                public onResolve: (task: SendTask) => void,
+                public onReject: (task: SendTask) => void,
     ) {
         this.timeoutTimer = setTimeout(() => {
             const shouldAbortInState: {[state in SendTaskState]: boolean} = {
@@ -103,8 +95,7 @@ export class SiTargetMultiplexer implements ISiTargetMultiplexer {
 
     // eslint-disable-next-line no-useless-constructor
     constructor(
-        // eslint-disable-next-line no-unused-vars
-        public siDevice: ISiDevice<any>,
+                public siDevice: ISiDevice<any>,
     // eslint-disable-next-line no-empty-function
     ) {}
 

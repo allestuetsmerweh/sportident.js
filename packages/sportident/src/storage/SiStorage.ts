@@ -1,6 +1,5 @@
 import _ from 'lodash';
 import Immutable from 'immutable';
-// eslint-disable-next-line no-unused-vars
 import {ISiFieldValue, ISiStorage, ISiStorageData, ISiStorageDefinition, ISiStorageLocations} from './interfaces';
 
 export class SiStorage<T> implements ISiStorage<T> {
@@ -8,10 +7,8 @@ export class SiStorage<T> implements ISiStorage<T> {
 
     // eslint-disable-next-line no-useless-constructor
     constructor(
-        // eslint-disable-next-line no-unused-vars
-        public readonly size: number,
-        // eslint-disable-next-line no-unused-vars
-        public readonly locations: ISiStorageLocations<T>,
+                public readonly size: number,
+                public readonly locations: ISiStorageLocations<T>,
         initArg?: Immutable.List<number|undefined>|Array<number|undefined>,
     ) {
         const initArrayOrList = (initArg === undefined

@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-unused-vars
 import {ISiDataType, ISiStorageData, ValueFromStringError} from './interfaces';
 import {SiDataType} from './SiDataType';
 
@@ -7,8 +6,7 @@ export type SiPartialDictValue<T> = {[key in keyof T]?: T[key]};
 
 export class SiDict<T> extends SiDataType<SiDictValue<T>> implements ISiDataType<SiDictValue<T>> {
     constructor(
-        // eslint-disable-next-line no-unused-vars
-        public readonly definitionDict: {[key in keyof T]: ISiDataType<T[key]>},
+                public readonly definitionDict: {[key in keyof T]: ISiDataType<T[key]>},
     ) {
         super();
     }

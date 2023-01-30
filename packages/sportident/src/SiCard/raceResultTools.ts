@@ -1,6 +1,4 @@
-// eslint-disable-next-line no-unused-vars
 import * as siProtocol from '../siProtocol';
-// eslint-disable-next-line no-unused-vars
 import {IRaceResultData, IPunch} from './IRaceResultData';
 
 export interface IOrderedRaceResult {

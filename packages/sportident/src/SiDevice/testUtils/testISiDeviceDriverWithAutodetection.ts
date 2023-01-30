@@ -1,6 +1,5 @@
 import {expect, test} from '@jest/globals';
 import * as testUtils from '../../testUtils';
-// eslint-disable-next-line no-unused-vars
 import {ISiDeviceDriverData, SiDeviceState} from '../ISiDevice';
 
 export interface TestISiDeviceDriverWithAutodetectionOptions {
