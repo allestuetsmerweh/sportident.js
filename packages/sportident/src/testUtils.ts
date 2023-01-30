@@ -16,7 +16,7 @@ export const advanceTimersByTime = async (msToRun: number): Promise<void> => {
     await Promise.resolve();
 };
 
-export const nTimesAsync = async (n: number, doThing: () => Promise<any>): Promise<void> => {
+export const nTimesAsync = async (n: number, doThing: () => Promise<unknown>): Promise<void> => {
     if (n <= 0) {
         return;
     }

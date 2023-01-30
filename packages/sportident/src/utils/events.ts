@@ -2,12 +2,12 @@ import * as errorUtils from './errors';
 
 export interface IEvent<T extends string> {
     type?: T;
-    target: any;
+    target: unknown;
     defaultPrevented: boolean;
 }
 
 export class Event<T extends string> implements IEvent<T> {
-    target: any;
+    target: unknown;
     defaultPrevented = false;
 
     // eslint-disable-next-line no-useless-constructor

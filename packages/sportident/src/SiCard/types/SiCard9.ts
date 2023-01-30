@@ -15,7 +15,7 @@ export const getPunchOffset = (i: number): number => (
 
 const parseCardHolderString = (
     semicolonSeparatedString: string,
-): {[property: string]: any} => {
+): {[property: string]: unknown} => {
     const informationComponents = semicolonSeparatedString.split(';');
     return {
         firstName: informationComponents.length > 1 ? informationComponents[0] : undefined,
@@ -31,7 +31,7 @@ const parseCardHolder = (maybeCharCodes: (number|undefined)[]) => {
 
 export interface ISiCard9StorageFields extends IBaseSiCardStorageFields {
     uid: number;
-    cardSeries: ModernSiCardSeries;
+    cardSeries: keyof typeof ModernSiCardSeries;
 }
 
 export const siCard9StorageLocations: storage.ISiStorageLocations<ISiCard9StorageFields> = {
@@ -88,7 +88,7 @@ export class SiCard9 extends ModernSiCard {
         if (info === undefined) {
             return undefined;
         }
-        if (info.cardSeries !== ModernSiCardSeries.SiCard9) {
+        if (info.cardSeries !== 'SiCard9') {
             return undefined;
         }
         return new this(info.cardNumber);

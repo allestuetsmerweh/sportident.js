@@ -1,17 +1,17 @@
 import * as utils from '../utils';
 import {ISiDevice, ISiDeviceDriverData} from './ISiDevice';
 
-export interface ISiDeviceDriver<T extends ISiDeviceDriverData<any>> {
+export interface ISiDeviceDriver<T extends ISiDeviceDriverData<unknown>> {
     name: string;
-    open: (device: ISiDevice<T>) => Promise<void>;
-    close: (device: ISiDevice<T>) => Promise<void>;
+    open: (device: ISiDevice<T>) => Promise<unknown>;
+    close: (device: ISiDevice<T>) => Promise<unknown>;
     receive: (device: ISiDevice<T>) => Promise<number[]>;
-    send: (device: ISiDevice<T>, buffer: number[]) => Promise<void>;
+    send: (device: ISiDevice<T>, buffer: number[]) => Promise<unknown>;
 }
 
 export interface ISiDeviceDriverWithDetection<
-    T extends ISiDeviceDriverData<any>,
-    U extends Array<any>
+    T extends ISiDeviceDriverData<unknown>,
+    U extends Array<unknown>
 >
         extends ISiDeviceDriver<T>
 {
@@ -19,7 +19,7 @@ export interface ISiDeviceDriverWithDetection<
 }
 
 export class SiDeviceAddEvent<
-    T extends ISiDeviceDriverData<any>
+    T extends ISiDeviceDriverData<unknown>
 > extends utils.Event<'add'> {
     constructor(
                 public siDevice: ISiDevice<T>,
@@ -28,7 +28,7 @@ export class SiDeviceAddEvent<
     }
 }
 export class SiDeviceRemoveEvent<
-    T extends ISiDeviceDriverData<any>
+    T extends ISiDeviceDriverData<unknown>
 > extends utils.Event<'remove'> {
     constructor(
                 public siDevice: ISiDevice<T>,
@@ -38,18 +38,18 @@ export class SiDeviceRemoveEvent<
 }
 
 export type SiDeviceDriverWithAutodetectionEvents<
-    T extends ISiDeviceDriverData<any>
+    T extends ISiDeviceDriverData<unknown>
 > = {
     'add': SiDeviceAddEvent<T>,
     'remove': SiDeviceRemoveEvent<T>,
 };
 
 export interface ISiDeviceDriverWithAutodetection<
-    T extends ISiDeviceDriverData<any>
+    T extends ISiDeviceDriverData<unknown>
 > extends
         ISiDeviceDriver<T>,
         utils.IEventTarget<SiDeviceDriverWithAutodetectionEvents<T>>
 {
     startAutoDetection: () => Promise<ISiDevice<T>[]>;
-    stopAutoDetection: () => Promise<void>;
+    stopAutoDetection: () => Promise<unknown>;
 }

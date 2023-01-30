@@ -55,7 +55,7 @@ export class Shell {
         this.env = {...options.initialEnv};
     }
 
-    run(): Promise<any> {
+    run(): Promise<unknown> {
         const promptForNewCommand = () => {
             this.putString(this.options.prompt);
             return this.getLine(this.autocompleteCommand.bind(this));

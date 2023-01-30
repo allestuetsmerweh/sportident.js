@@ -3,7 +3,7 @@ import {IRaceResultData, IPunch} from './IRaceResultData';
 
 export interface IOrderedRaceResult {
     cardNumber?: number;
-    cardHolder?: {[property: string]: any};
+    cardHolder?: {[property: string]: unknown};
     orderedTimes: number[];
     clearTimeIndex?: number|null;
     checkTimeIndex?: number|null;

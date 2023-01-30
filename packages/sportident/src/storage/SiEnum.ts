@@ -4,13 +4,13 @@ import {ISiDataType, ISiStorageData, ValueFromStringError} from './interfaces';
 import {SiDataType} from './SiDataType';
 import {SiInt, SiIntegerPartDefinition} from './SiInt';
 
-export class SiEnum extends SiDataType<any> implements ISiDataType<any> {
+export class SiEnum<T extends {[key: string]: number}> extends SiDataType<keyof T> implements ISiDataType<keyof T> {
     private intField: SiInt;
 
     constructor(
         parts: SiIntegerPartDefinition[],
-                public readonly dict: {[key: string]: any},
-                public readonly getIntValue = (value: any): number|undefined => value as number,
+                public readonly dict: T,
+                public readonly getIntValue = (value: unknown): number|undefined => value as number,
     ) {
         super();
         this.intField = new SiInt(parts);
@@ -23,43 +23,33 @@ export class SiEnum extends SiDataType<any> implements ISiDataType<any> {
         );
     }
 
-    typeSpecificIsValueValid(value: number|any): boolean {
-        const intValue = _.isInteger(value) ? value : this.getIntValue(value);
-        if (intValue === undefined) {
-            return false;
-        }
-        const lookupDict = this.getLookupDict();
-        return lookupDict[intValue] !== undefined;
+    typeSpecificIsValueValid(value: keyof T): boolean {
+        return this.dict[value] !== undefined;
     }
 
-    typeSpecificValueToString(value: number|any): string {
-        const intValue = _.isInteger(value) ? value : this.getIntValue(value);
-        const intString = `${intValue}`;
-        const lookupDict = this.getLookupDict();
-        return lookupDict[intString];
+    typeSpecificValueToString(value: keyof T): string {
+        return String(value);
     }
 
-    typeSpecificValueFromString(string: string): number|ValueFromStringError {
+    typeSpecificValueFromString(string: string): keyof T|ValueFromStringError {
         if (this.dict[string] === undefined) {
             return new ValueFromStringError(
                 `Value for ${this.constructor.name} must be an enum option, not "${string}"`,
             );
         }
-        const intValue = this.getIntValue(this.dict[string]);
-        if (intValue === undefined) {
-            return new ValueFromStringError(
-                `Int value must not be undefined for "${string}"`,
-            );
-        }
-        return intValue;
+        return string as keyof T;
     }
 
-    typeSpecificExtractFromData(data: ISiStorageData): number|undefined {
-        return this.intField.typeSpecificExtractFromData(data);
+    typeSpecificExtractFromData(data: ISiStorageData): keyof T|undefined {
+        const intValue = this.intField.typeSpecificExtractFromData(data);
+        const intString = `${intValue}`;
+        const lookupDict = this.getLookupDict();
+        const key = lookupDict[intString];
+        return key;
     }
 
-    typeSpecificUpdateData(data: ISiStorageData, newValue: number|any): ISiStorageData {
-        const newIntValue = _.isInteger(newValue) ? newValue : this.getIntValue(newValue);
+    typeSpecificUpdateData(data: ISiStorageData, newValue: keyof T): ISiStorageData {
+        const newIntValue = this.dict[newValue];
         return this.intField.typeSpecificUpdateData(data, newIntValue);
     }
 }

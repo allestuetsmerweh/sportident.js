@@ -6,7 +6,7 @@ import {ISiTargetMultiplexer, SiTargetMultiplexerTarget} from './ISiTargetMultip
 
 export interface ISiStationStorageFields {
     code: number;
-    mode: SiStationMode,
+    mode: keyof typeof SiStationMode,
     beeps: boolean;
     flashes: boolean;
     autoSend: boolean;
@@ -14,7 +14,7 @@ export interface ISiStationStorageFields {
     serialNumber: number;
     firmwareVersion: number;
     buildDate: Date;
-    deviceModel: SiStationModel;
+    deviceModel: keyof typeof SiStationModel;
     memorySize: number;
     batteryDate: Date;
     batteryCapacity: number;
@@ -191,7 +191,7 @@ export abstract class BaseSiStation<T extends SiTargetMultiplexerTarget> {
     ): Promise<void> {
         const zippedStorageBytes = oldStorage.zip(newStorage);
         const isByteDirty = zippedStorageBytes.map(
-            (oldAndNew: [any, any]) => oldAndNew[0] !== oldAndNew[1],
+            (oldAndNew: [unknown, unknown]) => oldAndNew[0] !== oldAndNew[1],
         );
         const dirtyRanges = isByteDirty.reduce(
             (

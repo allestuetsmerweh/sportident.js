@@ -117,7 +117,7 @@ class FakeSiDeviceDriver implements
         await this.forgetSiDevice(siDevice);
     }
 
-    stopAutoDetection(): Promise<any> {
+    stopAutoDetection(): Promise<unknown> {
         this.autoDetectionRunning = false;
         return Promise.resolve();
     }
@@ -127,7 +127,7 @@ class FakeSiDeviceDriver implements
         return Promise.resolve();
     }
 
-    close(device: IFakeSiDevice): Promise<any> {
+    close(device: IFakeSiDevice): Promise<unknown> {
         device.data.device.isOpened = false;
         return Promise.resolve();
     }
@@ -141,7 +141,7 @@ class FakeSiDeviceDriver implements
         return Promise.resolve([]);
     }
 
-    send(_device: IFakeSiDevice, _uint8Data: number[]): Promise<any> {
+    send(_device: IFakeSiDevice, _uint8Data: number[]): Promise<unknown> {
         return Promise.resolve(true);
     }
 }

@@ -5,3 +5,4 @@ export * from './general';
 export * from './mixins';
 export * from './NumberRange';
 export * from './NumberRangeRegistry';
+export * from './typed';

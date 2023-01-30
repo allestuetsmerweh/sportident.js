@@ -13,6 +13,7 @@ describe('storage', () => {
         const myWeirdStorage = weirdStorage(
             utils.unPrettyHex('00 00') as number[],
         );
+        expect(myWeirdStorage instanceof storage.SiStorage).toBe(true);
 
         expect(myWeirdStorage.get('isWeird')!.value).toBe(false);
         myWeirdStorage.set('isWeird', true);
@@ -50,6 +51,7 @@ describe('storage', () => {
         const myWeirdStorage = weirdStorage(
             utils.unPrettyHex('00 00 00') as number[],
         );
+        expect(myWeirdStorage instanceof storage.SiStorage).toBe(true);
 
         expect(myWeirdStorage.get('weirdness')!.value).toBe(0x00);
         myWeirdStorage.set('weirdness', 0x555);
@@ -87,33 +89,34 @@ describe('storage', () => {
         const myWeirdStorage = weirdStorage(
             utils.unPrettyHex('00 00 00') as number[],
         );
+        expect(myWeirdStorage instanceof storage.SiStorage).toBe(true);
 
-        expect(myWeirdStorage.get('weirdness')!.value).toBe(0x00);
-        myWeirdStorage.set('weirdness', 0x55);
+        expect(myWeirdStorage.get('weirdness')!.value).toBe('NotWeird');
+        myWeirdStorage.set('weirdness', 'Weird');
         expect(myWeirdStorage.data.toJS()).toEqual(utils.unPrettyHex('55 00 00') as number[]);
-        expect(myWeirdStorage.get('weirdness')!.value).toBe(0x55);
+        expect(myWeirdStorage.get('weirdness')!.value).toBe('Weird');
 
-        expect(myWeirdStorage.get('crazyness')!.value).toBe(0x00);
-        myWeirdStorage.set('crazyness', 0x0A);
+        expect(myWeirdStorage.get('crazyness')!.value).toBe('NotCrazy');
+        myWeirdStorage.set('crazyness', 'Crazy');
         expect(myWeirdStorage.data.toJS()).toEqual(utils.unPrettyHex('55 0A 00') as number[]);
-        expect(myWeirdStorage.get('crazyness')!.value).toBe(0x0A);
+        expect(myWeirdStorage.get('crazyness')!.value).toBe('Crazy');
 
-        expect(myWeirdStorage.get('loconess')!.value).toBe(0x000);
-        myWeirdStorage.set('loconess', 0xBCD);
+        expect(myWeirdStorage.get('loconess')!.value).toBe('NotLoco');
+        myWeirdStorage.set('loconess', 'Loco');
         expect(myWeirdStorage.data.toJS()).toEqual(utils.unPrettyHex('55 BA CD') as number[]);
-        expect(myWeirdStorage.get('loconess')!.value).toBe(0xBCD);
+        expect(myWeirdStorage.get('loconess')!.value).toBe('Loco');
 
         const unknownWeirdStorage = weirdStorage();
         const {ModifyUndefinedException} = storage;
 
         expect(unknownWeirdStorage.get('weirdness')).toBe(undefined);
-        expect(() => unknownWeirdStorage.set('weirdness', 0x55)).toThrow(ModifyUndefinedException);
+        expect(() => unknownWeirdStorage.set('weirdness', 'Weird')).toThrow(ModifyUndefinedException);
 
         expect(unknownWeirdStorage.get('crazyness')).toBe(undefined);
-        expect(() => unknownWeirdStorage.set('crazyness', 0x0A)).toThrow(ModifyUndefinedException);
+        expect(() => unknownWeirdStorage.set('crazyness', 'Crazy')).toThrow(ModifyUndefinedException);
 
         expect(unknownWeirdStorage.get('loconess')).toBe(undefined);
-        expect(() => unknownWeirdStorage.set('loconess', 0xBCD)).toThrow(ModifyUndefinedException);
+        expect(() => unknownWeirdStorage.set('loconess', 'Loco')).toThrow(ModifyUndefinedException);
     });
     test('SiArray SiStorage integration', () => {
         const weirdStorage = storage.defineStorage(0x03, {
@@ -123,6 +126,7 @@ describe('storage', () => {
         const myWeirdStorage = weirdStorage(
             utils.unPrettyHex('00 00 00') as number[],
         );
+        expect(myWeirdStorage instanceof storage.SiStorage).toBe(true);
 
         expect(myWeirdStorage.get('areWeird')!.value).toEqual([false, false, false]);
         myWeirdStorage.set('areWeird', [true, true, false]);
@@ -154,6 +158,7 @@ describe('storage', () => {
         const myWeirdStorage = weirdStorage(
             utils.unPrettyHex('00 00 00') as number[],
         );
+        expect(myWeirdStorage instanceof storage.SiStorage).toBe(true);
 
         expect(myWeirdStorage.get('bustWaistHip')!.value).toEqual({bust: 0x00, waist: 0x00, hip: 0x00});
         myWeirdStorage.set('bustWaistHip', {bust: 0x90, waist: 0x60, hip: 0x90});
@@ -176,10 +181,26 @@ describe('storage', () => {
         const myWeirdStorage = weirdStorage(
             utils.unPrettyHex('00 00 00 00 00 00') as number[],
         );
+        expect(myWeirdStorage instanceof storage.SiStorage).toBe(true);
 
         expect(myWeirdStorage.get('measurements')!.value).toEqual([{time: 0x00, value: 0x00}, {time: 0x00, value: 0x00}, {time: 0x00, value: 0x00}]);
         myWeirdStorage.set('measurements', [{time: 0x01, value: 0x01}, {time: 0x03, value: 0x09}, {time: 0x04, value: 0x10}]);
         expect(myWeirdStorage.data.toJS()).toEqual(utils.unPrettyHex('01 01 03 09 04 10') as number[]);
         expect(myWeirdStorage.get('measurements')!.value).toEqual([{time: 0x01, value: 0x01}, {time: 0x03, value: 0x09}, {time: 0x04, value: 0x10}]);
+    });
+    test('everything exported', () => {
+        expect(storage.ValueToStringError).not.toBe(undefined);
+        expect(storage.ValueFromStringError).not.toBe(undefined);
+        expect(storage.defineStorage).not.toBe(undefined);
+        expect(storage.SiStorage).not.toBe(undefined);
+        expect(storage.SiFieldValue).not.toBe(undefined);
+        expect(storage.ModifyUndefinedException).not.toBe(undefined);
+        expect(storage.SiDataType).not.toBe(undefined);
+        expect(storage.SiArray).not.toBe(undefined);
+        expect(storage.SiBool).not.toBe(undefined);
+        expect(storage.SiDict).not.toBe(undefined);
+        expect(storage.SiEnum).not.toBe(undefined);
+        expect(storage.SiInt).not.toBe(undefined);
+        expect(storage.SiModified).not.toBe(undefined);
     });
 });

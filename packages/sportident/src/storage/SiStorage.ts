@@ -36,9 +36,6 @@ export class SiStorage<T> implements ISiStorage<T> {
         fieldName: U,
     ): ISiFieldValue<T[U]>|undefined {
         const fieldDefinition = this.locations[fieldName];
-        if (!fieldDefinition) {
-            return undefined;
-        }
         return fieldDefinition.extractFromData(this.internalData);
     }
 
@@ -47,9 +44,6 @@ export class SiStorage<T> implements ISiStorage<T> {
         newValue: ISiFieldValue<T[U]>|T[U],
     ): void {
         const fieldDefinition = this.locations[fieldName];
-        if (!fieldDefinition) {
-            return;
-        }
         this.internalData = fieldDefinition.updateData(this.internalData, newValue);
     }
 

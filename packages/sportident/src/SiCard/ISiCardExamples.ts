@@ -1,4 +1,4 @@
 export interface SiCardSample {
-    cardData: {[attr: string]: any};
+    cardData: {[attr: string]: unknown}&{cardNumber: number};
     storageData: (number|undefined)[];
 }

@@ -24,7 +24,7 @@ const tests: {[name: string]: (context: ShellCommandContext) => Promise<void>} =
 
         let cardState = '';
         const simulateStation = (
-            mode: number,
+            mode: keyof typeof SiStationMode,
             code: number,
             actionName: string,
         ) => () => mainStation.atomically(() => {
@@ -48,7 +48,7 @@ const tests: {[name: string]: (context: ShellCommandContext) => Promise<void>} =
                         }
                         resetCardCallbacks();
                         context.putString(`${actionName} ${card.constructor.name} succeeded: ${card.cardNumber}\n`);
-                        if (mode === SiStationMode.Clear) {
+                        if (mode === 'Clear') {
                             cardState = '';
                         } else {
                             cardState += `${cardState === '' ? '' : '-'}${actionName}`;
@@ -60,7 +60,7 @@ const tests: {[name: string]: (context: ShellCommandContext) => Promise<void>} =
             });
         const readoutCard = () => () => mainStation.atomically(() => {
             mainStation.setInfo('autoSend', false);
-            mainStation.setInfo('mode', SiStationMode.Readout);
+            mainStation.setInfo('mode', 'Readout');
             mainStation.setInfo('code', 10);
         })
             .then(() => {
@@ -103,91 +103,91 @@ const tests: {[name: string]: (context: ShellCommandContext) => Promise<void>} =
                     mainStation.addEventListener('siCardInserted', handleCardInserted);
                 });
             });
-        return simulateStation(SiStationMode.Clear, 1, 'Clear')()
+        return simulateStation('Clear', 1, 'Clear')()
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Check, 2, 'Check'))
+            .then(simulateStation('Check', 2, 'Check'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Start, 3, 'Start'))
+            .then(simulateStation('Start', 3, 'Start'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 31, 'Punch 31'))
+            .then(simulateStation('Control', 31, 'Punch 31'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 32, 'Punch 32'))
+            .then(simulateStation('Control', 32, 'Punch 32'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 33, 'Punch 33'))
+            .then(simulateStation('Control', 33, 'Punch 33'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 34, 'Punch 34'))
+            .then(simulateStation('Control', 34, 'Punch 34'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 35, 'Punch 35'))
+            .then(simulateStation('Control', 35, 'Punch 35'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 36, 'Punch 36'))
+            .then(simulateStation('Control', 36, 'Punch 36'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 37, 'Punch 37'))
+            .then(simulateStation('Control', 37, 'Punch 37'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 38, 'Punch 38'))
+            .then(simulateStation('Control', 38, 'Punch 38'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 39, 'Punch 39'))
+            .then(simulateStation('Control', 39, 'Punch 39'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 40, 'Punch 40'))
+            .then(simulateStation('Control', 40, 'Punch 40'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 41, 'Punch 41'))
+            .then(simulateStation('Control', 41, 'Punch 41'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 42, 'Punch 42'))
+            .then(simulateStation('Control', 42, 'Punch 42'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 43, 'Punch 43'))
+            .then(simulateStation('Control', 43, 'Punch 43'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 44, 'Punch 44'))
+            .then(simulateStation('Control', 44, 'Punch 44'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 45, 'Punch 45'))
+            .then(simulateStation('Control', 45, 'Punch 45'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 46, 'Punch 46'))
+            .then(simulateStation('Control', 46, 'Punch 46'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 47, 'Punch 47'))
+            .then(simulateStation('Control', 47, 'Punch 47'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 48, 'Punch 48'))
+            .then(simulateStation('Control', 48, 'Punch 48'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 49, 'Punch 49'))
+            .then(simulateStation('Control', 49, 'Punch 49'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 50, 'Punch 50'))
+            .then(simulateStation('Control', 50, 'Punch 50'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 51, 'Punch 51'))
+            .then(simulateStation('Control', 51, 'Punch 51'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 52, 'Punch 52'))
+            .then(simulateStation('Control', 52, 'Punch 52'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 53, 'Punch 53'))
+            .then(simulateStation('Control', 53, 'Punch 53'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 54, 'Punch 54'))
+            .then(simulateStation('Control', 54, 'Punch 54'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 55, 'Punch 55'))
+            .then(simulateStation('Control', 55, 'Punch 55'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 56, 'Punch 56'))
+            .then(simulateStation('Control', 56, 'Punch 56'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 57, 'Punch 57'))
+            .then(simulateStation('Control', 57, 'Punch 57'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 58, 'Punch 58'))
+            .then(simulateStation('Control', 58, 'Punch 58'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 59, 'Punch 59'))
+            .then(simulateStation('Control', 59, 'Punch 59'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 60, 'Punch 60'))
+            .then(simulateStation('Control', 60, 'Punch 60'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 61, 'Punch 61'))
+            .then(simulateStation('Control', 61, 'Punch 61'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 62, 'Punch 62'))
+            .then(simulateStation('Control', 62, 'Punch 62'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 63, 'Punch 63'))
+            .then(simulateStation('Control', 63, 'Punch 63'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 64, 'Punch 64'))
+            .then(simulateStation('Control', 64, 'Punch 64'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 65, 'Punch 65'))
+            .then(simulateStation('Control', 65, 'Punch 65'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 66, 'Punch 66'))
+            .then(simulateStation('Control', 66, 'Punch 66'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 67, 'Punch 67'))
+            .then(simulateStation('Control', 67, 'Punch 67'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 68, 'Punch 68'))
+            .then(simulateStation('Control', 68, 'Punch 68'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 69, 'Punch 69'))
+            .then(simulateStation('Control', 69, 'Punch 69'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 70, 'Punch 70'))
+            .then(simulateStation('Control', 70, 'Punch 70'))
             .then(readoutCard())
             .then(() => {
                 context.putString('Finished!\n');

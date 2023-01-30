@@ -2,7 +2,7 @@ import * as siProtocol from '../siProtocol';
 
 export interface IRaceResultData {
     cardNumber?: number;
-    cardHolder?: {[property: string]: any};
+    cardHolder?: {[property: string]: unknown};
     clearTime?: siProtocol.SiTimestamp;
     checkTime?: siProtocol.SiTimestamp;
     startTime?: siProtocol.SiTimestamp;

@@ -1,7 +1,8 @@
 import {DeviceClosedError, ISiDevice, ISiDeviceDriverData, SiDeviceEvents, SiDeviceReceiveEvent, SiDeviceState, SiDeviceStateChangeEvent} from './ISiDevice';
 import * as utils from '../utils';
+import { ISiDeviceDriver } from './ISiDeviceDriver';
 
-export class SiDevice<T extends ISiDeviceDriverData<any>> implements ISiDevice<T> {
+export class SiDevice<T extends ISiDeviceDriverData<ISiDeviceDriver<T>>> implements ISiDevice<T> {
     name: string;
     ident: string;
     data: T;
@@ -125,11 +126,11 @@ export class SiDevice<T extends ISiDeviceDriverData<any>> implements ISiDevice<T
         return this.data.driver.receive(this);
     }
 
-    send(buffer: number[]): Promise<void> {
+    send(buffer: number[]): Promise<unknown> {
         console.debug(`=> (${this.name})\n${utils.prettyHex(buffer, 16)}`);
         return this.data.driver.send(this, buffer);
     }
 }
 // eslint-disable-next-line @typescript-eslint/no-empty-interface,@typescript-eslint/no-unused-vars
-export interface SiDevice<T extends ISiDeviceDriverData<any>> extends utils.EventTarget<SiDeviceEvents> {}
+export interface SiDevice<T extends ISiDeviceDriverData<ISiDeviceDriver<T>>> extends utils.EventTarget<SiDeviceEvents> {}
 utils.applyMixins(SiDevice, [utils.EventTarget]);
