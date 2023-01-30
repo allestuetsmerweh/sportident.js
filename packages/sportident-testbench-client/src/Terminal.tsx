@@ -38,7 +38,7 @@ export const Terminal = (
     props: {
         selectedDevice: ISiDevice<any>|undefined,
     },
-) => {
+): React.ReactElement => {
     const [shellContent, setShellContent] = React.useState<string>('');
     const [inputQueue, setInputQueue] = React.useState<number[]>([]);
     const [outputQueue, setOutputQueue] = React.useState<number[]>([]);

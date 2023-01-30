@@ -1,12 +1,12 @@
 import si from 'sportident/lib';
 import * as siProtocol from 'sportident/lib/siProtocol';
 import {ShellCommandContext} from '../Shell';
-import {BaseCommand} from './BaseCommand';
+import {BaseCommand, ArgType} from './BaseCommand';
 
 const isSubclassOf = (subclass: any, superclass: any) => subclass.prototype instanceof superclass;
 
 export class SimulateCommand extends BaseCommand {
-    getArgTypes() {
+    getArgTypes(): ArgType[] {
         const testCases = si.getSiStationExamples();
         return [
             {
@@ -21,7 +21,7 @@ export class SimulateCommand extends BaseCommand {
         ];
     }
 
-    printUsage(context: ShellCommandContext) {
+    printUsage(context: ShellCommandContext): void {
         super.printUsage(context);
         context.putString('e.g. simulate BSM8Station /tmp/vwin_com1\n');
     }

@@ -1,11 +1,11 @@
 import {ISiStationStorageFields, siStationStorageLocations} from 'sportident/lib/SiStation/BaseSiStation';
 import {SiFieldValue} from 'sportident/lib/storage/SiFieldValue';
 import {ShellCommandContext} from '../Shell';
-import {BaseCommand} from './BaseCommand';
+import {BaseCommand, ArgType} from './BaseCommand';
 import {getDirectOrRemoteStation} from './getDirectOrRemoteStation';
 
 export class SetInfoCommand extends BaseCommand {
-    getArgTypes() {
+    getArgTypes(): ArgType[] {
         return [
             {
                 name: 'target',
@@ -22,7 +22,7 @@ export class SetInfoCommand extends BaseCommand {
         ];
     }
 
-    printUsage(context: ShellCommandContext) {
+    printUsage(context: ShellCommandContext): void {
         super.printUsage(context);
         context.putString('e.g. setInfo direct code 10\n');
         context.putString('e.g. setInfo remote mode Readout\n');

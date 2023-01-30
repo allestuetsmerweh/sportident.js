@@ -9,7 +9,7 @@ export class SiStorage<T> implements ISiStorage<T> {
     constructor(
                 public readonly size: number,
                 public readonly locations: ISiStorageLocations<T>,
-        initArg?: Immutable.List<number|undefined>|Array<number|undefined>,
+                initArg?: Immutable.List<number|undefined>|Array<number|undefined>,
     ) {
         const initArrayOrList = (initArg === undefined
             ? _.range(size).map(() => undefined)
@@ -53,7 +53,7 @@ export class SiStorage<T> implements ISiStorage<T> {
         this.internalData = fieldDefinition.updateData(this.internalData, newValue);
     }
 
-    splice(index: number, removeNum: number, ...values: number[]) {
+    splice(index: number, removeNum: number, ...values: number[]): void {
         const newData = this.internalData.splice(index, removeNum, ...values);
         if (newData.size !== this.internalData.size) {
             throw new Error(
@@ -69,7 +69,7 @@ export const defineStorage = <T>(
     size: number,
     locations: ISiStorageLocations<T>,
 ): ISiStorageDefinition<T> => (
-    initArg?: Immutable.List<number|undefined>|Array<number|undefined>,
-): ISiStorage<T> => (
-    new SiStorage<T>(size, locations, initArg)
-);
+        initArg?: Immutable.List<number|undefined>|Array<number|undefined>,
+    ): ISiStorage<T> => (
+        new SiStorage<T>(size, locations, initArg)
+    );

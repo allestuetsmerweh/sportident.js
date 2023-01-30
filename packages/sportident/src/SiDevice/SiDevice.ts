@@ -14,11 +14,11 @@ export class SiDevice<T extends ISiDeviceDriverData<any>> implements ISiDevice<T
         this.internalState = SiDeviceState.Closed;
     }
 
-    get state() {
+    get state(): SiDeviceState {
         return this.internalState;
     }
 
-    setState(newState: SiDeviceState) {
+    setState(newState: SiDeviceState): void {
         if (newState !== this.internalState) {
             this.internalState = newState;
             this.dispatchEvent(
@@ -82,7 +82,7 @@ export class SiDevice<T extends ISiDeviceDriverData<any>> implements ISiDevice<T
         }
     }
 
-    receiveLoop() {
+    receiveLoop(): void {
         try {
             this.receive()
                 .then((uint8Data) => {
@@ -114,7 +114,7 @@ export class SiDevice<T extends ISiDeviceDriverData<any>> implements ISiDevice<T
         }
     }
 
-    shouldStopReceivingBecauseOfError(error: any): boolean {
+    shouldStopReceivingBecauseOfError(error: unknown): boolean {
         return (
             error instanceof DeviceClosedError
             || error instanceof utils.NotImplementedError

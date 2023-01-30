@@ -53,7 +53,7 @@ export const cropPunches = (
     return punchesUntilInvalid.filter<IPunch>(isPunchEntryValid);
 };
 
-export const getCroppedString = (charCodes: (number|undefined)[]) => {
+export const getCroppedString = (charCodes: (number|undefined)[]): string => {
     const isCharacterInvalid = (charCode: number|undefined) => charCode === undefined || charCode === 0xEE;
     const firstInvalidIndex = charCodes.findIndex(isCharacterInvalid);
     const croppedCharCodes = (firstInvalidIndex === -1 ? charCodes : charCodes.slice(0, firstInvalidIndex)) as number[];
@@ -80,7 +80,7 @@ export const parseCardHolderString = (
     };
 };
 
-export const parseCardHolder = (maybeCharCodes: (number|undefined)[]) => {
+export const parseCardHolder = (maybeCharCodes: (number|undefined)[]): Record<string, string> => {
     const semicolonSeparatedString = getCroppedString(maybeCharCodes);
     return parseCardHolderString(semicolonSeparatedString || '');
 };
@@ -139,7 +139,7 @@ export const modernSiCardStorageDefinition = storage.defineStorage(
 export class ModernSiCard extends BaseSiCard {
     static maxNumPunches = MAX_NUM_PUNCHES;
 
-    static parseModernSiCardDetectionMessage(message: siProtocol.SiMessage) {
+    static parseModernSiCardDetectionMessage(message: siProtocol.SiMessage): {cardNumber: number, cardSeries: number}|undefined {
         if (message.mode !== undefined) {
             return undefined;
         }
@@ -175,7 +175,7 @@ export class ModernSiCard extends BaseSiCard {
         this.storage = modernSiCardStorageDefinition();
     }
 
-    typeSpecificGetPage(pageNumber: number) {
+    typeSpecificGetPage(pageNumber: number): Promise<number[]> {
         if (!this.mainStation) {
             return Promise.reject(new Error('No main station'));
         }
@@ -214,7 +214,7 @@ export class ModernSiCard extends BaseSiCard {
         });
     }
 
-    typeSpecificReadBasic() {
+    typeSpecificReadBasic(): Promise<void> {
         return this.typeSpecificGetPage(0)
             .then((page0: number[]) => {
                 this.storage.splice(bytesPerPage * 0, bytesPerPage, ...page0);
@@ -226,7 +226,7 @@ export class ModernSiCard extends BaseSiCard {
             });
     }
 
-    typeSpecificReadCardHolder() {
+    typeSpecificReadCardHolder(): Promise<void> {
         const cardHolderSoFar = this.storage.get('cardHolder')!.value;
         if (cardHolderSoFar && cardHolderSoFar.isComplete) {
             return Promise.resolve();

@@ -32,10 +32,12 @@ interface NodeUsbDeviceEndpoint {
     transfer: (lengthOrData: number|any, callback: (error?: any, data?: any) => void) => void;
 }
 
-export const promisify = (fn: (check: (error?: any, data?: any) => void) => void) => new Promise((resolve, reject) => {
-    const check = (error?: any, data?: any) => {
+export const promisify = <T>(fn: (check: (error?: Error, data?: T) => void) => void): Promise<T> => new Promise((resolve, reject) => {
+    const check = (error?: Error, data?: T) => {
         if (error) {
             reject(error);
+        } else if (data === undefined) {
+            reject(new Error('no data'));
         } else {
             resolve(data);
         }

@@ -95,7 +95,7 @@ export const siCard5StorageDefinition = storage.defineStorage(
 export class SiCard5 extends BaseSiCard {
     static maxNumPunches = MAX_NUM_PUNCHES;
 
-    static typeSpecificInstanceFromMessage(message: siProtocol.SiMessage) {
+    static typeSpecificInstanceFromMessage(message: siProtocol.SiMessage): SiCard5|undefined {
         if (message.mode !== undefined) {
             return undefined;
         }
@@ -127,7 +127,7 @@ export class SiCard5 extends BaseSiCard {
         this.storage = siCard5StorageDefinition();
     }
 
-    typeSpecificRead() {
+    typeSpecificRead(): Promise<void> {
         if (!this.mainStation) {
             return Promise.reject(new Error('No main station'));
         }

@@ -83,7 +83,7 @@ export const siCard9StorageDefinition = storage.defineStorage(
 export class SiCard9 extends ModernSiCard {
     static maxNumPunches = MAX_NUM_PUNCHES;
 
-    static typeSpecificInstanceFromMessage(message: siProtocol.SiMessage) {
+    static typeSpecificInstanceFromMessage(message: siProtocol.SiMessage): SiCard9|undefined {
         const info = this.parseModernSiCardDetectionMessage(message);
         if (info === undefined) {
             return undefined;

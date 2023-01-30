@@ -16,7 +16,7 @@ export class FakeSiMainStation {
         this.storage = siStationStorageDefinition(storageArg);
     }
 
-    dispatchCardMessage(cardMessage: siProtocol.SiMessage) {
+    dispatchCardMessage(cardMessage: siProtocol.SiMessage): void {
         if (cardMessage.mode !== undefined) {
             return;
         }
@@ -27,7 +27,7 @@ export class FakeSiMainStation {
         this.dispatchMessage(message);
     }
 
-    dispatchMessage(message: siProtocol.SiMessage) {
+    dispatchMessage(message: siProtocol.SiMessage): void {
         this.dispatchEvent(
             'message',
             new FakeSiMainStationMessageEvent(this, message),
@@ -45,13 +45,13 @@ export class FakeSiMainStation {
         return new Date(Date.now() + this.dateOffset);
     }
 
-    insertCard(fakeSiCard: IFakeSiCard) {
+    insertCard(fakeSiCard: IFakeSiCard): void {
         this.fakeSiCard = fakeSiCard;
         const cardMessage = this.fakeSiCard.handleDetect();
         this.dispatchCardMessage(cardMessage);
     }
 
-    sendMessage(message: siProtocol.SiMessage) {
+    sendMessage(message: siProtocol.SiMessage): void {
         if (message.mode !== undefined) {
             return;
         }

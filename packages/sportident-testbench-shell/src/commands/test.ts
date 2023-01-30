@@ -1,7 +1,7 @@
 import si from 'sportident/lib';
 import {SiStationMode} from 'sportident/lib/SiStation/ISiStation';
 import {ShellCommandContext} from '../Shell';
-import {BaseCommand} from './BaseCommand';
+import {BaseCommand, ArgType} from './BaseCommand';
 
 const tests: {[name: string]: (context: ShellCommandContext) => Promise<void>} = {
     'card': (context: ShellCommandContext) => {
@@ -198,7 +198,7 @@ const tests: {[name: string]: (context: ShellCommandContext) => Promise<void>} =
 };
 
 export class TestCommand extends BaseCommand {
-    getArgTypes() {
+    getArgTypes(): ArgType[] {
         return [
             {
                 name: 'testName',
@@ -207,7 +207,7 @@ export class TestCommand extends BaseCommand {
         ];
     }
 
-    printUsage(context: ShellCommandContext) {
+    printUsage(context: ShellCommandContext): void {
         super.printUsage(context);
     }
 

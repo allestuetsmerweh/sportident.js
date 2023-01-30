@@ -13,18 +13,18 @@ export class SiExternalApplication {
         });
     }
 
-    handleSocketReceive(uint8Data: number[]) {
+    handleSocketReceive(uint8Data: number[]): void {
         this.dispatchEvent(
             'receive',
             new SiExternalApplicationReceiveEvent(this, uint8Data),
         );
     }
 
-    send(uint8Data: number[]) {
+    send(uint8Data: number[]): void {
         this.unixSocket.write(new Uint8Array(uint8Data));
     }
 
-    close() {
+    close(): void {
         this.unixSocket.destroy();
     }
 }

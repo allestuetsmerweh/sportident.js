@@ -5,6 +5,8 @@ import {ISiStation} from './ISiStation';
 import {ISiTargetMultiplexer, SendTaskState, SiTargetMultiplexerDirectMessageEvent, SiTargetMultiplexerEvents, SiTargetMultiplexerMessageEvent, SiTargetMultiplexerRemoteMessageEvent, SiTargetMultiplexerTarget} from './ISiTargetMultiplexer';
 import {ISiDevice, SiDeviceState} from '../SiDevice/ISiDevice';
 
+type _Test = {latestTarget: SiTargetMultiplexerTarget, sendQueue: SendTask[]};
+
 /** Commands that can only be sent from a direct station. */
 export const DIRECT_DEVICE_INITIATED_COMMANDS: {[command: number]: boolean} = {
     [proto.cmd.TRANS_REC]: true,
@@ -99,14 +101,14 @@ export class SiTargetMultiplexer implements ISiTargetMultiplexer {
     // eslint-disable-next-line no-empty-function
     ) {}
 
-    get _test() {
+    get _test(): _Test {
         return {
             latestTarget: this.latestTarget,
             sendQueue: this.sendQueue,
         };
     }
 
-    handleDeviceStateChange(newState: SiDeviceState) {
+    handleDeviceStateChange(newState: SiDeviceState): void {
         const actionByNewState: {[state in SiDeviceState]: () => void} = {
             [SiDeviceState.Opening]: () => undefined,
             [SiDeviceState.Opened]: () => this.startProcessingSendQueue(),
@@ -119,17 +121,17 @@ export class SiTargetMultiplexer implements ISiTargetMultiplexer {
         }
     }
 
-    startProcessingSendQueue() {
+    startProcessingSendQueue(): void {
         setTimeout(() => this._processSendQueue(), 1);
     }
 
-    abortProcessingSendQueue() {
+    abortProcessingSendQueue(): void {
         this.sendQueue.forEach((sendTask) => {
             sendTask.fail();
         });
     }
 
-    handleReceive(uint8Data: number[]) {
+    handleReceive(uint8Data: number[]): void {
         this.receiveBuffer.push(...uint8Data);
         const {messages, remainder} = siProtocol.parseAll(this.receiveBuffer);
         this.receiveBuffer = remainder;
@@ -154,7 +156,7 @@ export class SiTargetMultiplexer implements ISiTargetMultiplexer {
         });
     }
 
-    updateSendQueueWithReceivedMessage(message: siProtocol.SiMessage) {
+    updateSendQueueWithReceivedMessage(message: siProtocol.SiMessage): void {
         if (
             message.mode === undefined
             && DIRECT_DEVICE_INITIATED_COMMANDS[message.command]
@@ -272,7 +274,7 @@ export class SiTargetMultiplexer implements ISiTargetMultiplexer {
         });
     }
 
-    _processSendQueue() {
+    _processSendQueue(): void {
         if (
             this.sendQueue.length === 0
             || this.sendQueue[0].state === SendTaskState.Sending

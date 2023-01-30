@@ -6,9 +6,11 @@ import * as storage from '../storage';
 import {IPunch, IRaceResultData} from './IRaceResultData';
 import {makeStartZeroTime, monotonizeRaceResult, prettyRaceResult} from './raceResultTools';
 
-// TODO: SiCard interface
-type SiCardType = any; // {new(): BaseSiCard};
-const initialRegistry: utils.NumberRangeRegistry<SiCardType> = new utils.NumberRangeRegistry();
+type SiCardType<T extends BaseSiCard> = {
+    new(cardNumber: number): T,
+    typeSpecificInstanceFromMessage: (message: siProtocol.SiMessage) => T|undefined,
+};
+const initialRegistry: utils.NumberRangeRegistry<SiCardType<BaseSiCard>> = new utils.NumberRangeRegistry();
 
 export interface ISiMainStation {
     sendMessage: (
@@ -32,28 +34,28 @@ export interface IBaseSiCardStorageFields {
 export abstract class BaseSiCard {
     // abstract static maxNumPunches: number;
     static NumberRange: typeof utils.NumberRange = utils.NumberRange;
-    static cardNumberRangeRegistry: utils.NumberRangeRegistry<SiCardType> = initialRegistry;
+    static cardNumberRangeRegistry: utils.NumberRangeRegistry<SiCardType<BaseSiCard>> = initialRegistry;
 
-    static resetNumberRangeRegistry() {
+    static resetNumberRangeRegistry(): void {
         this.cardNumberRangeRegistry = new utils.NumberRangeRegistry();
     }
 
-    static registerNumberRange(
+    static registerNumberRange<T extends BaseSiCard>(
         firstCardNumberInRange: number,
         firstCardNumberAfterRange: number,
-        siCardType: SiCardType,
-    ) {
+        siCardType: SiCardType<T>,
+    ): void {
         const cardNumberRange = new utils.NumberRange(firstCardNumberInRange, firstCardNumberAfterRange);
         this.cardNumberRangeRegistry.register(cardNumberRange, siCardType);
     }
 
-    static getTypeByCardNumber(cardNumber: number) {
-        return this.cardNumberRangeRegistry.getValueForNumber(cardNumber);
+    static getTypeByCardNumber<T extends BaseSiCard>(cardNumber: number): SiCardType<T>|undefined {
+        return this.cardNumberRangeRegistry.getValueForNumber(cardNumber) as SiCardType<T>|undefined;
     }
 
     // abstract static getPunchOffset(index: number): number;
 
-    static fromCardNumber(cardNumber: number) {
+    static fromCardNumber(cardNumber: number): BaseSiCard|undefined {
         const cardType = this.getTypeByCardNumber(cardNumber);
         if (!cardType) {
             return undefined;
@@ -61,7 +63,7 @@ export abstract class BaseSiCard {
         return new cardType(cardNumber);
     }
 
-    static detectFromMessage(message: siProtocol.SiMessage) {
+    static detectFromMessage(message: siProtocol.SiMessage): BaseSiCard|undefined {
         const possibleCards = this.cardNumberRangeRegistry.values
             .map((cardType) => cardType.typeSpecificInstanceFromMessage(message))
             .filter((cardInstance) => cardInstance !== undefined);
@@ -76,33 +78,33 @@ export abstract class BaseSiCard {
     }
 
     public mainStation?: ISiMainStation|undefined;
-    public raceResult: IRaceResultData;
+    public raceResult: IRaceResultData&{cardNumber: number};
     public storage: storage.ISiStorage<any> = {} as storage.ISiStorage<unknown>;
 
     constructor(cardNumber: number) {
         this.raceResult = {cardNumber: cardNumber};
     }
 
-    get cardNumber() {
+    get cardNumber(): number {
         return this.raceResult.cardNumber;
     }
 
-    read() {
+    read(): Promise<BaseSiCard> {
         return this.typeSpecificRead()
             .then(() => this);
     }
 
-    getNormalizedRaceResult() {
+    getNormalizedRaceResult(): IRaceResultData {
         return makeStartZeroTime(this.getMonotonizedRaceResult());
     }
 
-    getMonotonizedRaceResult() {
+    getMonotonizedRaceResult(): IRaceResultData {
         return monotonizeRaceResult(this.raceResult);
     }
 
     abstract typeSpecificRead(): Promise<void>;
 
-    confirm() {
+    confirm(): Promise<number[][]> {
         if (!this.mainStation) {
             return Promise.reject(new Error('No main station'));
         }
@@ -111,11 +113,11 @@ export abstract class BaseSiCard {
         }, 0);
     }
 
-    toDict() {
+    toDict(): IRaceResultData {
         return this.raceResult;
     }
 
-    toString() {
+    toString(): string {
         return `${this.constructor.name}\n${prettyRaceResult(this.raceResult)}`;
     }
 }

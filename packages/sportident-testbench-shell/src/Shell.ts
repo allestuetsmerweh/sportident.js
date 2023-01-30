@@ -45,7 +45,7 @@ export class Shell {
     constructor(
                 public ui: ShellUserInterface,
                 private commands: {[commandName: string]: ShellCommand},
-        options: ShellOptions = {},
+                options: ShellOptions = {},
     ) {
         this.options = {
             initialEnv: {},
@@ -192,7 +192,7 @@ export class Shell {
         });
     }
 
-    putString(strToPut: string) {
+    putString(strToPut: string): void {
         [...strToPut].forEach((char: string) => {
             this.ui.putChar(char.charCodeAt(0));
         });

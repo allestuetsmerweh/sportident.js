@@ -24,7 +24,7 @@ export class SiExternalApplication {
         }, 1000);
     }
 
-    handleSocketReceive(data: string) {
+    handleSocketReceive(data: string): void {
         const uint8Data = JSON.parse(data) as number[];
         this.dispatchEvent(
             'receive',
@@ -32,12 +32,12 @@ export class SiExternalApplication {
         );
     }
 
-    send(uint8Data: number[]) {
+    send(uint8Data: number[]): void {
         const dataString = JSON.stringify([...uint8Data]);
         this.ws.send(dataString);
     }
 
-    close() {
+    close(): void {
         clearInterval(this.pollInterval);
         this.ws.close();
     }

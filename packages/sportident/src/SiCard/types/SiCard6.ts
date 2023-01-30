@@ -167,7 +167,7 @@ export const siCard6StorageDefinition = storage.defineStorage(
 export class SiCard6 extends BaseSiCard {
     static maxNumPunches = MAX_NUM_PUNCHES;
 
-    static typeSpecificInstanceFromMessage(message: siProtocol.SiMessage) {
+    static typeSpecificInstanceFromMessage(message: siProtocol.SiMessage): SiCard6|undefined {
         if (message.mode !== undefined) {
             return undefined;
         }
@@ -200,7 +200,7 @@ export class SiCard6 extends BaseSiCard {
         this.storage = siCard6StorageDefinition();
     }
 
-    typeSpecificGetPage(pageNumber: number) {
+    typeSpecificGetPage(pageNumber: number): Promise<number[]> {
         if (!this.mainStation) {
             return Promise.reject(new Error('No main station'));
         }
@@ -241,7 +241,7 @@ export class SiCard6 extends BaseSiCard {
         });
     }
 
-    typeSpecificReadBasic() {
+    typeSpecificReadBasic(): Promise<void> {
         return this.typeSpecificGetPage(0)
             .then((page0: number[]) => {
                 this.storage.splice(bytesPerPage * 0, bytesPerPage, ...page0);
@@ -253,14 +253,15 @@ export class SiCard6 extends BaseSiCard {
             });
     }
 
-    typeSpecificReadCardHolder() { // TODO: test this with real device
+    typeSpecificReadCardHolder(): Promise<void> {
+        // TODO: test this with real device
         return this.typeSpecificGetPage(1)
             .then((page1: number[]) => {
                 this.storage.splice(bytesPerPage * 1, bytesPerPage, ...page1);
             });
     }
 
-    typeSpecificReadPunches() {
+    typeSpecificReadPunches(): Promise<void> {
         if (this.storage.get('punchCount')!.value <= punchesPerPage * 0) {
             return Promise.resolve();
         }
