@@ -104,16 +104,16 @@
 <g id="node5" class="node">
 <title>packages/sportident/src/utils/NumberRange.test.ts</title>
 <g id="a_node5"><a xlink:href="packages/sportident/src/utils/NumberRange.test.ts" xlink:title="NumberRange.test.ts">
-<path fill="#ddfeff" stroke="black" d="M165,-434C165,-434 64,-434 64,-434 61,-434 58,-431 58,-428 58,-428 58,-422 58,-422 58,-419 61,-416 64,-416 64,-416 165,-416 165,-416 168,-416 171,-419 171,-422 171,-422 171,-428 171,-428 171,-431 168,-434 165,-434"/>
-<text text-anchor="start" x="66" y="-422.8" font-family="Helvetica,sans-Serif" font-size="9.00">NumberRange.test.ts</text>
+<path fill="#ddfeff" stroke="black" d="M165,-464C165,-464 64,-464 64,-464 61,-464 58,-461 58,-458 58,-458 58,-452 58,-452 58,-449 61,-446 64,-446 64,-446 165,-446 165,-446 168,-446 171,-449 171,-452 171,-452 171,-458 171,-458 171,-461 168,-464 165,-464"/>
+<text text-anchor="start" x="66" y="-452.8" font-family="Helvetica,sans-Serif" font-size="9.00">NumberRange.test.ts</text>
 </a>
 </g>
 </g>
 <!-- packages/sportident/src/utils/NumberRange.test.ts&#45;&gt;node_modules/@jest/globals/build/index.js -->
 <g id="edge2" class="edge">
 <title>packages/sportident/src/utils/NumberRange.test.ts&#45;&gt;node_modules/@jest/globals/build/index.js</title>
-<path fill="none" stroke="#000000" stroke-opacity="0.200000" d="M171.3,-421.03C177.9,-418.53 184.04,-414.98 189,-410 209.79,-389.13 193.08,-373.08 202,-345 217.34,-296.69 244.11,-242.78 257.26,-217.53"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-opacity="0.200000" points="259.22,-218.32 260.15,-212.03 255.5,-216.37 259.22,-218.32"/>
+<path fill="none" stroke="#000000" stroke-opacity="0.200000" d="M171.22,-451.45C177.92,-448.9 184.1,-445.23 189,-440 203.57,-424.45 196.18,-365.5 202,-345 215.78,-296.48 243.05,-243.07 256.74,-217.81"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-opacity="0.200000" points="258.72,-218.57 259.76,-212.29 255.04,-216.55 258.72,-218.57"/>
 </g>
 <!-- packages/sportident/src/utils/NumberRange.ts -->
 <g id="node6" class="node">
@@ -127,8 +127,8 @@
 <!-- packages/sportident/src/utils/NumberRange.test.ts&#45;&gt;packages/sportident/src/utils/NumberRange.ts -->
 <g id="edge1" class="edge">
 <title>packages/sportident/src/utils/NumberRange.test.ts&#45;&gt;packages/sportident/src/utils/NumberRange.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M160.35,-434C177.13,-437.37 196.31,-441.22 213.63,-444.69"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="213.62,-446.83 219.92,-445.95 214.45,-442.71 213.62,-446.83"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M171.17,-455C184.85,-455 199.44,-455 212.94,-455"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="213.06,-457.1 219.06,-455 213.06,-452.9 213.06,-457.1"/>
 </g>
 <!-- packages/sportident/src/utils/NumberRangeRegistry.test.ts -->
 <g id="node7" class="node">
@@ -155,46 +155,46 @@
 <g id="node8" class="node">
 <title>packages/sportident/src/utils/NumberRangeRegistry.ts</title>
 <g id="a_node8"><a xlink:href="packages/sportident/src/utils/NumberRangeRegistry.ts" xlink:title="NumberRangeRegistry.ts">
-<path fill="#ddfeff" stroke="black" d="M324,-524C324,-524 208,-524 208,-524 205,-524 202,-521 202,-518 202,-518 202,-512 202,-512 202,-509 205,-506 208,-506 208,-506 324,-506 324,-506 327,-506 330,-509 330,-512 330,-512 330,-518 330,-518 330,-521 327,-524 324,-524"/>
-<text text-anchor="start" x="210" y="-512.8" font-family="Helvetica,sans-Serif" font-size="9.00">NumberRangeRegistry.ts</text>
+<path fill="#ddfeff" stroke="black" d="M324,-494C324,-494 208,-494 208,-494 205,-494 202,-491 202,-488 202,-488 202,-482 202,-482 202,-479 205,-476 208,-476 208,-476 324,-476 324,-476 327,-476 330,-479 330,-482 330,-482 330,-488 330,-488 330,-491 327,-494 324,-494"/>
+<text text-anchor="start" x="210" y="-482.8" font-family="Helvetica,sans-Serif" font-size="9.00">NumberRangeRegistry.ts</text>
 </a>
 </g>
 </g>
 <!-- packages/sportident/src/utils/NumberRangeRegistry.test.ts&#45;&gt;packages/sportident/src/utils/NumberRangeRegistry.ts -->
 <g id="edge4" class="edge">
 <title>packages/sportident/src/utils/NumberRangeRegistry.test.ts&#45;&gt;packages/sportident/src/utils/NumberRangeRegistry.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M160.35,-494C177.13,-497.37 196.31,-501.22 213.63,-504.69"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="213.62,-506.83 219.92,-505.95 214.45,-502.71 213.62,-506.83"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M189.37,-485C191.43,-485 193.49,-485 195.55,-485"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="195.69,-487.1 201.69,-485 195.69,-482.9 195.69,-487.1"/>
 </g>
 <!-- packages/sportident/src/utils/bytes.test.ts -->
 <g id="node9" class="node">
 <title>packages/sportident/src/utils/bytes.test.ts</title>
 <g id="a_node9"><a xlink:href="packages/sportident/src/utils/bytes.test.ts" xlink:title="bytes.test.ts">
-<path fill="#ddfeff" stroke="black" d="M145,-464C145,-464 84,-464 84,-464 81,-464 78,-461 78,-458 78,-458 78,-452 78,-452 78,-449 81,-446 84,-446 84,-446 145,-446 145,-446 148,-446 151,-449 151,-452 151,-452 151,-458 151,-458 151,-461 148,-464 145,-464"/>
-<text text-anchor="start" x="86" y="-452.8" font-family="Helvetica,sans-Serif" font-size="9.00">bytes.test.ts</text>
+<path fill="#ddfeff" stroke="black" d="M145,-434C145,-434 84,-434 84,-434 81,-434 78,-431 78,-428 78,-428 78,-422 78,-422 78,-419 81,-416 84,-416 84,-416 145,-416 145,-416 148,-416 151,-419 151,-422 151,-422 151,-428 151,-428 151,-431 148,-434 145,-434"/>
+<text text-anchor="start" x="86" y="-422.8" font-family="Helvetica,sans-Serif" font-size="9.00">bytes.test.ts</text>
 </a>
 </g>
 </g>
 <!-- packages/sportident/src/utils/bytes.test.ts&#45;&gt;node_modules/@jest/globals/build/index.js -->
 <g id="edge7" class="edge">
 <title>packages/sportident/src/utils/bytes.test.ts&#45;&gt;node_modules/@jest/globals/build/index.js</title>
-<path fill="none" stroke="#000000" stroke-opacity="0.200000" d="M151.15,-456.05C164.8,-454.54 179.38,-450.27 189,-440 203.57,-424.45 196.18,-365.5 202,-345 215.78,-296.48 243.05,-243.07 256.74,-217.81"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-opacity="0.200000" points="258.72,-218.57 259.76,-212.29 255.04,-216.55 258.72,-218.57"/>
+<path fill="none" stroke="#000000" stroke-opacity="0.200000" d="M151.22,-425.7C164.71,-424.11 179.17,-419.87 189,-410 209.79,-389.13 193.08,-373.08 202,-345 217.34,-296.69 244.11,-242.78 257.26,-217.53"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-opacity="0.200000" points="259.22,-218.32 260.15,-212.03 255.5,-216.37 259.22,-218.32"/>
 </g>
 <!-- packages/sportident/src/utils/bytes.ts -->
 <g id="node10" class="node">
 <title>packages/sportident/src/utils/bytes.ts</title>
 <g id="a_node10"><a xlink:href="packages/sportident/src/utils/bytes.ts" xlink:title="bytes.ts">
-<path fill="#ddfeff" stroke="black" d="M287,-494C287,-494 245,-494 245,-494 242,-494 239,-491 239,-488 239,-488 239,-482 239,-482 239,-479 242,-476 245,-476 245,-476 287,-476 287,-476 290,-476 293,-479 293,-482 293,-482 293,-488 293,-488 293,-491 290,-494 287,-494"/>
-<text text-anchor="start" x="247.5" y="-482.8" font-family="Helvetica,sans-Serif" font-size="9.00">bytes.ts</text>
+<path fill="#ddfeff" stroke="black" d="M287,-434C287,-434 245,-434 245,-434 242,-434 239,-431 239,-428 239,-428 239,-422 239,-422 239,-419 242,-416 245,-416 245,-416 287,-416 287,-416 290,-416 293,-419 293,-422 293,-422 293,-428 293,-428 293,-431 290,-434 287,-434"/>
+<text text-anchor="start" x="247.5" y="-422.8" font-family="Helvetica,sans-Serif" font-size="9.00">bytes.ts</text>
 </a>
 </g>
 </g>
 <!-- packages/sportident/src/utils/bytes.test.ts&#45;&gt;packages/sportident/src/utils/bytes.ts -->
 <g id="edge6" class="edge">
 <title>packages/sportident/src/utils/bytes.test.ts&#45;&gt;packages/sportident/src/utils/bytes.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M151.31,-462.19C176.15,-467.17 208.96,-473.76 232.95,-478.57"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="232.55,-480.63 238.85,-479.75 233.38,-476.51 232.55,-480.63"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M151.31,-425C176.05,-425 208.69,-425 232.64,-425"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="232.85,-427.1 238.85,-425 232.85,-422.9 232.85,-427.1"/>
 </g>
 <!-- packages/sportident/src/utils/errors.test.ts -->
 <g id="node11" class="node">
@@ -215,16 +215,16 @@
 <g id="node12" class="node">
 <title>packages/sportident/src/utils/errors.ts</title>
 <g id="a_node12"><a xlink:href="packages/sportident/src/utils/errors.ts" xlink:title="errors.ts">
-<path fill="#ddfeff" stroke="black" d="M287,-427C287,-427 245,-427 245,-427 242,-427 239,-424 239,-421 239,-421 239,-415 239,-415 239,-412 242,-409 245,-409 245,-409 287,-409 287,-409 290,-409 293,-412 293,-415 293,-415 293,-421 293,-421 293,-424 290,-427 287,-427"/>
-<text text-anchor="start" x="247" y="-415.8" font-family="Helvetica,sans-Serif" font-size="9.00">errors.ts</text>
+<path fill="#ddfeff" stroke="black" d="M287,-404C287,-404 245,-404 245,-404 242,-404 239,-401 239,-398 239,-398 239,-392 239,-392 239,-389 242,-386 245,-386 245,-386 287,-386 287,-386 290,-386 293,-389 293,-392 293,-392 293,-398 293,-398 293,-401 290,-404 287,-404"/>
+<text text-anchor="start" x="247" y="-392.8" font-family="Helvetica,sans-Serif" font-size="9.00">errors.ts</text>
 </a>
 </g>
 </g>
 <!-- packages/sportident/src/utils/errors.test.ts&#45;&gt;packages/sportident/src/utils/errors.ts -->
 <g id="edge8" class="edge">
 <title>packages/sportident/src/utils/errors.test.ts&#45;&gt;packages/sportident/src/utils/errors.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M151.69,-400.57C176.44,-404.38 208.96,-409.38 232.81,-413.05"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="232.73,-415.16 238.98,-414 233.37,-411.01 232.73,-415.16"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M151.69,-395C176.44,-395 208.96,-395 232.81,-395"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="232.98,-397.1 238.98,-395 232.98,-392.9 232.98,-397.1"/>
 </g>
 <!-- packages/sportident/src/utils/events.test.ts -->
 <g id="node13" class="node">
@@ -314,16 +314,16 @@
 <g id="node17" class="node">
 <title>packages/sportident/src/utils/general.ts</title>
 <g id="a_node17"><a xlink:href="packages/sportident/src/utils/general.ts" xlink:title="general.ts">
-<path fill="#ddfeff" stroke="black" d="M291,-382C291,-382 241,-382 241,-382 238,-382 235,-379 235,-376 235,-376 235,-370 235,-370 235,-367 238,-364 241,-364 241,-364 291,-364 291,-364 294,-364 297,-367 297,-370 297,-370 297,-376 297,-376 297,-379 294,-382 291,-382"/>
-<text text-anchor="start" x="243" y="-370.8" font-family="Helvetica,sans-Serif" font-size="9.00">general.ts</text>
+<path fill="#ddfeff" stroke="black" d="M291,-374C291,-374 241,-374 241,-374 238,-374 235,-371 235,-368 235,-368 235,-362 235,-362 235,-359 238,-356 241,-356 241,-356 291,-356 291,-356 294,-356 297,-359 297,-362 297,-362 297,-368 297,-368 297,-371 294,-374 291,-374"/>
+<text text-anchor="start" x="243" y="-362.8" font-family="Helvetica,sans-Serif" font-size="9.00">general.ts</text>
 </a>
 </g>
 </g>
 <!-- packages/sportident/src/utils/general.test.ts&#45;&gt;packages/sportident/src/utils/general.ts -->
 <g id="edge15" class="edge">
 <title>packages/sportident/src/utils/general.test.ts&#45;&gt;packages/sportident/src/utils/general.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M155.56,-367.14C178.33,-368.36 206.62,-369.88 228.73,-371.06"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="228.69,-373.16 234.79,-371.38 228.91,-368.97 228.69,-373.16"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M155.56,-365C178.33,-365 206.62,-365 228.73,-365"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="228.79,-367.1 234.79,-365 228.79,-362.9 228.79,-367.1"/>
 </g>
 <!-- packages/sportident/src/utils/index.ts -->
 <g id="node18" class="node">
@@ -343,20 +343,20 @@
 <!-- packages/sportident/src/utils/index.ts&#45;&gt;packages/sportident/src/utils/NumberRangeRegistry.ts -->
 <g id="edge25" class="edge">
 <title>packages/sportident/src/utils/index.ts&#45;&gt;packages/sportident/src/utils/NumberRangeRegistry.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M141.54,-539.77C161.44,-535.78 189.49,-530.15 213.83,-525.27"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="214.46,-527.28 219.93,-524.04 213.63,-523.17 214.46,-527.28"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M141.83,-545.43C157.1,-544.37 175.85,-540.67 189,-530 200.28,-520.84 190.87,-509.34 202,-500 203.21,-498.99 204.47,-498.04 205.78,-497.16"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="206.94,-498.91 211.04,-494.05 204.81,-495.29 206.94,-498.91"/>
 </g>
 <!-- packages/sportident/src/utils/index.ts&#45;&gt;packages/sportident/src/utils/bytes.ts -->
 <g id="edge19" class="edge">
 <title>packages/sportident/src/utils/index.ts&#45;&gt;packages/sportident/src/utils/bytes.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M141.83,-545.43C157.1,-544.37 175.85,-540.67 189,-530 200.28,-520.84 190.87,-509.34 202,-500 210.65,-492.75 222.21,-488.88 233.06,-486.85"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="233.4,-488.92 238.99,-485.9 232.74,-484.77 233.4,-488.92"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M141.51,-546.67C157.45,-546.21 177.02,-542.69 189,-530 216.74,-500.61 174.74,-469.84 202,-440 209.81,-431.46 221.52,-427.36 232.74,-425.51"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="233.22,-427.57 238.89,-424.7 232.67,-423.4 233.22,-427.57"/>
 </g>
 <!-- packages/sportident/src/utils/index.ts&#45;&gt;packages/sportident/src/utils/errors.ts -->
 <g id="edge20" class="edge">
 <title>packages/sportident/src/utils/index.ts&#45;&gt;packages/sportident/src/utils/errors.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M141.51,-546.67C157.45,-546.21 177.02,-542.69 189,-530 216.74,-500.61 176.3,-471.19 202,-440 209.72,-430.63 221.66,-425.25 233.09,-422.16"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="233.65,-424.18 238.99,-420.74 232.67,-420.1 233.65,-424.18"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M141.66,-546.82C157.66,-546.41 177.25,-542.9 189,-530 225.12,-490.34 166.53,-450.24 202,-410 209.65,-401.32 221.34,-397.19 232.57,-395.36"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="233.06,-397.42 238.74,-394.57 232.52,-393.25 233.06,-397.42"/>
 </g>
 <!-- packages/sportident/src/utils/index.ts&#45;&gt;packages/sportident/src/utils/events.ts -->
 <g id="edge21" class="edge">
@@ -373,26 +373,41 @@
 <!-- packages/sportident/src/utils/index.ts&#45;&gt;packages/sportident/src/utils/general.ts -->
 <g id="edge22" class="edge">
 <title>packages/sportident/src/utils/index.ts&#45;&gt;packages/sportident/src/utils/general.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M141.69,-546.84C157.7,-546.44 177.29,-542.94 189,-530 208.04,-508.97 185.65,-426.18 202,-403 208.54,-393.73 218.72,-387.22 229.02,-382.71"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="229.95,-384.59 234.72,-380.39 228.37,-380.7 229.95,-384.59"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M141.76,-546.9C157.79,-546.53 177.39,-543.03 189,-530 211.26,-505.02 180.15,-405.34 202,-380 208.75,-372.17 218.78,-368.03 228.86,-365.94"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="229.22,-368.01 234.78,-364.93 228.51,-363.87 229.22,-368.01"/>
+</g>
+<!-- packages/sportident/src/utils/typed.ts -->
+<g id="node19" class="node">
+<title>packages/sportident/src/utils/typed.ts</title>
+<g id="a_node19"><a xlink:href="packages/sportident/src/utils/typed.ts" xlink:title="typed.ts">
+<path fill="#ddfeff" stroke="black" d="M287,-524C287,-524 245,-524 245,-524 242,-524 239,-521 239,-518 239,-518 239,-512 239,-512 239,-509 242,-506 245,-506 245,-506 287,-506 287,-506 290,-506 293,-509 293,-512 293,-512 293,-518 293,-518 293,-521 290,-524 287,-524"/>
+<text text-anchor="start" x="247" y="-512.8" font-family="Helvetica,sans-Serif" font-size="9.00">typed.ts</text>
+</a>
+</g>
+</g>
+<!-- packages/sportident/src/utils/index.ts&#45;&gt;packages/sportident/src/utils/typed.ts -->
+<g id="edge26" class="edge">
+<title>packages/sportident/src/utils/index.ts&#45;&gt;packages/sportident/src/utils/typed.ts</title>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M141.54,-539.77C166.9,-534.69 205.49,-526.94 232.77,-521.47"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="233.29,-523.51 238.76,-520.27 232.46,-519.39 233.29,-523.51"/>
 </g>
 <!-- packages/sportident/src/utils/mixins.test.ts -->
-<g id="node19" class="node">
+<g id="node20" class="node">
 <title>packages/sportident/src/utils/mixins.test.ts</title>
-<g id="a_node19"><a xlink:href="packages/sportident/src/utils/mixins.test.ts" xlink:title="mixins.test.ts">
+<g id="a_node20"><a xlink:href="packages/sportident/src/utils/mixins.test.ts" xlink:title="mixins.test.ts">
 <path fill="#ddfeff" stroke="black" d="M147,-524C147,-524 82,-524 82,-524 79,-524 76,-521 76,-518 76,-518 76,-512 76,-512 76,-509 79,-506 82,-506 82,-506 147,-506 147,-506 150,-506 153,-509 153,-512 153,-512 153,-518 153,-518 153,-521 150,-524 147,-524"/>
 <text text-anchor="start" x="84" y="-512.8" font-family="Helvetica,sans-Serif" font-size="9.00">mixins.test.ts</text>
 </a>
 </g>
 </g>
 <!-- packages/sportident/src/utils/mixins.test.ts&#45;&gt;node_modules/@jest/globals/build/index.js -->
-<g id="edge27" class="edge">
+<g id="edge28" class="edge">
 <title>packages/sportident/src/utils/mixins.test.ts&#45;&gt;node_modules/@jest/globals/build/index.js</title>
 <path fill="none" stroke="#000000" stroke-opacity="0.200000" d="M153.33,-516.07C166.45,-514.41 180.09,-510.03 189,-500 211.96,-474.16 193.43,-378.49 202,-345 214.51,-296.14 242.36,-242.89 256.46,-217.74"/>
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-opacity="0.200000" points="258.45,-218.5 259.58,-212.24 254.79,-216.43 258.45,-218.5"/>
 </g>
 <!-- packages/sportident/src/utils/mixins.test.ts&#45;&gt;packages/sportident/src/utils/mixins.ts -->
-<g id="edge26" class="edge">
+<g id="edge27" class="edge">
 <title>packages/sportident/src/utils/mixins.test.ts&#45;&gt;packages/sportident/src/utils/mixins.ts</title>
 <path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M153.23,-522.57C177.21,-527.38 207.99,-533.56 231.17,-538.21"/>
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="230.9,-540.3 237.2,-539.42 231.73,-536.18 230.9,-540.3"/>

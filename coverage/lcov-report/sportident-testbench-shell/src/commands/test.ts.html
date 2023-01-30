@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">6.02% </span>
+                <span class="strong">4.87% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>5/83</span>
+                <span class='fraction'>4/82</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">6.25% </span>
+                <span class="strong">5.06% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>5/80</span>
+                <span class='fraction'>4/79</span>
             </div>
         
             
@@ -282,7 +282,7 @@
 <a name='L217'></a><a href='#L217'>217</a>
 <a name='L218'></a><a href='#L218'>218</a>
 <a name='L219'></a><a href='#L219'>219</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -525,7 +525,7 @@ const tests: {[name: string]: (context: ShellCommandContext) =&gt; Promise&lt;vo
 &nbsp;
         let cardState = <span class="cstat-no" title="statement not covered" >'';</span>
         const simulateStation = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(</span></span>
-            mode: number,
+            mode: keyof typeof SiStationMode,
             code: number,
             actionName: string,
         ) =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =</span>&gt; <span class="cstat-no" title="statement not covered" >mainStation.atomically(<span class="fstat-no" title="function not covered" >() =</span>&gt; {</span></span>
@@ -549,7 +549,7 @@ const tests: {[name: string]: (context: ShellCommandContext) =&gt; Promise&lt;vo
                         }
 <span class="cstat-no" title="statement not covered" >                        resetCardCallbacks();</span>
 <span class="cstat-no" title="statement not covered" >                        context.putString(`${actionName} ${card.constructor.name} succeeded: ${card.cardNumber}\n`);</span>
-<span class="cstat-no" title="statement not covered" >                        if (mode === SiStationMode.Clear) {</span>
+<span class="cstat-no" title="statement not covered" >                        if (mode === 'Clear') {</span>
 <span class="cstat-no" title="statement not covered" >                            cardState = '';</span>
                         } else {
 <span class="cstat-no" title="statement not covered" >                            cardState += `${cardState === '' ? '' : '-'}${actionName}`;</span>
@@ -561,7 +561,7 @@ const tests: {[name: string]: (context: ShellCommandContext) =&gt; Promise&lt;vo
             });
         const readoutCard = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =</span>&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =</span>&gt; <span class="cstat-no" title="statement not covered" >mainStation.atomically(<span class="fstat-no" title="function not covered" >() =</span>&gt; {</span></span></span>
 <span class="cstat-no" title="statement not covered" >            mainStation.setInfo('autoSend', false);</span>
-<span class="cstat-no" title="statement not covered" >            mainStation.setInfo('mode', SiStationMode.Readout);</span>
+<span class="cstat-no" title="statement not covered" >            mainStation.setInfo('mode', 'Readout');</span>
 <span class="cstat-no" title="statement not covered" >            mainStation.setInfo('code', 10);</span>
         })
             .then(<span class="fstat-no" title="function not covered" >() =</span>&gt; {
@@ -604,91 +604,91 @@ const tests: {[name: string]: (context: ShellCommandContext) =&gt; Promise&lt;vo
 <span class="cstat-no" title="statement not covered" >                    mainStation.addEventListener('siCardInserted', handleCardInserted);</span>
                 });
             });
-<span class="cstat-no" title="statement not covered" >        return simulateStation(SiStationMode.Clear, 1, 'Clear')()</span>
+<span class="cstat-no" title="statement not covered" >        return simulateStation('Clear', 1, 'Clear')()</span>
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Check, 2, 'Check'))
+            .then(simulateStation('Check', 2, 'Check'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Start, 3, 'Start'))
+            .then(simulateStation('Start', 3, 'Start'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 31, 'Punch 31'))
+            .then(simulateStation('Control', 31, 'Punch 31'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 32, 'Punch 32'))
+            .then(simulateStation('Control', 32, 'Punch 32'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 33, 'Punch 33'))
+            .then(simulateStation('Control', 33, 'Punch 33'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 34, 'Punch 34'))
+            .then(simulateStation('Control', 34, 'Punch 34'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 35, 'Punch 35'))
+            .then(simulateStation('Control', 35, 'Punch 35'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 36, 'Punch 36'))
+            .then(simulateStation('Control', 36, 'Punch 36'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 37, 'Punch 37'))
+            .then(simulateStation('Control', 37, 'Punch 37'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 38, 'Punch 38'))
+            .then(simulateStation('Control', 38, 'Punch 38'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 39, 'Punch 39'))
+            .then(simulateStation('Control', 39, 'Punch 39'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 40, 'Punch 40'))
+            .then(simulateStation('Control', 40, 'Punch 40'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 41, 'Punch 41'))
+            .then(simulateStation('Control', 41, 'Punch 41'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 42, 'Punch 42'))
+            .then(simulateStation('Control', 42, 'Punch 42'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 43, 'Punch 43'))
+            .then(simulateStation('Control', 43, 'Punch 43'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 44, 'Punch 44'))
+            .then(simulateStation('Control', 44, 'Punch 44'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 45, 'Punch 45'))
+            .then(simulateStation('Control', 45, 'Punch 45'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 46, 'Punch 46'))
+            .then(simulateStation('Control', 46, 'Punch 46'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 47, 'Punch 47'))
+            .then(simulateStation('Control', 47, 'Punch 47'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 48, 'Punch 48'))
+            .then(simulateStation('Control', 48, 'Punch 48'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 49, 'Punch 49'))
+            .then(simulateStation('Control', 49, 'Punch 49'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 50, 'Punch 50'))
+            .then(simulateStation('Control', 50, 'Punch 50'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 51, 'Punch 51'))
+            .then(simulateStation('Control', 51, 'Punch 51'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 52, 'Punch 52'))
+            .then(simulateStation('Control', 52, 'Punch 52'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 53, 'Punch 53'))
+            .then(simulateStation('Control', 53, 'Punch 53'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 54, 'Punch 54'))
+            .then(simulateStation('Control', 54, 'Punch 54'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 55, 'Punch 55'))
+            .then(simulateStation('Control', 55, 'Punch 55'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 56, 'Punch 56'))
+            .then(simulateStation('Control', 56, 'Punch 56'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 57, 'Punch 57'))
+            .then(simulateStation('Control', 57, 'Punch 57'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 58, 'Punch 58'))
+            .then(simulateStation('Control', 58, 'Punch 58'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 59, 'Punch 59'))
+            .then(simulateStation('Control', 59, 'Punch 59'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 60, 'Punch 60'))
+            .then(simulateStation('Control', 60, 'Punch 60'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 61, 'Punch 61'))
+            .then(simulateStation('Control', 61, 'Punch 61'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 62, 'Punch 62'))
+            .then(simulateStation('Control', 62, 'Punch 62'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 63, 'Punch 63'))
+            .then(simulateStation('Control', 63, 'Punch 63'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 64, 'Punch 64'))
+            .then(simulateStation('Control', 64, 'Punch 64'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 65, 'Punch 65'))
+            .then(simulateStation('Control', 65, 'Punch 65'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 66, 'Punch 66'))
+            .then(simulateStation('Control', 66, 'Punch 66'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 67, 'Punch 67'))
+            .then(simulateStation('Control', 67, 'Punch 67'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 68, 'Punch 68'))
+            .then(simulateStation('Control', 68, 'Punch 68'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 69, 'Punch 69'))
+            .then(simulateStation('Control', 69, 'Punch 69'))
             .then(readoutCard())
-            .then(simulateStation(SiStationMode.Control, 70, 'Punch 70'))
+            .then(simulateStation('Control', 70, 'Punch 70'))
             .then(readoutCard())
             .then(<span class="fstat-no" title="function not covered" >() =</span>&gt; {
 <span class="cstat-no" title="statement not covered" >                context.putString('Finished!\n');</span>
@@ -724,7 +724,7 @@ export class TestCommand extends BaseCommand {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-01-30T13:57:13.696Z
+                at 2023-01-30T17:54:37.493Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

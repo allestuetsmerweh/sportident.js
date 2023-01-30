@@ -25,28 +25,28 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>24/24</span>
+                <span class='fraction'>18/18</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>4/4</span>
+                <span class='fraction'>2/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>5/5</span>
+                <span class='fraction'>4/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>24/24</span>
+                <span class='fraction'>18/18</span>
             </div>
         
             
@@ -128,7 +128,11 @@
 <a name='L63'></a><a href='#L63'>63</a>
 <a name='L64'></a><a href='#L64'>64</a>
 <a name='L65'></a><a href='#L65'>65</a>
-<a name='L66'></a><a href='#L66'>66</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">6x</span>
+<a name='L66'></a><a href='#L66'>66</a>
+<a name='L67'></a><a href='#L67'>67</a>
+<a name='L68'></a><a href='#L68'>68</a>
+<a name='L69'></a><a href='#L69'>69</a>
+<a name='L70'></a><a href='#L70'>70</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -145,16 +149,20 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
@@ -197,9 +205,13 @@
 import * as siProtocol from '../siProtocol';
 import {ISiDevice} from '../SiDevice/ISiDevice';
 import {ISiStation} from './ISiStation';
+import {SiSendTask} from './SiSendTask';
 &nbsp;
 export interface ISiTargetMultiplexer extends utils.IEventTarget&lt;SiTargetMultiplexerEvents&gt; {
+    _test: _ISiTargetMultiplexerTestData;
     stations: {[Target in SiTargetMultiplexerTarget]?: ISiStation&lt;Target&gt;};
+    target: SiTargetMultiplexerTarget;
+    latestTarget: SiTargetMultiplexerTarget;
     siDevice: ISiDevice&lt;any&gt;;
     sendMessage: (
         target: SiTargetMultiplexerTarget,
@@ -207,6 +219,16 @@ export interface ISiTargetMultiplexer extends utils.IEventTarget&lt;SiTargetMult
         numResponses?: number,
         timeoutInMiliseconds?: number,
     ) =&gt; Promise&lt;number[][]&gt;;
+    sendMessageToLatestTarget: (
+        message: siProtocol.SiMessage,
+        numResponses: number|undefined,
+        timeoutInMiliseconds: number|undefined,
+    ) =&gt; Promise&lt;number[][]&gt;;
+}
+&nbsp;
+export interface _ISiTargetMultiplexerTestData {
+    latestTarget: SiTargetMultiplexerTarget;
+    sendQueue: SiSendTask[];
 }
 &nbsp;
 /* eslint-disable no-unused-vars,no-shadow */
@@ -215,16 +237,6 @@ export enum SiTargetMultiplexerTarget {
     Switching = 1,
     Direct = 2,
     Remote = 3,
-}
-/* eslint-enable no-unused-vars,no-shadow */
-&nbsp;
-/* eslint-disable no-unused-vars,no-shadow */
-export enum SendTaskState {
-    Queued = 0,
-    Sending = 1,
-    Sent = 2,
-    Succeeded = 3,
-    Failed = 4,
 }
 /* eslint-enable no-unused-vars,no-shadow */
 &nbsp;
@@ -265,7 +277,7 @@ export type SiTargetMultiplexerEvents = {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-01-30T13:57:13.696Z
+                at 2023-01-30T17:54:37.493Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

@@ -25,28 +25,28 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>105/105</span>
+                <span class='fraction'>102/102</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">95.08% </span>
+                <span class="strong">91.35% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>58/61</span>
+                <span class='fraction'>74/81</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>36/36</span>
+                <span class='fraction'>35/35</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>97/97</span>
+                <span class='fraction'>94/94</span>
             </div>
         
             
@@ -345,21 +345,20 @@
 <span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -502,6 +501,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -620,6 +620,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import _ from 'lodash';
 import {proto} from '../../constants';
 import * as storage from '../../storage';
+import * as utils from '../../utils';
 import * as siProtocol from '../../siProtocol';
 import {BaseSiCard, IBaseSiCardStorageFields} from '../BaseSiCard';
 import {IPunch} from '../IRaceResultData';
@@ -630,19 +631,17 @@ const bytesPerPage = 128;
 &nbsp;
 const MAX_NUM_PUNCHES = 128;
 &nbsp;
-/* eslint-disable no-unused-vars,no-shadow */
-export enum ModernSiCardSeries {
-    SiCard8 = 0x02,
-    SiCard9 = 0x01,
-    SiCard10 = 0x0F,
-    PCard = 0x04,
-    TCard = 0x06,
+export const ModernSiCardSeries = {
+    SiCard8: 0x02,
+    SiCard9: 0x01,
+    SiCard10: 0x0F,
+    PCard: 0x04,
+    TCard: 0x06,
     // TODO: Find out these values
-    // SiCard11 = ?,
-    // SIAC = ?,
-    // FCard = ?,
-}
-/* eslint-enable no-unused-vars,no-shadow */
+    // SiCard11: ?,
+    // SIAC: ?,
+    // FCard: ?,
+};
 &nbsp;
 export interface PotentialModernSiCardPunch {
     code: number|undefined;
@@ -681,7 +680,7 @@ export const getCroppedString = (charCodes: (number|undefined)[]): string =&gt; 
 &nbsp;
 export const parseCardHolderString = (
     semicolonSeparatedString: string,
-): {[property: string]: any} =&gt; {
+): {[property: string]: unknown} =&gt; {
     const informationComponents = semicolonSeparatedString.split(';');
     return {
         firstName: informationComponents.length &gt; 1 ? informationComponents[0] : undefined,
@@ -699,14 +698,14 @@ export const parseCardHolderString = (
     };
 };
 &nbsp;
-export const parseCardHolder = (maybeCharCodes: (number|undefined)[]): Record&lt;string, string&gt; =&gt; {
+export const parseCardHolder = (maybeCharCodes: (number|undefined)[]): {[property: string]: unknown} =&gt; {
     const semicolonSeparatedString = getCroppedString(maybeCharCodes);
     return parseCardHolderString(semicolonSeparatedString || '');
 };
 &nbsp;
 export interface IModernSiCardStorageFields extends IBaseSiCardStorageFields {
     uid: number;
-    cardSeries: ModernSiCardSeries;
+    cardSeries: keyof typeof ModernSiCardSeries;
 }
 &nbsp;
 export const modernSiCardStorageLocations: storage.ISiStorageLocations&lt;IModernSiCardStorageFields&gt; = {
@@ -758,7 +757,7 @@ export const modernSiCardStorageDefinition = storage.defineStorage(
 export class ModernSiCard extends BaseSiCard {
     static maxNumPunches = MAX_NUM_PUNCHES;
 &nbsp;
-    static parseModernSiCardDetectionMessage(message: siProtocol.SiMessage): {cardNumber: number, cardSeries: number}|undefined {
+    static parseModernSiCardDetectionMessage(message: siProtocol.SiMessage): {cardNumber: number, cardSeries: keyof typeof ModernSiCardSeries}|undefined {
         if (message.mode !== undefined) {
             return undefined;
         }
@@ -778,16 +777,17 @@ export class ModernSiCard extends BaseSiCard {
             throw new Error('card number cannot be undefined');
         }
         const cardSeries = message.parameters[2];
+        const lookup = utils.getLookup(ModernSiCardSeries);
         return {
             cardNumber: cardNumber,
-            cardSeries: cardSeries,
+            cardSeries: lookup[cardSeries] as keyof typeof ModernSiCardSeries,
         };
     }
 &nbsp;
     public storage: storage.ISiStorage&lt;IModernSiCardStorageFields&gt;;
 &nbsp;
     public punchCount?: number;
-    public cardSeries?: ModernSiCardSeries;
+    public cardSeries?: keyof typeof ModernSiCardSeries;
 &nbsp;
     constructor(cardNumber: number) {
         super(cardNumber);
@@ -818,15 +818,15 @@ export class ModernSiCard extends BaseSiCard {
                 .then(() =&gt; this.typeSpecificReadPunches())
                 .then(() =&gt; {
                     this.raceResult = {
-                        cardNumber: this.storage.get('cardNumber')!.value,
+                        cardNumber: this.storage.get('cardNumber')<span class="branch-0 cbranch-no" title="branch not covered" >?.v</span>alue || 0,
                         startTime: this.storage.get('startTime')<span class="branch-0 cbranch-no" title="branch not covered" >?.v</span>alue,
                         finishTime: this.storage.get('finishTime')<span class="branch-0 cbranch-no" title="branch not covered" >?.v</span>alue,
                         checkTime: this.storage.get('checkTime')<span class="branch-0 cbranch-no" title="branch not covered" >?.v</span>alue,
-                        punches: this.storage.get('punches')!.value,
-                        cardHolder: this.storage.get('cardHolder')!.value,
+                        punches: this.storage.get('punches')<span class="branch-0 cbranch-no" title="branch not covered" >?.v</span>alue,
+                        cardHolder: this.storage.get('cardHolder')<span class="branch-0 cbranch-no" title="branch not covered" >?.v</span>alue,
                     };
-                    this.punchCount = this.storage.get('punchCount')!.value;
-                    this.cardSeries = this.storage.get('cardSeries')!.value;
+                    this.punchCount = this.storage.get('punchCount')<span class="branch-0 cbranch-no" title="branch not covered" >?.v</span>alue;
+                    this.cardSeries = this.storage.get('cardSeries')?.value;
                     resolve();
                 })
                 .catch((exc: Error) =&gt; reject(exc));
@@ -901,7 +901,7 @@ export class ModernSiCard extends BaseSiCard {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-01-30T13:57:13.696Z
+                at 2023-01-30T17:54:37.493Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

@@ -152,22 +152,22 @@
 <g id="node7" class="node">
 <title>packages/sportident/src/SiStation/BaseSiStation.test.ts</title>
 <g id="a_node7"><a xlink:href="packages/sportident/src/SiStation/BaseSiStation.test.ts" xlink:title="BaseSiStation.test.ts">
-<path fill="#ddfeff" stroke="black" d="M178,-370C178,-370 80,-370 80,-370 77,-370 74,-367 74,-364 74,-364 74,-358 74,-358 74,-355 77,-352 80,-352 80,-352 178,-352 178,-352 181,-352 184,-355 184,-358 184,-358 184,-364 184,-364 184,-367 181,-370 178,-370"/>
-<text text-anchor="start" x="82" y="-358.8" font-family="Helvetica,sans-Serif" font-size="9.00">BaseSiStation.test.ts</text>
+<path fill="#ddfeff" stroke="black" d="M178,-310C178,-310 80,-310 80,-310 77,-310 74,-307 74,-304 74,-304 74,-298 74,-298 74,-295 77,-292 80,-292 80,-292 178,-292 178,-292 181,-292 184,-295 184,-298 184,-298 184,-304 184,-304 184,-307 181,-310 178,-310"/>
+<text text-anchor="start" x="82" y="-298.8" font-family="Helvetica,sans-Serif" font-size="9.00">BaseSiStation.test.ts</text>
 </a>
 </g>
 </g>
 <!-- packages/sportident/src/SiStation/BaseSiStation.test.ts&#45;&gt;node_modules/@jest/globals/build/index.js -->
 <g id="edge7" class="edge">
 <title>packages/sportident/src/SiStation/BaseSiStation.test.ts&#45;&gt;node_modules/@jest/globals/build/index.js</title>
-<path fill="none" stroke="#000000" stroke-opacity="0.200000" d="M184.33,-362.69C196.99,-360.38 209.3,-355.47 218,-346 232.33,-330.4 220.47,-271.45 226,-251 239.37,-201.51 269.45,-148.22 284.53,-123.33"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-opacity="0.200000" points="286.33,-124.4 287.68,-118.18 282.75,-122.2 286.33,-124.4"/>
+<path fill="none" stroke="#000000" stroke-opacity="0.200000" d="M184.36,-301.65C196.72,-299.29 208.88,-294.63 218,-286 229.59,-275.04 220.77,-266.07 226,-251 242.83,-202.54 271.33,-148.7 285.29,-123.5"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-opacity="0.200000" points="287.27,-124.27 288.36,-118.01 283.6,-122.22 287.27,-124.27"/>
 </g>
 <!-- packages/sportident/src/SiStation/BaseSiStation.test.ts&#45;&gt;node_modules/lodash/lodash.js -->
 <g id="edge8" class="edge">
 <title>packages/sportident/src/SiStation/BaseSiStation.test.ts&#45;&gt;node_modules/lodash/lodash.js</title>
-<path fill="none" stroke="#000000" stroke-opacity="0.200000" d="M184.21,-363.08C197.04,-360.81 209.45,-355.82 218,-346 236.76,-324.46 213.45,-114.67 226,-89 235.35,-69.87 254.62,-54.93 270.19,-45.31"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-opacity="0.200000" points="271.65,-46.89 275.73,-42.01 269.5,-43.28 271.65,-46.89"/>
+<path fill="none" stroke="#000000" stroke-opacity="0.200000" d="M184.15,-303.02C196.97,-300.75 209.4,-295.78 218,-286 232.47,-269.55 216.29,-108.64 226,-89 235.44,-69.92 254.71,-54.97 270.25,-45.34"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-opacity="0.200000" points="271.71,-46.91 275.78,-42.03 269.55,-43.31 271.71,-46.91"/>
 </g>
 <!-- packages/sportident/src/constants.ts -->
 <g id="node8" class="node">
@@ -181,8 +181,8 @@
 <!-- packages/sportident/src/SiStation/BaseSiStation.test.ts&#45;&gt;packages/sportident/src/constants.ts -->
 <g id="edge1" class="edge">
 <title>packages/sportident/src/SiStation/BaseSiStation.test.ts&#45;&gt;packages/sportident/src/constants.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M184.05,-359.06C196.87,-361.34 209.33,-366.29 218,-376 239.2,-399.74 205.23,-494.89 226,-519 232.6,-526.66 242.19,-530.79 252.08,-532.88"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="251.99,-535 258.26,-533.94 252.7,-530.86 251.99,-535"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M184.16,-298.97C196.98,-301.24 209.41,-306.22 218,-316 232.9,-332.96 211.41,-501.78 226,-519 232.53,-526.71 242.11,-530.86 252,-532.96"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="251.91,-535.07 258.17,-534.01 252.61,-530.93 251.91,-535.07"/>
 </g>
 <!-- packages/sportident/src/storage/index.ts -->
 <g id="node9" class="node">
@@ -196,8 +196,8 @@
 <!-- packages/sportident/src/SiStation/BaseSiStation.test.ts&#45;&gt;packages/sportident/src/storage/index.ts -->
 <g id="edge2" class="edge">
 <title>packages/sportident/src/SiStation/BaseSiStation.test.ts&#45;&gt;packages/sportident/src/storage/index.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M184.12,-359C196.95,-361.27 209.38,-366.24 218,-376 231.11,-390.84 213.05,-539.02 226,-554 234.58,-563.93 248.25,-567.73 261.05,-568.83"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="261.14,-570.94 267.24,-569.17 261.37,-566.74 261.14,-570.94"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M184.2,-298.93C197.02,-301.21 209.44,-306.19 218,-316 235.4,-335.93 208.81,-533.88 226,-554 234.53,-563.98 248.19,-567.78 261,-568.88"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="261.09,-570.98 267.19,-569.21 261.31,-566.79 261.09,-570.98"/>
 </g>
 <!-- packages/sportident/src/testUtils.ts -->
 <g id="node10" class="node">
@@ -211,8 +211,8 @@
 <!-- packages/sportident/src/SiStation/BaseSiStation.test.ts&#45;&gt;packages/sportident/src/testUtils.ts -->
 <g id="edge3" class="edge">
 <title>packages/sportident/src/SiStation/BaseSiStation.test.ts&#45;&gt;packages/sportident/src/testUtils.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M184.19,-358.94C197.01,-361.22 209.43,-366.2 218,-376 234.76,-395.17 209.59,-585.54 226,-605 233.29,-613.65 244.4,-617.82 255.51,-619.64"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="255.44,-621.75 261.66,-620.42 255.97,-617.58 255.44,-621.75"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M184.24,-298.9C197.06,-301.17 209.47,-306.17 218,-316 239.06,-340.26 205.38,-580.37 226,-605 233.32,-613.75 244.56,-617.92 255.77,-619.72"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="255.76,-621.83 261.97,-620.48 256.27,-617.66 255.76,-621.83"/>
 </g>
 <!-- packages/sportident/src/SiStation/BaseSiStation.ts -->
 <g id="node11" class="node">
@@ -226,23 +226,23 @@
 <!-- packages/sportident/src/SiStation/BaseSiStation.test.ts&#45;&gt;packages/sportident/src/SiStation/BaseSiStation.ts -->
 <g id="edge4" class="edge">
 <title>packages/sportident/src/SiStation/BaseSiStation.test.ts&#45;&gt;packages/sportident/src/SiStation/BaseSiStation.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M184.44,-361C203.56,-361 224.92,-361 243.64,-361"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="243.87,-363.1 249.87,-361 243.87,-358.9 243.87,-363.1"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M184.14,-300.58C196.51,-302.93 208.73,-307.54 218,-316 228.19,-325.3 216.04,-336.45 226,-346 230.98,-350.77 237.11,-354.16 243.65,-356.54"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="243.38,-358.65 249.73,-358.45 244.64,-354.65 243.38,-358.65"/>
 </g>
 <!-- packages/sportident/src/SiStation/ISiTargetMultiplexer.ts -->
 <g id="node12" class="node">
 <title>packages/sportident/src/SiStation/ISiTargetMultiplexer.ts</title>
 <g id="a_node12"><a xlink:href="packages/sportident/src/SiStation/ISiTargetMultiplexer.ts" xlink:title="ISiTargetMultiplexer.ts">
-<path fill="#ddfeff" stroke="black" d="M346.5,-490C346.5,-490 242.5,-490 242.5,-490 239.5,-490 236.5,-487 236.5,-484 236.5,-484 236.5,-478 236.5,-478 236.5,-475 239.5,-472 242.5,-472 242.5,-472 346.5,-472 346.5,-472 349.5,-472 352.5,-475 352.5,-478 352.5,-478 352.5,-484 352.5,-484 352.5,-487 349.5,-490 346.5,-490"/>
-<text text-anchor="start" x="244.5" y="-478.8" font-family="Helvetica,sans-Serif" font-size="9.00">ISiTargetMultiplexer.ts</text>
+<path fill="#ddfeff" stroke="black" d="M346.5,-460C346.5,-460 242.5,-460 242.5,-460 239.5,-460 236.5,-457 236.5,-454 236.5,-454 236.5,-448 236.5,-448 236.5,-445 239.5,-442 242.5,-442 242.5,-442 346.5,-442 346.5,-442 349.5,-442 352.5,-445 352.5,-448 352.5,-448 352.5,-454 352.5,-454 352.5,-457 349.5,-460 346.5,-460"/>
+<text text-anchor="start" x="244.5" y="-448.8" font-family="Helvetica,sans-Serif" font-size="9.00">ISiTargetMultiplexer.ts</text>
 </a>
 </g>
 </g>
 <!-- packages/sportident/src/SiStation/BaseSiStation.test.ts&#45;&gt;packages/sportident/src/SiStation/ISiTargetMultiplexer.ts -->
 <g id="edge5" class="edge">
 <title>packages/sportident/src/SiStation/BaseSiStation.test.ts&#45;&gt;packages/sportident/src/SiStation/ISiTargetMultiplexer.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M184.29,-359.34C196.96,-361.65 209.28,-366.55 218,-376 231.62,-390.76 212.75,-450.91 226,-466 227.56,-467.77 229.27,-469.36 231.11,-470.79"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="230.09,-472.63 236.26,-474.18 232.4,-469.12 230.09,-472.63"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M184.44,-299.21C197.1,-301.52 209.38,-306.45 218,-316 235.91,-335.84 208.59,-415.72 226,-436 227.58,-437.84 229.33,-439.48 231.21,-440.95"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="230.32,-442.87 236.48,-444.42 232.63,-439.37 230.32,-442.87"/>
 </g>
 <!-- packages/sportident/src/SiStation/siStationExamples.ts -->
 <g id="node13" class="node">
@@ -256,41 +256,41 @@
 <!-- packages/sportident/src/SiStation/BaseSiStation.test.ts&#45;&gt;packages/sportident/src/SiStation/siStationExamples.ts -->
 <g id="edge6" class="edge">
 <title>packages/sportident/src/SiStation/BaseSiStation.test.ts&#45;&gt;packages/sportident/src/SiStation/siStationExamples.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M184.03,-352.03C195.26,-350.1 207.03,-348.02 218,-346 226.06,-344.51 234.6,-342.88 242.92,-341.25"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="243.74,-343.23 249.22,-340.01 242.93,-339.1 243.74,-343.23"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M184.03,-309.97C195.26,-311.9 207.03,-313.98 218,-316 226.06,-317.49 234.6,-319.12 242.92,-320.75"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="242.93,-322.9 249.22,-321.99 243.74,-318.77 242.93,-322.9"/>
 </g>
 <!-- packages/sportident/src/SiStation/CoupledSiStation.test.ts -->
 <g id="node14" class="node">
 <title>packages/sportident/src/SiStation/CoupledSiStation.test.ts</title>
 <g id="a_node14"><a xlink:href="packages/sportident/src/SiStation/CoupledSiStation.test.ts" xlink:title="CoupledSiStation.test.ts">
-<path fill="#ddfeff" stroke="black" d="M185.5,-400C185.5,-400 72.5,-400 72.5,-400 69.5,-400 66.5,-397 66.5,-394 66.5,-394 66.5,-388 66.5,-388 66.5,-385 69.5,-382 72.5,-382 72.5,-382 185.5,-382 185.5,-382 188.5,-382 191.5,-385 191.5,-388 191.5,-388 191.5,-394 191.5,-394 191.5,-397 188.5,-400 185.5,-400"/>
-<text text-anchor="start" x="74.5" y="-388.8" font-family="Helvetica,sans-Serif" font-size="9.00">CoupledSiStation.test.ts</text>
+<path fill="#ddfeff" stroke="black" d="M185.5,-340C185.5,-340 72.5,-340 72.5,-340 69.5,-340 66.5,-337 66.5,-334 66.5,-334 66.5,-328 66.5,-328 66.5,-325 69.5,-322 72.5,-322 72.5,-322 185.5,-322 185.5,-322 188.5,-322 191.5,-325 191.5,-328 191.5,-328 191.5,-334 191.5,-334 191.5,-337 188.5,-340 185.5,-340"/>
+<text text-anchor="start" x="74.5" y="-328.8" font-family="Helvetica,sans-Serif" font-size="9.00">CoupledSiStation.test.ts</text>
 </a>
 </g>
 </g>
 <!-- packages/sportident/src/SiStation/CoupledSiStation.test.ts&#45;&gt;node_modules/@jest/globals/build/index.js -->
 <g id="edge14" class="edge">
 <title>packages/sportident/src/SiStation/CoupledSiStation.test.ts&#45;&gt;node_modules/@jest/globals/build/index.js</title>
-<path fill="none" stroke="#000000" stroke-opacity="0.200000" d="M191.71,-391.16C201.71,-388.42 211.05,-383.72 218,-376 227.31,-365.66 222.51,-264.47 226,-251 238.87,-201.38 269.18,-148.14 284.42,-123.3"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-opacity="0.200000" points="286.23,-124.37 287.61,-118.16 282.66,-122.16 286.23,-124.37"/>
+<path fill="none" stroke="#000000" stroke-opacity="0.200000" d="M191.8,-330.7C201.67,-327.98 210.94,-323.4 218,-316 228.05,-305.47 221.93,-264.97 226,-251 240.32,-201.78 269.95,-148.36 284.73,-123.39"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-opacity="0.200000" points="286.54,-124.45 287.81,-118.22 282.93,-122.3 286.54,-124.45"/>
 </g>
 <!-- packages/sportident/src/SiStation/CoupledSiStation.test.ts&#45;&gt;packages/sportident/src/SiDevice/SiDevice.ts -->
 <g id="edge9" class="edge">
 <title>packages/sportident/src/SiStation/CoupledSiStation.test.ts&#45;&gt;packages/sportident/src/SiDevice/SiDevice.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M191.9,-390.67C201.88,-393.43 211.17,-398.18 218,-406 235.12,-425.59 209.09,-620.23 226,-640 233.26,-648.5 244.25,-652.51 255.26,-654.2"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="255.15,-656.3 261.35,-654.9 255.63,-652.13 255.15,-656.3"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M191.95,-330.63C201.93,-333.39 211.2,-338.16 218,-346 239.41,-370.68 204.85,-615.09 226,-640 233.23,-648.52 244.21,-652.55 255.22,-654.23"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="255.12,-656.33 261.32,-654.93 255.6,-652.16 255.12,-656.33"/>
 </g>
 <!-- packages/sportident/src/SiStation/CoupledSiStation.test.ts&#45;&gt;packages/sportident/src/testUtils.ts -->
 <g id="edge10" class="edge">
 <title>packages/sportident/src/SiStation/CoupledSiStation.test.ts&#45;&gt;packages/sportident/src/testUtils.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M191.86,-390.7C201.85,-393.46 211.14,-398.2 218,-406 232.61,-422.62 211.69,-588.12 226,-605 233.31,-613.63 244.43,-617.79 255.54,-619.61"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="255.47,-621.72 261.68,-620.4 256,-617.56 255.47,-621.72"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M191.92,-330.65C201.9,-333.41 211.18,-338.17 218,-346 236.91,-367.71 207.48,-582.95 226,-605 233.34,-613.74 244.57,-617.91 255.79,-619.7"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="255.77,-621.82 261.99,-620.47 256.29,-617.65 255.77,-621.82"/>
 </g>
 <!-- packages/sportident/src/SiStation/CoupledSiStation.test.ts&#45;&gt;packages/sportident/src/SiStation/ISiTargetMultiplexer.ts -->
 <g id="edge12" class="edge">
 <title>packages/sportident/src/SiStation/CoupledSiStation.test.ts&#45;&gt;packages/sportident/src/SiStation/ISiTargetMultiplexer.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M191.73,-391.36C201.61,-394.07 210.9,-398.64 218,-406 236.67,-425.36 207.81,-446.18 226,-466 227.6,-467.74 229.34,-469.3 231.21,-470.7"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="230.23,-472.56 236.41,-474.04 232.5,-469.03 230.23,-472.56"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M191.56,-330.98C201.57,-333.71 210.96,-338.37 218,-346 231.62,-360.76 212.75,-420.91 226,-436 227.56,-437.77 229.27,-439.36 231.11,-440.79"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="230.09,-442.63 236.26,-444.18 232.4,-439.12 230.09,-442.63"/>
 </g>
 <!-- packages/sportident/src/SiStation/CoupledSiStation.ts -->
 <g id="node15" class="node">
@@ -304,23 +304,23 @@
 <!-- packages/sportident/src/SiStation/CoupledSiStation.test.ts&#45;&gt;packages/sportident/src/SiStation/CoupledSiStation.ts -->
 <g id="edge11" class="edge">
 <title>packages/sportident/src/SiStation/CoupledSiStation.test.ts&#45;&gt;packages/sportident/src/SiStation/CoupledSiStation.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M191.56,-391.02C201.57,-388.29 210.96,-383.63 218,-376 231.62,-361.24 212.75,-301.09 226,-286 228.94,-282.65 232.45,-279.96 236.29,-277.8"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="237.24,-279.68 241.73,-275.18 235.41,-275.89 237.24,-279.68"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M191.88,-329.62C201.51,-326.96 210.67,-322.68 218,-316 228.19,-306.7 216.04,-295.55 226,-286 229.03,-283.1 232.49,-280.71 236.2,-278.74"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="237.23,-280.58 241.81,-276.16 235.48,-276.76 237.23,-280.58"/>
 </g>
 <!-- packages/sportident/src/SiStation/SiTargetMultiplexer.ts -->
 <g id="node16" class="node">
 <title>packages/sportident/src/SiStation/SiTargetMultiplexer.ts</title>
 <g id="a_node16"><a xlink:href="packages/sportident/src/SiStation/SiTargetMultiplexer.ts" xlink:title="SiTargetMultiplexer.ts">
-<path fill="#ddfeff" stroke="black" d="M345,-460C345,-460 244,-460 244,-460 241,-460 238,-457 238,-454 238,-454 238,-448 238,-448 238,-445 241,-442 244,-442 244,-442 345,-442 345,-442 348,-442 351,-445 351,-448 351,-448 351,-454 351,-454 351,-457 348,-460 345,-460"/>
-<text text-anchor="start" x="246" y="-448.8" font-family="Helvetica,sans-Serif" font-size="9.00">SiTargetMultiplexer.ts</text>
+<path fill="#ddfeff" stroke="black" d="M345,-430C345,-430 244,-430 244,-430 241,-430 238,-427 238,-424 238,-424 238,-418 238,-418 238,-415 241,-412 244,-412 244,-412 345,-412 345,-412 348,-412 351,-415 351,-418 351,-418 351,-424 351,-424 351,-427 348,-430 345,-430"/>
+<text text-anchor="start" x="246" y="-418.8" font-family="Helvetica,sans-Serif" font-size="9.00">SiTargetMultiplexer.ts</text>
 </a>
 </g>
 </g>
 <!-- packages/sportident/src/SiStation/CoupledSiStation.test.ts&#45;&gt;packages/sportident/src/SiStation/SiTargetMultiplexer.ts -->
 <g id="edge13" class="edge">
 <title>packages/sportident/src/SiStation/CoupledSiStation.test.ts&#45;&gt;packages/sportident/src/SiStation/SiTargetMultiplexer.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M191.88,-392.38C201.51,-395.04 210.67,-399.32 218,-406 228.19,-415.3 216.04,-426.45 226,-436 227.95,-437.87 230.08,-439.53 232.34,-440.99"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="231.57,-442.97 237.83,-444.08 233.63,-439.31 231.57,-442.97"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M191.73,-331.36C201.61,-334.07 210.9,-338.64 218,-346 236.67,-365.36 207.81,-386.18 226,-406 228.02,-408.21 230.29,-410.12 232.74,-411.79"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="231.76,-413.65 238,-414.87 233.88,-410.02 231.76,-413.65"/>
 </g>
 <!-- packages/sportident/src/SiStation/ISiMainStation.ts -->
 <g id="node17" class="node">
@@ -346,100 +346,103 @@
 <path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M340.67,-391C351.4,-391 362.64,-391 372.67,-391"/>
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="372.74,-393.1 378.74,-391 372.74,-388.9 372.74,-393.1"/>
 </g>
-<!-- packages/sportident/src/SiStation/ISiStation.ts -->
+<!-- packages/sportident/src/SiStation/ISiSendTask.ts -->
 <g id="node19" class="node">
+<title>packages/sportident/src/SiStation/ISiSendTask.ts</title>
+<g id="a_node19"><a xlink:href="packages/sportident/src/SiStation/ISiSendTask.ts" xlink:title="ISiSendTask.ts">
+<path fill="#ddfeff" stroke="black" d="M329,-490C329,-490 260,-490 260,-490 257,-490 254,-487 254,-484 254,-484 254,-478 254,-478 254,-475 257,-472 260,-472 260,-472 329,-472 329,-472 332,-472 335,-475 335,-478 335,-478 335,-484 335,-484 335,-487 332,-490 329,-490"/>
+<text text-anchor="start" x="262" y="-478.8" font-family="Helvetica,sans-Serif" font-size="9.00">ISiSendTask.ts</text>
+</a>
+</g>
+</g>
+<!-- packages/sportident/src/SiStation/ISiStation.ts -->
+<g id="node20" class="node">
 <title>packages/sportident/src/SiStation/ISiStation.ts</title>
-<g id="a_node19"><a xlink:href="packages/sportident/src/SiStation/ISiStation.ts" xlink:title="ISiStation.ts">
-<path fill="#ddfeff" stroke="black" d="M324,-430C324,-430 265,-430 265,-430 262,-430 259,-427 259,-424 259,-424 259,-418 259,-418 259,-415 262,-412 265,-412 265,-412 324,-412 324,-412 327,-412 330,-415 330,-418 330,-418 330,-424 330,-424 330,-427 327,-430 324,-430"/>
-<text text-anchor="start" x="267" y="-418.8" font-family="Helvetica,sans-Serif" font-size="9.00">ISiStation.ts</text>
+<g id="a_node20"><a xlink:href="packages/sportident/src/SiStation/ISiStation.ts" xlink:title="no&#45;orphans">
+<path fill="#ccffcc" stroke="blue" d="M158.5,-430C158.5,-430 99.5,-430 99.5,-430 96.5,-430 93.5,-427 93.5,-424 93.5,-424 93.5,-418 93.5,-418 93.5,-415 96.5,-412 99.5,-412 99.5,-412 158.5,-412 158.5,-412 161.5,-412 164.5,-415 164.5,-418 164.5,-418 164.5,-424 164.5,-424 164.5,-427 161.5,-430 158.5,-430"/>
+<text text-anchor="start" x="101.5" y="-418.8" font-family="Helvetica,sans-Serif" font-size="9.00" fill="blue">ISiStation.ts</text>
 </a>
 </g>
 </g>
 <!-- packages/sportident/src/SiStation/SiMainStation.test.ts -->
-<g id="node20" class="node">
+<g id="node21" class="node">
 <title>packages/sportident/src/SiStation/SiMainStation.test.ts</title>
-<g id="a_node20"><a xlink:href="packages/sportident/src/SiStation/SiMainStation.test.ts" xlink:title="SiMainStation.test.ts">
-<path fill="#ddfeff" stroke="black" d="M178,-430C178,-430 80,-430 80,-430 77,-430 74,-427 74,-424 74,-424 74,-418 74,-418 74,-415 77,-412 80,-412 80,-412 178,-412 178,-412 181,-412 184,-415 184,-418 184,-418 184,-424 184,-424 184,-427 181,-430 178,-430"/>
-<text text-anchor="start" x="82" y="-418.8" font-family="Helvetica,sans-Serif" font-size="9.00">SiMainStation.test.ts</text>
+<g id="a_node21"><a xlink:href="packages/sportident/src/SiStation/SiMainStation.test.ts" xlink:title="SiMainStation.test.ts">
+<path fill="#ddfeff" stroke="black" d="M178,-370C178,-370 80,-370 80,-370 77,-370 74,-367 74,-364 74,-364 74,-358 74,-358 74,-355 77,-352 80,-352 80,-352 178,-352 178,-352 181,-352 184,-355 184,-358 184,-358 184,-364 184,-364 184,-367 181,-370 178,-370"/>
+<text text-anchor="start" x="82" y="-358.8" font-family="Helvetica,sans-Serif" font-size="9.00">SiMainStation.test.ts</text>
 </a>
 </g>
 </g>
 <!-- packages/sportident/src/SiStation/SiMainStation.test.ts&#45;&gt;node_modules/@jest/globals/build/index.js -->
-<g id="edge30" class="edge">
+<g id="edge29" class="edge">
 <title>packages/sportident/src/SiStation/SiMainStation.test.ts&#45;&gt;node_modules/@jest/globals/build/index.js</title>
-<path fill="none" stroke="#000000" stroke-opacity="0.200000" d="M184.08,-422.96C196.9,-420.69 209.35,-415.73 218,-406 229.46,-393.11 221.77,-267.72 226,-251 238.57,-201.3 269.02,-148.1 284.36,-123.28"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-opacity="0.200000" points="286.16,-124.35 287.56,-118.15 282.6,-122.13 286.16,-124.35"/>
+<path fill="none" stroke="#000000" stroke-opacity="0.200000" d="M184.33,-362.69C196.99,-360.38 209.3,-355.47 218,-346 232.33,-330.4 220.47,-271.45 226,-251 239.37,-201.51 269.45,-148.22 284.53,-123.33"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-opacity="0.200000" points="286.33,-124.4 287.68,-118.18 282.75,-122.2 286.33,-124.4"/>
 </g>
 <!-- packages/sportident/src/SiStation/SiMainStation.test.ts&#45;&gt;packages/sportident/src/SiCard/types/siCard5Examples.ts -->
 <g id="edge19" class="edge">
 <title>packages/sportident/src/SiStation/SiMainStation.test.ts&#45;&gt;packages/sportident/src/SiCard/types/siCard5Examples.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M184.26,-418.88C197.08,-421.15 209.48,-426.15 218,-436 230,-449.87 214.35,-751.84 226,-766 228.88,-769.51 232.39,-772.3 236.27,-774.53"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="235.45,-776.46 241.76,-777.21 237.29,-772.69 235.45,-776.46"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M184.29,-358.86C197.11,-361.13 209.5,-366.14 218,-376 232.15,-392.42 212.27,-749.24 226,-766 228.88,-769.51 232.38,-772.31 236.25,-774.54"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="235.43,-776.48 241.75,-777.23 237.28,-772.7 235.43,-776.48"/>
 </g>
 <!-- packages/sportident/src/SiStation/SiMainStation.test.ts&#45;&gt;packages/sportident/src/SiCard/types/siCard6Examples.ts -->
 <g id="edge20" class="edge">
 <title>packages/sportident/src/SiStation/SiMainStation.test.ts&#45;&gt;packages/sportident/src/SiCard/types/siCard6Examples.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M184.24,-418.9C197.06,-421.18 209.46,-426.17 218,-436 238.77,-459.92 208.37,-694.68 226,-721 231.44,-729.12 239.62,-735.06 248.43,-739.4"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="247.64,-741.35 253.97,-741.91 249.37,-737.52 247.64,-741.35"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M184.27,-358.87C197.09,-361.15 209.49,-366.15 218,-376 230.53,-390.51 215.37,-705.05 226,-721 231.42,-729.13 239.59,-735.08 248.4,-739.42"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="247.61,-741.37 253.94,-741.93 249.34,-737.54 247.61,-741.37"/>
 </g>
 <!-- packages/sportident/src/SiStation/SiMainStation.test.ts&#45;&gt;packages/sportident/src/SiDevice/SiDevice.ts -->
 <g id="edge21" class="edge">
 <title>packages/sportident/src/SiStation/SiMainStation.test.ts&#45;&gt;packages/sportident/src/SiDevice/SiDevice.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M184.16,-418.97C196.98,-421.24 209.41,-426.22 218,-436 232.97,-453.05 211.22,-622.8 226,-640 233.28,-648.48 244.27,-652.49 255.28,-654.17"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="255.17,-656.28 261.38,-654.88 255.66,-652.1 255.17,-656.28"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M184.22,-358.92C197.04,-361.19 209.45,-366.18 218,-376 237.27,-398.14 206.97,-617.66 226,-640 233.25,-648.51 244.23,-652.53 255.24,-654.21"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="255.13,-656.31 261.33,-654.92 255.61,-652.14 255.13,-656.31"/>
 </g>
 <!-- packages/sportident/src/SiStation/SiMainStation.test.ts&#45;&gt;packages/sportident/src/constants.ts -->
 <g id="edge16" class="edge">
 <title>packages/sportident/src/SiStation/SiMainStation.test.ts&#45;&gt;packages/sportident/src/constants.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M184.25,-419.39C196.91,-421.69 209.24,-426.58 218,-436 230.62,-449.57 213.63,-505.21 226,-519 232.75,-526.53 242.4,-530.61 252.29,-532.7"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="252.19,-534.82 258.46,-533.76 252.9,-530.68 252.19,-534.82"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M184.05,-359.06C196.87,-361.34 209.33,-366.29 218,-376 239.2,-399.74 205.23,-494.89 226,-519 232.6,-526.66 242.19,-530.79 252.08,-532.88"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="251.99,-535 258.26,-533.94 252.7,-530.86 251.99,-535"/>
 </g>
 <!-- packages/sportident/src/SiStation/SiMainStation.test.ts&#45;&gt;packages/sportident/src/testUtils.ts -->
 <g id="edge22" class="edge">
 <title>packages/sportident/src/SiStation/SiMainStation.test.ts&#45;&gt;packages/sportident/src/testUtils.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M184.11,-419.01C196.93,-421.29 209.37,-426.25 218,-436 230.46,-450.08 213.79,-590.7 226,-605 233.34,-613.6 244.46,-617.76 255.57,-619.58"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="255.5,-621.69 261.72,-620.37 256.03,-617.53 255.5,-621.69"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M184.19,-358.94C197.01,-361.22 209.43,-366.2 218,-376 234.76,-395.17 209.59,-585.54 226,-605 233.29,-613.65 244.4,-617.82 255.51,-619.64"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="255.44,-621.75 261.66,-620.42 255.97,-617.58 255.44,-621.75"/>
 </g>
 <!-- packages/sportident/src/SiStation/SiMainStation.test.ts&#45;&gt;packages/sportident/src/SiStation/BaseSiStation.ts -->
 <g id="edge23" class="edge">
 <title>packages/sportident/src/SiStation/SiMainStation.test.ts&#45;&gt;packages/sportident/src/SiStation/BaseSiStation.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M184.14,-421.42C196.51,-419.07 208.73,-414.46 218,-406 228.19,-396.7 216.04,-385.55 226,-376 230.98,-371.23 237.11,-367.84 243.65,-365.46"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="244.64,-367.35 249.73,-363.55 243.38,-363.35 244.64,-367.35"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M184.44,-361C203.56,-361 224.92,-361 243.64,-361"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="243.87,-363.1 249.87,-361 243.87,-358.9 243.87,-363.1"/>
 </g>
 <!-- packages/sportident/src/SiStation/SiMainStation.test.ts&#45;&gt;packages/sportident/src/SiStation/ISiTargetMultiplexer.ts -->
-<g id="edge26" class="edge">
+<g id="edge25" class="edge">
 <title>packages/sportident/src/SiStation/SiMainStation.test.ts&#45;&gt;packages/sportident/src/SiStation/ISiTargetMultiplexer.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M184.14,-420.58C196.51,-422.93 208.73,-427.54 218,-436 228.19,-445.3 216.04,-456.45 226,-466 227.52,-467.45 229.14,-468.78 230.85,-469.99"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="230.01,-471.93 236.22,-473.27 232.19,-468.35 230.01,-471.93"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M184.01,-359.61C196.68,-361.91 209.07,-366.74 218,-376 236.67,-395.36 207.81,-416.18 226,-436 227.6,-437.74 229.34,-439.3 231.21,-440.7"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="230.23,-442.56 236.41,-444.04 232.5,-439.03 230.23,-442.56"/>
 </g>
 <!-- packages/sportident/src/SiStation/SiMainStation.test.ts&#45;&gt;packages/sportident/src/SiStation/siStationExamples.ts -->
-<g id="edge28" class="edge">
+<g id="edge27" class="edge">
 <title>packages/sportident/src/SiStation/SiMainStation.test.ts&#45;&gt;packages/sportident/src/SiStation/siStationExamples.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M184.01,-422.39C196.68,-420.09 209.07,-415.26 218,-406 236.67,-386.64 207.81,-365.82 226,-346 228.33,-343.46 230.99,-341.3 233.88,-339.46"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="235.03,-341.23 239.29,-336.51 233.02,-337.54 235.03,-341.23"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M184.03,-352.03C195.26,-350.1 207.03,-348.02 218,-346 226.06,-344.51 234.6,-342.88 242.92,-341.25"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="243.74,-343.23 249.22,-340.01 242.93,-339.1 243.74,-343.23"/>
 </g>
 <!-- packages/sportident/src/SiStation/SiMainStation.test.ts&#45;&gt;packages/sportident/src/SiStation/SiTargetMultiplexer.ts -->
-<g id="edge29" class="edge">
+<g id="edge28" class="edge">
 <title>packages/sportident/src/SiStation/SiMainStation.test.ts&#45;&gt;packages/sportident/src/SiStation/SiTargetMultiplexer.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M184.03,-429.97C195.26,-431.9 207.03,-433.98 218,-436 226.06,-437.49 234.6,-439.12 242.92,-440.75"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="242.93,-442.9 249.22,-441.99 243.74,-438.77 242.93,-442.9"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M184.14,-360.58C196.51,-362.93 208.73,-367.54 218,-376 228.19,-385.3 216.04,-396.45 226,-406 227.95,-407.87 230.08,-409.53 232.34,-410.99"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="231.57,-412.97 237.83,-414.08 233.63,-409.31 231.57,-412.97"/>
 </g>
 <!-- packages/sportident/src/SiStation/SiMainStation.test.ts&#45;&gt;packages/sportident/src/SiStation/ISiMainStation.ts -->
 <g id="edge24" class="edge">
 <title>packages/sportident/src/SiStation/SiMainStation.test.ts&#45;&gt;packages/sportident/src/SiStation/ISiMainStation.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M184.03,-412.03C195.26,-410.1 207.03,-408.02 218,-406 226.06,-404.51 234.6,-402.88 242.92,-401.25"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="243.74,-403.23 249.22,-400.01 242.93,-399.1 243.74,-403.23"/>
-</g>
-<!-- packages/sportident/src/SiStation/SiMainStation.test.ts&#45;&gt;packages/sportident/src/SiStation/ISiStation.ts -->
-<g id="edge25" class="edge">
-<title>packages/sportident/src/SiStation/SiMainStation.test.ts&#45;&gt;packages/sportident/src/SiStation/ISiStation.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M184.44,-421C206.67,-421 231.94,-421 252.55,-421"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="252.79,-423.1 258.79,-421 252.79,-418.9 252.79,-423.1"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M184.03,-369.97C195.26,-371.9 207.03,-373.98 218,-376 226.06,-377.49 234.6,-379.12 242.92,-380.75"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="242.93,-382.9 249.22,-381.99 243.74,-378.77 242.93,-382.9"/>
 </g>
 <!-- packages/sportident/src/fakes/FakeSiCard/types/FakeSiCard5.ts -->
-<g id="node21" class="node">
+<g id="node22" class="node">
 <title>packages/sportident/src/fakes/FakeSiCard/types/FakeSiCard5.ts</title>
-<g id="a_node21"><a xlink:href="packages/sportident/src/fakes/FakeSiCard/types/FakeSiCard5.ts" xlink:title="FakeSiCard5.ts">
+<g id="a_node22"><a xlink:href="packages/sportident/src/fakes/FakeSiCard/types/FakeSiCard5.ts" xlink:title="FakeSiCard5.ts">
 <path fill="#ddfeff" stroke="black" d="M330,-922C330,-922 259,-922 259,-922 256,-922 253,-919 253,-916 253,-916 253,-910 253,-910 253,-907 256,-904 259,-904 259,-904 330,-904 330,-904 333,-904 336,-907 336,-910 336,-910 336,-916 336,-916 336,-919 333,-922 330,-922"/>
 <text text-anchor="start" x="261" y="-910.8" font-family="Helvetica,sans-Serif" font-size="9.00">FakeSiCard5.ts</text>
 </a>
@@ -448,13 +451,13 @@
 <!-- packages/sportident/src/SiStation/SiMainStation.test.ts&#45;&gt;packages/sportident/src/fakes/FakeSiCard/types/FakeSiCard5.ts -->
 <g id="edge17" class="edge">
 <title>packages/sportident/src/SiStation/SiMainStation.test.ts&#45;&gt;packages/sportident/src/fakes/FakeSiCard/types/FakeSiCard5.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M184.31,-418.84C197.13,-421.11 209.52,-426.12 218,-436 234.73,-455.47 209.76,-878.12 226,-898 231.26,-904.45 238.63,-908.5 246.57,-910.99"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="246.39,-913.11 252.72,-912.6 247.45,-909.05 246.39,-913.11"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M184.32,-358.83C197.14,-361.1 209.53,-366.12 218,-376 236.88,-398.02 207.68,-875.52 226,-898 231.26,-904.45 238.62,-908.51 246.56,-911"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="246.38,-913.12 252.71,-912.61 247.44,-909.06 246.38,-913.12"/>
 </g>
 <!-- packages/sportident/src/fakes/FakeSiCard/types/FakeSiCard6.ts -->
-<g id="node22" class="node">
+<g id="node23" class="node">
 <title>packages/sportident/src/fakes/FakeSiCard/types/FakeSiCard6.ts</title>
-<g id="a_node22"><a xlink:href="packages/sportident/src/fakes/FakeSiCard/types/FakeSiCard6.ts" xlink:title="FakeSiCard6.ts">
+<g id="a_node23"><a xlink:href="packages/sportident/src/fakes/FakeSiCard/types/FakeSiCard6.ts" xlink:title="FakeSiCard6.ts">
 <path fill="#ddfeff" stroke="black" d="M330,-892C330,-892 259,-892 259,-892 256,-892 253,-889 253,-886 253,-886 253,-880 253,-880 253,-877 256,-874 259,-874 259,-874 330,-874 330,-874 333,-874 336,-877 336,-880 336,-880 336,-886 336,-886 336,-889 333,-892 330,-892"/>
 <text text-anchor="start" x="261" y="-880.8" font-family="Helvetica,sans-Serif" font-size="9.00">FakeSiCard6.ts</text>
 </a>
@@ -463,185 +466,212 @@
 <!-- packages/sportident/src/SiStation/SiMainStation.test.ts&#45;&gt;packages/sportident/src/fakes/FakeSiCard/types/FakeSiCard6.ts -->
 <g id="edge18" class="edge">
 <title>packages/sportident/src/SiStation/SiMainStation.test.ts&#45;&gt;packages/sportident/src/fakes/FakeSiCard/types/FakeSiCard6.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M184.28,-418.86C197.1,-421.13 209.5,-426.14 218,-436 231.9,-452.12 217.39,-799.54 226,-819 235.74,-841.03 257.04,-859.11 273.13,-870.37"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="272.22,-872.29 278.36,-873.92 274.57,-868.81 272.22,-872.29"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M184.3,-358.84C197.12,-361.12 209.51,-366.13 218,-376 234.05,-394.67 216.07,-796.47 226,-819 235.71,-841.04 257.02,-859.12 273.11,-870.38"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="272.2,-872.3 278.35,-873.93 274.56,-868.82 272.2,-872.3"/>
 </g>
 <!-- packages/sportident/src/SiStation/SiMainStation.ts -->
-<g id="node23" class="node">
+<g id="node24" class="node">
 <title>packages/sportident/src/SiStation/SiMainStation.ts</title>
-<g id="a_node23"><a xlink:href="packages/sportident/src/SiStation/SiMainStation.ts" xlink:title="SiMainStation.ts">
+<g id="a_node24"><a xlink:href="packages/sportident/src/SiStation/SiMainStation.ts" xlink:title="SiMainStation.ts">
 <path fill="#ddfeff" stroke="black" d="M333,-310C333,-310 256,-310 256,-310 253,-310 250,-307 250,-304 250,-304 250,-298 250,-298 250,-295 253,-292 256,-292 256,-292 333,-292 333,-292 336,-292 339,-295 339,-298 339,-298 339,-304 339,-304 339,-307 336,-310 333,-310"/>
 <text text-anchor="start" x="258" y="-298.8" font-family="Helvetica,sans-Serif" font-size="9.00">SiMainStation.ts</text>
 </a>
 </g>
 </g>
 <!-- packages/sportident/src/SiStation/SiMainStation.test.ts&#45;&gt;packages/sportident/src/SiStation/SiMainStation.ts -->
-<g id="edge27" class="edge">
+<g id="edge26" class="edge">
 <title>packages/sportident/src/SiStation/SiMainStation.test.ts&#45;&gt;packages/sportident/src/SiStation/SiMainStation.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M184.29,-422.66C196.96,-420.35 209.28,-415.45 218,-406 231.62,-391.24 212.75,-331.09 226,-316 230.83,-310.5 237.18,-306.77 244.06,-304.28"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="244.83,-306.24 249.94,-302.46 243.59,-302.23 244.83,-306.24"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M184.14,-361.42C196.51,-359.07 208.73,-354.46 218,-346 228.19,-336.7 216.04,-325.55 226,-316 230.98,-311.23 237.11,-307.84 243.65,-305.46"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="244.64,-307.35 249.73,-303.55 243.38,-303.35 244.64,-307.35"/>
 </g>
-<!-- packages/sportident/src/SiStation/SiTargetMultiplexer.targeting.test.ts -->
-<g id="node24" class="node">
-<title>packages/sportident/src/SiStation/SiTargetMultiplexer.targeting.test.ts</title>
-<g id="a_node24"><a xlink:href="packages/sportident/src/SiStation/SiTargetMultiplexer.targeting.test.ts" xlink:title="SiTargetMultiplexer.targeting.test.ts">
-<path fill="#ddfeff" stroke="black" d="M212,-490C212,-490 46,-490 46,-490 43,-490 40,-487 40,-484 40,-484 40,-478 40,-478 40,-475 43,-472 46,-472 46,-472 212,-472 212,-472 215,-472 218,-475 218,-478 218,-478 218,-484 218,-484 218,-487 215,-490 212,-490"/>
-<text text-anchor="start" x="48" y="-478.8" font-family="Helvetica,sans-Serif" font-size="9.00">SiTargetMultiplexer.targeting.test.ts</text>
+<!-- packages/sportident/src/SiStation/SiSendTask.ts -->
+<g id="node25" class="node">
+<title>packages/sportident/src/SiStation/SiSendTask.ts</title>
+<g id="a_node25"><a xlink:href="packages/sportident/src/SiStation/SiSendTask.ts" xlink:title="SiSendTask.ts">
+<path fill="#ddfeff" stroke="black" d="M162,-490C162,-490 96,-490 96,-490 93,-490 90,-487 90,-484 90,-484 90,-478 90,-478 90,-475 93,-472 96,-472 96,-472 162,-472 162,-472 165,-472 168,-475 168,-478 168,-478 168,-484 168,-484 168,-487 165,-490 162,-490"/>
+<text text-anchor="start" x="98" y="-478.8" font-family="Helvetica,sans-Serif" font-size="9.00">SiSendTask.ts</text>
 </a>
 </g>
 </g>
-<!-- packages/sportident/src/SiStation/SiTargetMultiplexer.targeting.test.ts&#45;&gt;node_modules/@jest/globals/build/index.js -->
-<g id="edge38" class="edge">
-<title>packages/sportident/src/SiStation/SiTargetMultiplexer.targeting.test.ts&#45;&gt;node_modules/@jest/globals/build/index.js</title>
-<path fill="none" stroke="#000000" stroke-opacity="0.200000" d="M211.63,-471.93C213.92,-470.18 216.06,-468.21 218,-466 233.76,-448.02 220.31,-274.22 226,-251 238.21,-201.21 268.83,-148.06 284.28,-123.27"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-opacity="0.200000" points="286.09,-124.34 287.51,-118.14 282.53,-122.1 286.09,-124.34"/>
-</g>
-<!-- packages/sportident/src/SiStation/SiTargetMultiplexer.targeting.test.ts&#45;&gt;packages/sportident/src/SiDevice/ISiDevice.ts -->
-<g id="edge32" class="edge">
-<title>packages/sportident/src/SiStation/SiTargetMultiplexer.targeting.test.ts&#45;&gt;packages/sportident/src/SiDevice/ISiDevice.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M131.82,-490.16C138.4,-520.74 163.9,-620.04 226,-668 233.95,-674.14 243.91,-677.87 253.72,-680.1"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="253.49,-682.2 259.78,-681.31 254.31,-678.08 253.49,-682.2"/>
-</g>
-<!-- packages/sportident/src/SiStation/SiTargetMultiplexer.targeting.test.ts&#45;&gt;packages/sportident/src/SiDevice/SiDevice.ts -->
-<g id="edge33" class="edge">
-<title>packages/sportident/src/SiStation/SiTargetMultiplexer.targeting.test.ts&#45;&gt;packages/sportident/src/SiDevice/SiDevice.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M132.56,-490.01C140.89,-517.52 169.93,-600.9 226,-640 234.59,-645.99 245.23,-649.4 255.49,-651.3"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="255.22,-653.38 261.48,-652.25 255.88,-649.23 255.22,-653.38"/>
-</g>
-<!-- packages/sportident/src/SiStation/SiTargetMultiplexer.targeting.test.ts&#45;&gt;packages/sportident/src/constants.ts -->
+<!-- packages/sportident/src/SiStation/SiSendTask.ts&#45;&gt;packages/sportident/src/SiStation/ISiSendTask.ts -->
 <g id="edge31" class="edge">
-<title>packages/sportident/src/SiStation/SiTargetMultiplexer.targeting.test.ts&#45;&gt;packages/sportident/src/constants.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M149.87,-490.03C169.04,-498.47 199.04,-510.93 226,-519 234.38,-521.51 243.49,-523.73 252.21,-525.61"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="251.88,-527.69 258.18,-526.87 252.74,-523.58 251.88,-527.69"/>
-</g>
-<!-- packages/sportident/src/SiStation/SiTargetMultiplexer.targeting.test.ts&#45;&gt;packages/sportident/src/testUtils.ts -->
-<g id="edge35" class="edge">
-<title>packages/sportident/src/SiStation/SiTargetMultiplexer.targeting.test.ts&#45;&gt;packages/sportident/src/testUtils.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M134.28,-490.28C145.58,-513.71 178.66,-575.44 226,-605 234.91,-610.56 245.65,-613.96 255.91,-616.02"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="255.6,-618.1 261.88,-617.08 256.34,-613.96 255.6,-618.1"/>
-</g>
-<!-- packages/sportident/src/SiStation/SiTargetMultiplexer.targeting.test.ts&#45;&gt;packages/sportident/src/SiStation/ISiTargetMultiplexer.ts -->
-<g id="edge36" class="edge">
-<title>packages/sportident/src/SiStation/SiTargetMultiplexer.targeting.test.ts&#45;&gt;packages/sportident/src/SiStation/ISiTargetMultiplexer.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M218.45,-481C222.4,-481 226.33,-481 230.2,-481"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="230.23,-483.1 236.23,-481 230.23,-478.9 230.23,-483.1"/>
-</g>
-<!-- packages/sportident/src/SiStation/SiTargetMultiplexer.targeting.test.ts&#45;&gt;packages/sportident/src/SiStation/SiTargetMultiplexer.ts -->
-<g id="edge37" class="edge">
-<title>packages/sportident/src/SiStation/SiTargetMultiplexer.targeting.test.ts&#45;&gt;packages/sportident/src/SiStation/SiTargetMultiplexer.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M184.49,-471.95C195.59,-470.04 207.18,-468 218,-466 226.06,-464.51 234.6,-462.88 242.92,-461.25"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="243.74,-463.23 249.22,-460.01 242.93,-459.1 243.74,-463.23"/>
+<title>packages/sportident/src/SiStation/SiSendTask.ts&#45;&gt;packages/sportident/src/SiStation/ISiSendTask.ts</title>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M168.33,-481C192.09,-481 222.73,-481 247.75,-481"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="247.99,-483.1 253.99,-481 247.99,-478.9 247.99,-483.1"/>
 </g>
 <!-- packages/sportident/src/siProtocol.ts -->
-<g id="node25" class="node">
+<g id="node26" class="node">
 <title>packages/sportident/src/siProtocol.ts</title>
-<g id="a_node25"><a xlink:href="packages/sportident/src/siProtocol.ts" xlink:title="siProtocol.ts">
+<g id="a_node26"><a xlink:href="packages/sportident/src/siProtocol.ts" xlink:title="siProtocol.ts">
 <path fill="#ddfeff" stroke="black" d="M324,-1026C324,-1026 265,-1026 265,-1026 262,-1026 259,-1023 259,-1020 259,-1020 259,-1014 259,-1014 259,-1011 262,-1008 265,-1008 265,-1008 324,-1008 324,-1008 327,-1008 330,-1011 330,-1014 330,-1014 330,-1020 330,-1020 330,-1023 327,-1026 324,-1026"/>
 <text text-anchor="start" x="267" y="-1014.8" font-family="Helvetica,sans-Serif" font-size="9.00">siProtocol.ts</text>
 </a>
 </g>
 </g>
-<!-- packages/sportident/src/SiStation/SiTargetMultiplexer.targeting.test.ts&#45;&gt;packages/sportident/src/siProtocol.ts -->
-<g id="edge34" class="edge">
-<title>packages/sportident/src/SiStation/SiTargetMultiplexer.targeting.test.ts&#45;&gt;packages/sportident/src/siProtocol.ts</title>
+<!-- packages/sportident/src/SiStation/SiSendTask.ts&#45;&gt;packages/sportident/src/siProtocol.ts -->
+<g id="edge30" class="edge">
+<title>packages/sportident/src/SiStation/SiSendTask.ts&#45;&gt;packages/sportident/src/siProtocol.ts</title>
 <path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M129.93,-490.32C129.95,-540.65 134.92,-783.91 226,-951 237.98,-972.98 259.69,-992.23 275.26,-1004.18"/>
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="274.22,-1006.02 280.28,-1007.94 276.74,-1002.66 274.22,-1006.02"/>
 </g>
+<!-- packages/sportident/src/SiStation/SiTargetMultiplexer.targeting.test.ts -->
+<g id="node27" class="node">
+<title>packages/sportident/src/SiStation/SiTargetMultiplexer.targeting.test.ts</title>
+<g id="a_node27"><a xlink:href="packages/sportident/src/SiStation/SiTargetMultiplexer.targeting.test.ts" xlink:title="SiTargetMultiplexer.targeting.test.ts">
+<path fill="#ddfeff" stroke="black" d="M212,-460C212,-460 46,-460 46,-460 43,-460 40,-457 40,-454 40,-454 40,-448 40,-448 40,-445 43,-442 46,-442 46,-442 212,-442 212,-442 215,-442 218,-445 218,-448 218,-448 218,-454 218,-454 218,-457 215,-460 212,-460"/>
+<text text-anchor="start" x="48" y="-448.8" font-family="Helvetica,sans-Serif" font-size="9.00">SiTargetMultiplexer.targeting.test.ts</text>
+</a>
+</g>
+</g>
+<!-- packages/sportident/src/SiStation/SiTargetMultiplexer.targeting.test.ts&#45;&gt;node_modules/@jest/globals/build/index.js -->
+<g id="edge39" class="edge">
+<title>packages/sportident/src/SiStation/SiTargetMultiplexer.targeting.test.ts&#45;&gt;node_modules/@jest/globals/build/index.js</title>
+<path fill="none" stroke="#000000" stroke-opacity="0.200000" d="M211.61,-441.91C213.91,-440.17 216.05,-438.21 218,-436 231.61,-420.57 221.04,-270.97 226,-251 238.36,-201.25 268.91,-148.08 284.31,-123.27"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-opacity="0.200000" points="286.12,-124.34 287.53,-118.15 282.56,-122.11 286.12,-124.34"/>
+</g>
+<!-- packages/sportident/src/SiStation/SiTargetMultiplexer.targeting.test.ts&#45;&gt;packages/sportident/src/SiDevice/ISiDevice.ts -->
+<g id="edge33" class="edge">
+<title>packages/sportident/src/SiStation/SiTargetMultiplexer.targeting.test.ts&#45;&gt;packages/sportident/src/SiDevice/ISiDevice.ts</title>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M211.62,-460.08C213.92,-461.82 216.06,-463.79 218,-466 232.82,-482.88 211.6,-650.76 226,-668 232.88,-676.24 243.2,-680.55 253.7,-682.68"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="253.63,-684.79 259.89,-683.69 254.3,-680.65 253.63,-684.79"/>
+</g>
+<!-- packages/sportident/src/SiStation/SiTargetMultiplexer.targeting.test.ts&#45;&gt;packages/sportident/src/SiDevice/SiDevice.ts -->
+<g id="edge34" class="edge">
+<title>packages/sportident/src/SiStation/SiTargetMultiplexer.targeting.test.ts&#45;&gt;packages/sportident/src/SiDevice/SiDevice.ts</title>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M211.6,-460.09C213.9,-461.83 216.05,-463.79 218,-466 230.82,-480.5 213.34,-625.36 226,-640 233.31,-648.45 244.31,-652.46 255.32,-654.14"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="255.2,-656.25 261.41,-654.85 255.69,-652.07 255.2,-656.25"/>
+</g>
+<!-- packages/sportident/src/SiStation/SiTargetMultiplexer.targeting.test.ts&#45;&gt;packages/sportident/src/constants.ts -->
+<g id="edge32" class="edge">
+<title>packages/sportident/src/SiStation/SiTargetMultiplexer.targeting.test.ts&#45;&gt;packages/sportident/src/constants.ts</title>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M210.94,-460.1C213.46,-461.83 215.83,-463.79 218,-466 234.68,-483 209.62,-501.7 226,-519 232.88,-526.27 242.47,-530.28 252.27,-532.39"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="252.1,-534.49 258.37,-533.47 252.83,-530.36 252.1,-534.49"/>
+</g>
+<!-- packages/sportident/src/SiStation/SiTargetMultiplexer.targeting.test.ts&#45;&gt;packages/sportident/src/testUtils.ts -->
+<g id="edge36" class="edge">
+<title>packages/sportident/src/SiStation/SiTargetMultiplexer.targeting.test.ts&#45;&gt;packages/sportident/src/testUtils.ts</title>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M211.57,-460.12C213.88,-461.85 216.04,-463.81 218,-466 238.63,-489.06 205.79,-581.57 226,-605 233.39,-613.56 244.52,-617.71 255.62,-619.54"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="255.55,-621.65 261.77,-620.33 256.08,-617.48 255.55,-621.65"/>
+</g>
+<!-- packages/sportident/src/SiStation/SiTargetMultiplexer.targeting.test.ts&#45;&gt;packages/sportident/src/SiStation/ISiTargetMultiplexer.ts -->
+<g id="edge37" class="edge">
+<title>packages/sportident/src/SiStation/SiTargetMultiplexer.targeting.test.ts&#45;&gt;packages/sportident/src/SiStation/ISiTargetMultiplexer.ts</title>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M218.45,-451C222.4,-451 226.33,-451 230.2,-451"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="230.23,-453.1 236.23,-451 230.23,-448.9 230.23,-453.1"/>
+</g>
+<!-- packages/sportident/src/SiStation/SiTargetMultiplexer.targeting.test.ts&#45;&gt;packages/sportident/src/SiStation/SiTargetMultiplexer.ts -->
+<g id="edge38" class="edge">
+<title>packages/sportident/src/SiStation/SiTargetMultiplexer.targeting.test.ts&#45;&gt;packages/sportident/src/SiStation/SiTargetMultiplexer.ts</title>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M184.49,-441.95C195.59,-440.04 207.18,-438 218,-436 226.06,-434.51 234.6,-432.88 242.92,-431.25"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="243.74,-433.23 249.22,-430.01 242.93,-429.1 243.74,-433.23"/>
+</g>
+<!-- packages/sportident/src/SiStation/SiTargetMultiplexer.targeting.test.ts&#45;&gt;packages/sportident/src/siProtocol.ts -->
+<g id="edge35" class="edge">
+<title>packages/sportident/src/SiStation/SiTargetMultiplexer.targeting.test.ts&#45;&gt;packages/sportident/src/siProtocol.ts</title>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M211.69,-460.02C213.96,-461.78 216.08,-463.77 218,-466 235.55,-486.45 215.34,-926.25 226,-951 235.78,-973.72 257.49,-992.59 273.67,-1004.26"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="272.8,-1006.21 278.92,-1007.93 275.2,-1002.77 272.8,-1006.21"/>
+</g>
 <!-- packages/sportident/src/SiStation/SiTargetMultiplexer.test.ts -->
-<g id="node26" class="node">
+<g id="node28" class="node">
 <title>packages/sportident/src/SiStation/SiTargetMultiplexer.test.ts</title>
-<g id="a_node26"><a xlink:href="packages/sportident/src/SiStation/SiTargetMultiplexer.test.ts" xlink:title="SiTargetMultiplexer.test.ts">
-<path fill="#ddfeff" stroke="black" d="M189.5,-460C189.5,-460 68.5,-460 68.5,-460 65.5,-460 62.5,-457 62.5,-454 62.5,-454 62.5,-448 62.5,-448 62.5,-445 65.5,-442 68.5,-442 68.5,-442 189.5,-442 189.5,-442 192.5,-442 195.5,-445 195.5,-448 195.5,-448 195.5,-454 195.5,-454 195.5,-457 192.5,-460 189.5,-460"/>
-<text text-anchor="start" x="70.5" y="-448.8" font-family="Helvetica,sans-Serif" font-size="9.00">SiTargetMultiplexer.test.ts</text>
+<g id="a_node28"><a xlink:href="packages/sportident/src/SiStation/SiTargetMultiplexer.test.ts" xlink:title="SiTargetMultiplexer.test.ts">
+<path fill="#ddfeff" stroke="black" d="M189.5,-400C189.5,-400 68.5,-400 68.5,-400 65.5,-400 62.5,-397 62.5,-394 62.5,-394 62.5,-388 62.5,-388 62.5,-385 65.5,-382 68.5,-382 68.5,-382 189.5,-382 189.5,-382 192.5,-382 195.5,-385 195.5,-388 195.5,-388 195.5,-394 195.5,-394 195.5,-397 192.5,-400 189.5,-400"/>
+<text text-anchor="start" x="70.5" y="-388.8" font-family="Helvetica,sans-Serif" font-size="9.00">SiTargetMultiplexer.test.ts</text>
 </a>
 </g>
 </g>
 <!-- packages/sportident/src/SiStation/SiTargetMultiplexer.test.ts&#45;&gt;node_modules/@jest/globals/build/index.js -->
-<g id="edge46" class="edge">
+<g id="edge48" class="edge">
 <title>packages/sportident/src/SiStation/SiTargetMultiplexer.test.ts&#45;&gt;node_modules/@jest/globals/build/index.js</title>
-<path fill="none" stroke="#000000" stroke-opacity="0.200000" d="M195.83,-450.06C204.29,-447.2 212.06,-442.74 218,-436 231.61,-420.57 221.04,-270.97 226,-251 238.36,-201.25 268.91,-148.08 284.31,-123.27"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-opacity="0.200000" points="286.12,-124.34 287.53,-118.15 282.56,-122.11 286.12,-124.34"/>
+<path fill="none" stroke="#000000" stroke-opacity="0.200000" d="M195.7,-389.95C204.18,-387.1 211.99,-382.68 218,-376 227.31,-365.66 222.51,-264.47 226,-251 238.87,-201.38 269.18,-148.14 284.42,-123.3"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-opacity="0.200000" points="286.23,-124.37 287.61,-118.16 282.66,-122.16 286.23,-124.37"/>
 </g>
 <!-- packages/sportident/src/SiStation/SiTargetMultiplexer.test.ts&#45;&gt;packages/sportident/src/SiDevice/ISiDevice.ts -->
-<g id="edge40" class="edge">
+<g id="edge41" class="edge">
 <title>packages/sportident/src/SiStation/SiTargetMultiplexer.test.ts&#45;&gt;packages/sportident/src/SiDevice/ISiDevice.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M195.85,-451.92C204.31,-454.78 212.07,-459.25 218,-466 232.82,-482.88 211.6,-650.76 226,-668 232.88,-676.24 243.2,-680.55 253.7,-682.68"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="253.63,-684.79 259.89,-683.69 254.3,-680.65 253.63,-684.79"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M195.9,-391.87C204.35,-394.74 212.1,-399.22 218,-406 237.12,-427.97 207.43,-645.56 226,-668 232.85,-676.27 243.15,-680.6 253.66,-682.72"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="253.58,-684.83 259.84,-683.73 254.26,-680.69 253.58,-684.83"/>
 </g>
 <!-- packages/sportident/src/SiStation/SiTargetMultiplexer.test.ts&#45;&gt;packages/sportident/src/SiDevice/SiDevice.ts -->
-<g id="edge41" class="edge">
+<g id="edge42" class="edge">
 <title>packages/sportident/src/SiStation/SiTargetMultiplexer.test.ts&#45;&gt;packages/sportident/src/SiDevice/SiDevice.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M195.81,-451.95C204.27,-454.81 212.05,-459.27 218,-466 230.82,-480.5 213.34,-625.36 226,-640 233.31,-648.45 244.31,-652.46 255.32,-654.14"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="255.2,-656.25 261.41,-654.85 255.69,-652.07 255.2,-656.25"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M195.88,-391.89C204.33,-394.76 212.09,-399.23 218,-406 235.12,-425.59 209.09,-620.23 226,-640 233.26,-648.5 244.25,-652.51 255.26,-654.2"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="255.15,-656.3 261.35,-654.9 255.63,-652.13 255.15,-656.3"/>
 </g>
 <!-- packages/sportident/src/SiStation/SiTargetMultiplexer.test.ts&#45;&gt;packages/sportident/src/constants.ts -->
-<g id="edge39" class="edge">
+<g id="edge40" class="edge">
 <title>packages/sportident/src/SiStation/SiTargetMultiplexer.test.ts&#45;&gt;packages/sportident/src/constants.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M195.64,-452.67C204.02,-455.45 211.81,-459.69 218,-466 234.68,-483 209.62,-501.7 226,-519 232.88,-526.27 242.47,-530.28 252.27,-532.39"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="252.1,-534.49 258.37,-533.47 252.83,-530.36 252.1,-534.49"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M195.66,-392.09C204.14,-394.93 211.96,-399.34 218,-406 234.91,-424.65 209.43,-500.05 226,-519 232.65,-526.61 242.27,-530.72 252.16,-532.82"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="252.06,-534.93 258.33,-533.87 252.77,-530.79 252.06,-534.93"/>
 </g>
 <!-- packages/sportident/src/SiStation/SiTargetMultiplexer.test.ts&#45;&gt;packages/sportident/src/testUtils.ts -->
-<g id="edge43" class="edge">
+<g id="edge44" class="edge">
 <title>packages/sportident/src/SiStation/SiTargetMultiplexer.test.ts&#45;&gt;packages/sportident/src/testUtils.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M195.74,-452.02C204.21,-454.87 212.01,-459.3 218,-466 238.63,-489.06 205.79,-581.57 226,-605 233.39,-613.56 244.52,-617.71 255.62,-619.54"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="255.55,-621.65 261.77,-620.33 256.08,-617.48 255.55,-621.65"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M195.85,-391.92C204.3,-394.79 212.07,-399.25 218,-406 232.61,-422.62 211.69,-588.12 226,-605 233.31,-613.63 244.43,-617.79 255.54,-619.61"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="255.47,-621.72 261.68,-620.4 256,-617.56 255.47,-621.72"/>
 </g>
 <!-- packages/sportident/src/SiStation/SiTargetMultiplexer.test.ts&#45;&gt;packages/sportident/src/SiStation/ISiTargetMultiplexer.ts -->
-<g id="edge44" class="edge">
+<g id="edge46" class="edge">
 <title>packages/sportident/src/SiStation/SiTargetMultiplexer.test.ts&#45;&gt;packages/sportident/src/SiStation/ISiTargetMultiplexer.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M184.49,-460.05C195.59,-461.96 207.18,-464 218,-466 226.06,-467.49 234.6,-469.12 242.92,-470.75"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="242.93,-472.9 249.22,-471.99 243.74,-468.77 242.93,-472.9"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M195.91,-393.6C204.05,-396.29 211.7,-400.26 218,-406 228.19,-415.3 216.04,-426.45 226,-436 227.52,-437.45 229.14,-438.78 230.85,-439.99"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="230.01,-441.93 236.22,-443.27 232.19,-438.35 230.01,-441.93"/>
 </g>
 <!-- packages/sportident/src/SiStation/SiTargetMultiplexer.test.ts&#45;&gt;packages/sportident/src/SiStation/SiTargetMultiplexer.ts -->
-<g id="edge45" class="edge">
+<g id="edge47" class="edge">
 <title>packages/sportident/src/SiStation/SiTargetMultiplexer.test.ts&#45;&gt;packages/sportident/src/SiStation/SiTargetMultiplexer.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M195.56,-451C207.51,-451 219.95,-451 231.78,-451"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="231.91,-453.1 237.91,-451 231.91,-448.9 231.91,-453.1"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M184.49,-400.05C195.59,-401.96 207.18,-404 218,-406 226.06,-407.49 234.6,-409.12 242.92,-410.75"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="242.93,-412.9 249.22,-411.99 243.74,-408.77 242.93,-412.9"/>
+</g>
+<!-- packages/sportident/src/SiStation/SiTargetMultiplexer.test.ts&#45;&gt;packages/sportident/src/SiStation/ISiSendTask.ts -->
+<g id="edge45" class="edge">
+<title>packages/sportident/src/SiStation/SiTargetMultiplexer.test.ts&#45;&gt;packages/sportident/src/SiStation/ISiSendTask.ts</title>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M195.74,-392.57C204.1,-395.37 211.87,-399.64 218,-406 236.67,-425.36 207.81,-446.18 226,-466 231.69,-472.2 239.33,-476.13 247.42,-478.57"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="247.34,-480.72 253.67,-480.16 248.37,-476.65 247.34,-480.72"/>
 </g>
 <!-- packages/sportident/src/SiStation/SiTargetMultiplexer.test.ts&#45;&gt;packages/sportident/src/siProtocol.ts -->
-<g id="edge42" class="edge">
+<g id="edge43" class="edge">
 <title>packages/sportident/src/SiStation/SiTargetMultiplexer.test.ts&#45;&gt;packages/sportident/src/siProtocol.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M195.55,-451.65C204.16,-454.52 212.05,-459.06 218,-466 235.55,-486.45 215.34,-926.25 226,-951 235.78,-973.72 257.49,-992.59 273.67,-1004.26"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="272.8,-1006.21 278.92,-1007.93 275.2,-1002.77 272.8,-1006.21"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M195.56,-391.64C204.17,-394.52 212.05,-399.06 218,-406 227.85,-417.5 220.03,-937.09 226,-951 235.76,-973.73 257.48,-992.6 273.66,-1004.26"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="272.79,-1006.21 278.91,-1007.93 275.19,-1002.77 272.79,-1006.21"/>
 </g>
 <!-- packages/sportident/src/SiStation/index.ts -->
-<g id="node27" class="node">
+<g id="node29" class="node">
 <title>packages/sportident/src/SiStation/index.ts</title>
-<g id="a_node27"><a xlink:href="packages/sportident/src/SiStation/index.ts" xlink:title="index.ts">
-<path fill="#ddfeff" stroke="black" d="M150,-340C150,-340 108,-340 108,-340 105,-340 102,-337 102,-334 102,-334 102,-328 102,-328 102,-325 105,-322 108,-322 108,-322 150,-322 150,-322 153,-322 156,-325 156,-328 156,-328 156,-334 156,-334 156,-337 153,-340 150,-340"/>
-<text text-anchor="start" x="110.5" y="-328.8" font-family="Helvetica,sans-Serif" font-size="9.00">index.ts</text>
+<g id="a_node29"><a xlink:href="packages/sportident/src/SiStation/index.ts" xlink:title="index.ts">
+<path fill="#ddfeff" stroke="black" d="M150,-280C150,-280 108,-280 108,-280 105,-280 102,-277 102,-274 102,-274 102,-268 102,-268 102,-265 105,-262 108,-262 108,-262 150,-262 150,-262 153,-262 156,-265 156,-268 156,-268 156,-274 156,-274 156,-277 153,-280 150,-280"/>
+<text text-anchor="start" x="110.5" y="-268.8" font-family="Helvetica,sans-Serif" font-size="9.00">index.ts</text>
 </a>
 </g>
 </g>
 <!-- packages/sportident/src/SiStation/index.ts&#45;&gt;packages/sportident/src/SiStation/BaseSiStation.ts -->
-<g id="edge47" class="edge">
+<g id="edge49" class="edge">
 <title>packages/sportident/src/SiStation/index.ts&#45;&gt;packages/sportident/src/SiStation/BaseSiStation.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M156.22,-335.28C173.73,-338.18 197.27,-342.18 218,-346 226.17,-347.51 234.82,-349.17 243.24,-350.82"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="243.33,-352.97 249.62,-352.07 244.14,-348.85 243.33,-352.97"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M156.08,-267.91C175.88,-267.12 202.29,-269.71 218,-286 236.67,-305.36 207.81,-326.18 226,-346 230.88,-351.32 237.2,-354.97 244,-357.44"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="243.46,-359.47 249.81,-359.25 244.71,-355.46 243.46,-359.47"/>
 </g>
 <!-- packages/sportident/src/SiStation/index.ts&#45;&gt;packages/sportident/src/SiStation/siStationExamples.ts -->
-<g id="edge50" class="edge">
+<g id="edge52" class="edge">
 <title>packages/sportident/src/SiStation/index.ts&#45;&gt;packages/sportident/src/SiStation/siStationExamples.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M156.27,-331C176.91,-331 206.49,-331 232.9,-331"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="233.19,-333.1 239.19,-331 233.19,-328.9 233.19,-333.1"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M156.33,-268.46C175.73,-268.09 201.51,-270.96 218,-286 228.19,-295.3 216.04,-306.45 226,-316 228.44,-318.34 231.15,-320.34 234.06,-322.06"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="233.17,-323.97 239.47,-324.85 235.1,-320.23 233.17,-323.97"/>
 </g>
 <!-- packages/sportident/src/SiStation/index.ts&#45;&gt;packages/sportident/src/SiStation/CoupledSiStation.ts -->
-<g id="edge48" class="edge">
+<g id="edge50" class="edge">
 <title>packages/sportident/src/SiStation/index.ts&#45;&gt;packages/sportident/src/SiStation/CoupledSiStation.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M146.53,-321.88C165.3,-311.85 197.08,-295.86 226,-286 230.74,-284.39 235.72,-282.9 240.75,-281.54"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="241.37,-283.55 246.65,-280.01 240.32,-279.48 241.37,-283.55"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M156.27,-271C177.67,-271 208.67,-271 235.8,-271"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="235.88,-273.1 241.88,-271 235.88,-268.9 235.88,-273.1"/>
 </g>
 <!-- packages/sportident/src/SiStation/index.ts&#45;&gt;packages/sportident/src/SiStation/SiTargetMultiplexer.ts -->
-<g id="edge51" class="edge">
+<g id="edge53" class="edge">
 <title>packages/sportident/src/SiStation/index.ts&#45;&gt;packages/sportident/src/SiStation/SiTargetMultiplexer.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M156.28,-327.72C176.19,-326.83 202.65,-329.37 218,-346 231.62,-360.76 212.75,-420.91 226,-436 227.97,-438.25 230.21,-440.2 232.62,-441.9"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="231.6,-443.73 237.83,-445.02 233.76,-440.13 231.6,-443.73"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M156.38,-267.62C176.35,-266.69 202.84,-269.2 218,-286 235.91,-305.84 208.59,-385.72 226,-406 227.95,-408.27 230.16,-410.24 232.56,-411.95"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="231.52,-413.78 237.74,-415.1 233.7,-410.19 231.52,-413.78"/>
 </g>
 <!-- packages/sportident/src/SiStation/index.ts&#45;&gt;packages/sportident/src/SiStation/SiMainStation.ts -->
-<g id="edge49" class="edge">
+<g id="edge51" class="edge">
 <title>packages/sportident/src/SiStation/index.ts&#45;&gt;packages/sportident/src/SiStation/SiMainStation.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M156.27,-326.18C179.78,-321.87 214.89,-315.42 243.71,-310.14"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="244.23,-312.18 249.75,-309.03 243.47,-308.04 244.23,-312.18"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M156.22,-275.28C173.73,-278.18 197.27,-282.18 218,-286 226.17,-287.51 234.82,-289.17 243.24,-290.82"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="243.33,-292.97 249.62,-292.07 244.14,-288.85 243.33,-292.97"/>
 </g>
 </g>
 </svg>

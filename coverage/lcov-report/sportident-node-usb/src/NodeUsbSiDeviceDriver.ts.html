@@ -407,12 +407,7 @@
 <a name='L342'></a><a href='#L342'>342</a>
 <a name='L343'></a><a href='#L343'>343</a>
 <a name='L344'></a><a href='#L344'>344</a>
-<a name='L345'></a><a href='#L345'>345</a>
-<a name='L346'></a><a href='#L346'>346</a>
-<a name='L347'></a><a href='#L347'>347</a>
-<a name='L348'></a><a href='#L348'>348</a>
-<a name='L349'></a><a href='#L349'>349</a>
-<a name='L350'></a><a href='#L350'>350</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<a name='L345'></a><a href='#L345'>345</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -503,8 +498,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -516,8 +509,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -584,7 +575,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -792,11 +782,11 @@ const typeIsVendor = <span class="cstat-no" title="statement not covered" >0x40;
 const recipientIsInterface = <span class="cstat-no" title="statement not covered" >0x01;</span>
 const vendorInterfaceOut = <span class="cstat-no" title="statement not covered" >directionIsOut | typeIsVendor | recipientIsInterface;</span>
 &nbsp;
-const getIdent = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(d</span>evice: iNodeUsb.NodeUsbDevice) =&gt; <span class="cstat-no" title="statement not covered" >`${device.deviceDescriptor.iSerialNumber}`;</span></span>
+const getIdent = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(d</span>evice: usb.Device) =&gt; <span class="cstat-no" title="statement not covered" >`${device.deviceDescriptor.iSerialNumber}`;</span></span>
 &nbsp;
 export interface NodeUsbSiDeviceDriverData extends ISiDeviceDriverData&lt;NodeUsbSiDeviceDriver&gt; {
     driver: NodeUsbSiDeviceDriver;
-    device: iNodeUsb.NodeUsbDevice;
+    device: usb.Device;
     interface?: iNodeUsb.NodeUsbDeviceInterface;
 }
 &nbsp;
@@ -832,7 +822,7 @@ class NodeUsbSiDeviceDriver implements
 &nbsp;
     // eslint-disable-next-line no-useless-constructor
 <span class="fstat-no" title="function not covered" >    constructor(</span>
-                private <span class="cstat-no" title="statement not covered" >nodeUsb: any,</span>
+                private <span class="cstat-no" title="statement not covered" >nodeUsb: typeof usb,</span>
     // eslint-disable-next-line no-empty-function
     ) {}
 &nbsp;
@@ -843,7 +833,7 @@ class NodeUsbSiDeviceDriver implements
                 siDeviceFilters[0].productId,
             ),
         )
-            .then(<span class="fstat-no" title="function not covered" >(n</span>odeUsbDevice: iNodeUsb.NodeUsbDevice|undefined) =&gt; {
+            .then(<span class="fstat-no" title="function not covered" >(n</span>odeUsbDevice) =&gt; {
 <span class="cstat-no" title="statement not covered" >                <span class="missing-if-branch" title="if path not taken" >I</span>if (!nodeUsbDevice) {</span>
 <span class="cstat-no" title="statement not covered" >                    throw new Error('no device found');</span>
                 }
@@ -851,9 +841,7 @@ class NodeUsbSiDeviceDriver implements
             });
     }
 &nbsp;
-<span class="fstat-no" title="function not covered" >    getSiDevice(</span>
-        nodeUsbDevice: iNodeUsb.NodeUsbDevice,
-    ): NodeUsbSiDevice {
+<span class="fstat-no" title="function not covered" >    getSiDevice(</span>nodeUsbDevice: usb.Device): NodeUsbSiDevice {
         const ident = <span class="cstat-no" title="statement not covered" >getIdent(nodeUsbDevice);</span>
 <span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (this.siDeviceByIdent[ident] !== undefined) {</span>
 <span class="cstat-no" title="statement not covered" >            return this.siDeviceByIdent[ident];</span>
@@ -917,9 +905,7 @@ class NodeUsbSiDeviceDriver implements
     //     });
     // }
 &nbsp;
-<span class="fstat-no" title="function not covered" >    autodetectSiDevice(</span>
-        nodeUsbDevice: iNodeUsb.NodeUsbDevice,
-    ): Promise&lt;NodeUsbSiDevice&gt; {
+<span class="fstat-no" title="function not covered" >    autodetectSiDevice(</span>nodeUsbDevice: usb.Device): Promise&lt;NodeUsbSiDevice&gt; {
 <span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (!matchesSiDeviceFilters(</span>
             nodeUsbDevice.deviceDescriptor.idVendor,
             nodeUsbDevice.deviceDescriptor.idProduct,
@@ -963,7 +949,7 @@ class NodeUsbSiDeviceDriver implements
     //     };
     // }
     //
-    // stopAutoDetection(): Promise&lt;any&gt; {
+    // stopAutoDetection(): Promise&lt;unknown&gt; {
     //     this.deregisterAutodetectionCallbacks();
     //     return this.closeAutoOpened();
     // }
@@ -977,7 +963,7 @@ class NodeUsbSiDeviceDriver implements
     //     this.autodetectionCallbacks = undefined;
     // }
     //
-    // closeAutoOpened(): Promise&lt;any&gt; {
+    // closeAutoOpened(): Promise&lt;unknown&gt; {
     //     return Promise.all(
     //         Object.values(this.autodetectedSiDevices).map(
     //             (autoOpenedDevice) =&gt; autoOpenedDevice.close(),
@@ -988,9 +974,8 @@ class NodeUsbSiDeviceDriver implements
     //         });
     // }
 &nbsp;
-<span class="fstat-no" title="function not covered" >    open(</span>
-        device: INodeUsbSiDevice,
-    ): Promise&lt;any&gt; {
+<span class="fstat-no" title="function not covered" >    open(</span>device: INodeUsbSiDevice): Promise&lt;unknown&gt; {
+        let usbInterface: usb.Interface|undefined;
 <span class="cstat-no" title="statement not covered" >        return Promise.resolve(device.data.device.open())</span>
             .then(<span class="fstat-no" title="function not covered" >() =</span>&gt; (
 <span class="cstat-no" title="statement not covered" >                iNodeUsb.promisify(<span class="fstat-no" title="function not covered" >(c</span>allback) =&gt; (</span>
@@ -1000,13 +985,13 @@ class NodeUsbSiDeviceDriver implements
             .then(<span class="fstat-no" title="function not covered" >() =</span>&gt; (
 <span class="cstat-no" title="statement not covered" >                device.data.device.interface(siInterface)</span>
             ))
-            .then(<span class="fstat-no" title="function not covered" >(u</span>sbInterface: iNodeUsb.NodeUsbDeviceInterface) =&gt; {
-<span class="cstat-no" title="statement not covered" >                device.data.interface = usbInterface;</span>
-<span class="cstat-no" title="statement not covered" >                return device.data.interface.claim();</span>
+            .then(<span class="fstat-no" title="function not covered" >(u</span>sbInterfaceArg) =&gt; {
+<span class="cstat-no" title="statement not covered" >                usbInterface = usbInterfaceArg;</span>
+<span class="cstat-no" title="statement not covered" >                return usbInterface.claim();</span>
             })
             .then(<span class="fstat-no" title="function not covered" >() =</span>&gt; (
 <span class="cstat-no" title="statement not covered" >                iNodeUsb.promisify(<span class="fstat-no" title="function not covered" >(c</span>allback) =&gt; (</span>
-<span class="cstat-no" title="statement not covered" >                    device.data.interface!.setAltSetting(siAlternate, callback)</span>
+<span class="cstat-no" title="statement not covered" >                    usbInterface!.setAltSetting(siAlternate, callback)</span>
                 ))
             ))
             .then(<span class="fstat-no" title="function not covered" >() =</span>&gt; (
@@ -1038,7 +1023,7 @@ class NodeUsbSiDeviceDriver implements
 &nbsp;
 <span class="fstat-no" title="function not covered" >    close(</span>
         device: INodeUsbSiDevice,
-    ): Promise&lt;any&gt; {
+    ): Promise&lt;unknown&gt; {
 <span class="cstat-no" title="statement not covered" >        return iNodeUsb.promisify(<span class="fstat-no" title="function not covered" >(c</span>allback) =&gt; (</span>
 <span class="cstat-no" title="statement not covered" >            device.data.device.controlTransfer(</span>
                 vendorInterfaceOut,
@@ -1094,7 +1079,7 @@ class NodeUsbSiDeviceDriver implements
 <span class="fstat-no" title="function not covered" >    send(</span>
         device: INodeUsbSiDevice,
         buffer: number[],
-    ): Promise&lt;any&gt; {
+    ): Promise&lt;unknown&gt; {
 <span class="cstat-no" title="statement not covered" >        return iNodeUsb.promisify(</span>
 <span class="fstat-no" title="function not covered" >            (c</span>allback) =&gt; <span class="cstat-no" title="statement not covered" >device.data.interface!</span>
                 .endpoint(siEndpointOut)
@@ -1117,7 +1102,7 @@ export const <span class="cstat-no" title="statement not covered" >getNodeUsbSiD
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-01-30T13:57:13.696Z
+                at 2023-01-30T17:54:37.493Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
