@@ -1,5 +1,6 @@
 import {describe, expect, test} from '@jest/globals';
 import * as testUtils from 'sportident/lib/testUtils';
+import {BaseCommand} from './commands/BaseCommand';
 import {ShellCommandContext} from './Shell';
 import {ShellControl} from './testUtils';
 
@@ -18,7 +19,7 @@ const COMMANDS = {
         printUsage: (context: ShellCommandContext) => {
             context.putString('usage\n');
         },
-    },
+    } as BaseCommand,
 };
 
 describe('Shell', () => {

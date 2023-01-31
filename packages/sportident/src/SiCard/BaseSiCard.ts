@@ -3,7 +3,7 @@ import {proto} from '../constants';
 import * as utils from '../utils';
 import * as siProtocol from '../siProtocol';
 import * as storage from '../storage';
-import {IPunch, IRaceResultData} from './IRaceResultData';
+import {IRaceResultData} from './IRaceResultData';
 import {makeStartZeroTime, monotonizeRaceResult, prettyRaceResult} from './raceResultTools';
 
 export type SiCardType<T extends BaseSiCard> = {
@@ -18,17 +18,6 @@ export interface ISiMainStation {
         numResponses?: number,
         timeoutInMiliseconds?: number,
     ) => Promise<number[][]>;
-}
-
-export interface IBaseSiCardStorageFields {
-    cardNumber: number;
-    clearTime?: siProtocol.SiTimestamp;
-    checkTime: siProtocol.SiTimestamp;
-    startTime: siProtocol.SiTimestamp;
-    finishTime: siProtocol.SiTimestamp;
-    punchCount: number;
-    punches: IPunch[],
-    cardHolder: {[key: string]: unknown},
 }
 
 export abstract class BaseSiCard {
@@ -70,12 +59,9 @@ export abstract class BaseSiCard {
         return possibleCards.get(0);
     }
 
-    // abstract
-    static typeSpecificInstanceFromMessage(
-        _message: siProtocol.SiMessage,
-    ): BaseSiCard|undefined {
-        return undefined;
-    }
+    // abstract static typeSpecificInstanceFromMessage<Fields extends IBaseSiCardStorageFields>(
+    //     _message: siProtocol.SiMessage,
+    // ): BaseSiCard<Fields>|undefined;
 
     public mainStation?: ISiMainStation|undefined;
     public raceResult: IRaceResultData&{cardNumber: number};

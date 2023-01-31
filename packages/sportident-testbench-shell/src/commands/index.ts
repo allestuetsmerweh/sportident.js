@@ -1,3 +1,4 @@
+import {GetHolderCommand} from './getHolder';
 import {GetInfoCommand} from './getInfo';
 import {SetInfoCommand} from './setInfo';
 import {GetBackupCommand} from './getBackup';
@@ -7,6 +8,7 @@ import {PipeCommand} from './pipe';
 import {SimulateCommand} from './simulate';
 
 type SiShellCommands = {
+    'getHolder': GetHolderCommand,
     'getInfo': GetInfoCommand,
     'setInfo': SetInfoCommand,
     'getBackup': GetBackupCommand,
@@ -17,6 +19,7 @@ type SiShellCommands = {
 };
 
 export const getSiShellCommands = (): SiShellCommands => ({
+    'getHolder': new GetHolderCommand(),
     'getInfo': new GetInfoCommand(),
     'setInfo': new SetInfoCommand(),
     'getBackup': new GetBackupCommand(),

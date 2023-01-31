@@ -83,7 +83,7 @@ export class EventTarget<T extends EventTypeDict> implements IEventTarget<T> {
                 listener(event);
             } catch (exc) {
                 const err = errorUtils.getErrorOrThrow(exc);
-                console.error(`Event Listener failed (${String(type)}): ${err}`);
+                console.error(`Event Listener failed (${String(type)}): ${err.message}`);
                 console.info(err.stack);
             }
         });

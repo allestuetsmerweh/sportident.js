@@ -21,11 +21,11 @@ There are [generated docs](https://allestuetsmerweh.github.io/sportident.js/).
 
 ## Development
 We use `lerna` to manage multiple packages in the same repository:
-- [sportident](../sportident/)
-- [sportident-node-usb](../sportident-node-usb/)
-- [sportident-react](../sportident-react/)
-- [sportident-testbench-client](../sportident-testbench-client/)
-- [sportident-testbench-node](../sportident-testbench-node/)
-- [sportident-testbench-server](../sportident-testbench-server/)
-- [sportident-testbench-shell](../sportident-testbench-shell/)
-- [sportident-webusb](../sportident-webusb/)
+- [sportident](./tree/main/packages/sportident/#readme)
+- [sportident-node-usb](./tree/main/packages/sportident-node-usb/#readme)
+- [sportident-react](./tree/main/packages/sportident-react/#readme)
+- [sportident-testbench-client](./tree/main/packages/sportident-testbench-client/#readme)
+- [sportident-testbench-node](./tree/main/packages/sportident-testbench-node/#readme)
+- [sportident-testbench-server](./tree/main/packages/sportident-testbench-server/#readme)
+- [sportident-testbench-shell](./tree/main/packages/sportident-testbench-shell/#readme)
+- [sportident-webusb](./tree/main/packages/sportident-webusb/#readme)

@@ -9,11 +9,19 @@ beforeEach(() => {
 
 describe('BaseSiCard', () => {
     class FakeSiCard1 extends BaseSiCard {
+        static typeSpecificInstanceFromMessage(_message: siProtocol.SiMessage): FakeSiCard1|undefined {
+            return undefined;
+        }
+
         typeSpecificRead() {
             return Promise.resolve();
         }
     }
     class FakeSiCard2 extends BaseSiCard {
+        static typeSpecificInstanceFromMessage(_message: siProtocol.SiMessage): FakeSiCard2|undefined {
+            return undefined;
+        }
+
         typeSpecificRead() {
             return Promise.resolve();
         }

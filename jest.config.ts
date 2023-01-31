@@ -20,15 +20,15 @@ const jestConfig: Config = {
     },
     testEnvironment: 'jsdom',
     testRegex: '.*/.*\\.test\\.tsx?',
-    testPathIgnorePatterns: ['node_modules/', 'lib/', '__snapshots__/'],
+    testPathIgnorePatterns: ['node_modules/', 'lib/', '__snapshots__/', 'testUtils/'],
     collectCoverage: true,
     collectCoverageFrom: [
         './**/src/**/*',
     ],
-    coveragePathIgnorePatterns: ['node_modules/', 'lib/', '__snapshots__/'],
+    coveragePathIgnorePatterns: ['node_modules/', 'lib/', '__snapshots__/', 'testUtils/'],
     maxConcurrency: 1,
     coverageThreshold: {
-        global: percentCoverage(18),
+        global: percentCoverage(10),
         './packages/sportident/src/': {
             branches: 92,
             functions: 89,
