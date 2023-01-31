@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>32/32</span>
+                <span class='fraction'>31/31</span>
             </div>
         
             
@@ -39,14 +39,14 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>17/17</span>
+                <span class='fraction'>16/16</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>32/32</span>
+                <span class='fraction'>31/31</span>
             </div>
         
             
@@ -172,21 +172,7 @@
 <a name='L107'></a><a href='#L107'>107</a>
 <a name='L108'></a><a href='#L108'>108</a>
 <a name='L109'></a><a href='#L109'>109</a>
-<a name='L110'></a><a href='#L110'>110</a>
-<a name='L111'></a><a href='#L111'>111</a>
-<a name='L112'></a><a href='#L112'>112</a>
-<a name='L113'></a><a href='#L113'>113</a>
-<a name='L114'></a><a href='#L114'>114</a>
-<a name='L115'></a><a href='#L115'>115</a>
-<a name='L116'></a><a href='#L116'>116</a>
-<a name='L117'></a><a href='#L117'>117</a>
-<a name='L118'></a><a href='#L118'>118</a>
-<a name='L119'></a><a href='#L119'>119</a>
-<a name='L120'></a><a href='#L120'>120</a>
-<a name='L121'></a><a href='#L121'>121</a>
-<a name='L122'></a><a href='#L122'>122</a>
-<a name='L123'></a><a href='#L123'>123</a>
-<a name='L124'></a><a href='#L124'>124</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L110'></a><a href='#L110'>110</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -199,17 +185,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">17x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -262,9 +237,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">17x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">60x</span>
@@ -314,7 +286,7 @@ import {proto} from '../constants';
 import * as utils from '../utils';
 import * as siProtocol from '../siProtocol';
 import * as storage from '../storage';
-import {IPunch, IRaceResultData} from './IRaceResultData';
+import {IRaceResultData} from './IRaceResultData';
 import {makeStartZeroTime, monotonizeRaceResult, prettyRaceResult} from './raceResultTools';
 &nbsp;
 export type SiCardType&lt;T extends BaseSiCard&gt; = {
@@ -329,17 +301,6 @@ export interface ISiMainStation {
         numResponses?: number,
         timeoutInMiliseconds?: number,
     ) =&gt; Promise&lt;number[][]&gt;;
-}
-&nbsp;
-export interface IBaseSiCardStorageFields {
-    cardNumber: number;
-    clearTime?: siProtocol.SiTimestamp;
-    checkTime: siProtocol.SiTimestamp;
-    startTime: siProtocol.SiTimestamp;
-    finishTime: siProtocol.SiTimestamp;
-    punchCount: number;
-    punches: IPunch[],
-    cardHolder: {[key: string]: unknown},
 }
 &nbsp;
 export abstract class BaseSiCard {
@@ -381,12 +342,9 @@ export abstract class BaseSiCard {
         return possibleCards.get(0);
     }
 &nbsp;
-    // abstract
-    static typeSpecificInstanceFromMessage(
-        _message: siProtocol.SiMessage,
-    ): BaseSiCard|undefined {
-        return undefined;
-    }
+    // abstract static typeSpecificInstanceFromMessage&lt;Fields extends IBaseSiCardStorageFields&gt;(
+    //     _message: siProtocol.SiMessage,
+    // ): BaseSiCard&lt;Fields&gt;|undefined;
 &nbsp;
     public mainStation?: ISiMainStation|undefined;
     public raceResult: IRaceResultData&amp;{cardNumber: number};
@@ -439,7 +397,7 @@ export abstract class BaseSiCard {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-01-30T20:03:57.324Z
+                at 2023-01-31T08:42:39.743Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>
