@@ -17,7 +17,7 @@
   "author": "Simon Hatt",
   "license": "MIT",
   "dependencies": {
-    "immutable": "^4.0.0-rc.12",
+    "immutable": "^5.0",
     "lodash": "^4.17.15"
   },
   "devDependencies": {

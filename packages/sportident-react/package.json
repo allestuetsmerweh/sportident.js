@@ -17,17 +17,17 @@
   "author": "Simon Hatt",
   "license": "MIT",
   "dependencies": {
-    "immutable": "^4.0.0-rc.12",
+    "immutable": "^5.0",
     "lodash": "^4.17.15",
     "sportident": "^2.0.0-alpha.6"
   },
   "devDependencies": {
     "@jest/globals": "^29.4.1",
-    "@testing-library/react": "^13.4.0",
-    "@types/react": "^18.0.27",
-    "react": "^18.2.0"
+    "@testing-library/react": "^16.2.0",
+    "@types/react": "^19.0",
+    "react": "^19.0"
   },
   "peerDependencies": {
-    "react": "^18.2.0"
+    "react": "^19.0"
   }
 }

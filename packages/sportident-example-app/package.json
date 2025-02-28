@@ -13,22 +13,22 @@
   "author": "Simon Hatt",
   "license": "MIT",
   "dependencies": {
-    "immutable": "^4.0.0-rc.12",
+    "immutable": "^5.0",
     "lodash": "^4.17.15",
     "sportident": "^2.0.0-alpha.6",
     "sportident-webusb": "^2.0.0-alpha.6"
   },
   "devDependencies": {
     "@jest/globals": "^29.4.1",
-    "@types/react": "^18.0.27",
-    "@types/react-dom": "^18.0.10",
+    "@types/react": "^19.0",
+    "@types/react-dom": "^19.0",
     "prop-types": "^15.7.2",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react": "^19.0",
+    "react-dom": "^19.0"
   },
   "peerDependencies": {
     "prop-types": "^15.7.2",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react": "^19.0",
+    "react-dom": "^19.0"
   }
 }

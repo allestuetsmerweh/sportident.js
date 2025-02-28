@@ -6,7 +6,7 @@ import {ISiDevice, ISiDeviceDriverData} from 'sportident/lib/SiDevice/ISiDevice'
 export const useSiDevices = <T extends ISiDeviceDriverData<unknown>>(
     siDeviceDriver: ISiDeviceDriverWithAutodetection<T>,
 ): Immutable.Map<string, ISiDevice<T>> => {
-    const [siDevices, setSiDevices] = React.useState(Immutable.Map({}));
+    const [siDevices, setSiDevices] = React.useState<Immutable.Map<string, ISiDevice<T>>>(Immutable.Map({}));
     React.useEffect(() => {
         const onDeviceAdd = (event: SiDeviceAddEvent<T>) => {
             const device = event.siDevice;

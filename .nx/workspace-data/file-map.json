@@ -1,0 +1,1032 @@
+{
+  "version": "6.0",
+  "nxVersion": "20.4.6",
+  "pathMappings": {},
+  "nxJsonPlugins": [],
+  "fileMap": {
+    "projectFileMap": {
+      "sportident-testbench-node": [
+        {
+          "file": "packages/sportident-testbench-node/.eslintrc.js",
+          "hash": "9747140115462285469"
+        },
+        {
+          "file": "packages/sportident-testbench-node/README.md",
+          "hash": "8487171728019842098"
+        },
+        {
+          "file": "packages/sportident-testbench-node/package-lock.json",
+          "hash": "3647509205288855633"
+        },
+        {
+          "file": "packages/sportident-testbench-node/package.json",
+          "hash": "14277082944704923116",
+          "deps": [
+            "npm:@jest/globals",
+            "npm:ts-node",
+            "npm:immutable",
+            "npm:lodash",
+            "sportident",
+            "sportident-node-usb",
+            "sportident-testbench-shell",
+            "npm:usb"
+          ]
+        },
+        {
+          "file": "packages/sportident-testbench-node/src/SiExternalApplication.ts",
+          "hash": "8343700468639763689"
+        },
+        {
+          "file": "packages/sportident-testbench-node/src/index.ts",
+          "hash": "14409842141735583230"
+        },
+        {
+          "file": "packages/sportident-testbench-node/tsconfig.json",
+          "hash": "11879540684380569823"
+        }
+      ],
+      "sportident-testbench-shell": [
+        {
+          "file": "packages/sportident-testbench-shell/.eslintrc.js",
+          "hash": "15794097424231197742"
+        },
+        {
+          "file": "packages/sportident-testbench-shell/README.md",
+          "hash": "13831827374689324143"
+        },
+        {
+          "file": "packages/sportident-testbench-shell/package.json",
+          "hash": "12868641967842219706",
+          "deps": [
+            "npm:@jest/globals",
+            "sportident"
+          ]
+        },
+        {
+          "file": "packages/sportident-testbench-shell/src/ISiExternalApplication.ts",
+          "hash": "17023595484001748478"
+        },
+        {
+          "file": "packages/sportident-testbench-shell/src/Shell.test.ts",
+          "hash": "7499046045882575972"
+        },
+        {
+          "file": "packages/sportident-testbench-shell/src/Shell.ts",
+          "hash": "2911361550206565236"
+        },
+        {
+          "file": "packages/sportident-testbench-shell/src/commands/BaseCommand.ts",
+          "hash": "9958570054963202312"
+        },
+        {
+          "file": "packages/sportident-testbench-shell/src/commands/getBackup.ts",
+          "hash": "11600954920676889187"
+        },
+        {
+          "file": "packages/sportident-testbench-shell/src/commands/getDirectOrRemoteStation.ts",
+          "hash": "12451051120127279051"
+        },
+        {
+          "file": "packages/sportident-testbench-shell/src/commands/getHolder.ts",
+          "hash": "10441205954871047821"
+        },
+        {
+          "file": "packages/sportident-testbench-shell/src/commands/getInfo.ts",
+          "hash": "12088023666499657860"
+        },
+        {
+          "file": "packages/sportident-testbench-shell/src/commands/index.ts",
+          "hash": "16266047720222812168"
+        },
+        {
+          "file": "packages/sportident-testbench-shell/src/commands/pipe.ts",
+          "hash": "9526560248398584325"
+        },
+        {
+          "file": "packages/sportident-testbench-shell/src/commands/send.ts",
+          "hash": "17234734163511668062"
+        },
+        {
+          "file": "packages/sportident-testbench-shell/src/commands/setInfo.ts",
+          "hash": "4360904478977215317"
+        },
+        {
+          "file": "packages/sportident-testbench-shell/src/commands/simulate.ts",
+          "hash": "10234842331382413982"
+        },
+        {
+          "file": "packages/sportident-testbench-shell/src/commands/test.ts",
+          "hash": "12684812534711850274"
+        },
+        {
+          "file": "packages/sportident-testbench-shell/src/index.test.ts",
+          "hash": "5857688359859698843"
+        },
+        {
+          "file": "packages/sportident-testbench-shell/src/index.ts",
+          "hash": "9156309478678711227"
+        },
+        {
+          "file": "packages/sportident-testbench-shell/src/testUtils.ts",
+          "hash": "18153320536251334895"
+        },
+        {
+          "file": "packages/sportident-testbench-shell/tsconfig.json",
+          "hash": "1434330996700891747"
+        }
+      ],
+      "sportident": [
+        {
+          "file": "packages/sportident/.eslintrc.js",
+          "hash": "15794097424231197742"
+        },
+        {
+          "file": "packages/sportident/README.md",
+          "hash": "15177167365798148233"
+        },
+        {
+          "file": "packages/sportident/package.json",
+          "hash": "18061754750104133551",
+          "deps": [
+            "npm:@jest/globals",
+            "npm:immutable",
+            "npm:lodash"
+          ]
+        },
+        {
+          "file": "packages/sportident/src/SiCard/BaseSiCard.test.ts",
+          "hash": "2733016223651471790"
+        },
+        {
+          "file": "packages/sportident/src/SiCard/BaseSiCard.ts",
+          "hash": "16759561051727847403"
+        },
+        {
+          "file": "packages/sportident/src/SiCard/IRaceResultData.ts",
+          "hash": "4950086873572651267"
+        },
+        {
+          "file": "packages/sportident/src/SiCard/ISiCard.ts",
+          "hash": "17472910241830624632"
+        },
+        {
+          "file": "packages/sportident/src/SiCard/ISiCardExamples.ts",
+          "hash": "499810315264638404"
+        },
+        {
+          "file": "packages/sportident/src/SiCard/index.ts",
+          "hash": "13625390604073031210"
+        },
+        {
+          "file": "packages/sportident/src/SiCard/raceResultTools.test.ts",
+          "hash": "2106095537553813926"
+        },
+        {
+          "file": "packages/sportident/src/SiCard/raceResultTools.ts",
+          "hash": "2230467138280518724"
+        },
+        {
+          "file": "packages/sportident/src/SiCard/types/FCard.test.ts",
+          "hash": "18278317973677490942"
+        },
+        {
+          "file": "packages/sportident/src/SiCard/types/FCard.ts",
+          "hash": "13993752363595126045"
+        },
+        {
+          "file": "packages/sportident/src/SiCard/types/ModernSiCard.test.ts",
+          "hash": "17892137936782185367"
+        },
+        {
+          "file": "packages/sportident/src/SiCard/types/ModernSiCard.ts",
+          "hash": "13589903029216289715"
+        },
+        {
+          "file": "packages/sportident/src/SiCard/types/PCard.test.ts",
+          "hash": "11214481846430570502"
+        },
+        {
+          "file": "packages/sportident/src/SiCard/types/PCard.ts",
+          "hash": "7924563992631650268"
+        },
+        {
+          "file": "packages/sportident/src/SiCard/types/SIAC.test.ts",
+          "hash": "8428210406762295283"
+        },
+        {
+          "file": "packages/sportident/src/SiCard/types/SIAC.ts",
+          "hash": "6670028297263904088"
+        },
+        {
+          "file": "packages/sportident/src/SiCard/types/SiCard10.test.ts",
+          "hash": "17948776251692489038"
+        },
+        {
+          "file": "packages/sportident/src/SiCard/types/SiCard10.ts",
+          "hash": "11658456086759108225"
+        },
+        {
+          "file": "packages/sportident/src/SiCard/types/SiCard11.test.ts",
+          "hash": "4423592054518159439"
+        },
+        {
+          "file": "packages/sportident/src/SiCard/types/SiCard11.ts",
+          "hash": "7066376502178189669"
+        },
+        {
+          "file": "packages/sportident/src/SiCard/types/SiCard5.test.ts",
+          "hash": "3243655032255208116"
+        },
+        {
+          "file": "packages/sportident/src/SiCard/types/SiCard5.ts",
+          "hash": "11057100235411156059"
+        },
+        {
+          "file": "packages/sportident/src/SiCard/types/SiCard6.test.ts",
+          "hash": "16218169342061034926"
+        },
+        {
+          "file": "packages/sportident/src/SiCard/types/SiCard6.ts",
+          "hash": "17834425153622626985"
+        },
+        {
+          "file": "packages/sportident/src/SiCard/types/SiCard8.test.ts",
+          "hash": "947433159875347085"
+        },
+        {
+          "file": "packages/sportident/src/SiCard/types/SiCard8.ts",
+          "hash": "12348875083499521931"
+        },
+        {
+          "file": "packages/sportident/src/SiCard/types/SiCard9.test.ts",
+          "hash": "3215601033452258481"
+        },
+        {
+          "file": "packages/sportident/src/SiCard/types/SiCard9.ts",
+          "hash": "9695023226881908656"
+        },
+        {
+          "file": "packages/sportident/src/SiCard/types/TCard.test.ts",
+          "hash": "9629699094887264923"
+        },
+        {
+          "file": "packages/sportident/src/SiCard/types/TCard.ts",
+          "hash": "7225519461756657256"
+        },
+        {
+          "file": "packages/sportident/src/SiCard/types/index.test.ts",
+          "hash": "13605725022327646151"
+        },
+        {
+          "file": "packages/sportident/src/SiCard/types/index.ts",
+          "hash": "15869439711962722775"
+        },
+        {
+          "file": "packages/sportident/src/SiCard/types/modernSiCardExamples.ts",
+          "hash": "13175183931273406495"
+        },
+        {
+          "file": "packages/sportident/src/SiCard/types/siCard5Examples.ts",
+          "hash": "11017667248863266409"
+        },
+        {
+          "file": "packages/sportident/src/SiCard/types/siCard6Examples.ts",
+          "hash": "11759135769144313844"
+        },
+        {
+          "file": "packages/sportident/src/SiCard/types/siCard8Examples.ts",
+          "hash": "3375601763946246315"
+        },
+        {
+          "file": "packages/sportident/src/SiCard/types/siCard9Examples.ts",
+          "hash": "5052517290174675029"
+        },
+        {
+          "file": "packages/sportident/src/SiDevice/ISiDevice.ts",
+          "hash": "5113572300760279071"
+        },
+        {
+          "file": "packages/sportident/src/SiDevice/ISiDeviceDriver.ts",
+          "hash": "14088914626374927598"
+        },
+        {
+          "file": "packages/sportident/src/SiDevice/README.md",
+          "hash": "16400729635864615444"
+        },
+        {
+          "file": "packages/sportident/src/SiDevice/SiDevice.test.ts",
+          "hash": "31160046692131846"
+        },
+        {
+          "file": "packages/sportident/src/SiDevice/SiDevice.ts",
+          "hash": "14606526287078658991"
+        },
+        {
+          "file": "packages/sportident/src/SiDevice/index.ts",
+          "hash": "17746291139061047646"
+        },
+        {
+          "file": "packages/sportident/src/SiDevice/testUtils/index.ts",
+          "hash": "10760578877127723760"
+        },
+        {
+          "file": "packages/sportident/src/SiDevice/testUtils/testISiDeviceDriver.ts",
+          "hash": "18257605171952972269"
+        },
+        {
+          "file": "packages/sportident/src/SiDevice/testUtils/testISiDeviceDriverWithAutodetection.ts",
+          "hash": "7458403375958340196"
+        },
+        {
+          "file": "packages/sportident/src/SiStation/BaseSiStation.test.ts",
+          "hash": "18173955976775647388"
+        },
+        {
+          "file": "packages/sportident/src/SiStation/BaseSiStation.ts",
+          "hash": "5506767290439770193"
+        },
+        {
+          "file": "packages/sportident/src/SiStation/CoupledSiStation.test.ts",
+          "hash": "1207561809440292960"
+        },
+        {
+          "file": "packages/sportident/src/SiStation/CoupledSiStation.ts",
+          "hash": "3688923333546048898"
+        },
+        {
+          "file": "packages/sportident/src/SiStation/ISiMainStation.ts",
+          "hash": "5551113947109964512"
+        },
+        {
+          "file": "packages/sportident/src/SiStation/ISiSendTask.ts",
+          "hash": "16383057129908041144"
+        },
+        {
+          "file": "packages/sportident/src/SiStation/ISiStation.ts",
+          "hash": "3585661947118727404"
+        },
+        {
+          "file": "packages/sportident/src/SiStation/ISiTargetMultiplexer.ts",
+          "hash": "6050175646756775837"
+        },
+        {
+          "file": "packages/sportident/src/SiStation/SiMainStation.test.ts",
+          "hash": "13813272397726681188"
+        },
+        {
+          "file": "packages/sportident/src/SiStation/SiMainStation.ts",
+          "hash": "16391630464890131722"
+        },
+        {
+          "file": "packages/sportident/src/SiStation/SiSendTask.ts",
+          "hash": "8862648174961946134"
+        },
+        {
+          "file": "packages/sportident/src/SiStation/SiTargetMultiplexer.targeting.test.ts",
+          "hash": "5561750466891968027"
+        },
+        {
+          "file": "packages/sportident/src/SiStation/SiTargetMultiplexer.test.ts",
+          "hash": "12431805214666954489"
+        },
+        {
+          "file": "packages/sportident/src/SiStation/SiTargetMultiplexer.ts",
+          "hash": "211100191299745697"
+        },
+        {
+          "file": "packages/sportident/src/SiStation/index.ts",
+          "hash": "12480405256927803245"
+        },
+        {
+          "file": "packages/sportident/src/SiStation/siStationExamples.ts",
+          "hash": "13203891961040468410"
+        },
+        {
+          "file": "packages/sportident/src/constants.test.ts",
+          "hash": "12096881327124595111"
+        },
+        {
+          "file": "packages/sportident/src/constants.ts",
+          "hash": "9876831835765954208"
+        },
+        {
+          "file": "packages/sportident/src/fakes/FakeSiCard/BaseFakeSiCard.test.ts",
+          "hash": "12956005882310512595"
+        },
+        {
+          "file": "packages/sportident/src/fakes/FakeSiCard/BaseFakeSiCard.ts",
+          "hash": "10767437335357634847"
+        },
+        {
+          "file": "packages/sportident/src/fakes/FakeSiCard/IFakeSiCard.ts",
+          "hash": "11391636861630975488"
+        },
+        {
+          "file": "packages/sportident/src/fakes/FakeSiCard/index.ts",
+          "hash": "13796962799406901992"
+        },
+        {
+          "file": "packages/sportident/src/fakes/FakeSiCard/types/FakeModernSiCard.test.ts",
+          "hash": "5234519991936225942"
+        },
+        {
+          "file": "packages/sportident/src/fakes/FakeSiCard/types/FakeModernSiCard.ts",
+          "hash": "10974090016484843051"
+        },
+        {
+          "file": "packages/sportident/src/fakes/FakeSiCard/types/FakeSIAC.ts",
+          "hash": "17745890425138261109"
+        },
+        {
+          "file": "packages/sportident/src/fakes/FakeSiCard/types/FakeSiCard10.ts",
+          "hash": "13321679026994214235"
+        },
+        {
+          "file": "packages/sportident/src/fakes/FakeSiCard/types/FakeSiCard11.ts",
+          "hash": "3582944184164291819"
+        },
+        {
+          "file": "packages/sportident/src/fakes/FakeSiCard/types/FakeSiCard5.test.ts",
+          "hash": "15334257904109247719"
+        },
+        {
+          "file": "packages/sportident/src/fakes/FakeSiCard/types/FakeSiCard5.ts",
+          "hash": "13418487353334010336"
+        },
+        {
+          "file": "packages/sportident/src/fakes/FakeSiCard/types/FakeSiCard6.test.ts",
+          "hash": "2883309060883251414"
+        },
+        {
+          "file": "packages/sportident/src/fakes/FakeSiCard/types/FakeSiCard6.ts",
+          "hash": "7625812062468652296"
+        },
+        {
+          "file": "packages/sportident/src/fakes/FakeSiCard/types/FakeSiCard8.ts",
+          "hash": "6058208729555157740"
+        },
+        {
+          "file": "packages/sportident/src/fakes/FakeSiCard/types/FakeSiCard9.ts",
+          "hash": "4457724128958712950"
+        },
+        {
+          "file": "packages/sportident/src/fakes/FakeSiCard/types/index.ts",
+          "hash": "3153134044511121380"
+        },
+        {
+          "file": "packages/sportident/src/fakes/FakeSiDeviceDriver.ts",
+          "hash": "17198948601316333219"
+        },
+        {
+          "file": "packages/sportident/src/fakes/FakeSiMainStation.test.ts",
+          "hash": "8800674371090548068"
+        },
+        {
+          "file": "packages/sportident/src/fakes/FakeSiMainStation.ts",
+          "hash": "6232218414549657819"
+        },
+        {
+          "file": "packages/sportident/src/fakes/IFakeSiMainStation.ts",
+          "hash": "4776701491436443612"
+        },
+        {
+          "file": "packages/sportident/src/fakes/index.ts",
+          "hash": "11360772801778329333"
+        },
+        {
+          "file": "packages/sportident/src/index.ts",
+          "hash": "108556487528515297"
+        },
+        {
+          "file": "packages/sportident/src/siProtocol.test.ts",
+          "hash": "3650788296720203926"
+        },
+        {
+          "file": "packages/sportident/src/siProtocol.ts",
+          "hash": "7471796316000735245"
+        },
+        {
+          "file": "packages/sportident/src/storage/SiArray.test.ts",
+          "hash": "7331322789457722537"
+        },
+        {
+          "file": "packages/sportident/src/storage/SiArray.ts",
+          "hash": "8266263000456018915"
+        },
+        {
+          "file": "packages/sportident/src/storage/SiBool.test.ts",
+          "hash": "10077050397888979369"
+        },
+        {
+          "file": "packages/sportident/src/storage/SiBool.ts",
+          "hash": "8672690439005580904"
+        },
+        {
+          "file": "packages/sportident/src/storage/SiDataType.test.ts",
+          "hash": "4613142301578678794"
+        },
+        {
+          "file": "packages/sportident/src/storage/SiDataType.ts",
+          "hash": "6185386570193642439"
+        },
+        {
+          "file": "packages/sportident/src/storage/SiDict.test.ts",
+          "hash": "10397056764977730488"
+        },
+        {
+          "file": "packages/sportident/src/storage/SiDict.ts",
+          "hash": "7761731028721860783"
+        },
+        {
+          "file": "packages/sportident/src/storage/SiEnum.test.ts",
+          "hash": "15008877625193991751"
+        },
+        {
+          "file": "packages/sportident/src/storage/SiEnum.ts",
+          "hash": "15643042158720714220"
+        },
+        {
+          "file": "packages/sportident/src/storage/SiFieldValue.test.ts",
+          "hash": "2544034927401963113"
+        },
+        {
+          "file": "packages/sportident/src/storage/SiFieldValue.ts",
+          "hash": "6104187651727807276"
+        },
+        {
+          "file": "packages/sportident/src/storage/SiInt.test.ts",
+          "hash": "7130545667127717400"
+        },
+        {
+          "file": "packages/sportident/src/storage/SiInt.ts",
+          "hash": "6034752316105007284"
+        },
+        {
+          "file": "packages/sportident/src/storage/SiModified.test.ts",
+          "hash": "3183581778229664002"
+        },
+        {
+          "file": "packages/sportident/src/storage/SiModified.ts",
+          "hash": "16111678047620880333"
+        },
+        {
+          "file": "packages/sportident/src/storage/SiStorage.test.ts",
+          "hash": "5008625098913399061"
+        },
+        {
+          "file": "packages/sportident/src/storage/SiStorage.ts",
+          "hash": "15494018554825577378"
+        },
+        {
+          "file": "packages/sportident/src/storage/index.test.ts",
+          "hash": "9846392131337104879"
+        },
+        {
+          "file": "packages/sportident/src/storage/index.ts",
+          "hash": "15931855601437031800"
+        },
+        {
+          "file": "packages/sportident/src/storage/interfaces.ts",
+          "hash": "14761448697344146611"
+        },
+        {
+          "file": "packages/sportident/src/testUtils.test.ts",
+          "hash": "1140896509921192982"
+        },
+        {
+          "file": "packages/sportident/src/testUtils.ts",
+          "hash": "15786623012901858402"
+        },
+        {
+          "file": "packages/sportident/src/utils/NumberRange.test.ts",
+          "hash": "2817899503753135400"
+        },
+        {
+          "file": "packages/sportident/src/utils/NumberRange.ts",
+          "hash": "10207326930579158871"
+        },
+        {
+          "file": "packages/sportident/src/utils/NumberRangeRegistry.test.ts",
+          "hash": "16757614899558062038"
+        },
+        {
+          "file": "packages/sportident/src/utils/NumberRangeRegistry.ts",
+          "hash": "15017134140007517709"
+        },
+        {
+          "file": "packages/sportident/src/utils/bytes.test.ts",
+          "hash": "14921294721270269873"
+        },
+        {
+          "file": "packages/sportident/src/utils/bytes.ts",
+          "hash": "7701309437049267106"
+        },
+        {
+          "file": "packages/sportident/src/utils/errors.test.ts",
+          "hash": "11804419983623301049"
+        },
+        {
+          "file": "packages/sportident/src/utils/errors.ts",
+          "hash": "10605910964819287969"
+        },
+        {
+          "file": "packages/sportident/src/utils/events.test.ts",
+          "hash": "14292842901855303803"
+        },
+        {
+          "file": "packages/sportident/src/utils/events.ts",
+          "hash": "845759184106365976"
+        },
+        {
+          "file": "packages/sportident/src/utils/general.test.ts",
+          "hash": "14193915848655603026"
+        },
+        {
+          "file": "packages/sportident/src/utils/general.ts",
+          "hash": "4467013979793618086"
+        },
+        {
+          "file": "packages/sportident/src/utils/index.ts",
+          "hash": "16930833672690968488"
+        },
+        {
+          "file": "packages/sportident/src/utils/mixins.test.ts",
+          "hash": "12212388450285310660"
+        },
+        {
+          "file": "packages/sportident/src/utils/mixins.ts",
+          "hash": "9417820255719226724"
+        },
+        {
+          "file": "packages/sportident/src/utils/typed.ts",
+          "hash": "9547573073874639808"
+        },
+        {
+          "file": "packages/sportident/tsconfig.json",
+          "hash": "14365349773513119148"
+        }
+      ],
+      "sportident-node-usb": [
+        {
+          "file": "packages/sportident-node-usb/.eslintrc.js",
+          "hash": "9747140115462285469"
+        },
+        {
+          "file": "packages/sportident-node-usb/README.md",
+          "hash": "17484689782656715680"
+        },
+        {
+          "file": "packages/sportident-node-usb/package-lock.json",
+          "hash": "9727441252773985520"
+        },
+        {
+          "file": "packages/sportident-node-usb/package.json",
+          "hash": "13990918574124469603",
+          "deps": [
+            "npm:@jest/globals",
+            "sportident",
+            "npm:usb"
+          ]
+        },
+        {
+          "file": "packages/sportident-node-usb/src/NodeUsbSiDeviceDriver.test.ts",
+          "hash": "2578544150327600991"
+        },
+        {
+          "file": "packages/sportident-node-usb/src/NodeUsbSiDeviceDriver.ts",
+          "hash": "13608101371675529821"
+        },
+        {
+          "file": "packages/sportident-node-usb/src/index.test.ts",
+          "hash": "4732642262214228661"
+        },
+        {
+          "file": "packages/sportident-node-usb/src/index.ts",
+          "hash": "12403577214991984688"
+        },
+        {
+          "file": "packages/sportident-node-usb/tsconfig.json",
+          "hash": "1434330996700891747"
+        }
+      ],
+      "sportident-react": [
+        {
+          "file": "packages/sportident-react/.eslintrc.js",
+          "hash": "15794097424231197742"
+        },
+        {
+          "file": "packages/sportident-react/README.md",
+          "hash": "5263087606797172345"
+        },
+        {
+          "file": "packages/sportident-react/package.json",
+          "hash": "17800402575906530591",
+          "deps": [
+            "npm:react",
+            "npm:@jest/globals",
+            "npm:@testing-library/react",
+            "npm:@types/react",
+            "npm:immutable",
+            "npm:lodash",
+            "sportident"
+          ]
+        },
+        {
+          "file": "packages/sportident-react/src/__snapshots__/react.test.tsx.snap",
+          "hash": "13116341900421198904"
+        },
+        {
+          "file": "packages/sportident-react/src/index.ts",
+          "hash": "1830352256080796088"
+        },
+        {
+          "file": "packages/sportident-react/src/react.test.tsx",
+          "hash": "428834959256114898"
+        },
+        {
+          "file": "packages/sportident-react/src/react.tsx",
+          "hash": "332403512431571882"
+        },
+        {
+          "file": "packages/sportident-react/tsconfig.json",
+          "hash": "14365349773513119148"
+        }
+      ],
+      "sportident-example-app": [
+        {
+          "file": "packages/sportident-example-app/.eslintrc.js",
+          "hash": "15794097424231197742"
+        },
+        {
+          "file": "packages/sportident-example-app/README.md",
+          "hash": "17511948513114344578"
+        },
+        {
+          "file": "packages/sportident-example-app/package.json",
+          "hash": "8219535252591417074",
+          "deps": [
+            "npm:prop-types",
+            "npm:react",
+            "npm:react-dom",
+            "npm:@jest/globals",
+            "npm:@types/react",
+            "npm:@types/react-dom",
+            "npm:immutable",
+            "npm:lodash",
+            "sportident",
+            "sportident-webusb"
+          ]
+        },
+        {
+          "file": "packages/sportident-example-app/src/index.html",
+          "hash": "7537371874894620800"
+        },
+        {
+          "file": "packages/sportident-example-app/src/index.tsx",
+          "hash": "1992484622831187481"
+        },
+        {
+          "file": "packages/sportident-example-app/src/styles.css",
+          "hash": "11595832759806896068"
+        },
+        {
+          "file": "packages/sportident-example-app/tsconfig.json",
+          "hash": "965315288583783206"
+        },
+        {
+          "file": "packages/sportident-example-app/webpack.config.js",
+          "hash": "7688214347604441998"
+        }
+      ],
+      "sportident-testbench-server": [
+        {
+          "file": "packages/sportident-testbench-server/.eslintrc.js",
+          "hash": "9747140115462285469"
+        },
+        {
+          "file": "packages/sportident-testbench-server/README.md",
+          "hash": "7515609713852555972"
+        },
+        {
+          "file": "packages/sportident-testbench-server/package.json",
+          "hash": "4231912431510053486",
+          "deps": [
+            "npm:@jest/globals",
+            "npm:@types/node@18.19.76",
+            "npm:@types/ws",
+            "npm:ts-node-dev",
+            "npm:ws"
+          ]
+        },
+        {
+          "file": "packages/sportident-testbench-server/src/index.test.ts",
+          "hash": "10641026403355505724"
+        },
+        {
+          "file": "packages/sportident-testbench-server/src/index.ts",
+          "hash": "17186553095285971217"
+        },
+        {
+          "file": "packages/sportident-testbench-server/tsconfig.json",
+          "hash": "8539882721955570810"
+        }
+      ],
+      "sportident-testbench-client": [
+        {
+          "file": "packages/sportident-testbench-client/.eslintrc.js",
+          "hash": "15794097424231197742"
+        },
+        {
+          "file": "packages/sportident-testbench-client/README.md",
+          "hash": "5823302351189198746"
+        },
+        {
+          "file": "packages/sportident-testbench-client/package.json",
+          "hash": "4322644553833028143",
+          "deps": [
+            "npm:prop-types",
+            "npm:react",
+            "npm:react-dom",
+            "npm:@jest/globals",
+            "npm:@types/react",
+            "npm:@types/react-dom",
+            "npm:immutable",
+            "npm:lodash",
+            "sportident",
+            "sportident-react",
+            "sportident-testbench-shell",
+            "sportident-webusb"
+          ]
+        },
+        {
+          "file": "packages/sportident-testbench-client/src/MainStationList.tsx",
+          "hash": "15541685804461538547"
+        },
+        {
+          "file": "packages/sportident-testbench-client/src/SiDevicesContext.tsx",
+          "hash": "17498268796148697129"
+        },
+        {
+          "file": "packages/sportident-testbench-client/src/SiExternalApplication.ts",
+          "hash": "11972239206901699290"
+        },
+        {
+          "file": "packages/sportident-testbench-client/src/Terminal.tsx",
+          "hash": "6794780871271884803"
+        },
+        {
+          "file": "packages/sportident-testbench-client/src/index.html",
+          "hash": "16485459961980104218"
+        },
+        {
+          "file": "packages/sportident-testbench-client/src/index.tsx",
+          "hash": "1398307094912578061"
+        },
+        {
+          "file": "packages/sportident-testbench-client/src/styles.css",
+          "hash": "3751937867683582931"
+        },
+        {
+          "file": "packages/sportident-testbench-client/tsconfig.json",
+          "hash": "6389513755924529923"
+        },
+        {
+          "file": "packages/sportident-testbench-client/webpack.config.js",
+          "hash": "15579389651497685965"
+        }
+      ],
+      "sportident-webusb": [
+        {
+          "file": "packages/sportident-webusb/.eslintrc.js",
+          "hash": "15794097424231197742"
+        },
+        {
+          "file": "packages/sportident-webusb/README.md",
+          "hash": "5476956510981721102"
+        },
+        {
+          "file": "packages/sportident-webusb/package.json",
+          "hash": "5867712173958075754",
+          "deps": [
+            "sportident",
+            "npm:@jest/globals"
+          ]
+        },
+        {
+          "file": "packages/sportident-webusb/src/INavigatorWebUsb.ts",
+          "hash": "15495396496676786001"
+        },
+        {
+          "file": "packages/sportident-webusb/src/WebUsbSiDeviceDriver.test.ts",
+          "hash": "2512175406066035720"
+        },
+        {
+          "file": "packages/sportident-webusb/src/WebUsbSiDeviceDriver.ts",
+          "hash": "18302257040040206411"
+        },
+        {
+          "file": "packages/sportident-webusb/src/index.test.ts",
+          "hash": "18367778683181933486"
+        },
+        {
+          "file": "packages/sportident-webusb/src/index.ts",
+          "hash": "1461626713797817782"
+        },
+        {
+          "file": "packages/sportident-webusb/tsconfig.json",
+          "hash": "1434330996700891747"
+        }
+      ]
+    },
+    "nonProjectFiles": [
+      {
+        "file": ".circleci/config.yml",
+        "hash": "2057120373604044861"
+      },
+      {
+        "file": ".dependency-cruiser.js",
+        "hash": "9256610960721223594"
+      },
+      {
+        "file": ".editorconfig",
+        "hash": "14439345357019981707"
+      },
+      {
+        "file": ".eslintignore",
+        "hash": "5641891370157601612"
+      },
+      {
+        "file": ".github/ISSUE_TEMPLATE/bug_report.md",
+        "hash": "18011927199311670113"
+      },
+      {
+        "file": ".github/ISSUE_TEMPLATE/feature_request.md",
+        "hash": "697282220421011966"
+      },
+      {
+        "file": ".gitignore",
+        "hash": "3858660622258438922"
+      },
+      {
+        "file": "LICENSE",
+        "hash": "17267508115553548385"
+      },
+      {
+        "file": "README.md",
+        "hash": "12118807502537279319"
+      },
+      {
+        "file": "babel.config.js",
+        "hash": "2343458950998617953"
+      },
+      {
+        "file": "build-docs.sh",
+        "hash": "16515176682648746422"
+      },
+      {
+        "file": "docs/index.md",
+        "hash": "9159836258179617263"
+      },
+      {
+        "file": "docs/typedoc/index.md",
+        "hash": "8043466622483969041"
+      },
+      {
+        "file": "eslint.base.js",
+        "hash": "16159812769231798452"
+      },
+      {
+        "file": "install.sh",
+        "hash": "11687949174476846951"
+      },
+      {
+        "file": "jest.config.ts",
+        "hash": "14930523179043231995"
+      },
+      {
+        "file": "lerna.json",
+        "hash": "15477269690947658408"
+      },
+      {
+        "file": "nx.json",
+        "hash": "14528489116449076935"
+      },
+      {
+        "file": "package-lock.json",
+        "hash": "220716775372344753"
+      },
+      {
+        "file": "package.json",
+        "hash": "16672196543096779740"
+      },
+      {
+        "file": "tsconfig.base.json",
+        "hash": "15934624653288826740"
+      },
+      {
+        "file": "tsconfig.json",
+        "hash": "1092418453431602348"
+      }
+    ]
+  }
+}
