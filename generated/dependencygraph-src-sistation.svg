@@ -97,7 +97,7 @@
 <!-- node_modules/@jest/globals/build/index.js -->
 <g id="node1" class="node">
 <title>node_modules/@jest/globals/build/index.js</title>
-<g id="a_node1"><a xlink:href="node_modules/@jest/globals/build/index.js" xlink:title="index.js">
+<g id="a_node1"><a xlink:href="https://www.npmjs.com/package/@jest/globals" xlink:title="index.js">
 <polygon fill="#c40b0a" fill-opacity="0.101961" stroke="black" points="321.5,-118 320,-120 309.5,-120 308,-118 267.5,-118 267.5,-100 321.5,-100 321.5,-118"/>
 <text text-anchor="start" x="277" y="-106.8" font-family="Helvetica,sans-Serif" font-size="9.00" fill="#c40b0a">index.js</text>
 </a>
@@ -106,7 +106,7 @@
 <!-- node_modules/lodash/lodash.js -->
 <g id="node2" class="node">
 <title>node_modules/lodash/lodash.js</title>
-<g id="a_node2"><a xlink:href="node_modules/lodash/lodash.js" xlink:title="lodash.js">
+<g id="a_node2"><a xlink:href="https://www.npmjs.com/package/lodash" xlink:title="lodash.js">
 <polygon fill="#c40b0a" fill-opacity="0.101961" stroke="black" points="322.5,-42 321,-44 310.5,-44 309,-42 266.5,-42 266.5,-24 322.5,-24 322.5,-42"/>
 <text text-anchor="start" x="274.5" y="-30.8" font-family="Helvetica,sans-Serif" font-size="9.00" fill="#c40b0a">lodash.js</text>
 </a>
@@ -647,31 +647,31 @@
 <g id="edge49" class="edge">
 <title>packages/sportident/src/SiStation/index.ts&#45;&gt;packages/sportident/src/SiStation/BaseSiStation.ts</title>
 <path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M156.08,-267.91C175.88,-267.12 202.29,-269.71 218,-286 236.67,-305.36 207.81,-326.18 226,-346 230.88,-351.32 237.2,-354.97 244,-357.44"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="243.46,-359.47 249.81,-359.25 244.71,-355.46 243.46,-359.47"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="249.19,-361.25 244.08,-357.46 250.44,-357.24 249.19,-361.25"/>
 </g>
 <!-- packages/sportident/src/SiStation/index.ts&#45;&gt;packages/sportident/src/SiStation/siStationExamples.ts -->
 <g id="edge52" class="edge">
 <title>packages/sportident/src/SiStation/index.ts&#45;&gt;packages/sportident/src/SiStation/siStationExamples.ts</title>
 <path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M156.33,-268.46C175.73,-268.09 201.51,-270.96 218,-286 228.19,-295.3 216.04,-306.45 226,-316 228.44,-318.34 231.15,-320.34 234.06,-322.06"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="233.17,-323.97 239.47,-324.85 235.1,-320.23 233.17,-323.97"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="238.51,-326.71 234.14,-322.1 240.43,-322.98 238.51,-326.71"/>
 </g>
 <!-- packages/sportident/src/SiStation/index.ts&#45;&gt;packages/sportident/src/SiStation/CoupledSiStation.ts -->
 <g id="edge50" class="edge">
 <title>packages/sportident/src/SiStation/index.ts&#45;&gt;packages/sportident/src/SiStation/CoupledSiStation.ts</title>
 <path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M156.27,-271C177.67,-271 208.67,-271 235.8,-271"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="235.88,-273.1 241.88,-271 235.88,-268.9 235.88,-273.1"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="241.88,-273.1 235.88,-271 241.88,-268.9 241.88,-273.1"/>
 </g>
 <!-- packages/sportident/src/SiStation/index.ts&#45;&gt;packages/sportident/src/SiStation/SiTargetMultiplexer.ts -->
 <g id="edge53" class="edge">
 <title>packages/sportident/src/SiStation/index.ts&#45;&gt;packages/sportident/src/SiStation/SiTargetMultiplexer.ts</title>
 <path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M156.38,-267.62C176.35,-266.69 202.84,-269.2 218,-286 235.91,-305.84 208.59,-385.72 226,-406 227.95,-408.27 230.16,-410.24 232.56,-411.95"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="231.52,-413.78 237.74,-415.1 233.7,-410.19 231.52,-413.78"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="236.65,-416.89 232.61,-411.98 238.83,-413.3 236.65,-416.89"/>
 </g>
 <!-- packages/sportident/src/SiStation/index.ts&#45;&gt;packages/sportident/src/SiStation/SiMainStation.ts -->
 <g id="edge51" class="edge">
 <title>packages/sportident/src/SiStation/index.ts&#45;&gt;packages/sportident/src/SiStation/SiMainStation.ts</title>
 <path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M156.22,-275.28C173.73,-278.18 197.27,-282.18 218,-286 226.17,-287.51 234.82,-289.17 243.24,-290.82"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="243.33,-292.97 249.62,-292.07 244.14,-288.85 243.33,-292.97"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="249.22,-294.13 243.74,-290.91 250.03,-290.01 249.22,-294.13"/>
 </g>
 </g>
 </svg>

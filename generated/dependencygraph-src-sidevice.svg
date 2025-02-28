@@ -62,7 +62,7 @@
 <!-- node_modules/@jest/globals/build/index.js -->
 <g id="node1" class="node">
 <title>node_modules/@jest/globals/build/index.js</title>
-<g id="a_node1"><a xlink:href="node_modules/@jest/globals/build/index.js" xlink:title="index.js">
+<g id="a_node1"><a xlink:href="https://www.npmjs.com/package/@jest/globals" xlink:title="index.js">
 <polygon fill="#c40b0a" fill-opacity="0.101961" stroke="black" points="265,-58 263.5,-60 253,-60 251.5,-58 211,-58 211,-40 265,-40 265,-58"/>
 <text text-anchor="start" x="220.5" y="-46.8" font-family="Helvetica,sans-Serif" font-size="9.00" fill="#c40b0a">index.js</text>
 </a>
@@ -171,19 +171,19 @@
 <g id="edge7" class="edge">
 <title>packages/sportident/src/SiDevice/index.ts&#45;&gt;packages/sportident/src/SiDevice/ISiDevice.ts</title>
 <path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M110.15,-233.21C119.23,-230.68 129.51,-228.01 139,-226 157.89,-221.99 179.06,-218.61 196.86,-216.09"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="197.61,-218.1 203.26,-215.19 197.03,-213.94 197.61,-218.1"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="203.55,-217.27 197.32,-216.02 202.97,-213.11 203.55,-217.27"/>
 </g>
 <!-- packages/sportident/src/SiDevice/index.ts&#45;&gt;packages/sportident/src/SiDevice/ISiDeviceDriver.ts -->
 <g id="edge8" class="edge">
 <title>packages/sportident/src/SiDevice/index.ts&#45;&gt;packages/sportident/src/SiDevice/ISiDeviceDriver.ts</title>
 <path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M110.15,-248.79C119.23,-251.32 129.51,-253.99 139,-256 153.59,-259.09 169.52,-261.81 184.22,-264.05"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="184.2,-266.17 190.44,-264.99 184.82,-262.02 184.2,-266.17"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="190.13,-267.06 184.51,-264.1 190.75,-262.91 190.13,-267.06"/>
 </g>
 <!-- packages/sportident/src/SiDevice/index.ts&#45;&gt;packages/sportident/src/SiDevice/SiDevice.ts -->
 <g id="edge9" class="edge">
 <title>packages/sportident/src/SiDevice/index.ts&#45;&gt;packages/sportident/src/SiDevice/SiDevice.ts</title>
 <path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M110.3,-241C134.69,-241 171.26,-241 198.85,-241"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="198.95,-243.1 204.95,-241 198.95,-238.9 198.95,-243.1"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="204.95,-243.1 198.95,-241 204.95,-238.9 204.95,-243.1"/>
 </g>
 <!-- packages/sportident/src/SiDevice/testUtils/index.ts -->
 <g id="node9" class="node">
@@ -207,7 +207,7 @@
 <g id="edge10" class="edge">
 <title>packages/sportident/src/SiDevice/testUtils/index.ts&#45;&gt;packages/sportident/src/SiDevice/testUtils/testISiDeviceDriver.ts</title>
 <path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M110.3,-317.42C128.18,-315.67 152.62,-313.27 175.26,-311.05"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="175.51,-313.14 181.28,-310.46 175.1,-308.96 175.51,-313.14"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="181.48,-312.55 175.31,-311.05 181.07,-308.37 181.48,-312.55"/>
 </g>
 <!-- packages/sportident/src/SiDevice/testUtils/testISiDeviceDriverWithAutodetection.ts -->
 <g id="node11" class="node">
@@ -222,7 +222,7 @@
 <g id="edge11" class="edge">
 <title>packages/sportident/src/SiDevice/testUtils/index.ts&#45;&gt;packages/sportident/src/SiDevice/testUtils/testISiDeviceDriverWithAutodetection.ts</title>
 <path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M110.3,-322.58C118.66,-323.4 128.45,-324.36 138.81,-325.37"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="138.8,-327.48 144.98,-325.98 139.21,-323.3 138.8,-327.48"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="144.77,-328.07 139,-325.39 145.18,-323.89 144.77,-328.07"/>
 </g>
 </g>
 </svg>

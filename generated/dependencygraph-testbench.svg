@@ -97,25 +97,25 @@
 <!-- node_modules/immutable/dist/immutable.js -->
 <g id="node1" class="node">
 <title>node_modules/immutable/dist/immutable.js</title>
-<g id="a_node1"><a xlink:href="node_modules/immutable/dist/immutable.js" xlink:title="immutable.js">
+<g id="a_node1"><a xlink:href="https://www.npmjs.com/package/immutable" xlink:title="immutable.js">
 <polygon fill="#c40b0a" fill-opacity="0.101961" stroke="black" points="349.5,-170 348,-172 337.5,-172 336,-170 274.5,-170 274.5,-152 349.5,-152 349.5,-170"/>
 <text text-anchor="start" x="282.5" y="-158.8" font-family="Helvetica,sans-Serif" font-size="9.00" fill="#c40b0a">immutable.js</text>
 </a>
 </g>
 </g>
-<!-- node_modules/react&#45;dom/index.js -->
+<!-- node_modules/react&#45;dom/client.js -->
 <g id="node2" class="node">
-<title>node_modules/react&#45;dom/index.js</title>
-<g id="a_node2"><a xlink:href="node_modules/react-dom/index.js" xlink:title="index.js">
+<title>node_modules/react&#45;dom/client.js</title>
+<g id="a_node2"><a xlink:href="https://www.npmjs.com/package/react-dom" xlink:title="client.js">
 <polygon fill="#c40b0a" fill-opacity="0.101961" stroke="black" points="339,-42 337.5,-44 327,-44 325.5,-42 285,-42 285,-24 339,-24 339,-42"/>
-<text text-anchor="start" x="294.5" y="-30.8" font-family="Helvetica,sans-Serif" font-size="9.00" fill="#c40b0a">index.js</text>
+<text text-anchor="start" x="294.5" y="-30.8" font-family="Helvetica,sans-Serif" font-size="9.00" fill="#c40b0a">client.js</text>
 </a>
 </g>
 </g>
 <!-- node_modules/react/index.js -->
 <g id="node3" class="node">
 <title>node_modules/react/index.js</title>
-<g id="a_node3"><a xlink:href="node_modules/react/index.js" xlink:title="index.js">
+<g id="a_node3"><a xlink:href="https://www.npmjs.com/package/react" xlink:title="index.js">
 <polygon fill="#c40b0a" fill-opacity="0.101961" stroke="black" points="339,-102 337.5,-104 327,-104 325.5,-102 285,-102 285,-84 339,-84 339,-102"/>
 <text text-anchor="start" x="294.5" y="-90.8" font-family="Helvetica,sans-Serif" font-size="9.00" fill="#c40b0a">index.js</text>
 </a>
@@ -125,7 +125,7 @@
 <g id="node4" class="node">
 <title>packages/sportident&#45;react/lib/index.js</title>
 <g id="a_node4"><a xlink:href="packages/sportident-react/lib/index.js" xlink:title="index.js">
-<polygon fill="#ffffcc" stroke="black" points="196.5,-482 195,-484 184.5,-484 183,-482 142.5,-482 142.5,-464 196.5,-464 196.5,-482"/>
+<path fill="#ffffcc" stroke="black" d="M190.5,-482C190.5,-482 148.5,-482 148.5,-482 145.5,-482 142.5,-479 142.5,-476 142.5,-476 142.5,-470 142.5,-470 142.5,-467 145.5,-464 148.5,-464 148.5,-464 190.5,-464 190.5,-464 193.5,-464 196.5,-467 196.5,-470 196.5,-470 196.5,-476 196.5,-476 196.5,-479 193.5,-482 190.5,-482"/>
 <text text-anchor="start" x="152" y="-470.8" font-family="Helvetica,sans-Serif" font-size="9.00">index.js</text>
 </a>
 </g>
@@ -179,7 +179,7 @@
 <g id="node8" class="node">
 <title>packages/sportident&#45;testbench&#45;shell/lib/ISiExternalApplication.js</title>
 <g id="a_node8"><a xlink:href="packages/sportident-testbench-shell/lib/ISiExternalApplication.js" xlink:title="ISiExternalApplication.js">
-<polygon fill="#ffffcc" stroke="black" points="539,-426 537.5,-428 527,-428 525.5,-426 414,-426 414,-408 539,-408 539,-426"/>
+<path fill="#ffffcc" stroke="black" d="M533,-426C533,-426 420,-426 420,-426 417,-426 414,-423 414,-420 414,-420 414,-414 414,-414 414,-411 417,-408 420,-408 420,-408 533,-408 533,-408 536,-408 539,-411 539,-414 539,-414 539,-420 539,-420 539,-423 536,-426 533,-426"/>
 <text text-anchor="start" x="422" y="-414.8" font-family="Helvetica,sans-Serif" font-size="9.00">ISiExternalApplication.js</text>
 </a>
 </g>
@@ -187,14 +187,14 @@
 <!-- packages/sportident&#45;testbench&#45;client/src/SiExternalApplication.ts&#45;&gt;packages/sportident&#45;testbench&#45;shell/lib/ISiExternalApplication.js -->
 <g id="edge4" class="edge">
 <title>packages/sportident&#45;testbench&#45;client/src/SiExternalApplication.ts&#45;&gt;packages/sportident&#45;testbench&#45;shell/lib/ISiExternalApplication.js</title>
-<path fill="none" stroke="#000000" stroke-opacity="0.200000" d="M334.58,-358.03C363.84,-370.27 416.11,-392.15 448.1,-405.54"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-opacity="0.200000" points="447.49,-407.55 453.83,-407.93 449.11,-403.68 447.49,-407.55"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M334.58,-358.03C363.84,-370.27 416.11,-392.15 448.1,-405.54"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="447.49,-407.55 453.83,-407.93 449.11,-403.68 447.49,-407.55"/>
 </g>
 <!-- packages/sportident/lib/utils/index.js -->
 <g id="node9" class="node">
 <title>packages/sportident/lib/utils/index.js</title>
 <g id="a_node9"><a xlink:href="packages/sportident/lib/utils/index.js" xlink:title="index.js">
-<polygon fill="#ffffcc" stroke="black" points="503.5,-306 502,-308 491.5,-308 490,-306 449.5,-306 449.5,-288 503.5,-288 503.5,-306"/>
+<path fill="#ffffcc" stroke="black" d="M497.5,-306C497.5,-306 455.5,-306 455.5,-306 452.5,-306 449.5,-303 449.5,-300 449.5,-300 449.5,-294 449.5,-294 449.5,-291 452.5,-288 455.5,-288 455.5,-288 497.5,-288 497.5,-288 500.5,-288 503.5,-291 503.5,-294 503.5,-294 503.5,-300 503.5,-300 503.5,-303 500.5,-306 497.5,-306"/>
 <text text-anchor="start" x="459" y="-294.8" font-family="Helvetica,sans-Serif" font-size="9.00">index.js</text>
 </a>
 </g>
@@ -202,8 +202,8 @@
 <!-- packages/sportident&#45;testbench&#45;client/src/SiExternalApplication.ts&#45;&gt;packages/sportident/lib/utils/index.js -->
 <g id="edge5" class="edge">
 <title>packages/sportident&#45;testbench&#45;client/src/SiExternalApplication.ts&#45;&gt;packages/sportident/lib/utils/index.js</title>
-<path fill="none" stroke="#000000" stroke-opacity="0.200000" d="M341.31,-339.94C369.86,-330.8 413.88,-316.72 443.64,-307.19"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-opacity="0.200000" points="444.32,-309.18 449.4,-305.35 443.04,-305.18 444.32,-309.18"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M341.31,-339.94C369.86,-330.8 413.88,-316.72 443.64,-307.19"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="444.32,-309.18 449.4,-305.35 443.04,-305.18 444.32,-309.18"/>
 </g>
 <!-- packages/sportident&#45;testbench&#45;client/src/Terminal.tsx -->
 <g id="node10" class="node">
@@ -230,7 +230,7 @@
 <g id="node11" class="node">
 <title>packages/sportident&#45;testbench&#45;shell/lib/index.js</title>
 <g id="a_node11"><a xlink:href="packages/sportident-testbench-shell/lib/index.js" xlink:title="index.js">
-<polygon fill="#ffffcc" stroke="black" points="503.5,-456 502,-458 491.5,-458 490,-456 449.5,-456 449.5,-438 503.5,-438 503.5,-456"/>
+<path fill="#ffffcc" stroke="black" d="M497.5,-456C497.5,-456 455.5,-456 455.5,-456 452.5,-456 449.5,-453 449.5,-450 449.5,-450 449.5,-444 449.5,-444 449.5,-441 452.5,-438 455.5,-438 455.5,-438 497.5,-438 497.5,-438 500.5,-438 503.5,-441 503.5,-444 503.5,-444 503.5,-450 503.5,-450 503.5,-453 500.5,-456 497.5,-456"/>
 <text text-anchor="start" x="459" y="-444.8" font-family="Helvetica,sans-Serif" font-size="9.00">index.js</text>
 </a>
 </g>
@@ -238,8 +238,8 @@
 <!-- packages/sportident&#45;testbench&#45;client/src/Terminal.tsx&#45;&gt;packages/sportident&#45;testbench&#45;shell/lib/index.js -->
 <g id="edge8" class="edge">
 <title>packages/sportident&#45;testbench&#45;client/src/Terminal.tsx&#45;&gt;packages/sportident&#45;testbench&#45;shell/lib/index.js</title>
-<path fill="none" stroke="#000000" stroke-opacity="0.200000" d="M205.04,-357.58C212.18,-359.54 219.62,-361.72 226.5,-364 304.34,-389.76 319.3,-409 398,-432 412.6,-436.27 429.11,-439.65 443.13,-442.12"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-opacity="0.200000" points="443.11,-444.25 449.38,-443.19 443.82,-440.11 443.11,-444.25"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M205.04,-357.58C212.18,-359.54 219.62,-361.72 226.5,-364 304.34,-389.76 319.3,-409 398,-432 412.6,-436.27 429.11,-439.65 443.13,-442.12"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="443.11,-444.25 449.38,-443.19 443.82,-440.11 443.11,-444.25"/>
 </g>
 <!-- packages/sportident&#45;testbench&#45;client/src/index.tsx -->
 <g id="node12" class="node">
@@ -250,9 +250,9 @@
 </a>
 </g>
 </g>
-<!-- packages/sportident&#45;testbench&#45;client/src/index.tsx&#45;&gt;node_modules/react&#45;dom/index.js -->
+<!-- packages/sportident&#45;testbench&#45;client/src/index.tsx&#45;&gt;node_modules/react&#45;dom/client.js -->
 <g id="edge14" class="edge">
-<title>packages/sportident&#45;testbench&#45;client/src/index.tsx&#45;&gt;node_modules/react&#45;dom/index.js</title>
+<title>packages/sportident&#45;testbench&#45;client/src/index.tsx&#45;&gt;node_modules/react&#45;dom/client.js</title>
 <path fill="none" stroke="#000000" stroke-opacity="0.200000" d="M62.42,-324.63C64.13,-296.66 72.49,-212.39 112.5,-159 156.42,-100.38 236.3,-62.03 280.15,-44.34"/>
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-opacity="0.200000" points="281.03,-46.25 285.83,-42.08 279.48,-42.35 281.03,-46.25"/>
 </g>
@@ -265,8 +265,8 @@
 <!-- packages/sportident&#45;testbench&#45;client/src/index.tsx&#45;&gt;packages/sportident&#45;react/lib/index.js -->
 <g id="edge15" class="edge">
 <title>packages/sportident&#45;testbench&#45;client/src/index.tsx&#45;&gt;packages/sportident&#45;react/lib/index.js</title>
-<path fill="none" stroke="#000000" stroke-opacity="0.200000" d="M66.65,-343.18C74.86,-358.99 92.91,-392.07 112.5,-417 124.95,-432.84 141.5,-448.9 153.37,-459.73"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-opacity="0.200000" points="151.97,-461.3 157.83,-463.76 154.78,-458.18 151.97,-461.3"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M66.65,-343.18C74.86,-358.99 92.91,-392.07 112.5,-417 124.95,-432.84 141.5,-448.9 153.37,-459.73"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="151.97,-461.3 157.83,-463.76 154.78,-458.18 151.97,-461.3"/>
 </g>
 <!-- packages/sportident&#45;testbench&#45;client/src/index.tsx&#45;&gt;packages/sportident&#45;testbench&#45;client/src/MainStationList.tsx -->
 <g id="edge9" class="edge">
@@ -305,7 +305,7 @@
 <g id="node14" class="node">
 <title>packages/sportident&#45;webusb/lib/index.js</title>
 <g id="a_node14"><a xlink:href="packages/sportident-webusb/lib/index.js" xlink:title="index.js">
-<polygon fill="#ffffcc" stroke="black" points="196.5,-576 195,-578 184.5,-578 183,-576 142.5,-576 142.5,-558 196.5,-558 196.5,-576"/>
+<path fill="#ffffcc" stroke="black" d="M190.5,-576C190.5,-576 148.5,-576 148.5,-576 145.5,-576 142.5,-573 142.5,-570 142.5,-570 142.5,-564 142.5,-564 142.5,-561 145.5,-558 148.5,-558 148.5,-558 190.5,-558 190.5,-558 193.5,-558 196.5,-561 196.5,-564 196.5,-564 196.5,-570 196.5,-570 196.5,-573 193.5,-576 190.5,-576"/>
 <text text-anchor="start" x="152" y="-564.8" font-family="Helvetica,sans-Serif" font-size="9.00">index.js</text>
 </a>
 </g>
@@ -313,8 +313,8 @@
 <!-- packages/sportident&#45;testbench&#45;client/src/index.tsx&#45;&gt;packages/sportident&#45;webusb/lib/index.js -->
 <g id="edge16" class="edge">
 <title>packages/sportident&#45;testbench&#45;client/src/index.tsx&#45;&gt;packages/sportident&#45;webusb/lib/index.js</title>
-<path fill="none" stroke="#000000" stroke-opacity="0.200000" d="M62.96,-343.1C66.18,-370.33 78.32,-452.88 112.5,-511 122.47,-527.95 138.78,-543.44 151.23,-553.81"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-opacity="0.200000" points="149.98,-555.5 155.96,-557.66 152.63,-552.24 149.98,-555.5"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M62.96,-343.1C66.18,-370.33 78.32,-452.88 112.5,-511 122.47,-527.95 138.78,-543.44 151.23,-553.81"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="149.98,-555.5 155.96,-557.66 152.63,-552.24 149.98,-555.5"/>
 </g>
 </g>
 </svg>
