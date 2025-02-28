@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom/client';
 import {getWebUsbSiDeviceDriver} from 'sportident-webusb/lib';
 import * as nav from 'sportident-webusb/lib/INavigatorWebUsb';
 import {SiMainStation} from 'sportident/lib/SiStation';
@@ -48,11 +48,9 @@ const ExampleApp = () => {
 
 if (window.addEventListener) {
     window.addEventListener('load', () => {
-        ReactDOM.render(
-            (
-                <ExampleApp />
-            ),
-            window.document.getElementById('root'),
+        const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
+        root.render(
+            <ExampleApp />
         );
     });
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom/client';
 import {MainStationList} from './MainStationList';
 import {Terminal} from './Terminal';
 import {SiDevicesContext, SiDevicesContextPayload} from './SiDevicesContext';
@@ -65,13 +65,11 @@ const WebUsbSiDeviceProvider = (
 
 if (window.addEventListener) {
     window.addEventListener('load', () => {
-        ReactDOM.render(
-            (
-                <WebUsbSiDeviceProvider>
-                    <Testbench />
-                </WebUsbSiDeviceProvider>
-            ),
-            window.document.getElementById('root'),
+        const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
+        root.render(
+            <WebUsbSiDeviceProvider>
+                <Testbench />
+            </WebUsbSiDeviceProvider>
         );
     });
 }
