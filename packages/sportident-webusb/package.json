@@ -1,6 +1,6 @@
 {
   "name": "sportident-webusb",
-  "version": "2.0.0-alpha.6",
+  "version": "2.0.1",
   "description": "",
   "files": [
     "lib/**/*",
@@ -21,6 +21,6 @@
   },
   "devDependencies": {
     "@jest/globals": "^29.4.1",
-    "sportident": "^2.0.0-alpha.6"
+    "sportident": "^2.0.1"
   }
 }
