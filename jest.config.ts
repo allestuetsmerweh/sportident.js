@@ -30,12 +30,12 @@ const jestConfig: Config = {
     coverageThreshold: {
         global: percentCoverage(10),
         './packages/sportident/src/': {
-            branches: 89, // TODO: 92
+            branches: 92,
             functions: 89,
             lines: 89,
             statements: 88,
         },
-        './packages/sportident/src/SiCard': percentCoverage(84), // TODO: 92
+        './packages/sportident/src/SiCard': percentCoverage(91),
         './packages/sportident/src/SiDevice': percentCoverage(44),
         './packages/sportident/src/fakes': percentCoverage(43),
         './packages/sportident/src/SiStation': percentCoverage(83),
