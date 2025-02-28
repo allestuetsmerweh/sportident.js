@@ -1,6 +1,6 @@
 {
   "name": "sportident-testbench-node",
-  "version": "2.0.0-alpha.6",
+  "version": "2.0.0",
   "description": "",
   "main": "./src/index.ts",
   "scripts": {
@@ -13,9 +13,9 @@
   "dependencies": {
     "immutable": "^5.0",
     "lodash": "^4.17.15",
-    "sportident": "^2.0.0-alpha.6",
-    "sportident-node-usb": "^2.0.0-alpha.6",
-    "sportident-testbench-shell": "^2.0.0-alpha.6",
+    "sportident": "^2.0.0",
+    "sportident-node-usb": "^2.0.0",
+    "sportident-testbench-shell": "^2.0.0",
     "usb": "^2.7.0"
   },
   "devDependencies": {
