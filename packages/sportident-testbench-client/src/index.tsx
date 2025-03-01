@@ -66,10 +66,10 @@ const WebUsbSiDeviceProvider = (
 if (window.addEventListener) {
     window.addEventListener('load', () => {
         const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
-        root.render(
+        root.render((
             <WebUsbSiDeviceProvider>
                 <Testbench />
             </WebUsbSiDeviceProvider>
-        );
+        ));
     });
 }

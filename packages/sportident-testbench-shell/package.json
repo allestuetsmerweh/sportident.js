@@ -1,5 +1,6 @@
 {
   "name": "sportident-testbench-shell",
+  "type": "module",
   "version": "2.0.2",
   "description": "",
   "main": "lib/index.js",

@@ -1,7 +1,7 @@
 import {ISiCard} from '../SiCard/ISiCard';
 import * as utils from '../utils';
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface ISiMainStation extends utils.IEventTarget<SiMainStationEvents> {}
 
 export class SiMainStationSiCardInsertedEvent extends utils.Event<'siCardInserted'> {

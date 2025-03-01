@@ -98,7 +98,7 @@ describe('BaseSiCard', () => {
         try {
             await siCard500.confirm();
             expect({canConfirm: true}).toEqual({canConfirm: false});
-        } catch (err) {
+        } catch (_err: unknown) {
             // ignore
         }
         siCard500.mainStation = {

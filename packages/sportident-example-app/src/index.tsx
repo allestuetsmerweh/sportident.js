@@ -49,8 +49,6 @@ const ExampleApp = () => {
 if (window.addEventListener) {
     window.addEventListener('load', () => {
         const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
-        root.render(
-            <ExampleApp />
-        );
+        root.render(<ExampleApp />);
     });
 }

@@ -85,12 +85,12 @@ export const pCardStorageDefinition = storage.defineStorage(
 export class PCard extends ModernSiCard {
     static maxNumPunches = MAX_NUM_PUNCHES;
 
-    static typeSpecificInstanceFromMessage(message: siProtocol.SiMessage) {
+    static typeSpecificInstanceFromMessage(message: siProtocol.SiMessage): PCard|undefined {
         const info = this.parseModernSiCardDetectionMessage(message);
         if (info === undefined) {
             return undefined;
         }
-        if (info.cardSeries !== "PCard") {
+        if (info.cardSeries !== 'PCard') {
             return undefined;
         }
         return new this(info.cardNumber);

@@ -1,5 +1,6 @@
 {
   "name": "sportident-react",
+  "type": "module",
   "version": "2.0.2",
   "description": "",
   "files": [

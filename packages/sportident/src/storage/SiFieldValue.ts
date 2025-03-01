@@ -12,11 +12,9 @@ export class SiFieldValue<T> implements ISiFieldValue<T> {
         return new this(field, value);
     }
 
-    // eslint-disable-next-line no-useless-constructor
     constructor(
-                public field: ISiDataType<T>,
-                public value: T,
-    // eslint-disable-next-line no-empty-function
+        public field: ISiDataType<T>,
+        public value: T,
     ) {}
 
     toString(): string {

@@ -1,3 +1,8 @@
+import globals from 'globals';
+import eslint from '@eslint/js';
+import tseslint from 'typescript-eslint';
+import reactPlugin from 'eslint-plugin-react';
+
 const javaScriptRules = {
     'indent': ['warn', 4, { 'SwitchCase': 1 }],
     'semi': ['error', 'always'],
@@ -122,6 +127,8 @@ const typeScriptRules = {
         'ignoreRestSiblings': true,
         'argsIgnorePattern': '^_',
         'varsIgnorePattern': '^_',
+        'caughtErrorsIgnorePattern': '^_',
+        'destructuredArrayIgnorePattern': '^_',
     }],
     '@typescript-eslint/no-shadow': ['error'],
     '@typescript-eslint/no-use-before-define': ['error', {'classes': false, 'functions': false}],
@@ -131,26 +138,27 @@ const typeScriptRules = {
     'no-useless-constructor': 'off',
 };
 
-module.exports = {
-    frontendConfig: {
-        env: {
-            browser: true,
-            es6: true,
-        },
-        extends: [
-            'eslint:recommended',
-            'plugin:react/recommended',
-        ],
-        parserOptions: {
-            ecmaVersion: 2018,
-            ecmaFeatures: {
-                jsx: true,
-            },
+export const frontendConfig = tseslint.config(
+    eslint.configs.recommended,
+    tseslint.configs.recommended,
+    reactPlugin.configs.flat.recommended,
+    reactPlugin.configs.flat['jsx-runtime'],
+    {
+        languageOptions: {
+            ecmaVersion: 2022,
             sourceType: 'module',
+            globals: {
+                ...globals.browser
+            },
+            parserOptions: {
+                ecmaFeatures: {
+                    jsx: true,
+                },
+            }
         },
-        plugins: [
-            'react',
-        ],
+        plugins: {
+            react: reactPlugin,
+        },
         settings: {
             react: {
                 createClass: 'createReactClass',
@@ -169,64 +177,28 @@ module.exports = {
             ],
         },
         rules: javaScriptRules,
-        overrides: [
-            {
-                files: ['**/*.ts', '**/*.tsx'],
-                env: {
-                    browser: true,
-                    es6: true,
-                },
-                extends: [
-                    'eslint:recommended',
-                    'plugin:react/recommended',
-                    'plugin:@typescript-eslint/eslint-recommended',
-                    'plugin:@typescript-eslint/recommended',
-                ],
-                globals: { 'Atomics': 'readonly', 'SharedArrayBuffer': 'readonly' },
-                parser: '@typescript-eslint/parser',
-                parserOptions: {
-                    'ecmaVersion': 2018,
-                    'sourceType': 'module',
-                },
-                plugins: ['@typescript-eslint'],
-                rules: typeScriptRules,
-            },
-        ],
     },
-    nodeConfig: {
-        env: {
-            node: true,
-            es6: true,
-        },
-        extends: [
-            'eslint:recommended',
-        ],
-        parserOptions: {
-            ecmaVersion: 2018,
+    {
+        files: ['**/*.ts', '**/*.tsx'],
+        rules: typeScriptRules,
+    },
+);
+
+export const nodeConfig = tseslint.config(
+    eslint.configs.recommended,
+    tseslint.configs.recommended,
+    {
+        languageOptions: {
+            ecmaVersion: 2022,
             sourceType: 'module',
+            globals: {
+                ...globals.node
+            }
         },
         rules: javaScriptRules,
-        overrides: [
-            {
-                files: ['**/*.ts', '**/*.tsx'],
-                env: {
-                    browser: true,
-                    es6: true,
-                },
-                extends: [
-                    'eslint:recommended',
-                    'plugin:@typescript-eslint/eslint-recommended',
-                    'plugin:@typescript-eslint/recommended',
-                ],
-                globals: { 'Atomics': 'readonly', 'SharedArrayBuffer': 'readonly' },
-                parser: '@typescript-eslint/parser',
-                parserOptions: {
-                    'ecmaVersion': 2018,
-                    'sourceType': 'module',
-                },
-                plugins: ['@typescript-eslint'],
-                rules: typeScriptRules,
-            },
-        ],
     },
-};
+    {
+        files: ['**/*.ts', '**/*.tsx'],
+        rules: typeScriptRules,
+    },
+);

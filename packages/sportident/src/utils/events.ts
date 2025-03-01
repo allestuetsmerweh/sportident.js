@@ -10,10 +10,8 @@ export class Event<T extends string> implements IEvent<T> {
     target: unknown;
     defaultPrevented = false;
 
-    // eslint-disable-next-line no-useless-constructor
     constructor(
-                public type?: T,
-    // eslint-disable-next-line no-empty-function
+        public type?: T,
     ) {}
 }
 
