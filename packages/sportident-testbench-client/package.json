@@ -1,6 +1,6 @@
 {
   "name": "sportident-testbench-client",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "",
   "main": "src/index.tsx",
   "scripts": {
@@ -15,10 +15,10 @@
   "dependencies": {
     "immutable": "^5.0",
     "lodash": "^4.17.15",
-    "sportident": "^2.0.0",
-    "sportident-react": "^2.0.0",
-    "sportident-testbench-shell": "^2.0.0",
-    "sportident-webusb": "^2.0.0"
+    "sportident": "^2.0.1",
+    "sportident-react": "^2.0.1",
+    "sportident-testbench-shell": "^2.0.1",
+    "sportident-webusb": "^2.0.1"
   },
   "devDependencies": {
     "@jest/globals": "^29.4.1",
