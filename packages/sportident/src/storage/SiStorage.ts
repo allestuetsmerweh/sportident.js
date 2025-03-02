@@ -5,11 +5,10 @@ import {ISiFieldValue, ISiStorage, ISiStorageData, ISiStorageDefinition, ISiStor
 export class SiStorage<T> implements ISiStorage<T> {
     private internalData: ISiStorageData;
 
-    // eslint-disable-next-line no-useless-constructor
     constructor(
-                public readonly size: number,
-                public readonly locations: ISiStorageLocations<T>,
-                initArg?: Immutable.List<number|undefined>|Array<number|undefined>,
+        public readonly size: number,
+        public readonly locations: ISiStorageLocations<T>,
+        initArg?: Immutable.List<number|undefined>|Array<number|undefined>,
     ) {
         const initArrayOrList = (initArg === undefined
             ? _.range(size).map(() => undefined)

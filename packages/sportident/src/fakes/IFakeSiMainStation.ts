@@ -1,7 +1,7 @@
 import * as utils from '../utils';
 import * as siProtocol from '../siProtocol';
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 interface IFakeSiMainStation {}
 
 export class FakeSiMainStationMessageEvent extends utils.Event<'message'> {

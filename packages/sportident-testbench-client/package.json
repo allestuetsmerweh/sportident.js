@@ -1,5 +1,6 @@
 {
   "name": "sportident-testbench-client",
+  "type": "module",
   "version": "2.0.2",
   "description": "",
   "main": "src/index.tsx",
@@ -24,12 +25,10 @@
     "@jest/globals": "^29.4.1",
     "@types/react": "^19.0",
     "@types/react-dom": "^19.0",
-    "prop-types": "^15.7.2",
     "react": "^19.0",
     "react-dom": "^19.0"
   },
   "peerDependencies": {
-    "prop-types": "^15.7.2",
     "react": "^19.0",
     "react-dom": "^19.0"
   }

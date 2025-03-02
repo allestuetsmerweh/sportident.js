@@ -16,6 +16,7 @@ type SiStationSetup = {
 
 type CleanUpFunction = () => Promise<void>;
 
+// eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
 export class SiMainStation
     extends BaseSiStation<SiTargetMultiplexerTarget.Direct>
     implements ISiStation<SiTargetMultiplexerTarget.Direct> {
@@ -156,6 +157,6 @@ export class SiMainStation
         handler();
     }
 }
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
+// eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging, @typescript-eslint/no-empty-object-type
 export interface SiMainStation extends utils.EventTarget<SiMainStationEvents> {}
 utils.applyMixins(SiMainStation, [utils.EventTarget]);

@@ -1,6 +1,3 @@
-/* global module */
-/* exported module */
-
 const recommendedForbidden = [
     {
         name: 'no-circular',
@@ -17,7 +14,7 @@ const recommendedForbidden = [
         comment: 'Inform in case there\'s orphans hiding in the code base',
         from: {
             orphan: true,
-            pathNot: '\\.d\\.ts$',
+            pathNot: '\\.d\\.ts$|\\/I[^\\/]+\\.ts$',
         },
         to: {},
     },
@@ -147,7 +144,7 @@ const customForbidden = [
     },
 ];
 
-module.exports = {
+export default {
     forbidden: [
         ...recommendedForbidden,
         ...customForbidden,
@@ -172,7 +169,7 @@ module.exports = {
         },
 
         /* pattern specifying which files to exclude (regular expression) */
-        exclude: '\\.min\\.(j|t)sx?$|webpack\\.config\\.(j|t)sx?$',
+        exclude: '\\.min\\.(j|t)sx?$|\\.config\\.(j|t)sx?$|\\.test\\.(j|t)sx?$',
 
         /* pattern specifying which files to include (regular expression)
            dependency-cruiser will skip everything not matching this pattern

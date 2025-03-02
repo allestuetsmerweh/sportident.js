@@ -22,6 +22,7 @@ const DEVICE_INITIATED_COMMANDS: {[command: number]: boolean} = {
     [proto.cmd.SRR_PING]: true,
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
 export class SiTargetMultiplexer implements ISiTargetMultiplexer {
     static fromSiDevice(siDevice: ISiDevice<ISiDeviceDriverData<unknown>>): ISiTargetMultiplexer {
         if (siDevice.siTargetMultiplexer) {
@@ -47,10 +48,8 @@ export class SiTargetMultiplexer implements ISiTargetMultiplexer {
     private sendQueue: SiSendTask[] = [];
 
 
-    // eslint-disable-next-line no-useless-constructor
     constructor(
-                public siDevice: ISiDevice<ISiDeviceDriverData<unknown>>,
-    // eslint-disable-next-line no-empty-function
+        public siDevice: ISiDevice<ISiDeviceDriverData<unknown>>,
     ) {}
 
     get _test(): _ISiTargetMultiplexerTestData {
@@ -255,6 +254,6 @@ export class SiTargetMultiplexer implements ISiTargetMultiplexer {
             });
     }
 }
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
+// eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging, @typescript-eslint/no-empty-object-type
 export interface SiTargetMultiplexer extends utils.EventTarget<SiTargetMultiplexerEvents> {}
 utils.applyMixins(SiTargetMultiplexer, [utils.EventTarget]);

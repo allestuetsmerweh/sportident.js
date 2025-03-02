@@ -37,6 +37,7 @@ export interface NodeUsbSiDeviceDriverData extends ISiDeviceDriverData<NodeUsbSi
 export type INodeUsbSiDevice = ISiDevice<NodeUsbSiDeviceDriverData>;
 export type NodeUsbSiDevice = SiDevice<NodeUsbSiDeviceDriverData>;
 
+// eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
 class NodeUsbSiDeviceDriver implements
         ISiDeviceDriver<NodeUsbSiDeviceDriverData>,
         ISiDeviceDriverWithDetection<NodeUsbSiDeviceDriverData, []> {
@@ -298,7 +299,7 @@ class NodeUsbSiDeviceDriver implements
             .then(() => true);
     }
 }
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type, @typescript-eslint/no-unsafe-declaration-merging
 interface NodeUsbSiDeviceDriver extends utils.EventTarget<SiDeviceDriverWithAutodetectionEvents<NodeUsbSiDeviceDriverData>> {}
 utils.applyMixins(NodeUsbSiDeviceDriver, [utils.EventTarget]);
 

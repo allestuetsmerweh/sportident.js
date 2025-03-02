@@ -2,6 +2,7 @@ import {DeviceClosedError, ISiDevice, ISiDeviceDriverData, SiDeviceEvents, SiDev
 import * as utils from '../utils';
 import { ISiDeviceDriver } from './ISiDeviceDriver';
 
+// eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
 export class SiDevice<T extends ISiDeviceDriverData<ISiDeviceDriver<T>>> implements ISiDevice<T> {
     name: string;
     ident: string;
@@ -131,6 +132,6 @@ export class SiDevice<T extends ISiDeviceDriverData<ISiDeviceDriver<T>>> impleme
         return this.data.driver.send(this, buffer);
     }
 }
-// eslint-disable-next-line @typescript-eslint/no-empty-interface,@typescript-eslint/no-unused-vars
+// eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging, @typescript-eslint/no-empty-object-type,@typescript-eslint/no-unused-vars
 export interface SiDevice<T extends ISiDeviceDriverData<ISiDeviceDriver<T>>> extends utils.EventTarget<SiDeviceEvents> {}
 utils.applyMixins(SiDevice, [utils.EventTarget]);

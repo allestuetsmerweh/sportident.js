@@ -1,7 +1,7 @@
 import {describe, expect} from '@jest/globals';
 import _ from 'lodash';
 import * as utils from '../../utils';
-import {SiCardSample} from '../ISiCardExamples';
+import {type SiCardSample} from '../ISiCardExamples';
 import {BaseSiCard, SiCardType} from '../BaseSiCard';
 import * as siCardIndex from './index';
 

@@ -1,6 +1,7 @@
 import {describe, expect, test} from '@jest/globals';
 import {render} from '@testing-library/react';
 import _ from 'lodash';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React from 'react';
 import {getFakeSiDeviceDriver} from 'sportident/lib/fakes/FakeSiDeviceDriver';
 import * as react from './react';

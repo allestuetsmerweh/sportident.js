@@ -16,8 +16,9 @@ describe('event utils', () => {
 
     type MyEvents = {'myEvent': MyEvent};
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
     class MyEventTarget {}
-    // eslint-disable-next-line @typescript-eslint/no-empty-interface
+    // eslint-disable-next-line @typescript-eslint/no-empty-object-type, @typescript-eslint/no-unsafe-declaration-merging
     interface MyEventTarget extends eventUtils.EventTarget<MyEvents> {}
     mixinUtils.applyMixins(MyEventTarget, [eventUtils.EventTarget]);
 

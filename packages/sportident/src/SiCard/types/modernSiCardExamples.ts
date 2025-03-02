@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import * as utils from '../../utils';
-import {SiCardSample} from '../ISiCardExamples';
+import {type SiCardSample} from '../ISiCardExamples';
 import {ModernSiCardSeries} from './ModernSiCard';
 
 const cache = {};

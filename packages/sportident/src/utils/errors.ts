@@ -6,11 +6,9 @@ export const getErrorOrThrow = (err: unknown): Error|SiError => {
 };
 
 export class SiError {
-    // eslint-disable-next-line no-useless-constructor
     constructor(
-                public message: string = '',
+        public message: string = '',
         public stack = [],
-    // eslint-disable-next-line no-empty-function
     ) {}
 }
 

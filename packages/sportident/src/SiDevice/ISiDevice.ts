@@ -1,4 +1,4 @@
-import type {ISiTargetMultiplexer} from '../SiStation/ISiTargetMultiplexer';
+import {ISiTargetMultiplexer} from '../SiStation/ISiTargetMultiplexer';
 import * as utils from '../utils';
 
 /* eslint-disable no-unused-vars,no-shadow */

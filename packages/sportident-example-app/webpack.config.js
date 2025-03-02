@@ -1,14 +1,11 @@
-/* global __dirname, module, require */
-/* exported module */
+import path from 'path';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
 
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-
-module.exports = [
+export default [
     {
         entry: './src/index.tsx',
         output: {
-            path: path.resolve(__dirname, 'build'),
+            path: path.resolve('./build'),
             filename: 'sportident-example-app.min.js',
             publicPath: '/assets/',
             libraryTarget: 'umd',
@@ -25,8 +22,8 @@ module.exports = [
                     test: /\.jsx?$/,
                     // exclude: /node_modules/,
                     include: [
-                        path.resolve(__dirname, 'src'),
-                        path.resolve(__dirname, 'node_modules/sportident/lib'),
+                        path.resolve('./src'),
+                        path.resolve('./node_modules/sportident/lib'),
                     ],
                     use: {
                         loader: 'babel-loader',
@@ -57,7 +54,7 @@ module.exports = [
             }),
         ],
         devServer: {
-            contentBase: __dirname,
+            contentBase: path.resolve('.'),
             publicPath: '/',
             compress: true,
             inline: false,

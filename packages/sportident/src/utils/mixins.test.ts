@@ -19,10 +19,12 @@ describe('mixin utils', () => {
             }
         }
 
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
         class MyObject {
             isMine = true;
         }
 
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
         interface MyObject extends Disposable, Activatable {}
         mixinUtils.applyMixins(MyObject, [Disposable, Activatable]);
 

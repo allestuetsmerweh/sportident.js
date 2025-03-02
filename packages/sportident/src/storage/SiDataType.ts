@@ -3,10 +3,8 @@ import {ISiStorageData, ValueToStringError, ValueFromStringError} from './interf
 import {SiFieldValue} from './SiFieldValue';
 
 export class ModifyUndefinedException {
-    // eslint-disable-next-line no-useless-constructor
     constructor(
-                public message: string = '',
-    // eslint-disable-next-line no-empty-function
+        public message: string = '',
     ) {}
 }
 

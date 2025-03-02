@@ -18,13 +18,11 @@ const nonSiProductId = 0x1112;
 const nonSiSerialNumber1 = '2';
 
 class FakeWebUsbDevice implements nav.WebUsbDevice {
-    // eslint-disable-next-line no-useless-constructor
     constructor(
-                public serialNumber: string,
-                public vendorId: number,
-                public productId: number,
-                public opened: boolean = false,
-    // eslint-disable-next-line no-empty-function
+        public serialNumber: string,
+        public vendorId: number,
+        public productId: number,
+        public opened: boolean = false,
     ) {}
 
     open(): Promise<void> {
@@ -71,6 +69,7 @@ class FakeWebUsbDevice implements nav.WebUsbDevice {
     }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
 class TestNavigatorUsb implements nav.WebUsb {
     requestDevice(): Promise<nav.WebUsbDevice> {
         return Promise.resolve(
@@ -85,7 +84,7 @@ class TestNavigatorUsb implements nav.WebUsb {
         ]);
     }
 }
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type, @typescript-eslint/no-unsafe-declaration-merging
 interface TestNavigatorUsb extends utils.EventTarget<nav.WebUsbEvents> {}
 utils.applyMixins(TestNavigatorUsb, [utils.EventTarget]);
 

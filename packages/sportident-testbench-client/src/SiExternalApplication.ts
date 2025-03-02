@@ -1,6 +1,7 @@
 import * as utils from 'sportident/lib/utils';
 import {ISiExternalApplication, SiExternalApplicationEvents, SiExternalApplicationReceiveEvent} from 'sportident-testbench-shell/lib/ISiExternalApplication';
 
+// eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
 export class SiExternalApplication implements ISiExternalApplication {
     private ws: WebSocket;
     private pollInterval: unknown;
@@ -42,6 +43,6 @@ export class SiExternalApplication implements ISiExternalApplication {
         this.ws.close();
     }
 }
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type, @typescript-eslint/no-unsafe-declaration-merging
 export interface SiExternalApplication extends utils.EventTarget<SiExternalApplicationEvents> {}
 utils.applyMixins(SiExternalApplication, [utils.EventTarget]);
