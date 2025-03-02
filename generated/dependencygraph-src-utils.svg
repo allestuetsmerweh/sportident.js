@@ -62,12 +62,6 @@
 </a>
 </g>
 </g>
-<!-- packages/sportident/src/utils/NumberRange.ts&#45;&gt;node_modules/immutable/dist/immutable.js -->
-<g id="edge1" class="edge">
-<title>packages/sportident/src/utils/NumberRange.ts&#45;&gt;node_modules/immutable/dist/immutable.js</title>
-<path fill="none" stroke="#000000" stroke-opacity="0.200000" d="M181.04,-167.65C203.86,-144.05 263.87,-81.99 290.48,-54.47"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-opacity="0.200000" points="292.08,-55.83 294.74,-50.06 289.06,-52.91 292.08,-55.83"/>
-</g>
 <!-- packages/sportident/src/utils/NumberRangeRegistry.ts -->
 <g id="node3" class="node">
 <title>packages/sportident/src/utils/NumberRangeRegistry.ts</title>
@@ -78,7 +72,7 @@
 </g>
 </g>
 <!-- packages/sportident/src/utils/NumberRangeRegistry.ts&#45;&gt;node_modules/immutable/dist/immutable.js -->
-<g id="edge3" class="edge">
+<g id="edge2" class="edge">
 <title>packages/sportident/src/utils/NumberRangeRegistry.ts&#45;&gt;node_modules/immutable/dist/immutable.js</title>
 <path fill="none" stroke="#000000" stroke-opacity="0.200000" d="M227.34,-198C230.12,-196.3 232.7,-194.32 235,-192 246.23,-180.67 237.49,-171.97 243,-157 257.12,-118.65 281.28,-76.91 294.39,-55.48"/>
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-opacity="0.200000" points="296.26,-56.45 297.62,-50.24 292.68,-54.25 296.26,-56.45"/>
@@ -93,7 +87,7 @@
 </g>
 </g>
 <!-- packages/sportident/src/utils/NumberRangeRegistry.ts&#45;&gt;packages/sportident/src/utils/general.ts -->
-<g id="edge2" class="edge">
+<g id="edge1" class="edge">
 <title>packages/sportident/src/utils/NumberRangeRegistry.ts&#45;&gt;packages/sportident/src/utils/general.ts</title>
 <path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M235.05,-212.27C246.08,-213.2 257.21,-214.13 267.19,-214.96"/>
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="267.1,-217.06 273.25,-215.47 267.45,-212.88 267.1,-217.06"/>
@@ -126,7 +120,7 @@
 </g>
 </g>
 <!-- packages/sportident/src/utils/events.ts&#45;&gt;packages/sportident/src/utils/errors.ts -->
-<g id="edge4" class="edge">
+<g id="edge3" class="edge">
 <title>packages/sportident/src/utils/events.ts&#45;&gt;packages/sportident/src/utils/errors.ts</title>
 <path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M200.21,-292.64C220.95,-290.91 249.19,-288.54 270.9,-286.73"/>
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="271.32,-288.8 277.13,-286.21 270.97,-284.61 271.32,-288.8"/>
@@ -141,37 +135,37 @@
 </g>
 </g>
 <!-- packages/sportident/src/utils/index.ts&#45;&gt;packages/sportident/src/utils/NumberRange.ts -->
-<g id="edge10" class="edge">
+<g id="edge9" class="edge">
 <title>packages/sportident/src/utils/index.ts&#45;&gt;packages/sportident/src/utils/NumberRange.ts</title>
 <path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M70.53,-252.66C75.13,-237.5 86.37,-207.62 107,-192 110.51,-189.34 114.43,-187.14 118.54,-185.33"/>
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="125.01,-185.04 118.66,-185.28 123.47,-181.13 125.01,-185.04"/>
 </g>
 <!-- packages/sportident/src/utils/index.ts&#45;&gt;packages/sportident/src/utils/NumberRangeRegistry.ts -->
-<g id="edge11" class="edge">
+<g id="edge10" class="edge">
 <title>packages/sportident/src/utils/index.ts&#45;&gt;packages/sportident/src/utils/NumberRangeRegistry.ts</title>
 <path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M75.42,-252.78C82.64,-244.38 94.36,-232.22 107,-225 111.54,-222.41 116.49,-220.16 121.55,-218.23"/>
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="128.22,-218.07 121.86,-218.12 126.81,-214.12 128.22,-218.07"/>
 </g>
 <!-- packages/sportident/src/utils/index.ts&#45;&gt;packages/sportident/src/utils/general.ts -->
-<g id="edge8" class="edge">
+<g id="edge7" class="edge">
 <title>packages/sportident/src/utils/index.ts&#45;&gt;packages/sportident/src/utils/general.ts</title>
 <path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M78.47,-252.91C85.91,-247 96.41,-239.74 107,-236 121.67,-230.82 214.42,-223.93 267.09,-220.36"/>
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="273.44,-222.04 267.32,-220.35 273.16,-217.85 273.44,-222.04"/>
 </g>
 <!-- packages/sportident/src/utils/index.ts&#45;&gt;packages/sportident/src/utils/bytes.ts -->
-<g id="edge5" class="edge">
+<g id="edge4" class="edge">
 <title>packages/sportident/src/utils/index.ts&#45;&gt;packages/sportident/src/utils/bytes.ts</title>
 <path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M94,-259.2C107.21,-257.77 123.38,-256.03 137.41,-254.51"/>
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="143.92,-255.93 137.72,-254.48 143.46,-251.75 143.92,-255.93"/>
 </g>
 <!-- packages/sportident/src/utils/index.ts&#45;&gt;packages/sportident/src/utils/errors.ts -->
-<g id="edge6" class="edge">
+<g id="edge5" class="edge">
 <title>packages/sportident/src/utils/index.ts&#45;&gt;packages/sportident/src/utils/errors.ts</title>
 <path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M94.01,-264.71C98.35,-265.15 102.8,-265.59 107,-266 164.93,-271.62 232.53,-277.71 271.44,-281.17"/>
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="277.24,-283.79 271.45,-281.17 277.61,-279.61 277.24,-283.79"/>
 </g>
 <!-- packages/sportident/src/utils/index.ts&#45;&gt;packages/sportident/src/utils/events.ts -->
-<g id="edge7" class="edge">
+<g id="edge6" class="edge">
 <title>packages/sportident/src/utils/index.ts&#45;&gt;packages/sportident/src/utils/events.ts</title>
 <path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M90.56,-271.07C95.92,-273.11 101.63,-275.21 107,-277 116.38,-280.14 126.66,-283.22 136.14,-285.92"/>
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="141.35,-289.58 136.15,-285.93 142.49,-285.53 141.35,-289.58"/>
@@ -186,7 +180,7 @@
 </g>
 </g>
 <!-- packages/sportident/src/utils/index.ts&#45;&gt;packages/sportident/src/utils/mixins.ts -->
-<g id="edge9" class="edge">
+<g id="edge8" class="edge">
 <title>packages/sportident/src/utils/index.ts&#45;&gt;packages/sportident/src/utils/mixins.ts</title>
 <path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M73.01,-271.32C79.42,-282.31 91.55,-300.29 107,-310 115.75,-315.5 126.34,-318.98 136.32,-321.19"/>
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="142.02,-324.47 136.55,-321.24 142.84,-320.35 142.02,-324.47"/>
@@ -201,7 +195,7 @@
 </g>
 </g>
 <!-- packages/sportident/src/utils/index.ts&#45;&gt;packages/sportident/src/utils/typed.ts -->
-<g id="edge12" class="edge">
+<g id="edge11" class="edge">
 <title>packages/sportident/src/utils/index.ts&#45;&gt;packages/sportident/src/utils/typed.ts</title>
 <path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M69.88,-271.06C73.78,-287.46 84.34,-322.03 107,-340 115.69,-346.89 127.04,-350.7 137.7,-352.78"/>
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="143.53,-355.88 137.96,-352.82 144.22,-351.74 143.53,-355.88"/>

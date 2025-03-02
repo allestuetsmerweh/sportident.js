@@ -370,12 +370,10 @@
 <a name='L305'></a><a href='#L305'>305</a>
 <a name='L306'></a><a href='#L306'>306</a>
 <a name='L307'></a><a href='#L307'>307</a>
-<a name='L308'></a><a href='#L308'>308</a>
-<a name='L309'></a><a href='#L309'>309</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
+<a name='L308'></a><a href='#L308'>308</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
@@ -683,7 +681,6 @@
 import {DeviceClosedError, ISiDevice, ISiDeviceDriverData, SiDeviceState} from 'sportident/lib/SiDevice/ISiDevice';
 import {ISiDeviceDriver, ISiDeviceDriverWithAutodetection, ISiDeviceDriverWithDetection, SiDeviceDriverWithAutodetectionEvents, SiDeviceAddEvent, SiDeviceRemoveEvent} from 'sportident/lib/SiDevice/ISiDeviceDriver';
 import {SiDevice} from 'sportident/lib/SiDevice/SiDevice';
-import * as nav from './INavigatorWebUsb';
 &nbsp;
 const siConfiguration = 1;
 const siInterface = 0;
@@ -703,16 +700,16 @@ const matchesSiDeviceFilters = (
     ),
 );
 &nbsp;
-const getIdent = (device: nav.WebUsbDevice) =&gt; `${device.serialNumber}`;
+const getIdent = (device: USBDevice) =&gt; `${device.serialNumber}`;
 &nbsp;
 export interface WebUsbSiDeviceDriverData extends ISiDeviceDriverData&lt;WebUsbSiDeviceDriver&gt; {
     driver: WebUsbSiDeviceDriver;
-    device: nav.WebUsbDevice;
+    device: USBDevice;
 }
 &nbsp;
 interface WebUsbAutodetectionCallbacks {
-    onConnect: utils.EventCallback&lt;nav.WebUsbConnectEvent&gt;;
-    onDisconnect: utils.EventCallback&lt;nav.WebUsbDisconnectEvent&gt;;
+    onConnect: utils.EventCallback&lt;USBConnectionEvent&gt;;
+    onDisconnect: utils.EventCallback&lt;USBConnectionEvent&gt;;
 }
 &nbsp;
 export type IWebUsbSiDevice = ISiDevice&lt;WebUsbSiDeviceDriverData&gt;;
@@ -734,20 +731,20 @@ class WebUsbSiDeviceDriver implements
     private autodetectionCallbacks?: WebUsbAutodetectionCallbacks;
 &nbsp;
     constructor(
-        private navigatorUsb: nav.WebUsb,
+        protected navigatorUsb: USB,
     ) {}
 &nbsp;
     detect(): Promise&lt;WebUsbSiDevice&gt; {
         return this.navigatorUsb.requestDevice({
             filters: siDeviceFilters,
         })
-            .then((navigatorWebUsbDevice: nav.WebUsbDevice) =&gt; (
+            .then((navigatorWebUsbDevice: USBDevice) =&gt; (
                 this.autodetectSiDevice(navigatorWebUsbDevice)
             ));
     }
 &nbsp;
     getSiDevice(
-        navigatorWebUsbDevice: nav.WebUsbDevice,
+        navigatorWebUsbDevice: USBDevice,
     ): WebUsbSiDevice {
         const ident = getIdent(navigatorWebUsbDevice);
         if (this.siDeviceByIdent[ident] !== undefined) {
@@ -769,7 +766,7 @@ class WebUsbSiDeviceDriver implements
         const ident = getIdent(navigatorWebUsbDevice);
         delete this.siDeviceByIdent[ident];
         if (this.autodetectedSiDevices[ident] !== undefined) {
-            this.dispatchEvent('remove', new SiDeviceRemoveEvent(siDevice));
+            this.dispatchEvent(new SiDeviceRemoveEvent(siDevice));
         }
         delete this.autodetectedSiDevices[ident];
     }
@@ -781,13 +778,13 @@ class WebUsbSiDeviceDriver implements
 &nbsp;
     getAutodetectedDevices(): Promise&lt;WebUsbSiDevice[]&gt; {
         return this.navigatorUsb.getDevices()
-            .then((navigatorWebUsbDevices: nav.WebUsbDevice[]) =&gt; (
+            .then((navigatorWebUsbDevices: USBDevice[]) =&gt; (
                 this.autodetectSiDevices(navigatorWebUsbDevices)
             ));
     }
 &nbsp;
     autodetectSiDevices(
-        navigatorWebUsbDevices: nav.WebUsbDevice[],
+        navigatorWebUsbDevices: USBDevice[],
     ): Promise&lt;WebUsbSiDevice[]&gt; {
         // TODO: Make this easier when Promise.allSettled polyfill is available
         return new Promise((resolve) =&gt; {
@@ -800,7 +797,7 @@ class WebUsbSiDeviceDriver implements
                 }
             };
             navigatorWebUsbDevices.forEach(
-                (navigatorWebUsbDevice: nav.WebUsbDevice) =&gt; (
+                (navigatorWebUsbDevice: USBDevice) =&gt; (
                     this.autodetectSiDevice(navigatorWebUsbDevice)
                         .then((siDevice: WebUsbSiDevice) =&gt; {
                             devices.push(siDevice);
@@ -813,7 +810,7 @@ class WebUsbSiDeviceDriver implements
     }
 &nbsp;
     autodetectSiDevice(
-        navigatorWebUsbDevice: nav.WebUsbDevice,
+        navigatorWebUsbDevice: USBDevice,
     ): Promise&lt;WebUsbSiDevice&gt; {
         if (!matchesSiDeviceFilters(
             navigatorWebUsbDevice.vendorId,
@@ -834,15 +831,15 @@ class WebUsbSiDeviceDriver implements
         <span class="missing-if-branch" title="if path not taken" >I</span>if (this.autodetectionCallbacks !== undefined) {
 <span class="cstat-no" title="statement not covered" >            return;</span>
         }
-        const onConnectCallback = (event: nav.WebUsbConnectEvent) =&gt; {
+        const onConnectCallback = (event: USBConnectionEvent) =&gt; {
             const navigatorWebUsbDevice = event.device;
             this.autodetectSiDevice(navigatorWebUsbDevice)
                 .then((openedDevice: WebUsbSiDevice) =&gt; {
-                    this.dispatchEvent('add', new SiDeviceAddEvent(openedDevice));
+                    this.dispatchEvent(new SiDeviceAddEvent(openedDevice));
                 }, () =&gt; {});
         };
         this.navigatorUsb.addEventListener('connect', onConnectCallback);
-        const onDisconnectCallback = (event: nav.WebUsbDisconnectEvent) =&gt; {
+        const onDisconnectCallback = (event: USBConnectionEvent) =&gt; {
             const navigatorWebUsbDevice = event.device;
             const ident = getIdent(navigatorWebUsbDevice);
             const siDevice = this.siDeviceByIdent[ident];
@@ -985,7 +982,7 @@ interface WebUsbSiDeviceDriver extends utils.EventTarget&lt;SiDeviceDriverWithAu
 utils.applyMixins(WebUsbSiDeviceDriver, [utils.EventTarget]);
 &nbsp;
 export const getWebUsbSiDeviceDriver = (
-    navigatorWebUsb: nav.WebUsb,
+    navigatorWebUsb: USB,
 ): WebUsbSiDeviceDriver =&gt; new WebUsbSiDeviceDriver(navigatorWebUsb);
 &nbsp;</pre></td></tr></table></pre>
 
@@ -994,7 +991,7 @@ export const getWebUsbSiDeviceDriver = (
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-03-02T13:56:25.247Z
+                at 2025-03-02T19:55:41.843Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

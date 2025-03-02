@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for sportident-testbench-client/src/SiDevicesContext.tsx</title>
+    <title>Code coverage report for sportident-webusb/src/FakeUSB.ts</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../prettify.css" />
     <link rel="stylesheet" href="../../base.css" />
@@ -19,13 +19,13 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../index.html">All files</a> / <a href="index.html">sportident-testbench-client/src</a> SiDevicesContext.tsx</h1>
+        <h1><a href="../../index.html">All files</a> / <a href="index.html">sportident-webusb/src</a> FakeUSB.ts</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/4</span>
+                <span class='fraction'>7/7</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/1</span>
+                <span class='fraction'>3/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/4</span>
+                <span class='fraction'>7/7</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -76,8 +76,21 @@
 <a name='L11'></a><a href='#L11'>11</a>
 <a name='L12'></a><a href='#L12'>12</a>
 <a name='L13'></a><a href='#L13'>13</a>
-<a name='L14'></a><a href='#L14'>14</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<a name='L14'></a><a href='#L14'>14</a>
+<a name='L15'></a><a href='#L15'>15</a>
+<a name='L16'></a><a href='#L16'>16</a>
+<a name='L17'></a><a href='#L17'>17</a>
+<a name='L18'></a><a href='#L18'>18</a>
+<a name='L19'></a><a href='#L19'>19</a>
+<a name='L20'></a><a href='#L20'>20</a>
+<a name='L21'></a><a href='#L21'>21</a>
+<a name='L22'></a><a href='#L22'>22</a>
+<a name='L23'></a><a href='#L23'>23</a>
+<a name='L24'></a><a href='#L24'>24</a>
+<a name='L25'></a><a href='#L25'>25</a>
+<a name='L26'></a><a href='#L26'>26</a>
+<a name='L27'></a><a href='#L27'>27</a>
+<a name='L28'></a><a href='#L28'>28</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -85,23 +98,52 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" >import React from 'react';</span>
-<span class="cstat-no" title="statement not covered" >import * as Immutable from 'immutable';</span>
-import {ISiDevice, ISiDeviceDriverData} from 'sportident/lib/SiDevice/ISiDevice';
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import * as utils from 'sportident/lib/utils';
+import {FakeUSBDevice} from './FakeUSBDevice';
+import {FakeUSBConnectionEvent} from './FakeUSBConnectionEvent';
 &nbsp;
-export type SiDevicesContextPayload = {
-    addNewDevice: () =&gt; Promise&lt;ISiDevice&lt;ISiDeviceDriverData&lt;unknown&gt;&gt;&gt;,
-    webUsbSiDevices: Immutable.Map&lt;string, ISiDevice&lt;ISiDeviceDriverData&lt;unknown&gt;&gt;&gt;,
+export type FakeUSBEvents = {
+    'connect': FakeUSBConnectionEvent,
+    'disconnect': FakeUSBConnectionEvent,
 };
 &nbsp;
-export const <span class="cstat-no" title="statement not covered" >SiDevicesContext = React.createContext&lt;SiDevicesContextPayload&gt;({</span>
-    addNewDevice: <span class="fstat-no" title="function not covered" >() =</span>&gt; <span class="cstat-no" title="statement not covered" >Promise.reject(new Error()),</span>
-    webUsbSiDevices: Immutable.Map({}),
-});
+// eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
+export class FakeUSB implements Partial&lt;USB&gt; {
+    constructor(
+        private device: FakeUSBDevice,
+        private devices: FakeUSBDevice[],
+    ) {}
+&nbsp;
+    requestDevice(): Promise&lt;USBDevice&gt; {
+        return Promise.resolve(this.device);
+    }
+&nbsp;
+    getDevices(): Promise&lt;USBDevice[]&gt; {
+        return Promise.resolve(this.devices);
+    }
+}
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type, @typescript-eslint/no-unsafe-declaration-merging
+export interface FakeUSB extends utils.EventTarget&lt;FakeUSBEvents&gt; {}
+utils.applyMixins(FakeUSB, [utils.EventTarget]);
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
