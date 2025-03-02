@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import Immutable from 'immutable';
+import * as Immutable from 'immutable';
 import {ISiFieldValue, ISiStorage, ISiStorageData, ISiStorageDefinition, ISiStorageLocations} from './interfaces';
 
 export class SiStorage<T> implements ISiStorage<T> {

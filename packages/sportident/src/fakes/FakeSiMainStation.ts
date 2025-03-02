@@ -29,10 +29,7 @@ export class FakeSiMainStation {
     }
 
     dispatchMessage(message: siProtocol.SiMessage): void {
-        this.dispatchEvent(
-            'message',
-            new FakeSiMainStationMessageEvent(this, message),
-        );
+        this.dispatchEvent(new FakeSiMainStationMessageEvent(this, message));
     }
 
     getCode(): number[] {

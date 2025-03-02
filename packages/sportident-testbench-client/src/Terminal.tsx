@@ -39,6 +39,7 @@ export const Terminal = (
         selectedDevice: ISiDevice<ISiDeviceDriverData<unknown>>|undefined,
     },
 ): React.ReactElement => {
+    const [shell, setShell] = React.useState<Shell|null>(null);
     const [shellContent, setShellContent] = React.useState<string>('');
     const [inputQueue, setInputQueue] = React.useState<number[]>([]);
     const [outputQueue, setOutputQueue] = React.useState<number[]>([]);
@@ -74,72 +75,84 @@ export const Terminal = (
         setInputQueue([...inputQueue, ...charCodes]);
     }, [inputQueue]);
 
-    const appendToShellContent = (charCode: number) => {
-        switch (charCode) {
-            case 8: {
-                const contentLength = shellContent.length;
-                const toDelete = shellContent.charCodeAt(contentLength - 1);
-                if (toDelete === 10 || toDelete === 13) {
-                    return;
+    const appendToShellContent = (charCodes: number[]) => {
+        let newContent = shellContent;
+        for (const charCode of charCodes) {
+            switch (charCode) {
+                case 8: {
+                    const contentLength = newContent.length;
+                    const toDelete = newContent.charCodeAt(contentLength - 1);
+                    if (toDelete === 10 || toDelete === 13) {
+                        return;
+                    }
+                    newContent = newContent.substring(0, contentLength - 1);
+                    break;
                 }
-                const newContent = shellContent.substr(0, contentLength - 1);
-                setShellContent(newContent);
-                break;
-            }
-            default: {
-                const newChar = String.fromCharCode(charCode);
-                const newContent = `${shellContent}${newChar}`;
-                setShellContent(newContent);
-                break;
+                default: {
+                    const newChar = String.fromCharCode(charCode);
+                    newContent = `${newContent}${newChar}`;
+                    break;
+                }
             }
         }
+        setShellContent(newContent);
     };
 
     if (outputQueue.length > 0) {
-        const charCode = outputQueue[0];
-        setOutputQueue(outputQueue.splice(1));
-        appendToShellContent(charCode);
+        setTimeout(() => {
+            appendToShellContent(outputQueue);
+            setOutputQueue([]);
+        }, 1);
     }
 
     const pushToOutputQueue = (charCode: number) => {
         setOutputQueue((outputQueue_) => [...outputQueue_, charCode]);
     };
 
-    const popFromInputQueue = React.useCallback(() => {
-        if (inputQueue.length === 0) {
-            return undefined;
-        }
-        const charCode = inputQueue[0];
-        setInputQueue(inputQueue.slice(1));
-        return charCode;
-    }, [inputQueue]);
-
-    const siShell = React.useMemo(() => new Shell(
-        {
-            getChar: () => undefined,
-            putChar: (char) => pushToOutputQueue(char),
-        },
-        getSiShellCommands(),
-        {
-            initialEnv: {
-                device: props.selectedDevice,
-                externalApplication: SiExternalApplication,
-            },
-        },
-    ), []);
-
-    siShell.ui = {
-        getChar: () => popFromInputQueue(),
-        putChar: (char) => pushToOutputQueue(char),
-    };
-
     React.useEffect(() => {
+        const siShell = new Shell(
+            {
+                getChar: () => undefined,
+                putChar: (char) => pushToOutputQueue(char),
+            },
+            getSiShellCommands(),
+            {
+                initialEnv: {
+                    device: props.selectedDevice,
+                    externalApplication: SiExternalApplication,
+                },
+            },
+        );
+        console.warn('RUN SHELL');
         siShell.run();
+        setShell(siShell);
         return () => {
             // TODO: Somehow close the shell
             console.warn('CLOSE SHELL');
         };
     }, []);
+
+    const popFromInputQueue = React.useCallback(() => {
+        if (inputQueue.length === 0) {
+            return undefined;
+        }
+        const [charCode, ...newInputQueue] = inputQueue;
+        setInputQueue(newInputQueue);
+        if (shell) {
+            shell.ui = {
+                getChar: () => undefined,
+                putChar: (char) => pushToOutputQueue(char),
+            };
+        }
+        return charCode;
+    }, [inputQueue]);
+
+    if (shell) {
+        shell.ui = {
+            getChar: () => popFromInputQueue(),
+            putChar: (char) => pushToOutputQueue(char),
+        };
+    }
 
     const shellLines = shellContent.split(/[\n\r]+/);
     return (

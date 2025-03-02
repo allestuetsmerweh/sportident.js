@@ -2,10 +2,11 @@ import {describe, expect, test} from '@jest/globals';
 import {testISiDeviceDriver} from 'sportident/lib/SiDevice/testUtils/testISiDeviceDriver';
 import {testISiDeviceDriverWithAutodetection} from 'sportident/lib/SiDevice/testUtils/testISiDeviceDriverWithAutodetection';
 import {SiDeviceState} from 'sportident/lib/SiDevice/ISiDevice';
-import * as utils from 'sportident/lib/utils';
 import * as testUtils from 'sportident/lib/testUtils';
 import {IWebUsbSiDevice, getWebUsbSiDeviceDriver, WebUsbSiDeviceDriverData} from './WebUsbSiDeviceDriver';
-import * as nav from './INavigatorWebUsb';
+import {FakeUSB} from './FakeUSB';
+import {FakeUSBDevice} from './FakeUSBDevice';
+import {FakeUSBConnectionEvent} from './FakeUSBConnectionEvent';
 
 testUtils.useFakeTimers();
 
@@ -17,89 +18,24 @@ const nonSiVendorId = 0x1111;
 const nonSiProductId = 0x1112;
 const nonSiSerialNumber1 = '2';
 
-class FakeWebUsbDevice implements nav.WebUsbDevice {
-    constructor(
-        public serialNumber: string,
-        public vendorId: number,
-        public productId: number,
-        public opened: boolean = false,
-    ) {}
-
-    open(): Promise<void> {
-        this.opened = true;
-        return Promise.resolve();
-    }
-
-    close(): Promise<void> {
-        this.opened = false;
-        return Promise.resolve();
-    }
-
-    reset() {
-        return Promise.resolve();
-    }
-
-    selectConfiguration() {
-        return Promise.resolve();
-    }
-
-    claimInterface() {
-        return Promise.resolve();
-    }
-
-    releaseInterface() {
-        return Promise.resolve();
-    }
-
-    selectAlternateInterface() {
-        return Promise.resolve();
-    }
-
-    controlTransferOut() {
-        return Promise.resolve();
-    }
-
-    transferOut() {
-        return Promise.resolve();
-    }
-
-    transferIn() {
-        return utils.waitFor(10)
-            .then(() => ({data: {buffer: [0x01, 0x02, 0x03]}} as unknown as nav.WebUsbTransferInData));
-    }
-}
-
-// eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
-class TestNavigatorUsb implements nav.WebUsb {
-    requestDevice(): Promise<nav.WebUsbDevice> {
-        return Promise.resolve(
-            new FakeWebUsbDevice(siSerialNumber1, siVendorId, siProductId) as nav.WebUsbDevice,
-        );
-    }
-
-    getDevices(): Promise<nav.WebUsbDevice[]> {
-        return Promise.resolve([
-            new FakeWebUsbDevice(siSerialNumber1, siVendorId, siProductId) as unknown as nav.WebUsbDevice,
-            new FakeWebUsbDevice(nonSiSerialNumber1, nonSiVendorId, nonSiProductId) as unknown as nav.WebUsbDevice,
-        ]);
-    }
-}
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type, @typescript-eslint/no-unsafe-declaration-merging
-interface TestNavigatorUsb extends utils.EventTarget<nav.WebUsbEvents> {}
-utils.applyMixins(TestNavigatorUsb, [utils.EventTarget]);
-
-export const testUsb = new TestNavigatorUsb();
+export const testUsb = new FakeUSB(
+    new FakeUSBDevice(siSerialNumber1, siVendorId, siProductId),
+    [
+        new FakeUSBDevice(siSerialNumber1, siVendorId, siProductId),
+        new FakeUSBDevice(nonSiSerialNumber1, nonSiVendorId, nonSiProductId),
+    ],
+) as unknown as USB;
 
 const requestDeviceError = new Error('requestDevice');
 const failingTestUsb = {
     requestDevice: () => Promise.reject(requestDeviceError),
-} as unknown as nav.WebUsb;
+} as USB;
 
 describe('WebUsbSiDeviceDriver', () => {
     describe('general', testISiDeviceDriver(
         {
             driver: getWebUsbSiDeviceDriver(testUsb),
-            device: new FakeWebUsbDevice(siSerialNumber1, siVendorId, siProductId) as nav.WebUsbDevice,
+            device: new FakeUSBDevice(siSerialNumber1, siVendorId, siProductId),
         } as WebUsbSiDeviceDriverData,
     ));
 
@@ -107,19 +43,17 @@ describe('WebUsbSiDeviceDriver', () => {
     describe('autodetection', testISiDeviceDriverWithAutodetection(
         {
             driver: autodetectionDriver,
-            device: new FakeWebUsbDevice(siSerialNumber2, siVendorId, siProductId) as nav.WebUsbDevice,
+            device: new FakeUSBDevice(siSerialNumber2, siVendorId, siProductId),
         } as WebUsbSiDeviceDriverData,
         {
             driver: autodetectionDriver,
-            device: new FakeWebUsbDevice(nonSiSerialNumber1, nonSiVendorId, nonSiProductId) as unknown as nav.WebUsbDevice,
+            device: new FakeUSBDevice(nonSiSerialNumber1, nonSiVendorId, nonSiProductId),
         } as WebUsbSiDeviceDriverData,
         (data: WebUsbSiDeviceDriverData) => testUsb.dispatchEvent(
-            'connect',
-            {device: data.device} as nav.WebUsbConnectEvent,
+            new FakeUSBConnectionEvent('connect', {device: data.device}),
         ),
         (data: WebUsbSiDeviceDriverData) => testUsb.dispatchEvent(
-            'disconnect',
-            {device: data.device} as nav.WebUsbDisconnectEvent,
+            new FakeUSBConnectionEvent('disconnect', {device: data.device}),
         ),
     ));
 
@@ -147,14 +81,14 @@ describe('WebUsbSiDeviceDriver', () => {
     test('WebUsbSiDeviceDriver.getSiDevice', () => {
         const driver = getWebUsbSiDeviceDriver(testUsb);
 
-        const myWebUsbDevice1 = {serialNumber: '1'} as nav.WebUsbDevice;
+        const myWebUsbDevice1 = {serialNumber: '1'} as USBDevice;
         const mySiDevice1 = driver.getSiDevice(myWebUsbDevice1);
 
-        const myOtherWebUsbDevice1 = {serialNumber: '1'} as nav.WebUsbDevice;
+        const myOtherWebUsbDevice1 = {serialNumber: '1'} as USBDevice;
         const myOtherSiDevice1 = driver.getSiDevice(myOtherWebUsbDevice1);
         expect(myOtherSiDevice1).toBe(mySiDevice1);
 
-        const myWebUsbDevice2 = {serialNumber: '2'} as nav.WebUsbDevice;
+        const myWebUsbDevice2 = {serialNumber: '2'} as USBDevice;
         const mySiDevice2 = driver.getSiDevice(myWebUsbDevice2);
         expect(mySiDevice2).not.toBe(mySiDevice1);
     });

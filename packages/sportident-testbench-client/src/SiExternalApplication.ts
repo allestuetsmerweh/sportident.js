@@ -28,7 +28,6 @@ export class SiExternalApplication implements ISiExternalApplication {
     handleSocketReceive(data: string): void {
         const uint8Data = JSON.parse(data) as number[];
         this.dispatchEvent(
-            'receive',
             new SiExternalApplicationReceiveEvent(this, uint8Data),
         );
     }

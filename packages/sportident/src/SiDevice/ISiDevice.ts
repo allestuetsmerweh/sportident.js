@@ -18,18 +18,18 @@ export class DeviceClosedError extends utils.SiError {}
 
 export class SiDeviceStateChangeEvent extends utils.Event<'stateChange'> {
     constructor(
-                public siDevice: ISiDevice<ISiDeviceDriverData<unknown>>,
-                public state: SiDeviceState,
+        public siDevice: ISiDevice<ISiDeviceDriverData<unknown>>,
+        public state: SiDeviceState,
     ) {
-        super();
+        super('stateChange');
     }
 }
 export class SiDeviceReceiveEvent extends utils.Event<'receive'> {
     constructor(
-                public siDevice: ISiDevice<ISiDeviceDriverData<unknown>>,
-                public uint8Data: number[],
+        public siDevice: ISiDevice<ISiDeviceDriverData<unknown>>,
+        public uint8Data: number[],
     ) {
-        super();
+        super('receive');
     }
 }
 

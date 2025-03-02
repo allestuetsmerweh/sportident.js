@@ -1,6 +1,5 @@
 {
   "name": "sportident-node-usb",
-  "type": "module",
   "version": "2.0.2",
   "description": "",
   "files": [

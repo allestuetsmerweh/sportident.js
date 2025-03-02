@@ -42,7 +42,7 @@ export class SiTargetMultiplexerMessageEvent extends utils.Event<'message'> {
                 public siTargetMultiplexer: ISiTargetMultiplexer,
                 public message: siProtocol.SiMessage,
     ) {
-        super();
+        super('message');
     }
 }
 export class SiTargetMultiplexerDirectMessageEvent extends utils.Event<'directMessage'> {
@@ -50,7 +50,7 @@ export class SiTargetMultiplexerDirectMessageEvent extends utils.Event<'directMe
                 public siTargetMultiplexer: ISiTargetMultiplexer,
                 public message: siProtocol.SiMessage,
     ) {
-        super();
+        super('directMessage');
     }
 }
 export class SiTargetMultiplexerRemoteMessageEvent extends utils.Event<'remoteMessage'> {
@@ -58,7 +58,7 @@ export class SiTargetMultiplexerRemoteMessageEvent extends utils.Event<'remoteMe
                 public siTargetMultiplexer: ISiTargetMultiplexer,
                 public message: siProtocol.SiMessage,
     ) {
-        super();
+        super('remoteMessage');
     }
 }
 

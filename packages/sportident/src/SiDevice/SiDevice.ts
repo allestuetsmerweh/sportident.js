@@ -23,10 +23,7 @@ export class SiDevice<T extends ISiDeviceDriverData<ISiDeviceDriver<T>>> impleme
     setState(newState: SiDeviceState): void {
         if (newState !== this.internalState) {
             this.internalState = newState;
-            this.dispatchEvent(
-                'stateChange',
-                new SiDeviceStateChangeEvent(this, newState),
-            );
+            this.dispatchEvent(new SiDeviceStateChangeEvent(this, newState));
         }
     }
 
@@ -89,10 +86,7 @@ export class SiDevice<T extends ISiDeviceDriverData<ISiDeviceDriver<T>>> impleme
             this.receive()
                 .then((uint8Data) => {
                     console.debug(`<= (${this.name})\n${utils.prettyHex(uint8Data, 16)}`);
-                    this.dispatchEvent(
-                        'receive',
-                        new SiDeviceReceiveEvent(this, uint8Data),
-                    );
+                    this.dispatchEvent(new SiDeviceReceiveEvent(this, uint8Data));
                 })
                 .catch((err: Error) => {
                     if (this.shouldStopReceivingBecauseOfError(err)) {

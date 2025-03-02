@@ -1,6 +1,6 @@
 import {describe, expect, test} from '@jest/globals';
 import _ from 'lodash';
-import Immutable from 'immutable';
+import * as Immutable from 'immutable';
 import {proto} from './constants';
 import * as utils from './utils';
 import * as storage from './storage';

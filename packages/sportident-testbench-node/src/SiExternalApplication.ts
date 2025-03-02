@@ -16,7 +16,6 @@ export class SiExternalApplication implements ISiExternalApplication {
 
     handleSocketReceive(uint8Data: number[]): void {
         this.dispatchEvent(
-            'receive',
             new SiExternalApplicationReceiveEvent(this, uint8Data),
         );
     }

@@ -7,10 +7,10 @@ export interface ISiExternalApplication extends utils.IEventTarget<SiExternalApp
 
 export class SiExternalApplicationReceiveEvent extends utils.Event<'receive'> {
     constructor(
-                public siExternalApplication: ISiExternalApplication,
-                public uint8Data: number[],
+        public siExternalApplication: ISiExternalApplication,
+        public uint8Data: number[],
     ) {
-        super();
+        super('receive');
     }
 }
 

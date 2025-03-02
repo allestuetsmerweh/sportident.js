@@ -1,4 +1,4 @@
-import Immutable from 'immutable';
+import * as Immutable from 'immutable';
 import * as utils from '../utils';
 
 export class ValueToStringError extends utils.SiError {}

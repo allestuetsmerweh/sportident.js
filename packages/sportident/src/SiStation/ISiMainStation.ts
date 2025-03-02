@@ -9,7 +9,7 @@ export class SiMainStationSiCardInsertedEvent extends utils.Event<'siCardInserte
                 public siMainStation: ISiMainStation,
                 public siCard: ISiCard,
     ) {
-        super();
+        super('siCardInserted');
     }
 }
 
@@ -18,7 +18,7 @@ export class SiMainStationSiCardRemovedEvent extends utils.Event<'siCardRemoved'
                 public siMainStation: ISiMainStation,
                 public siCard: ISiCard,
     ) {
-        super();
+        super('siCardRemoved');
     }
 }
 
@@ -27,7 +27,7 @@ export class SiMainStationSiCardObservedEvent extends utils.Event<'siCardObserve
                 public siMainStation: ISiMainStation,
                 public siCard: ISiCard,
     ) {
-        super();
+        super('siCardObserved');
     }
 }
 

@@ -58,7 +58,6 @@ describe('SiTargetMultiplexer', () => {
             command: testUtils.getRandomByteExcept(directOnlyCommands),
         });
         siDevice.dispatchEvent(
-            'receive',
             new SiDeviceReceiveEvent(siDevice, siProtocol.render(randomMessage1)),
         );
         expect(receivedMessages).toEqual([randomMessage1]);
@@ -70,7 +69,6 @@ describe('SiTargetMultiplexer', () => {
         });
         muxer.target = SiTargetMultiplexerTarget.Direct;
         siDevice.dispatchEvent(
-            'receive',
             new SiDeviceReceiveEvent(siDevice, siProtocol.render(randomMessage2)),
         );
         expect(receivedMessages).toEqual([randomMessage1, randomMessage2]);
@@ -82,7 +80,6 @@ describe('SiTargetMultiplexer', () => {
         });
         muxer.target = SiTargetMultiplexerTarget.Remote;
         siDevice.dispatchEvent(
-            'receive',
             new SiDeviceReceiveEvent(siDevice, siProtocol.render(randomMessage3)),
         );
         expect(receivedMessages).toEqual([randomMessage1, randomMessage2, randomMessage3]);
@@ -144,7 +141,6 @@ describe('SiTargetMultiplexer', () => {
             });
         setTimeout(() => {
             siDevice.dispatchEvent(
-                'receive',
                 new SiDeviceReceiveEvent(siDevice, siProtocol.render(randomMessage)),
             );
         }, 1);
@@ -177,7 +173,6 @@ describe('SiTargetMultiplexer', () => {
             });
         setTimeout(() => {
             siDevice.dispatchEvent(
-                'receive',
                 new SiDeviceReceiveEvent(siDevice, siProtocol.render({mode: proto.NAK})),
             );
         }, 1);
@@ -211,14 +206,12 @@ describe('SiTargetMultiplexer', () => {
             });
         setTimeout(() => {
             siDevice.dispatchEvent(
-                'receive',
                 new SiDeviceReceiveEvent(siDevice, siProtocol.render(randomMessage)),
             );
             timeState.receive1 = true;
         }, 1);
         setTimeout(() => {
             siDevice.dispatchEvent(
-                'receive',
                 new SiDeviceReceiveEvent(siDevice, siProtocol.render(randomMessage)),
             );
             timeState.receive2 = true;
@@ -281,7 +274,6 @@ describe('SiTargetMultiplexer', () => {
             });
         setTimeout(() => {
             siDevice.dispatchEvent(
-                'receive',
                 new SiDeviceReceiveEvent(
                     siDevice,
                     siProtocol.render(randomMessage),
@@ -362,7 +354,6 @@ describe('SiTargetMultiplexer', () => {
             });
         setTimeout(() => {
             siDevice.dispatchEvent(
-                'receive',
                 new SiDeviceReceiveEvent(siDevice, siProtocol.render({
                     command: testUtils.getRandomByteExcept([randomMessage.command]),
                     parameters: randomMessage.parameters,
@@ -615,7 +606,6 @@ describe('SiTargetMultiplexer', () => {
                 send: () => {
                     setTimeout(() => {
                         siDevice.dispatchEvent(
-                            'receive',
                             new SiDeviceReceiveEvent(siDevice, siProtocol.render({
                                 command: proto.cmd.SET_MS,
                                 parameters: [SiTargetMultiplexerTarget.Direct],
@@ -657,7 +647,6 @@ describe('SiTargetMultiplexer', () => {
             parameters: [0x00, 0x0A, 0x00, 0x04, 0x19, 0x02],
         });
         siDevice.dispatchEvent(
-            'receive',
             new SiDeviceReceiveEvent(siDevice, deviceInitiatedMessage),
         );
         await testUtils.nTimesAsync(10, () => testUtils.advanceTimersByTime(1));

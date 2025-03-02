@@ -1,4 +1,4 @@
-import Immutable from 'immutable';
+import * as Immutable from 'immutable';
 import * as generalUtils from './general';
 import {NumberRange} from './NumberRange';
 

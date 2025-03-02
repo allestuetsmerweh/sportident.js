@@ -65,7 +65,7 @@ class FakeSiDeviceDriver implements
         const ident = getIdent(fakeDevice);
         delete this.siDeviceByIdent[ident];
         if (this.autodetectedSiDevices[ident] !== undefined) {
-            await this.dispatchEvent('remove', new SiDeviceRemoveEvent(siDevice));
+            await this.dispatchEvent(new SiDeviceRemoveEvent(siDevice));
         }
         delete this.autodetectedSiDevices[ident];
     }
@@ -104,7 +104,7 @@ class FakeSiDeviceDriver implements
             throw new Error('autodetection not running');
         }
         const openedDevice = await this.autodetectSiDevice({ident, isOpened: false});
-        await this.dispatchEvent('add', new SiDeviceAddEvent(openedDevice));
+        await this.dispatchEvent(new SiDeviceAddEvent(openedDevice));
     }
 
     public async handleDeviceDisconnected(ident: string): Promise<void> {

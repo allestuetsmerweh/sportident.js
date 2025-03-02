@@ -1,5 +1,5 @@
 import React from 'react';
-import Immutable from 'immutable';
+import * as Immutable from 'immutable';
 import {SiDeviceAddEvent, ISiDeviceDriverWithAutodetection, SiDeviceRemoveEvent} from 'sportident/lib/SiDevice/ISiDeviceDriver';
 import {ISiDevice, ISiDeviceDriverData} from 'sportident/lib/SiDevice/ISiDevice';
 

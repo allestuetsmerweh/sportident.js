@@ -44,7 +44,6 @@ describe('SiTargetMultiplexer', () => {
             });
         setTimeout(() => {
             siDevice.dispatchEvent(
-                'receive',
                 new SiDeviceReceiveEvent(siDevice, siProtocol.render({
                     command: proto.cmd.SET_MS,
                     parameters: [0x00, 0x00, proto.P_MS_DIRECT],
@@ -100,7 +99,6 @@ describe('SiTargetMultiplexer', () => {
             });
         setTimeout(() => {
             siDevice.dispatchEvent(
-                'receive',
                 new SiDeviceReceiveEvent(siDevice, siProtocol.render({
                     command: proto.cmd.SET_MS,
                     parameters: [0x00, 0x00, proto.P_MS_REMOTE],

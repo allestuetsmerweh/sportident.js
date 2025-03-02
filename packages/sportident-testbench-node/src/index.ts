@@ -12,15 +12,17 @@ nodeUsbDriver.detect()
         const getCharBuffer: number[] = [];
         process.stdin.setRawMode(true);
         process.stdin.setEncoding('utf-8');
-        process.stdin.on('data', (char: string) => {
-            const charCode = char.charCodeAt(0);
-            if (charCode === 127) {
-                getCharBuffer.push(8);
-                getCharBuffer.push(32);
-                getCharBuffer.push(8);
-                return;
+        process.stdin.on('data', (string: string) => {
+            for (let i = 0; i < string.length; i++) {
+                const charCode = string.charCodeAt(i);
+                if (charCode === 127) {
+                    getCharBuffer.push(8);
+                    getCharBuffer.push(32);
+                    getCharBuffer.push(8);
+                    return;
+                }
+                getCharBuffer.push(charCode);
             }
-            getCharBuffer.push(charCode);
         });
 
         const siShell = new Shell(

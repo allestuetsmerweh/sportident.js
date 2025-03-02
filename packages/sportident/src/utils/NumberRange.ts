@@ -1,17 +1,11 @@
-import Immutable from 'immutable';
-
-export class NumberRange extends Immutable.Record({
-    start: 0,
-    end: 0,
-}) {
-    constructor(start: number, end: number) {
+export class NumberRange {
+    constructor(
+        public readonly start: number,
+        public readonly end: number,
+    ) {
         if (!(start < end)) {
             throw new Error(`Invalid NumberRange(${start}, ${end})`);
         }
-        super({
-            start: start,
-            end: end,
-        });
     }
 
     toString(): string {
