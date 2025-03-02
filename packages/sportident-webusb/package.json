@@ -1,6 +1,5 @@
 {
   "name": "sportident-webusb",
-  "type": "module",
   "version": "2.0.2",
   "description": "",
   "files": [
@@ -22,6 +21,7 @@
   },
   "devDependencies": {
     "@jest/globals": "^29.4.1",
+    "@types/w3c-web-usb": "^1.0.10",
     "sportident": "^2.0.2"
   }
 }

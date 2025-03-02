@@ -115,7 +115,6 @@ export class SiMainStation
             detectedSiCard.mainStation = this;
             this.siCard = detectedSiCard as ISiCard;
             this.dispatchEvent(
-                'siCardInserted',
                 new SiMainStationSiCardInsertedEvent(this, detectedSiCard as ISiCard),
             );
             return;
@@ -124,7 +123,6 @@ export class SiMainStation
             const removedCardNumber = siProtocol.arr2cardNumber([parameters[5], parameters[4], parameters[3]]); // TODO: also [2]?
             if (this.siCard !== null && this.siCard.cardNumber === removedCardNumber) {
                 this.dispatchEvent(
-                    'siCardRemoved',
                     new SiMainStationSiCardRemovedEvent(this, this.siCard),
                 );
             } else {
@@ -141,7 +139,6 @@ export class SiMainStation
             if (transRecordCard !== undefined) {
                 transRecordCard.mainStation = this;
                 this.dispatchEvent(
-                    'siCardObserved',
                     new SiMainStationSiCardObservedEvent(this, transRecordCard as ISiCard),
                 );
             }

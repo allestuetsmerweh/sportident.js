@@ -104,7 +104,6 @@ describe('SiMainStation', () => {
             cardNumber: 1234,
         } as ISiCard;
         mySiStation.dispatchEvent(
-            'siCardInserted',
             new SiMainStationSiCardInsertedEvent(mySiStation, fakeSiCard),
         );
         await testUtils.nTimesAsync(1, () => testUtils.advanceTimersByTime(0));
@@ -120,7 +119,6 @@ describe('SiMainStation', () => {
         expect(storage.get('flashes')!.value).toBe(false);
 
         mySiStation.dispatchEvent(
-            'siCardInserted',
             new SiMainStationSiCardInsertedEvent(mySiStation, fakeSiCard),
         );
         await testUtils.nTimesAsync(1, () => testUtils.advanceTimersByTime(0));
@@ -141,7 +139,6 @@ describe('SiMainStation', () => {
         myMainStation.addEventListener('siCardInserted', handleCardInserted);
         const message = myFakeSiCard5.handleDetect() as siProtocol.SiMessageWithoutMode;
         myTargetMultiplexer.dispatchEvent(
-            'message',
             new SiTargetMultiplexerMessageEvent(
                 myTargetMultiplexer,
                 {
@@ -162,7 +159,6 @@ describe('SiMainStation', () => {
         };
         myMainStation.addEventListener('siCardRemoved', handleCardRemoved);
         myTargetMultiplexer.dispatchEvent(
-            'message',
             new SiTargetMultiplexerMessageEvent(
                 myTargetMultiplexer,
                 {
@@ -178,7 +174,6 @@ describe('SiMainStation', () => {
         expect(removedCardNumbers).toEqual([406402]);
 
         myTargetMultiplexer.dispatchEvent(
-            'message',
             new SiTargetMultiplexerMessageEvent(
                 myTargetMultiplexer,
                 {
@@ -205,7 +200,6 @@ describe('SiMainStation', () => {
         myMainStation.addEventListener('siCardObserved', handleCardObserved);
         const message = myFakeSiCard6.handleDetect() as siProtocol.SiMessageWithoutMode;
         myTargetMultiplexer.dispatchEvent(
-            'message',
             new SiTargetMultiplexerMessageEvent(
                 myTargetMultiplexer,
                 {
@@ -230,7 +224,6 @@ describe('SiMainStation', () => {
         };
         myMainStation.addEventListener('siCardObserved', handleCardObserved);
         myTargetMultiplexer.dispatchEvent(
-            'message',
             new SiTargetMultiplexerMessageEvent(
                 myTargetMultiplexer,
                 {mode: proto.NAK},

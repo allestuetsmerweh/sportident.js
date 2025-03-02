@@ -1,6 +1,5 @@
 {
   "name": "sportident-example-app",
-  "type": "module",
   "version": "2.0.2",
   "description": "",
   "main": "src/index.tsx",

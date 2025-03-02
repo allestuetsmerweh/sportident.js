@@ -10,7 +10,7 @@ describe('event utils', () => {
         constructor(
                         public eventObject: Record<string, unknown>,
         ) {
-            super();
+            super('myEvent');
         }
     }
 
@@ -34,7 +34,7 @@ describe('event utils', () => {
         myEventTarget.addEventListener('myEvent', callback);
         expect(callsToCallback.length).toBe(0);
 
-        myEventTarget.dispatchEvent('myEvent', new MyEvent(eventObject));
+        myEventTarget.dispatchEvent(new MyEvent(eventObject));
         expect(callsToCallback.length).toBe(1);
         expect(callsToCallback[0].type).toBe('myEvent');
         expect(callsToCallback[0].eventObject).toBe(eventObject);
@@ -42,7 +42,7 @@ describe('event utils', () => {
         myEventTarget.removeEventListener('myEvent', callback);
         expect(callsToCallback.length).toBe(1);
 
-        myEventTarget.dispatchEvent('myEvent', new MyEvent(eventObject));
+        myEventTarget.dispatchEvent(new MyEvent(eventObject));
         expect(callsToCallback.length).toBe(1);
     });
     test('works even if some listeners fail', () => {
@@ -63,7 +63,7 @@ describe('event utils', () => {
             timeState.listener3Run = true;
         });
 
-        myEventTarget.dispatchEvent('myEvent', new MyEvent({}));
+        myEventTarget.dispatchEvent(new MyEvent({}));
         expect(timeState).toEqual({
             listener1Run: true,
             listener2Run: true,
@@ -85,7 +85,7 @@ describe('event utils', () => {
 
         myEventTarget.removeAllEventListeners();
 
-        myEventTarget.dispatchEvent('myEvent', new MyEvent({}));
+        myEventTarget.dispatchEvent(new MyEvent({}));
         expect(timeState).toEqual({
             listener1Run: false,
             listener2Run: false,
@@ -103,7 +103,7 @@ describe('event utils', () => {
         myEventTarget.removeEventListener('myEvent', callback);
         expect(callsToCallback.length).toBe(0);
 
-        myEventTarget.dispatchEvent('myEvent', new MyEvent(eventObject));
+        myEventTarget.dispatchEvent(new MyEvent(eventObject));
         expect(callsToCallback.length).toBe(0);
     });
     test('dispatch inexistent event listener', () => {
@@ -111,7 +111,7 @@ describe('event utils', () => {
         const eventObject = {};
 
         expect(
-            () => myEventTarget.dispatchEvent('myEvent', new MyEvent(eventObject)),
+            () => myEventTarget.dispatchEvent(new MyEvent(eventObject)),
         ).not.toThrow();
     });
 });

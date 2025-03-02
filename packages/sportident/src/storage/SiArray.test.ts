@@ -1,6 +1,6 @@
 import {describe, expect, test} from '@jest/globals';
 import _ from 'lodash';
-import Immutable from 'immutable';
+import * as Immutable from 'immutable';
 import {ISiStorageData, ValueFromStringError} from './interfaces';
 import {ModifyUndefinedException, SiDataType} from './SiDataType';
 import {SiFieldValue} from './SiFieldValue';

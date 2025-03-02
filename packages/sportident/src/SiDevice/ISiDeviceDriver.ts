@@ -24,7 +24,7 @@ export class SiDeviceAddEvent<
     constructor(
                 public siDevice: ISiDevice<T>,
     ) {
-        super();
+        super('add');
     }
 }
 export class SiDeviceRemoveEvent<
@@ -33,7 +33,7 @@ export class SiDeviceRemoveEvent<
     constructor(
                 public siDevice: ISiDevice<T>,
     ) {
-        super();
+        super('remove');
     }
 }
 

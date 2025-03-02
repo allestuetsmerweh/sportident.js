@@ -9,7 +9,7 @@ export class FakeSiMainStationMessageEvent extends utils.Event<'message'> {
                 public fakeSiMainStation: IFakeSiMainStation,
                 public message: siProtocol.SiMessage,
     ) {
-        super();
+        super('message');
     }
 }
 

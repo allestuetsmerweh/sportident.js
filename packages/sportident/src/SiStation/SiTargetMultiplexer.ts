@@ -89,18 +89,15 @@ export class SiTargetMultiplexer implements ISiTargetMultiplexer {
         messages.forEach((message) => {
             this.updateSendQueueWithReceivedMessage(message);
             this.dispatchEvent(
-                'message',
                 new SiTargetMultiplexerMessageEvent(this, message),
             );
             if (this.target === SiTargetMultiplexerTarget.Direct) {
                 this.dispatchEvent(
-                    'directMessage',
                     new SiTargetMultiplexerDirectMessageEvent(this, message),
                 );
             }
             if (this.target === SiTargetMultiplexerTarget.Remote) {
                 this.dispatchEvent(
-                    'remoteMessage',
                     new SiTargetMultiplexerRemoteMessageEvent(this, message),
                 );
             }

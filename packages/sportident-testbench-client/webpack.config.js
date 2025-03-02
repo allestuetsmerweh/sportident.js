@@ -7,7 +7,6 @@ export default [
         output: {
             path: path.resolve('./build'),
             filename: 'sportident-testbench-client.min.js',
-            publicPath: '/assets/',
             libraryTarget: 'umd',
         },
         mode: 'development',
@@ -54,12 +53,12 @@ export default [
             }),
         ],
         devServer: {
-            contentBase: path.resolve('.'),
-            publicPath: '/',
+            static: {
+                directory: path.resolve('.'),
+            },
             compress: true,
-            inline: false,
             port: 41270,
-            watchContentBase: true,
+            hot: true,
         },
         stats: {
             colors: true,
