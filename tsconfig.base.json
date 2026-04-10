@@ -1,13 +1,13 @@
 {
   "compilerOptions": {
-    "lib": ["dom"],
+    "lib": ["dom", "es2017"],
     "composite": true,
     "sourceMap": true,
     "declaration": true,
     "declarationMap": true,
     "noImplicitAny": true,
     "module": "commonjs",
-    "target": "es6",
+    "target": "es2017",
     "esModuleInterop": true,
     "jsx": "react",
     "allowJs": true,
@@ -15,6 +15,7 @@
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
     "noUnusedLocals": true,
+    "skipLibCheck": true,
     "strict": true,
     "strictNullChecks": true,
     "strictPropertyInitialization": true

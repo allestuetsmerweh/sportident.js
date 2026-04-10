@@ -270,7 +270,7 @@ class NodeUsbSiDeviceDriver implements
             .then(() => true);
     }
 
-    receive(
+    async receive(
         device: INodeUsbSiDevice,
     ): Promise<number[]> {
         const nodeDevice = device.data.device;
@@ -279,14 +279,14 @@ class NodeUsbSiDeviceDriver implements
             device.setState(SiDeviceState.Closed);
             throw new DeviceClosedError();
         }
-        return nodeDevice.transferIn(siEndpoint, siPacketSize)
-            .then((response) => {
-                if (!response.data) {
-                    return [];
-                }
-                const uint8Data = new Uint8Array(response.data.buffer);
-                return [...uint8Data];
-            });
+        console.error('asdf');
+        const response = await nodeDevice.transferIn(siEndpoint, siPacketSize);
+        console.error('qwer');
+        if (!response.data) {
+            return [];
+        }
+        const uint8Data = new Uint8Array(response.data.buffer);
+        return [...uint8Data];
     }
 
     send(

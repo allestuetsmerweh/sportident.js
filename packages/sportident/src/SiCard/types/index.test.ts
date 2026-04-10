@@ -1,4 +1,4 @@
-import {describe, expect} from '@jest/globals';
+import {describe, expect, test} from '@jest/globals';
 import _ from 'lodash';
 import * as utils from '../../utils';
 import {type SiCardSample} from '../ISiCardExamples';

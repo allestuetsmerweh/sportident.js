@@ -10,9 +10,9 @@ export class FakeUSBDevice implements USBDevice {
     public readonly deviceVersionMajor = 1;
     public readonly deviceVersionMinor = 0;
     public readonly deviceVersionSubminor = 0;
-    public readonly manufacturerName = undefined;
-    public readonly productName = undefined;
-    public readonly configuration = undefined;
+    public readonly manufacturerName: string|null = null;
+    public readonly productName: string|null = null;
+    public readonly configuration = null;
     public readonly configurations = [];
 
     public get opened(): boolean {

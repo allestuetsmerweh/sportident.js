@@ -20,7 +20,6 @@
     "sportident": "^2.0.0-alpha.6"
   },
   "devDependencies": {
-    "@jest/globals": "^29.4.1",
     "@types/w3c-web-usb": "^1.0.10",
     "sportident": "^2.0.2"
   }

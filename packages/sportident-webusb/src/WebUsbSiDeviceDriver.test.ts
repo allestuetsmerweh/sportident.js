@@ -32,30 +32,36 @@ const failingTestUsb = {
 } as USB;
 
 describe('WebUsbSiDeviceDriver', () => {
-    describe('general', testISiDeviceDriver(
-        {
-            driver: getWebUsbSiDeviceDriver(testUsb),
-            device: new FakeUSBDevice(siSerialNumber1, siVendorId, siProductId),
-        } as WebUsbSiDeviceDriverData,
-    ));
+    describe('general', () => {
+        test('driver can open-receive-send-close', async () => {
+            const driver = getWebUsbSiDeviceDriver(testUsb);
+            const siDeviceDriverData = {
+                driver,
+                device: new FakeUSBDevice(siSerialNumber1, siVendorId, siProductId),
+            } as WebUsbSiDeviceDriverData;
+            await testISiDeviceDriver(siDeviceDriverData);
+        });
+    });
 
-    const autodetectionDriver = getWebUsbSiDeviceDriver(testUsb);
-    describe('autodetection', testISiDeviceDriverWithAutodetection(
-        {
-            driver: autodetectionDriver,
-            device: new FakeUSBDevice(siSerialNumber2, siVendorId, siProductId),
-        } as WebUsbSiDeviceDriverData,
-        {
-            driver: autodetectionDriver,
-            device: new FakeUSBDevice(nonSiSerialNumber1, nonSiVendorId, nonSiProductId),
-        } as WebUsbSiDeviceDriverData,
-        (data: WebUsbSiDeviceDriverData) => testUsb.dispatchEvent(
-            new FakeUSBConnectionEvent('connect', {device: data.device}),
-        ),
-        (data: WebUsbSiDeviceDriverData) => testUsb.dispatchEvent(
-            new FakeUSBConnectionEvent('disconnect', {device: data.device}),
-        ),
-    ));
+    describe('autodetection', () => {
+        const autodetectionDriver = getWebUsbSiDeviceDriver(testUsb);
+        testISiDeviceDriverWithAutodetection(
+            {
+                driver: autodetectionDriver,
+                device: new FakeUSBDevice(siSerialNumber2, siVendorId, siProductId),
+            } as WebUsbSiDeviceDriverData,
+            {
+                driver: autodetectionDriver,
+                device: new FakeUSBDevice(nonSiSerialNumber1, nonSiVendorId, nonSiProductId),
+            } as WebUsbSiDeviceDriverData,
+            (data: WebUsbSiDeviceDriverData) => testUsb.dispatchEvent(
+                new FakeUSBConnectionEvent('connect', {device: data.device}),
+            ),
+            (data: WebUsbSiDeviceDriverData) => testUsb.dispatchEvent(
+                new FakeUSBConnectionEvent('disconnect', {device: data.device}),
+            ),
+        );
+    });
 
     test('detect success', async () => {
         const driver = getWebUsbSiDeviceDriver(testUsb);

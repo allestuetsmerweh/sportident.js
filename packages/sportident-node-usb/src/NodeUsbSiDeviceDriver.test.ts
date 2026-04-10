@@ -61,9 +61,9 @@ class FakeNodeUsbDevice implements Partial<USBDevice> {
         return Promise.resolve({bytesWritten: 0, status: 'ok'});
     }
 
-    transferIn(): Promise<USBInTransferResult> {
-        return utils.waitFor(10)
-            .then(() => ({data: {buffer: [0x01, 0x02, 0x03]}} as unknown as USBInTransferResult));
+    async transferIn(): Promise<USBInTransferResult> {
+        await utils.waitFor(10);
+        return {data: {buffer: [0x01, 0x02, 0x03]}} as unknown as USBInTransferResult;
     }
 }
 
@@ -83,12 +83,16 @@ const failingTestUsb: Partial<typeof webusb> = {
 };
 
 describe('NodeUsbSiDeviceDriver', () => {
-    describe('general', testISiDeviceDriver(
-        {
-            driver: getNodeUsbSiDeviceDriver(testUsb as typeof webusb),
-            device: new FakeNodeUsbDevice(siSerialNumber1, siVendorId, siProductId) as unknown as USBDevice,
-        } as NodeUsbSiDeviceDriverData,
-    ));
+    describe('general', () => {
+        test('driver can open-receive-send-close', async () => {
+            const driver = getNodeUsbSiDeviceDriver(testUsb as typeof webusb);
+            const siDeviceDriverData = {
+                driver,
+                device: new FakeNodeUsbDevice(siSerialNumber1, siVendorId, siProductId) as unknown as USBDevice,
+            } as NodeUsbSiDeviceDriverData;
+            await testISiDeviceDriver(siDeviceDriverData);
+        });
+    });
     test('detect success', async () => {
         const driver = getNodeUsbSiDeviceDriver(testUsb as typeof webusb);
         let detectedSiDevice: INodeUsbSiDevice|undefined = undefined;
