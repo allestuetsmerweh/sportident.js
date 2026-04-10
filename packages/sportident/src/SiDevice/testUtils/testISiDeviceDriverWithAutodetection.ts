@@ -17,56 +17,53 @@ export const testISiDeviceDriverWithAutodetection = <T extends ISiDeviceDriverDa
         numTicks: 50,
         waitFor: 1,
     },
-): () => void => {
-    const testFunction = () => {
-        const advanceTime = () => testUtils.advanceTimersByTime(options.waitFor);
-        const waitForDriver = () => testUtils.nTimesAsync(options.numTicks, advanceTime);
-        test('driver can startAutoDetection-connect-disconnect-stopAutodetection', async () => {
-            const driver = siDeviceDriverData.driver;
+): void => {
+    const advanceTime = () => testUtils.advanceTimersByTime(options.waitFor);
+    const waitForDriver = () => testUtils.nTimesAsync(options.numTicks, advanceTime);
+    test('driver can startAutoDetection-connect-disconnect-stopAutodetection', async () => {
+        const driver = siDeviceDriverData.driver;
 
-            let numAddCalled = 0;
-            let numRemoveCalled = 0;
-            driver.addEventListener('add', () => numAddCalled++);
-            driver.addEventListener('remove', () => numRemoveCalled++);
+        let numAddCalled = 0;
+        let numRemoveCalled = 0;
+        driver.addEventListener('add', () => numAddCalled++);
+        driver.addEventListener('remove', () => numRemoveCalled++);
 
-            simulateConnect(siDeviceDriverData);
-            await waitForDriver();
-            expect([numAddCalled, numRemoveCalled]).toEqual([0, 0]);
+        simulateConnect(siDeviceDriverData);
+        await waitForDriver();
+        expect([numAddCalled, numRemoveCalled]).toEqual([0, 0]);
 
-            simulateDisconnect(siDeviceDriverData);
-            await waitForDriver();
-            expect([numAddCalled, numRemoveCalled]).toEqual([0, 0]);
+        simulateDisconnect(siDeviceDriverData);
+        await waitForDriver();
+        expect([numAddCalled, numRemoveCalled]).toEqual([0, 0]);
 
-            const initialDevices = await driver.startAutoDetection();
-            expect(initialDevices.length).toBe(1);
-            expect(initialDevices[0].state).toBe(SiDeviceState.Opened);
+        const initialDevices = await driver.startAutoDetection();
+        expect(initialDevices.length).toBe(1);
+        expect(initialDevices[0].state).toBe(SiDeviceState.Opened);
 
-            simulateConnect(siDeviceDriverData);
-            await waitForDriver();
-            expect([numAddCalled, numRemoveCalled]).toEqual([1, 0]);
+        simulateConnect(siDeviceDriverData);
+        await waitForDriver();
+        expect([numAddCalled, numRemoveCalled]).toEqual([1, 0]);
 
-            simulateDisconnect(siDeviceDriverData);
-            await waitForDriver();
-            expect([numAddCalled, numRemoveCalled]).toEqual([1, 1]);
+        simulateDisconnect(siDeviceDriverData);
+        await waitForDriver();
+        expect([numAddCalled, numRemoveCalled]).toEqual([1, 1]);
 
-            simulateConnect(nonSiDeviceDriverData);
-            await waitForDriver();
-            expect([numAddCalled, numRemoveCalled]).toEqual([1, 1]);
+        simulateConnect(nonSiDeviceDriverData);
+        await waitForDriver();
+        expect([numAddCalled, numRemoveCalled]).toEqual([1, 1]);
 
-            simulateDisconnect(nonSiDeviceDriverData);
-            await waitForDriver();
-            expect([numAddCalled, numRemoveCalled]).toEqual([1, 1]);
+        simulateDisconnect(nonSiDeviceDriverData);
+        await waitForDriver();
+        expect([numAddCalled, numRemoveCalled]).toEqual([1, 1]);
 
-            simulateConnect(siDeviceDriverData);
-            await waitForDriver();
-            expect([numAddCalled, numRemoveCalled]).toEqual([2, 1]);
+        simulateConnect(siDeviceDriverData);
+        await waitForDriver();
+        expect([numAddCalled, numRemoveCalled]).toEqual([2, 1]);
 
-            simulateDisconnect(siDeviceDriverData);
-            await waitForDriver();
-            expect([numAddCalled, numRemoveCalled]).toEqual([2, 2]);
+        simulateDisconnect(siDeviceDriverData);
+        await waitForDriver();
+        expect([numAddCalled, numRemoveCalled]).toEqual([2, 2]);
 
-            await driver.stopAutoDetection();
-        });
-    };
-    return testFunction;
+        await driver.stopAutoDetection();
+    });
 };

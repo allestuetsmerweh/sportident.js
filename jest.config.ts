@@ -15,6 +15,11 @@ const percentCoverage = (percent: number) => ({
 })
 
 const jestConfig: Config = {
+    globals: {
+        'ts-jest': {
+            tsconfig: 'tsconfig.test.json'
+        }
+    },
     transform: {
         '^.+\\.tsx?$': 'ts-jest',
     },

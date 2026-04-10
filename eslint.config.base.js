@@ -1,7 +1,22 @@
 import globals from 'globals';
 import eslint from '@eslint/js';
-import tseslint from 'typescript-eslint';
-import reactPlugin from 'eslint-plugin-react';
+import ts from 'typescript-eslint';
+
+const ignores = [
+    'coverage/',
+    'deploy/',
+    'docs/coverage/',
+    'jsbuild/',
+    'node_modules/',
+    'php-coverage/',
+    'private/',
+    'public/',
+    'src/Api/client/generated_olz_api_types.ts',
+    'tmp/',
+    'translations/',
+    'tscbuild/',
+    'vendor/',
+];
 
 const javaScriptRules = {
     'indent': ['warn', 4, { 'SwitchCase': 1 }],
@@ -138,11 +153,10 @@ const typeScriptRules = {
     'no-useless-constructor': 'off',
 };
 
-export const frontendConfig = tseslint.config(
+export const frontendConfig = [
     eslint.configs.recommended,
-    tseslint.configs.recommended,
-    reactPlugin.configs.flat.recommended,
-    reactPlugin.configs.flat['jsx-runtime'],
+    ...ts.configs.recommended,
+    ts.configs.eslintRecommended,
     {
         languageOptions: {
             ecmaVersion: 2022,
@@ -156,16 +170,7 @@ export const frontendConfig = tseslint.config(
                 },
             }
         },
-        plugins: {
-            react: reactPlugin,
-        },
         settings: {
-            react: {
-                createClass: 'createReactClass',
-                pragma: 'React',
-                version: 'detect',
-                flowVersion: '0.53',
-            },
             propWrapperFunctions: [
                 'forbidExtraProps',
                 { property: 'freeze', object: 'Object' },
@@ -182,11 +187,12 @@ export const frontendConfig = tseslint.config(
         files: ['**/*.ts', '**/*.tsx'],
         rules: typeScriptRules,
     },
-);
+];
 
-export const nodeConfig = tseslint.config(
+export const nodeConfig = [
     eslint.configs.recommended,
-    tseslint.configs.recommended,
+    ...ts.configs.recommended,
+    ts.configs.eslintRecommended,
     {
         languageOptions: {
             ecmaVersion: 2022,
@@ -201,4 +207,4 @@ export const nodeConfig = tseslint.config(
         files: ['**/*.ts', '**/*.tsx'],
         rules: typeScriptRules,
     },
-);
+];

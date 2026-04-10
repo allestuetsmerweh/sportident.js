@@ -1,5 +1,4 @@
-/* globals jest */
-
+import {jest} from '@jest/globals';
 import _ from 'lodash';
 import * as siProtocol from './siProtocol';
 

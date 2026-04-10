@@ -22,7 +22,6 @@
     "sportident": "^2.0.2"
   },
   "devDependencies": {
-    "@jest/globals": "^29.4.1",
     "@testing-library/react": "^16.2.0",
     "@types/react": "^19.0",
     "react": "^19.0"

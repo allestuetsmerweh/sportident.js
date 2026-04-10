@@ -1,0 +1,14 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "rootDir": "./",
+    "outDir": "./lib/",
+    "types": ["node", "jest"],
+  },
+  "include": [
+    "./declarations.d.ts",
+    "./packages/",
+    "./node_modules/@types/w3c-web-usb/index.d.ts"
+  ],
+  "references": []
+}

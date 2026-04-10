@@ -9,7 +9,7 @@ export class SiExternalApplication implements ISiExternalApplication {
     constructor(pipeUrl: string) {
         this.unixSocket = net.createConnection(pipeUrl);
         this.unixSocket.on('data', (data) => {
-            const uint8Data = [...data];
+            const uint8Data = [...data].map((item) => (typeof item === 'number' ? item : item.charCodeAt(0)));
             this.handleSocketReceive(uint8Data);
         });
     }

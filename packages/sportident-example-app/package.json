@@ -19,9 +19,9 @@
     "sportident-webusb": "^2.0.2"
   },
   "devDependencies": {
-    "@jest/globals": "^29.4.1",
     "@types/react": "^19.0",
     "@types/react-dom": "^19.0",
+    "@types/w3c-web-usb": "^1.0.14",
     "react": "^19.0",
     "react-dom": "^19.0"
   },
