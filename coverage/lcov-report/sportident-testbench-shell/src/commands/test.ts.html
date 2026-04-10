@@ -32,7 +32,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/14</span>
+                <span class='fraction'>0/22</span>
             </div>
         
             
@@ -526,7 +526,7 @@ import {BaseCommand, ArgType} from './BaseCommand';
 const tests: {[name: string]: (context: ShellCommandContext) =&gt; Promise&lt;void&gt;} = {
     'card': <span class="fstat-no" title="function not covered" >(c</span>ontext: ShellCommandContext) =&gt; {
         const device = <span class="cstat-no" title="statement not covered" >context.env.device;</span>
-<span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (!device) {</span>
+<span class="cstat-no" title="statement not covered" >        if (!device) {</span>
 <span class="cstat-no" title="statement not covered" >            return Promise.reject(new Error('No device.'));</span>
         }
         const mainStation = <span class="cstat-no" title="statement not covered" >si.SiMainStation.fromSiDevice(device);</span>
@@ -538,9 +538,9 @@ const tests: {[name: string]: (context: ShellCommandContext) =&gt; Promise&lt;vo
         };
         let currentReject: (() =&gt; void)|undefined = <span class="cstat-no" title="statement not covered" >undefined;</span>
 <span class="cstat-no" title="statement not covered" >        context.waitChar().then(<span class="fstat-no" title="function not covered" >(c</span>har: number) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >            <span class="missing-if-branch" title="if path not taken" >I</span>if (char === 27 || char === 3) { // Escape || Ctrl-C</span>
+<span class="cstat-no" title="statement not covered" >            if (char === 27 || char === 3) { // Escape || Ctrl-C</span>
 <span class="cstat-no" title="statement not covered" >                resetCardCallbacks();</span>
-<span class="cstat-no" title="statement not covered" >                <span class="missing-if-branch" title="if path not taken" >I</span>if (currentReject !== undefined) {</span>
+<span class="cstat-no" title="statement not covered" >                if (currentReject !== undefined) {</span>
 <span class="cstat-no" title="statement not covered" >                    currentReject();</span>
                 }
             }
@@ -563,10 +563,10 @@ const tests: {[name: string]: (context: ShellCommandContext) =&gt; Promise&lt;vo
 <span class="cstat-no" title="statement not covered" >                    resetCardCallbacks();</span>
 <span class="cstat-no" title="statement not covered" >                    mainStation.addEventListener('siCardObserved', <span class="fstat-no" title="function not covered" >(c</span>ardEvent) =&gt; {</span>
                         const card = <span class="cstat-no" title="statement not covered" >cardEvent.siCard;</span>
-<span class="cstat-no" title="statement not covered" >                        <span class="missing-if-branch" title="if path not taken" >I</span>if (fixedSiNumber === undefined) {</span>
+<span class="cstat-no" title="statement not covered" >                        if (fixedSiNumber === undefined) {</span>
 <span class="cstat-no" title="statement not covered" >                            fixedSiNumber = card.cardNumber;</span>
                         }
-<span class="cstat-no" title="statement not covered" >                        <span class="missing-if-branch" title="if path not taken" >I</span>if (fixedSiNumber !== card.cardNumber) {</span>
+<span class="cstat-no" title="statement not covered" >                        if (fixedSiNumber !== card.cardNumber) {</span>
 <span class="cstat-no" title="statement not covered" >                            context.putString(`Other ${card.constructor.name}: ${card.cardNumber} (not ${fixedSiNumber})\n`);</span>
 <span class="cstat-no" title="statement not covered" >                            return;</span>
                         }
@@ -595,7 +595,7 @@ const tests: {[name: string]: (context: ShellCommandContext) =&gt; Promise&lt;vo
                     const handleCardRemoved: utils.EventCallback&lt;SiMainStationSiCardRemovedEvent&gt; =
 <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >                        (r</span>emoveEvent) =&gt; {</span>
                             const removedCard = <span class="cstat-no" title="statement not covered" >removeEvent.siCard;</span>
-<span class="cstat-no" title="statement not covered" >                            <span class="missing-if-branch" title="if path not taken" >I</span>if (fixedSiNumber === removedCard.cardNumber) {</span>
+<span class="cstat-no" title="statement not covered" >                            if (fixedSiNumber === removedCard.cardNumber) {</span>
 <span class="cstat-no" title="statement not covered" >                                resetCardCallbacks();</span>
 <span class="cstat-no" title="statement not covered" >                                currentReject = undefined;</span>
 <span class="cstat-no" title="statement not covered" >                                setTimeout(resolve, 1);</span>
@@ -614,10 +614,10 @@ const tests: {[name: string]: (context: ShellCommandContext) =&gt; Promise&lt;vo
                     };
                     const handleCardInserted: utils.EventCallback&lt;SiMainStationSiCardInsertedEvent&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(c</span>ardEvent) =&gt; {</span>
                         const card = <span class="cstat-no" title="statement not covered" >cardEvent.siCard;</span>
-<span class="cstat-no" title="statement not covered" >                        <span class="missing-if-branch" title="if path not taken" >I</span>if (fixedSiNumber === null) {</span>
+<span class="cstat-no" title="statement not covered" >                        if (fixedSiNumber === null) {</span>
 <span class="cstat-no" title="statement not covered" >                            fixedSiNumber = card.cardNumber;</span>
                         }
-<span class="cstat-no" title="statement not covered" >                        <span class="missing-if-branch" title="if path not taken" >I</span>if (fixedSiNumber !== card.cardNumber) {</span>
+<span class="cstat-no" title="statement not covered" >                        if (fixedSiNumber !== card.cardNumber) {</span>
 <span class="cstat-no" title="statement not covered" >                            context.putString(`Other ${card.constructor.name}: ${card.cardNumber} (not ${fixedSiNumber})\n`);</span>
 <span class="cstat-no" title="statement not covered" >                            return;</span>
                         }
@@ -748,7 +748,7 @@ export class TestCommand extends BaseCommand {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-03-02T19:55:41.843Z
+                at 2026-04-10T19:42:53.908Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

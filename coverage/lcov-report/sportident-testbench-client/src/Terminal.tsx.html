@@ -32,7 +32,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/30</span>
+                <span class='fraction'>0/40</span>
             </div>
         
             
@@ -425,7 +425,7 @@ const keyCodeFromDomEventKey = <span class="cstat-no" title="statement not cover
         case 'Shift': <span class="cstat-no" title="statement not covered" >return undefined;</span>
         case 'Tab': <span class="cstat-no" title="statement not covered" >return 9;</span>
         default: {
-<span class="cstat-no" title="statement not covered" >            <span class="missing-if-branch" title="if path not taken" >I</span>if (domKey.length === 1) {</span>
+<span class="cstat-no" title="statement not covered" >            if (domKey.length === 1) {</span>
 <span class="cstat-no" title="statement not covered" >                return domKey.charCodeAt(0);</span>
             }
 <span class="cstat-no" title="statement not covered" >            console.warn(`Undefined Special Key: ${domKey}`);</span>
@@ -459,24 +459,24 @@ export const <span class="cstat-no" title="statement not covered" >Terminal = <s
     const terminalElem = <span class="cstat-no" title="statement not covered" >React.useRef&lt;HTMLDivElement&gt;(null);</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    React.useEffect(<span class="fstat-no" title="function not covered" >() =</span>&gt; {</span>
-<span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (terminalElem &amp;&amp; terminalElem.current) {</span>
+<span class="cstat-no" title="statement not covered" >        if (terminalElem &amp;&amp; terminalElem.current) {</span>
 <span class="cstat-no" title="statement not covered" >            terminalElem.current.scrollTop = terminalElem.current.scrollHeight;</span>
         }
     }, [shellContent]);
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    React.useEffect(<span class="fstat-no" title="function not covered" >() =</span>&gt; {</span>
-<span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (terminalElem &amp;&amp; terminalElem.current) {</span>
+<span class="cstat-no" title="statement not covered" >        if (terminalElem &amp;&amp; terminalElem.current) {</span>
 <span class="cstat-no" title="statement not covered" >            terminalElem.current.focus();</span>
         }
     }, []);
 &nbsp;
     const onKeyDown: React.KeyboardEventHandler = <span class="cstat-no" title="statement not covered" >React.useCallback(<span class="fstat-no" title="function not covered" >(e</span>vent) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (!event.key || event.ctrlKey) {</span>
+<span class="cstat-no" title="statement not covered" >        if (!event.key || event.ctrlKey) {</span>
 <span class="cstat-no" title="statement not covered" >            return;</span>
         }
 <span class="cstat-no" title="statement not covered" >        event.preventDefault();</span>
         const keyCode = <span class="cstat-no" title="statement not covered" >keyCodeFromDomEventKey(event.key);</span>
-<span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (keyCode === undefined) {</span>
+<span class="cstat-no" title="statement not covered" >        if (keyCode === undefined) {</span>
 <span class="cstat-no" title="statement not covered" >            return;</span>
         }
 <span class="cstat-no" title="statement not covered" >        setInputQueue([...inputQueue, keyCode]);</span>
@@ -495,7 +495,7 @@ export const <span class="cstat-no" title="statement not covered" >Terminal = <s
                 case 8: {
                     const contentLength = <span class="cstat-no" title="statement not covered" >newContent.length;</span>
                     const toDelete = <span class="cstat-no" title="statement not covered" >newContent.charCodeAt(contentLength - 1);</span>
-<span class="cstat-no" title="statement not covered" >                    <span class="missing-if-branch" title="if path not taken" >I</span>if (toDelete === 10 || toDelete === 13) {</span>
+<span class="cstat-no" title="statement not covered" >                    if (toDelete === 10 || toDelete === 13) {</span>
 <span class="cstat-no" title="statement not covered" >                        return;</span>
                     }
 <span class="cstat-no" title="statement not covered" >                    newContent = newContent.substring(0, contentLength - 1);</span>
@@ -511,7 +511,7 @@ export const <span class="cstat-no" title="statement not covered" >Terminal = <s
 <span class="cstat-no" title="statement not covered" >        setShellContent(newContent);</span>
     };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (outputQueue.length &gt; 0) {</span>
+<span class="cstat-no" title="statement not covered" >    if (outputQueue.length &gt; 0) {</span>
 <span class="cstat-no" title="statement not covered" >        setTimeout(<span class="fstat-no" title="function not covered" >() =</span>&gt; {</span>
 <span class="cstat-no" title="statement not covered" >            appendToShellContent(outputQueue);</span>
 <span class="cstat-no" title="statement not covered" >            setOutputQueue([]);</span>
@@ -546,12 +546,12 @@ export const <span class="cstat-no" title="statement not covered" >Terminal = <s
     }, []);
 &nbsp;
     const popFromInputQueue = <span class="cstat-no" title="statement not covered" >React.useCallback(<span class="fstat-no" title="function not covered" >() =</span>&gt; {</span>
-<span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (inputQueue.length === 0) {</span>
+<span class="cstat-no" title="statement not covered" >        if (inputQueue.length === 0) {</span>
 <span class="cstat-no" title="statement not covered" >            return undefined;</span>
         }
         const [charCode, ...newInputQueue] = <span class="cstat-no" title="statement not covered" >inputQueue;</span>
 <span class="cstat-no" title="statement not covered" >        setInputQueue(newInputQueue);</span>
-<span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (shell) {</span>
+<span class="cstat-no" title="statement not covered" >        if (shell) {</span>
 <span class="cstat-no" title="statement not covered" >            shell.ui = {</span>
                 getChar: <span class="fstat-no" title="function not covered" >() =</span>&gt; <span class="cstat-no" title="statement not covered" >undefined,</span>
                 putChar: <span class="fstat-no" title="function not covered" >(c</span>har) =&gt; <span class="cstat-no" title="statement not covered" >pushToOutputQueue(char),</span>
@@ -560,7 +560,7 @@ export const <span class="cstat-no" title="statement not covered" >Terminal = <s
 <span class="cstat-no" title="statement not covered" >        return charCode;</span>
     }, [inputQueue]);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (shell) {</span>
+<span class="cstat-no" title="statement not covered" >    if (shell) {</span>
 <span class="cstat-no" title="statement not covered" >        shell.ui = {</span>
             getChar: <span class="fstat-no" title="function not covered" >() =</span>&gt; <span class="cstat-no" title="statement not covered" >popFromInputQueue(),</span>
             putChar: <span class="fstat-no" title="function not covered" >(c</span>har) =&gt; <span class="cstat-no" title="statement not covered" >pushToOutputQueue(char),</span>
@@ -592,7 +592,7 @@ export const <span class="cstat-no" title="statement not covered" >Terminal = <s
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-03-02T19:55:41.843Z
+                at 2026-04-10T19:42:53.908Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

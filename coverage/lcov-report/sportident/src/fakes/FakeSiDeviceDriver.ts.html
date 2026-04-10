@@ -32,7 +32,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/8</span>
+                <span class='fraction'>0/16</span>
             </div>
         
             
@@ -408,7 +408,7 @@ export type FakeSiDevice = SiDevice&lt;FakeSiDeviceDriverData&gt;;
     public <span class="cstat-no" title="statement not covered" >identsToBeAutodetected: string[] = [];</span>
 &nbsp;
 <span class="fstat-no" title="function not covered" >    detect(</span>): Promise&lt;FakeSiDevice&gt; {
-<span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (!this.identToBeDetected) {</span>
+<span class="cstat-no" title="statement not covered" >        if (!this.identToBeDetected) {</span>
 <span class="cstat-no" title="statement not covered" >            return Promise.reject(new Error('No fake device ident to be detected'));</span>
         }
 <span class="cstat-no" title="statement not covered" >        return this.autodetectSiDevice({</span>
@@ -419,7 +419,7 @@ export type FakeSiDevice = SiDevice&lt;FakeSiDeviceDriverData&gt;;
 &nbsp;
 <span class="fstat-no" title="function not covered" >    getSiDevice(</span>fakeDevice: FakeDevice): FakeSiDevice {
         const ident = <span class="cstat-no" title="statement not covered" >getIdent(fakeDevice);</span>
-<span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (this.siDeviceByIdent[ident] !== undefined) {</span>
+<span class="cstat-no" title="statement not covered" >        if (this.siDeviceByIdent[ident] !== undefined) {</span>
 <span class="cstat-no" title="statement not covered" >            return this.siDeviceByIdent[ident];</span>
         }
         const newSiDeviceData: FakeSiDeviceDriverData = <span class="cstat-no" title="statement not covered" >{</span>
@@ -431,11 +431,11 @@ export type FakeSiDevice = SiDevice&lt;FakeSiDeviceDriverData&gt;;
 <span class="cstat-no" title="statement not covered" >        return newSiDevice;</span>
     }
 &nbsp;
-    async <span class="fstat-no" title="function not covered" >forgetSiDevice(</span>siDevice: FakeSiDevice): Promise&lt;void&gt; {
+<span class="fstat-no" title="function not covered" >    async </span>forgetSiDevice(siDevice: FakeSiDevice): Promise&lt;void&gt; {
         const fakeDevice = <span class="cstat-no" title="statement not covered" >siDevice.data.device;</span>
         const ident = <span class="cstat-no" title="statement not covered" >getIdent(fakeDevice);</span>
 <span class="cstat-no" title="statement not covered" >        delete this.siDeviceByIdent[ident];</span>
-<span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (this.autodetectedSiDevices[ident] !== undefined) {</span>
+<span class="cstat-no" title="statement not covered" >        if (this.autodetectedSiDevices[ident] !== undefined) {</span>
 <span class="cstat-no" title="statement not covered" >            await this.dispatchEvent(new SiDeviceRemoveEvent(siDevice));</span>
         }
 <span class="cstat-no" title="statement not covered" >        delete this.autodetectedSiDevices[ident];</span>
@@ -462,7 +462,7 @@ export type FakeSiDevice = SiDevice&lt;FakeSiDeviceDriverData&gt;;
 &nbsp;
 <span class="fstat-no" title="function not covered" >    autodetectSiDevice(</span>fakeDevice: FakeDevice): Promise&lt;FakeSiDevice&gt; {
         const ident = <span class="cstat-no" title="statement not covered" >getIdent(fakeDevice);</span>
-<span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (this.autodetectedSiDevices[ident] !== undefined) {</span>
+<span class="cstat-no" title="statement not covered" >        if (this.autodetectedSiDevices[ident] !== undefined) {</span>
 <span class="cstat-no" title="statement not covered" >            return Promise.reject(new Error('Duplicate SI device'));</span>
         }
         const siDevice = <span class="cstat-no" title="statement not covered" >this.getSiDevice(fakeDevice);</span>
@@ -470,20 +470,20 @@ export type FakeSiDevice = SiDevice&lt;FakeSiDeviceDriverData&gt;;
 <span class="cstat-no" title="statement not covered" >        return Promise.resolve(siDevice);</span>
     }
 &nbsp;
-    public async <span class="fstat-no" title="function not covered" >handleDeviceConnected(</span>ident: string): Promise&lt;void&gt; {
-<span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (!this.autoDetectionRunning) {</span>
+    public <span class="fstat-no" title="function not covered" >async </span>handleDeviceConnected(ident: string): Promise&lt;void&gt; {
+<span class="cstat-no" title="statement not covered" >        if (!this.autoDetectionRunning) {</span>
 <span class="cstat-no" title="statement not covered" >            throw new Error('autodetection not running');</span>
         }
         const openedDevice = <span class="cstat-no" title="statement not covered" >await this.autodetectSiDevice({ident, isOpened: false});</span>
 <span class="cstat-no" title="statement not covered" >        await this.dispatchEvent(new SiDeviceAddEvent(openedDevice));</span>
     }
 &nbsp;
-    public async <span class="fstat-no" title="function not covered" >handleDeviceDisconnected(</span>ident: string): Promise&lt;void&gt; {
-<span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (!this.autoDetectionRunning) {</span>
+    public <span class="fstat-no" title="function not covered" >async </span>handleDeviceDisconnected(ident: string): Promise&lt;void&gt; {
+<span class="cstat-no" title="statement not covered" >        if (!this.autoDetectionRunning) {</span>
 <span class="cstat-no" title="statement not covered" >            throw new Error('autodetection not running');</span>
         }
         const siDevice = <span class="cstat-no" title="statement not covered" >this.siDeviceByIdent[ident];</span>
-<span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (siDevice === undefined) {</span>
+<span class="cstat-no" title="statement not covered" >        if (siDevice === undefined) {</span>
 <span class="cstat-no" title="statement not covered" >            throw new Error('No such device');</span>
         }
 <span class="cstat-no" title="statement not covered" >        await this.forgetSiDevice(siDevice);</span>
@@ -506,7 +506,7 @@ export type FakeSiDevice = SiDevice&lt;FakeSiDeviceDriverData&gt;;
 &nbsp;
 <span class="fstat-no" title="function not covered" >    receive(</span>device: IFakeSiDevice): Promise&lt;number[]&gt; {
         const fakeDevice = <span class="cstat-no" title="statement not covered" >device.data.device;</span>
-<span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (fakeDevice.isOpened !== true) {</span>
+<span class="cstat-no" title="statement not covered" >        if (fakeDevice.isOpened !== true) {</span>
 <span class="cstat-no" title="statement not covered" >            device.setState(SiDeviceState.Closed);</span>
 <span class="cstat-no" title="statement not covered" >            throw new DeviceClosedError();</span>
         }
@@ -529,7 +529,7 @@ export const <span class="cstat-no" title="statement not covered" >getFakeSiDevi
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-03-02T19:55:41.843Z
+                at 2026-04-10T19:42:53.908Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>
